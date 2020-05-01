@@ -933,7 +933,7 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="444"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>選一項目然後
+        <translation>選一項目，然後
 按 F2 來編輯。</translation>
     </message>
     <message>
@@ -1222,7 +1222,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後…</translation>
+        <translation>(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
@@ -2133,7 +2133,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;釘選項目鎖在目前的行列中，並避免被刪除（除非已取消釘選）。&lt;/p&gt;&lt;p&gt;提供快鍵和隨譯即行程式碼功能。&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;釘選項目以將它們鎖於目前行，避免被刪除（除非取消釘選）。&lt;/p&gt;&lt;p&gt;供快鍵和隨譯即行程式碼使用。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3502,7 +3502,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>全局快鍵在任何應用程式都有作用。</translation>
+        <translation>全局快鍵在任何應用程式都可作用。</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3532,7 +3532,7 @@ Print version of program and libraries.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>分頁名稱不可留白，且必須是唯一。&lt;br /&gt;
-分頁 &lt;b&gt;注意(&amp;amp;T)&lt;/b&gt;可用&lt;b&gt;Alt+t&lt;/b&gt;開啟。&lt;br /&gt;
+例如分頁 &lt;b&gt;筆記(&amp;amp;T)&lt;/b&gt;可用&lt;b&gt;Alt+t&lt;/b&gt;開啟。&lt;br /&gt;
 於樹狀檢視分頁版面，用 &lt;b&gt;/&lt;/b&gt; 作為路徑分隔號。</translation>
     </message>
     <message>
