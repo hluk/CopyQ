@@ -388,7 +388,7 @@ Você pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Tamanho:&lt;/strong&gt; %1 bytes</translation>
+        <translation>&lt;strong&gt;Tamanho:&lt;/strong&gt; %1 bytes</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -2215,12 +2215,13 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;Definir tipo de media para &lt;strong&gt;-&lt;/strong&gt; (menos caractere) para ignorar arquivos. Quaisquer outros arquivos desconhecidos ou ocultos são ignorados.&lt;/p&gt;
+&lt;p&gt;Exemplo: Carregar &lt;strong&gt;txt&lt;/strong&gt; extensão de arquivo como &lt;strong&gt;texto/pleno&lt;/strong&gt; tipo de mídia.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de mídia do item</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -3197,12 +3198,13 @@ Os argumentos são acessíveis usando &quot;argumentos[0..N]&quot;.</translation
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar área de transferência da janela atual
+(pode não funcionar em alguns aplicativos).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir conteúdo da área de transferência.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
@@ -3212,18 +3214,19 @@ Os argumentos são acessíveis usando &quot;argumentos[0..N]&quot;.</translation
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Escrever dados brutos na linha especificada.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Executar PROGRAM no texto do item nas linhas.
+Use %1 em PROGRAM para passar texto como argumento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar mensagem pop-up da bandeja por TIME milissegundos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3292,7 +3295,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avaliar script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3307,17 +3310,17 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicia ou se conecta à instância do aplicativo com o nome da sessão especificado.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir ajuda para COMMAND ou todos os comandos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir versão do programa e das bibliotecas.</translation>
     </message>
     <message>
         <source>
@@ -3570,7 +3573,7 @@ Use &lt;b&gt;/&lt;/b&gt; como serapador de caminho na visualização em árvore 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salvar Itens</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
