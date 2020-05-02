@@ -3039,7 +3039,7 @@ void Tests::shortcutCommandMoveSelected()
             inMenu: true,
             shortcuts: ['Ctrl+F1'],
             output: 'text/plain',
-            cmd: 'copyq: move(%1)'
+            cmd: 'copyq: move(%1); settings("done", 1)'
         }])
         )";
     RUN(script.arg(1), "");
@@ -3048,29 +3048,30 @@ void Tests::shortcutCommandMoveSelected()
     RUN("setCurrentTab" << testTab(1), "");
     RUN(args << "add" << "4" << "3" << "2" << "1", "");
 
+#define MOVE_SELECTED(EXPECTED_ITEMS) \
+    RUN("settings" << "done" << "0" << "keys" << "CTRL+F1", ""); \
+    WAIT_ON_OUTPUT("settings" << "done", "1\n"); \
+    RUN(args << "read(0,1,2,3,4)", EXPECTED_ITEMS)
+
     RUN(args << "selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "1,2,3,4,");
+    MOVE_SELECTED("1,2,3,4,");
 
     RUN(args << "selectItems" << "2" << "3", "true\n");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+    MOVE_SELECTED("1,3,4,2,");
 
     RUN(script.arg(5), "");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+    MOVE_SELECTED("1,3,4,2,");
 
     RUN(script.arg(-1), "");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "1,3,4,2,");
+    MOVE_SELECTED("1,3,4,2,");
 
     RUN(script.arg(4), "");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "1,2,3,4,");
+    MOVE_SELECTED("1,2,3,4,");
 
     RUN(script.arg(0), "");
-    RUN("keys" << "CTRL+F1", "");
-    RUN(args << "read(0,1,2,3,4)", "3,4,1,2,");
+    MOVE_SELECTED("3,4,1,2,");
+
+#undef MOVE_SELECTED
 }
 
 void Tests::automaticCommandIgnore()
