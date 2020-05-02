@@ -86,18 +86,33 @@ def rename_font_family(path):
     """
     Adds suffix to font family it doesn't conflict with font installed on
     system, which could be in incorrect version.
+
+    See: https://github.com/fonttools/fonttools/blob/master/Snippets/rename-fonts.py
     """
+
     font = TTFont(path)
     name_table = font['name']
 
-    name = name_table.getName(nameID=1, platformID=3, platEncID=1, langID=0x409)
-    assert name
+    FAMILY_RELATED_IDS = dict(
+        LEGACY_FAMILY=1,
+        TRUETYPE_UNIQUE_ID=3,
+        FULL_NAME=4,
+        POSTSCRIPT_NAME=6,
+        PREFERRED_FAMILY=16,
+        WWS_FAMILY=21,
+    )
 
-    name = name.toUnicode()
-    assert name.startswith('Font Awesome')
+    for rec in name_table.names:
+        if rec.nameID not in FAMILY_RELATED_IDS.values():
+            continue
 
-    name = name + ' (CopyQ)'
-    name = name_table.setName(name, nameID=1, platformID=3, platEncID=1, langID=0x409)
+        name = rec.toUnicode()
+        if name.startswith('Font Awesome'):
+            rec.string = name + ' (CopyQ)'
+        elif name.startswith('FontAwesome'):
+            rec.string = name + '(CopyQ)'
+
+        assert rec.toUnicode().endswith('(CopyQ)')
 
     font.save(path)
 
@@ -117,7 +132,8 @@ def main():
 
     script = os.path.realpath(__file__)
     utils_dir = os.path.dirname(script)
-    src_dir = os.path.join(utils_dir, '..', 'src')
+    project_dir = os.path.dirname(utils_dir)
+    src_dir = os.path.join(project_dir, 'src')
 
     header_icon_list = os.path.join(src_dir, 'gui', 'icon_list.h')
     header_icons = os.path.join(src_dir, 'gui', 'icons.h')

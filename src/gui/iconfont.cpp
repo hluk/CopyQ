@@ -71,6 +71,10 @@ QString createIconFontFamily()
     const auto iconFontFamilies = QStringList()
             << QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0)
             << QFontDatabase::applicationFontFamilies(brandsIconFontId()).value(0);
+
+    Q_ASSERT(iconFontFamilies[0].endsWith("(CopyQ)"));
+    Q_ASSERT(iconFontFamilies[1].endsWith("(CopyQ)"));
+
     const QString iconFontFamily = "CopyQ Icon Font";
     QFont::insertSubstitutions(iconFontFamily, iconFontFamilies);
     return iconFontFamily;
