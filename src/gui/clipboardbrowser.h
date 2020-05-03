@@ -401,6 +401,7 @@ class ClipboardBrowser final : public QListView
         QTimer m_timerPreload;
         bool m_ignoreMouseMoveWithButtonPressed = false;
         bool m_resizing = false;
+        bool m_resizeEvent = false;
 
         QPointer<ItemEditorWidget> m_editor;
         int m_externalEditorsOpen = 0;
