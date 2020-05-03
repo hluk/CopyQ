@@ -2223,7 +2223,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Element-mediatype</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -3162,12 +3162,12 @@ Vis systemstatusfelt-melding i TIME milisekunder.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sett utklippstavleinnhold.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv rådata til angitt rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
@@ -3276,7 +3276,7 @@ Standard er første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Evaluer skript.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3291,7 +3291,7 @@ Standard er første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut versjonsinfo for program og bibliotek.</translation>
     </message>
     <message>
         <source>
@@ -3567,7 +3567,7 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lagre elementer</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
