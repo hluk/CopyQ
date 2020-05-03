@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation>Författare</translation>
+        <translation>Utvecklare</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -49,12 +49,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Standard &amp;in:</translation>
+        <translation>Standard &amp;indata:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Lagra standard &amp;ut:</translation>
+        <translation>Lagra standard &amp;utdata:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
