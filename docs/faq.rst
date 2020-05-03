@@ -3,10 +3,10 @@ FAQ - Frequently Asked Questions
 
 .. _faq-show-app:
 
-How to open application window or tray menu using shortcut?
------------------------------------------------------------
+How to open CopyQ window or tray menu using shortcut?
+-----------------------------------------------------
 
-Add new command to open window or menu with global shortcut:
+Add new command to open the CopyQ window or menu with a global shortcut:
 
 1. Open "Command" dialog (``F6`` shortcut).
 2. Click "Add" button in the dialog.
@@ -20,14 +20,15 @@ For more information about commands see :ref:`writing-commands`.
 
 .. _faq-paste-from-window:
 
-How to paste double-clicked item from application window?
----------------------------------------------------------
+How to paste double-clicked item from CopyQ window?
+---------------------------------------------------
 
 1. Open "Preferences" (``Ctrl+P`` shortcut).
 2. Go to "History" tab.
 3. Enable "Paste to current window" option.
 
-Next time you open main window and activate an item it should be pasted.
+Next time you open the CopyQ main window and activate an item,
+it should be pasted.
 
 .. _faq-paste-text:
 
@@ -42,7 +43,7 @@ To **paste clipboard as plain text**:
 4. Click the button next to "Global Shortcut" label and set the shortcut.
 5. Click "OK" button to save the changes.
 
-To **paste selected items as plain text** (from application window) follow the steps above
+To **paste selected items as plain text** (from CopyQ window) follow the steps above
 but add "Paste as Plain Text" command instead and change "Shortcut".
 
 .. _faq-store-text:
@@ -58,7 +59,7 @@ To **disallow storing HTML and rich text**:
 4. Select "Text" item.
 5. Disable "Save and display HTML and rich text".
 
-Similarly you can also disable "Images" in the list to avoid storing and
+Similarly, you can also disable "Images" in the list to avoid storing and
 rendering images.
 
 Existing items won't be affected but **any data formats can be removed**:
@@ -73,11 +74,11 @@ Existing items won't be affected but **any data formats can be removed**:
 How to disable storing clipboard?
 ---------------------------------
 
-To temporarily disable storing clipboard in item list,
+To temporarily disable storing the clipboard in the CopyQ item list,
 select menu item "File - Disable Clipboard Storing" (``Ctrl+Shift+X`` shortcut).
 To re-enable the functionality select "File - Enable Clipboard Storing" (same shortcut).
 
-To permanently disable storing clipboard:
+To permanently disable storing the clipboard in CopyQ:
 
 1. And pen "Preferences" (``Ctrl+P`` shortcut).
 2. Go to "History" tab.
@@ -86,15 +87,15 @@ To permanently disable storing clipboard:
 How to back up tabs, configuration and commands?
 ------------------------------------------------
 
-From menu select "File - Export" and choose what tabs to export and whether to export
+From menu select "File - Export" and choose which tabs to export and whether to export
 configuration and commands.
 
-To restore the backup select menu item "File - Import", select the exported file and
-choose what to import back.
+To restore the backup, select menu item "File - Import", select the exported file, and
+then choose what to import back.
 
 .. note::
 
-   Importing tabs and commands won't override existing tabs but create new ones.
+   Importing tabs and commands won't override existing tabs, and will create new ones.
 
 How to enable or disable displaying notification when clipboard changes?
 ------------------------------------------------------------------------
@@ -154,16 +155,16 @@ Add and modify automatic command to ignore text copied from the window:
 
 .. note::
 
-    This new command should be at top of the command list because
-    automatic commands are executed in order they appear in the list and we
-    don't want to process sensitive data in any way.
+    This new command should be at the top of the command list because
+    automatic commands are executed in the order they appear in the list,
+    and we don't want to process sensitive data in any way.
 
 In some cases, e.g. the password manager is an extension of a web browser or a
 password is copied from a menu instead of a window, the command above won't
-work. You can try setting "Window" text box to ``^$`` which usually matches
+work. You can try setting the "Window" text box to ``^$``, which usually matches
 popup menus.
 
-For more reliable way, use `a command to blacklist texts
+For a more reliable way, use `a command to blacklist texts
 <https://github.com/hluk/copyq-commands/tree/master/Scripts#blacklisted-texts>`__
 (it stores just a salted hash, the text itself is not stored anywhere).
 
@@ -176,17 +177,18 @@ Set environment variable ``COPYQ_LOG_LEVEL`` to ``DEBUG`` for verbose logging
 and set ``COPYQ_LOG_FILE`` to a file path for the log.
 
 You can copy current log file path to clipboard from Action dialog (F5 shortcut)
-by entering command ``copyq 'copy(info("log"))'``. Alternatively, press ``F12`` to directly access the log.
+by entering command ``copyq 'copy(info("log"))'``. Alternatively, press ``F12``
+to directly access the log.
 
-How to preserve the order of copied items on copy or pasting multiple items?
-----------------------------------------------------------------------------
+How to preserve the order of copied items when copying or pasting multiple items?
+---------------------------------------------------------------------------------
 
 a. Reverse order of selected items with ``Ctrl+Shift+R`` and copy them.
-b. Alternatively, select items in reverse order and copy.
+b. Alternatively, select items in reverse order and then copy.
 
 See `#165 <https://github.com/hluk/CopyQ/issues/165#issuecomment-34745058>`__.
 
-How does pasting single/multiple items internally work?
+How does pasting single/multiple items work internally?
 -------------------------------------------------------
 
 ``Return`` key copies the whole item (with all formats) to the clipboard
@@ -195,21 +197,21 @@ and -- if the "Paste to current window" option is enabled -- it sends
 what format to paste on ``Shift+Insert``.
 
 If you select more items and press ``Return``, just the concatenated
-text of selected items is put into clipboard. Thought it could do more
+text of selected items is put into the clipboard. Though it could do more
 in future, like join HTML, images or other formats.
 
 See `#165 <https://github.com/hluk/CopyQ/issues/165#issuecomment-34957089>`__.
 
-Why pasting from CopyQ doesn't work?
---------------------------------------
+Why does pasting from CopyQ not work?
+-------------------------------------
 
-Pasting from the application works only on Windows, macOS and X11 on Linux.
+Pasting from CopyQ works only on Windows, macOS and X11 on Linux.
 
 Specifically, this feature is not supported on Wayland, but you can use
-workaround from `#27
+the workaround from `#27
 <https://github.com/hluk/CopyQ/issues/27#issuecomment-549766568>`__.
 
-First, check if you have the appropriate options enabled.
+First, check if you have the appropriate options enabled:
 
 a. For pasting from main window, enable "Paste to current window" in "History"
    configuration tab.
@@ -221,10 +223,10 @@ the target window. That's the shortcut CopyQ uses by default. To change this to
 ``Ctrl+V`` see `#633
 <https://github.com/hluk/CopyQ/issues/633#issuecomment-278326916>`__.
 
-If pasting still doesn't work, it could be caused by any of these problems:
+If pasting still doesn't work, it could be caused by either of these problems:
 
-- CopyQ fails to focus the window correctly.
-- The format copied to clipboard is not supported by the target application.
+- CopyQ fails to focus the target window correctly.
+- The format copied to the clipboard is not supported by the target application.
 
 How to open the menu or context menu with only the keyboard?
 ------------------------------------------------------------
@@ -232,10 +234,10 @@ How to open the menu or context menu with only the keyboard?
 Use ``Alt+I`` to open the item menu or use the ``Menu`` key on your keyboard
 to open the context menu for selected items.
 
-How to hide menu bar in main window?
-------------------------------------
+How to hide the menu bar in the main CopyQ window?
+--------------------------------------------------
 
-Menu bar can be hidden by modifying style sheet of current theme.
+The menu bar can be hidden by modifying the style sheet of the current theme.
 
 1. Open "Preferences" (``Ctrl+P`` shortcut).
 2. Go to "Appearance" tab.
@@ -253,14 +255,14 @@ Menu bar can be hidden by modifying style sheet of current theme.
 How to reuse file paths copied from a file manager?
 ---------------------------------------------------
 
-By default only the text is stored in item list when you copy of cut
-files from a file manager. Other data are usually needed to be able to
+By default, only the text is stored in item list when you copy or cut
+files from a file manager. Other data is usually needed to be able to
 copy/paste files from CopyQ.
 
 You have to add additional data formats (MIME) using an automatic command
-(similar to one below). Commonly used format in many file managers is
+(similar to one below). The commonly used format in many file managers is
 ``text/uri-list``. Other special formats include
-``x-special/gnome-copied-files`` for Nautilus,
+``x-special/gnome-copied-files`` for Nautilus and
 ``application/x-kde-cutselection`` for Dolphin. These formats are used to
 specify type of action (copy or cut).
 
@@ -285,7 +287,7 @@ How to trigger a command based on primary selection only?
 
 You can check ``application/x-copyq-clipboard-mode`` format in automatic commands.
 
-E.g. if you set input format of a command it would be only executed on X11 selection change:
+E.g. if you set input format of a command it will be only executed on X11 selection change:
 
 .. code-block:: ini
 
@@ -321,13 +323,14 @@ To fix this you can try following steps:
 2. Click the unlock button.
 3. Select CopyQ from the list and remove it (with the "-" button).
 
-See also Issues `#1030 <https://github.com/hluk/CopyQ/issues/1030>`__ and `#1245 <https://github.com/hluk/CopyQ/issues/1245>`__.
+See also Issues `#1030 <https://github.com/hluk/CopyQ/issues/1030>`__ and
+`#1245 <https://github.com/hluk/CopyQ/issues/1245>`__.
 
 Why does my external editor fail to edit items?
 -----------------------------------------------
 
 CopyQ creates a temporary file with content of the edited item and passes it as
-argument to custom editor command. If the file changes, the item is also
+argument to the custom editor command. If the file changes, the item is also
 modified.
 
 Usual issues are:
@@ -336,10 +339,10 @@ Usual issues are:
 - External editor warns that the file is missing.
 - Saving the file doesn't have any effect on the origin item.
 
-This happens if **the command to launch editor exits but the editor
+This happens if **the command to launch the editor exits, but the editor
 application itself is still running**. Since the command exited, CopyQ assumes
-that the editor itself is no longer running and stops monitoring the changes in
-temporary file (and removes the file).
+that the editor itself is no longer running, and stops monitoring the changes
+in the temporary file (and removes the file).
 
 Here is the correct command to use for some editors::
 
@@ -354,9 +357,8 @@ Where to find saved items and configuration?
 
 You can find configuration and saved items in:
 
-a. Windows folder ``%APPDATA%\copyq`` for installed version of the app or
-   ``config`` folder in unzipped portable version.
-b. Windows sub-folder ``config`` in unzipped portable version.
+a. Windows folder ``%APPDATA%\copyq`` for installed version of CopyQ.
+b. Windows sub-folder ``config`` in unzipped portable version of CopyQ.
 c. Linux directory ``~/.config/copyq``.
 
 Run ``copyq info config`` to get absolute path to the configuration file
@@ -364,17 +366,19 @@ Run ``copyq info config`` to get absolute path to the configuration file
 
 .. note::
 
-   Main configuration for installed version of the app on Windows is stored in registry.
+   Main configuration for installed version of CopyQ on Windows is stored
+   in the Windows registry.
 
 Why are items and configuration not saved?
 ------------------------------------------
 
 Check access rights to configuration directory and files.
 
-Why global shortcuts don't work?
---------------------------------
+Why do global shortcuts not work?
+---------------------------------
 
-Global/system shortcuts (or specific key combinations) don't work in some desktop environments (e.g. Wayland on Linux).
+Global/system shortcuts (or specific key combinations) don't work in some
+desktop environments (e.g. Wayland on Linux).
 
 As a workaround, you can try to assign the shortcuts in your system settings.
 
@@ -414,7 +418,7 @@ How to fix "copyq: command not found" errors?
 ---------------------------------------------
 
 If you're getting ``copyq: command not found`` or similar error, it means that
-``copyq`` executable cannot be found by the shell or a language interpreter.
+the ``copyq`` executable cannot be found by the shell or a language interpreter.
 
 This usually happens if the executable's directory is not in the ``PATH``
 environmental variable.
@@ -435,20 +439,20 @@ you can **fix it by using** ``COPYQ`` environment variable instead.
     text="SOME TEXT"
     "$COPYQ" copy "$text"
 
-What to do when application crashes or misbehaves?
---------------------------------------------------
+What to do when CopyQ crashes or misbehaves?
+--------------------------------------------
 
-When the application crashes or doesn't behave as expected, try to look up
-similar `issue <https://github.com/hluk/CopyQ/issues>`__ first and provide
-details in a comment.
+When CopyQ crashes or doesn't behave as expected, try to look up
+a similar `issue <https://github.com/hluk/CopyQ/issues>`__ first
+and provide details in a comment for that issue.
 
-If you cannot find any such issue, `report a new bug
+If you cannot find any such an issue, `report a new bug
 <https://github.com/hluk/CopyQ/issues/new>`__.
 
-Try to provide following details:
+Try to provide the following details:
 
-- application version
-- operating System (desktop environment, window manager etc.)
+- CopyQ version
+- operating system (desktop environment, window manager, etc.)
 - steps to reproduce the issue
 - application log (see :ref:`faq-share-commands`)
 - stacktrace if available (e.g. on Linux ``coredumpctl dump --reverse copyq``)
