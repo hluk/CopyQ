@@ -125,6 +125,7 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
     setReadOnly(true);
     setUndoRedoEnabled(false);
 
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
 
@@ -230,16 +231,13 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
     if (document() != &m_textDocument)
         setDocument(&m_textDocument);
 
-    QTextCursor tc(&m_textDocument);
-    tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
-    const auto h = static_cast<int>( cursorRect(tc).bottom() + 2 * logicalDpiY() / 96.0 );
-    if (0 < m_maximumHeight && m_maximumHeight < h) {
+    const QSizeF size = m_textDocument.size();
+    const int h = size.height() + 1;
+
+    if (0 < m_maximumHeight && m_maximumHeight < h - 8)
         setFixedHeight(m_maximumHeight);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    } else {
+    else
         setFixedHeight(h);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    }
 }
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
