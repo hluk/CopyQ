@@ -97,7 +97,9 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Edit_FindItems, QObject::tr("&Find"),
                   "find_items", QKeySequence::FindNext, "edit-find", IconSearch );
 
-    addMenuItem( items, Actions::Item_MoveToClipboard, QObject::tr("Move to &Clipboard"),
+    addMenuItem( items, Actions::Item_MoveToClipboard,
+                  QObject::tr("Move to &Clipboard",
+                              "copies selected items to clipboard and moves them to top (depending on settings)"),
                   "move_to_clipboard", QKeySequence(), "clipboard", IconPaste );
     addMenuItem( items, Actions::Item_ShowContent, QObject::tr("&Show Content..."),
                   "show_item_content", QObject::tr("F4"), "dialog-information", IconInfoCircle );
