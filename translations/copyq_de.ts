@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Info</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Ausführen-Dialog</translation>
+        <translation>Aktionsdialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -128,7 +128,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Prozessmanager</translation>
+        <translation>Prozessmanager</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -146,7 +146,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Befehle hinzufügen</translation>
+        <translation>Befehle hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -330,7 +330,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann keine neuen Einträge zu Tab %1 hinzufügen. Bitte entferne diese manuell, um Platz zu schaffen.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
@@ -361,7 +361,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Inhalt der Zwischenablage</translation>
+        <translation>Inhalt der Zwischenablage</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -381,13 +381,13 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Elementeinhalt</translation>
+        <translation>Elementeinhalt</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Größe:&lt;/strong&gt; %1 Byte</translation>
+        <translation>&lt;strong&gt;Größe:&lt;/strong&gt; %1 Byte</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -437,7 +437,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Befehle</translation>
+        <translation>Befehle</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -2216,12 +2216,13 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Ändere den Medientyp zu &lt;strong&gt;-&lt;/strong&gt; (Minuszeichen), um Dateien zu ignorieren. Alle anderen unbekannten oder versteckten Dateien werden ignoriert.&lt;/p&gt;
+&lt;p&gt;Beispiel: Lade die &lt;strong&gt;txt&lt;/strong&gt; - Dateiendung als den &lt;strong&gt;text/plain&lt;/strong&gt; Medientyp&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Item - Medientyp</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -3195,12 +3196,13 @@ Argumente sind mit &quot;arguments[0..N]&quot; verfügbar.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiere die Zwischenablage aus dem aktuellen Fenster
+(funktioniert möglicherweise nicht unter allen Anwendungen).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lege den Inhalt der Zwischenablage fest.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
@@ -3216,7 +3218,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige eine Benachrichtigung für die ZEIT in Millisekunden in der Taskleiste.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3285,22 +3287,22 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skript auswerten.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Startet oder verbindet sich mit der Anwendungsinstanz mit dem gegebenen Sitzungsname.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige die Hilfe für BEFEHL oder alle Befehle.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Programm- und Bibliotheksversionen an.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
@@ -3385,7 +3387,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
@@ -3461,7 +3463,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Neue Tastenkombination</translation>
+        <translation>Neue Tastenkombination</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3535,17 +3537,17 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Neuer Reiter</translation>
+        <translation>Neuer Reiter</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Reiter umbenennen</translation>
+        <translation>Reiter umbenennen</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Reitergruppe umbenennen</translation>
+        <translation>Reitergruppe umbenennen</translation>
     </message>
 </context>
 <context>
@@ -3563,7 +3565,7 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Speichere Elemente</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
