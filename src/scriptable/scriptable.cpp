@@ -2343,6 +2343,10 @@ void Scriptable::loadTheme()
         throwError(error);
 }
 
+void Scriptable::onClipboardAboutToChange()
+{
+}
+
 void Scriptable::onClipboardChanged()
 {
     eval(R"(
@@ -2579,6 +2583,8 @@ void Scriptable::monitorClipboard()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    connect( &monitor, &ClipboardMonitor::clipboardAboutToChange,
+             this, &Scriptable::onMonitorClipboardAboutToChange );
     connect( &monitor, &ClipboardMonitor::clipboardChanged,
              this, &Scriptable::onMonitorClipboardChanged );
     connect( &monitor, &ClipboardMonitor::clipboardUnchanged,
@@ -2632,6 +2638,26 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
             const auto arg = toScriptValue(lines, this);
             m_executeStdoutCallback.call( QScriptValue(), QScriptValueList() << arg );
         }
+    }
+}
+
+void Scriptable::onMonitorClipboardAboutToChange(ClipboardMode mode)
+{
+    static const QString command("onClipboardAboutToChange();");
+
+    if (mode != ClipboardMode::Clipboard) {
+        const QString modeName = mode == ClipboardMode::Selection
+                ? "selection"
+                : "find buffer";
+        m_data.insert(mimeClipboardMode, modeName);
+    }
+
+    eval(command);
+
+    if ( engine()->hasUncaughtException() ) {
+        const auto exceptionText = processUncaughtException("onMonitorClipboardAboutToChange");
+        const auto message = createScriptErrorMessage(exceptionText).toUtf8();
+        printError(message);
     }
 }
 

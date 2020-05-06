@@ -54,6 +54,8 @@ public:
 signals:
     /// Notifies about clipboard changes.
     void changed(ClipboardMode mode);
+
+    void aboutToChange(ClipboardMode mode);
 };
 
 #endif // PLATFORMCLIPBOARD_H

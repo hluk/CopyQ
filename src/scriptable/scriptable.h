@@ -348,6 +348,7 @@ public slots:
 
     void loadTheme();
 
+    void onClipboardAboutToChange();
     void onClipboardChanged();
     void onOwnClipboardChanged();
     void onHiddenClipboardChanged();
@@ -387,6 +388,7 @@ signals:
 
 private:
     void onExecuteOutput(const QByteArray &output);
+    void onMonitorClipboardAboutToChange(ClipboardMode mode);
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void onMonitorClipboardUnchanged(const QVariantMap &data);
     void onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);

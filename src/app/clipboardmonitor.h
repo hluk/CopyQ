@@ -40,6 +40,7 @@ public:
     explicit ClipboardMonitor(const QStringList &formats);
 
 signals:
+    void clipboardAboutToChange(ClipboardMode mode);
     void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void clipboardUnchanged(const QVariantMap &data);
     void synchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);

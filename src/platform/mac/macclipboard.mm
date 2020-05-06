@@ -77,6 +77,7 @@ void MacClipboard::clipboardTimeout() {
 
     if (newCount != m_prevChangeCount) {
         m_prevChangeCount = newCount;
+        emit aboutToChange(ClipboardMode::Clipboard);
         emit changed(ClipboardMode::Clipboard);
     }
 }

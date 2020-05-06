@@ -141,6 +141,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("iconTagColor", "String iconTagColor()", "Get current tray and window tag color name.");
     addDocumentation("iconTagColor", "iconTagColor(colorName)", "Set current tray and window tag color name.");
     addDocumentation("loadTheme", "loadTheme(path)", "Loads theme from an INI file.");
+    addDocumentation("onClipboardAboutToChange", "onClipboardAboutToChange()", "Called when clipboard changes, but before any data are retrieved.");
     addDocumentation("onClipboardChanged", "onClipboardChanged()", "Called when clipboard or X11 selection changes.");
     addDocumentation("onOwnClipboardChanged", "onOwnClipboardChanged()", "Called when clipboard or X11 selection changes by a CopyQ instance.");
     addDocumentation("onHiddenClipboardChanged", "onHiddenClipboardChanged()", "Called when hidden clipboard or X11 selection changes.");

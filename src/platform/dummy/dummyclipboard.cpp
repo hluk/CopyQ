@@ -62,8 +62,10 @@ void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 
 void DummyClipboard::onChanged(int mode)
 {
-    if (mode == QClipboard::Clipboard)
+    if (mode == QClipboard::Clipboard) {
+        emit aboutToChange(ClipboardMode::Clipboard);
         emit changed(ClipboardMode::Clipboard);
+    }
 }
 
 void DummyClipboard::onClipboardChanged(QClipboard::Mode mode)

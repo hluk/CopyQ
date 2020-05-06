@@ -119,6 +119,7 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 void X11PlatformClipboard::onChanged(int mode)
 {
     auto &clipboardData = mode == QClipboard::Clipboard ? m_clipboardData : m_selectionData;
+    emit aboutToChange(clipboardData.mode);
     if (!clipboardData.enabled)
         return;
 

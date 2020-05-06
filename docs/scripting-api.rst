@@ -972,6 +972,16 @@ omitted.
 
    Throws an exception if the file cannot be read or is not valid INI format.
 
+.. js:function:: onClipboardAboutToChange()
+
+   Called when clipboard changes, but before any data are retrieved.
+
+   This called even if monitoring is disabled.
+
+   This can be used to implement own clipboard processing with minimal delay.
+
+   Default implementation does nothing.
+
 .. js:function:: onClipboardChanged()
 
    Called when clipboard or X11 selection changes.
