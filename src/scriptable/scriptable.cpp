@@ -36,7 +36,7 @@
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
 #include "scriptable/fileclass.h"
-#include "scriptable/scriptableproxy.h"
+#include "scriptable/proxy/scriptableproxy-client.h"
 #include "scriptable/temporaryfileclass.h"
 #include "../qt/bytearrayclass.h"
 

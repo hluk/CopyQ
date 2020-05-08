@@ -36,7 +36,7 @@
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
-#include "scriptable/scriptableproxy.h"
+#include "scriptable/proxy/scriptableproxy.h"
 
 #include <QAction>
 #include <QApplication>

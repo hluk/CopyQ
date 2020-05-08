@@ -9,11 +9,13 @@ set Name=copyq-%AppVersion%
 set Destination=%APPVEYOR_BUILD_FOLDER%\%Name%
 set BuildRoot=%APPVEYOR_BUILD_FOLDER%\build
 set Executable=%Destination%\copyq.exe
+set ClientExecutable=%Destination%\copyq-client.exe
 set Build=%BuildRoot%\%BUILD_SUB_DIR%
 set BuildPlugins=%BuildRoot%\plugins\%BUILD_SUB_DIR%
 
 mkdir "%Destination%"
 xcopy /F "%Build%\copyq.exe" "%Destination%" || goto :error
+xcopy /F "%Build%\copyq-client.exe" "%Destination%" || goto :error
 
 xcopy /F "%Source%\AUTHORS" "%Destination%" || goto :error
 xcopy /F "%Source%\LICENSE" "%Destination%" || goto :error
@@ -30,7 +32,7 @@ xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
 %QTDIR%\bin\windeployqt --version
 %QTDIR%\bin\windeployqt --help
-%QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
+%QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" "%ClientExecutable%" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 

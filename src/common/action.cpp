@@ -27,7 +27,9 @@
 #include "item/serialize.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QEventLoop>
+#include <QFile>
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QTimer>
@@ -36,13 +38,26 @@
 
 namespace {
 
+QString clientExecutable()
+{
+    const auto clientExecutable = QDir( QCoreApplication::applicationDirPath() )
+        .filePath(COPYQ_CLIENT_EXECUTABLE_NAME);
+    if ( QFile::exists(clientExecutable) )
+        return clientExecutable;
+
+    log( QString("Client executable not found: %1").arg(clientExecutable), LogWarning );
+    return QCoreApplication::applicationFilePath();
+}
+
 void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
     QString executable = args.value(0);
 
     // Replace "copyq" command with full application path.
-    if (executable == "copyq")
-        executable = QCoreApplication::applicationFilePath();
+    if (executable == "copyq") {
+        static QString client = clientExecutable();
+        executable = client;
+    }
 
     process->start(executable, args.mid(1), mode);
 }

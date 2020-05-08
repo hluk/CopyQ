@@ -110,6 +110,9 @@ public:
 
     virtual bool writeOutErrors(const QByteArray &errors) = 0;
 
+    /// Use copyq-client executable instead of copyq (default is True).
+    virtual void useClientExecutable(bool useClient) = 0;
+
     TestInterface(const TestInterface &) = delete;
     TestInterface &operator=(const TestInterface &) = delete;
 };

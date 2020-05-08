@@ -39,6 +39,7 @@
 #include "gui/icons.h"
 #include "gui/mainwindow.h"
 #include "gui/notification.h"
+#include "gui/notificationbutton.h"
 #include "gui/pixelratio.h"
 #include "gui/screen.h"
 #include "gui/tabicons.h"

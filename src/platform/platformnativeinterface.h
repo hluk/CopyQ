@@ -20,7 +20,7 @@
 #ifndef PLATFORMNATIVEINTERFACE_H
 #define PLATFORMNATIVEINTERFACE_H
 
-#include <QWidget> // WId
+#include <QWindow> // WId
 
 #include <memory>
 

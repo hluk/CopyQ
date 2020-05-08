@@ -28,7 +28,7 @@
 #include "common/textdata.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
-#include "scriptable/scriptableproxy.h"
+#include "scriptable/proxy/scriptableproxy-client.h"
 
 #include <QApplication>
 #include <QFile>

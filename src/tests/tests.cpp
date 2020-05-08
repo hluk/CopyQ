@@ -114,6 +114,12 @@ private:
     QElapsedTimer m_timer;
 };
 
+QString clientPath()
+{
+    return QDir( QCoreApplication::applicationDirPath() )
+            .filePath(COPYQ_CLIENT_EXECUTABLE_NAME);
+}
+
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
 {
@@ -220,9 +226,10 @@ public:
             return "Failed to remove log files";
 
         m_server.reset(new QProcess);
-        if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::NotOpen) ) {
+        const auto path = QCoreApplication::applicationFilePath();
+        if ( !startTestProcess(m_server.get(), path, QStringList(), QIODevice::NotOpen) ) {
             return QString("Failed to launch \"%1\": %2")
-                .arg(QCoreApplication::applicationFilePath())
+                .arg(path)
                 .arg(m_server->errorString())
                 .toUtf8();
         }
@@ -290,7 +297,7 @@ public:
             stderrData->clear();
 
         QProcess p;
-        if (!startTestProcess(&p, arguments, QIODevice::ReadWrite, environment))
+        if (!startTestProcess(&p, m_clientExecutable, arguments, QIODevice::ReadWrite, environment))
             return -1;
 
         if (in != KEEP_STDIN_OPEN) {
@@ -507,6 +514,8 @@ public:
 
     QByteArray init() override
     {
+        useClientExecutable(true);
+
         RETURN_ON_ERROR( cleanup(), "Failed to cleanup" );
 
         if ( isServerRunning() )
@@ -604,6 +613,11 @@ public:
         return true;
     }
 
+    void useClientExecutable(bool useClient) override
+    {
+        m_clientExecutable = useClient ? clientPath() : QCoreApplication::applicationFilePath();
+    }
+
     void setupTest(const QString &id, const QVariant &settings)
     {
         m_testId = id;
@@ -648,7 +662,7 @@ private:
         QCOMPARE( AppConfig().option<Config::tabs>(), QStringList() );
     }
 
-    bool startTestProcess(QProcess *p, const QStringList &arguments,
+    bool startTestProcess(QProcess *p, const QString &executablePath, const QStringList &arguments,
                           QIODevice::OpenMode mode = QIODevice::ReadWrite,
                           const QStringList &environment = QStringList())
     {
@@ -666,7 +680,7 @@ private:
             p->setProcessEnvironment(env);
         }
 
-        p->start( QCoreApplication::applicationFilePath(), arguments, mode );
+        p->start( executablePath, arguments, mode );
         return p->waitForStarted(10000);
     }
 
@@ -683,6 +697,7 @@ private:
 
     std::unique_ptr<QProcess> m_server;
     QProcessEnvironment m_env;
+    QString m_clientExecutable;
     QString m_testId;
     QVariantMap m_settings;
 
@@ -825,8 +840,9 @@ void Tests::badCommand()
 
 void Tests::badSessionName()
 {
+    m_test->useClientExecutable(false);
     RUN_EXPECT_ERROR("-s" << "max_16_characters_in_session_name_allowed" << "", CommandBadSyntax);
-    RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
+    RUN_EXPECT_ERROR("--session" << "spaces disallowed" << "", CommandBadSyntax);
 }
 
 void Tests::commandExit()
@@ -2513,7 +2529,7 @@ void Tests::externalEditor()
                     "add(arguments[1]); while(length()) sleep(100);"
                 )"
                 "--")
-            .arg(QCoreApplication::applicationFilePath())
+            .arg(clientPath())
             .arg(editorTab)
             + " %1";
     RUN("config" << "editor" << cmd, cmd + "\n");
@@ -2847,6 +2863,8 @@ void Tests::configAutostart()
 
 void Tests::configPathEnvVariable()
 {
+    m_test->useClientExecutable(false);
+
     const auto path = QDir::home().absoluteFilePath("copyq-settings");
     const auto environment = QStringList("COPYQ_SETTINGS_PATH=" + path);
 

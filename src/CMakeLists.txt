@@ -6,7 +6,8 @@ file(GLOB copyq_SOURCES
     gui/*.cpp
     item/*.cpp
     scriptable/*.cpp
-    scriptable/scriptableproxy.h
+    scriptable/proxy/scriptableproxy.h
+    scriptable/proxy/scriptableproxy.cpp
     ../qt/*.cpp
     )
 
@@ -180,3 +181,57 @@ else()
     set(CPACK_GENERATOR "DragNDrop")
     include(CPack)
 endif()
+
+# copyq-client
+file(GLOB copyq_SOURCES
+    main-client.cpp
+    app/app.cpp
+    app/applicationexceptionhandler.cpp
+    app/clipboardclient.cpp
+    app/clipboardmonitor.cpp
+    app/clipboardownermonitor.cpp
+    common/action.cpp
+    common/appconfig.cpp
+    common/client_server.cpp
+    common/clientsocket.cpp
+    common/config.cpp
+    common/command.cpp
+    common/commandstore.cpp
+    common/common.cpp
+    common/display.cpp
+    common/log.cpp
+    common/messagehandlerforqt.cpp
+    common/mimetypes.cpp
+    common/settings.cpp
+    common/temporaryfile.cpp
+    common/temporarysettings.cpp
+    common/textdata.cpp
+    gui/clipboardspy.cpp
+    gui/screen.cpp
+    item/itemfactory.cpp
+    item/itemstore.cpp
+    item/itemwidget.cpp
+    item/serialize.cpp
+    scriptable/*.cpp
+    scriptable/proxy/scriptableproxy-client.h
+    scriptable/proxy/scriptableproxy-client.cpp
+    ../qt/*.cpp
+    )
+set(copyq_qt_modules Script Gui Widgets Network)
+
+include(platform/platform.cmake)
+file(GLOB copyq_qxt_SOURCES ../qxt/qxtglobalshortcut*.cpp)
+list(REMOVE_ITEM copyq_SOURCES ${copyq_qxt_SOURCES})
+
+add_executable("copyq-client" ${copyq_SOURCES})
+add_definitions( -DCOPYQ_CLIENT_EXECUTABLE_NAME="$<TARGET_FILE_NAME:copyq-client>" )
+
+foreach (copyq_qt_module ${copyq_qt_modules})
+    list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
+endforeach()
+target_link_libraries("copyq-client" ${copyq_LIBRARIES})
+
+install(TARGETS "copyq-client"
+    BUNDLE DESTINATION . COMPONENT Runtime
+    RUNTIME DESTINATION bin COMPONENT Runtime
+    )
