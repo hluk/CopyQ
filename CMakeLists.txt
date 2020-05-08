@@ -181,7 +181,6 @@ if (UNIX AND NOT APPLE)
     add_definitions( -DCOPYQ_DESKTOP_FILE="${DESKTOP_INSTALL_PREFIX}/${copyq_APP_ID}.desktop" )
     add_definitions( -DCOPYQ_TRANSLATION_PREFIX="${TRANSLATION_INSTALL_PREFIX}" )
     add_definitions( -DCOPYQ_ICON_NAME="${ICON_NAME}" )
-    add_definitions( -DCOPYQ_ICON_NAME="${ICON_NAME}" )
 
     if (COPYQ_AUTOSTART_COMMAND)
         add_definitions( -DCOPYQ_AUTOSTART_COMMAND="${COPYQ_AUTOSTART_COMMAND}" )
