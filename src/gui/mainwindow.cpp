@@ -1622,6 +1622,9 @@ void MainWindow::updateActionShortcuts()
     QList<QKeySequence> usedShortcuts;
 
     for (auto act : m_menuItem->findChildren<CommandAction*>()) {
+        if (!act->isEnabled() && !act->isVisible())
+            continue;
+
         if ( act->property(propertyActionFilterCommandFailed).toBool() )
             continue;
 
