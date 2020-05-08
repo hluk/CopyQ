@@ -1,3 +1,11 @@
+v3.11.1
+
+- Fix scrolling in selected text items (#1371)
+
+- Fix using application icon font instead of a system-installed on (#1369)
+
+- X11: Fix checking correct text before selection synchronization
+
 v3.11.0
 
 - Tab character size can now be set (number of spaces) and maps more accurately
