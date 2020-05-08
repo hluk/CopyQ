@@ -329,17 +329,17 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation type="vanished">Fanen er full. Kan ikke fjerne noen elementer.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Kan ikke legge til nye elementer i fane %1. Fjern elementer manuelt for å frigjøre plass.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
         <source>Discard Changes?</source>
         <translation>Forkaste Endringer?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Ønsker du virkelig å &lt;strong&gt;forkaste endringer&lt;/strong&gt;?</translation>
     </message>
@@ -2465,12 +2465,12 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Deaktiv&amp;er Lagring av Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1882"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1883"/>
         <source>Options for Import</source>
         <translation type="unfinished">-innstillinger for import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2119"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2120"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Feil</translation>
@@ -2481,27 +2481,27 @@ Settes til 0 for å deaktivere.</translation>
         <translation>Vi&amp;s/Skjul</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3386"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3387"/>
         <source>Options for Export</source>
         <translation type="unfinished">-alternativ for eksport</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3407"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Export Error</source>
         <translation type="unfinished">-eksportfeil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3409"/>
         <source>Failed to export file %1!</source>
         <translation>Klarte ikke å eksportere fila %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Import Error</source>
         <translation type="unfinished">-importfeil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3498"/>
         <source>Failed to import file %1!</source>
         <translation>Klarte ikke å importere fila %1.</translation>
     </message>
@@ -2517,22 +2517,22 @@ Settes til 0 for å deaktivere.</translation>
         <translation>CopyQ Elementer (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3649"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Fjerne alle faner i gruppen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3651"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne &lt;strong&gt;alle faner&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Remove Tab?</source>
         <translation>Fjern Fane?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3699"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2725,17 +2725,16 @@ Settes til 0 for å deaktivere.</translation>
         <translation>&amp;Finn</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>Flytt til Utklippstavle</translation>
+        <translation type="vanished">Flytt til Utklippstavle</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Show Content...</source>
         <translation>Vi&amp;s Innhold...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="103"/>
+        <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
@@ -2750,185 +2749,191 @@ Settes til 0 for å deaktivere.</translation>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>Move to &amp;Clipboard</source>
+        <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
+        <translation type="unfinished">Flytt til Utklippstavle</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
         <translation>Fje&amp;rn</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
         <translation>R&amp;ediger</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="108"/>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>Edit &amp;Notes</source>
         <translation>Rediger &amp;Notater</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="109"/>
+        <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
         <translation>Shift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
         <translation>R&amp;ediger med redigeringsprogram</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="111"/>
+        <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
         <translation>H&amp;andling...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="115"/>
+        <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
         <translation>Flytt Opp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="116"/>
+        <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
         <translation>Ctrl+Opp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="117"/>
+        <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
         <translation>Flytt Ned</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="118"/>
+        <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
         <translation>Ctrl+Ned</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="119"/>
+        <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
         <translation>Flytt til Toppen</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="120"/>
+        <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Home</source>
         <translation>Ctrl+Home</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="121"/>
+        <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
         <translation>Flytt til Bunnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="122"/>
+        <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+End</source>
         <translation>Ctrl+End</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="124"/>
+        <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="125"/>
+        <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="126"/>
+        <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
         <translation>Gi Fan&amp;e Nytt Navn</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="127"/>
+        <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="128"/>
+        <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
         <translation>Fjern Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="129"/>
+        <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="130"/>
+        <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Endre Faneikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="131"/>
+        <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="132"/>
+        <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
         <translation>Neste Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="133"/>
+        <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
         <translation type="unfinished">Høyre</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="136"/>
+        <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
         <translation type="unfinished">Venstre</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="146"/>
+        <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
         <translation>Åpne elementsbindeleddsmeny</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="147"/>
+        <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
         <translation type="unfinished">Shift+F10</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="135"/>
+        <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
         <translation>Fo&amp;rrige Fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>Vi&amp;s Logg</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="143"/>
+        <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
         <translation>&amp;Om</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjelp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2937,7 +2942,7 @@ Settes til 0 for å deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2053"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2100"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3377,12 +3382,12 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Ugyldig antall argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
         <source>Exception</source>
         <translation>Unntak</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Klarte ikke å kopiere til utklippstavle.</translation>
     </message>
@@ -3414,12 +3419,12 @@ Skriv ut programversjon og biblioteker.</translation>
         <translation>Kan ikke importere filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ugyldig parameter &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2826"/>
         <source>Exception in %1</source>
         <translation>Unntak i %1</translation>
     </message>
@@ -3427,17 +3432,17 @@ Skriv ut programversjon og biblioteker.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="605"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished">Fanen med oppgitt navn eksisterer ikke!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="610"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished">Fanenavnet kan ikke være tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">Fane med angitt navn eksisterer allerede!</translation>
     </message>
@@ -3577,12 +3582,12 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Trykk &quot;/&quot; for å søke</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
         <translation>Skriv for å søke</translation>
     </message>

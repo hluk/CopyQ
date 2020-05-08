@@ -329,17 +329,17 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation type="vanished">Pestaña llena. No se puede eliminar ningún elemento</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
         <source>Discard Changes?</source>
         <translation>¿Descartar los cambios?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>¿Está seguro de que desea &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
     </message>
@@ -2434,7 +2434,7 @@ Definir como 0 para desactivar.</translation>
         <translation>&amp;Desactivar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2119"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2120"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Error de CopyQ</translation>
@@ -2481,52 +2481,52 @@ Definir como 0 para desactivar.</translation>
         <translation>&amp;Cambiar ícono de la pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1882"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1883"/>
         <source>Options for Import</source>
         <translation type="unfinished">Opciones para importar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3386"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3387"/>
         <source>Options for Export</source>
         <translation type="unfinished">Opciones para exportar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3407"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Export Error</source>
         <translation type="unfinished">Error al Exportar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3409"/>
         <source>Failed to export file %1!</source>
         <translation>Fracaso exportar archivo %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Import Error</source>
         <translation type="unfinished">Error al Importar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3498"/>
         <source>Failed to import file %1!</source>
         <translation>Fracaso importar archivo %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3649"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Remove All Tabs in Group?</source>
         <translation>¿Desea cerrar todas las pestañas del grupo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3651"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>¿Desea cerrar &lt;strong&gt;todas las pestañas&lt;/strong&gt; del grupo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Remove Tab?</source>
         <translation>¿Desea quitar la pestaña?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3699"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>¿Desea quitar la pestaña &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2600,7 +2600,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2609,7 +2609,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2053"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2100"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -2741,17 +2741,16 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <translation type="unfinished">&amp;Buscar</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>Mover al Portapapeles (&amp;C)</translation>
+        <translation type="vanished">Mover al Portapapeles (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Show Content...</source>
         <translation type="unfinished">Mostrar Contenido... (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="103"/>
+        <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
         <translation type="unfinished">F4</translation>
     </message>
@@ -2766,180 +2765,186 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <translation type="unfinished">F7</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>Move to &amp;Clipboard</source>
+        <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
+        <translation type="unfinished">Mover al Portapapeles (&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
         <translation type="unfinished">Quitar (&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
         <translation type="unfinished">&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
         <translation type="unfinished">F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="108"/>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>Edit &amp;Notes</source>
         <translation type="unfinished">Editar &amp;notas</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="109"/>
+        <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
         <translation type="unfinished">Shift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
         <translation type="unfinished">E&amp;ditar con un editor</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="111"/>
+        <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
         <translation type="unfinished">Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
         <translation type="unfinished">&amp;Acción...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
         <translation type="unfinished">F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="115"/>
+        <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
         <translation type="unfinished">Mover Arriba</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="116"/>
+        <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
         <translation type="unfinished">Ctrl+Arriba</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="117"/>
+        <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
         <translation type="unfinished">Mover Abajo</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="118"/>
+        <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
         <translation type="unfinished">Ctrl+Abajo</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="119"/>
+        <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
         <translation type="unfinished">Mover a la Cima</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="120"/>
+        <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Home</source>
         <translation type="unfinished">Ctrl+Home</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="121"/>
+        <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
         <translation type="unfinished">Mover Al Fondo</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="122"/>
+        <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+End</source>
         <translation type="unfinished">Ctrl+Fin</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="124"/>
+        <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
         <translation type="unfinished">&amp;Nueva pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="125"/>
+        <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
         <translation type="unfinished">Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="126"/>
+        <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
         <translation type="unfinished">R&amp;enombrar pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="127"/>
+        <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
         <translation type="unfinished">Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="128"/>
+        <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
         <translation type="unfinished">Q&amp;uitar pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="129"/>
+        <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
         <translation type="unfinished">Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="130"/>
+        <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
         <translation type="unfinished">&amp;Cambiar ícono de la pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="131"/>
+        <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
         <translation type="unfinished">Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="132"/>
+        <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
         <translation type="unfinished">Pestaña Siguiente (&amp;x)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="133"/>
+        <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
         <translation type="unfinished">Derecha</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="136"/>
+        <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
         <translation type="unfinished">Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="146"/>
+        <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="147"/>
+        <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
         <translation type="unfinished">Shift+F10</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="135"/>
+        <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
         <translation type="unfinished">Pestaña Anterior (&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>Mostrar Bitácora (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
         <translation type="unfinished">F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="143"/>
+        <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
         <translation type="unfinished">Acerca de (&amp;A)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
         <translation type="unfinished">&amp;Ayuda</translation>
     </message>
@@ -3301,7 +3306,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>¡La opción «%1» no es válida!</translation>
     </message>
@@ -3364,17 +3369,17 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
         <source>Exception</source>
         <translation>Excepción</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2826"/>
         <source>Exception in %1</source>
         <translation>Excepción en %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Fracaso copiar al portapapeles!</translation>
     </message>
@@ -3421,17 +3426,17 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="605"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished">¡No existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="610"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished">¡El nombre de la pestaña no puede estar vacío!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
         <source>Tab with given name already exists!</source>
         <translation type="unfinished">¡Ya existe una pestaña con el nombre indicado!</translation>
     </message>
@@ -3563,12 +3568,12 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Presione &apos;/&apos; para buscar</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
         <translation>Escriba para buscar</translation>
     </message>

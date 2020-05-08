@@ -329,17 +329,17 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation type="vanished">Fliken är full. Kunde inte ta bort några objekt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
         <source>Discard Changes?</source>
         <translation>Förkasta ändringar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;förkasta ändringar&lt;/strong&gt;?</translation>
     </message>
@@ -2463,12 +2463,12 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Inaktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1882"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1883"/>
         <source>Options for Import</source>
         <translation>Alternativ för import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2119"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2120"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-fel</translation>
@@ -2479,17 +2479,17 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Visa/dölj</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3386"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3387"/>
         <source>Options for Export</source>
         <translation>Alternativ för Export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3407"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Export Error</source>
         <translation>Exportfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3409"/>
         <source>Failed to export file %1!</source>
         <translation>Misslyckades med att exportera filen %1!</translation>
     </message>
@@ -2505,32 +2505,32 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>CopyQ-objekt (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Import Error</source>
         <translation>Importfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3498"/>
         <source>Failed to import file %1!</source>
         <translation>Misslyckades med att importera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3649"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ta bort alla flikar i grupp?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3651"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort &lt;strong&gt;alla flikar&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Remove Tab?</source>
         <translation>Ta bort flik?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3699"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort fliken &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2723,17 +2723,16 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Sök</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>Flytta till &amp;urklipp</translation>
+        <translation type="vanished">Flytta till &amp;urklipp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Show Content...</source>
         <translation>Vi&amp;sa innehåll…</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="103"/>
+        <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
@@ -2748,185 +2747,191 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>Move to &amp;Clipboard</source>
+        <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
+        <translation type="unfinished">Flytta till &amp;urklipp</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
         <translation>Ta bo&amp;rt</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
         <translation>R&amp;edigera</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="108"/>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>Edit &amp;Notes</source>
         <translation>Redigera a&amp;nteckningar</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="109"/>
+        <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
         <translation>Skift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
         <translation>Re&amp;digera med redigerare</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="111"/>
+        <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
         <translation>Å&amp;tgärd…</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="115"/>
+        <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
         <translation>Flytta upp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="116"/>
+        <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
         <translation>Ctrl+Upp</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="117"/>
+        <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
         <translation>Flytta ned</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="118"/>
+        <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
         <translation>Ctrl+Ner</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="119"/>
+        <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
         <translation>Flytta överst</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="120"/>
+        <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Home</source>
         <translation>Ctrl+Home</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="121"/>
+        <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
         <translation>Flytta nederst</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="122"/>
+        <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+End</source>
         <translation>Ctrl+End</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="124"/>
+        <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Ny flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="125"/>
+        <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="126"/>
+        <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
         <translation>B&amp;yt namn på flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="127"/>
+        <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="128"/>
+        <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
         <translation>Ta &amp;bort flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="129"/>
+        <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="130"/>
+        <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
         <translation>Ä&amp;ndra flikikon</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="131"/>
+        <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Skift+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="132"/>
+        <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
         <translation>Nä&amp;sta flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="133"/>
+        <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
         <translation>Höger</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="136"/>
+        <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
         <translation>Vänster</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="146"/>
+        <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
         <translation>Öppna menyn för kontext</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="147"/>
+        <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
         <translation>Skift+F10</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="135"/>
+        <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
         <translation>&amp;Föregående flik</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>Vi&amp;sa logg</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="143"/>
+        <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
         <translation>&amp;Om</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
         <translation>&amp;Hjälp</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2935,7 +2940,7 @@ Ställ in till 0 för att inaktivera.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2053"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2100"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3402,22 +3407,22 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Det går inte att importera filen ”%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ogiltigt alternativ ”%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
         <source>Exception</source>
         <translation>Undantag</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2826"/>
         <source>Exception in %1</source>
         <translation>Undantag i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Misslyckades med att kopiera till urklipp!</translation>
     </message>
@@ -3425,17 +3430,17 @@ Skriv ut version på program och bibliotek.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="605"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Det finns ingen flik med det angivna namnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="610"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
         <source>Tab name cannot be empty!</source>
         <translation>Fliknamn kan inte vara tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
         <source>Tab with given name already exists!</source>
         <translation>Det finns redan en flik med det angivna namnet!</translation>
     </message>
@@ -3575,12 +3580,12 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Tryck ”/” för att söka</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
         <translation>Skriv för att söka</translation>
     </message>

@@ -329,17 +329,17 @@ You can set up the command in preferences.</source>
         <translation type="vanished">标签页已满。没有删除任何条目。</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1578"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>无法添加新条目至标签 %1。请手动移除条目来腾出空间。</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1860"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
         <source>Discard Changes?</source>
         <translation>放弃更改？</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1861"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>你真的要&lt;strong&gt;放弃更改&lt;/strong&gt;吗？</translation>
     </message>
@@ -2416,7 +2416,7 @@ Set to 0 to disable.</source>
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1882"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1883"/>
         <source>Options for Import</source>
         <translation>导入选项</translation>
     </message>
@@ -2426,27 +2426,27 @@ Set to 0 to disable.</source>
         <translation>显示/隐藏(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3386"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3387"/>
         <source>Options for Export</source>
         <translation>导出选项</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3407"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Export Error</source>
         <translation>导出错误</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3409"/>
         <source>Failed to export file %1!</source>
         <translation>导出到文件 %1 失败！</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Import Error</source>
         <translation>导入错误</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3498"/>
         <source>Failed to import file %1!</source>
         <translation>导入文件 %1 失败！</translation>
     </message>
@@ -2461,7 +2461,7 @@ Set to 0 to disable.</source>
         <translation>禁用剪贴板存储(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2119"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2120"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ 错误</translation>
@@ -2508,22 +2508,22 @@ Set to 0 to disable.</source>
         <translation>CopyQ 项目 (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3649"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
         <source>Remove All Tabs in Group?</source>
         <translation>删除组中的全部标签页？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3651"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>你想要删除 &lt;strong&gt;%1&lt;/strong&gt; 标签页组中的&lt;strong&gt;全部标签页&lt;/strong&gt;吗？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
         <source>Remove Tab?</source>
         <translation>删除标签页？</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3699"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>你想要删除 &lt;strong&gt;%1&lt;/strong&gt; 标签页吗？</translation>
     </message>
@@ -2589,7 +2589,7 @@ Set to 0 to disable.</source>
         <translation>Delete</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2050"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2597,7 +2597,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2053"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2100"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -2736,17 +2736,16 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>查找(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Move to &amp;Clipboard</source>
-        <translation>移动到剪贴板(&amp;C)</translation>
+        <translation type="vanished">移动到剪贴板(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="102"/>
+        <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Show Content...</source>
         <translation>显示内容(&amp;S)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="103"/>
+        <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
@@ -2761,180 +2760,186 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="104"/>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>Move to &amp;Clipboard</source>
+        <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
+        <translation type="unfinished">移动到剪贴板(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
         <translation>删除(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="106"/>
+        <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="108"/>
+        <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>Edit &amp;Notes</source>
         <translation>编辑备注(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="109"/>
+        <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
         <translation>Shift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="110"/>
+        <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
         <translation>使用编辑器编辑(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="111"/>
+        <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
         <translation>动作(&amp;A)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="112"/>
+        <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="115"/>
+        <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="116"/>
+        <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
         <translation>Ctrl + ↑</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="117"/>
+        <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="118"/>
+        <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
         <translation>Ctrl + ↓</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="119"/>
+        <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
         <translation>移到顶部</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="120"/>
+        <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Home</source>
         <translation>Ctrl+Home</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="121"/>
+        <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
         <translation>移到底部</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="122"/>
+        <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+End</source>
         <translation>Ctrl+End</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="124"/>
+        <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
         <translation>新建标签页(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="125"/>
+        <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="126"/>
+        <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
         <translation>重命名标签页(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="127"/>
+        <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="128"/>
+        <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
         <translation>删除标签页(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="129"/>
+        <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="130"/>
+        <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
         <translation>更改标签页图标(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="131"/>
+        <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="132"/>
+        <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
         <translation>下一个标签页(&amp;X)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="133"/>
+        <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
         <translation>Right</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="136"/>
+        <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
         <translation>左</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="146"/>
+        <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
         <translation>打开条目右键菜单</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="147"/>
+        <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
         <translation>Shift+F10</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="135"/>
+        <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
         <translation>上一个标签页(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>&amp;显示日志</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="141"/>
+        <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
         <translation>F12</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="143"/>
+        <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="139"/>
+        <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>
@@ -3367,12 +3372,12 @@ Print version of program and libraries.</source>
         <translation>参数个数不对!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2797"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
         <source>Exception</source>
         <translation>异常</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2840"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
         <source>Failed to copy to clipboard!</source>
         <translation>无法复制到剪贴板！</translation>
     </message>
@@ -3389,7 +3394,7 @@ Print version of program and libraries.</source>
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2798"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2826"/>
         <source>Exception in %1</source>
         <translation>异常发生在 %1</translation>
     </message>
@@ -3409,7 +3414,7 @@ Print version of program and libraries.</source>
         <translation>无法导入文件“%1”！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1390"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>无效选项“%1”！</translation>
     </message>
@@ -3417,17 +3422,17 @@ Print version of program and libraries.</source>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="605"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>不存在该名称的标签页！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="610"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
         <source>Tab name cannot be empty!</source>
         <translation>标签页名称不能为空 ！</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1104"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
         <source>Tab with given name already exists!</source>
         <translation>已存在同名标签页！</translation>
     </message>
@@ -3567,12 +3572,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>按『/』以进行搜索</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="91"/>
+        <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
         <translation>输入文字进行搜索</translation>
     </message>
