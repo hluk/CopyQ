@@ -37,7 +37,7 @@ class ClipboardBrowser;
 class DirClass;
 class FileClass;
 class ItemFactory;
-class ScriptableProxy;
+class ScriptableProxyClient;
 class TemporaryFileClass;
 
 class QFile;
@@ -75,7 +75,7 @@ class Scriptable final : public QObject, protected QScriptable
 public:
     explicit Scriptable(
             QScriptEngine *engine,
-            ScriptableProxy *proxy,
+            ScriptableProxyClient *proxy,
             QObject *parent = nullptr);
 
     enum class Abort {
@@ -432,7 +432,7 @@ private:
 
     QScriptValue readInput();
 
-    ScriptableProxy *m_proxy;
+    ScriptableProxyClient *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
     DirClass *m_dirClass;

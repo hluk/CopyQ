@@ -17,8 +17,9 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SCRIPTABLEPROXY_H
-#define SCRIPTABLEPROXY_H
+#pragma once
+
+#include "scriptableproxy-common.h"
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
@@ -40,40 +41,6 @@ class MainWindow;
 class QEventLoop;
 class QPersistentModelIndex;
 class QPixmap;
-
-struct NamedValue {
-    NamedValue() {}
-    NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
-    QString name;
-    QVariant value;
-};
-
-using NamedValueList = QVector<NamedValue>;
-
-struct ScriptablePath {
-    QString path;
-};
-
-Q_DECLARE_METATYPE(NamedValueList)
-Q_DECLARE_METATYPE(ScriptablePath)
-Q_DECLARE_METATYPE(NotificationButtons)
-Q_DECLARE_METATYPE(QVector<QVariantMap>)
-Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
-Q_DECLARE_METATYPE(Command)
-Q_DECLARE_METATYPE(ClipboardMode)
-
-QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
-QDataStream &operator>>(QDataStream &in, NotificationButton &button);
-QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
-QDataStream &operator>>(QDataStream &in, NamedValueList &list);
-QDataStream &operator<<(QDataStream &out, const Command &command);
-QDataStream &operator>>(QDataStream &in, Command &command);
-QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
-QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
-QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
-QDataStream &operator>>(QDataStream &in, ScriptablePath &path);
-QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value);
-QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value);
 
 class ScriptableProxy final : public QObject
 {
@@ -262,8 +229,6 @@ private:
     ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
 
-    QVariant waitForFunctionCallFinished(int functionId);
-
     QByteArray callFunctionHelper(const QByteArray &serializedFunctionCall);
 
 #ifdef HAS_TESTS
@@ -281,9 +246,3 @@ private:
     int m_functionCallStack = 0;
     bool m_shouldBeDeleted = false;
 };
-
-QString pluginsPath();
-QString themesPath();
-QString translationsPath();
-
-#endif // SCRIPTABLEPROXY_H

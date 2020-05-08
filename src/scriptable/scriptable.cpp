@@ -544,7 +544,7 @@ QScriptValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Alg
 
 Scriptable::Scriptable(
         QScriptEngine *engine,
-        ScriptableProxy *proxy,
+        ScriptableProxyClient *proxy,
         QObject *parent)
     : QObject(parent)
     , QScriptable()
@@ -2002,7 +2002,7 @@ QScriptValue Scriptable::dialog()
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-    connect( m_proxy, &ScriptableProxy::inputDialogFinished,
+    connect( m_proxy, &ScriptableProxyClient::inputDialogFinished,
              &loop, [&](int finishedDialogId, const NamedValueList &result) {
                  if (finishedDialogId != dialogId)
                      return;

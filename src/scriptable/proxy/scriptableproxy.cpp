@@ -96,181 +96,6 @@ const quint32 serializedFunctionCallVersion = 2;
     if (c) \
         (c->call)
 
-#define STR(str) str
-
-#define INVOKE_(function, arguments, functionCallId) \
-    static const auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
-    const auto args = f.argumentList arguments; \
-    emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall)
-
-#define INVOKE_NO_SNIP(function, arguments) \
-    if (!m_wnd) { \
-        using Result = decltype(function arguments); \
-        const auto functionCallId = ++m_lastFunctionCallId; \
-        INVOKE_(function, arguments, functionCallId); \
-        const auto result = waitForFunctionCallFinished(functionCallId); \
-        return result.value<Result>(); \
-    }
-
-#define INVOKE_NO_SNIP2(FUNCTION, ARGUMENTS) \
-    if (!m_wnd) { \
-        const auto functionCallId = ++m_lastFunctionCallId; \
-        INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
-        waitForFunctionCallFinished(functionCallId); \
-        return; \
-    }
-
-#define INVOKE(FUNCTION, ARGUMENTS) \
-    INVOKE_NO_SNIP(FUNCTION, ARGUMENTS) \
-    if (m_wnd) \
-        m_wnd->snip()
-
-#define INVOKE2(FUNCTION, ARGUMENTS) \
-    INVOKE_NO_SNIP2(FUNCTION, ARGUMENTS) \
-    if (m_wnd) \
-        m_wnd->snip()
-
-Q_DECLARE_METATYPE(QFile*)
-
-QDataStream &operator<<(QDataStream &out, const NotificationButton &button)
-{
-    out << button.name
-        << button.script
-        << button.data;
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, NotificationButton &button)
-{
-    in >> button.name
-       >> button.script
-       >> button.data;
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
-{
-    out << list.size();
-    for (const auto &item : list)
-        out << item.name << item.value;
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, NamedValueList &list)
-{
-    int size;
-    in >> size;
-    for (int i = 0; i < size; ++i) {
-        NamedValue item;
-        in >> item.name >> item.value;
-        list.append(item);
-    }
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const Command &command)
-{
-    out << command.name
-        << command.re
-        << command.wndre
-        << command.matchCmd
-        << command.cmd
-        << command.sep
-        << command.input
-        << command.output
-        << command.wait
-        << command.automatic
-        << command.display
-        << command.inMenu
-        << command.isGlobalShortcut
-        << command.isScript
-        << command.transform
-        << command.remove
-        << command.hideWindow
-        << command.enable
-        << command.icon
-        << command.shortcuts
-        << command.globalShortcuts
-        << command.tab
-        << command.outputTab;
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, Command &command)
-{
-    in >> command.name
-       >> command.re
-       >> command.wndre
-       >> command.matchCmd
-       >> command.cmd
-       >> command.sep
-       >> command.input
-       >> command.output
-       >> command.wait
-       >> command.automatic
-       >> command.display
-       >> command.inMenu
-       >> command.isGlobalShortcut
-       >> command.isScript
-       >> command.transform
-       >> command.remove
-       >> command.hideWindow
-       >> command.enable
-       >> command.icon
-       >> command.shortcuts
-       >> command.globalShortcuts
-       >> command.tab
-       >> command.outputTab;
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, ClipboardMode mode)
-{
-    const int modeId = static_cast<int>(mode);
-    out << modeId;
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, ClipboardMode &mode)
-{
-    int modeId;
-    in >> modeId;
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    mode = static_cast<ClipboardMode>(modeId);
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const ScriptablePath &path)
-{
-    return out << path.path;
-}
-
-QDataStream &operator>>(QDataStream &in, ScriptablePath &path)
-{
-    return in >> path.path;
-}
-
-QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value)
-{
-    return out << static_cast<int>(value);
-}
-
-QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value)
-{
-    int valueInt;
-    in >> valueInt;
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    value = static_cast<Qt::KeyboardModifiers>(valueInt);
-    return in;
-}
-
 namespace {
 
 const char propertyWidgetName[] = "CopyQ_widget_name";
@@ -279,65 +104,6 @@ const char propertyWidgetProperty[] = "CopyQ_widget_property";
 struct InputDialog {
     QDialog *dialog = nullptr;
     QString defaultChoice; /// Default text for list widgets.
-};
-
-class FunctionCallSerializer final {
-public:
-    explicit FunctionCallSerializer(const char *functionName)
-    {
-        m_slotName = functionName;
-    }
-
-    template<typename ...Ts>
-    FunctionCallSerializer &withSlotArguments(Ts... arguments)
-    {
-        QByteArray args;
-        for (const auto argType : std::initializer_list<const char *>{ argumentType(arguments)... }) {
-            args.append(argType);
-            args.append(',');
-        }
-        args.chop(1);
-        setSlotArgumentTypes(args);
-        return *this;
-    }
-
-    QByteArray serialize(int functionCallId, const QVector<QVariant> args) const
-    {
-        QByteArray bytes;
-        QDataStream stream(&bytes, QIODevice::WriteOnly);
-        stream.setVersion(QDataStream::Qt_5_0);
-        stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion
-               << functionCallId << m_slotName << args;
-        return bytes;
-    }
-
-    template<typename ...Ts>
-    static QVector<QVariant> argumentList(Ts... arguments)
-    {
-        return { QVariant::fromValue(arguments)... };
-    }
-
-    template<typename T>
-    static const char *argumentType(const T &)
-    {
-        if ( std::is_same<QVariant, T>::value )
-            return "QVariant";
-
-        return QMetaType::typeName(qMetaTypeId<T>());
-    }
-
-private:
-    void setSlotArgumentTypes(const QByteArray &args)
-    {
-        m_slotName += "(" + args + ")";
-        const int slotIndex = ScriptableProxy::staticMetaObject.indexOfSlot(m_slotName);
-        if (slotIndex == -1) {
-            log("Failed to find scriptable proxy slot: " + m_slotName, LogError);
-            Q_ASSERT(false);
-        }
-    }
-
-    QByteArray m_slotName;
 };
 
 class ScreenshotRectWidget final : public QLabel {
@@ -997,7 +763,6 @@ void ScriptableProxy::safeDeleteLater()
 
 QVariantMap ScriptableProxy::getActionData(int id)
 {
-    INVOKE_NO_SNIP(getActionData, (id));
     m_actionData = m_wnd->actionData(id);
     m_actionId = id;
 
@@ -1009,39 +774,38 @@ QVariantMap ScriptableProxy::getActionData(int id)
 
 void ScriptableProxy::setActionData(int id, const QVariantMap &data)
 {
-    INVOKE_NO_SNIP2(setActionData, (id, data));
     m_wnd->setActionData(id, data);
 }
 
 void ScriptableProxy::exit()
 {
-    INVOKE2(exit, ());
+    m_wnd->snip();
     qApp->quit();
 }
 
 void ScriptableProxy::close()
 {
-    INVOKE2(close, ());
+    m_wnd->snip();
     m_wnd->close();
 }
 
 bool ScriptableProxy::showWindow()
 {
-    INVOKE(showWindow, ());
+    m_wnd->snip();
     m_wnd->showWindow();
     return m_wnd->isVisible();
 }
 
 bool ScriptableProxy::showWindowAt(QRect rect)
 {
-    INVOKE(showWindowAt, (rect));
+    m_wnd->snip();
     setGeometryWithoutSave(m_wnd, rect);
     return showWindow();
 }
 
 bool ScriptableProxy::pasteToCurrentWindow()
 {
-    INVOKE(pasteToCurrentWindow, ());
+    m_wnd->snip();
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     if (!window)
@@ -1052,7 +816,7 @@ bool ScriptableProxy::pasteToCurrentWindow()
 
 bool ScriptableProxy::copyFromCurrentWindow()
 {
-    INVOKE(copyFromCurrentWindow, ());
+    m_wnd->snip();
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     if (!window)
@@ -1063,37 +827,34 @@ bool ScriptableProxy::copyFromCurrentWindow()
 
 bool ScriptableProxy::isMonitoringEnabled()
 {
-    INVOKE_NO_SNIP(isMonitoringEnabled, ());
     return m_wnd->isMonitoringEnabled();
 }
 
 bool ScriptableProxy::isMainWindowVisible()
 {
-    INVOKE_NO_SNIP(isMainWindowVisible, ());
     return !m_wnd->isMinimized() && m_wnd->isVisible();
 }
 
 bool ScriptableProxy::isMainWindowFocused()
 {
-    INVOKE_NO_SNIP(isMainWindowFocused, ());
     return m_wnd->isActiveWindow();
 }
 
 void ScriptableProxy::disableMonitoring(bool arg1)
 {
-    INVOKE2(disableMonitoring, (arg1));
+    m_wnd->snip();
     m_wnd->disableClipboardStoring(arg1);
 }
 
 void ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
-    INVOKE2(setClipboard, (data, mode));
+    m_wnd->snip();
     m_wnd->setClipboard(data, mode);
 }
 
 QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
 {
-    INVOKE(renameTab, (arg1, arg2));
+    m_wnd->snip();
 
     if ( arg1.isEmpty() || arg2.isEmpty() )
         return tabNameEmptyError();
@@ -1112,7 +873,7 @@ QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)
 
 QString ScriptableProxy::removeTab(const QString &arg1)
 {
-    INVOKE(removeTab, (arg1));
+    m_wnd->snip();
 
     if ( arg1.isEmpty() )
         return tabNameEmptyError();
@@ -1127,19 +888,18 @@ QString ScriptableProxy::removeTab(const QString &arg1)
 
 QString ScriptableProxy::tabIcon(const QString &tabName)
 {
-    INVOKE_NO_SNIP(tabIcon, (tabName));
     return getIconNameForTabName(tabName);
 }
 
 void ScriptableProxy::setTabIcon(const QString &tabName, const QString &icon)
 {
-    INVOKE2(setTabIcon, (tabName, icon));
+    m_wnd->snip();
     m_wnd->setTabIcon(tabName, icon);
 }
 
 QStringList ScriptableProxy::unloadTabs(const QStringList &tabs)
 {
-    INVOKE(unloadTabs, (tabs));
+    m_wnd->snip();
     QStringList unloaded;
     for (const auto &tab : tabs) {
         if ( m_wnd->unloadTab(tab) )
@@ -1150,14 +910,14 @@ QStringList ScriptableProxy::unloadTabs(const QStringList &tabs)
 
 void ScriptableProxy::forceUnloadTabs(const QStringList &tabs)
 {
-    INVOKE2(forceUnloadTabs, (tabs));
+    m_wnd->snip();
     for (const auto &tab : tabs)
         m_wnd->forceUnloadTab(tab);
 }
 
 bool ScriptableProxy::showBrowser(const QString &tabName)
 {
-    INVOKE(showBrowser, (tabName));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->showBrowser(c);
@@ -1166,20 +926,19 @@ bool ScriptableProxy::showBrowser(const QString &tabName)
 
 bool ScriptableProxy::showBrowserAt(const QString &tabName, QRect rect)
 {
-    INVOKE(showBrowserAt, (tabName, rect));
+    m_wnd->snip();
     setGeometryWithoutSave(m_wnd, rect);
     return showBrowser(tabName);
 }
 
 void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 {
-    INVOKE2(action, (arg1, arg2));
+    m_wnd->snip();
     m_wnd->action(arg1, arg2, QModelIndex());
 }
 
 void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &command)
 {
-    INVOKE_NO_SNIP2(runInternalAction, (data, command));
     auto action = new Action();
     action->setCommand(command);
     action->setData(data);
@@ -1188,7 +947,6 @@ void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &
 
 QByteArray ScriptableProxy::tryGetCommandOutput(const QString &command)
 {
-    INVOKE_NO_SNIP(tryGetCommandOutput, (command));
 
     for (int i = 0; i < 3; ++i) {
         Action action;
@@ -1225,7 +983,7 @@ void ScriptableProxy::showMessage(const QString &title,
         const QString &notificationId,
         const NotificationButtons &buttons)
 {
-    INVOKE2(showMessage, (title, msg, icon, msec, notificationId, buttons));
+    m_wnd->snip();
 
     auto notification = m_wnd->createNotification(notificationId);
     notification->setTitle(title);
@@ -1237,7 +995,7 @@ void ScriptableProxy::showMessage(const QString &title,
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
 {
-    INVOKE(nextItem, (tabName, where));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return QVariantMap();
@@ -1254,20 +1012,20 @@ QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
 
 void ScriptableProxy::browserMoveToClipboard(const QString &tabName, int row)
 {
-    INVOKE2(browserMoveToClipboard, (tabName, row));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     m_wnd->moveToClipboard(c, row);
 }
 
 void ScriptableProxy::browserSetCurrent(const QString &tabName, int arg1)
 {
-    INVOKE2(browserSetCurrent, (tabName, arg1));
+    m_wnd->snip();
     BROWSER(tabName, setCurrent(arg1));
 }
 
 QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> rows)
 {
-    INVOKE(browserRemoveRows, (tabName, rows));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return QString("Invalid tab");
@@ -1301,7 +1059,7 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
 
 void ScriptableProxy::browserMoveSelected(int targetRow)
 {
-    INVOKE2(browserMoveSelected, (targetRow));
+    m_wnd->snip();
 
     QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
@@ -1320,49 +1078,49 @@ void ScriptableProxy::browserMoveSelected(int targetRow)
 
 void ScriptableProxy::browserEditRow(const QString &tabName, int arg1)
 {
-    INVOKE2(browserEditRow, (tabName, arg1));
+    m_wnd->snip();
     BROWSER(tabName, editRow(arg1));
 }
 
 void ScriptableProxy::browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard)
 {
-    INVOKE2(browserEditNew, (tabName, arg1, changeClipboard));
+    m_wnd->snip();
     BROWSER(tabName, editNew(arg1, changeClipboard));
 }
 
 QStringList ScriptableProxy::tabs()
 {
-    INVOKE(tabs, ());
+    m_wnd->snip();
     return m_wnd->tabs();
 }
 
 bool ScriptableProxy::toggleVisible()
 {
-    INVOKE(toggleVisible, ());
+    m_wnd->snip();
     return m_wnd->toggleVisible();
 }
 
 bool ScriptableProxy::toggleMenu(const QString &tabName, int maxItemCount, QPoint position)
 {
-    INVOKE(toggleMenu, (tabName, maxItemCount, position));
+    m_wnd->snip();
     return m_wnd->toggleMenu(tabName, maxItemCount, position);
 }
 
 bool ScriptableProxy::toggleCurrentMenu()
 {
-    INVOKE(toggleCurrentMenu, ());
+    m_wnd->snip();
     return m_wnd->toggleMenu();
 }
 
 int ScriptableProxy::findTabIndex(const QString &arg1)
 {
-    INVOKE(findTabIndex, (arg1));
+    m_wnd->snip();
     return m_wnd->findTabIndex(arg1);
 }
 
 int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
 {
-    INVOKE(menuItems, (items));
+    m_wnd->snip();
 
     TrayMenu menu;
     menu.setObjectName("CustomMenu");
@@ -1389,19 +1147,19 @@ int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
 
 void ScriptableProxy::openActionDialog(const QVariantMap &arg1)
 {
-    INVOKE2(openActionDialog, (arg1));
+    m_wnd->snip();
     m_wnd->openActionDialog(arg1);
 }
 
 bool ScriptableProxy::loadTab(const QString &arg1)
 {
-    INVOKE(loadTab, (arg1));
+    m_wnd->snip();
     return m_wnd->loadTab(arg1);
 }
 
 bool ScriptableProxy::saveTab(const QString &tabName, const QString &arg1)
 {
-    INVOKE(saveTab, (tabName, arg1));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
@@ -1412,25 +1170,25 @@ bool ScriptableProxy::saveTab(const QString &tabName, const QString &arg1)
 
 bool ScriptableProxy::importData(const QString &fileName)
 {
-    INVOKE(importData, (fileName));
+    m_wnd->snip();
     return m_wnd->importDataFrom(fileName, ImportOptions::All);
 }
 
 bool ScriptableProxy::exportData(const QString &fileName)
 {
-    INVOKE(exportData, (fileName));
+    m_wnd->snip();
     return m_wnd->exportAllData(fileName);
 }
 
 QVariant ScriptableProxy::config(const QStringList &nameValue)
 {
-    INVOKE(config, (nameValue));
+    m_wnd->snip();
     return m_wnd->config(nameValue);
 }
 
 QVariant ScriptableProxy::toggleConfig(const QString &optionName)
 {
-    INVOKE(toggleConfig, (optionName));
+    m_wnd->snip();
 
     QStringList nameValue(optionName);
     const auto values = m_wnd->config(nameValue);
@@ -1448,21 +1206,20 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
 
 int ScriptableProxy::browserLength(const QString &tabName)
 {
-    INVOKE_NO_SNIP(browserLength, (tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->length() : 0;
 }
 
 bool ScriptableProxy::browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard)
 {
-    INVOKE(browserOpenEditor, (tabName, arg1, changeClipboard));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c && c->openEditor(arg1, changeClipboard);
 }
 
 QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items)
 {
-    INVOKE(browserInsert, (tabName, row, items));
+    m_wnd->snip();
 
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
@@ -1481,7 +1238,7 @@ QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QV
 
 bool ScriptableProxy::browserChange(const QString &tabName, const QVariantMap &data, int row)
 {
-    INVOKE(browserChange, (tabName, data, row));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
@@ -1500,32 +1257,31 @@ bool ScriptableProxy::browserChange(const QString &tabName, const QVariantMap &d
 
 QByteArray ScriptableProxy::browserItemData(const QString &tabName, int arg1, const QString &arg2)
 {
-    INVOKE(browserItemData, (tabName, arg1, arg2));
+    m_wnd->snip();
     return itemData(tabName, arg1, arg2);
 }
 
 QVariantMap ScriptableProxy::browserItemData(const QString &tabName, int arg1)
 {
-    INVOKE(browserItemData, (tabName, arg1));
+    m_wnd->snip();
     return itemData(tabName, arg1);
 }
 
 void ScriptableProxy::setCurrentTab(const QString &tabName)
 {
-    INVOKE2(setCurrentTab, (tabName));
+    m_wnd->snip();
     m_wnd->addAndFocusTab(tabName);
 }
 
 QString ScriptableProxy::tab(const QString &tabName)
 {
-    INVOKE(tab, (tabName));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->tabName() : QString();
 }
 
 int ScriptableProxy::currentItem()
 {
-    INVOKE_NO_SNIP(currentItem, ());
 
     const QPersistentModelIndex current =
             m_actionData.value(mimeCurrentItem).value<QPersistentModelIndex>();
@@ -1534,7 +1290,7 @@ int ScriptableProxy::currentItem()
 
 bool ScriptableProxy::selectItems(const QString &tabName, const QVector<int> &rows)
 {
-    INVOKE(selectItems, (tabName, rows));
+    m_wnd->snip();
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
@@ -1556,7 +1312,6 @@ bool ScriptableProxy::selectItems(const QString &tabName, const QVector<int> &ro
 
 QVector<int> ScriptableProxy::selectedItems()
 {
-    INVOKE_NO_SNIP(selectedItems, ());
 
     QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
@@ -1571,7 +1326,7 @@ QVector<int> ScriptableProxy::selectedItems()
 
 QVariantMap ScriptableProxy::selectedItemData(int selectedIndex)
 {
-    INVOKE(selectedItemData, (selectedIndex));
+    m_wnd->snip();
 
     auto c = currentBrowser();
     if (!c)
@@ -1584,7 +1339,7 @@ QVariantMap ScriptableProxy::selectedItemData(int selectedIndex)
 
 bool ScriptableProxy::setSelectedItemData(int selectedIndex, const QVariantMap &data)
 {
-    INVOKE(setSelectedItemData, (selectedIndex, data));
+    m_wnd->snip();
 
     auto c = currentBrowser();
     if (!c)
@@ -1600,7 +1355,7 @@ bool ScriptableProxy::setSelectedItemData(int selectedIndex, const QVariantMap &
 
 QVector<QVariantMap> ScriptableProxy::selectedItemsData()
 {
-    INVOKE(selectedItemsData, ());
+    m_wnd->snip();
 
     auto c = currentBrowser();
     if (!c)
@@ -1624,7 +1379,7 @@ QVector<QVariantMap> ScriptableProxy::selectedItemsData()
 
 void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
 {
-    INVOKE2(setSelectedItemsData, (dataList));
+    m_wnd->snip();
 
     auto c = currentBrowser();
     if (!c)
@@ -1646,26 +1401,26 @@ void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
 #ifdef HAS_TESTS
 void ScriptableProxy::sendKeys(const QString &expectedWidgetName, const QString &keys, int delay)
 {
-    INVOKE2(sendKeys, (expectedWidgetName, keys, delay));
+    m_wnd->snip();
     Q_ASSERT( keyClicker()->succeeded() || keyClicker()->failed() );
     keyClicker()->sendKeyClicks(expectedWidgetName, keys, delay, 10);
 }
 
 bool ScriptableProxy::sendKeysSucceeded()
 {
-    INVOKE(sendKeysSucceeded, ());
+    m_wnd->snip();
     return keyClicker()->succeeded();
 }
 
 bool ScriptableProxy::sendKeysFailed()
 {
-    INVOKE(sendKeysFailed, ());
+    m_wnd->snip();
     return keyClicker()->failed();
 }
 
 QString ScriptableProxy::testSelected()
 {
-    INVOKE(testSelected, ());
+    m_wnd->snip();
 
     ClipboardBrowser *browser = m_wnd->browser();
     if (!browser)
@@ -1697,20 +1452,20 @@ QString ScriptableProxy::testSelected()
 
 void ScriptableProxy::serverLog(const QString &text)
 {
-    INVOKE2(serverLog, (text));
+    m_wnd->snip();
     log(text, LogAlways);
 }
 
 QString ScriptableProxy::currentWindowTitle()
 {
-    INVOKE(currentWindowTitle, ());
+    m_wnd->snip();
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
     return window ? window->getTitle() : QString();
 }
 
 int ScriptableProxy::inputDialog(const NamedValueList &values)
 {
-    INVOKE(inputDialog, (values));
+    m_wnd->snip();
 
     InputDialog inputDialog;
     const auto dialogPtr = std::make_shared<QDialog>(m_wnd);
@@ -1812,7 +1567,6 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
 void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &value)
 {
-    INVOKE_NO_SNIP2(setSelectedItemsData, (mime, value));
     const QList<QPersistentModelIndex> selected = selectedIndexes();
     for (const auto &index : selected) {
         ClipboardBrowser *c = m_wnd->browserForItem(index);
@@ -1829,37 +1583,36 @@ void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &
 
 void ScriptableProxy::filter(const QString &text)
 {
-    INVOKE2(filter, (text));
+    m_wnd->snip();
     m_wnd->setFilter(text);
 }
 
 QString ScriptableProxy::filter()
 {
-    INVOKE(filter, ());
+    m_wnd->snip();
     return m_wnd->filter();
 }
 
 QVector<Command> ScriptableProxy::commands()
 {
-    INVOKE_NO_SNIP(commands, ());
     return loadAllCommands();
 }
 
 void ScriptableProxy::setCommands(const QVector<Command> &commands)
 {
-    INVOKE2(setCommands, (commands));
+    m_wnd->snip();
     m_wnd->setCommands(commands);
 }
 
 void ScriptableProxy::addCommands(const QVector<Command> &commands)
 {
-    INVOKE2(addCommands, (commands));
+    m_wnd->snip();
     m_wnd->addCommands(commands);
 }
 
 QByteArray ScriptableProxy::screenshot(const QString &format, const QString &screenName, bool select)
 {
-    INVOKE(screenshot, (format, screenName, select));
+    m_wnd->snip();
 
     QScreen *selectedScreen = nullptr;
     if ( screenName.isEmpty() ) {
@@ -1914,7 +1667,7 @@ QByteArray ScriptableProxy::screenshot(const QString &format, const QString &scr
 
 QStringList ScriptableProxy::screenNames()
 {
-    INVOKE(screenNames, ());
+    m_wnd->snip();
 
     QStringList result;
     const auto screens = QApplication::screens();
@@ -1928,19 +1681,19 @@ QStringList ScriptableProxy::screenNames()
 
 Qt::KeyboardModifiers ScriptableProxy::queryKeyboardModifiers()
 {
-    INVOKE(queryKeyboardModifiers, ());
+    m_wnd->snip();
     return QApplication::queryKeyboardModifiers();
 }
 
 QPoint ScriptableProxy::pointerPosition()
 {
-    INVOKE(pointerPosition, ());
+    m_wnd->snip();
     return QCursor::pos();
 }
 
 void ScriptableProxy::setPointerPosition(int x, int y)
 {
-    INVOKE2(setPointerPosition, (x, y));
+    m_wnd->snip();
     const QPoint pos(x, y);
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
     const auto screens = QApplication::screens();
@@ -1960,32 +1713,28 @@ void ScriptableProxy::setPointerPosition(int x, int y)
 
 QString ScriptableProxy::pluginsPath()
 {
-    INVOKE_NO_SNIP(pluginsPath, ());
     return ::pluginsPath();
 }
 
 QString ScriptableProxy::themesPath()
 {
-    INVOKE_NO_SNIP(themesPath, ());
     return ::themesPath();
 }
 
 QString ScriptableProxy::translationsPath()
 {
-    INVOKE_NO_SNIP(translationsPath, ());
     return ::translationsPath();
 }
 
 QString ScriptableProxy::iconColor()
 {
-    INVOKE_NO_SNIP(iconColor, ());
     const auto color = m_wnd->sessionIconColor();
     return color.isValid() ? color.name() : QString();
 }
 
 bool ScriptableProxy::setIconColor(const QString &colorName)
 {
-    INVOKE(setIconColor, (colorName));
+    m_wnd->snip();
 
     QColor color(colorName);
     if ( !colorName.isEmpty() && !color.isValid() )
@@ -1997,25 +1746,24 @@ bool ScriptableProxy::setIconColor(const QString &colorName)
 
 QString ScriptableProxy::iconTag()
 {
-    INVOKE_NO_SNIP(iconTag, ());
     return m_wnd->sessionIconTag();
 }
 
 void ScriptableProxy::setIconTag(const QString &tag)
 {
-    INVOKE2(setIconTag, (tag));
+    m_wnd->snip();
     m_wnd->setSessionIconTag(tag);
 }
 
 QString ScriptableProxy::iconTagColor()
 {
-    INVOKE(iconTagColor, ());
+    m_wnd->snip();
     return m_wnd->sessionIconTagColor().name();
 }
 
 bool ScriptableProxy::setIconTagColor(const QString &colorName)
 {
-    INVOKE(setIconTagColor, (colorName));
+    m_wnd->snip();
     QColor color(colorName);
     if ( !color.isValid() )
         return false;
@@ -2026,13 +1774,13 @@ bool ScriptableProxy::setIconTagColor(const QString &colorName)
 
 void ScriptableProxy::setClipboardData(const QVariantMap &data)
 {
-    INVOKE2(setClipboardData, (data));
+    m_wnd->snip();
     m_wnd->setClipboardData(data);
 }
 
 void ScriptableProxy::setTitle(const QString &title)
 {
-    INVOKE2(setTitle, (title));
+    m_wnd->snip();
 
     if (title.isEmpty()) {
         m_wnd->setWindowTitle(QString());
@@ -2045,7 +1793,7 @@ void ScriptableProxy::setTitle(const QString &title)
 
 void ScriptableProxy::setTitleForData(const QVariantMap &data)
 {
-    INVOKE2(setTitleForData, (data));
+    m_wnd->snip();
 
     const QString clipboardContent = textLabelForData(data);
     setTitle(clipboardContent);
@@ -2053,7 +1801,7 @@ void ScriptableProxy::setTitleForData(const QVariantMap &data)
 
 void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data, ClipboardMode mode)
 {
-    INVOKE2(saveData, (tab, data, mode));
+    m_wnd->snip();
 
     auto c = m_wnd->tab(tab);
     if (c) {
@@ -2064,7 +1812,7 @@ void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data, Clip
 
 void ScriptableProxy::showDataNotification(const QVariantMap &data)
 {
-    INVOKE2(showDataNotification, (data));
+    m_wnd->snip();
 
     const AppConfig appConfig;
     const auto maxLines = appConfig.option<Config::clipboard_notification_lines>();
@@ -2123,38 +1871,33 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
 bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled)
 {
-    INVOKE_NO_SNIP(enableMenuItem, (actionId, currentRun, menuItemMatchCommandIndex, enabled));
     return m_wnd->setMenuItemEnabled(actionId, currentRun, menuItemMatchCommandIndex, enabled);
 }
 
 QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &displayData)
 {
-    INVOKE_NO_SNIP(setDisplayData, (actionId, displayData));
     m_actionData = m_wnd->setDisplayData(actionId, displayData);
     return m_actionData;
 }
 
 QVector<Command> ScriptableProxy::automaticCommands()
 {
-    INVOKE_NO_SNIP(automaticCommands, ());
     return m_wnd->automaticCommands();
 }
 
 QVector<Command> ScriptableProxy::displayCommands()
 {
-    INVOKE_NO_SNIP(displayCommands, ());
     return m_wnd->displayCommands();
 }
 
 QVector<Command> ScriptableProxy::scriptCommands()
 {
-    INVOKE_NO_SNIP(scriptCommands, ());
     return m_wnd->scriptCommands();
 }
 
 bool ScriptableProxy::openUrls(const QStringList &urls)
 {
-    INVOKE(openUrls, (urls));
+    m_wnd->snip();
 
     for (const auto &url : urls) {
         if ( !QDesktopServices::openUrl(QUrl(url)) )
@@ -2166,7 +1909,7 @@ bool ScriptableProxy::openUrls(const QStringList &urls)
 
 QString ScriptableProxy::loadTheme(const QString &path)
 {
-    INVOKE(loadTheme, (path));
+    m_wnd->snip();
 
     {
         const QFileInfo fileInfo(path);
@@ -2238,25 +1981,6 @@ QList<QPersistentModelIndex> ScriptableProxy::selectedIndexes() const
             .value< QList<QPersistentModelIndex> >();
 }
 
-QVariant ScriptableProxy::waitForFunctionCallFinished(int functionCallId)
-{
-    QVariant result;
-
-    QEventLoop loop;
-    connect(this, &ScriptableProxy::functionCallFinished, &loop,
-            [&](int receivedFunctionCallId, const QVariant &returnValue) {
-                if (receivedFunctionCallId != functionCallId)
-                    return;
-                result = returnValue;
-                loop.quit();
-            });
-    connect(this, &ScriptableProxy::clientDisconnected, &loop, &QEventLoop::quit);
-    connect(qApp, &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    return result;
-}
-
 #ifdef HAS_TESTS
 KeyClicker *ScriptableProxy::keyClicker()
 {
@@ -2265,22 +1989,3 @@ KeyClicker *ScriptableProxy::keyClicker()
     return m_keyClicker;
 }
 #endif // HAS_TESTS
-
-QString pluginsPath()
-{
-    QDir dir;
-    if (platformNativeInterface()->findPluginDir(&dir))
-        return dir.absolutePath();
-
-    return QString();
-}
-
-QString themesPath()
-{
-    return platformNativeInterface()->themePrefix();
-}
-
-QString translationsPath()
-{
-    return platformNativeInterface()->translationPrefix();
-}

@@ -134,7 +134,7 @@ void ClipboardClient::onConnectionFailed()
 void ClipboardClient::start(const QStringList &arguments)
 {
     QScriptEngine engine;
-    ScriptableProxy scriptableProxy(nullptr, nullptr);
+    ScriptableProxyClient scriptableProxy;
     Scriptable scriptable(&engine, &scriptableProxy);
 
     const auto serverName = clipboardServerName();
@@ -147,21 +147,21 @@ void ClipboardClient::start(const QStringList &arguments)
     connect( &socket, &ClientSocket::connectionFailed,
              this, &ClipboardClient::onConnectionFailed );
 
-    connect( &scriptableProxy, &ScriptableProxy::sendMessage,
+    connect( &scriptableProxy, &ScriptableProxyClient::sendMessage,
              &socket, &ClientSocket::sendMessage );
 
     connect( this, &ClipboardClient::functionCallResultReceived,
-             &scriptableProxy, &ScriptableProxy::setFunctionCallReturnValue );
+             &scriptableProxy, &ScriptableProxyClient::setFunctionCallReturnValue );
     connect( this, &ClipboardClient::inputDialogFinished,
-             &scriptableProxy, &ScriptableProxy::setInputDialogResult );
+             &scriptableProxy, &ScriptableProxyClient::setInputDialogResult );
 
     connect( &socket, &ClientSocket::disconnected,
              &scriptable, &Scriptable::abort );
     connect( &socket, &ClientSocket::disconnected,
-             &scriptableProxy, &ScriptableProxy::clientDisconnected );
+             &scriptableProxy, &ScriptableProxyClient::clientDisconnected );
 
     connect( &scriptable, &Scriptable::finished,
-             &scriptableProxy, &ScriptableProxy::clientDisconnected );
+             &scriptableProxy, &ScriptableProxyClient::clientDisconnected );
 
     connect( this, &ClipboardClient::dataReceived,
              &scriptable, &Scriptable::dataReceived, Qt::QueuedConnection );

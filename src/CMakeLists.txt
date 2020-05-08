@@ -8,6 +8,10 @@ file(GLOB copyq_SOURCES
     scriptable/*.cpp
     scriptable/proxy/scriptableproxy.h
     scriptable/proxy/scriptableproxy.cpp
+    scriptable/proxy/scriptableproxy-client.h
+    scriptable/proxy/scriptableproxy-client.cpp
+    scriptable/proxy/scriptableproxy-common.h
+    scriptable/proxy/scriptableproxy-common.cpp
     ../qt/*.cpp
     )
 
@@ -215,6 +219,8 @@ file(GLOB copyq_SOURCES
     scriptable/*.cpp
     scriptable/proxy/scriptableproxy-client.h
     scriptable/proxy/scriptableproxy-client.cpp
+    scriptable/proxy/scriptableproxy-common.h
+    scriptable/proxy/scriptableproxy-common.cpp
     ../qt/*.cpp
     )
 set(copyq_qt_modules Script Gui Widgets Network)
