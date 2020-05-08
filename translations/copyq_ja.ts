@@ -2780,7 +2780,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">クリップボードに移動(&amp;C)</translation>
+        <translation>クリップボードに移動(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
