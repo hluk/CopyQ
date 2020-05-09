@@ -341,7 +341,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>Вы точно хотите &lt;strong&gt;отменить изменения&lt;/strong&gt;?</translation>
+        <translation>Вы действительно хотите &lt;strong&gt;отменить изменения&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -448,7 +448,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation>&amp;Найти:</translation>
+        <translation>&amp;Поиск:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
@@ -468,7 +468,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="94"/>
         <source>Paste Commands</source>
-        <translation>Вставить комманды</translation>
+        <translation>Вставить команды</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="212"/>
@@ -640,7 +640,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Используйте команду только для элементов, текст которых совпадает с регулярным выражением (оставьте пустым для соответствия чему-угодно)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Примеры:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадающий URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; совпадающие имена файлов PDF &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение одного символа &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение удаленного мультимедиа &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Используйте команду только для элементов, текст которых совпадает с регулярным выражением (оставьте пустым для соответствия чему-угодно)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Примеры:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадающий URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; совпадающие имена файлов PDF &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение одного символа &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  совпадение удалённого мультимедиа &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
@@ -657,7 +657,7 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation>Дисплей</translation>
+        <translation>Отображение</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
@@ -836,7 +836,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation>Чередующийся</translation>
+        <translation>Чередование</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
@@ -1058,7 +1058,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation>Сохранить историю фильтра</translation>
+        <translation>Сохранять историю фильтра</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
@@ -1217,7 +1217,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation>&amp;Найти цифры</translation>
+        <translation>&amp;Поиск цифр</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
@@ -1310,7 +1310,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation>Макет и прозрачность</translation>
+        <translation>Оформление и прозрачность</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1333,12 +1333,13 @@ Use Item Preview to display whole items.</source>
 
 Note: This is not supported on all systems.</source>
         <translation>Прозрачность главного окна при фокусе.
+
 Примечание: Поддерживается не на всех устройствах.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>Прозрачность &amp;не в фокусе:</translation>
+        <translation>Прозрачность &amp;без фокуса:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1346,6 +1347,7 @@ Note: This is not supported on all systems.</source>
 
 Note: This is not supported on all systems.</source>
         <translation>Прозрачность главного окна без фокуса.
+
 Примечание: Поддерживается не на всех устройствах.</translation>
     </message>
     <message>
@@ -1567,7 +1569,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation>Выкладка</translation>
+        <translation>Оформление</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
@@ -1681,7 +1683,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation>Файлы изображений  (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
+        <translation>Файлы изображений (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -2106,7 +2108,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation>Не удается удалить закреплённые элементы</translation>
+        <translation>Не удаётся удалить закреплённые элементы</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
@@ -2323,7 +2325,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation>Значек</translation>
+        <translation>Значок</translation>
     </message>
 </context>
 <context>
@@ -2395,12 +2397,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="541"/>
         <source>Exit?</source>
-        <translation>Выход?</translation>
+        <translation>Выйти?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="542"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation>Вы хотите &lt;strong&gt;выйти из &lt;/strong&gt;CopyQ?</translation>
+        <translation>Вы хотите &lt;strong&gt;выйти&lt;/strong&gt; из CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="592"/>
@@ -2527,7 +2529,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3651"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Вы хотите удалить &lt;strong&gt;все вкладки&lt;/strong&gt; в группе &lt;strong&gt;%1 &lt;/strong&gt;?</translation>
+        <translation>Вы хотите удалить &lt;strong&gt;все вкладки&lt;/strong&gt; в группе &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3698"/>
@@ -2749,7 +2751,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="97"/>
         <source>&amp;Find</source>
-        <translation>&amp;Найти</translation>
+        <translation>&amp;Поиск</translation>
     </message>
     <message>
         <source>Move to &amp;Clipboard</source>
@@ -3011,7 +3013,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print X11 selection content.</source>
-        <translation>Печать X11 содержимого выделения.</translation>
+        <translation>Печать содержимого выделения X11.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
@@ -3163,15 +3165,15 @@ Show tray popup message for TIME milliseconds.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>List available tab names.</source>
-        <translation>Список имен доступных вкладок.</translation>
+        <translation>Список имён доступных вкладок.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation>Выполните команду на вкладку с заданным именем.
-Если она не существует, создается вкладка.
+        <translation>Выполните команду на вкладке с заданным именем.
+Если она не существует, создаётся вкладка.
 Значение по умолчанию — первая вкладка.</translation>
     </message>
     <message>
@@ -3316,7 +3318,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>Запускает или подключается к экземпляру приложения с указаным именем сеанса.</translation>
+        <translation>Запускает или подключается к экземпляру приложения с указанным именем сеанса.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
@@ -3413,12 +3415,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
         <source>Failed to copy to clipboard!</source>
-        <translation>Не удается скопировать в буфер обмена!</translation>
+        <translation>Не удаётся скопировать в буфер обмена!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="729"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Не удается сохранить в файл «%1»!</translation>
+        <translation>Не удаётся сохранить в файл «%1»!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
@@ -3428,7 +3430,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="734"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation>Не удается импортировать файл «%1»!</translation>
+        <translation>Не удаётся импортировать файл «%1»!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
@@ -3500,7 +3502,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation>&amp;Найти:</translation>
+        <translation>&amp;Поиск:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
@@ -3541,7 +3543,7 @@ Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&g
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Имя вкладки должно быть не пустым и уникальным.&lt;br /&gt; 
 Вкладку &lt;b&gt;Заметки&lt;/b&gt; можно открыть с помощью &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
-Используйте &lt;b&gt;/&lt;/b&gt; в качестве разделителя пути в вкладке вида дерева.</translation>
+Используйте &lt;b&gt;/&lt;/b&gt; в качестве разделителя пути в оформлении вкладки в виде дерева.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3579,7 +3581,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation>&amp;Сохранить элементы</translation>
+        <translation>&amp;Сохранять элементы</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
