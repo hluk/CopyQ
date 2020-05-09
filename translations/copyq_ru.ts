@@ -2214,7 +2214,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Для пропуска файлов установите медиа-тип в &lt;strong&gt;-&lt;/strong&gt; (символ минуса) . Любые другие неизвестные или скрытые файлы будут проигнорированы.&lt;/p&gt;
+        <translation>&lt;p&gt;Для пропуска файлов установите медиа-тип в &lt;strong&gt;-&lt;/strong&gt; (символ минуса). Любые другие неизвестные или скрытые файлы будут игнорироваться.&lt;/p&gt;
 &lt;p&gt;Пример: загрузка файла с расширением &lt;strong&gt;txt&lt;/strong&gt; в виде медиа-типа &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2779,7 +2779,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Переместить в &amp;буфер обмена</translation>
+        <translation>Переместить в &amp;буфер обмена</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3381,7 +3381,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - Использовать для MIME символ ? для распечатки доступных MIME-типов (значение по умолчанию — «text/plain»).</translation>
+        <translation>  - Используйте для MIME символ ? для распечатки доступных MIME-типов (по умолчанию — «text/plain»).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="130"/>

@@ -2763,7 +2763,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">移动到剪贴板(&amp;C)</translation>
+        <translation>移动到 &amp;剪贴板</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
