@@ -2391,6 +2391,11 @@ void MainWindow::loadSettings()
     m_sharedData->moveItemOnReturnKey = appConfig.option<Config::move>();
     m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();
     m_sharedData->minutesToExpire = appConfig.option<Config::expire_tab>();
+    m_sharedData->saveDelayMsOnItemAdded = appConfig.option<Config::save_delay_ms_on_item_added>();
+    m_sharedData->saveDelayMsOnItemModified = appConfig.option<Config::save_delay_ms_on_item_modified>();
+    m_sharedData->saveDelayMsOnItemRemoved = appConfig.option<Config::save_delay_ms_on_item_removed>();
+    m_sharedData->saveDelayMsOnItemMoved = appConfig.option<Config::save_delay_ms_on_item_moved>();
+    m_sharedData->saveDelayMsOnItemEdited = appConfig.option<Config::save_delay_ms_on_item_edited>();
 
     // create tabs
     const Tabs tabs;

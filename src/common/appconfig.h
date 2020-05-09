@@ -317,6 +317,36 @@ struct max_process_manager_rows : Config<uint> {
     static Value defaultValue() { return 1000; }
 };
 
+struct save_delay_ms_on_item_added : Config<int> {
+    static QString name() { return "save_delay_ms_on_item_added"; }
+    static Value defaultValue() { return 5 * 60 * 1000; }
+};
+
+struct save_delay_ms_on_item_modified : Config<int> {
+    static QString name() { return "save_delay_ms_on_item_modified"; }
+    static Value defaultValue() { return 5 * 60 * 1000; }
+};
+
+struct save_delay_ms_on_item_removed : Config<int> {
+    static QString name() { return "save_delay_ms_on_item_removed"; }
+    static Value defaultValue() { return 10 * 60 * 1000; }
+};
+
+struct save_delay_ms_on_item_moved : Config<int> {
+    static QString name() { return "save_delay_ms_on_item_moved"; }
+    static Value defaultValue() { return 30 * 60 * 1000; }
+};
+
+struct save_delay_ms_on_item_edited : Config<int> {
+    static QString name() { return "save_delay_ms_on_item_edited"; }
+    static Value defaultValue() { return 1000; }
+};
+
+struct save_on_app_deactivated : Config<bool> {
+    static QString name() { return "save_on_app_deactivated"; }
+    static Value defaultValue() { return true; }
+};
+
 } // namespace Config
 
 class AppConfig final

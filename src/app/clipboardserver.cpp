@@ -579,7 +579,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         QTextEdit *editor = qobject_cast<QTextEdit*>(object);
         if (editor)
             setTabWidth(editor, m_textTabSize);
-    } else if ( type == QEvent::ApplicationStateChange ) {
+    } else if ( type == QEvent::ApplicationStateChange && m_saveOnDeactivate ) {
         const auto stateChangeEvent = static_cast<QApplicationStateChangeEvent*>(ev);
         const auto state = stateChangeEvent->applicationState();
         if (state != Qt::ApplicationActive) {
@@ -593,7 +593,9 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings()
 {
-    m_textTabSize = AppConfig().option<Config::text_tab_width>();
+    const AppConfig appConfig;
+    m_textTabSize = appConfig.option<Config::text_tab_width>();
+    m_saveOnDeactivate = appConfig.option<Config::save_on_app_deactivated>();
 
     if (m_monitor) {
         stopMonitoring();

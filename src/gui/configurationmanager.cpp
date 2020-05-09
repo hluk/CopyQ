@@ -324,6 +324,13 @@ void ConfigurationManager::initOptions()
     bind<Config::max_process_manager_rows>();
     bind<Config::show_advanced_command_settings>();
     bind<Config::text_tab_width>();
+
+    bind<Config::save_delay_ms_on_item_added>();
+    bind<Config::save_delay_ms_on_item_modified>();
+    bind<Config::save_delay_ms_on_item_removed>();
+    bind<Config::save_delay_ms_on_item_moved>();
+    bind<Config::save_delay_ms_on_item_edited>();
+    bind<Config::save_on_app_deactivated>();
 }
 
 template <typename Config, typename Widget>

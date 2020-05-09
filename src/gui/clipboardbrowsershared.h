@@ -37,6 +37,11 @@ struct ClipboardBrowserShared {
     bool showSimpleItems = false;
     bool numberSearch = false;
     int minutesToExpire = 0;
+    int saveDelayMsOnItemAdded = 0;
+    int saveDelayMsOnItemModified = 0;
+    int saveDelayMsOnItemRemoved = 0;
+    int saveDelayMsOnItemMoved = 0;
+    int saveDelayMsOnItemEdited = 0;
     ItemFactory *itemFactory = nullptr;
     Theme theme;
 };

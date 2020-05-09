@@ -59,12 +59,6 @@
 
 namespace {
 
-constexpr int saveDelayOnItemModifiedMs = 5 * 60 * 1000;
-constexpr int saveDelayOnItemAddedMs = 5 * 60 * 1000;
-constexpr int saveDelayOnItemRemovedMs = 2 * saveDelayOnItemAddedMs;
-constexpr int saveDelayOnItemMovedMs = 4 * saveDelayOnItemRemovedMs;
-constexpr int saveDelayOnItemEdited = 1000;
-
 enum class MoveType {
     Absolute,
     Relative
@@ -568,13 +562,13 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     // Save on change
     connect( &m, &QAbstractItemModel::rowsInserted,
-             this, [this]() { delayedSaveItems(saveDelayOnItemAddedMs); } );
+             this, [this]() { delayedSaveItems(m_sharedData->saveDelayMsOnItemAdded); } );
     connect( &m, &QAbstractItemModel::rowsRemoved,
-             this, [this]() { delayedSaveItems(saveDelayOnItemRemovedMs); } );
+             this, [this]() { delayedSaveItems(m_sharedData->saveDelayMsOnItemRemoved); } );
     connect( &m, &QAbstractItemModel::rowsMoved,
-             this, [this]() { delayedSaveItems(saveDelayOnItemMovedMs); } );
+             this, [this]() { delayedSaveItems(m_sharedData->saveDelayMsOnItemMoved); } );
     connect( &m, &QAbstractItemModel::dataChanged,
-             this, [this]() { delayedSaveItems(saveDelayOnItemModifiedMs); } );
+             this, [this]() { delayedSaveItems(m_sharedData->saveDelayMsOnItemModified); } );
 
     connect( &d, &ItemDelegate::itemWidgetCreated,
              this, &ClipboardBrowser::itemWidgetCreated );
@@ -904,7 +898,7 @@ void ClipboardBrowser::onEditorSave()
     }
 
     focusEditedIndex();
-    delayedSaveItems(saveDelayOnItemEdited);
+    delayedSaveItems(m_sharedData->saveDelayMsOnItemEdited);
 }
 
 void ClipboardBrowser::onEditorCancel()
@@ -1721,7 +1715,7 @@ void ClipboardBrowser::moveToClipboard()
 
 void ClipboardBrowser::delayedSaveItems(int ms)
 {
-    if ( !isLoaded() || tabName().isEmpty() )
+    if ( !isLoaded() || tabName().isEmpty() || ms < 0 )
         return;
 
     if ( !m_timerSave.isActive() || ms < m_timerSave.remainingTime() )
