@@ -403,6 +403,49 @@ bool hasCommandFuzzy(const QVector<Command> &commands, const Command &command)
 
 } // namespace
 
+class ToolBar final : public QToolBar {
+public:
+    explicit ToolBar(QWidget *parent)
+        : QToolBar(parent)
+    {
+        setObjectName("toolBar");
+        setContextMenuPolicy(Qt::PreventContextMenu);
+        initSingleShotTimer( &m_timerUnfreeze, 50, this, &ToolBar::unfreeze );
+    }
+
+    void setFrozen(bool frozen) {
+        if (frozen) {
+            m_frozen = true;
+            setUpdatesEnabled(false);
+            setEnabled(false);
+            m_timerUnfreeze.stop();
+        } else {
+            m_timerUnfreeze.start();
+        }
+    }
+
+protected:
+    void paintEvent(QPaintEvent *ev) override
+    {
+        if (m_frozen)
+            return;
+
+        QToolBar::paintEvent(ev);
+    }
+
+private:
+    void unfreeze()
+    {
+        m_frozen = false;
+        setEnabled(true);
+        setUpdatesEnabled(true);
+        update();
+    }
+
+    bool m_frozen = false;
+    QTimer m_timerUnfreeze;
+};
+
 MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     : QMainWindow(parent)
     , cm(nullptr)
@@ -410,6 +453,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_menuItem(nullptr)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray(nullptr)
+    , m_toolBar(new ToolBar(this))
     , m_actionToggleClipboardStoring()
     , m_sharedData(std::make_shared<ClipboardBrowserShared>())
     , m_lastWindow()
@@ -433,7 +477,7 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     createMenu();
 
     ui->tabWidget->addToolBars(this);
-    addToolBar(Qt::RightToolBarArea, ui->toolBar);
+    addToolBar(Qt::RightToolBarArea, m_toolBar);
 
     ui->dockWidgetItemPreview->setFocusProxy(ui->scrollAreaItemPreview);
     ui->dockWidgetItemPreview->hide();
@@ -753,10 +797,10 @@ void MainWindow::updateContextMenu(int intervalMsec)
 {
     interruptMenuCommandFilters(&m_itemMenuMatchCommands);
 
-    clearActions(m_menuItem);
     // Omit tool bar flickering.
-    ui->toolBar->setUpdatesEnabled(false);
-    ui->toolBar->setEnabled(false);
+    m_toolBar->setFrozen(true);
+
+    clearActions(m_menuItem);
 
     m_timerUpdateContextMenu.start(intervalMsec);
 }
@@ -815,8 +859,8 @@ void MainWindow::updateContextMenuTimeout()
 {
     auto c = browserOrNull();
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
-        clearActions(ui->toolBar);
-        ui->toolBar->setUpdatesEnabled(true);
+        clearActions(m_toolBar);
+        m_toolBar->setFrozen(false);
         return;
     }
 
@@ -1521,19 +1565,17 @@ bool MainWindow::isItemMenuDefaultActionValid() const
 
 void MainWindow::updateToolBar()
 {
-    clearActions(ui->toolBar);
-    ui->toolBar->setEnabled(true);
-    ui->toolBar->setUpdatesEnabled(true);
+    clearActions(m_toolBar);
 
-    if ( ui->toolBar->isHidden() )
+    if ( m_toolBar->isHidden() )
         return;
 
     QAction *act = actionForMenuItem(Actions::File_New, this, Qt::WindowShortcut);
-    ui->toolBar->addAction(act);
+    m_toolBar->addAction(act);
 
     for ( auto action : m_menuItem->actions() ) {
         if ( action->isSeparator() ) {
-            ui->toolBar->addSeparator();
+            m_toolBar->addSeparator();
         } else if ( !action->icon().isNull() ) {
             const QIcon icon = action->icon();
             const QString text = action->text().remove("&");
@@ -1541,7 +1583,7 @@ void MainWindow::updateToolBar()
             const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
             const QString tooltip = "<center>" + escapeHtml(text)
                     + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
-            act = ui->toolBar->addAction(icon, label);
+            act = m_toolBar->addAction(icon, label);
             connect(act, &QAction::triggered, action, &QAction::triggered);
             act->setToolTip(tooltip);
 
@@ -1559,6 +1601,8 @@ void MainWindow::updateToolBar()
             }
         }
     }
+
+    m_toolBar->setFrozen(false);
 }
 
 void MainWindow::setTrayEnabled(bool enable)
@@ -2370,10 +2414,10 @@ void MainWindow::loadSettings()
     setHideTabs(m_options.hideTabs);
 
     bool hideToolbar = appConfig.option<Config::hide_toolbar>();
-    clearActions(ui->toolBar);
-    ui->toolBar->setHidden(hideToolbar);
+    clearActions(m_toolBar);
+    m_toolBar->setHidden(hideToolbar);
     bool hideToolBarLabels = appConfig.option<Config::hide_toolbar_labels>();
-    ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
+    m_toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
     m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();

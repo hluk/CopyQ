@@ -50,6 +50,7 @@ class QAction;
 class QMimeData;
 class Theme;
 class TrayMenu;
+class ToolBar;
 struct MainWindowOptions;
 struct NotificationButton;
 
@@ -647,6 +648,8 @@ private:
     TrayMenu *m_trayMenu;
 
     QSystemTrayIcon *m_tray;
+
+    ToolBar *m_toolBar;
 
     MainWindowOptions m_options;
 
