@@ -59,6 +59,12 @@
 
 namespace {
 
+constexpr int saveDelayOnItemModifiedMs = 5 * 60 * 1000;
+constexpr int saveDelayOnItemAddedMs = 5 * 60 * 1000;
+constexpr int saveDelayOnItemRemovedMs = 2 * saveDelayOnItemAddedMs;
+constexpr int saveDelayOnItemMovedMs = 4 * saveDelayOnItemRemovedMs;
+constexpr int saveDelayOnItemEdited = 1000;
+
 enum class MoveType {
     Absolute,
     Relative
@@ -274,7 +280,7 @@ ClipboardBrowser::ClipboardBrowser(
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setAlternatingRowColors(true);
 
-    initSingleShotTimer( &m_timerSave, 30000, this, &ClipboardBrowser::saveItems );
+    initSingleShotTimer( &m_timerSave, 0, this, &ClipboardBrowser::saveItems );
     initSingleShotTimer( &m_timerEmitItemCount, 0, this, &ClipboardBrowser::emitItemCount );
     initSingleShotTimer( &m_timerUpdateSizes, 0, this, &ClipboardBrowser::updateSizes );
     initSingleShotTimer( &m_timerUpdateCurrent, 0, this, &ClipboardBrowser::updateCurrent );
@@ -562,13 +568,13 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     // Save on change
     connect( &m, &QAbstractItemModel::rowsInserted,
-             this, &ClipboardBrowser::delayedSaveItems );
+             this, [this]() { delayedSaveItems(saveDelayOnItemAddedMs); } );
     connect( &m, &QAbstractItemModel::rowsRemoved,
-             this, &ClipboardBrowser::delayedSaveItems );
+             this, [this]() { delayedSaveItems(saveDelayOnItemRemovedMs); } );
     connect( &m, &QAbstractItemModel::rowsMoved,
-             this, &ClipboardBrowser::delayedSaveItems );
+             this, [this]() { delayedSaveItems(saveDelayOnItemMovedMs); } );
     connect( &m, &QAbstractItemModel::dataChanged,
-             this, &ClipboardBrowser::delayedSaveItems );
+             this, [this]() { delayedSaveItems(saveDelayOnItemModifiedMs); } );
 
     connect( &d, &ItemDelegate::itemWidgetCreated,
              this, &ClipboardBrowser::itemWidgetCreated );
@@ -898,7 +904,7 @@ void ClipboardBrowser::onEditorSave()
     }
 
     focusEditedIndex();
-    saveItems();
+    delayedSaveItems(saveDelayOnItemEdited);
 }
 
 void ClipboardBrowser::onEditorCancel()
@@ -1293,7 +1299,6 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
             m_sharedData->itemFactory->setData(dataMap, index, &m);
         else
             add(dataMap);
-        saveItems();
     }
 }
 
@@ -1628,7 +1633,6 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
         m.insertItem(data, newRow);
     }
 
-    saveItems();
     return true;
 }
 
@@ -1715,13 +1719,13 @@ void ClipboardBrowser::moveToClipboard()
     moveToClipboard( selectionModel()->selectedIndexes() );
 }
 
-void ClipboardBrowser::delayedSaveItems()
+void ClipboardBrowser::delayedSaveItems(int ms)
 {
     if ( !isLoaded() || tabName().isEmpty() )
         return;
 
-    if ( !m_timerSave.isActive() )
-        m_timerSave.start();
+    if ( !m_timerSave.isActive() || ms < m_timerSave.remainingTime() )
+        m_timerSave.start(ms);
 
     emit itemsChanged(this);
 }

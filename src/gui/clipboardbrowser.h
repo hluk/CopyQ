@@ -310,7 +310,7 @@ class ClipboardBrowser final : public QListView
         /**
          * Save items to configuration after an interval.
          */
-        void delayedSaveItems();
+        void delayedSaveItems(int ms);
 
         /**
          * Update item and editor sizes.
