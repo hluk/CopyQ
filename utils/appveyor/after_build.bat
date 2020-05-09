@@ -39,10 +39,15 @@ choco install -y InnoSetup || goto :error
 
 set QT_FORCE_STDERR_LOGGING=1
 set COPYQ_TESTS_RERUN_FAILED=1
+set COPYQ_EXECUTABLE_PATH="%Executable%"
 "%Executable%" --help || goto :error
 "%Executable%" --version || goto :error
 "%Executable%" --info || goto :error
-"%Executable%" tests || goto :error
+
+xcopy /F "%Build%\copyq-test.exe" "%Destination%" || goto :error
+"%Destination%\copyq-test.exe" || goto :error
+
+7z a "test-%Name%.zip" "%Destination%\copyq-test.exe" || goto :error
 
 :error
 exit /b %errorlevel%

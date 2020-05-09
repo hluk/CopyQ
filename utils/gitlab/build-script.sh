@@ -17,4 +17,5 @@ mkdir -p "$BUILD_DIR"
     cd "$BUILD_DIR"
     cmake "${cmake_args[@]}" ..
     cmake --build . --target install
+    cp -v copyq-test "$INSTALL_PREFIX/bin/"
 )

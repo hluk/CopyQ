@@ -32,11 +32,6 @@ if (USE_QXT)
     include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
-# Compile with tests?
-if (WITH_TESTS)
-    file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
-endif()
-
 # translations
 file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
 
@@ -179,4 +174,47 @@ else()
 
     set(CPACK_GENERATOR "DragNDrop")
     include(CPack)
+endif()
+
+# copyq-test executable
+if(WITH_TESTS)
+    file(GLOB copyq_SOURCES
+        main-test.cpp
+        app/applicationexceptionhandler.cpp
+        app/clipboardownermonitor.cpp
+        common/appconfig.cpp
+        common/common.cpp
+        common/config.cpp
+        common/display.cpp
+        common/log.cpp
+        common/mimetypes.cpp
+        common/settings.cpp
+        common/shortcuts.cpp
+        common/textdata.cpp
+        item/itemfactory.cpp
+        item/itemstore.cpp
+        item/itemwidget.cpp
+        item/serialize.cpp
+        gui/clipboardspy.cpp
+        gui/iconfactory.cpp
+        gui/iconfont.cpp
+        gui/screen.cpp
+        gui/tabicons.cpp
+        tests/tests.cpp
+        )
+    find_package(Qt5Test REQUIRED)
+    set(copyq_qt_modules Gui Test)
+
+    include(platform/platform.cmake)
+    file(GLOB copyq_qxt_SOURCES ../qxt/qxtglobalshortcut*.cpp)
+    list(REMOVE_ITEM copyq_SOURCES ${copyq_qxt_SOURCES})
+
+    add_executable("copyq-test" ${copyq_SOURCES})
+
+    add_definitions( -DCOPYQ_EXECUTABLE_NAME="$<TARGET_FILE_NAME:${COPYQ_EXECUTABLE_NAME}>" )
+
+    foreach (copyq_qt_module ${copyq_qt_modules})
+        list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
+    endforeach()
+    target_link_libraries("copyq-test" ${copyq_LIBRARIES})
 endif()

@@ -34,5 +34,5 @@ export COPYQ_LOG_FILE="$TESTS_LOG_DIR/copyq.log"
 export COPYQ_TESTS_SKIP_ITEMENCRYPT=1
 
 export COPYQ_TESTS_RERUN_FAILED=0
-"$INSTALL_PREFIX/bin/copyq" tests
+"$INSTALL_PREFIX/bin/copyq-test"
 

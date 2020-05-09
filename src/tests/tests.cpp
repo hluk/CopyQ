@@ -21,20 +21,17 @@
 #include "test_utils.h"
 
 #include "common/appconfig.h"
-#include "common/client_server.h"
 #include "common/common.h"
 #include "common/config.h"
-#include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/log.h"
 #include "common/settings.h"
 #include "common/shortcuts.h"
 #include "common/sleeptimer.h"
-#include "common/textdata.h"
+#include "common/sleeptimer.h"
 #include "common/version.h"
-#include "item/itemfactory.h"
-#include "item/itemwidget.h"
-#include "item/serialize.h"
 #include "gui/tabicons.h"
+#include "item/itemfactory.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QClipboard>
@@ -113,6 +110,22 @@ public:
 private:
     QElapsedTimer m_timer;
 };
+
+QString getExecutablePath()
+{
+    const QString path = QString::fromUtf8( qgetenv("COPYQ_EXECUTABLE_PATH") );
+    if ( !path.isEmpty() )
+        return path;
+
+    return QDir( QCoreApplication::applicationDirPath() )
+            .filePath(COPYQ_EXECUTABLE_NAME);
+}
+
+QString executablePath()
+{
+    static const QString path = getExecutablePath();
+    return path;
+}
 
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
@@ -222,7 +235,7 @@ public:
         m_server.reset(new QProcess);
         if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::NotOpen) ) {
             return QString("Failed to launch \"%1\": %2")
-                .arg(QCoreApplication::applicationFilePath())
+                .arg(executablePath())
                 .arg(m_server->errorString())
                 .toUtf8();
         }
@@ -666,7 +679,7 @@ private:
             p->setProcessEnvironment(env);
         }
 
-        p->start( QCoreApplication::applicationFilePath(), arguments, mode );
+        p->start(executablePath(), arguments, mode);
         return p->waitForStarted(10000);
     }
 
@@ -2513,7 +2526,7 @@ void Tests::externalEditor()
                     "add(arguments[1]); while(length()) sleep(100);"
                 )"
                 "--")
-            .arg(QCoreApplication::applicationFilePath())
+            .arg( QDir::fromNativeSeparators(executablePath()) )
             .arg(editorTab)
             + " %1";
     RUN("config" << "editor" << cmd, cmd + "\n");

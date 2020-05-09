@@ -36,6 +36,9 @@ artifacts:
 - path: 'copyq-*-setup.exe'
   name: CopyQ Setup
 
+- path: 'test-*.zip'
+  name: CopyQ Tests
+
 # Upload test log files.
 on_finish:
 - ps: Get-ChildItem -recurse -include copyq*.log* | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

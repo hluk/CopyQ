@@ -36,10 +36,6 @@
 #include <QScriptEngine>
 #include <QSettings>
 
-#ifdef HAS_TESTS
-#  include "tests/tests.h"
-#endif // HAS_TESTS
-
 #include <exception>
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -165,14 +161,6 @@ bool needsLogs(const QString &arg)
            arg == "logs";
 }
 
-#ifdef HAS_TESTS
-bool needsTests(const QString &arg)
-{
-    return arg == "--tests" ||
-           arg == "tests";
-}
-#endif
-
 QString getSessionName(const QStringList &arguments, int *skipArguments)
 {
     const QString firstArgument = arguments.value(0);
@@ -217,7 +205,7 @@ int startApplication(int argc, char **argv)
         return 2;
     }
 
-    // Print version, help or run tests.
+    // Print version or help.
     if ( arguments.size() > skipArguments ) {
         const auto arg = arguments[skipArguments];
 
@@ -232,13 +220,6 @@ int startApplication(int argc, char **argv)
 
         if ( needsLogs(arg) )
             return evaluate( "logs", arguments.mid(skipArguments + 1), argc, argv, sessionName );
-
-#ifdef HAS_TESTS
-        if ( needsTests(arg) ) {
-            // Skip the "tests" argument and pass the rest to tests.
-            return runTests(argc - skipArguments - 1, argv + skipArguments + 1);
-        }
-#endif
     }
 
     // If server hasn't been run yet and no argument were specified
