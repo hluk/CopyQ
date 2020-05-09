@@ -151,6 +151,16 @@ omitted.
 
    Returns true only if main window has focus.
 
+.. js:function:: bool preview([true|false])
+
+   Shows/hides item preview and returns true only if preview was visible.
+
+   To toggle the preview:
+
+   .. code-block:: js
+
+       preview(false) || preview(true)
+
 .. js:function:: filter(filterText)
 
    Sets text for filtering items in main window.

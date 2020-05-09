@@ -939,6 +939,11 @@ void MainWindow::setItemPreviewVisible(bool visible)
     updateItemPreviewAfterMs(0);
 }
 
+bool MainWindow::isItemPreviewVisible() const
+{
+    return m_showItemPreview;
+}
+
 void MainWindow::updateIconSnip()
 {
     if ( !m_timerTrayIconSnip.isActive() )

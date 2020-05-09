@@ -20,6 +20,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("monitoring", "bool monitoring()", "Returns true only if clipboard storing is enabled.");
     addDocumentation("visible", "bool visible()", "Returns true only if main window is visible.");
     addDocumentation("focused", "bool focused()", "Returns true only if main window has focus.");
+    addDocumentation("preview", "bool preview([true|false])", "Shows/hides item preview and returns true only if preview was visible.");
     addDocumentation("filter", "filter(filterText)", "Sets text for filtering items in main window.");
     addDocumentation("filter", "String filter()", "Returns current text for filtering items in main window.");
     addDocumentation("ignore", "ignore()", "Ignores current clipboard content (used for automatic commands).");

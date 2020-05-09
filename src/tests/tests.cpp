@@ -2636,14 +2636,26 @@ void Tests::itemPreview()
     RUN("tab" << tab1 << "add" << "def" << "abc", "");
     RUN("setCurrentTab" << tab1, "");
 
-    RUN("keys" << clipboardBrowserId << "F7", "")
+    RUN("preview", "false\n");
+    RUN("keys" << clipboardBrowserId << "F7", "");
+    RUN("preview", "true\n");
+
     RUN("keys" << clipboardBrowserId << "TAB" << itemPreviewId, "")
     RUN("keys" << itemPreviewId << "HOME", "")
     RUN("keys" << itemPreviewId << "RIGHT", "")
     RUN("keys" << itemPreviewId << "SHIFT+RIGHT", "")
     RUN("keys" << itemPreviewId << keyNameFor(QKeySequence::Copy), "")
     WAIT_FOR_CLIPBOARD("b");
+
     RUN("keys" << itemPreviewId << "F7" << clipboardBrowserId, "")
+
+    RUN("preview" << "true", "false\n");
+    RUN("preview" << "false", "true\n");
+    RUN("preview" << "1", "false\n");
+    RUN("preview" << "0", "true\n");
+    RUN("preview(true)", "false\n");
+    RUN("preview(false)", "true\n");
+    RUN("preview", "false\n");
 }
 
 void Tests::openAndSavePreferences()

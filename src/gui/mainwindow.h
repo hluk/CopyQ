@@ -413,6 +413,9 @@ public:
 
     void updateShortcuts();
 
+    void setItemPreviewVisible(bool visible);
+    bool isItemPreviewVisible() const;
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, ClipboardMode mode);
@@ -477,7 +480,6 @@ private:
     void updateItemPreviewTimeout();
 
     void toggleItemPreviewVisible();
-    void setItemPreviewVisible(bool visible);
 
     /** Update icon snip animation. */
     void updateIconSnip();

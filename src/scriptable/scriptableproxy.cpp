@@ -1078,6 +1078,23 @@ bool ScriptableProxy::isMainWindowFocused()
     return m_wnd->isActiveWindow();
 }
 
+bool ScriptableProxy::preview(const QVariant &arg)
+{
+    INVOKE(preview, (arg));
+
+    const bool wasVisible = m_wnd->isItemPreviewVisible();
+
+    if ( arg.isValid() ) {
+        const bool enable =
+                arg.canConvert<bool>() ? arg.toBool()
+              : arg.canConvert<int>() ? arg.toInt() != 0
+              : arg.toString() == QLatin1String("true");
+        m_wnd->setItemPreviewVisible(enable);
+    }
+
+    return wasVisible;
+}
+
 void ScriptableProxy::disableMonitoring(bool arg1)
 {
     INVOKE2(disableMonitoring, (arg1));
