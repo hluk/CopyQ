@@ -169,12 +169,6 @@ class ClipboardBrowser final : public QListView
         void saveUnsavedItems();
 
         /**
-         * Clear all items from configuration.
-         * @see setID, loadItems, saveItems
-         */
-        void purgeItems();
-
-        /**
          * Create and edit new item.
          */
         void editNew(
@@ -198,7 +192,7 @@ class ClipboardBrowser final : public QListView
         /**
          * Load items from configuration.
          * This function does nothing if model is disabled (e.g. loading failed previously).
-         * @see setID, saveItems, purgeItems
+         * @see setID, saveItems
          */
         bool loadItems();
 
@@ -213,7 +207,7 @@ class ClipboardBrowser final : public QListView
 
         /**
          * Save items to configuration.
-         * @see setID, loadItems, purgeItems
+         * @see setID, loadItems
          */
         bool saveItems();
 

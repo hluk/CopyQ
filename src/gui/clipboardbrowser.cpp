@@ -1757,15 +1757,6 @@ void ClipboardBrowser::saveUnsavedItems()
         saveItems();
 }
 
-void ClipboardBrowser::purgeItems()
-{
-    if ( tabName().isEmpty() )
-        return;
-
-    removeItems(tabName());
-    m_timerSave.stop();
-}
-
 const QString ClipboardBrowser::selectedText() const
 {
     QString result;
