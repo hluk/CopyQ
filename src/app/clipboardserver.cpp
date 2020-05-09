@@ -40,6 +40,7 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QApplicationStateChangeEvent>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMessageBox>
@@ -578,6 +579,13 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         QTextEdit *editor = qobject_cast<QTextEdit*>(object);
         if (editor)
             setTabWidth(editor, m_textTabSize);
+    } else if ( type == QEvent::ApplicationStateChange ) {
+        const auto stateChangeEvent = static_cast<QApplicationStateChangeEvent*>(ev);
+        const auto state = stateChangeEvent->applicationState();
+        if (state != Qt::ApplicationActive) {
+            COPYQ_LOG( QString("Saving items on application state change (%1)").arg(state) );
+            m_wnd->saveTabs();
+        }
     }
 
     return false;
