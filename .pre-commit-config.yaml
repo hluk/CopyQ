@@ -11,3 +11,11 @@ repos:
         exclude: ^(translations/|.*\.svg|shared/.*\.desktop\..*)
     -   id: check-added-large-files
         exclude: ^(translations/|.*\.svg|shared/.*\.desktop\..*)
+
+-   repo: https://github.com/bmorcos/pre-commit-hooks-cpp
+    rev: master
+    hooks:
+    -   id: cpplint
+        args:
+        -   --filter=-whitespace,-build/include_order,-build/include_subdir,-build/include_what_you_use,-build/header_guard,-readability/casting,-readability/namespace,-legal/copyright,-runtime/references,-runtime/int,-runtime/indentation_namespace,-readability/todo
+        exclude: ^(plugins/itemfakevim/fakevim/)
