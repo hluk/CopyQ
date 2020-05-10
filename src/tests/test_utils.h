@@ -65,17 +65,6 @@
 /// Skip rest of the tests
 #define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
 
-#define WAIT_UNTIL(ARGUMENTS, CONDITION, STDOUT_ACTUAL) \
-do { \
-    SleepTimer t_(8000); \
-    bool finished_ = false; \
-    do { \
-        TEST( m_test->getClientOutput((Args() << ARGUMENTS), (&STDOUT_ACTUAL)) ); \
-    } while (!(finished_ = (CONDITION)) && t_.sleep()); \
-    if (!finished_) \
-        QFAIL("Operation timeout!"); \
-} while(false)
-
 #define WAIT_ON_OUTPUT(ARGUMENTS, OUTPUT) \
     TEST( m_test->waitOnOutput((Args() << ARGUMENTS), (OUTPUT)) )
 

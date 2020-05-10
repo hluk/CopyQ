@@ -2523,26 +2523,27 @@ void Tests::externalEditor()
     TEST( m_test->setClipboard(data1) );
     RUN("clipboard", data1);
 
-    QByteArray out;
+#define EDIT(DATA1, DATA2) \
+    do { \
+        WAIT_ON_OUTPUT(editorArgs << "size", "1\n"); \
+        QByteArray out; \
+        QByteArray err; \
+        run(editorFileNameArgs, &out, &err); \
+        QVERIFY2( testStderr(err), err ); \
+        QFile file(out); \
+        QVERIFY( file.exists() ); \
+        QVERIFY( file.open(QIODevice::ReadWrite) ); \
+        QVERIFY( file.readAll() == (DATA1) ); \
+        file.write(DATA2); \
+        file.close(); \
+        RUN(editorEndArgs, ""); \
+        waitWhileFileExists(file); \
+    } while(false)
 
     // Edit clipboard.
     RUN("edit" << "-1", "");
-
-    // Get name of the filename to edit.
-    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
-    QFile file(out);
-    QVERIFY( file.exists() );
-    QVERIFY( file.open(QIODevice::ReadWrite) );
-    QVERIFY( file.readAll() == data1 );
-
-    // Modify clipboard.
     const QByteArray data2 = generateData();
-    file.write(data2);
-    file.close();
-
-    // Close editor command.
-    RUN(editorEndArgs, "");
-    waitWhileFileExists(file);
+    EDIT(data1, data2);
 
     // Check if clipboard changed.
     WAIT_ON_OUTPUT("read" << "0", data1 + data2);
@@ -2554,48 +2555,24 @@ void Tests::externalEditor()
             "with second line!\n"
             + generateData();
     RUN(args << "add" << text, "");
-    RUN(args << "edit" << "0", "");
-
-    // Get name of the filename to edit.
-    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
-    file.setFileName(out);
-    QVERIFY( file.exists() );
-    QVERIFY( file.open(QIODevice::ReadWrite) );
-    QVERIFY( file.readAll() == text.toUtf8() );
 
     // Modify first item.
+    RUN(args << "edit" << "0", "");
     const QByteArray data3 = generateData();
-    file.write(data3);
-    file.close();
-
-    // Close editor command.
-    RUN(editorEndArgs, "");
-    waitWhileFileExists(file);
+    EDIT(text.toUtf8(), data3);
 
     // Check first item.
     WAIT_ON_OUTPUT(args << "read" << "0", text.toUtf8() + data3);
 
     // Edit new item.
     RUN(args << "edit", "");
-
-    // Get name of the filename to edit.
-    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
-    file.setFileName(out);
-    QVERIFY( file.exists() );
-    QVERIFY( file.open(QIODevice::ReadWrite) );
-    QCOMPARE( file.readAll().data(), "" );
-
-    // Modify first item.
     const QByteArray data4 = generateData();
-    file.write(data4);
-    file.close();
-
-    // Close editor command.
-    RUN(editorEndArgs, "");
-    waitWhileFileExists(file);
+    EDIT(QByteArray(), data4);
 
     // Check first item.
     WAIT_ON_OUTPUT(args << "read" << "0", data4);
+
+#undef EDIT
 }
 
 void Tests::nextPreviousTab()
