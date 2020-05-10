@@ -52,7 +52,7 @@ Q_DECLARE_METATYPE(ByteArrayClass*)
 class ByteArrayClassPropertyIterator final : public QScriptClassPropertyIterator
 {
 public:
-    ByteArrayClassPropertyIterator(const QScriptValue &object);
+    explicit ByteArrayClassPropertyIterator(const QScriptValue &object);
     ~ByteArrayClassPropertyIterator();
 
     bool hasNext() const override;

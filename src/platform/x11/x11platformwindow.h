@@ -31,7 +31,7 @@ class QWidget;
 class X11PlatformWindow final : public PlatformWindow
 {
 public:
-    explicit X11PlatformWindow();
+    X11PlatformWindow();
 
     explicit X11PlatformWindow(Window winId);
 

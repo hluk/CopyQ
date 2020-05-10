@@ -41,7 +41,7 @@ public:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev);
-    ForegroundBackgroundFilter(QObject *parent);
+    explicit ForegroundBackgroundFilter(QObject *parent);
 };
 
 #endif // FOREGROUNDBACKGROUNDFILTER_H

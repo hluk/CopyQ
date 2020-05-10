@@ -2105,7 +2105,7 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
     if (data.isEmpty()) {
         notification->setInterval(0);
-    } if ( !isHidden && data.contains(mimeText) ) {
+    } else if ( !isHidden && data.contains(mimeText) ) {
         QString text = getTextData(data);
         const int n = text.count('\n') + 1;
 

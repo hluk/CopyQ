@@ -25,8 +25,6 @@
 
 #include "fakevim/fakevimhandler.h"
 
-using namespace FakeVim::Internal;
-
 #include <QIcon>
 #include <QLabel>
 #include <QDialogButtonBox>
@@ -46,6 +44,10 @@ using namespace FakeVim::Internal;
 #include <QtPlugin>
 
 #define EDITOR(s) (m_textEdit ? m_textEdit->s : m_plainTextEdit->s)
+
+using FakeVimHandler = FakeVim::Internal::FakeVimHandler;
+using ExCommand = FakeVim::Internal::ExCommand;
+using MessageLevel = FakeVim::Internal::MessageLevel;
 
 namespace {
 
@@ -436,9 +438,9 @@ public:
         m_statusMessage = cursorPos == -1 ? contents
             : contents.left(cursorPos) + QChar(10073) + contents.mid(cursorPos);
 
-        if (messageLevel == MessageWarning)
+        if (messageLevel == MessageLevel::MessageWarning)
             setStatusIcon(QStyle::SP_MessageBoxWarning);
-        else if (messageLevel == MessageError)
+        else if (messageLevel == MessageLevel::MessageError)
             setStatusIcon(QStyle::SP_MessageBoxCritical);
         else
             m_statusBarIcon->clear();

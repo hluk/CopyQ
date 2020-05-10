@@ -561,8 +561,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         } else if ( type == QEvent::ShortcutOverride &&
                     object->property("textInteractionFlags")
                     .value<Qt::TextInteractionFlags>()
-                    .testFlag(Qt::TextSelectableByKeyboard) )
-        {
+                    .testFlag(Qt::TextSelectableByKeyboard) ) {
             QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
             if ( keyevent->key() == Qt::Key_Left
                  || keyevent->key() == Qt::Key_Right

@@ -28,7 +28,7 @@
 class UrlPasteboardMime final : public QMacPasteboardMime {
 public:
     //! Create an instance of UrlPasteboardMime which will try to convert to/from the given UTI.
-    UrlPasteboardMime(const QString &urlUti);
+    explicit UrlPasteboardMime(const QString &urlUti);
     QString convertorName();
     QString flavorFor(const QString &mime);
     QString mimeFor(QString flav);

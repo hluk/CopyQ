@@ -51,7 +51,7 @@ class ByteArrayPrototype final : public QObject, public QScriptable
 {
 Q_OBJECT
 public:
-    ByteArrayPrototype(QObject *parent = nullptr);
+    explicit ByteArrayPrototype(QObject *parent = nullptr);
     ~ByteArrayPrototype();
 
 public slots:

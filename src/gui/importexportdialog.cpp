@@ -132,8 +132,7 @@ void ImportExportDialog::update()
         ui->checkBoxAll->setCheckState(Qt::Unchecked);
     } else if ( ui->listTabs->selectedItems().count() == ui->listTabs->count()
                 && (ui->checkBoxConfiguration->isChecked() || ui->checkBoxConfiguration->isHidden())
-                && (ui->checkBoxCommands->isChecked() || ui->checkBoxCommands->isHidden()) )
-    {
+                && (ui->checkBoxCommands->isChecked() || ui->checkBoxCommands->isHidden()) ) {
         ui->checkBoxAll->setCheckState(Qt::Checked);
     } else {
         ui->checkBoxAll->setCheckState(Qt::PartiallyChecked);

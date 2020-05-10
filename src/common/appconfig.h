@@ -352,7 +352,7 @@ struct save_on_app_deactivated : Config<bool> {
 class AppConfig final
 {
 public:
-    explicit AppConfig();
+    AppConfig();
 
     QVariant option(const QString &name) const;
 

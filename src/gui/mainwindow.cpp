@@ -47,7 +47,6 @@
 #include "gui/configurationmanager.h"
 #include "gui/importexportdialog.h"
 #include "gui/iconfactory.h"
-#include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
 #include "gui/logdialog.h"

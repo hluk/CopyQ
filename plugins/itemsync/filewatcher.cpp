@@ -830,8 +830,7 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
             if ( deserializeData(dataMap, f.readAll()) )
                 mimeToExtension->insert(mimeUnknownFormats, dataFileSuffix);
         } else if ( f.size() > sizeLimit || ext.format.startsWith(mimeNoFormat)
-                    || dataMap->contains(ext.format) )
-        {
+                    || dataMap->contains(ext.format) ) {
             mimeToExtension->insert(mimeNoFormat + ext.extension, ext.extension);
         } else {
             dataMap->insert(ext.format, f.readAll());

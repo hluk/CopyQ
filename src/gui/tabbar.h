@@ -61,7 +61,7 @@ public:
 
     void setCurrentTab(int index) override;
 
-    virtual void adjustSize() override;
+    void adjustSize() override;
 
 signals:
     void tabBarMenuRequested(const QPoint &pos, int tab);

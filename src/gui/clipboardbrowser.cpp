@@ -1169,8 +1169,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         if (target == this || target == viewport()) {
             moveIndexes(indexesToRemove, m_dragTargetRow, &m, MoveType::Absolute);
         } else if ( target && target->window() == window()
-                    && m_itemSaver->canRemoveItems(selected, nullptr) )
-        {
+                    && m_itemSaver->canRemoveItems(selected, nullptr) ) {
             removeIndexes(selected);
         }
     }

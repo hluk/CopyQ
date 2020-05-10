@@ -519,7 +519,7 @@ private:
 class AppIconEngine final : public BaseIconEngine
 {
 public:
-    AppIconEngine(AppIconType iconType)
+    explicit AppIconEngine(AppIconType iconType)
         : BaseIconEngine(sessionIconTagVariable(), sessionIconTagColor())
         , m_iconType(iconType)
     {
