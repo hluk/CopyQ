@@ -3627,6 +3627,34 @@ void Tests::abortInputReader()
     RUN_WITH_INPUT("afterMilliseconds(250, abort); input(); 'DONE'", KEEP_STDIN_OPEN, "");
 }
 
+void Tests::changeAlwaysOnTop()
+{
+    // The window should be still visible and focused after changing always-on-top flag.
+    RUN("visible", "true\n");
+    RUN("focused", "true\n");
+    RUN("config" << "always_on_top", "false\n");
+
+    RUN("config" << "always_on_top" << "true", "true\n");
+    WAIT_ON_OUTPUT("visible", "true\n");
+    WAIT_ON_OUTPUT("focused", "true\n");
+
+    RUN("config" << "always_on_top" << "false", "false\n");
+    WAIT_ON_OUTPUT("visible", "true\n");
+    WAIT_ON_OUTPUT("focused", "true\n");
+
+    RUN("hide", "");
+    RUN("visible", "false\n");
+    RUN("focused", "false\n");
+
+    RUN("config" << "always_on_top" << "true", "true\n");
+    WAIT_ON_OUTPUT("visible", "false\n");
+    WAIT_ON_OUTPUT("focused", "false\n");
+
+    RUN("config" << "always_on_top" << "false", "false\n");
+    WAIT_ON_OUTPUT("visible", "false\n");
+    WAIT_ON_OUTPUT("focused", "false\n");
+}
+
 int Tests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)

@@ -262,16 +262,45 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
     return parentMenu;
 }
 
-void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
+// WORKAROUND: setWindowFlags() hides the window.
+// See: https://doc.qt.io/qt-5/qwidget.html#windowFlags-prop
+bool setWindowFlag(QWidget *window, Qt::WindowType flag, bool enable)
 {
     if (!window)
-        return;
+        return false;
 
     const Qt::WindowFlags flags = window->windowFlags();
-    bool hasAlwaysOnTop = flags.testFlag(Qt::WindowStaysOnTopHint);
+    const bool wasEnabled = flags.testFlag(flag);
+    if (wasEnabled == enable)
+        return false;
 
-    if (alwaysOnTop != hasAlwaysOnTop) {
-        window->setWindowFlags(flags ^ Qt::WindowStaysOnTopHint);
+    const bool wasVisible = window->isVisible();
+    const bool wasActive = window->isActiveWindow();
+    window->setWindowFlags(flags ^ flag);
+    if (wasVisible) {
+        if (wasActive) {
+            window->show();
+        } else {
+            const bool showWithoutActivating = window->testAttribute(Qt::WA_ShowWithoutActivating);
+            window->setAttribute(Qt::WA_ShowWithoutActivating);
+            window->show();
+            window->setAttribute(Qt::WA_ShowWithoutActivating, showWithoutActivating);
+        }
+
+        if (wasActive) {
+            window->raise();
+            window->activateWindow();
+            QApplication::setActiveWindow(window);
+            stealFocus(*window);
+        }
+    }
+
+    return true;
+}
+
+void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
+{
+    if ( setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop) ) {
         // Workaround for QTBUG-28601.
         window->setAcceptDrops(true);
     }
@@ -279,13 +308,7 @@ void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
 
 void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
 {
-    if (!window)
-        return;
-
-    const Qt::WindowFlags flags = window->windowFlags();
-    const bool hiddenInTaskBar = flags.testFlag(Qt::Tool);
-    if (hiddenInTaskBar != hideInTaskBar)
-        window->setWindowFlags(flags ^ Qt::Tool);
+    setWindowFlag(window, Qt::Tool, hideInTaskBar);
 }
 
 template<typename Dialog, typename ...Ts>

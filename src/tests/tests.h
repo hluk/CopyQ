@@ -272,6 +272,8 @@ private slots:
 
     void abortInputReader();
 
+    void changeAlwaysOnTop();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
