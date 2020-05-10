@@ -62,4 +62,3 @@ if [ "$show" = "1" ]; then
         printf "$c%s\e[0m\n" "$line"
     done | less -R
 fi
-

@@ -160,4 +160,3 @@ texinfo_documents = [
 
 # Localization
 locale_dirs = ['locale/']
-

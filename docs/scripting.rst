@@ -70,4 +70,3 @@ Reference for available scripting functions can be found at
 
 Other supported functions can be found at `ECMAScript
 Reference <http://doc.qt.io/qt-5/ecmascript.html>`__.
-

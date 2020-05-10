@@ -156,7 +156,7 @@ something else than ``text``).
         copyq:
         x = 'text'
         style = 'background: yellow; text-decoration: underline'
-        
+
         text = str(input())
         x = x.toLowerCase()
         lowertext = text.toLowerCase()
@@ -165,7 +165,7 @@ something else than ``text``).
         esc = function(a, b) {
             return escapeHTML( text.substr(a, b - a) )
         }
-        
+
         while (1) {
             b = lowertext.indexOf(x, a)
             if (b != -1) {
@@ -176,7 +176,7 @@ something else than ``text``).
             }
             a = b + x.length;
         }
-        
+
         tab( selectedtab() )
         write(
             index(),
@@ -222,10 +222,10 @@ Pass to text to `Google Translate <https://translate.google.com/>`__.
         copyq:
         text = str(input())
         url = \"https://translate.google.com/#auto/en/???\"
-        
+
         x = url.replace(\"???\", encodeURIComponent(text))
         html = '<html><head><meta http-equiv=\"refresh\" content=\"0;url=' + x + '\" /></head></html>'
-        
+
         tab(selectedtab())
         write(index() + 1, \"text/html\", html)"
     Input=text/plain
@@ -252,7 +252,7 @@ Paste selected items and clear clipboard.
         } else {
             select(items[0])
         }
-        
+
         hide()
         paste()
         copy('')"
@@ -274,9 +274,9 @@ Render math equations using `MathJax <http://www.mathjax.org/>`__ (e.g.
         copyq:
         text = str(input())
         js = 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-        
+
         html = '<html><head><script type=\"text/javascript\" src=\"' + js + '\"></script></head><body>' + escapeHTML(text) + '</body></html>';
-        
+
         tab(selectedtab())
         write(index() + 1, 'text/html', html)"
     Input=text/plain
@@ -365,15 +365,15 @@ Replace All Occurrences in Selected Text
             copy.apply(this, arguments)
           }
         }
-       
+
         copy2()
         var text = str(clipboard())
-       
+
         if (text) {
           var r1 = 'Text'
           var r2 = 'Replace with'
           var reply = dialog(r1, '', r2, '')
-       
+
           if (reply) {
             copy2(text.replace(new RegExp(reply[r1], 'g'), reply[r2]))
             paste()
@@ -427,11 +427,11 @@ these).
     Command="
         copyq:
         var editor = config('editor')
-        
+
         var fileName = str(input())
           .replace(/^\\/([a-zA-Z])\\//, '$1:/')
           .replace(/^file:\\/\\//, '')
-        
+
         hide()
         execute(editor, fileName)"
     Input=text/plain
@@ -456,13 +456,13 @@ commands are not invoked.
         copyq:
         var option = 'disable_monitoring'
         var disabled = str(settings(option)) === 'true'
-        
+
         if (str(data('application/x-copyq-shortcut'))) {
           disabled = !disabled
           settings(option, disabled)
           popup('', disabled ? 'Monitoring disabled' : 'Monitoring enabled')
         }
-        
+
         if (disabled) {
           disable()
           ignore()
@@ -506,7 +506,7 @@ Shows copy time of new items in tag ("Tags" plugin must be enabled in
         copyq:
         var time = dateString('yyyy-MM-dd hh:mm:ss')
         setData('application/x-copyq-user-copy-time', time)
-        
+
         var tagsMime = 'application/x-copyq-tags'
         var tags = str(data(tagsMime)) + ', ' + time
         setData(tagsMime, tags)"
@@ -525,7 +525,7 @@ Toggles highlighting of selected items.
         copyq:
         var color = 'rgba(255, 255, 0, 0.5)'
         var mime = 'application/x-copyq-color'
-        
+
         var firstSelectedItem = selectedItems()[0]
         var currentColor = str(read(mime, firstSelectedItem))
         if (currentColor != color)
@@ -547,19 +547,18 @@ Change Upper/Lower Case of Selected Text
         copyq:
         if (!copy())
           abort()
-        
+
         var text = str(clipboard())
-        
+
         var newText = text.toUpperCase()
         if (text == newText)
           newText = text.toLowerCase()
-        
+
         if (text == newText)
           abort();
-        
+
         copy(newText)
         paste()"
     GlobalShortcut=meta+ctrl+u
     Icon=\xf034
     Name=Toggle Upper/Lower Case
-

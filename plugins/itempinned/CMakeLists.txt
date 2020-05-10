@@ -5,4 +5,3 @@ set(copyq_plugin_itempinned_SOURCES
     )
 
 copyq_add_plugin(itempinned)
-

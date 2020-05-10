@@ -1489,4 +1489,3 @@ Use ``plugins`` object to access functionality of plugins.
 .. js:function:: plugins.itempinned.unpin(rows, ...)
 
    Unpin items in given rows or selected items.
-

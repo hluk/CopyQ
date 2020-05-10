@@ -25,4 +25,3 @@ if [ "$current_branch" == "$source_branch" ]; then
     git checkout "$current_branch"
     git branch -D "$target_branch"
 fi
-

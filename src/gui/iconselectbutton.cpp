@@ -97,4 +97,3 @@ void IconSelectButton::onClicked()
     dialog->open();
     dialog.release();
 }
-

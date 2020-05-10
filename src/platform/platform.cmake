@@ -22,4 +22,3 @@ else()
         )
     set(USE_QXT FALSE)
 endif()
-

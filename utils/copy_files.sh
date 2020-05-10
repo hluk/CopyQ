@@ -20,4 +20,3 @@ for x in "$@"; do
         "application/x-copyq-item-notes" "$x" \
         "$mime" - < "$x"
 done
-

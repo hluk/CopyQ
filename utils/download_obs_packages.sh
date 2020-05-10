@@ -45,4 +45,3 @@ if [ -n "$failed" ]; then
     echo -e "Failed packages:$failed"
     exit 2
 fi
-

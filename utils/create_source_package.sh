@@ -24,4 +24,3 @@ echo "Created source package for version $version: $out"
 size=$(stat --format="%s" "$out")
 hash=$(md5sum "$out" | cut -d' ' -f 1)
 echo " $hash $size $out"
-

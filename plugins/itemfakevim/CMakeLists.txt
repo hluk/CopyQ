@@ -41,4 +41,3 @@ if (PEDANTIC)
         ${IGNORE_PEDANTIC_FLAGS} \
         ")
 endif()
-

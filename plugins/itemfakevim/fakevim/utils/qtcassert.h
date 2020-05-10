@@ -46,4 +46,3 @@ namespace Utils { QTCREATOR_UTILS_EXPORT void writeAssertLocation(const char *ms
 #define QTC_CHECK(cond) if (cond) {} else { QTC_ASSERT_STRING(#cond); } do {} while (0)
 
 #endif // QTC_ASSERT_H
-

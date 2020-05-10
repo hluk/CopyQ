@@ -163,4 +163,3 @@ QVector<Command> predefinedCommands()
 
     return commands;
 }
-

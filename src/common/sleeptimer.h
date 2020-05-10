@@ -58,4 +58,3 @@ inline void waitFor(int ms)
 }
 
 #endif // SLEEPTIMER_H
-

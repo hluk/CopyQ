@@ -52,4 +52,3 @@ data.
 The configuration in the image above allows for content of all files with
 ``.cpp`` suffix in synchronized directories to show up text items, i.e. items
 have ``text/plain`` format containing the file data.
-

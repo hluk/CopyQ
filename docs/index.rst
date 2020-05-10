@@ -49,4 +49,3 @@ advanced topics like scripting and application development process.
     translations
     text-encoding
     customize-and-build-the-windows-installer
-

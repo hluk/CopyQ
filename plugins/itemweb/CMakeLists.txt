@@ -19,4 +19,3 @@ if (HAS_WEBKIT)
 
     copyq_add_plugin(itemweb)
 endif(HAS_WEBKIT)
-

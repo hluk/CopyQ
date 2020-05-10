@@ -5,4 +5,3 @@ set(copyq_plugin_itemtext_SOURCES
     )
 
 copyq_add_plugin(itemtext)
-
