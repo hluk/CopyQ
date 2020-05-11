@@ -3632,6 +3632,32 @@ void Tests::changeAlwaysOnTop()
     WAIT_ON_OUTPUT("focused", "false\n");
 }
 
+void Tests::focusPreviousAfterMenuClosed()
+{
+    RUN("focused", "true\n");
+    RUN("visible", "true\n");
+    RUN("keys" << clipboardBrowserId, "");
+    RUN("menu", "");
+    WAIT_ON_OUTPUT("focused", "false\n");
+    RUN("visible", "true\n");
+    RUN("keys" << trayMenuId << "ESC", "");
+    RUN("keys" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("focused", "true\n");
+    RUN("visible", "true\n");
+
+    RUN("hide", "");
+    RUN("focused", "false\n");
+    RUN("visible", "false\n");
+    RUN("menu", "");
+    waitFor(1000);
+    RUN("focused", "false\n");
+    RUN("visible", "false\n");
+    RUN("keys" << trayMenuId << "ESC", "");
+    waitFor(1000);
+    RUN("focused", "false\n");
+    RUN("visible", "false\n");
+}
+
 int Tests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)

@@ -274,6 +274,8 @@ private slots:
 
     void changeAlwaysOnTop();
 
+    void focusPreviousAfterMenuClosed();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
