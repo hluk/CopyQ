@@ -198,7 +198,7 @@
             <x>0</x>
             <y>0</y>
             <width>277</width>
-            <height>556</height>
+            <height>564</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -346,29 +346,6 @@
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLabel" name="label_9">
-                  <property name="text">
-                   <string>&amp;Filter:</string>
-                  </property>
-                  <property name="buddy">
-                   <cstring>lineEditMatchCmd</cstring>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="lineEditMatchCmd">
-                  <property name="toolTip">
-                   <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
-
-&lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
-
-&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
                  <widget class="QLabel" name="label_7">
                   <property name="text">
                    <string>For&amp;mat:</string>
@@ -378,7 +355,7 @@
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
+                <item row="2" column="1">
                  <widget class="QComboBox" name="comboBoxInputFormat">
                   <property name="toolTip">
                    <string>Data of this MIME type will be sent to standard input of command.
@@ -386,6 +363,38 @@ Leave empty to disable this.</string>
                   </property>
                   <property name="editable">
                    <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_9">
+                  <property name="text">
+                   <string>&amp;Filter:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>lineEditMatchCmd</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="CommandEdit" name="lineEditMatchCmd" native="true">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>1</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::WheelFocus</enum>
+                  </property>
+                  <property name="toolTip">
+                   <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
+
+&lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
+
+&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -716,8 +725,8 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>checkBoxDisplay</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
-  <tabstop>lineEditMatchCmd</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
+  <tabstop>lineEditMatchCmd</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
   <tabstop>checkBoxHideWindow</tabstop>

@@ -68,6 +68,7 @@ class Scriptable final : public QObject, protected QScriptable
     Q_PROPERTY(QScriptValue mimeShortcut READ getMimeShortcut CONSTANT)
     Q_PROPERTY(QScriptValue mimeColor READ getMimeColor CONSTANT)
     Q_PROPERTY(QScriptValue mimeOutputTab READ getMimeOutputTab CONSTANT)
+    Q_PROPERTY(QScriptValue mimeMenuItem READ getMimeMenuItem CONSTANT)
 
     Q_PROPERTY(QScriptValue global READ getGlobal CONSTANT)
     Q_PROPERTY(QScriptValue plugins READ getPlugins CONSTANT)
@@ -143,6 +144,7 @@ public:
     QScriptValue getMimeShortcut() const { return mimeShortcut; }
     QScriptValue getMimeColor() const { return mimeColor; }
     QScriptValue getMimeOutputTab() const { return mimeOutputTab; }
+    QScriptValue getMimeMenuItem() const { return mimeMenuItem; }
 
     QScriptValue getGlobal();
     QScriptValue getPlugins();

@@ -2563,8 +2563,11 @@ void Scriptable::runMenuCommandFilters()
         PerformanceLogger logger( QLatin1String("Menu item filters") );
 
         for (int i = 0; i < matchCommands.length(); ++i) {
+            m_engine->globalObject().setProperty( "menuItem", m_engine->newObject() );
             const bool enabled = canExecuteCommandFilter(matchCommands[i]);
-            if ( !m_proxy->enableMenuItem(actionId, currentRun, i, enabled) )
+            QVariantMap menuItem = toDataMap(m_engine->globalObject().property("menuItem"));
+            menuItem["enabled"] = enabled && menuItem.value("enabled", true).toBool();
+            if ( !m_proxy->enableMenuItem(actionId, currentRun, i, menuItem) )
                 break;
         }
     });

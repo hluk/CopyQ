@@ -134,7 +134,7 @@ Command CommandWidget::command() const
     c.name   = ui->lineEditName->text();
     c.re     = QRegularExpression( ui->lineEditMatch->text() );
     c.wndre  = QRegularExpression( ui->lineEditWindow->text() );
-    c.matchCmd = ui->lineEditMatchCmd->text();
+    c.matchCmd = ui->lineEditMatchCmd->command();
     c.cmd    = ui->commandEdit->command();
     c.sep    = ui->lineEditSeparator->text();
     c.input  = ui->comboBoxInputFormat->currentText();
@@ -163,7 +163,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
-    ui->lineEditMatchCmd->setText(c.matchCmd);
+    ui->lineEditMatchCmd->setCommand(c.matchCmd);
     ui->commandEdit->setCommand(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
     ui->comboBoxInputFormat->setEditText(c.input);

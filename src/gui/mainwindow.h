@@ -275,7 +275,7 @@ public:
 
     void setTrayTooltip(const QString &tooltip);
 
-    bool setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled);
+    bool setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem);
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &data);
 

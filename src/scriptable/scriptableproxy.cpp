@@ -2137,10 +2137,10 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     }
 }
 
-bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled)
+bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)
 {
-    INVOKE_NO_SNIP(enableMenuItem, (actionId, currentRun, menuItemMatchCommandIndex, enabled));
-    return m_wnd->setMenuItemEnabled(actionId, currentRun, menuItemMatchCommandIndex, enabled);
+    INVOKE_NO_SNIP(enableMenuItem, (actionId, currentRun, menuItemMatchCommandIndex, menuItem));
+    return m_wnd->setMenuItemEnabled(actionId, currentRun, menuItemMatchCommandIndex, menuItem);
 }
 
 QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &displayData)

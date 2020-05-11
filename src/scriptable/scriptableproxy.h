@@ -236,7 +236,7 @@ public slots:
     void saveData(const QString &tab, const QVariantMap &data, ClipboardMode mode);
     void showDataNotification(const QVariantMap &data);
 
-    bool enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled);
+    bool enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem);
 
     QVariantMap setDisplayData(int actionId, const QVariantMap &displayData);
 

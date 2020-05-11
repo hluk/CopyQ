@@ -997,6 +997,7 @@ void MainWindow::onSaveCommand(const Command &command)
 
 void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
+    COPYQ_LOG( QString("Trigger: %1").arg(commandAction->text()) );
     auto c = getPlaceholder()->createBrowser();
     if (!c)
         return;
@@ -1605,28 +1606,31 @@ void MainWindow::updateToolBar()
         if ( action->isSeparator() ) {
             m_toolBar->addSeparator();
         } else if ( !action->icon().isNull() ) {
-            const QIcon icon = action->icon();
-            const QString text = action->text().remove("&");
-            const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
-            const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
-            const QString tooltip = "<center>" + escapeHtml(text)
-                    + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
-            act = m_toolBar->addAction(icon, label);
+            act = m_toolBar->addAction(QString());
+
+            const auto update = [=]() {
+                const QIcon icon = action->icon();
+                act->setIcon(icon);
+
+                const QString text = action->text().remove("&");
+                const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
+                const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
+                act->setText(label);
+
+                const QString tooltip = "<center>" + escapeHtml(text)
+                        + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
+                act->setToolTip(tooltip);
+                act->setEnabled(action->isEnabled());
+
+                if ( action->isCheckable() ) {
+                    act->setCheckable(true);
+                    act->setChecked(action->isChecked());
+                }
+            };
+
             connect(act, &QAction::triggered, action, &QAction::triggered);
-            act->setToolTip(tooltip);
-
-            act->setEnabled(action->isEnabled());
-            connect( action, &QAction::changed,
-                     act, [=]() { act->setEnabled(action->isEnabled()); } );
-
-            if ( action->isCheckable() ) {
-                act->setCheckable(true);
-                act->setChecked(action->isChecked());
-                connect( act, &QAction::triggered,
-                         action, &QAction::setChecked );
-                connect( action, &QAction::toggled,
-                         act, &QAction::setChecked );
-            }
+            connect(action, &QAction::changed, act, update);
+            update();
         }
     }
 
@@ -2915,7 +2919,7 @@ void MainWindow::setTrayTooltip(const QString &tooltip)
         m_tray->setToolTip(tooltip);
 }
 
-bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, bool enabled)
+bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)
 {
     if (actionId != m_trayMenuMatchCommands.actionId && actionId != m_itemMenuMatchCommands.actionId)
         return false;
@@ -2934,7 +2938,23 @@ bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMa
     if (!action)
         return true;
 
-    action->setEnabled(enabled);
+    for (auto it = menuItem.constBegin(); it != menuItem.constEnd(); ++it) {
+        const auto key = it.key().toUtf8();
+        if (key == "color" || key == "tag")
+            continue;
+
+        const auto value = it.value();
+        if (key == "icon") {
+            const QString icon = value.toString();
+            const QString colorName = menuItem.value("color").toString();
+            const QColor color = colorName.isEmpty() ? getDefaultIconColor(*this) : deserializeColor(colorName);
+            const QString tag = menuItem.value("tag").toString();
+            action->setIcon( iconFromFile(icon, tag, color) );
+        } else {
+            action->setProperty(key, value);
+        }
+    }
+    const bool enabled = action->isEnabled();
     action->setProperty(propertyActionFilterCommandFailed, !enabled);
 
     const auto shortcuts = action->shortcuts();

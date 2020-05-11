@@ -35,3 +35,4 @@ const char mimeHidden[] = COPYQ_MIME_PREFIX "hidden";
 const char mimeShortcut[] = COPYQ_MIME_PREFIX "shortcut";
 const char mimeColor[] = COPYQ_MIME_PREFIX "color";
 const char mimeOutputTab[] = COPYQ_MIME_PREFIX "output-tab";
+const char mimeMenuItem[] = COPYQ_MIME_PREFIX "menu-item";
