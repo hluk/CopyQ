@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation>Gestor da área de transferência</translation>
+        <translation>Gestor da Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation>Diálogo de Ação</translation>
+        <translation>Janela de Ação</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -2774,7 +2774,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Mover para área de transferên&amp;cia</translation>
+        <translation>Mover para Área de &amp;Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
