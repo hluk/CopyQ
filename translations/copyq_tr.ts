@@ -330,7 +330,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished">%1 sekmesine yeni öğeler eklenemiyor. Yer açmak için lütfen öğeleri el ile kaldırın.</translation>
+        <translation>%1 sekmesine yeni öğeler eklenemiyor. Yer açmak için lütfen ögeleri el ile kaldırın.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
