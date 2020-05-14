@@ -38,6 +38,8 @@ private slots:
 
     void encryptDecryptData();
 
+    void encryptDecryptItems();
+
 private:
     bool isGpgInstalled() const;
 

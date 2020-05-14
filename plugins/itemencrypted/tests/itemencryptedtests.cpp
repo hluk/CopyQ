@@ -71,6 +71,47 @@ void ItemEncryptedTests::encryptDecryptData()
     QCOMPARE(stdoutActual, input);
 }
 
+void ItemEncryptedTests::encryptDecryptItems()
+{
+#ifdef Q_OS_MAC
+    SKIP("Ctrl+L shortcut doesn't seem work on OS X");
+#endif
+
+    if ( !isGpgInstalled() )
+        SKIP("gpg2 is required to run the test");
+
+    RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
+
+    // Load commands from the plugin generating keys.
+    RUN("keys" << "Ctrl+P" << "ENTER", "");
+    RUN("commands().length", "4\n");
+
+    const auto tab = testTab(1);
+    RUN("setCurrentTab" << tab, "");
+    RUN("tab" << tab << "add" << "TEST", "");
+    RUN("tab" << tab << "read" << "0", "TEST");
+
+    // Encrypt.
+    RUN("keys" << "Ctrl+L", "");
+    WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "application/x-copyq-encrypted\n");
+
+    // Decrypt and check text.
+    RUN("keys" << "Ctrl+L", "");
+    WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "text/plain\n");
+    RUN("tab" << tab << "read" << "0", "TEST");
+
+    // Encrypt and add note.
+    RUN("keys" << "Ctrl+L", "");
+    WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "application/x-copyq-encrypted\n");
+    RUN("keys" << "Shift+F2" << ":NOTE" << "F2", "");
+    RUN("tab" << tab << "read" << "application/x-copyq-item-notes" << "0", "NOTE");
+
+    // Decrypt and check note and text.
+    RUN("keys" << "Ctrl+L", "");
+    WAIT_ON_OUTPUT("tab" << tab << "read" << "0", "TEST");
+    RUN("tab" << tab << "read" << "application/x-copyq-item-notes" << "0", "NOTE");
+}
+
 bool ItemEncryptedTests::isGpgInstalled() const
 {
     QByteArray actualStdout;

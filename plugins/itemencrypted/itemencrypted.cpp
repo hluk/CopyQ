@@ -221,6 +221,9 @@ bool encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstrac
             dataToEncrypt.insert(it.key(), it.value());
     }
 
+    if ( dataToEncrypt.isEmpty() )
+        return false;
+
     const QByteArray bytes = serializeData(dataToEncrypt);
     const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
     if ( encryptedBytes.isEmpty() )
