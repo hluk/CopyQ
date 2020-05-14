@@ -82,8 +82,7 @@ bool initUnixSignalHandler()
     sigact.sa_flags = 0;
     sigact.sa_flags |= SA_RESTART;
 
-    if ( sigaction(SIGHUP, &sigact, nullptr) > 0
-         || sigaction(SIGINT, &sigact, nullptr) > 0
+    if ( sigaction(SIGINT, &sigact, nullptr) > 0
          || sigaction(SIGTERM, &sigact, nullptr) > 0 )
     {
         log("sigaction() failed!", LogError);
