@@ -54,6 +54,8 @@ const char imagesRecourcePath[] = ":/images/";
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
 
+bool sessionIconTagEnabledFlag = true;
+
 QPointer<QObject> activePaintDevice;
 
 QIcon fromTheme(const QString &name)
@@ -237,6 +239,18 @@ void replaceColor(QPixmap *pix, const QColor &targetColor)
     QPainter p(pix);
     p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
     p.drawPixmap(0, 0, pix2);
+}
+
+void disableIcon(QPixmap *pix)
+{
+    QPixmap pix2(pix->size());
+    pix2.fill(Qt::transparent);
+    {
+        QPainter p(&pix2);
+        p.setOpacity(0.7);
+        p.drawPixmap(0, 0, *pix);
+    }
+    *pix = pix2;
 }
 
 QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
@@ -535,10 +549,11 @@ public:
         const bool useColoredIcon = !hasNormalIcon();
         const auto sessionColor = useColoredIcon ? sessionIconColor() : QColor();
 
-        const auto cacheKey = QString("app:%1|%2x%3")
+        const auto cacheKey = QString("app:%1|%2x%3|%4")
                 .arg(sessionColor.name())
                 .arg(size.width())
-                .arg(size.height());
+                .arg(size.height())
+                .arg(sessionIconTagEnabledFlag);
 
         {
             QPixmap pixmap;
@@ -550,6 +565,9 @@ public:
 
         if ( sessionColor.isValid() )
             replaceColor(&pix, sessionColor);
+
+        if (!sessionIconTagEnabledFlag)
+            disableIcon(&pix);
 
         QPixmapCache::insert(cacheKey, pix);
 
@@ -681,6 +699,11 @@ void setSessionIconTag(const QString &tag)
 void setSessionIconTagColor(QColor color)
 {
     sessionIconTagColorVariable() = color;
+}
+
+void setSessionIconEnabled(bool enabled)
+{
+    sessionIconTagEnabledFlag = enabled;
 }
 
 QColor sessionIconColor()

@@ -3061,6 +3061,10 @@ void MainWindow::disableClipboardStoring(bool disable)
 
     updateMonitoringActions();
 
+    ::setSessionIconEnabled(!disable);
+
+    updateIcon();
+
     if (m_clipboardStoringDisabled)
         runScript("setTitle(); showDataNotification()");
 

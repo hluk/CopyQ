@@ -56,6 +56,8 @@ void setSessionIconTag(const QString &tag);
 
 void setSessionIconTagColor(QColor color);
 
+void setSessionIconEnabled(bool enabled);
+
 QColor sessionIconColor();
 
 QString sessionIconTag();
