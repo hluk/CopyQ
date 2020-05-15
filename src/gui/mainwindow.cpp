@@ -552,8 +552,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, &MainWindow::onTabWidgetDropItems);
     connect( ui->searchBar, &Utils::FilterLineEdit::filterChanged,
              this, &MainWindow::onFilterChanged );
-    connect( m_actionHandler, &ActionHandler::runningActionsCountChanged,
-             this, &MainWindow::updateIconSnip );
     connect( m_notifications, &NotificationDaemon::notificationButtonClicked,
              this, &MainWindow::onNotificationButtonClicked );
     connect( qApp, &QCoreApplication::aboutToQuit,
@@ -571,7 +569,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     initSingleShotTimer( &m_timerUpdateTrayMenuItems, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuItemsTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, [this]() { setTrayEnabled(); } );
-    initSingleShotTimer( &m_timerTrayIconSnip, 500, this, &MainWindow::updateIconSnipTimeout );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
@@ -861,21 +858,10 @@ void MainWindow::updateTrayMenuCommands()
 
 void MainWindow::updateIcon()
 {
-    const QIcon icon = appIcon(m_iconSnip ? AppIconRunning : AppIconNormal);
+    const QIcon icon = appIcon();
     setWindowIcon(icon);
     if (m_tray)
         m_tray->setIcon(icon);
-}
-
-void MainWindow::updateIconSnipTimeout()
-{
-    const bool shouldSnip = m_forceIconSnip ? !m_iconSnip : m_clipboardStoringDisabled || hasRunningAction();
-    m_forceIconSnip = false;
-    if (m_iconSnip != shouldSnip) {
-        m_iconSnip = shouldSnip;
-        m_timerTrayIconSnip.start();
-        updateIcon();
-    }
 }
 
 void MainWindow::updateContextMenuTimeout()
@@ -965,12 +951,6 @@ void MainWindow::setItemPreviewVisible(bool visible)
 bool MainWindow::isItemPreviewVisible() const
 {
     return m_showItemPreview;
-}
-
-void MainWindow::updateIconSnip()
-{
-    if ( !m_timerTrayIconSnip.isActive() )
-        updateIconSnipTimeout();
 }
 
 void MainWindow::onAboutToQuit()
@@ -2985,12 +2965,6 @@ QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
     return m_currentDisplayItem.data();
 }
 
-void MainWindow::snip()
-{
-    m_forceIconSnip = true;
-    updateIconSnip();
-}
-
 void MainWindow::nextTab()
 {
     ui->tabWidget->nextTab();
@@ -3086,7 +3060,6 @@ void MainWindow::disableClipboardStoring(bool disable)
     emit disableClipboardStoringRequest(disable);
 
     updateMonitoringActions();
-    updateIconSnip();
 
     if (m_clipboardStoringDisabled)
         runScript("setTitle(); showDataNotification()");

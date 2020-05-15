@@ -283,8 +283,6 @@ public:
     QVector<Command> displayCommands() const { return m_displayCommands; }
     QVector<Command> scriptCommands() const { return m_scriptCommands; }
 
-    void snip();
-
     /** Close main window and exit the application. */
     void exit();
 
@@ -469,7 +467,6 @@ private:
 
     /** Update tray and window icon depending on current state. */
     void updateIcon();
-    void updateIconSnipTimeout();
 
     void updateContextMenuTimeout();
 
@@ -480,9 +477,6 @@ private:
     void updateItemPreviewTimeout();
 
     void toggleItemPreviewVisible();
-
-    /** Update icon snip animation. */
-    void updateIconSnip();
 
     void onAboutToQuit();
 
@@ -673,7 +667,6 @@ private:
     QTimer m_timerUpdateTrayMenuItems;
     QTimer m_timerUpdatePreview;
     QTimer m_timerTrayAvailable;
-    QTimer m_timerTrayIconSnip;
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
     QTimer m_timerRaiseLastWindowAfterMenuClosed;
@@ -689,9 +682,6 @@ private:
     int m_menuMaxItemCount;
 
     QPointer<CommandDialog> m_commandDialog;
-
-    bool m_iconSnip = false;
-    bool m_forceIconSnip = false;
 
     bool m_wasMaximized = false;
 

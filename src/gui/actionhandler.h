@@ -50,14 +50,7 @@ public:
 
     void terminateAction(int id);
 
-signals:
-    /** Emitted new action starts or ends. */
-    void runningActionsCountChanged();
-
 private:
-    /** Called after action was started (creates menu item to kill it). */
-    void actionStarted(Action *action);
-
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
 

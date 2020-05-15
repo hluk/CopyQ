@@ -107,7 +107,7 @@ void ActionHandler::action(Action *action)
     action->setParent(this);
 
     connect( action, &Action::actionStarted,
-             this, &ActionHandler::actionStarted );
+             m_actionModel, &ActionTableModel::actionStarted );
     connect( action, &Action::actionFinished,
              this, &ActionHandler::closeAction );
 
@@ -124,12 +124,6 @@ void ActionHandler::terminateAction(int id)
     Action *action = m_actions.value(id);
     if (action)
         action->terminate();
-}
-
-void ActionHandler::actionStarted(Action *action)
-{
-    m_actionModel->actionStarted(action);
-    emit runningActionsCountChanged();
 }
 
 void ActionHandler::closeAction(Action *action)
@@ -154,8 +148,6 @@ void ActionHandler::closeAction(Action *action)
 
     m_actionModel->actionFinished(action);
     Q_ASSERT(runningActionCount() >= 0);
-
-    emit runningActionsCountChanged();
 
     action->deleteLater();
 }

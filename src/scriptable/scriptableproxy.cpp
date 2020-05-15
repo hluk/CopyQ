@@ -102,32 +102,22 @@ const quint32 serializedFunctionCallVersion = 2;
     const auto args = f.argumentList arguments; \
     emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall)
 
-#define INVOKE_NO_SNIP(function, arguments) \
+#define INVOKE(FUNCTION, ARGUMENTS) \
     if (!m_wnd) { \
-        using Result = decltype(function arguments); \
+        using Result = decltype(FUNCTION ARGUMENTS); \
         const auto functionCallId = ++m_lastFunctionCallId; \
-        INVOKE_(function, arguments, functionCallId); \
+        INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
         const auto result = waitForFunctionCallFinished(functionCallId); \
         return result.value<Result>(); \
     }
 
-#define INVOKE_NO_SNIP2(FUNCTION, ARGUMENTS) \
+#define INVOKE2(FUNCTION, ARGUMENTS) \
     if (!m_wnd) { \
         const auto functionCallId = ++m_lastFunctionCallId; \
         INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
         waitForFunctionCallFinished(functionCallId); \
         return; \
     }
-
-#define INVOKE(FUNCTION, ARGUMENTS) \
-    INVOKE_NO_SNIP(FUNCTION, ARGUMENTS) \
-    if (m_wnd) \
-        m_wnd->snip()
-
-#define INVOKE2(FUNCTION, ARGUMENTS) \
-    INVOKE_NO_SNIP2(FUNCTION, ARGUMENTS) \
-    if (m_wnd) \
-        m_wnd->snip()
 
 Q_DECLARE_METATYPE(QFile*)
 
@@ -996,7 +986,7 @@ void ScriptableProxy::safeDeleteLater()
 
 QVariantMap ScriptableProxy::getActionData(int id)
 {
-    INVOKE_NO_SNIP(getActionData, (id));
+    INVOKE(getActionData, (id));
     m_actionData = m_wnd->actionData(id);
     m_actionId = id;
 
@@ -1008,7 +998,7 @@ QVariantMap ScriptableProxy::getActionData(int id)
 
 void ScriptableProxy::setActionData(int id, const QVariantMap &data)
 {
-    INVOKE_NO_SNIP2(setActionData, (id, data));
+    INVOKE2(setActionData, (id, data));
     m_wnd->setActionData(id, data);
 }
 
@@ -1062,19 +1052,19 @@ bool ScriptableProxy::copyFromCurrentWindow()
 
 bool ScriptableProxy::isMonitoringEnabled()
 {
-    INVOKE_NO_SNIP(isMonitoringEnabled, ());
+    INVOKE(isMonitoringEnabled, ());
     return m_wnd->isMonitoringEnabled();
 }
 
 bool ScriptableProxy::isMainWindowVisible()
 {
-    INVOKE_NO_SNIP(isMainWindowVisible, ());
+    INVOKE(isMainWindowVisible, ());
     return !m_wnd->isMinimized() && m_wnd->isVisible();
 }
 
 bool ScriptableProxy::isMainWindowFocused()
 {
-    INVOKE_NO_SNIP(isMainWindowFocused, ());
+    INVOKE(isMainWindowFocused, ());
     return m_wnd->isActiveWindow();
 }
 
@@ -1143,7 +1133,7 @@ QString ScriptableProxy::removeTab(const QString &arg1)
 
 QString ScriptableProxy::tabIcon(const QString &tabName)
 {
-    INVOKE_NO_SNIP(tabIcon, (tabName));
+    INVOKE(tabIcon, (tabName));
     return getIconNameForTabName(tabName);
 }
 
@@ -1195,7 +1185,7 @@ void ScriptableProxy::action(const QVariantMap &arg1, const Command &arg2)
 
 void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &command)
 {
-    INVOKE_NO_SNIP2(runInternalAction, (data, command));
+    INVOKE2(runInternalAction, (data, command));
     auto action = new Action();
     action->setCommand(command);
     action->setData(data);
@@ -1204,7 +1194,7 @@ void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &
 
 QByteArray ScriptableProxy::tryGetCommandOutput(const QString &command)
 {
-    INVOKE_NO_SNIP(tryGetCommandOutput, (command));
+    INVOKE(tryGetCommandOutput, (command));
 
     for (int i = 0; i < 3; ++i) {
         Action action;
@@ -1464,7 +1454,7 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
 
 int ScriptableProxy::browserLength(const QString &tabName)
 {
-    INVOKE_NO_SNIP(browserLength, (tabName));
+    INVOKE(browserLength, (tabName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     return c ? c->length() : 0;
 }
@@ -1541,7 +1531,7 @@ QString ScriptableProxy::tab(const QString &tabName)
 
 int ScriptableProxy::currentItem()
 {
-    INVOKE_NO_SNIP(currentItem, ());
+    INVOKE(currentItem, ());
 
     const QPersistentModelIndex current =
             m_actionData.value(mimeCurrentItem).value<QPersistentModelIndex>();
@@ -1572,7 +1562,7 @@ bool ScriptableProxy::selectItems(const QString &tabName, const QVector<int> &ro
 
 QVector<int> ScriptableProxy::selectedItems()
 {
-    INVOKE_NO_SNIP(selectedItems, ());
+    INVOKE(selectedItems, ());
 
     QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
@@ -1828,7 +1818,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
 void ScriptableProxy::setSelectedItemsData(const QString &mime, const QVariant &value)
 {
-    INVOKE_NO_SNIP2(setSelectedItemsData, (mime, value));
+    INVOKE2(setSelectedItemsData, (mime, value));
     const QList<QPersistentModelIndex> selected = selectedIndexes();
     for (const auto &index : selected) {
         ClipboardBrowser *c = m_wnd->browserForItem(index);
@@ -1857,7 +1847,7 @@ QString ScriptableProxy::filter()
 
 QVector<Command> ScriptableProxy::commands()
 {
-    INVOKE_NO_SNIP(commands, ());
+    INVOKE(commands, ());
     return loadAllCommands();
 }
 
@@ -1976,25 +1966,25 @@ void ScriptableProxy::setPointerPosition(int x, int y)
 
 QString ScriptableProxy::pluginsPath()
 {
-    INVOKE_NO_SNIP(pluginsPath, ());
+    INVOKE(pluginsPath, ());
     return ::pluginsPath();
 }
 
 QString ScriptableProxy::themesPath()
 {
-    INVOKE_NO_SNIP(themesPath, ());
+    INVOKE(themesPath, ());
     return ::themesPath();
 }
 
 QString ScriptableProxy::translationsPath()
 {
-    INVOKE_NO_SNIP(translationsPath, ());
+    INVOKE(translationsPath, ());
     return ::translationsPath();
 }
 
 QString ScriptableProxy::iconColor()
 {
-    INVOKE_NO_SNIP(iconColor, ());
+    INVOKE(iconColor, ());
     const auto color = m_wnd->sessionIconColor();
     return color.isValid() ? color.name() : QString();
 }
@@ -2013,7 +2003,7 @@ bool ScriptableProxy::setIconColor(const QString &colorName)
 
 QString ScriptableProxy::iconTag()
 {
-    INVOKE_NO_SNIP(iconTag, ());
+    INVOKE(iconTag, ());
     return m_wnd->sessionIconTag();
 }
 
@@ -2139,32 +2129,32 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
 bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)
 {
-    INVOKE_NO_SNIP(enableMenuItem, (actionId, currentRun, menuItemMatchCommandIndex, menuItem));
+    INVOKE(enableMenuItem, (actionId, currentRun, menuItemMatchCommandIndex, menuItem));
     return m_wnd->setMenuItemEnabled(actionId, currentRun, menuItemMatchCommandIndex, menuItem);
 }
 
 QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &displayData)
 {
-    INVOKE_NO_SNIP(setDisplayData, (actionId, displayData));
+    INVOKE(setDisplayData, (actionId, displayData));
     m_actionData = m_wnd->setDisplayData(actionId, displayData);
     return m_actionData;
 }
 
 QVector<Command> ScriptableProxy::automaticCommands()
 {
-    INVOKE_NO_SNIP(automaticCommands, ());
+    INVOKE(automaticCommands, ());
     return m_wnd->automaticCommands();
 }
 
 QVector<Command> ScriptableProxy::displayCommands()
 {
-    INVOKE_NO_SNIP(displayCommands, ());
+    INVOKE(displayCommands, ());
     return m_wnd->displayCommands();
 }
 
 QVector<Command> ScriptableProxy::scriptCommands()
 {
-    INVOKE_NO_SNIP(scriptCommands, ());
+    INVOKE(scriptCommands, ());
     return m_wnd->scriptCommands();
 }
 

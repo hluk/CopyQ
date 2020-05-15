@@ -224,9 +224,9 @@ QPixmap appPixmap(const QString &iconSuffix, QSize size)
     return pix;
 }
 
-void replaceColor(QPixmap *pix, const QString &iconSuffix, const QColor &targetColor)
+void replaceColor(QPixmap *pix, const QColor &targetColor)
 {
-    auto pix2 = appPixmap("_mask" + iconSuffix, pix->size());
+    auto pix2 = appPixmap("_mask", pix->size());
 
     {
         QPainter p1(&pix2);
@@ -519,9 +519,8 @@ private:
 class AppIconEngine final : public BaseIconEngine
 {
 public:
-    AppIconEngine(AppIconType iconType)
+    AppIconEngine()
         : BaseIconEngine(sessionIconTagVariable(), sessionIconTagColor())
-        , m_iconType(iconType)
     {
     }
 
@@ -536,8 +535,7 @@ public:
         const bool useColoredIcon = !hasNormalIcon();
         const auto sessionColor = useColoredIcon ? sessionIconColor() : QColor();
 
-        const auto cacheKey = QString("app:%1|%2|%3x%4")
-                .arg(m_iconType)
+        const auto cacheKey = QString("app:%1|%2x%3")
                 .arg(sessionColor.name())
                 .arg(size.width())
                 .arg(size.height());
@@ -548,21 +546,15 @@ public:
                 return pixmap;
         }
 
-        const bool running = m_iconType == AppIconRunning;
-        const auto suffix = running ? QLatin1String("-busy") : QLatin1String("");
-
-        auto pix = appPixmap(suffix, size);
+        auto pix = appPixmap(QString(), size);
 
         if ( sessionColor.isValid() )
-            replaceColor(&pix, suffix, sessionColor);
+            replaceColor(&pix, sessionColor);
 
         QPixmapCache::insert(cacheKey, pix);
 
         return pix;
     }
-
-private:
-    AppIconType m_iconType;
 };
 
 class IconEngine final
@@ -577,9 +569,9 @@ public:
         return QIcon( new ImageIconEngine(iconName, iconId, tag, tagColor) );
     }
 
-    static QIcon createIcon(AppIconType iconType)
+    static QIcon createIcon()
     {
-        return QIcon( new AppIconEngine(iconType) );
+        return QIcon( new AppIconEngine() );
     }
 
 private:
@@ -644,9 +636,9 @@ QPixmap createPixmap(unsigned short id, const QColor &color, int size)
     return pixmap;
 }
 
-QIcon appIcon(AppIconType iconType)
+QIcon appIcon()
 {
-    return IconEngine::createIcon(iconType);
+    return IconEngine::createIcon();
 }
 
 void setActivePaintDevice(QObject *device)

@@ -31,11 +31,6 @@ class QString;
 class QVariant;
 class QWidget;
 
-enum AppIconType {
-    AppIconNormal,
-    AppIconRunning
-};
-
 QIcon getIcon(const QString &themeName, unsigned short id);
 
 QIcon getIcon(const QVariant &iconOrIconId);
@@ -49,7 +44,7 @@ unsigned short toIconId(const QString &fileNameOrId);
 QPixmap createPixmap(unsigned short id, const QColor &color, int size);
 
 /// Return app icon (color is calculated from session name).
-QIcon appIcon(AppIconType iconType = AppIconNormal);
+QIcon appIcon();
 
 void setActivePaintDevice(QObject *device);
 
