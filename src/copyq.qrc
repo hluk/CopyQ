@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file alias="images/icon">images/icon.svg</file>
-        <file alias="images/icon-busy">images/icon-busy.svg</file>
         <file alias="images/icon_mask">images/icon_mask.svg</file>
-        <file alias="images/icon_mask-busy">images/icon_mask-busy.svg</file>
         <file alias="images/tab_icon">images/tab_icon.svg</file>
         <file alias="images/tab_new">images/tab_new.svg</file>
         <file alias="images/tab_rename">images/tab_rename.svg</file>

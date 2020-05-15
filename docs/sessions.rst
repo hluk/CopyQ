@@ -83,7 +83,7 @@ name and can be changed using ``COPYQ_SESSION_COLOR`` environment variable.
     COPYQ_SESSION_COLOR="#f90" copyq
 
 On Linux, changing icon color won't work if current icon theme contains icon
-named "copyq-normal" or doesn't contain "copyq-mask" (and "copyq-busy-mask").
+named "copyq-normal" or doesn't contain "copyq-mask".
 Use ``COPYQ_DEFAULT_ICON`` environment variable to avoid using the application
 icon from icon theme.
 
