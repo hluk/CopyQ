@@ -66,7 +66,6 @@ private:
     void checkAgainLater(bool clipboardChanged, int interval);
 
     QTimer m_timerCheckAgain;
-    int m_checkAgainIntervalMs = 0;
 
     ClipboardData m_clipboardData;
     ClipboardData m_selectionData;
