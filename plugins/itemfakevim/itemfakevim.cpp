@@ -32,6 +32,7 @@ using namespace FakeVim::Internal;
 #include <QDialogButtonBox>
 #include <QMessageBox>
 #include <QMetaMethod>
+#include <QKeyEvent>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QStatusBar>
@@ -149,6 +150,14 @@ public:
         setLineWrappingEnabled(true);
 
         editor->viewport()->installEventFilter(this);
+
+        auto completer = editor->findChild<QObject*>("CommandCompleter");
+        if (completer) {
+            auto completerPopup = completer->property("popup").value<QWidget*>();
+            Q_ASSERT(completerPopup);
+            if (completerPopup)
+                completerPopup->installEventFilter(this);
+        }
     }
 
     ~TextEditWrapper()
@@ -163,8 +172,42 @@ public:
         m_handler->setupWidget();
     }
 
-    bool eventFilter(QObject *, QEvent *ev) override
+    bool eventFilter(QObject *obj, QEvent *ev) override
     {
+        // Handle completion popup.
+        if (obj != m_textEditWidget) {
+            if ( ev->type() == QEvent::KeyPress ) {
+                const auto kev = static_cast<QKeyEvent *>(ev);
+                const auto key = kev->key();
+                const auto mods = kev->modifiers();
+                if (mods.testFlag(Qt::ControlModifier)) {
+                    if (key == Qt::Key_N || key == Qt::Key_P) {
+                        const auto key2 = key == Qt::Key_N ? Qt::Key_Down : Qt::Key_Up;
+                        QKeyEvent kev2(QEvent::KeyPress, key2, Qt::NoModifier);
+                        QCoreApplication::sendEvent(obj, &kev2);
+                        return true;
+                    }
+                }
+
+                switch (key) {
+                case Qt::Key_Enter:
+                case Qt::Key_Return:
+                    return false;
+
+                case Qt::Key_Down:
+                case Qt::Key_Up:
+                case Qt::Key_PageDown:
+                case Qt::Key_PageUp:
+                    return false;
+
+                default:
+                    QCoreApplication::sendEvent(m_textEditWidget, ev);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         if ( ev->type() != QEvent::Paint )
             return false;
 

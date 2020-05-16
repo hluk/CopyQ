@@ -26,10 +26,15 @@ class QCompleter;
 class QPlainTextEdit;
 
 class CommandCompleter final : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QWidget* popup READ popup)
+
 public:
     explicit CommandCompleter(QPlainTextEdit *editor);
 
     bool eventFilter(QObject *watched, QEvent *event) override;
+
+    QWidget *popup() const;
 
 private:
     void onTextChanged();

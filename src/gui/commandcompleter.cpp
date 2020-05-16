@@ -213,6 +213,8 @@ CommandCompleter::CommandCompleter(QPlainTextEdit *editor)
     , m_editor(editor)
     , m_completer(new QCompleter(new CommandCompleterModel(this), this))
 {
+    setObjectName("CommandCompleter");
+
     m_completer->setWidget(m_editor);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -258,6 +260,11 @@ bool CommandCompleter::eventFilter(QObject *, QEvent *event)
     default:
         return false;
     }
+}
+
+QWidget *CommandCompleter::popup() const
+{
+    return m_completer->popup();
 }
 
 void CommandCompleter::onTextChanged()
