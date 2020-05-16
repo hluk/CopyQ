@@ -204,6 +204,7 @@ public:
     {
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
+        m_env.insert("COPYQ_SESSION_NAME", "TEST");
     }
 
     ~TestInterfaceImpl()
@@ -1342,7 +1343,7 @@ void Tests::commandsData()
 void Tests::commandCurrentWindowTitle()
 {
     RUN("disable", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ-TEST\n");
     RUN("enable", "");
 }
 
@@ -2031,13 +2032,13 @@ void Tests::keysAndFocusing()
     RUN("keys" << clipboardBrowserId << "CTRL+T", "");
 
 #ifdef Q_OS_WIN
-    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab - CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab - CopyQ-TEST\n");
 #else
-    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab — CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab — CopyQ-TEST\n");
 #endif
 
     RUN("keys" << tabDialogLineEditId << "ESC", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ-TEST\n");
     RUN("enable", "");
 }
 
