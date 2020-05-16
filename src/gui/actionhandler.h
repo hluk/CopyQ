@@ -31,7 +31,7 @@ class ActionHandler final : public QObject
 {
     Q_OBJECT
 public:
-    explicit ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent);
+    explicit ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent);
 
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 

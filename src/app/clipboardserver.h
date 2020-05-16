@@ -24,20 +24,24 @@
 #include "common/clipboardmode.h"
 #include "common/server.h"
 #include "common/clientsocket.h"
+#include "gui/clipboardbrowsershared.h"
 
 #include <QMap>
 #include <QPointer>
 #include <QTimer>
 
 class Action;
+class ActionHandler;
 class ItemFactory;
 class MainWindow;
+class NotificationDaemon;
 class ScriptableProxy;
 class Server;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
 struct Command;
+struct NotificationButton;
 
 /**
  * The application main server.
@@ -85,6 +89,8 @@ private:
     /** An error occurred on monitor connection. */
     void onMonitorFinished();
 
+    void onNotificationButtonClicked(const NotificationButton &button);
+
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);
 
@@ -128,6 +134,8 @@ private:
 
     void sendActionData(int actionId, const QByteArray &bytes);
 
+    void updateNotifications();
+
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
@@ -136,10 +144,11 @@ private:
     bool m_ignoreNewConnections = false;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
-    ItemFactory *m_itemFactory;
     uint m_monitorCommandsStateHash = 0;
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
+
+    ClipboardBrowserSharedPtr m_sharedData;
 
     QMap<int, QByteArray> m_actionDataToSend;
     QTimer m_timerClearUnsentActionData;

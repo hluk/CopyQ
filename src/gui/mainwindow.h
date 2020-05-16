@@ -37,15 +37,13 @@
 
 class Action;
 class ActionDialog;
-class ActionHandler;
+class AppConfig;
 class ClipboardBrowser;
 class ClipboardBrowserPlaceholder;
 class CommandAction;
 class CommandDialog;
 class ConfigurationManager;
-class ItemFactory;
 class Notification;
-class NotificationDaemon;
 class QAction;
 class QMimeData;
 class Theme;
@@ -125,13 +123,13 @@ class MainWindow final : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(ItemFactory *itemFactory, QWidget *parent = nullptr);
+    explicit MainWindow(
+        const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
+
     ~MainWindow();
 
     /** Return true if in browse mode (i.e. search field is hidden). */
     bool browseMode() const;
-
-    bool hasRunningAction() const;
 
     /**
      * Try to close command dialog and return true on success.
@@ -287,7 +285,7 @@ public:
     void exit();
 
     /** Load settings. */
-    void loadSettings();
+    void loadSettings(QSettings &settings, AppConfig &appConfig);
 
     void loadTheme(const QSettings &themeSettings);
 
@@ -503,8 +501,6 @@ private:
     void onItemsChanged(const ClipboardBrowser *browser);
     void onInternalEditorStateChanged(const ClipboardBrowser *self);
 
-    void onNotificationButtonClicked(const NotificationButton &button);
-
     void onItemWidgetCreated(const PersistentDisplayItem &item);
 
     void onActionDialogAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
@@ -556,8 +552,6 @@ private:
 
     void updateTrayMenuItems();
     void updateTrayMenuCommands();
-
-    void updateNotifications();
 
     void updateWindowTransparency(bool mouseOver = false);
 
@@ -670,10 +664,6 @@ private:
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
     QTimer m_timerRaiseLastWindowAfterMenuClosed;
-
-    NotificationDaemon *m_notifications;
-
-    ActionHandler *m_actionHandler;
 
     QVariantMap m_clipboardData;
 

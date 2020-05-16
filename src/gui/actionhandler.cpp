@@ -58,7 +58,7 @@ uint maxRowCount()
 
 } // namespace
 
-ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QWidget *parent)
+ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent)
     : QObject(parent)
     , m_notificationDaemon(notificationDaemon)
     , m_actionModel(new ActionTableModel(maxRowCount(), parent))

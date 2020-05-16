@@ -25,7 +25,9 @@
 
 #include <memory>
 
+class ActionHandler;
 class ItemFactory;
+class NotificationDaemon;
 
 struct ClipboardBrowserShared {
     QString editor;
@@ -43,6 +45,8 @@ struct ClipboardBrowserShared {
     int saveDelayMsOnItemMoved = 0;
     int saveDelayMsOnItemEdited = 0;
     ItemFactory *itemFactory = nullptr;
+    ActionHandler *actions = nullptr;
+    NotificationDaemon *notifications = nullptr;
     Theme theme;
 };
 

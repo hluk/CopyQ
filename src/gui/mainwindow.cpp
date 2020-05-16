@@ -469,7 +469,7 @@ private:
     QTimer m_timerUnfreeze;
 };
 
-MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
+MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QMainWindow(parent)
     , cm(nullptr)
     , ui(new Ui::MainWindow)
@@ -478,10 +478,8 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     , m_tray(nullptr)
     , m_toolBar(new ToolBar(this))
     , m_actionToggleClipboardStoring()
-    , m_sharedData(std::make_shared<ClipboardBrowserShared>())
+    , m_sharedData(sharedData)
     , m_lastWindow()
-    , m_notifications(new NotificationDaemon(this))
-    , m_actionHandler(new ActionHandler(m_notifications, this))
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -509,8 +507,6 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
     restoreState( mainWindowState(objectName()) );
     // NOTE: QWidget::isVisible() returns false if parent is not visible.
     m_showItemPreview = !ui->dockWidgetItemPreview->isHidden();
-
-    m_sharedData->itemFactory = itemFactory;
 
     updateIcon();
 
@@ -552,16 +548,12 @@ MainWindow::MainWindow(ItemFactory *itemFactory, QWidget *parent)
              this, &MainWindow::onTabWidgetDropItems);
     connect( ui->searchBar, &Utils::FilterLineEdit::filterChanged,
              this, &MainWindow::onFilterChanged );
-    connect( m_notifications, &NotificationDaemon::notificationButtonClicked,
-             this, &MainWindow::onNotificationButtonClicked );
     connect( qApp, &QCoreApplication::aboutToQuit,
              this, &MainWindow::onAboutToQuit );
-    connect( this, &MainWindow::configurationChanged,
-             this, &MainWindow::loadSettings );
 
-    connect(itemFactory, &ItemFactory::error,
+    connect(m_sharedData->itemFactory, &ItemFactory::error,
             this, &MainWindow::showError);
-    connect(itemFactory, &ItemFactory::addCommands,
+    connect(m_sharedData->itemFactory, &ItemFactory::addCommands,
             this, &MainWindow::addCommands);
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
@@ -1181,20 +1173,6 @@ void MainWindow::onInternalEditorStateChanged(const ClipboardBrowser *browser)
     }
 }
 
-void MainWindow::onNotificationButtonClicked(const NotificationButton &button)
-{
-    const QString mimeNotificationData = COPYQ_MIME_PREFIX "notification-data";
-
-    QVariantMap data;
-    data.insert(mimeNotificationData, button.data);
-
-    Command cmd;
-    cmd.cmd = button.script;
-    cmd.input = mimeNotificationData;
-
-    action(data, cmd, QModelIndex());
-}
-
 void MainWindow::onItemWidgetCreated(const PersistentDisplayItem &item)
 {
     if ( m_displayCommands.isEmpty() )
@@ -1219,7 +1197,7 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
             actionOutput(this, act, command.output, command.outputTab);
     }
 
-    m_actionHandler->action(act);
+    m_sharedData->actions->action(act);
 }
 
 void MainWindow::onSearchShowRequest(const QString &text)
@@ -1290,35 +1268,6 @@ void MainWindow::setFilter(const QString &text)
 QString MainWindow::filter() const
 {
     return ui->searchBar->isVisible() ? ui->searchBar->text() : QString();
-}
-
-void MainWindow::updateNotifications()
-{
-    m_notifications->setNotificationOpacity( theme().color("notification_bg").alphaF() );
-    m_notifications->setNotificationStyleSheet( theme().getNotificationStyleSheet() );
-
-    AppConfig appConfig;
-    int id = appConfig.option<Config::notification_position>();
-    NotificationDaemon::Position position;
-    switch (id) {
-    case 0: position = NotificationDaemon::Top; break;
-    case 1: position = NotificationDaemon::Bottom; break;
-    case 2: position = NotificationDaemon::TopRight; break;
-    case 3: position = NotificationDaemon::BottomRight; break;
-    case 4: position = NotificationDaemon::BottomLeft; break;
-    default: position = NotificationDaemon::TopLeft; break;
-    }
-    m_notifications->setPosition(position);
-
-    const int x = appConfig.option<Config::notification_horizontal_offset>();
-    const int y = appConfig.option<Config::notification_vertical_offset>();
-    m_notifications->setOffset(x, y);
-
-    const int w = appConfig.option<Config::notification_maximum_width>();
-    const int h = appConfig.option<Config::notification_maximum_height>();
-    m_notifications->setMaximumSize(w, h);
-
-    m_notifications->updateNotifications();
 }
 
 void MainWindow::updateWindowTransparency(bool mouseOver)
@@ -1524,7 +1473,7 @@ void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, con
 
     const bool isRunning = isInternalActionId(menuMatchCommands->actionId);
     if (isRunning) {
-        m_actionHandler->setActionData(menuMatchCommands->actionId, data);
+        m_sharedData->actions->setActionData(menuMatchCommands->actionId, data);
     } else {
         const auto act = runScript("runMenuCommandFilters()", data);
         menuMatchCommands->actionId = act->id();
@@ -2172,11 +2121,6 @@ ClipboardBrowser *MainWindow::tab(const QString &name)
     return createTab(name, MatchSimilarTabName)->createBrowser();
 }
 
-bool MainWindow::hasRunningAction() const
-{
-    return m_actionHandler->runningActionCount() > 0;
-}
-
 bool MainWindow::maybeCloseCommandDialog()
 {
     return !m_commandDialog || m_commandDialog->maybeClose(this);
@@ -2193,7 +2137,7 @@ void MainWindow::showError(const QString &msg)
 
 Notification *MainWindow::createNotification(const QString &id)
 {
-    return m_notifications->createNotification(id);
+    return m_sharedData->notifications->createNotification(id);
 }
 
 void MainWindow::addCommands(const QVector<Command> &commands)
@@ -2364,28 +2308,17 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
     return QMainWindow::nativeEvent(eventType, message, result);
 }
 
-void MainWindow::loadSettings()
+void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 {
-    COPYQ_LOG("Loading configuration");
-
     stopMenuCommandFilters(&m_itemMenuMatchCommands);
     stopMenuCommandFilters(&m_trayMenuMatchCommands);
     terminateAction(&m_displayActionId);
-
-    QSettings settings;
-    m_sharedData->itemFactory->loadItemFactorySettings(&settings);
-
-    settings.beginGroup("Theme");
-    m_sharedData->theme.loadTheme(settings);
-    settings.endGroup();
 
     theme().decorateMainWindow(this);
     ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
     theme().decorateItemPreview(ui->scrollAreaItemPreview);
 
     setUseSystemIcons( theme().useSystemIcons() );
-
-    AppConfig appConfig;
 
     m_options.confirmExit = appConfig.option<Config::confirm_exit>();
 
@@ -2400,7 +2333,6 @@ void MainWindow::loadSettings()
     m_menu->setViModeEnabled(m_options.viMode);
 
     // Number search
-    m_sharedData->numberSearch = appConfig.option<Config::number_search>();
     m_trayMenu->setNumberSearchEnabled(m_sharedData->numberSearch);
     m_menu->setNumberSearchEnabled(m_sharedData->numberSearch);
 
@@ -2437,21 +2369,6 @@ void MainWindow::loadSettings()
 
     const bool hideInTaskBar = appConfig.option<Config::hide_main_window_in_task_bar>();
     setHideInTaskBar(this, hideInTaskBar);
-
-    // shared data for browsers
-    m_sharedData->editor = appConfig.option<Config::editor>();
-    m_sharedData->maxItems = appConfig.option<Config::maxitems>();
-    m_sharedData->textWrap = appConfig.option<Config::text_wrap>();
-    m_sharedData->viMode = appConfig.option<Config::vi>();
-    m_sharedData->saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
-    m_sharedData->moveItemOnReturnKey = appConfig.option<Config::move>();
-    m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();
-    m_sharedData->minutesToExpire = appConfig.option<Config::expire_tab>();
-    m_sharedData->saveDelayMsOnItemAdded = appConfig.option<Config::save_delay_ms_on_item_added>();
-    m_sharedData->saveDelayMsOnItemModified = appConfig.option<Config::save_delay_ms_on_item_modified>();
-    m_sharedData->saveDelayMsOnItemRemoved = appConfig.option<Config::save_delay_ms_on_item_removed>();
-    m_sharedData->saveDelayMsOnItemMoved = appConfig.option<Config::save_delay_ms_on_item_moved>();
-    m_sharedData->saveDelayMsOnItemEdited = appConfig.option<Config::save_delay_ms_on_item_edited>();
 
     // create tabs
     const Tabs tabs;
@@ -2509,8 +2426,6 @@ void MainWindow::loadSettings()
     updateTrayMenuItems();
     updateTrayMenuCommands();
 
-    updateNotifications();
-
     updateIcon();
 
     ui->searchBar->loadSettings();
@@ -2523,8 +2438,6 @@ void MainWindow::loadSettings()
     enterBrowseMode();
 
     updateEnabledCommands();
-
-    COPYQ_LOG("Configuration loaded");
 }
 
 void MainWindow::loadTheme(const QSettings &themeSettings)
@@ -2844,12 +2757,12 @@ QVariant MainWindow::config(const QStringList &nameValue)
 
 QVariantMap MainWindow::actionData(int id) const
 {
-    return m_actionHandler->actionData(id);
+    return m_sharedData->actions->actionData(id);
 }
 
 void MainWindow::setActionData(int id, const QVariantMap &data)
 {
-    m_actionHandler->setActionData(id, data);
+    m_sharedData->actions->setActionData(id, data);
 }
 
 void MainWindow::setCommands(const QVector<Command> &commands)
@@ -2961,7 +2874,7 @@ QVariantMap MainWindow::setDisplayData(int actionId, const QVariantMap &data)
         return QVariantMap();
 
     m_currentDisplayItem = m_displayItemList.takeFirst();
-    m_actionHandler->setActionData(actionId, m_currentDisplayItem.data());
+    m_sharedData->actions->setActionData(actionId, m_currentDisplayItem.data());
     return m_currentDisplayItem.data();
 }
 
@@ -3263,7 +3176,7 @@ void MainWindow::showClipboardContent()
 
 void MainWindow::showProcessManagerDialog()
 {
-    m_actionHandler->showProcessManagerDialog(this);
+    m_sharedData->actions->showProcessManagerDialog(this);
 }
 
 ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
@@ -3612,7 +3525,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
             actionDialog->setCurrentTab(cmd.outputTab);
         actionDialog->setCommand(cmd);
     } else if ( cmd.cmd.isEmpty() ) {
-        m_actionHandler->addFinishedAction(cmd.name);
+        m_sharedData->actions->addFinishedAction(cmd.name);
     } else {
         auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
@@ -3629,7 +3542,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
                 actionOutput(this, act, cmd.output, cmd.outputTab);
         }
 
-        m_actionHandler->action(act);
+        m_sharedData->actions->action(act);
         return act;
     }
 
@@ -3638,12 +3551,12 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
 
 void MainWindow::runInternalAction(Action *action)
 {
-    m_actionHandler->internalAction(action);
+    m_sharedData->actions->internalAction(action);
 }
 
 bool MainWindow::isInternalActionId(int id) const
 {
-    return id != -1 && m_actionHandler->isInternalActionId(id);
+    return id != -1 && m_sharedData->actions->isInternalActionId(id);
 }
 
 void MainWindow::openNewTabDialog(const QString &name)
@@ -3840,8 +3753,5 @@ void MainWindow::forceUnloadTab(const QString &tabName)
 
 MainWindow::~MainWindow()
 {
-    // Fix calling onDisplayActionFinished slot after main window is destroyed.
-    m_displayItemList.clear();
-    terminateAction(&m_displayActionId);
     delete ui;
 }
