@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2017, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -17,27 +17,32 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TEMPORARYFILEPROTOTYPE_H
-#define TEMPORARYFILEPROTOTYPE_H
+#ifndef SCRIPTABLETEMPORARYFILE_H
+#define SCRIPTABLETEMPORARYFILE_H
 
-#include "fileprototype.h"
+#include "scriptablefile.h"
 
+class QJSValue;
 class QTemporaryFile;
 
-class TemporaryFilePrototype final : public FilePrototype
+class ScriptableTemporaryFile final : public ScriptableFile
 {
     Q_OBJECT
 public:
-    explicit TemporaryFilePrototype(QObject *parent = nullptr);
+    Q_INVOKABLE explicit ScriptableTemporaryFile(const QString &path = QString());
 
 public slots:
-    bool autoRemove() const;
-    QString fileTemplate() const;
+    bool autoRemove();
+    QString fileTemplate();
     void setAutoRemove(bool autoRemove);
-    void setFileTemplate(const QScriptValue &name);
+    void setFileTemplate(const QJSValue &name);
+
+    QFile *self() override;
 
 private:
-    QTemporaryFile *thisTemporaryFile() const;
+    QTemporaryFile *tmpFile();
+
+    QTemporaryFile *m_self = nullptr;
 };
 
-#endif // TEMPORARYFILEPROTOTYPE_H
+#endif // SCRIPTABLETEMPORARYFILE_H
