@@ -147,7 +147,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Dodawanie poleceń</translation>
+        <translation>Dodaj polecenia</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -331,7 +331,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można dodać nowych elementów do karty %1. Usuń elementy ręcznie, aby zwolnić miejsce.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
