@@ -163,6 +163,8 @@ protected:
      */
     QVariantList currentArguments();
 
+    void throwError(const QString &message);
+
 private:
     QObject *m_scriptable = nullptr;
 };

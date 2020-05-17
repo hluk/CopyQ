@@ -200,6 +200,13 @@ QVariantList ItemScriptable::currentArguments()
     return arguments;
 }
 
+void ItemScriptable::throwError(const QString &message)
+{
+    QMetaObject::invokeMethod(
+                m_scriptable, "throwException", Qt::DirectConnection,
+                Q_ARG(QString, message) );
+}
+
 bool ItemSaverInterface::saveItems(const QString &, const QAbstractItemModel &, QIODevice *)
 {
     return false;

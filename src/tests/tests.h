@@ -55,6 +55,7 @@ private slots:
     void commandEvalThrows();
     void commandEvalSyntaxError();
     void commandEvalArguments();
+    void commandEvalEndingWithComment();
     void commandPrint();
     void commandAbort();
     void commandFail();
@@ -147,7 +148,7 @@ private slots:
     void classFile();
     void classDir();
     void classTemporaryFile();
-    void calledWithBadInstance();
+    void calledWithInstance();
 
     void pipingCommands();
 
@@ -242,6 +243,9 @@ private slots:
     void scriptCommandLoaded();
     void scriptCommandAddFunction();
     void scriptCommandOverrideFunction();
+    void scriptCommandEnhanceFunction();
+    void scriptCommandEndingWithComment();
+    void scriptCommandWithError();
     void displayCommand();
 
     void queryKeyboardModifiersCommand();
