@@ -32,7 +32,7 @@
 
 #include <QApplication>
 #include <QFile>
-#include <QScriptEngine>
+#include <QJSEngine>
 #include <QSettings>
 #include <QThread>
 #include <QTimer>
@@ -132,7 +132,7 @@ void ClipboardClient::onConnectionFailed()
 
 void ClipboardClient::start(const QStringList &arguments)
 {
-    QScriptEngine engine;
+    QJSEngine engine;
     ScriptableProxy scriptableProxy(nullptr, nullptr);
     Scriptable scriptable(&engine, &scriptableProxy);
 

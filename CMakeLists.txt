@@ -44,7 +44,7 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5Widgets 5.5.0 REQUIRED)
+find_package(Qt5Widgets 5.8.0 REQUIRED)
 list(APPEND copyq_LIBRARIES Qt5::Widgets)
 
 set(copyq_APP_ID      com.github.hluk.copyq)

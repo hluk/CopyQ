@@ -33,7 +33,7 @@
 
 #include <QApplication>
 #include <QFile>
-#include <QScriptEngine>
+#include <QJSEngine>
 #include <QSettings>
 
 #ifdef HAS_TESTS
@@ -54,22 +54,22 @@ int evaluate(
     App app( platformNativeInterface()->createConsoleApplication(argc, argv), sessionName );
     setLogLabel("Prompt");
 
-    QScriptEngine engine;
+    QJSEngine engine;
     Scriptable scriptable(&engine, nullptr);
 
-    QScriptValue function = engine.globalObject().property(functionName);
-    QScriptValueList functionArguments;
+    QJSValue function = engine.globalObject().property(functionName);
+    QJSValueList functionArguments;
 
     functionArguments.reserve( arguments.size() );
     for (const auto &argument : arguments)
         functionArguments.append(argument);
 
-    const QScriptValue result = function.call( QScriptValue(), functionArguments );
+    const auto result = function.call(functionArguments);
 
     const auto output = scriptable.fromString(result.toString());
     if ( !output.isEmpty() ) {
         QFile f;
-        if ( engine.hasUncaughtException() )
+        if ( scriptable.hasUncaughtException() )
             f.open(stderr, QIODevice::WriteOnly);
         else
             f.open(stdout, QIODevice::WriteOnly);
@@ -80,7 +80,7 @@ int evaluate(
         f.close();
     }
 
-    const int exitCode = engine.hasUncaughtException() ? CommandException : 0;
+    const int exitCode = scriptable.hasUncaughtException() ? CommandException : 0;
     app.exit(exitCode);
     return exitCode;
 }

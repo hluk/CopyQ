@@ -33,7 +33,13 @@ xcopy /F "%OPENSSL_PATH%\%LIBSSL%" "%Destination%" || goto :error
 
 %QTDIR%\bin\windeployqt --version
 %QTDIR%\bin\windeployqt --help
-%QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
+%QTDIR%\bin\windeployqt ^
+  --release ^
+  --no-system-d3d-compiler ^
+  --no-angle ^
+  --no-opengl-sw ^
+  --no-quick ^
+  "%Executable%" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
 

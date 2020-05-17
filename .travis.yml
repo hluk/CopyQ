@@ -18,8 +18,6 @@ matrix:
       compiler: clang
       env:
         - COMPILER=clang++
-        # Disable encryption tests because exporting GPG key asks for password.
-        - COPYQ_TESTS_SKIP_ITEMENCRYPT=1
 
 cache:
     apt: true
