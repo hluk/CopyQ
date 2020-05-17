@@ -153,10 +153,10 @@ public:
 
         auto completer = editor->findChild<QObject*>("CommandCompleter");
         if (completer) {
-            auto completerPopup = completer->property("popup").value<QWidget*>();
-            Q_ASSERT(completerPopup);
-            if (completerPopup)
-                completerPopup->installEventFilter(this);
+            m_completerPopup = completer->property("popup").value<QWidget*>();
+            Q_ASSERT(m_completerPopup);
+            if (m_completerPopup)
+                m_completerPopup->installEventFilter(this);
         }
     }
 
@@ -175,7 +175,7 @@ public:
     bool eventFilter(QObject *obj, QEvent *ev) override
     {
         // Handle completion popup.
-        if (obj != m_textEditWidget) {
+        if (obj == m_completerPopup) {
             if ( ev->type() == QEvent::KeyPress ) {
                 const auto kev = static_cast<QKeyEvent *>(ev);
                 const auto key = kev->key();
@@ -417,6 +417,7 @@ private:
     QTextEdit *m_textEdit;
     QPlainTextEdit *m_plainTextEdit;
     FakeVimHandler *m_handler;
+    QObject *m_completerPopup = nullptr;
     QRect m_cursorRect;
 
     bool m_hasBlockSelection;
