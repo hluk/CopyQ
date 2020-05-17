@@ -633,6 +633,9 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
     QElapsedTimer t;
     t.start();
 
+    if ( m_timerUpdateSizes.isActive() )
+        updateSizes();
+
     const int s = spacing();
     const int direction = above ? -1 : 1;
     int row = start.row();
@@ -1730,6 +1733,8 @@ void ClipboardBrowser::updateSizes()
         m_timerUpdateSizes.start();
         return;
     }
+
+    m_timerUpdateSizes.stop();
 
     m_resizing = true;
     updateItemMaximumSize();
