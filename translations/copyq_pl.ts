@@ -139,7 +139,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zakończ wybrane</translation>
     </message>
 </context>
 <context>
@@ -453,7 +453,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Załaduj polecenia…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
