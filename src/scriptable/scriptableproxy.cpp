@@ -291,7 +291,7 @@ const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
 struct InputDialog {
     QDialog *dialog = nullptr;
-    QString defaultChoice; /// Default text for list widgets.
+    QVariant defaultChoice; /// Default text for list widgets.
 };
 
 class FunctionCallSerializer final {
@@ -490,9 +490,9 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
 {
     QDialog *parent = inputDialog->dialog;
 
-    const QString currentText = inputDialog->defaultChoice.isNull()
-            ? items.value(0)
-            : inputDialog->defaultChoice;
+    const QString currentText = inputDialog->defaultChoice.isValid()
+            ? inputDialog->defaultChoice.toString()
+            : items.value(0);
 
     const QString listPrefix = ".list:";
     if ( name.startsWith(listPrefix) ) {

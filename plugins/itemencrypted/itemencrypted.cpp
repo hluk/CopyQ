@@ -544,7 +544,7 @@ QByteArray ItemEncryptedScriptable::encrypt(const QByteArray &bytes)
 {
     const auto encryptedBytes = readGpgOutput(QStringList("--encrypt"), bytes);
     if ( encryptedBytes.isEmpty() )
-        eval("throw 'Failed to execute GPG!'");
+        throwError("Failed to execute GPG!");
     return encryptedBytes;
 }
 
@@ -554,7 +554,7 @@ QByteArray ItemEncryptedScriptable::decrypt(const QByteArray &bytes)
 
     const auto decryptedBytes = readGpgOutput(QStringList("--decrypt"), bytes);
     if ( decryptedBytes.isEmpty() )
-        eval("throw 'Failed to execute GPG!'");
+        throwError("Failed to execute GPG!");
     return decryptedBytes;
 }
 

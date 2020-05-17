@@ -26,9 +26,9 @@
 #include <QMetaObject>
 #include <QPalette>
 #include <QRegularExpression>
-#include <QScriptEngine>
-#include <QScriptValue>
-#include <QScriptValueIterator>
+#include <QJSEngine>
+#include <QJSValue>
+#include <QJSValueIterator>
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 #include <QPlainTextEdit>
@@ -325,10 +325,10 @@ QStringList scriptableObjects()
     result.append("File");
     result.append("TemporaryFile");
 
-    QScriptEngine engine;
+    QJSEngine engine;
 
-    QScriptValue globalObject = engine.globalObject();
-    QScriptValueIterator it(globalObject);
+    QJSValue globalObject = engine.globalObject();
+    QJSValueIterator it(globalObject);
 
     while (it.hasNext()) {
         it.next();

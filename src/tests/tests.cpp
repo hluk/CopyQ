@@ -890,18 +890,53 @@ void Tests::commandEval()
 
 void Tests::commandEvalThrows()
 {
-    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "throw 'TEST_EXCEPTION'", CommandException, "TEST_EXCEPTION");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "throw Error('Some exception')", CommandException,
+        "ScriptError: Some exception\n"
+        "\n"
+        "--- backtrace ---\n"
+    );
+
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "throw 'Some exception'", CommandException,
+        "ScriptError: Some exception\n"
+    );
+
+    RUN_EXPECT_ERROR("eval('throw Error(1)')", CommandException);
+    RUN_EXPECT_ERROR("eval('throw 1')", CommandException);
+    RUN_EXPECT_ERROR("eval" << "throw Error(1)", CommandException);
+    RUN_EXPECT_ERROR("eval" << "throw 1", CommandException);
 }
 
 void Tests::commandEvalSyntaxError()
 {
-    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "(", CommandException, "syntax error");
+    RUN_EXPECT_ERROR_WITH_STDERR("eval" << "(", CommandException, "SyntaxError");
 }
 
 void Tests::commandEvalArguments()
 {
     RUN("eval" << "str(arguments[1]) + ', ' + str(arguments[2])" << "Test 1" << "Test 2",
         "Test 1, Test 2\n");
+}
+
+void Tests::commandEvalEndingWithComment()
+{
+    /*
+    With Qml scripts in Qt 5, it's not possible to get uncaught exceptions
+    from `QJSEngine::evaluate()`.
+
+    Workaround is to wrap the script properly in an try/catch block:
+
+        try {
+            %1
+        } catch(e) {
+            _store_exception_internally(e);
+            throw e;
+        }
+
+    (Unfortunatelly, it's still possible to escape the function with a script injection.)
+    */
+    RUN("eval" << "1 // TEST", "1\n");
 }
 
 void Tests::commandPrint()
@@ -1786,7 +1821,10 @@ void Tests::commandServerLogAndLogs()
 
 void Tests::classByteArray()
 {
+    RUN("ByteArray", "");
     RUN("ByteArray('test')", "test");
+    RUN("typeof(ByteArray('test'))", "object\n");
+    RUN("ByteArray('test') instanceof ByteArray", "true\n");
     RUN("b = ByteArray('0123'); b.chop(2); b", "01");
     RUN("ByteArray('0123').equals(ByteArray('0123'))", "true\n");
     RUN("ByteArray('0123').left(3)", "012");
@@ -1803,6 +1841,12 @@ void Tests::classByteArray()
     RUN("ByteArray('0123').valueOf() == '0123'", "true\n");
     RUN("ByteArray(8).size()", "8\n");
     RUN("b = ByteArray(); b.length = 10; b.length", "10\n");
+
+    // ByteArray implicitly converts to str.
+    RUN("ByteArray('test') == 'test'", "true\n");
+    RUN("ByteArray('test1') == 'test2'", "false\n");
+    RUN("ByteArray('test') === 'test'", "false\n");
+    RUN("ByteArray('a') + 'b'", "ab\n");
 }
 
 void Tests::classFile()
@@ -1985,16 +2029,13 @@ void Tests::classTemporaryFile()
     RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath("copyq.test.XXXXXX") + "\n");
 }
 
-void Tests::calledWithBadInstance()
+void Tests::calledWithInstance()
 {
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        "f=ByteArray().size; f()", CommandException, "ScriptError: Invalid ByteArray object");
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        "f=Dir().count; f()", CommandException, "ScriptError: Invalid Dir object");
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        "f=File().open; f()", CommandException, "ScriptError: Invalid File object");
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        "f=TemporaryFile().autoRemove; f()", CommandException, "ScriptError: Invalid TemporaryFile object");
+    // These would fail with the old deprecated Qt Script module.
+    RUN("f=ByteArray().size; f()", "0\n");
+    RUN("f=Dir().path; f()", ".\n");
+    RUN("f=File('test').fileName; f()", "test\n");
+    RUN("f=TemporaryFile().autoRemove; f()", "true\n");
 }
 
 void Tests::pipingCommands()
@@ -3316,6 +3357,78 @@ void Tests::scriptCommandOverrideFunction()
         )";
     RUN(script, "");
     RUN("popup" << "test" << "xxx", "test");
+}
+
+void Tests::scriptCommandEnhanceFunction()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'var popup_ = popup; global.popup = function(msg) { popup_(msg); return msg + 1; }'
+            },
+            {
+                isScript: true,
+                cmd: 'var popup_ = popup; global.popup = function(msg) { return popup_(msg) + msg + 2; }'
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("popup" << "test", "test1test2\n");
+}
+
+void Tests::scriptCommandEndingWithComment()
+{
+    /*
+    With Qml scripts in Qt 5, it's not possible to execute script in new context,
+    only in the global one.
+
+    Workaround is to wrap the script properly in a new function:
+
+        function() {
+            %1
+        }()
+
+    (Unfortunatelly, it's still possible to escape the new context with a script injection.)
+    */
+
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.popup = function(msg) { return msg + 1; } // TEST'
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("popup" << "test", "test1\n");
+}
+
+void Tests::scriptCommandWithError()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                name: 'bad_script',
+                cmd: 'if (env("COPYQ_TEST_THROW") == "1") throw Error("BAD SCRIPT")'
+            },
+        ])
+        )";
+    RUN(script, "");
+    m_test->setEnv("COPYQ_TEST_THROW", "1");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "", CommandError,
+        "ScriptError: BAD SCRIPT\n"
+        "\n"
+        "--- backtrace ---\n"
+    );
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "", CommandError,
+        "\nsource@<bad_script>\n"
+        "--- end backtrace ---\n"
+    );
+    m_test->setEnv("COPYQ_TEST_THROW", "0");
 }
 
 void Tests::displayCommand()
