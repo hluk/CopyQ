@@ -1343,7 +1343,11 @@ void Tests::commandsData()
 void Tests::commandCurrentWindowTitle()
 {
     RUN("disable", "");
+#ifdef Q_OS_MAC
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+#else
     WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ-TEST\n");
+#endif
     RUN("enable", "");
 }
 
