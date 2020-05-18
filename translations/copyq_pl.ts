@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij dane podanego typu do standardowego wejścia komendy (zostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utwórz obiekty ze standardowego wyjścia programu (zostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -129,7 +129,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Menedżer procesów</translation>
+        <translation>Menedżer procesów</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -139,7 +139,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zakończ wybrane</translation>
     </message>
 </context>
 <context>
@@ -147,7 +147,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Dodawanie poleceń</translation>
+        <translation>Dodaj polecenia</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -326,12 +326,12 @@ Możesz je skonfigurować w Preferencjach.</translation>
     </message>
     <message>
         <source>Tab is full. Failed to remove any items.</source>
-        <translation type="vanished">Karta jest pełna. Nie udało się&#xa0;usunąć żadnych elementów.</translation>
+        <translation type="vanished">Karta jest pełna. Nie udało się usunąć żadnych elementów.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie można dodać nowych elementów do karty %1. Usuń elementy ręcznie, aby zwolnić miejsce.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
@@ -362,7 +362,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Zawartość Schowka</translation>
+        <translation>Zawartość Schowka</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -382,7 +382,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Zawartość Elementu</translation>
+        <translation>Zawartość Elementu</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
@@ -438,7 +438,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Makropolecenia</translation>
+        <translation>Polecenia</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -453,7 +453,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Załaduj polecenia…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
@@ -972,7 +972,7 @@ naciśnij klawisz F2, aby edytować.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">Język:</translation>
+        <translation>&amp;Język:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1215,7 +1215,7 @@ Użyj Podglądu, aby wyświetlić całe elementy.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="233"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Przenieś&#xa0;aktywowany element do górnej części listy</translation>
+        <translation type="unfinished">Przenieś aktywowany element do górnej części listy</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="236"/>
@@ -1456,7 +1456,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Maksymalna wysokość&#xa0;powiadomienia w pikselach</translation>
+        <translation type="unfinished">Maksymalna wysokość powiadomienia w pikselach</translation>
     </message>
 </context>
 <context>

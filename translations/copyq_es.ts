@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation> Enviar los datos del tipo de medio dado a la entrada estándar del comando (dejar desmarcado para desactivar)</translation>
+        <translation>Enviar datos de tipo de medio indicado a entrada estándar de orden (dejar vacío para desactivar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Crear items de la salida estándar del programa (dejar vacío para desactivar)</translation>
+        <translation>Crear elementos desde salida estándar del programa (dejar vacío para desactivar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -147,7 +147,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation>Agregar comandos</translation>
+        <translation>Añadir órdenes</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -237,7 +237,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
-        <translation>Nuevo comando</translation>
+        <translation>Orden nueva</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
@@ -331,7 +331,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>No se pueden añadir elementos nuevos a la pestaña %1. Quite elementos manualmente para hacer espacio.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
@@ -341,7 +341,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>¿Está seguro de que desea &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
+        <translation>¿Confirma que quiere &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -382,7 +382,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation>Contenido del Elemento</translation>
+        <translation>Contenido del elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
@@ -406,17 +406,17 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="341"/>
         <source>Cancel Active Commands</source>
-        <translation>Cancelar Órdenes Activas</translation>
+        <translation>Cancelar órdenes activas</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="342"/>
         <source>Cancel active commands and exit?</source>
-        <translation>¿Desea cancelar las Órdenes Activas y salir?</translation>
+        <translation>¿Quiere cancelar las órdenes activas y salir?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="345"/>
         <source>Cancel Exiting</source>
-        <translation>Cancelar Salir</translation>
+        <translation>Cancelar salida</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="346"/>
@@ -438,7 +438,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation>Comandos</translation>
+        <translation>Órdenes</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -453,17 +453,17 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation>&amp;Cargar comandos…</translation>
+        <translation>&amp;Cargar órdenes…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>G&amp;uardar selección…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Copiado Seleccionado [CTRL+C]</translation>
+        <translation>Copiar selección</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="94"/>
@@ -473,7 +473,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="212"/>
         <source>Unsaved Changes</source>
-        <translation>Cambios No Guardados</translation>
+        <translation>Cambios no guardados</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="212"/>
@@ -701,7 +701,7 @@ Dejar en blanco para desactivarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Avanzado</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -713,7 +713,7 @@ Dejar en blanco para desactivarlo.</translation>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Secuencia de órdenes</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
@@ -1615,7 +1615,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="463"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores predeterminados.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
+        <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores predeterminados.&lt;br /&gt;&lt;br /&gt;¿Confirma que quiere &lt;strong&gt;restablecer todas las preferencias&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="566"/>
@@ -2304,7 +2304,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation>Hola de Estilo</translation>
+        <translation>Hoja de estilos</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
