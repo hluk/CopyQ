@@ -1614,7 +1614,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="462"/>
         <source>Reset preferences?</source>
-        <translation>Сбросить настройки ?</translation>
+        <translation>Сбросить настройки?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="463"/>
@@ -2437,7 +2437,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="510"/>
         <source>&amp;Show/Hide</source>
-        <translation>&amp;Показать/спрятать</translation>
+        <translation>&amp;Показать/скрыть</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3387"/>
@@ -2701,7 +2701,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>P&amp;rocess Manager</source>
-        <translation>Менеджер п&amp;роцессов</translation>
+        <translation>Диспетчер п&amp;роцессов</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
