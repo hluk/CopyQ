@@ -102,8 +102,8 @@
         <location filename="../src/gui/actiondialog.cpp" line="221"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>命令已保存，你可以通过条目菜单来访问。
-你可以在首选项中建立命令。</translation>
+        <translation>命令已保存，可以通过条目菜单访问。
+你可以在首选项中设置命令。</translation>
     </message>
 </context>
 <context>
@@ -217,12 +217,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation>粘贴并复制下一个</translation>
+        <translation>粘贴并复制下一项</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation>粘贴并复制上一个</translation>
+        <translation>粘贴并复制上一项</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
@@ -2125,7 +2125,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;固定条目以吧它们锁定在当前行并避免删除（除非接触固定）&lt;/p&gt;&lt;p&gt;提供快捷方式和脚本功能&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;固定条目以锁定它们在当前行并避免删除（除非解除固定）&lt;/p&gt;&lt;p&gt;提供快捷方式和脚本功能&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
