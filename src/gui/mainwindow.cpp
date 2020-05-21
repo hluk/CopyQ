@@ -1405,7 +1405,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
         return;
     }
 
-    const auto data = addSelectionData(*c);
+    auto data = addSelectionData(*c);
     const auto commands = commandsForMenu(data, c->tabName(), m_menuCommands);
 
     for (const auto &command : commands) {
@@ -1464,12 +1464,14 @@ void MainWindow::addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const
     }
 }
 
-void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, const QVariantMap &data)
+void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, QVariantMap &data)
 {
     if ( menuMatchCommands->actions.isEmpty() ) {
         interruptMenuCommandFilters(menuMatchCommands);
         return;
     }
+
+    data[COPYQ_MIME_PREFIX "match-commands"] = menuMatchCommands->matchCommands;
 
     const bool isRunning = isInternalActionId(menuMatchCommands->actionId);
     if (isRunning) {
@@ -1479,11 +1481,8 @@ void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, con
         menuMatchCommands->actionId = act->id();
     }
 
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << ++menuMatchCommands->currentRun;
-    out << menuMatchCommands->matchCommands;
-    emit sendActionData(menuMatchCommands->actionId, bytes);
+    const int currentRun = ++menuMatchCommands->currentRun;
+    emit sendActionData(menuMatchCommands->actionId, QByteArray::number(currentRun));
 }
 
 void MainWindow::interruptMenuCommandFilters(MainWindow::MenuMatchCommands *menuMatchCommands)

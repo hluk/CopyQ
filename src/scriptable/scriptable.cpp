@@ -2542,23 +2542,11 @@ void Scriptable::runMenuCommandFilters()
         if ( bytes.isEmpty() )
             return;
 
-        QDataStream in(bytes);
-
-        int currentRun;
-        in >> currentRun;
-        if ( in.status() != QDataStream::Ok ) {
-            log("Failed to deserialize counter for menu item filter", LogError);
-            return;
-        }
-
-        QStringList matchCommands;
-        in >> matchCommands;
-        if ( in.status() != QDataStream::Ok ) {
-            log("Failed to deserialize commands for menu item filter", LogError);
-            return;
-        }
+        const int currentRun = bytes.toInt();
 
         getActionData(actionId);
+        const QStringList matchCommands =
+            m_data.value(COPYQ_MIME_PREFIX "match-commands").toStringList();
 
         PerformanceLogger logger( QLatin1String("Menu item filters") );
 

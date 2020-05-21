@@ -594,7 +594,7 @@ private:
     void addCommandsToItemMenu(ClipboardBrowser *c);
     void addCommandsToTrayMenu(const QVariantMap &clipboardData);
     void addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const QString &matchCommand, QAction *act);
-    void runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, const QVariantMap &data);
+    void runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, QVariantMap &data);
     void interruptMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
     void stopMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
 
