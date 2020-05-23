@@ -390,7 +390,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Taille :&lt;/strong&gt; %1 octets</translation>
+        <translation>&lt;strong&gt;Taille :&lt;/strong&gt; %1 octets</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>

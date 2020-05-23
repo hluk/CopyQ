@@ -387,7 +387,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Boyut:&lt;/strong&gt; %1 bytes</translation>
+        <translation>&lt;strong&gt;Boyut:&lt;/strong&gt; %1 bayt</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -2215,12 +2215,13 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Dosyaları yok saymak için ortam türünü &lt;strong&gt;-&lt;/strong&gt; (eksi işareti) olarak ayarlayın. Diğer bilinmeyen veya gizli dosyalar yok sayılır.&lt;/p&gt;
+&lt;p&gt;Örnek: &lt;strong&gt;txt&lt;/strong&gt; dosya uzantısını &lt;strong&gt;text/plain&lt;/strong&gt; olarak yükleyin.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Öge Ortam Türü</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2568,6 +2569,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -2754,7 +2756,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">&amp;Panoya taşı</translation>
+        <translation>&amp;Panoya Taşı</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -2938,7 +2940,8 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
+        <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
@@ -3180,13 +3183,13 @@ Tepsi açılır mesajını TIME milisaniye için göster.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished">PROGRAM&apos;ı satırlardaki öğe metninde çalıştırın.
-PROGRAM içerisinde metni argüman olarak iletmek için % 1 kullanın.</translation>
+        <translation>PROGRAM&apos;ı satırlardaki öge metninde çalıştırın.
+Metni argüman olarak iletmek için PROGRAM içerisinde %1 kullanın.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished">Tepsi açılır mesajını TIME milisaniye göster.</translation>
+        <translation>Tepsi açılır pencere mesajını ZAMAN milisaniye göster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3284,17 +3287,17 @@ Varsayılan ayar ilk sekmedir.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished">Betiği değerlendir.</translation>
+        <translation>Betiği değerlendir.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished">Verilen oturum adıyla uygulama örneğini başlatır veya uygulama örneğine bağlanır.</translation>
+        <translation>Verilen oturum adına sahip uygulama örneğini başlatır veya ona bağlanır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished">COMMAND veya tüm komutlar için yardımı yazdırın.</translation>
+        <translation>KOMUT veya tüm komutlar için yardımı yazdır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
@@ -3575,7 +3578,7 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished">Öğeleri &amp;Kaydet</translation>
+        <translation>Ögeleri &amp;Kaydet</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
