@@ -625,7 +625,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished">篩選器(&amp;F):</translation>
+        <translation>篩選(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="361"/>
@@ -638,7 +638,7 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;只當篩選命令成功才使用命令。&lt;/p&gt;
 
-&lt;p&gt;項目文被傳送到篩選器命令的&lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在篩選器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
+&lt;p&gt;項目文被傳送到篩選命令的&lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在篩選命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
 
 &lt;p&gt;用 &lt;b&gt;%1&lt;/b&gt; 作為參元接收傳送的項目文，並用 &lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 作為參元接收類型式(regular expression)抓出的文 (括在括號中的部分)。&lt;/p&gt;
 
@@ -1053,12 +1053,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation>儲存和還原項目篩選器的歷史記錄</translation>
+        <translation>儲存和還原項目篩選的歷史記錄</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">儲存篩選器歷史</translation>
+        <translation>儲存篩選歷史</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
@@ -2802,7 +2802,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
-        <translation>Shift + F2</translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -2930,7 +2930,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation>Shift + F10</translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
