@@ -2215,8 +2215,8 @@ Defina como 0 para desativar.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Definir tipo de media para &lt;strong&gt;-&lt;/strong&gt; (menos caractere) para ignorar arquivos. Quaisquer outros arquivos desconhecidos ou ocultos são ignorados.&lt;/p&gt;
-&lt;p&gt;Exemplo: Carregar &lt;strong&gt;txt&lt;/strong&gt; extensão de arquivo como &lt;strong&gt;texto/pleno&lt;/strong&gt; tipo de mídia.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Defina o tipo da media para &lt;strong&gt;-&lt;/strong&gt; (caractere menos) para ignorar os arquivos. Quaisquer outros arquivos desconhecidos ou ocultos são ignorados.&lt;/p&gt;
+&lt;p&gt;Exemplo: Carregue a extensão de arquivo &lt;strong&gt;txt&lt;/strong&gt; como um tipo de &lt;strong&gt;texto/pleno&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
@@ -2778,7 +2778,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Mo&amp;ver para a área de transferência</translation>
+        <translation>Mo&amp;ver Para a Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
