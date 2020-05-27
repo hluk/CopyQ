@@ -5,10 +5,10 @@ Notification, Notification QWidget
 }
 Notification QWidget{
     ;color: ${notification_fg}
-    ;${fontString}
+    ;${notification_font}
 }
 Notification #NotificationTitle{
-    ;${scale=1.2}${fontString}${scale=1}
+    ;${scale=1.2}${notification_font}${scale=1}
 }
 Notification #NotificationTip{
     ;font-style: italic
