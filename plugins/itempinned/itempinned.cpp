@@ -84,7 +84,7 @@ void ItemPinned::paintEvent(QPaintEvent *paintEvent)
     color.setHsl(
                 color.hue(),
                 color.saturation(),
-                qMax(0, qMin(255, color.lightness() + (menuBackgrounIsLight ? -200 : 50)))
+                qMax(0, qMin(255, color.lightness() + (menuBackgrounIsLight ? -200 : 200)))
                 );
 
     QPainter painter(this);
