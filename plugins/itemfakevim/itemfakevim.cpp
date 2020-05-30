@@ -170,6 +170,7 @@ public:
     {
         m_handler->installEventFilter();
         m_handler->setupWidget();
+        m_handler->enterCommandMode();
     }
 
     bool eventFilter(QObject *obj, QEvent *ev) override
