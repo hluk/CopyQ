@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+Before creating a new issue, see list of [known
+issues](https://copyq.readthedocs.io/en/latest/known-issues.html).
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
