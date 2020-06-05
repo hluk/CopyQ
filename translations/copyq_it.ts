@@ -1015,7 +1015,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>Abilita per aprire una finestra nello schermo attuale. Disabilita per per aprire una finestra dove le altre sono state chiuse</translation>
+        <translation>Abilita per aprire finestre nello schermo attuale. Disabilita per aprire finestre dove erano state chiuse in precedenza</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
