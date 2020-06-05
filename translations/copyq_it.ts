@@ -2065,17 +2065,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Elemento soprastante</translation>
+        <translation>Oggetto sopra</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>Ele&amp;mento sottostante</translation>
+        <translation>Oggetto sotto</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>Ele&amp;mento vicino</translation>
+        <translation>Oggetto a lato</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2136,7 +2136,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt; Appunta gli elementi per bloccarli nella riga corrente ed evita l&apos;eliminazione (a meno che non sia scollegato). &lt;/p&gt; &lt;p&gt; Fornisce scorciatoie e funzionalità di scripting. &lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Blocca gli elementi nella riga attuale e ne previene la cancellazione fino allo sblocco.&lt;/p&gt;&lt;p&gt;Fornisce scorciatoie e funzionalità di scripting.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2923,7 +2923,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
-        <translation>Apri il Menu Contestuale dell&apos;Elemento</translation>
+        <translation>Apri menù contestuale</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
