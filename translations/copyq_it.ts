@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Finestra azione di</translation>
+        <translation>Azione</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -129,17 +129,17 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Gestore processo</translation>
+        <translation>Gestore processo</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation>Filtro</translation>
+        <translation>Filtra</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;Selezionato terminare</translation>
+        <translation>Termina Selezionati</translation>
     </message>
 </context>
 <context>
@@ -147,7 +147,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Aggiungi comandi</translation>
+        <translation>Aggiungi comandi</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -331,7 +331,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile aggiungere elementi alla scheda %1. Libera spazio rimuovendo elementi manualmente.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
@@ -362,7 +362,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished">Contenuto degli Appunti</translation>
+        <translation>Contenuto degli Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -382,13 +382,13 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished">Contenuto dell&apos;elemento</translation>
+        <translation>Contenuto dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Dimensione:&lt;/strong&gt; %1 byte</translation>
+        <translation>&lt;strong&gt;Dimensione:&lt;/strong&gt; %1 byte</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -438,7 +438,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished">Comandi</translation>
+        <translation>Comandi</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -657,7 +657,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation>&amp;Avanzato</translation>
+        <translation>&amp;Avanzate</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
@@ -669,7 +669,7 @@ Lascialo vuoto per disabilitarlo.</translation>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation>Display</translation>
+        <translation>Visualizzazione</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
@@ -1563,7 +1563,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished">Impostazioni</translation>
+        <translation>Impostazioni</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
@@ -2220,12 +2220,13 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Imposta il tipo di supporto su &lt;strong&gt;-&lt;/strong&gt; (carattere meno) per ignorare i file. I file sconosciuti o nascosti vengono ignorati.&lt;/p&gt;
+&lt;p&gt;Esempio: Carica i file con estensione &lt;strong&gt;txt&lt;/strong&gt; come tipo di supporto &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo di supporto dell&apos;elemento</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2382,7 +2383,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Registro eventi</translation>
+        <translation>Registro</translation>
     </message>
 </context>
 <context>
@@ -2429,7 +2430,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1883"/>
         <source>Options for Import</source>
-        <translation type="unfinished">Opzioni importazione</translation>
+        <translation>Opzioni importazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="510"/>
@@ -2444,7 +2445,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3408"/>
         <source>Export Error</source>
-        <translation type="unfinished">Errore esportazione</translation>
+        <translation>Errore esportazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3409"/>
@@ -2511,7 +2512,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3497"/>
         <source>Import Error</source>
-        <translation type="unfinished">Errore importazione</translation>
+        <translation>Errore importazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3498"/>
@@ -2776,7 +2777,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Sposta ne&amp;gli Appunti</translation>
+        <translation>Sposta ne&amp;gli Appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3200,12 +3201,13 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia negli appunti dalla finestra attiva
+(potrebbe non funzionare con alcune applicazioni).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta il contenuto degli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
@@ -3215,18 +3217,19 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Scrive dati RAW nella riga selezionata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegue PROGRAMMA sul testo dell&apos;elemento nelle righe.
+Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra il messaggio nella barra di sistema per TIME millisecondi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3295,7 +3298,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elabora script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3310,17 +3313,17 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizia o si connette ad un&apos;istanza dell&apos;applicazione con il dato nome sessione.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra aiuto per COMMAND o tutti i comandi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la versione del programma e delle sue librerie.</translation>
     </message>
     <message>
         <source>
@@ -3471,7 +3474,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Nuova scorciatoia</translation>
+        <translation>Nuova scorciatoia</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3545,12 +3548,12 @@ Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</trans
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Nuova scheda</translation>
+        <translation>Nuova scheda</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Rinomina scheda</translation>
+        <translation>Rinomina scheda</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
@@ -3573,7 +3576,7 @@ Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</trans
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salva elementi</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
