@@ -3,7 +3,6 @@ macro (copyq_add_plugin copyq_pkg)
     file(GLOB copyq_plugin_SOURCES
         ${copyq_plugin_${copyq_pkg}_SOURCES}
         *.cpp
-        ../../src/item/itemwidget.cpp
         )
     file(GLOB copyq_plugin_FORMS
         ${copyq_plugin_${copyq_pkg}_FORMS}
@@ -30,7 +29,7 @@ macro (copyq_add_plugin copyq_pkg)
     set_target_properties(${copyq_pkg} PROPERTIES
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
-    target_link_libraries(${copyq_pkg} ${copyq_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
+    target_link_libraries(${copyq_pkg} copyq-common ${copyq_plugin_${copyq_pkg}_LIBRARIES})
 
     if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})

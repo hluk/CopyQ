@@ -1,6 +1,5 @@
 # Project files
 file(GLOB copyq_SOURCES
-    main.cpp
     app/*.cpp
     common/*.cpp
     gui/*.cpp
@@ -58,7 +57,8 @@ set(copyq_COMPILE
     )
 
 if (NOT APPLE)
-    add_executable(${COPYQ_EXECUTABLE_NAME} ${copyq_COMPILE})
+    add_library(copyq-common SHARED ${copyq_COMPILE})
+    add_executable(${COPYQ_EXECUTABLE_NAME} main.cpp)
 else()
     # On Macs we must ensure Carbon and Cocoa are linked
     FIND_LIBRARY(CARBON_LIBRARY "Carbon")
@@ -92,10 +92,11 @@ else()
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     set(copyq_COMPILE ${copyq_COMPILE} "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns")
 
-    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
+    add_library(copyq-common SHARED ${copyq_COMPILE})
+    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE main.cpp)
 endif()
 
-add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_header)
+add_dependencies(copyq-common generate_version_header)
 
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)
@@ -105,16 +106,20 @@ foreach (copyq_qt_module ${copyq_qt_modules})
 endforeach()
 
 # macros definitions for preprocessor and moc
-set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
+set_target_properties(${COPYQ_EXECUTABLE_NAME} copyq-common PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 
 # link
-set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
-target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
+set_target_properties(${COPYQ_EXECUTABLE_NAME} copyq-common PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
+target_link_libraries(${COPYQ_EXECUTABLE_NAME} copyq-common)
+target_link_libraries(copyq-common ${copyq_LIBRARIES})
 
 # install
-install(TARGETS ${COPYQ_EXECUTABLE_NAME}
+set(INSTALL_LIB_DIR "lib${LIB_SUFFIX}" CACHE PATH
+    "Installation directory for copyq-common library")
+install(TARGETS ${COPYQ_EXECUTABLE_NAME} copyq-common
     BUNDLE DESTINATION . COMPONENT Runtime
     RUNTIME DESTINATION bin COMPONENT Runtime
+    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT Runtime
     )
 
 if (NOT APPLE)
@@ -161,6 +166,7 @@ else()
         )
 
     set(FIXUP_BUNDLE_APPS "\${CMAKE_INSTALL_PREFIX}/${COPYQ_EXECUTABLE_NAME}.app")
+    set(_copyq_installed_lib "\${CMAKE_INSTALL_PREFIX}/lib/copyq-common.dylib")
 
     get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
 
@@ -170,7 +176,7 @@ else()
     install(CODE "
         include(BundleUtilities)
         set(BU_CHMOD_BUNDLE_ITEMS ON)
-        fixup_bundle(\"${FIXUP_BUNDLE_APPS}\" \"${FIXUP_BUNDLE_QT_PLUGINS};${_copyq_installed_plugins}\" \"${FIXUP_BUNDLE_DEP_DIRS}\")
+        fixup_bundle(\"${FIXUP_BUNDLE_APPS}\" \"${FIXUP_BUNDLE_QT_PLUGINS};${_copyq_installed_lib};${_copyq_installed_plugins}\" \"${FIXUP_BUNDLE_DEP_DIRS}\")
         verify_app(\"${FIXUP_BUNDLE_APPS}\")
         "
         COMPONENT Runtime

@@ -14,6 +14,7 @@ set BuildPlugins=%BuildRoot%\plugins\%BUILD_SUB_DIR%
 
 mkdir "%Destination%"
 xcopy /F "%Build%\copyq.exe" "%Destination%" || goto :error
+xcopy /F "%Build%\copyq-common.dll" "%Destination%" || goto :error
 
 xcopy /F "%Source%\AUTHORS" "%Destination%" || goto :error
 xcopy /F "%Source%\LICENSE" "%Destination%" || goto :error
