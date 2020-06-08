@@ -117,7 +117,8 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation>Quitter le code : %1</translation>
+        <translation>Code de sortie : %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
@@ -140,7 +141,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Terminer Sélectionné</translation>
     </message>
 </context>
 <context>
@@ -228,12 +229,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation>Faire une copie d&apos;écran</translation>
+        <translation>Faire une capture d&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation>Coller la date et l&apos;heure actuelle</translation>
+        <translation>Coller date et heure courantes</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -243,7 +244,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation>Ignorer les éléments de moins de 2 caractères</translation>
+        <translation>Ignorer les éléments de 0 ou 1 caractère</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
@@ -273,7 +274,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>Créer un QR Code à partir d&apos;une URL (nécessite qrencode)</translation>
+        <translation>Créez un Code QR à partir d&apos;une URL (nécessite qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
@@ -351,7 +352,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="130"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur ! Lancer le serveur CopyQ en premier lieu.</translation>
+        <translation>Impossible de se connecter au serveur! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="123"/>
