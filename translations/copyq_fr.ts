@@ -703,7 +703,7 @@ Laisser vide pour désactiver.</translation>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation>Affichage</translation>
+        <translation>Afficher</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
