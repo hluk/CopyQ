@@ -1660,7 +1660,7 @@ Mettre à 0 pour désactiver.</translation>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation>...</translation>
+        <translation>…</translation>
     </message>
 </context>
 <context>
@@ -3179,7 +3179,7 @@ Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
         <translation>Exécuter la commande dans l&apos;onglet avec le nom donné.
 L&apos;onglet est créé s&apos;il n&apos;existe pas.
-Par défaut cible le premier onglet.</translation>
+Par défaut, cible le premier onglet.</translation>
     </message>
     <message>
         <source>
