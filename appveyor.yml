@@ -9,10 +9,18 @@ environment:
     - QTDIR: C:\Qt\5.13\mingw73_32
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_32
+      # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
+      # https://www.appveyor.com/docs/windows-images-software/#tools
+      OPENSSL_PATH: C:\OpenSSL-v111-Win32\bin
+      LIBSSL: libssl-1_1.dll
+      LIBCRYPTO: libcrypto-1_1.dll
 
     - QTDIR: C:\Qt\5.13\mingw73_64
       CMAKE_GENERATOR: MinGW Makefiles
       MINGW_PATH: C:\Qt\Tools\mingw730_64
+      OPENSSL_PATH: C:\OpenSSL-v111-Win64\bin
+      LIBSSL: libssl-1_1-x64.dll
+      LIBCRYPTO: libcrypto-1_1-x64.dll
 
 # Parameters for default build commands (build_script is used instead).
 build:

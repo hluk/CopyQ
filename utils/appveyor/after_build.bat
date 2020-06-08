@@ -28,6 +28,9 @@ xcopy /F "%BuildRoot%\src\*.qm" "%Destination%\translations" || goto :error
 mkdir "%Destination%\plugins"
 xcopy /F "%BuildPlugins%\*.dll" "%Destination%\plugins" || goto :error
 
+xcopy /F "%OPENSSL_PATH%\%LIBCRYPTO%" "%Destination%" || goto :error
+xcopy /F "%OPENSSL_PATH%\%LIBSSL%" "%Destination%" || goto :error
+
 %QTDIR%\bin\windeployqt --version
 %QTDIR%\bin\windeployqt --help
 %QTDIR%\bin\windeployqt --release --no-system-d3d-compiler --no-angle --no-opengl-sw "%Executable%" || goto :error
