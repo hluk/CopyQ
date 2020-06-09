@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Makropolecenia</translation>
+        <translation>Okno dialogowe</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -139,7 +139,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;Zakończ wybrane</translation>
+        <translation>&amp;Zamknij wybrane</translation>
     </message>
 </context>
 <context>
@@ -388,7 +388,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Wielkość:&lt;/strong&gt; %1 bajt(ów)</translation>
+        <translation>&lt;strong&gt;Wielkość:&lt;/strong&gt; %1 bajt(y/ów)</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
