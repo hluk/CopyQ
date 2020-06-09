@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Wyślij dane podanego typu do standardowego wejścia komendy (zostaw puste, aby wyłączyć)</translation>
+        <translation>Wyślij dane danego typu nośnika na standardowe wejście polecenia (pozostaw puste, aby wyłączyć)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
