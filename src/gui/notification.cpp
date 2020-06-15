@@ -39,7 +39,6 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QTextEdit>
-#include <QVBoxLayout>
 
 #include <memory>
 
@@ -74,21 +73,14 @@ private:
 
 Notification::Notification()
 {
-    auto bodyLayout = new QVBoxLayout(this);
-    bodyLayout->setMargin(8);
-    m_body = new QWidget(this);
-    bodyLayout->addWidget(m_body);
-    bodyLayout->setSizeConstraint(QLayout::SetMaximumSize);
-
-    m_layout = new QGridLayout(m_body);
-    m_layout->setMargin(0);
+    m_layout = new QGridLayout(this);
+    m_layout->setMargin(8);
 
     m_iconLabel = new QLabel(this);
     m_iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
 
     m_msgLabel = new QLabel(this);
     m_msgLabel->setAlignment(Qt::AlignTop | Qt::AlignAbsolute);
-    m_msgLabel->setWordWrap(true);
 
     setTitle(QString());
 
@@ -207,7 +199,11 @@ void Notification::updateIcon()
 
 void Notification::adjust()
 {
-    m_body->adjustSize();
+    m_msgLabel->setMaximumSize(maximumSize());
+    if ( !m_msgLabel->isVisible() && m_msgLabel->sizeHint().width() > maximumWidth() ) {
+        m_msgLabel->setWordWrap(true);
+        m_msgLabel->adjustSize();
+    }
     adjustSize();
 }
 

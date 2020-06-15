@@ -136,8 +136,8 @@ void NotificationDaemon::doUpdateNotifications()
         notification->setOpacity(m_opacity);
         notification->setStyleSheet(m_styleSheet);
         notification->updateIcon();
-        notification->adjust();
         notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
+        notification->adjust();
 
         do {
             int x;

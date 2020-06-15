@@ -66,7 +66,6 @@ private:
     void onTimeout();
     void onButtonClicked(const NotificationButton &button);
 
-    QWidget *m_body = nullptr;
     QGridLayout *m_layout = nullptr;
     QHBoxLayout *m_buttonLayout = nullptr;
     QLabel *m_titleLabel = nullptr;
