@@ -64,16 +64,17 @@ namespace {
 
 uint monitorCommandStateHash(const QVector<Command> &commands)
 {
-    uint hash = 0;
+    uint seed = 0;
+    QtPrivate::QHashCombine hash;
 
     for (const auto &command : commands) {
         if (command.type() == CommandType::Script)
-            hash = qHash(command.cmd, hash);
+            seed = hash(seed, command.cmd);
         else if (command.type() == CommandType::Automatic && !command.input.isEmpty())
-            hash = qHash(command.input, hash);
+            seed = hash(seed, command.input);
     }
 
-    return hash;
+    return seed;
 }
 
 void setTabWidth(QTextEdit *editor, int spaces)

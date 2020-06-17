@@ -155,7 +155,8 @@ void ActionHandler::closeAction(Action *action)
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
     m_actionModel->actionFailed(action, message);
-    const auto notificationId = qHash(action->commandLine()) ^ qHash(message);
+    QtPrivate::QHashCombine hash;
+    const auto notificationId = hash( hash(0, action->commandLine()), message );
     auto notification = m_notificationDaemon->createNotification( QString::number(notificationId) );
     if ( notification->isVisible() )
         return;

@@ -2822,7 +2822,8 @@ void Scriptable::showExceptionMessage(const QString &message)
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(m_actionName) );
 
-    const auto id = qHash(title) ^ qHash(message);
+    QtPrivate::QHashCombine hash;
+    const auto id = hash(hash(0, title), message);
     const auto notificationId = QString::number(id);
     m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000, notificationId);
 }

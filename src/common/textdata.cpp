@@ -39,7 +39,8 @@ QString escapeHtmlSpaces(const QString &str)
 
 uint hash(const QVariantMap &data)
 {
-    uint hash = 0;
+    uint seed = 0;
+    QtPrivate::QHashCombine hash;
 
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &mime = it.key();
@@ -47,10 +48,12 @@ uint hash(const QVariantMap &data)
         // Skip some special data.
         if (mime == mimeWindowTitle || mime == mimeOwner || mime == mimeClipboardMode)
             continue;
-        hash ^= qHash(data[mime].toByteArray()) + qHash(mime);
+
+        seed = hash(seed, mime);
+        seed = hash(seed, data[mime].toByteArray());
     }
 
-    return hash;
+    return seed;
 }
 
 QString quoteString(const QString &str)
