@@ -274,6 +274,8 @@ private slots:
 
     void changeAlwaysOnTop();
 
+    void networkGet();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

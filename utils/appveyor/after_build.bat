@@ -40,6 +40,13 @@ xcopy /F "%OPENSSL_PATH%\%LIBSSL%" "%Destination%" || goto :error
 choco install -y InnoSetup || goto :error
 "C:\ProgramData\chocolatey\bin\ISCC.exe" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
 
+REM Note: Following removes system-installed dlls to verify required libs are included.
+del C:\Windows\System32\libcrypto-* || goto :error
+del C:\Windows\System32\libssl-* || goto :error
+del C:\Windows\SysWOW64\libcrypto-* || goto :error
+del C:\Windows\SysWOW64\libssl-* || goto :error
+set PATH=%Destination%
+
 set QT_FORCE_STDERR_LOGGING=1
 set COPYQ_TESTS_RERUN_FAILED=1
 "%Executable%" --help || goto :error

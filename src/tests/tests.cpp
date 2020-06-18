@@ -3637,6 +3637,13 @@ void Tests::changeAlwaysOnTop()
     WAIT_ON_OUTPUT("focused", "false\n");
 }
 
+void Tests::networkGet()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
+
+    RUN("r = networkGet('https://example.com'); r.data; r.status", "200\n");
+}
+
 int Tests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)
