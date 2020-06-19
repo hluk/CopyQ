@@ -29,6 +29,9 @@
 
 namespace {
 
+const int waitForModsReleaseMs = 25;
+const int maxWaitForModsReleaseMs = 2000;
+
 QString windowTitle(HWND window)
 {
     WCHAR buf[1024];
@@ -114,6 +117,28 @@ bool isKeyPressed(int key)
     return GetKeyState(key) & 0x8000;
 }
 
+bool isModifierPressed()
+{
+    return isKeyPressed(VK_LCONTROL)
+        || isKeyPressed(VK_RCONTROL)
+        || isKeyPressed(VK_LSHIFT)
+        || isKeyPressed(VK_RSHIFT)
+        || isKeyPressed(VK_LMENU)
+        || isKeyPressed(VK_RMENU)
+        || isKeyPressed(VK_MENU);
+}
+
+bool waitForModifiersReleased()
+{
+    for (int ms = 0; ms < maxWaitForModsReleaseMs; ms += waitForModsReleaseMs) {
+        if (!isModifierPressed())
+            return true;
+        Sleep(waitForModsReleaseMs);
+    }
+
+    return false;
+}
+
 } // namespace
 
 WinPlatformWindow::WinPlatformWindow(HWND window)
@@ -161,21 +186,12 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
 
     Sleep(150);
 
-    QVector<INPUT> input;
+    // Wait for user to release modifiers.
+    if (!waitForModifiersReleased())
+        return;
 
-    static const QList<int> mods = QList<int>()
-            << VK_LCONTROL << VK_RCONTROL
-            << VK_LSHIFT << VK_RSHIFT
-            << VK_LMENU << VK_RMENU
-            << VK_MENU;
-
-    // Release all modifiers first to send just Shift+Insert.
-    for (int mod : mods) {
-        if ( isKeyPressed(mod) )
-            input << createInput(mod, KEYEVENTF_KEYUP);
-    }
-
-    input << createInput(modifier)
+    auto input = QVector<INPUT>()
+          << createInput(modifier)
           << createInput(key)
           << createInput(key, KEYEVENTF_KEYUP)
           << createInput(modifier, KEYEVENTF_KEYUP);
