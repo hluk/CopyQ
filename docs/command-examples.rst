@@ -403,10 +403,10 @@ for item in row "2".
     Shortcut=ctrl+1, ctrl+2, ctrl+3, ctrl+4, ctrl+5, ctrl+6, ctrl+7, ctrl+8, ctrl+9, ctrl+0
     GlobalShortcut=meta+shift+w, meta+shift+e, meta+shift+q, DISABLED
 
-Edit File
-~~~~~~~~~
+Edit Files
+~~~~~~~~~~
 
-Opens file referenced by selected item in external editor (uses
+Opens files referenced by selected item in external editor (uses
 "External editor command" from "History" config tab).
 
 Works with following path formats (some editors may not support all of
@@ -421,23 +421,26 @@ these).
 
 .. code-block:: ini
 
-    [Command]
-    Name=Edit File
-    Match=^([a-zA-Z]:[\\\\/]|~|file://|%\\w+%|$\\w+|/)
-    Command="
-        copyq:
-        var editor = config('editor')
-        
-        var fileName = str(input())
-          .replace(/^\\/([a-zA-Z])\\//, '$1:/')
-          .replace(/^file:\\/\\//, '')
-        
-        hide()
-        execute(editor, fileName)"
-    Input=text/plain
-    InMenu=true
-    Icon=\xf040
-    Shortcut=f4
+[Command]
+Name=Edit Files
+Match=^([a-zA-Z]:[\\\\/]|~|file://|%\\w+%|$\\w+|/)
+Command="
+    copyq:
+    var editor = config('editor')
+        .replace(/ %1/, '')
+    
+    var filePaths = str(input())
+        .replace(/^file:\\/{2}/gm, '')
+        .replace(/^\\/(\\w):?\\//gm, '$1:/')
+        .split('\\n')
+    
+    var args = [editor].concat(filePaths)
+    
+    execute.apply(this, args)"
+Input=text/plain
+InMenu=true
+Icon=\xf040
+Shortcut=f4
 
 Change Monitoring State Permanently
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
