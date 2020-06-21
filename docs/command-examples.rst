@@ -421,26 +421,26 @@ these).
 
 .. code-block:: ini
 
-[Command]
-Name=Edit Files
-Match=^([a-zA-Z]:[\\\\/]|~|file://|%\\w+%|$\\w+|/)
-Command="
-    copyq:
-    var editor = config('editor')
-        .replace(/ %1/, '')
-    
-    var filePaths = str(input())
-        .replace(/^file:\\/{2}/gm, '')
-        .replace(/^\\/(\\w):?\\//gm, '$1:/')
-        .split('\\n')
-    
-    var args = [editor].concat(filePaths)
-    
-    execute.apply(this, args)"
-Input=text/plain
-InMenu=true
-Icon=\xf040
-Shortcut=f4
+    [Command]
+    Name=Edit Files
+    Match=^([a-zA-Z]:[\\\\/]|~|file://|%\\w+%|$\\w+|/)
+    Command="
+        copyq:
+        var editor = config('editor')
+            .replace(/ %1/, '')
+
+        var filePaths = str(input())
+            .replace(/^file:\\/{2}/gm, '')
+            .replace(/^\\/(\\w):?\\//gm, '$1:/')
+            .split('\\n')
+
+        var args = [editor].concat(filePaths)
+
+        execute.apply(this, args)"
+    Input=text/plain
+    InMenu=true
+    Icon=\xf040
+    Shortcut=f4
 
 Change Monitoring State Permanently
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
