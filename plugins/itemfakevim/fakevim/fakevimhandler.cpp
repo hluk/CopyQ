@@ -577,18 +577,18 @@ static void searchForward(QTextCursor *tc, QRegularExpression &needleExp, int *r
         tc->movePosition(Left);
 }
 
-static void searchBackward(QTextCursor *tc, QRegularExpression &needleExp, int *repeat)
+static void searchBackward(QTextCursor *tc, const QRegularExpression &needleExp, int *repeat)
 {
     // Search from beginning of line so that matched text is the same.
     QTextBlock block = tc->block();
     QString line = block.text();
 
-    auto m = needleExp.match(line);
-    int i = m.capturedStart();
+    QRegularExpressionMatch match;
+    int i = line.indexOf(needleExp, 0, &match);
     while (i != -1 && i < tc->positionInBlock()) {
         --*repeat;
-        m = needleExp.match(line, i + qMax(1, m.capturedStart()));
-        i = m.capturedStart();
+        const int offset = i + qMax(1, match.capturedLength());
+        i = line.indexOf(needleExp, offset, &match);
         if (i == line.size())
             i = -1;
     }
@@ -601,12 +601,11 @@ static void searchBackward(QTextCursor *tc, QRegularExpression &needleExp, int *
         if (!block.isValid())
             break;
         line = block.text();
-        m = needleExp.match(line);
-        i = m.capturedStart();
+        i = line.indexOf(needleExp, 0, &match);
         while (i != -1) {
             --*repeat;
-            m = needleExp.match(line, i + qMax(1, m.capturedStart()));
-            i = m.capturedStart();
+            const int offset = i + qMax(1, match.capturedLength());
+            i = line.indexOf(needleExp, offset, &match);
             if (i == line.size())
                 i = -1;
         }
@@ -617,21 +616,20 @@ static void searchBackward(QTextCursor *tc, QRegularExpression &needleExp, int *
         return;
     }
 
-    m = needleExp.match(line);
-    i = m.capturedStart();
+    i = line.indexOf(needleExp, 0, &match);
     while (*repeat < 0) {
-        m = needleExp.match(line, i + qMax(1, m.capturedStart()));
-        i = m.capturedStart();
+        const int offset = i + qMax(1, match.capturedLength());
+        i = line.indexOf(needleExp, offset, &match);
         ++*repeat;
     }
     tc->setPosition(block.position() + i);
-    tc->setPosition(tc->position() + m.capturedLength(), KeepAnchor);
+    tc->setPosition(tc->position() + match.capturedLength(), KeepAnchor);
 }
 
 // Commands [[, []
 static void bracketSearchBackward(QTextCursor *tc, const QString &needleExp, int repeat)
 {
-    QRegularExpression re(needleExp);
+    const QRegularExpression re(needleExp);
     QTextCursor tc2 = *tc;
     tc2.setPosition(tc2.position() - 1);
     searchBackward(&tc2, re, &repeat);
