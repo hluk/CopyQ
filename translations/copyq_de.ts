@@ -3215,13 +3215,14 @@ Argumente sind mit &quot;arguments[0..N]&quot; verfügbar.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe Rohdaten in die ?gegebene Zeile.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe PROGRAMM für Elemententext in den Reihen aus.
+Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
