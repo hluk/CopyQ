@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>정보</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드 매니저</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>저자</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>이메일</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>웹</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>기부</translation>
     </message>
 </context>
 <context>
@@ -39,69 +39,71 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>액션 대화창</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>명령(&amp;M):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>표준 입력(&amp;I):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>표준 출력 저장(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>주어진 미디어 형식 데이터를 표준 입력 명령으로 전송 (끄려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>프로그램의 표준 출력에서 항목 생성 (끄려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 항목 구분자(&amp;S):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;출력을 여러 항목으로 분리하기 위한 정규 표현식.&lt;\p&gt;
+&lt;p&gt;&lt;b&gt;\n&lt;/b&gt; 을 사용하여 각 줄을 개별 항목으로 저장.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>출력 탭(&amp;T):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>주어진 이름으로 탭에 항목 저장 (현재 탭을 저장 하려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 저장됨</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="221"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>명령이 저장 되었으며 항목 메뉴에서 접근할수 있습니다.
+환경설정에서 명령을 설정할 수 있습니다.</translation>
     </message>
 </context>
 <context>
@@ -109,17 +111,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>오류: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>종료 코드: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="175"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 %1</translation>
     </message>
 </context>
 <context>
@@ -127,17 +129,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>프로세스 매니저</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>필터</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>종료 선택됨(&amp;T)</translation>
     </message>
 </context>
 <context>
@@ -145,175 +147,175 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 추가</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>메인 윈도우 보이기/숨기기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>트레이 메뉴 보이기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>마우스 커서 아래 메인 윈도우 보이기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드 수정</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>첫번째 항목 수정</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>두번째 항목 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>액션 대화창 보이기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 항목 만들기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>다음 항목 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>이전 항목 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드를 일반 문자로 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드 저장 사용안함</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드 저장 사용함</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>붙여넣고 다음 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>붙여넣고 이전 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린샷 찍기</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>현재 날짜 및 시간 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 명령</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>문자가 없거나 하나인 항목 무시</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>브라우저에서 열기(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>일반 문자로 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>비디오 자동재생</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 탭에 URL (웹 주소) 복사</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>미리보기 만들기 (ImageMagick 필요)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>URL 에서 QR 코드 만들기 (qrencode 필요)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>작업</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>탭 %1 (으)로 추가</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>탭 %1 (으)로 이동</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>복사된 파일 무시</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>*&quot;비밀번호&quot;* 윈도우 무시</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>비밀번호</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>휴지통으로 이동</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(휴지통)</translation>
     </message>
 </context>
 <context>
@@ -321,17 +323,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>탭 %1 에 새로운 항목을 추가할수 없습니다. 공간을 만들려면 수동으로 항목을 제거 하세요.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>변경 취소?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>정말로 &lt;strong&gt;변경 취소&lt;/strong&gt; 을 원하세요?</translation>
     </message>
 </context>
 <context>
@@ -339,12 +341,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="123"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>연결이 끊어졌습니다!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="130"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에 연결할수 없습니다! 먼저 CopyQ 서버를 시작하세요.</translation>
     </message>
 </context>
 <context>
@@ -352,33 +354,33 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드 내용</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>형식(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>내용(&amp;O):</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>형식 제거</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
         <source>Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>항목 내용</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;크기:&lt;/strong&gt; %1 바이트</translation>
     </message>
 </context>
 <context>
@@ -386,27 +388,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="118"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ 서버가 이미 실행중입니다.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="364"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>활성 명령 취소</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="365"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>활성 명령을 취소하고 종료할까요?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="368"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>종료 취소</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="369"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>강제 종료</translation>
     </message>
 </context>
 <context>
@@ -415,7 +417,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandcompleter.cpp" line="233"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Space</translation>
     </message>
 </context>
 <context>
@@ -423,7 +425,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>명령</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -433,57 +435,57 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>찾기(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 로드(&amp;L)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한것 저장(&amp;V)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한것 복사</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="94"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="212"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>저장되지 않은 변경사항</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="212"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 대화상자에 저장되지 않은 변경사항이 있습니다.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="288"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>명령으로 파일 열기</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="289"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 (*.ini);; CopyQ 환경설정 (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="300"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>선택된 명령 저장</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="301"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -491,7 +493,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>실행될 인자가 있는 프로그램의 목록이 포함된 명령 . 예를 들어:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
@@ -522,12 +524,12 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>클립보드(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 도움말 보기 (F1)</translation>
     </message>
 </context>
 <context>
@@ -535,17 +537,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>이름(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>메뉴에 명령 이름 보이기</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>바로가기(&amp;S):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="100"/>
@@ -555,12 +557,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>명령(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>고급(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
@@ -3352,7 +3354,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>찾기(&amp;F):</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
@@ -3425,7 +3427,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>항목 저장(&amp;S)</translation>
     </message>
 </context>
 <context>
@@ -3433,18 +3435,18 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>검색 하려면 &apos;/&apos; 를 누르세요</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>검색할 형식</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="105"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
@@ -3452,12 +3454,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="118"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>정규 표현식</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="121"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>대소문자 구분안함</translation>
     </message>
 </context>
 </TS>
