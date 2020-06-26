@@ -102,7 +102,8 @@
         <location filename="../src/gui/actiondialog.cpp" line="221"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden. Sie könnnen den Befehl in den Einstellungen ändern.</translation>
+        <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden.
+Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     </message>
 </context>
 <context>
@@ -2601,7 +2602,8 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>Sitzungsname darf höchstens 16 Zeichen enthalten, erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
+        <translation>Sitzungsname darf höchstens 16 Zeichen enthalten,
+erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
@@ -2772,7 +2774,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">In die Zwis&amp;chenablage verschieben</translation>
+        <translation>In die Zwis&amp;chenablage verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3073,7 +3075,8 @@ Wert -1 steht für die aktuelle Zwischenablage.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation>Zwischenablage in das aktuelle Fenster einfügen (funktioniert möglicherweise mit einigen Anwendungen nicht).</translation>
+        <translation>Zwischenablage in das aktuelle Fenster einfügen
+(funktioniert möglicherweise mit einigen Anwendungen nicht).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3212,13 +3215,14 @@ Argumente sind mit &quot;arguments[0..N]&quot; verfügbar.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe Rohdaten in die ?gegebene Zeile.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Führe PROGRAMM für Elemententext in den Reihen aus.
+Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
@@ -3392,7 +3396,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
