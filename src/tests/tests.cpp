@@ -84,7 +84,7 @@ const auto tabDialogLineEditId = "focus:lineEditTabName";
 const auto commandDialogId = "focus:CommandDialog";
 const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
-const auto shortcutButtonId = "focus::QPushButton in CommandDialog";
+const auto shortcutButtonId = "focus::QToolButton in CommandDialog";
 const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
@@ -3437,7 +3437,7 @@ void Tests::shortcutDialogAddShortcut()
     RUN("commands()[0].shortcuts", "ctrl+f1\n")
 }
 
-void Tests::shortcutDialogAddTwoShortcut()
+void Tests::shortcutDialogAddTwoShortcuts()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -3449,6 +3449,7 @@ void Tests::shortcutDialogAddTwoShortcut()
     RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
     RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
 
+    RUN("keys" << shortcutButtonId << "TAB" << shortcutButtonId, "");
     RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
     RUN("keys" << shortcutDialogId << "F1" << shortcutButtonId, "");
 
@@ -3471,7 +3472,6 @@ void Tests::shortcutDialogChangeShortcut()
 
     RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
     RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
-    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
     RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
     RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
     RUN("keys" << shortcutDialogId << "F4" << shortcutButtonId, "");

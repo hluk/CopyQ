@@ -23,8 +23,10 @@
 #include "gui/icons.h"
 #include "gui/shortcutdialog.h"
 
+#include <QAction>
 #include <QHBoxLayout>
-#include <QPushButton>
+#include <QLabel>
+#include <QScrollBar>
 #include <QVariant>
 
 namespace {
@@ -34,23 +36,14 @@ const char propertyShortcut[] = "CopyQ_shortcut";
 } // namespace
 
 ShortcutButton::ShortcutButton(QWidget *parent)
-    : QWidget(parent)
+    : QToolBar(parent)
     , m_defaultShortcut()
-    , m_layout(new QHBoxLayout(this))
-    , m_buttonAddShortcut(new QPushButton(this))
 {
-    m_layout->setMargin(0);
-    m_layout->setSpacing(2);
-    m_layout->setAlignment(Qt::AlignRight);
+    setFocusPolicy(Qt::WheelFocus);
 
-    m_buttonAddShortcut->setFlat(true);
-    m_buttonAddShortcut->setToolTip( tr("Add shortcut") );
-    const int h = m_buttonAddShortcut->sizeHint().height();
-    m_buttonAddShortcut->setMaximumSize(h, h);
-    m_layout->addWidget(m_buttonAddShortcut);
-    setFocusProxy(m_buttonAddShortcut);
-
-    connect( m_buttonAddShortcut, &QAbstractButton::clicked,
+    m_actionAddShortcut = addAction(QString());
+    m_actionAddShortcut->setToolTip( tr("Add shortcut") );
+    connect( m_actionAddShortcut, &QAction::triggered,
              this, &ShortcutButton::onButtonAddShortcutClicked );
 
     addShortcut(m_defaultShortcut);
@@ -58,18 +51,16 @@ ShortcutButton::ShortcutButton(QWidget *parent)
 
 void ShortcutButton::addShortcut(const QKeySequence &shortcut)
 {
-    if ( shortcut.isEmpty() || shortcuts().contains(shortcut) )
+    const auto shortcuts = this->shortcuts();
+    if ( shortcut.isEmpty() || shortcuts.contains(shortcut) )
         return;
 
-    auto button = new QPushButton(this);
-    const int buttonIndex = shortcutCount();
-    m_layout->insertWidget(buttonIndex, button, 1);
-
-    setTabOrder(m_buttonAddShortcut, button);
-
-    connect( button, &QAbstractButton::clicked,
+    auto button = new QAction(this);
+    insertAction(m_actionAddShortcut, button);
+    connect( button, &QAction::triggered,
              this, &ShortcutButton::onShortcutButtonClicked );
     setButtonShortcut(button, shortcut);
+
     emit shortcutAdded(shortcut);
 }
 
@@ -82,10 +73,12 @@ void ShortcutButton::addShortcut(const QString &shortcutPortableText)
 
 void ShortcutButton::clearShortcuts()
 {
-    while ( shortcutCount() > 0 ) {
-        QWidget *w = shortcutButton(0);
-        emit shortcutRemoved( shortcutForButton(*w) );
-        delete w;
+    for (auto action : actions()) {
+        if (action == m_actionAddShortcut)
+            continue;
+
+        emit shortcutRemoved( shortcutForButton(*action) );
+        action->deleteLater();
     }
 }
 
@@ -104,9 +97,11 @@ QList<QKeySequence> ShortcutButton::shortcuts() const
 {
     QList<QKeySequence> shortcuts;
 
-    for ( int i = 0; i < shortcutCount(); ++i ) {
-        QWidget *w = shortcutButton(i);
-        shortcuts.append( shortcutForButton(*w) );
+    for (auto action : actions()) {
+        if (action == m_actionAddShortcut)
+            continue;
+
+        shortcuts.append( shortcutForButton(*action) );
     }
 
     return shortcuts;
@@ -116,34 +111,80 @@ void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguou
                                              const QIcon &warningIcon, const QString &warningToolTip)
 {
     QList<QKeySequence> shortcuts = this->shortcuts();
-    for ( int i = 0; i < shortcuts.size(); ++i ) {
-        QWidget *w = shortcutButton(i);
-        if ( ambiguousShortcuts.contains(shortcuts[i]) ) {
-            w->setProperty("icon", warningIcon);
-            w->setProperty("toolTip", warningToolTip);
-        } else if ( w->property("toolTip").toString() == warningToolTip ) {
-            w->setProperty("icon", QIcon());
-            w->setProperty("toolTip", QString());
+    for (auto action : actions()) {
+        if ( ambiguousShortcuts.contains( shortcutForButton(*action) ) ) {
+            action->setProperty("icon", warningIcon);
+            action->setProperty("toolTip", warningToolTip);
+        } else if ( action->property("toolTip").toString() == warningToolTip ) {
+            action->setProperty("icon", QIcon());
+            action->setProperty("toolTip", QString());
         }
     }
 }
 
-int ShortcutButton::shortcutCount() const
-{
-    return m_layout->count() - 1;
-}
-
 void ShortcutButton::showEvent(QShowEvent *event)
 {
-    if ( m_buttonAddShortcut->icon().isNull() )
-        m_buttonAddShortcut->setIcon( getIcon("list-add", IconPlus) );
+    if ( m_actionAddShortcut->icon().isNull() )
+        m_actionAddShortcut->setIcon( getIcon("list-add", IconPlus) );
 
     QWidget::showEvent(event);
 }
 
+void ShortcutButton::focusInEvent(QFocusEvent *event)
+{
+    QToolBar::focusInEvent(event);
+
+    if ( !hasFocus() )
+        return;
+
+    focusNextPrevChild(true);
+}
+
+bool ShortcutButton::focusNextPrevChild(bool next)
+{
+    const QList<QAction*> actions = this->actions();
+
+    if ( actions.isEmpty() )
+        return false;
+
+    auto w = focusWidget();
+    if (!w || w == this) {
+        w = widgetForAction( next ? actions.first() : actions.last() );
+    } else if (w && w->hasFocus()) {
+        auto it = std::find_if(std::begin(actions), std::end(actions), [&](QAction *action) {
+            return widgetForAction(action) == w;
+        });
+        if (next && it == std::end(actions))
+            return focusNextPrevious(next);
+
+        if (!next && it == std::begin(actions))
+            return focusNextPrevious(next);
+
+        if (next)
+            ++it;
+        else
+            --it;
+
+        if (it == std::end(actions))
+            return false;
+
+        w = widgetForAction(*it);
+    }
+
+    if (!w)
+        return false;
+
+    if (!w->isVisible())
+        return focusNextPrevious(next);
+
+    w->setFocus();
+
+    return true;
+}
+
 void ShortcutButton::onShortcutButtonClicked()
 {
-    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    QAction *button = qobject_cast<QAction*>(sender());
     Q_ASSERT(button != nullptr);
     addShortcut(button);
 }
@@ -153,14 +194,9 @@ void ShortcutButton::onButtonAddShortcutClicked()
     addShortcut(nullptr);
 }
 
-void ShortcutButton::addShortcut(QPushButton *shortcutButton)
+void ShortcutButton::addShortcut(QAction *shortcutButton)
 {
-    QWidget *parent = this;
-    // Destroy shortcut dialog, if its shortcut button is deleted.
-    if (shortcutButton != nullptr)
-        parent = shortcutButton;
-
-    auto dialog = new ShortcutDialog(parent);
+    auto dialog = new ShortcutDialog(this);
     if (dialog->exec() == QDialog::Rejected)
         return;
 
@@ -187,7 +223,7 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
     }
 }
 
-void ShortcutButton::setButtonShortcut(QPushButton *shortcutButton, const QKeySequence &shortcut)
+void ShortcutButton::setButtonShortcut(QAction *shortcutButton, const QKeySequence &shortcut)
 {
     QString label = shortcut.toString(QKeySequence::NativeText);
     label.replace( QChar('&'), QString("&&") );
@@ -195,12 +231,17 @@ void ShortcutButton::setButtonShortcut(QPushButton *shortcutButton, const QKeySe
     shortcutButton->setProperty(propertyShortcut, shortcut);
 }
 
-QWidget *ShortcutButton::shortcutButton(int index) const
-{
-    return m_layout->itemAt(index)->widget();
-}
-
-QKeySequence ShortcutButton::shortcutForButton(const QWidget &w) const
+QKeySequence ShortcutButton::shortcutForButton(const QAction &w) const
 {
     return w.property(propertyShortcut).value<QKeySequence>();
+}
+
+bool ShortcutButton::focusNextPrevious(bool next)
+{
+    auto w = next ? nextInFocusChain() : previousInFocusChain();
+    if (w) {
+        w->setFocus();
+        return true;
+    }
+    return false;
 }

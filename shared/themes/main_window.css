@@ -31,14 +31,14 @@
     ;${tab_tree_sel_item_counter}
 }
 
-QToolBar QToolButton{
+#MainWindow>QToolBar QToolButton{
     ;color: ${fg}
     ;background: ${bg}
 }
-QToolBar{${tool_bar_css}}
-QToolBar QToolButton{${tool_button_css}}
-QToolBar QToolButton:hover{${tool_button_selected_css}}
-QToolBar QToolButton:pressed{${tool_button_pressed_css}}
+#MainWindow>QToolBar{${tool_bar_css}}
+#MainWindow>QToolBar QToolButton{${tool_button_css}}
+#MainWindow>QToolBar QToolButton:hover{${tool_button_selected_css}}
+#MainWindow>QToolBar QToolButton:pressed{${tool_button_pressed_css}}
 
 ${css:menu}
 

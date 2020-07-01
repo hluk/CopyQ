@@ -22,15 +22,15 @@
 
 #include <QKeySequence>
 #include <QList>
-#include <QWidget>
+#include <QToolBar>
 
+class QAction;
 class QHBoxLayout;
-class QPushButton;
 
 /**
  * Widget with buttons for defining shortcuts and single button for adding shortcuts.
  */
-class ShortcutButton final : public QWidget
+class ShortcutButton final : public QToolBar
 {
     Q_OBJECT
 public:
@@ -62,8 +62,6 @@ public:
     void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                  const QIcon &warningIcon, const QString &warningToolTip);
 
-    int shortcutCount() const;
-
 signals:
     /** Emitted if new @a shortcut (with button) was added. */
     void shortcutAdded(const QKeySequence &shortcut);
@@ -72,20 +70,21 @@ signals:
 
 protected:
     void showEvent(QShowEvent *event) override;
+    void focusInEvent(QFocusEvent *event) override;
+    bool focusNextPrevChild(bool next) override;
 
 private:
     void onShortcutButtonClicked();
     void onButtonAddShortcutClicked();
-    void addShortcut(QPushButton *shortcutButton);
-    void setButtonShortcut(QPushButton *shortcutButton, const QKeySequence &shortcut);
+    void addShortcut(QAction *shortcutButton);
+    void setButtonShortcut(QAction *shortcutButton, const QKeySequence &shortcut);
 
-    QWidget *shortcutButton(int index) const;
+    QKeySequence shortcutForButton(const QAction &w) const;
 
-    QKeySequence shortcutForButton(const QWidget &w) const;
+    bool focusNextPrevious(bool next);
 
     QKeySequence m_defaultShortcut;
-    QHBoxLayout *m_layout;
-    QPushButton *m_buttonAddShortcut;
+    QAction *m_actionAddShortcut;
 };
 
 #endif // SHORTCUTBUTTON_H
