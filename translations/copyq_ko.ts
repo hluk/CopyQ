@@ -552,7 +552,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="100"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>전역 바로가기(&amp;G):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
@@ -578,12 +578,12 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
         <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>자동(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>일치하는 항목의 상황에 맞는 메뉴에 명령 표시</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
@@ -595,13 +595,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>Global Shortcut</source>
         <extracomment>Type of command; triggered by a custom global/system shortcut</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>전역 바로가기</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>스크립트</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
@@ -637,7 +637,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>형식(&amp;M):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
@@ -669,7 +669,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="438"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>탭에 복사(&amp;Y):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="448"/>
@@ -706,12 +706,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="509"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 옵션</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="538"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>출력(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="548"/>
@@ -721,7 +721,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="558"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>구분자(&amp;S):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="568"/>
@@ -736,7 +736,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="578"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>출력 탭(&amp;T):</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="588"/>
@@ -774,42 +774,42 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>배경</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>노트</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>찾음</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>선택됨</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>번호</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>보통</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>편집기</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>글꼴</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
@@ -864,22 +864,22 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>테마 초기화(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>테마:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>테마 불러오기(&amp;L)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>테마 저장(&amp;S)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -889,32 +889,32 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>테마 수정(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>미리보기:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="134"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>테마 파일 열기</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="144"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>다음으로 테마 파일 저장</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="163"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>외부 편집기 없음</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>먼저 외부 편집기 명령을 설정 하세요!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="364"/>
@@ -926,23 +926,24 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="441"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>항목</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="443"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>검색 문자열은 %1 입니다.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="444"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>항목을 선택하고
+편집 하려면 F2 을 누르세요.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="446"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>예제 항목 %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="451"/>
@@ -955,7 +956,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>언어(&amp;L):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -975,7 +976,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>항상 위에(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1015,7 +1016,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>자동 시작(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
