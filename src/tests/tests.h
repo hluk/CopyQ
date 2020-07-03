@@ -118,6 +118,7 @@ private slots:
     void commandsGetSetCommands();
 
     void commandsImportExportCommands();
+    void commandsImportExportCommandsFixIndentation();
 
     void commandScreenshot();
 

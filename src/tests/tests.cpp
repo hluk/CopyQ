@@ -1511,6 +1511,23 @@ void Tests::commandsImportExportCommands()
    RUN("importCommands(exportCommands([{},{name: 'Test 2'}]))[1].name", "Test 2\n");
 }
 
+void Tests::commandsImportExportCommandsFixIndentation()
+{
+    {
+        const QString commands =
+                "[Command]\n"
+                "Command=\"\n    1\n    2\n    3\"";
+        RUN("eval" << "importCommands(arguments[1])[0].cmd" << "--" << commands, "1\n2\n3\n");
+    }
+
+    {
+        const QString commands =
+                "[Command]\n"
+                "Command=\"\r\n    1\r\n    2\r\n    3\"";
+        RUN("eval" << "importCommands(arguments[1])[0].cmd" << "--" << commands, "1\n2\n3\n");
+    }
+}
+
 void Tests::commandScreenshot()
 {
     RUN("screenshot().size() > 0", "true\n")

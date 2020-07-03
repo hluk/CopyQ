@@ -136,10 +136,14 @@ void saveCommand(const Command &c, QSettings *settings)
 Commands importCommands(QSettings *settings)
 {
     auto commands = loadCommands(settings);
+
     for (auto &command : commands) {
         if (command.cmd.startsWith("\n    ")) {
             command.cmd.remove(0, 5);
             command.cmd.replace("\n    ", "\n");
+        } else if (command.cmd.startsWith("\r\n    ")) {
+            command.cmd.remove(0, 6);
+            command.cmd.replace("\r\n    ", "\n");
         }
     }
 
