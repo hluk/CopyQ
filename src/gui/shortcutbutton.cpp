@@ -24,9 +24,7 @@
 #include "gui/shortcutdialog.h"
 
 #include <QAction>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QScrollBar>
+#include <QToolButton>
 #include <QVariant>
 
 namespace {
@@ -40,6 +38,7 @@ ShortcutButton::ShortcutButton(QWidget *parent)
     , m_defaultShortcut()
 {
     setFocusPolicy(Qt::WheelFocus);
+    setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     m_actionAddShortcut = addAction(QString());
     m_actionAddShortcut->setToolTip( tr("Add shortcut") );
@@ -60,6 +59,11 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
     connect( button, &QAction::triggered,
              this, &ShortcutButton::onShortcutButtonClicked );
     setButtonShortcut(button, shortcut);
+
+    // Non-flat buttons
+    auto toolButton = qobject_cast<QToolButton *>(widgetForAction(button));
+    if (toolButton)
+        toolButton->setAutoRaise(false);
 
     emit shortcutAdded(shortcut);
 }
