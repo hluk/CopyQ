@@ -22,7 +22,7 @@ Creates new item containing concatenated text of selected items.
 
     [Command]
     Name=Join Selected Items
-    Command=copyq add %1
+    Command=copyq add -- %1
     InMenu=true
     Icon=\xf066
     Shortcut=Space
