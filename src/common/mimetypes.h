@@ -37,6 +37,5 @@ extern const char mimeHidden[];
 extern const char mimeShortcut[];
 extern const char mimeColor[];
 extern const char mimeOutputTab[];
-extern const char mimeMenuItem[];
 
 #endif // MIMETYPES_H
