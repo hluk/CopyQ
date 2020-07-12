@@ -1,3 +1,75 @@
+v3.12.0
+
+- Unsaved data are now saved whenever application is unfocused, otherwise
+  immediately after an item is edited and saved or after ~5 minute intervals if
+  items change. These intervals can be configured - use `copyq config` to list
+  options with `save_delay_` prefix. For example, disable storing after an item
+  is added (only when app is unfocused, exits or tab is unloaded):
+
+      copyq config save_delay_ms_on_item_added -1
+
+- Filter field in commands can now modify menu items. This is done by setting
+  properties to "menuItem" object. Example:
+
+      copyq:
+      menuItem['checkable'] = true
+      if (plugins.itempinned.isPinned.apply(this, selectedItems())) {
+          menuItem['checked'] = true
+          menuItem['text'] = 'Unpin'
+          menuItem['color'] = '#f00'
+          menuItem['tag'] = 'X'
+      } else {
+          menuItem['checked'] = false
+          menuItem['text'] = 'Pin'
+          menuItem['icon'] = ''
+      }
+
+- Application icon will no longer automatically change when there is an ongoing
+  operation (i.e. the icon snip animation). This caused performance issues in
+  some environments and it was not tested automatically so it often broke. When
+  clipboard storing is disabled the icon only changes opacity slightly.
+
+- New `preview()` script function shows/hides item preview.
+
+- Avoid terminating application on SIGHUP (#1383)
+
+- Use brighter bar for pinned items with a dark theme (#1398)
+
+- Improved notification text line wrapping (#1409)
+
+- Improved layout when showing many shortcut buttons (#1425)
+
+- Fix indentation when importing commands with CRLF (#1426)
+
+- Fix using the configured notification font (#1393)
+
+- Fix initial item size (avoid scroll bars)
+
+- Fix decrypting item with note
+
+- Fix hiding windows after changing "Always on Top" option
+
+- Fix tool bar flickering when browsing items
+
+- Fix crash when destroying main window
+
+- Fix rare crash when menu items change
+
+- FakeVim: Improved completion menu control with Vim emulation
+
+- FakeVim: Always start in normal mode
+
+- FakeVim: Fix searching backwards
+
+- Windows: Paste operation is now postponed until user releases shortcut
+  (#1412). This works better than releasing the shortcut keys automatically and
+  is consistent with behavior on Linux.
+
+- Windows: Fix SSL/TLS errors; `networkGet()` should now work with `https`
+  protocol
+
+- Windows: Fix native GUI style (#1427)
+
 v3.11.1
 
 - Fix scrolling in selected text items (#1371)
