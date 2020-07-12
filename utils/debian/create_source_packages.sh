@@ -4,7 +4,6 @@ set -e
 distros=(
     xenial
     bionic
-    disco
     eoan
     focal
 )
