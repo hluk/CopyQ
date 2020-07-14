@@ -356,6 +356,8 @@ public:
             const Command &cmd,
             const QModelIndex &outputIndex);
 
+    bool triggerMenuCommand(const Command &command, const QString &triggeredShortcut);
+
     void runInternalAction(Action *action);
     bool isInternalActionId(int id) const;
 

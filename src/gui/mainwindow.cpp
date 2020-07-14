@@ -3548,6 +3548,26 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
     return nullptr;
 }
 
+bool MainWindow::triggerMenuCommand(const Command &command, const QString &triggeredShortcut)
+{
+    updateShortcuts();
+
+    Command cmd = command;
+    for (auto act : m_menuItem->findChildren<CommandAction*>()) {
+        if ( !act->isEnabled() || !act->isVisible() )
+            continue;
+
+        const Command &menuCommand = act->command();
+        // Ignore outputTab value overridden in the action.
+        cmd.outputTab = menuCommand.outputTab;
+        if (cmd == menuCommand) {
+            onItemCommandActionTriggered(act, triggeredShortcut);
+            return true;
+        }
+    }
+    return false;
+}
+
 void MainWindow::runInternalAction(Action *action)
 {
     m_sharedData->actions->internalAction(action);
