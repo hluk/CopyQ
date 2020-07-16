@@ -281,6 +281,8 @@ private slots:
 
     void networkGet();
 
+    void pluginNotInstalled();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
