@@ -436,19 +436,14 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegularExpression &re
     return false;
 }
 
-QList<ItemScriptable*> ItemFactory::scriptableObjects() const
+ItemScriptable *ItemFactory::scriptableObject(const QString &name) const
 {
-    QList<ItemScriptable*> scriptables;
-
     for ( const auto &loader : enabledLoaders() ) {
-        auto scriptable = loader->scriptableObject();
-        if (scriptable) {
-            scriptable->setObjectName(loader->id());
-            scriptables.append(scriptable);
-        }
+        if ( name == loader->id() )
+            return loader->scriptableObject();
     }
 
-    return scriptables;
+    return nullptr;
 }
 
 QVector<Command> ItemFactory::commands(bool enabled) const
