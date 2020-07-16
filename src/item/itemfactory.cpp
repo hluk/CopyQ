@@ -47,6 +47,12 @@ namespace {
 
 bool findPluginDir(QDir *pluginsDir)
 {
+#ifdef COPYQ_PLUGIN_PREFIX
+    pluginsDir->setPath(COPYQ_PLUGIN_PREFIX);
+    if ( pluginsDir->isReadable() )
+        return true;
+#endif
+
     return platformNativeInterface()->findPluginDir(pluginsDir)
             && pluginsDir->isReadable();
 }
@@ -438,9 +444,21 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegularExpression &re
 
 ItemScriptable *ItemFactory::scriptableObject(const QString &name) const
 {
-    for ( const auto &loader : enabledLoaders() ) {
-        if ( name == loader->id() )
+    QDir pluginsDir;
+    if ( !findPluginDir(&pluginsDir) )
+        return nullptr;
+
+    const QStringList nameFilters( QString("*%1*").arg(name) );
+    for (const auto &fileName : pluginsDir.entryList(nameFilters, QDir::Files)) {
+        const QString path = pluginsDir.absoluteFilePath(fileName);
+        auto loader = loadPlugin(path, name);
+        if (loader) {
+            static QSettings settings;
+            settings.beginGroup("Plugins");
+            loadItemFactorySettings(loader, &settings);
+            settings.endGroup();
             return loader->scriptableObject();
+        }
     }
 
     return nullptr;
@@ -480,32 +498,15 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
 
 bool ItemFactory::loadPlugins()
 {
-#ifdef COPYQ_PLUGIN_PREFIX
-    QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
-    if ( !pluginsDir.isReadable() && !findPluginDir(&pluginsDir))
-        return false;
-#else
     QDir pluginsDir;
-    if ( !findPluginDir(&pluginsDir))
+    if ( !findPluginDir(&pluginsDir) )
         return false;
-#endif
 
     for (const auto &fileName : pluginsDir.entryList(QDir::Files)) {
-        if ( QLibrary::isLibrary(fileName) ) {
-            const QString path = pluginsDir.absoluteFilePath(fileName);
-            QPluginLoader pluginLoader(path);
-            QObject *plugin = pluginLoader.instance();
-            COPYQ_LOG_VERBOSE( QString("Loading plugin: %1").arg(path) );
-            if (plugin == nullptr) {
-                log( pluginLoader.errorString(), LogError );
-            } else {
-                ItemLoaderPtr loader( qobject_cast<ItemLoaderInterface *>(plugin) );
-                if (loader == nullptr)
-                    pluginLoader.unload();
-                else
-                    addLoader(loader);
-            }
-        }
+        const QString path = pluginsDir.absoluteFilePath(fileName);
+        auto loader = loadPlugin(path, QString());
+        if (loader)
+            addLoader(loader);
     }
 
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
@@ -518,16 +519,8 @@ void ItemFactory::loadItemFactorySettings(QSettings *settings)
     // load settings for each plugin
     settings->beginGroup("Plugins");
     for ( auto &loader : loaders() ) {
-        settings->beginGroup(loader->id());
-
-        QVariantMap s;
-        for (const auto &name : settings->allKeys()) {
-            s[name] = settings->value(name);
-        }
-        setLoaderEnabled( loader, settings->value("enabled", true).toBool() );
-        loader->loadSettings(s);
-
-        settings->endGroup();
+        const bool enabled = loadItemFactorySettings(loader, settings);
+        setLoaderEnabled(loader, enabled);
     }
     settings->endGroup();
 
@@ -609,4 +602,44 @@ void ItemFactory::addLoader(const ItemLoaderPtr &loader)
         if ( loaderMetaObject->indexOfSignal("addCommands(QVector<Command>)") != -1 )
             connect( signaler, SIGNAL(addCommands(QVector<Command>)), this, SIGNAL(addCommands(QVector<Command>)) );
     }
+}
+
+ItemLoaderPtr ItemFactory::loadPlugin(const QString &path, const QString &id) const
+{
+    if ( !QLibrary::isLibrary(path) )
+        return ItemLoaderPtr();
+
+    COPYQ_LOG_VERBOSE( QString("Loading plugin: %1").arg(path) );
+    QPluginLoader pluginLoader(path);
+    QObject *plugin = pluginLoader.instance();
+    if (plugin == nullptr) {
+        log( pluginLoader.errorString(), LogError );
+        return ItemLoaderPtr();
+    }
+
+    ItemLoaderPtr loader( qobject_cast<ItemLoaderInterface *>(plugin) );
+    if ( loader == nullptr || (!id.isEmpty() && id != loader->id()) ) {
+        COPYQ_LOG_VERBOSE( QString("Unloading plugin: %1").arg(path) );
+        loader = nullptr;
+        pluginLoader.unload();
+        return ItemLoaderPtr();
+    }
+
+    return loader;
+}
+
+bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings *settings) const
+{
+    settings->beginGroup(loader->id());
+
+    QVariantMap s;
+    for (const auto &name : settings->allKeys()) {
+        s[name] = settings->value(name);
+    }
+    const auto enabled = settings->value("enabled", true).toBool();
+    loader->loadSettings(s);
+
+    settings->endGroup();
+
+    return enabled;
 }
