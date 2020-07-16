@@ -3657,13 +3657,8 @@ QJSValue ScriptablePlugins::load(const QString &name)
     if (it != std::end(m_plugins))
         return it.value();
 
-    if (!m_factory) {
+    if (!m_factory)
         m_factory = new ItemFactory(this);
-        m_factory->loadPlugins();
-
-        QSettings settings;
-        m_factory->loadItemFactorySettings(&settings);
-    }
 
     auto obj = m_factory->scriptableObject(name);
     if (!obj) {
