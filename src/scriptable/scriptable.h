@@ -129,6 +129,8 @@ public:
 
     bool canContinue() const { return m_abort == Abort::None && !m_failed; }
 
+    void installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject);
+
     QJSValue getMimeText() const { return mimeText; }
     QJSValue getMimeHtml() const { return mimeHtml; }
     QJSValue getMimeUriList() const { return mimeUriList; }
@@ -434,8 +436,6 @@ private:
 
     QJSValue readInput();
 
-    void installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject);
-
     PlatformClipboard *clipboardInstance();
     const QMimeData *mimeData(ClipboardMode mode);
 
@@ -515,6 +515,21 @@ private:
     QNetworkReply *m_replyHead;
     QJSValue m_data;
     QJSValue m_self;
+};
+
+class ScriptablePlugins final : public QObject {
+    Q_OBJECT
+
+public:
+    explicit ScriptablePlugins(Scriptable *scriptable);
+
+public slots:
+    QJSValue load(const QString &name);
+
+private:
+    ItemFactory *m_factory = nullptr;
+    Scriptable *m_scriptable;
+    QMap<QString, QJSValue> m_plugins;
 };
 
 #endif // SCRIPTABLE_H
