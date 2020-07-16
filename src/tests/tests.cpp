@@ -3822,6 +3822,14 @@ void Tests::networkGet()
     RUN("r = networkGet('https://example.com'); r.data; r.status", "200\n");
 }
 
+void Tests::pluginNotInstalled()
+{
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "plugins.bad_plugin", CommandException,
+        "Plugin \"bad_plugin\" is not installed"
+    );
+}
+
 int Tests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)
