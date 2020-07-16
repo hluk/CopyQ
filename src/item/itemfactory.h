@@ -160,6 +160,10 @@ private:
 
     void addLoader(const ItemLoaderPtr &loader);
 
+    ItemLoaderPtr loadPlugin(const QString &fileName, const QString &id) const;
+
+    bool loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings *settings) const;
+
     ItemLoaderList m_loaders;
     ItemLoaderPtr m_dummyLoader;
     ItemLoaderList m_disabledLoaders;
