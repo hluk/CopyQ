@@ -782,25 +782,12 @@ QJSValue Scriptable::getPlugins()
 {
     // Load plugins on demand.
     if ( m_plugins.isUndefined() ) {
-        ItemFactory factory;
-        factory.loadPlugins();
-
-        QSettings settings;
-        factory.loadItemFactorySettings(&settings);
-
-        const auto scriptableObjects = factory.scriptableObjects();
-
-        m_plugins = m_engine->newObject();
-        engine()->globalObject().setProperty("_copyqPlugins", m_plugins);
-
-        for (auto obj : scriptableObjects) {
-            const auto name = obj->objectName();
-            auto plugin = engine()->newObject();
-            m_plugins.setProperty(name, plugin);
-            installObject(obj, obj->metaObject(), plugin);
-            obj->setScriptable(this);
-            obj->start();
-        }
+        m_plugins = m_engine->newQObject(new ScriptablePlugins(this));
+        m_engine->globalObject().setProperty("_copyqPlugins", m_plugins);
+        const QString script(
+            "new Proxy({}, { get: function(_, name, _) { return _copyqPlugins.load(name); } });"
+        );
+        m_plugins = evaluateStrict(m_engine, script);
     }
 
     return m_plugins;
@@ -3656,4 +3643,40 @@ void NetworkReply::fetchHeaders()
     } else {
         m_replyHead = m_reply;
     }
+}
+
+ScriptablePlugins::ScriptablePlugins(Scriptable *scriptable)
+    : QObject(scriptable)
+    , m_scriptable(scriptable)
+{
+}
+
+QJSValue ScriptablePlugins::load(const QString &name)
+{
+    const auto it = m_plugins.find(name);
+    if (it != std::end(m_plugins))
+        return it.value();
+
+    if (!m_factory) {
+        m_factory = new ItemFactory(this);
+        m_factory->loadPlugins();
+
+        QSettings settings;
+        m_factory->loadItemFactorySettings(&settings);
+    }
+
+    auto obj = m_factory->scriptableObject(name);
+    if (!obj) {
+        m_scriptable->throwError(
+            QString("Plugin \"%1\" is not installed").arg(name) );
+        return QJSValue();
+    }
+
+    auto plugin = m_scriptable->engine()->newObject();
+    m_plugins.insert(name, plugin);
+    m_scriptable->installObject(obj, obj->metaObject(), plugin);
+    obj->setScriptable(m_scriptable);
+    obj->start();
+
+    return plugin;
 }

@@ -125,7 +125,7 @@ public:
      */
     bool matches(const QModelIndex &index, const QRegularExpression &re) const;
 
-    QList<ItemScriptable*> scriptableObjects() const;
+    ItemScriptable* scriptableObject(const QString &name) const;
 
     /**
      * Adds commands from scripts for command dialog.
