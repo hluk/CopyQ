@@ -116,8 +116,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation>Código de saída: %1
- {1?}</translation>
+        <translation>Código de saída: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
