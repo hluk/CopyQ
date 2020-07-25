@@ -449,6 +449,12 @@ omitted.
 
    Returns help with list of available application options.
 
+   Users can change most of these options via the CopyQ GUI, mainly via
+   the "Preferences" window.
+
+   These options are persisted within the ``[Options]`` section of a corresponding
+   ``copyq.ini`` or ``copyq.conf`` file (``copyq.ini`` is used on Windows).
+
 .. js:function:: String config(optionName)
 
    Returns value of given application option.
@@ -819,6 +825,16 @@ omitted.
 .. js:function:: String[] settings()
 
    Returns array with names of all custom user options.
+
+   These options can be managed by various commands, much like cookies
+   are used by web applications in a browser. A typical usage is to remember
+   options lastly selected by user in a custom dialog displayed by a command.
+
+   These options are persisted within the ``[General]`` section of a corresponding
+   ``copyq-scripts.ini`` file. But if an option is named like ``group/...``,
+   then it is written to a section named ``[group]`` instead.
+   By grouping options like this, we can avoid potential naming collisions
+   with other commands.
 
 .. js:function:: Value settings(optionName)
 
