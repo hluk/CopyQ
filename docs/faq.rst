@@ -351,14 +351,10 @@ You can find configuration and saved items in:
 a. Windows folder ``%APPDATA%\copyq`` for installed version of CopyQ.
 b. Windows sub-folder ``config`` in unzipped portable version of CopyQ.
 c. Linux directory ``~/.config/copyq``.
+d. In a directory specific to a given CopyQ instance - see :ref:`sessions`.
 
 Run ``copyq info config`` to get absolute path to the configuration file
 (parent directory contains saved items).
-
-.. note::
-
-   Main configuration for installed version of CopyQ on Windows is stored
-   in the Windows registry.
 
 Why are items and configuration not saved?
 ------------------------------------------
