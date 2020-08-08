@@ -102,7 +102,8 @@
         <location filename="../src/gui/actiondialog.cpp" line="221"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Komut kaydedildi. Öğe menüsünden tekrar ulaşabilir, seçeneklerini istediğiniz gibi düzeneleyebilirsiniz.</translation>
+        <translation>Komut kaydedildi ve öge menüsünden erişilebilir.
+Komutu tercihlerde ayarlayabilirsiniz.</translation>
     </message>
 </context>
 <context>
@@ -608,7 +609,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="384"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>Bu MIME tipinde veriler standart komut girişine gönderilecektir. Bunu devredışı bırakmak için boş bırakın.</translation>
+        <translation>Bu MIME türündeki veriler, komutun standart girişine gönderilecektir.
+Bunu devre dışı bırakmak için boş bırakın.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
@@ -653,12 +655,11 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;Komutları yalnızca filtre komutu başarılı olursa kullanın.&lt;/p&gt;
 
-&lt;p&gt;Öğe metni, filtre komutunun &lt;b&gt;standart girişine&lt;/b&gt; geçirilir. Öğe, &lt;b&gt;yalnızca filtre komutu çıkış kodu 0 ise&lt;/b&gt; eşleştirilir.&lt;/p&gt;
+&lt;p&gt;Öge metni, filtre komutunun &lt;b&gt;standart girişine&lt;/b&gt; iletilir. Öge, &lt;b&gt;yalnızca filtre komutu çıkış kodu 0 ise&lt;/b&gt; eşleştirilir.&lt;/p&gt;
 
-&lt;p&gt;Bağımsız ifade olarak iletilen öğe metni için &lt;b&gt;%1&lt;/b&gt; ve düzenli ifadeyle yakalanan argümanlar için&lt;b&gt;%2&lt;/b&gt; ila &lt;b&gt;%9&lt;/b&gt; (parantez içine alınmış parçalar) kullanın ). &lt;/p&gt;
+&lt;p&gt;Argüman olarak iletilen öge metni için &lt;b&gt;%1&lt;/b&gt; ve düzenli ifadeyle yakalanan argümanlar için&lt;b&gt;%2&lt;/b&gt; ila &lt;b&gt;%9&lt;/b&gt; (parantez içine alınmış parçalar) kullanın ).&lt;/p&gt;
 
-
-&lt;p&gt;Komutları zincirlemek için &lt;b&gt;|&lt;/b&gt; kullanın (standart çıktıyı bir sonraki komuta geçirin).&lt;/p&gt;</translation>
+&lt;p&gt;Komutları zincirlemek için &lt;b&gt;|&lt;/b&gt; kullanın (standart çıktıyı bir sonraki komuta iletin).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
