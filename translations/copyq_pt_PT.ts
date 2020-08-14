@@ -1193,7 +1193,7 @@ Nota: os itens editados podem ser guardados com F2, ignorando esta opção.</tra
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Guar&amp;dar item editado com Ctrl+Enter e criar nova linha com a tela &quot;Enter&quot;</translation>
+        <translation>Gra&amp;var item editado com Ctrl+Enter e criar nova linha com a tecla &quot;Enter&quot;</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
