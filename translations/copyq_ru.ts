@@ -684,7 +684,7 @@ Leave empty to disable this.</source>
 
 &lt;p&gt;Используйте &lt;b&gt;% 1 &lt;/b&gt; для элемента текста, переданного в качестве аргумента и &lt;b&gt;% 2 &lt;/b&gt; на &lt;b&gt;% 9 &lt;/b&gt; для аргументов, захваченных регулярным выражением (детали, указанные в скобках).&lt;/p&gt;
 
-&lt;p&gt;Используйте  &lt;b&gt;|&lt;/b&gt; для цепи команд (передать стандартному выводу следующей команды).&lt;/p&gt;</translation>
+&lt;p&gt;Используйте &lt;b&gt;|&lt;/b&gt; для цепи команд (передать стандартному выводу следующей команды).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
