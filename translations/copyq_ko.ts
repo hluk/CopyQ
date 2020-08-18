@@ -1793,47 +1793,47 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>복호화</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>복호화 및 복사</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>복화화 및 붙여넣기</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="811"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>엔터</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>키 생성 실패함.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>오류: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>완료</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
@@ -1844,7 +1844,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="905"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>취소</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
@@ -1859,22 +1859,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="910"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>새로운 키 생성...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>비밀번호 변경...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="918"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>복호화 실패함!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="98"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>암호화</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
@@ -1911,17 +1911,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="42"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="44"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim 플러그인은 Qt Creator 의 일부 입니다</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>항목을 수정하는 동안 Vim 편집기를 에뮬레이트 합니다.</translation>
     </message>
 </context>
 <context>
@@ -2887,7 +2887,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2107"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
@@ -2903,27 +2903,27 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>이름</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>메인 창 숨기기.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>메인 창 보이기 또는 숨기기.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
         <source>Open context menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>컨텍스트 메뉴 열기.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 종료.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
@@ -3298,7 +3298,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2865"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>클립보드에 복사 실패함!</translation>
     </message>
 </context>
 <context>
@@ -3324,7 +3324,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>바로가기 추가</translation>
     </message>
 </context>
 <context>
@@ -3332,7 +3332,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>새 바로가기</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3347,7 +3347,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>바로가기 제거</translation>
     </message>
 </context>
 <context>
