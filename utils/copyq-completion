@@ -1,0 +1,162 @@
+#!/bin/bash
+_copyq_completions() {
+    case "$COMP_CWORD" in
+        1)
+            case "${COMP_WORDS[$COMP_CWORD]}" in
+                --*)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W '--session --help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                -*)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W '-e -s -h' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                *)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+            esac
+            ;;
+        2)
+            case "${COMP_WORDS[$COMP_CWORD-1]}" in
+                show)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                clipboard)
+                    # Generate mime type list?
+                    # COMPREPLY=(MIME)
+                    ;;
+                selection)
+                    # Generate mime type list?
+                    # COMPREPLY=(MIME)
+                    ;;
+                copy)
+                    # No reasonable way to predict user text.
+                    # COMPREPLY=(TEXT)
+                    # Generate mime type list?
+                    # No reasonable way to predict user text.
+                    # COMPREPLY=(MIME DATA [MIME DATA]...)
+                    ;;
+                select)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=(ROW)
+                    ;;
+                add)
+                    # No reasonable way to predict user text.
+                    # COMPREPLY=(TEXT)
+                    ;;
+                insert)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=(ROW)
+                    # No reasonable way to predict user text.
+                    # COMPREPLY=(TEXT)
+                    ;;
+                remove)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=(ROWS...)
+                    ;;
+                edit)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=(ROW...)
+                    ;;
+                separator)
+                    # No reasonable way to predict user separator.
+                    # COMPREPLY=(SEPARATOR)
+                    ;;
+                read)
+                    # Generate mime type list?
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=('MIME|ROW...')
+                    ;;
+                write)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # Generate mime type list?
+                    # No reasonable way to predict user text.
+                    # COMPREPLY=('[ROW=0] MIME DATA [MIME DATA]...')
+                    ;;
+                action)
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # COMPREPLY=('[ROWS=0...]')
+                    # Generate numbers 1-n?
+                    # Probably not very useful.
+                    # Can complete executables on PATH for PROGRAM.
+                    # No reasonable way to predict user separator.
+                    # COMPREPLY=('[ROWS=0...] [PROGRAM [SEPARATOR=\n]]')
+                    ;;
+                popup)
+                    # No reasonable way to predict user inputs.
+                    # COMPREPLY=('TITLE MESSAGE [TIME=8000]')
+                    ;;
+                tab)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                removetab)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                renametab)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                exporttab)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                importtab)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                config)
+                    # Could generate allowed values for each config type but that would be a lot of work.
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W "$(copyq config | grep '^[^ ]')" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+                eval|-e)
+                    # No reasonable way to predict user inputs.
+                    # COMPREPLY=('[SCRIPT] [ARGUMENTS]')
+                    ;;
+                session|-s|--session)
+                    # Not sure what this is. Any way to query available sessions for completion?
+                    # COMPREPLY=(SESSION)
+                    ;;
+                help|-h|--help)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+            esac
+            ;;
+        3)
+            case "${COMP_WORDS[$COMP_CWORD-2]}" in
+                tab)
+                    # Which commands are valid in the tab context?
+
+                    # while read -r item; do
+                    #     COMPREPLY+=("$item")
+                    # done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+complete -o filenames -F _copyq_completions copyq
