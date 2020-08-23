@@ -151,6 +151,12 @@ omitted.
 
    Returns true only if main window has focus.
 
+.. js:function:: focusPrevious()
+
+   Activates window that was focused before the main window.
+
+   Raises an exception when previous window cannot be activated.
+
 .. js:function:: bool preview([true|false])
 
    Shows/hides item preview and returns true only if preview was visible.

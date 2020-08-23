@@ -1014,6 +1014,12 @@ void ScriptableProxy::close()
     m_wnd->close();
 }
 
+bool ScriptableProxy::focusPrevious()
+{
+    INVOKE(focusPrevious, ());
+    return m_wnd->focusPrevious();
+}
+
 bool ScriptableProxy::showWindow()
 {
     INVOKE(showWindow, ());

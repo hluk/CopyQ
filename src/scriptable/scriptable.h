@@ -177,6 +177,8 @@ public slots:
     QScriptValue visible();
     QScriptValue focused();
 
+    void focusPrevious();
+
     QScriptValue preview();
 
     QScriptValue filter();

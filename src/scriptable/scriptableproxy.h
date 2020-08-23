@@ -103,6 +103,8 @@ public slots:
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
+    bool focusPrevious();
+
     bool isMonitoringEnabled();
     bool isMainWindowVisible();
     bool isMainWindowFocused();

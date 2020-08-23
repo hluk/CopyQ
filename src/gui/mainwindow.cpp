@@ -2548,6 +2548,15 @@ bool MainWindow::setCurrentTab(int index)
     return true;
 }
 
+bool MainWindow::focusPrevious()
+{
+    if ( !m_lastWindow )
+        return false;
+
+    m_lastWindow->raise();
+    return true;
+}
+
 void MainWindow::onMenuActionTriggered(const QVariantMap &data, bool omitPaste)
 {
     activateMenuItem( getPlaceholderForMenu(), data, omitPaste );

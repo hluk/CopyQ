@@ -959,6 +959,14 @@ QScriptValue Scriptable::focused()
     return m_proxy->isMainWindowFocused();
 }
 
+void Scriptable::focusPrevious()
+{
+    m_skipArguments = 0;
+
+    if ( !m_proxy->focusPrevious() )
+        throwError("Failed to focus previous window");
+}
+
 QScriptValue Scriptable::preview()
 {
     m_skipArguments = 1;

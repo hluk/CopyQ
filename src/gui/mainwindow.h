@@ -196,6 +196,8 @@ public:
     /** Set current tab. */
     bool setCurrentTab(int index);
 
+    bool focusPrevious();
+
     /** Open tab group renaming dialog. */
     void openRenameTabGroupDialog(const QString &name);
     /** Remove all tab in group. */
