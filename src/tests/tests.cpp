@@ -114,6 +114,32 @@ private:
     QElapsedTimer m_timer;
 };
 
+// Similar to QTemporaryFile but allows removing from other process.
+class TemporaryFile {
+public:
+    TemporaryFile()
+    {
+        QTemporaryFile tmp;
+        tmp.setAutoRemove(false);
+        QVERIFY(tmp.open());
+        m_fileName = tmp.fileName();
+        tmp.close();
+    }
+
+    ~TemporaryFile()
+    {
+        QFile::remove(m_fileName);
+    }
+
+    QString fileName() const
+    {
+        return m_fileName;
+    }
+
+private:
+    QString m_fileName;
+};
+
 template <typename Fn1, typename Fn2>
 void runMultiple(Fn1 f1, Fn2 f2)
 {
@@ -1448,9 +1474,7 @@ void Tests::commandsExportImport()
     RUN("config" << "maxitems" << "3", "3\n");
     RUN("config" << "editor" << "EDITOR1 %1", "EDITOR1 %1\n");
 
-    QTemporaryFile tmp;
-    QVERIFY(tmp.open());
-    tmp.close();
+    TemporaryFile tmp;
     const auto fileName = tmp.fileName();
 
     RUN("exportData" << fileName, "");
@@ -2437,8 +2461,7 @@ void Tests::importExportTab()
 
     RUN(args << "add" << "ghi" << "def" << "abc", "");
 
-    QTemporaryFile tmp;
-    QVERIFY(tmp.open());
+    TemporaryFile tmp;
     RUN(args << "exporttab" << tmp.fileName(), "");
 
     RUN("removetab" << tab, "");
@@ -2449,8 +2472,7 @@ void Tests::importExportTab()
     RUN(args << "size", "3\n");
 
     // Export with relative path.
-    QTemporaryFile tmp2;
-    QVERIFY(tmp2.open());
+    TemporaryFile tmp2;
 
     // Change back to original working directory once finished.
     struct CurrentDirectoryGuard {
