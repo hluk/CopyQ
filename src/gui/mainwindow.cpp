@@ -1328,8 +1328,7 @@ bool MainWindow::closeMinimizes() const
     return !m_tray;
 }
 
-ClipboardBrowserPlaceholder *MainWindow::createTab(
-        const QString &name, TabNameMatching nameMatch)
+ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameMatching nameMatch, const Tabs &tabs)
 {
     if ( name.isEmpty() )
         return nullptr;
@@ -1338,17 +1337,31 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(
             ? findTabIndexExactMatch(name)
             : findTabIndex(name);
 
-    if (i != -1)
-        return getPlaceholder(i);
+    ClipboardBrowserPlaceholder *placeholder = nullptr;
+    if (i != -1) {
+        placeholder = getPlaceholder(i);
+    } else {
+        placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
+        connect( placeholder, &ClipboardBrowserPlaceholder::browserCreated,
+                 this, &MainWindow::onBrowserCreated );
+        connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
+                 this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
 
-    auto placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
-    connect( placeholder, &ClipboardBrowserPlaceholder::browserCreated,
-             this, &MainWindow::onBrowserCreated );
-    connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
-             this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
+        ui->tabWidget->addTab(placeholder, name);
+        saveTabPositions();
+    }
 
-    ui->tabWidget->addTab(placeholder, name);
-    saveTabPositions();
+    const TabProperties tab = tabs.tabProperties(name);
+    placeholder->setStoreItems(tab.storeItems);
+
+    int maxItemCount = tab.maxItemCount;
+    if (maxItemCount <= 0)
+        maxItemCount = m_sharedData->maxItems;
+    else if (maxItemCount > Config::maxItems)
+        maxItemCount = Config::maxItems;
+
+    placeholder->setMaxItemCount(maxItemCount);
+
     return placeholder;
 }
 
@@ -1941,6 +1954,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         importCommands = importDialog.isCommandsEnabled();
     }
 
+    const Tabs tabProps;
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
         const auto oldTabName = tabMap["name"].toString();
@@ -1954,7 +1968,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         if ( !iconName.isEmpty() )
             setIconNameForTabName(tabName, iconName);
 
-        auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+        auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
             log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
             return false;
@@ -1966,8 +1980,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         // Don't read items based on current value of "maxitems" option since
         // the option can be later also imported.
-        const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
-        if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
+        if ( !deserializeData( c->model(), &tabIn, Config::maxItems ) ) {
             log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
             return false;
         }
@@ -2062,6 +2075,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         importCommands = importDialog.isCommandsEnabled();
     }
 
+    const Tabs tabProps;
     while ( !in->atEnd() ) {
         QVariantMap tabMap;
         (*in) >> tabMap;
@@ -2079,7 +2093,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         if ( !iconName.isEmpty() )
             setIconNameForTabName(tabName, iconName);
 
-        auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+        auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
             log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
             return false;
@@ -2272,7 +2286,7 @@ int MainWindow::findTabIndex(const QString &name)
 
 ClipboardBrowser *MainWindow::tab(const QString &name)
 {
-    return createTab(name, MatchSimilarTabName)->createBrowser();
+    return createTab(name, MatchSimilarTabName, Tabs())->createBrowser();
 }
 
 bool MainWindow::maybeCloseCommandDialog()
@@ -2527,19 +2541,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     // create tabs
     const Tabs tabs;
     const QStringList tabNames = savedTabs();
-    for (const auto &name : tabNames) {
-        auto placeholder = createTab(name, MatchExactTabName);
-
-        const TabProperties tab = tabs.tabProperties(name);
-        placeholder->setStoreItems(tab.storeItems);
-
-        int maxItemCount = tab.maxItemCount;
-        if (maxItemCount <= 0)
-            maxItemCount = m_sharedData->maxItems;
-        else if (maxItemCount > Config::maxItems)
-            maxItemCount = Config::maxItems;
-        placeholder->setMaxItemCount(maxItemCount);
-    }
+    for (const auto &name : tabNames)
+        createTab(name, MatchExactTabName, tabs);
 
     Q_ASSERT( ui->tabWidget->count() > 0 );
 
@@ -3468,7 +3471,7 @@ ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
 
 void MainWindow::addAndFocusTab(const QString &name)
 {
-    auto placeholder = createTab(name, MatchExactTabName);
+    auto placeholder = createTab(name, MatchExactTabName, Tabs());
     if (!placeholder)
         return;
 
@@ -3607,7 +3610,7 @@ bool MainWindow::loadTab(const QString &fileName)
     // Find unique tab name.
     renameToUnique(&tabName, ui->tabWidget->tabs());
 
-    auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+    auto c = createTab(tabName, MatchExactTabName, Tabs())->createBrowser();
     if (!c)
         return false;
 

@@ -46,6 +46,7 @@ class ConfigurationManager;
 class Notification;
 class QAction;
 class QMimeData;
+class Tabs;
 class Theme;
 class TrayMenu;
 class ToolBar;
@@ -542,7 +543,7 @@ private:
 
     void reloadBrowsers();
 
-    ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch);
+    ClipboardBrowserPlaceholder *createTab(const QString &name, TabNameMatching nameMatch, const Tabs &tabs);
 
     int findTabIndexExactMatch(const QString &name);
 
