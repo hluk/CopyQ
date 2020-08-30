@@ -87,6 +87,10 @@ public:
         m_settings.endGroup();
     }
 
+    QStringList allKeys() {
+        return m_settings.allKeys();
+    }
+
     int beginReadArray(const QString &prefix) {
         return m_settings.beginReadArray(prefix);
     }

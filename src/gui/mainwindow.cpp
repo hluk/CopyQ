@@ -1825,7 +1825,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
 
     QVariantList commandsList;
     if (exportCommands) {
-        QSettings settings;
+        Settings settings(getConfigurationFilePath("-commands.ini"));
 
         const int commandCount = settings.beginReadArray("Commands");
         commandsList.reserve(commandCount);
@@ -1834,7 +1834,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
 
             QVariantMap commandMap;
             for ( const auto &key : settings.allKeys() )
-                commandMap[key] = serializableValue(settings, key);
+                commandMap[key] = serializableValue(*settings.settingsData(), key);
 
             commandsList.append(commandMap);
         }
@@ -2130,7 +2130,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
             m_commandDialog = nullptr;
         }
 
-        Settings settings;
+        Settings settings(getConfigurationFilePath("-commands.ini"));
 
         int i = settings.beginReadArray("Commands");
         settings.endArray();
