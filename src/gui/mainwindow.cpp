@@ -82,6 +82,7 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
 #include <QUrl>
@@ -1773,12 +1774,38 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
 
 bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
-    QFile file(fileName);
-    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
+    QTemporaryFile file(fileName + ".XXXXXX.part");
+    if ( !file.open() ) {
+        log( QString("Failed to open temporary file: %1")
+             .arg(file.errorString()), LogError );
         return false;
+    }
 
     QDataStream out(&file);
-    return exportDataV3(&out, tabs, exportConfiguration, exportCommands);
+    if ( !exportDataV3(&out, tabs, exportConfiguration, exportCommands) )
+        return false;
+
+    if ( !file.flush() ) {
+        log( QString("Failed to flush temporary file %1: %2")
+             .arg(file.fileName(), file.errorString()), LogError );
+        return false;
+    }
+
+    QFile originalFile(fileName);
+    if ( originalFile.exists() && !originalFile.remove(fileName) ) {
+        log( QString("Failed to remove original file %1: %2")
+             .arg(fileName, originalFile.errorString()), LogError );
+        return false;
+    }
+
+    file.setAutoRemove(false);
+    if ( !file.rename(fileName) ) {
+        log( QString("Failed to move temporary file %1: %2")
+             .arg(file.fileName(), file.errorString()), LogError );
+        return false;
+    }
+
+    return true;
 }
 
 bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
