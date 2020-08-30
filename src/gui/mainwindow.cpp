@@ -1782,7 +1782,7 @@ bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs
     }
 
     QDataStream out(&file);
-    if ( !exportDataV3(&out, tabs, exportConfiguration, exportCommands) )
+    if ( !exportDataV4(&out, tabs, exportConfiguration, exportCommands) )
         return false;
 
     if ( !file.flush() ) {
@@ -1808,9 +1808,50 @@ bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs
     return true;
 }
 
-bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
+bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
-    QVariantList tabsList;
+    out->setVersion(QDataStream::Qt_4_7);
+    (*out) << QByteArray("CopyQ v4");
+
+    QVariantMap settingsMap;
+    if (exportConfiguration) {
+        const QSettings settings;
+
+        for (const auto &key : settings.allKeys()) {
+            if ( !key.startsWith("Commands/") )
+                settingsMap[key] = serializableValue(settings, key);
+        }
+    }
+
+    QVariantList commandsList;
+    if (exportCommands) {
+        QSettings settings;
+
+        const int commandCount = settings.beginReadArray("Commands");
+        commandsList.reserve(commandCount);
+        for (int i = 0; i < commandCount; ++i) {
+            settings.setArrayIndex(i);
+
+            QVariantMap commandMap;
+            for ( const auto &key : settings.allKeys() )
+                commandMap[key] = serializableValue(settings, key);
+
+            commandsList.append(commandMap);
+        }
+
+        settings.endArray();
+    }
+
+    QVariantMap data;
+    if ( !tabs.isEmpty() )
+        data["tabs"] = tabs;
+    if ( !settingsMap.isEmpty() )
+        data["settings"] = settingsMap;
+    if ( !commandsList.isEmpty() )
+        data["commands"] = commandsList;
+
+    (*out) << data;
+
     for (const auto &tab : tabs) {
         const auto i = findTabIndex(tab);
         if (i == -1)
@@ -1850,49 +1891,8 @@ bool MainWindow::exportDataV3(QDataStream *out, const QStringList &tabs, bool ex
         if ( !iconName.isEmpty() )
             tabMap["icon"] = iconName;
 
-        tabsList.append(tabMap);
+        (*out) << tabMap;
     }
-
-    QVariantMap settingsMap;
-    if (exportConfiguration) {
-        const QSettings settings;
-
-        for (const auto &key : settings.allKeys()) {
-            if ( !key.startsWith("Commands/") )
-                settingsMap[key] = serializableValue(settings, key);
-        }
-    }
-
-    QVariantList commandsList;
-    if (exportCommands) {
-        QSettings settings;
-
-        const int commandCount = settings.beginReadArray("Commands");
-        commandsList.reserve(commandCount);
-        for (int i = 0; i < commandCount; ++i) {
-            settings.setArrayIndex(i);
-
-            QVariantMap commandMap;
-            for ( const auto &key : settings.allKeys() )
-                commandMap[key] = serializableValue(settings, key);
-
-            commandsList.append(commandMap);
-        }
-
-        settings.endArray();
-    }
-
-    QVariantMap data;
-    if ( !tabsList.isEmpty() )
-        data["tabs"] = tabsList;
-    if ( !settingsMap.isEmpty() )
-        data["settings"] = settingsMap;
-    if ( !commandsList.isEmpty() )
-        data["commands"] = commandsList;
-
-    out->setVersion(QDataStream::Qt_4_7);
-    (*out) << QByteArray("CopyQ v3");
-    (*out) << data;
 
     return out->status() == QDataStream::Ok;
 }
@@ -1943,6 +1943,131 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
+        const auto oldTabName = tabMap["name"].toString();
+        if ( !tabs.contains(oldTabName) )
+            continue;
+
+        auto tabName = oldTabName;
+        renameToUnique( &tabName, ui->tabWidget->tabs() );
+
+        const auto iconName = tabMap.value("icon").toString();
+        if ( !iconName.isEmpty() )
+            setIconNameForTabName(tabName, iconName);
+
+        auto c = createTab(tabName, MatchExactTabName)->createBrowser();
+        if (!c) {
+            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
+            return false;
+        }
+
+        const auto tabBytes = tabMap.value("data").toByteArray();
+        QDataStream tabIn(tabBytes);
+        tabIn.setVersion(QDataStream::Qt_4_7);
+
+        // Don't read items based on current value of "maxitems" option since
+        // the option can be later also imported.
+        const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
+        if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
+            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
+            return false;
+        }
+
+        const auto i = findTabIndex(tabName);
+        if (i != -1)
+            getPlaceholder(i)->expire();
+    }
+
+    if (importConfiguration) {
+        // Configuration dialog shouldn't be open.
+        if (cm) {
+            log("Failed to import configuration while configuration dialog is open", LogError);
+            return false;
+        }
+
+        Settings settings;
+
+        for (auto it = settingsMap.constBegin(); it != settingsMap.constEnd(); ++it)
+            settings.setValue( it.key(), it.value() );
+
+        emit configurationChanged();
+    }
+
+    if (importCommands) {
+        // Close command dialog.
+        if ( !maybeCloseCommandDialog() ) {
+            log("Failed to import command while command dialog is open", LogError);
+            return false;
+        }
+
+        // Re-create command dialog again later.
+        if (m_commandDialog) {
+            m_commandDialog->deleteLater();
+            m_commandDialog = nullptr;
+        }
+
+        Settings settings;
+
+        int i = settings.beginReadArray("Commands");
+        settings.endArray();
+
+        settings.beginWriteArray("Commands");
+
+        for ( const auto &commandDataValue : commandsList ) {
+            settings.setArrayIndex(i++);
+            const auto commandMap = commandDataValue.toMap();
+            for (auto it = commandMap.constBegin(); it != commandMap.constEnd(); ++it)
+                settings.setValue( it.key(), it.value() );
+        }
+
+        settings.endArray();
+
+        updateEnabledCommands();
+    }
+
+    return in->status() == QDataStream::Ok;
+}
+
+bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
+{
+    QByteArray header;
+    (*in) >> header;
+    if ( !header.startsWith("CopyQ v4") )
+        return false;
+
+    QVariantMap data;
+    (*in) >> data;
+    if ( in->status() != QDataStream::Ok )
+        return false;
+
+    QStringList tabs = data.value("tabs").toStringList();
+    const auto settingsMap = data.value("settings").toMap();
+    const auto commandsList = data.value("commands").toList();
+
+    bool importConfiguration = true;
+    bool importCommands = true;
+
+    if (options == ImportOptions::Select) {
+        ImportExportDialog importDialog(this);
+        importDialog.setWindowTitle( tr("Options for Import") );
+        importDialog.setTabs(tabs);
+        importDialog.setHasConfiguration( !settingsMap.isEmpty() );
+        importDialog.setHasCommands( !commandsList.isEmpty() );
+        importDialog.setConfigurationEnabled(true);
+        importDialog.setCommandsEnabled(true);
+        if ( importDialog.exec() != QDialog::Accepted )
+            return true;
+
+        tabs = importDialog.selectedTabs();
+        importConfiguration = importDialog.isConfigurationEnabled();
+        importCommands = importDialog.isCommandsEnabled();
+    }
+
+    while ( !in->atEnd() ) {
+        QVariantMap tabMap;
+        (*in) >> tabMap;
+        if ( in->status() != QDataStream::Ok )
+            return false;
+
         const auto oldTabName = tabMap["name"].toString();
         if ( !tabs.contains(oldTabName) )
             continue;
@@ -3511,7 +3636,8 @@ bool MainWindow::importDataFrom(const QString &fileName, ImportOptions options)
     QDataStream in(&file);
     in.setVersion(QDataStream::Qt_4_7);
 
-    return importDataV3(&in, options);
+    return importDataV4(&in, options)
+        || importDataV3(&in, options);
 }
 
 bool MainWindow::exportAllData(const QString &fileName)

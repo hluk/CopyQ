@@ -626,8 +626,9 @@ private:
     bool toggleMenu(TrayMenu *menu);
 
     bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
-    bool exportDataV3(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool importDataV3(QDataStream *in, ImportOptions options);
+    bool importDataV4(QDataStream *in, ImportOptions options);
 
     const Theme &theme() const;
 
