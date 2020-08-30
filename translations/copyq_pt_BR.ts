@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation>Gerenciador do clipboard</translation>
+        <translation>Gerenciador de área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation>doar</translation>
+        <translation>Doar</translation>
     </message>
 </context>
 <context>
@@ -711,8 +711,9 @@ Deixe em branco para desabilitar esta.</translation>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>Remover item combinando
-Nota: Se este é aplicado automaticamente, não há outros comandos automáticos são executados.</translation>
+        <translation>Remover item correspondente
+
+Nota: Se este é aplicado automaticamente, não serão executados outros comandos automáticos.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="450"/>
@@ -3184,7 +3185,7 @@ Os argumentos são acessíveis usando &quot;argumentos[0..N]&quot;.</translation
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Executar testes de aplicativo (anexe o argumento --help mais mais informações).</translation>
+        <translation>Executar testes de aplicativo (anexe o argumento --help para mais informações).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
