@@ -1598,7 +1598,10 @@ void MainWindow::setTrayEnabled(bool enable)
             connect( m_tray, &QSystemTrayIcon::activated,
                      this, &MainWindow::trayActivated );
             updateIcon();
+            // On macOS, avoid showing tray menu with the main window.
+#ifndef Q_OS_MAC
             m_tray->setContextMenu(m_trayMenu);
+#endif
             m_tray->show();
 
             if ( isMinimized() )
@@ -2728,10 +2731,6 @@ void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
-#ifdef Q_OS_MAC
-    // Don't do this on OS X, we only ever get "Trigger"
-    Q_UNUSED(reason);
-#else
     if ( reason == QSystemTrayIcon::MiddleClick
          || (m_options.trayMenuOpenOnLeftClick && reason == QSystemTrayIcon::Trigger) )
     {
@@ -2745,7 +2744,6 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
             showWindow();
 
     }
-#endif // Q_OS_MAC
 }
 
 bool MainWindow::toggleMenu()
