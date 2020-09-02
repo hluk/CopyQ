@@ -331,6 +331,7 @@ void ConfigurationManager::initOptions()
     bind<Config::save_delay_ms_on_item_moved>();
     bind<Config::save_delay_ms_on_item_edited>();
     bind<Config::save_on_app_deactivated>();
+    bind<Config::tray_menu_open_on_left_click>();
 }
 
 template <typename Config, typename Widget>
