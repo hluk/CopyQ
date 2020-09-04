@@ -231,13 +231,15 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
     if (document() != &m_textDocument)
         setDocument(&m_textDocument);
 
-    const QSizeF size = m_textDocument.size();
-    const int h = size.height() + 1;
+    if (m_maximumHeight != -1) {
+        const QSizeF size = m_textDocument.size();
+        const int h = size.height() + 1;
 
-    if (0 < m_maximumHeight && m_maximumHeight < h - 8)
-        setFixedHeight(m_maximumHeight);
-    else
-        setFixedHeight(h);
+        if (0 < m_maximumHeight && m_maximumHeight < h - 8)
+            setFixedHeight(m_maximumHeight);
+        else
+            setFixedHeight(h);
+    }
 }
 
 bool ItemText::eventFilter(QObject *, QEvent *event)
@@ -307,7 +309,7 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
     Qt::TextInteractionFlags interactionFlags(Qt::LinksAccessibleByMouse);
     // Always limit text size for performance reasons.
     if (preview) {
-        item = new ItemText(text, richText, maxLineCountInPreview, maxLineLengthInPreview, 0, parent);
+        item = new ItemText(text, richText, maxLineCountInPreview, maxLineLengthInPreview, -1, parent);
         item->setFocusPolicy(Qt::StrongFocus);
         interactionFlags = interactionFlags
                 | Qt::TextSelectableByKeyboard

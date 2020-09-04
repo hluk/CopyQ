@@ -154,9 +154,9 @@ QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
     ItemWidget *itemWidget =
             m_sharedData->itemFactory->createItem(data, parent, antialiasing, false, true);
 
-    const QSize minSize = parent->contentsRect().size();
-    const auto maxSize = m_sharedData->textWrap ? minSize : QSize(2048, 2048);
-    const auto idealWidth = minSize.width();
+    const auto height = 2048 * 8;
+    const auto idealWidth = parent->contentsRect().width();
+    const auto maxSize = m_sharedData->textWrap ? QSize(idealWidth, height) : QSize(2048, height);
     itemWidget->updateSize(maxSize, idealWidth);
 
     highlightMatches(itemWidget);
