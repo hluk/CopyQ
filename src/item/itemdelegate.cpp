@@ -33,6 +33,7 @@
 
 #include <QEvent>
 #include <QPainter>
+#include <QScrollArea>
 #include <QVBoxLayout>
 
 #include <algorithm>
@@ -163,6 +164,8 @@ QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
 
     parent->setFocusProxy( itemWidget->widget() );
 
+    emit itemWidgetCreated(PersistentDisplayItem(this, data, itemWidget->widget()));
+
     return itemWidget->widget();
 }
 
@@ -192,6 +195,23 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
 void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
 {
+    if ( widget->parent() != m_view->viewport() ) {
+        auto previewParent = qobject_cast<QWidget*>( widget->parent() );
+        Q_ASSERT(previewParent);
+        if (!previewParent)
+            return;
+
+        auto scrollArea = qobject_cast<QScrollArea*>( previewParent->parentWidget() );
+        Q_ASSERT(scrollArea);
+        if (!scrollArea)
+            return;
+
+        auto newPreview = createPreview(data, scrollArea);
+        scrollArea->setWidget(newPreview);
+        newPreview->show();
+        return;
+    }
+
     const auto row = findWidgetRow(widget);
     if (row == -1)
         return;
