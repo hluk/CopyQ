@@ -233,6 +233,8 @@ How to open the menu or context menu with only the keyboard?
 Use ``Alt+I`` to open the item menu or use the ``Menu`` key on your keyboard
 to open the context menu for selected items.
 
+.. _faq-hide-menu-bar:
+
 How to hide the menu bar in the main CopyQ window?
 --------------------------------------------------
 
