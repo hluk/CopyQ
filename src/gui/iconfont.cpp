@@ -33,17 +33,10 @@ namespace {
 const int iconFontMaxHeight = 128;
 const int iconFontMaxWidth = 160;
 
-int solidIconFontId()
-{
-    static const auto
-            fontId = QFontDatabase::addApplicationFont(":/images/fontawesome-solid.ttf");
-    return fontId;
-}
-
-int brandsIconFontId()
+int iconFontId()
 {
     static const auto fontId =
-            QFontDatabase::addApplicationFont(":/images/fontawesome-brands.ttf");
+        QFontDatabase::addApplicationFont(":/images/fontawesome.ttf");
     return fontId;
 }
 
@@ -68,15 +61,9 @@ int iconFontSmoothPixelSize(int pixelSize)
 
 QString createIconFontFamily()
 {
-    const auto iconFontFamilies = QStringList()
-            << QFontDatabase::applicationFontFamilies(solidIconFontId()).value(0)
-            << QFontDatabase::applicationFontFamilies(brandsIconFontId()).value(0);
-
-    Q_ASSERT(iconFontFamilies[0].endsWith("(CopyQ)"));
-    Q_ASSERT(iconFontFamilies[1].endsWith("(CopyQ)"));
-
-    const QString iconFontFamily = "CopyQ Icon Font";
-    QFont::insertSubstitutions(iconFontFamily, iconFontFamilies);
+    const QString iconFontFamily =
+        QFontDatabase::applicationFontFamilies(iconFontId()).value(0);
+    Q_ASSERT(iconFontFamily.endsWith("(CopyQ)"));
     return iconFontFamily;
 }
 
@@ -90,7 +77,7 @@ const QString &iconFontFamily()
 
 bool loadIconFont()
 {
-    return solidIconFontId() != -1 && brandsIconFontId() != -1;
+    return iconFontId() != -1;
 }
 
 QFont iconFont()

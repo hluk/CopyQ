@@ -7,7 +7,6 @@
         <file alias="images/tab_rename">images/tab_rename.svg</file>
         <file alias="images/tab_remove">images/tab_remove.svg</file>
         <file alias="images/logo.png">images/icon_512x512.png</file>
-        <file>images/fontawesome-brands.ttf</file>
-        <file>images/fontawesome-solid.ttf</file>
+        <file>images/fontawesome.ttf</file>
     </qresource>
 </RCC>

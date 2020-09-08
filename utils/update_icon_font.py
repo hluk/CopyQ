@@ -11,21 +11,24 @@ import sys
 from shutil import copyfile
 from textwrap import dedent
 
+from fontTools.merge import Merger
 from fontTools.ttLib import TTFont
 
-fonts_src_dest = [
-    ('fa-solid-900.ttf', 'fontawesome-solid.ttf'),
-    ('fa-brands-400.ttf', 'fontawesome-brands.ttf'),
+FONTS = [
+    'fa-solid-900.ttf',
+    'fa-brands-400.ttf',
 ]
+FONT_FILENAME = 'fontawesome.ttf'
 
-solid_style = 'solid'
-brands_style = 'brands'
+SOLID_STYLE = 'solid'
+BRANDS_STYLE = 'brands'
 
 
 def read_icons(icons_json):
     with open(icons_json, 'r') as icons_file:
         icons_content = icons_file.read()
         return json.loads(icons_content)
+
 
 def write_header_file_preamble(header_file):
     script = os.path.realpath(__file__)
@@ -35,11 +38,12 @@ def write_header_file_preamble(header_file):
             + ' from FontAwesome\'s metadata.\n\n')
     header_file.write(comment)
 
+
 def write_icon_list_header_file(header_icon_list, icons):
     with open(header_icon_list, 'w') as header_file:
         items = []
-        for style in [solid_style, brands_style]:
-            is_brand = 'true' if style == brands_style else 'false'
+        for style in [SOLID_STYLE, BRANDS_STYLE]:
+            is_brand = 'true' if style == BRANDS_STYLE else 'false'
             for name, icon in icons.items():
                 if style in icon['styles']:
                     code = icon['unicode']
@@ -119,12 +123,18 @@ def rename_font_family(path):
 
 def copy_fonts(font_awesome_src, target_font_dir):
     font_dir = os.path.join(font_awesome_src, 'webfonts')
-    for src_name, dest_name in fonts_src_dest:
-        src_path = os.path.join(font_dir, src_name)
-        dest_path = os.path.join(target_font_dir, dest_name)
-        print(f'Copying: {src_path} -> {dest_path}')
-        copyfile(src_path, dest_path)
-        rename_font_family(dest_path)
+    fonts = [
+        os.path.join(font_dir, src_name)
+        for src_name in FONTS
+    ]
+    dest_path = os.path.join(target_font_dir, FONT_FILENAME)
+
+    print(f'Merging fonts: {fonts} -> {dest_path}')
+    merger = Merger()
+    with merger.merge(fonts) as font:
+        font.save(dest_path)
+
+    rename_font_family(dest_path)
 
 
 def main():
