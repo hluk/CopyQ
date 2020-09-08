@@ -2,4 +2,4 @@
 
 set -e -x
 
-brew install qt5
+brew upgrade qt
