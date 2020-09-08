@@ -636,6 +636,8 @@ private:
     Action *runScript(const QString &script, const QVariantMap &data = QVariantMap());
 
     void activateCurrentItemHelper();
+    void onItemClicked();
+    void onItemDoubleClicked();
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
@@ -698,6 +700,7 @@ private:
     PlatformClipboardPtr m_clipboard;
 
     bool m_isActiveWindow = false;
+    bool m_singleClickActivate = 0;
 };
 
 #endif // MAINWINDOW_H

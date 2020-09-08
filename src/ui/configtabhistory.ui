@@ -222,6 +222,19 @@ Use Item Preview to display whole items.</string>
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBoxSingleClickActivate">
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Activate item with single click</string>
+        </property>
+        <property name="tristate">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="title">
          <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -309,6 +322,7 @@ Use Item Preview to display whole items.</string>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>checkBoxShowSimpleItems</tabstop>
   <tabstop>checkBoxNumberSearch</tabstop>
+  <tabstop>checkBoxSingleClickActivate</tabstop>
   <tabstop>checkBoxMove</tabstop>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>

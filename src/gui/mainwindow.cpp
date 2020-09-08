@@ -1111,8 +1111,10 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, &MainWindow::showBrowser );
     connect( browser, &ClipboardBrowser::error,
              this, &MainWindow::showError );
+    connect( browser, &QAbstractItemView::clicked,
+             this, &MainWindow::onItemClicked );
     connect( browser, &QAbstractItemView::doubleClicked,
-             this, &MainWindow::activateCurrentItem );
+             this, &MainWindow::onItemDoubleClicked );
     connect( browser, &ClipboardBrowser::itemCountChanged,
              ui->tabWidget, &TabWidget::setTabItemCount );
     connect( browser, &ClipboardBrowser::showContextMenu,
@@ -2575,6 +2577,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     m_options.trayMenuOpenOnLeftClick = appConfig.option<Config::tray_menu_open_on_left_click>();
     m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
 
+    m_singleClickActivate = appConfig.option<Config::activate_item_with_single_click>();
+
     const auto toolTipStyleSheet = theme().getToolTipStyleSheet();
     m_trayMenu->setStyleSheet(toolTipStyleSheet);
     m_menu->setStyleSheet(toolTipStyleSheet);
@@ -3128,6 +3132,18 @@ void MainWindow::activateCurrentItemHelper()
                    .arg(lastWindow->getTitle()) );
         lastWindow->pasteClipboard();
     }
+}
+
+void MainWindow::onItemClicked()
+{
+    if (m_singleClickActivate)
+        activateCurrentItem();
+}
+
+void MainWindow::onItemDoubleClicked()
+{
+    if (!m_singleClickActivate)
+        activateCurrentItem();
 }
 
 void MainWindow::disableClipboardStoring(bool disable)

@@ -288,6 +288,8 @@ void ConfigurationManager::initOptions()
     bind<Config::show_tab_item_count>(m_tabLayout->checkBoxShowTabItemCount);
     bind<Config::text_wrap>(m_tabGeneral->checkBoxTextWrap);
 
+    bind<Config::activate_item_with_single_click>(m_tabHistory->checkBoxSingleClickActivate);
+
     bind<Config::activate_closes>(m_tabHistory->checkBoxActivateCloses);
     bind<Config::activate_focuses>(m_tabHistory->checkBoxActivateFocuses);
     bind<Config::activate_pastes>(m_tabHistory->checkBoxActivatePastes);

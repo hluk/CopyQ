@@ -204,6 +204,11 @@ struct text_tab_width : Config<int> {
     static Value defaultValue() { return 8; }
 };
 
+struct activate_item_with_single_click : Config<bool> {
+    static QString name() { return "activate_item_with_single_click"; }
+    static Value defaultValue() { return false; }
+};
+
 struct activate_closes : Config<bool> {
     static QString name() { return "activate_closes"; }
     static Value defaultValue() { return true; }
