@@ -180,6 +180,11 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
     static const QRegularExpression reBadPos(R"(QtWarning: Window position.* outside any known screen.*)");
     output.remove(reBadPos);
+
+    // New in Qt 5.15.0.
+    static const QRegularExpression reFontWarning(
+        R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)");
+    output.remove(reFontWarning);
 #endif
 
     if ( output.indexOf(reFailure) != -1 )
