@@ -149,10 +149,10 @@ void FilterLineEdit::loadSettings()
 {
     AppConfig appConfig;
 
-    const bool filterRegEx = appConfig.option("filter_regular_expression", true);
+    const bool filterRegEx = appConfig.option<Config::filter_regular_expression>();
     m_actionRe->setChecked(filterRegEx);
 
-    const bool filterCaseSensitive = appConfig.option("filter_case_insensitive", true);
+    const bool filterCaseSensitive = appConfig.option<Config::filter_case_insensitive>();
     m_actionCaseInsensitive->setChecked(filterCaseSensitive);
 
     // KDE has custom icons for this. Notice that icon namings are counter intuitive.
@@ -166,7 +166,7 @@ void FilterLineEdit::loadSettings()
     QIcon icon2 = getIcon("edit-find", IconSearch);
     setButtonIcon(Left, icon2);
 
-    if ( appConfig.option("save_filter_history").toBool() ) {
+    if ( appConfig.option<Config::save_filter_history>() ) {
         if ( !completer() ) {
             FilterCompleter::installCompleter(this);
             restoreOldFilterHistory();

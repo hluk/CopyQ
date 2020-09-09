@@ -136,6 +136,16 @@ struct save_filter_history : Config<bool> {
     static QString name() { return "save_filter_history"; }
 };
 
+struct filter_regular_expression : Config<bool> {
+    static QString name() { return "filter_regular_expression"; }
+    static Value defaultValue() { return true; }
+};
+
+struct filter_case_insensitive : Config<bool> {
+    static QString name() { return "filter_case_insensitive"; }
+    static Value defaultValue() { return true; }
+};
+
 struct always_on_top : Config<bool> {
     static QString name() { return "always_on_top"; }
 };
