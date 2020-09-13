@@ -362,6 +362,11 @@ struct save_on_app_deactivated : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct native_menu_bar : Config<bool> {
+    static QString name() { return "native_menu_bar"; }
+    static Value defaultValue() { return true; }
+};
+
 } // namespace Config
 
 class AppConfig final

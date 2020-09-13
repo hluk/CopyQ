@@ -337,6 +337,8 @@ void ConfigurationManager::initOptions()
 
     bind<Config::filter_regular_expression>();
     bind<Config::filter_case_insensitive>();
+
+    bind<Config::native_menu_bar>();
 }
 
 template <typename Config, typename Widget>

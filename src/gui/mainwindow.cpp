@@ -2592,6 +2592,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 
     updateIcon();
 
+    menuBar()->setNativeMenuBar( appConfig.option<Config::native_menu_bar>() );
+
     ui->searchBar->loadSettings();
 
     settings.beginGroup("Shortcuts");
