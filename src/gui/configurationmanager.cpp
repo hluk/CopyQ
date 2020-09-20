@@ -339,6 +339,9 @@ void ConfigurationManager::initOptions()
     bind<Config::filter_case_insensitive>();
 
     bind<Config::native_menu_bar>();
+
+    bind<Config::clipboard_change_audio>();
+    bind<Config::clipboard_change_audio_volume>();
 }
 
 template <typename Config, typename Widget>

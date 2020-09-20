@@ -29,6 +29,8 @@
 #include "platform/platformclipboard.h"
 
 #include <QApplication>
+#include <QMediaPlayer>
+#include <QUrl>
 
 namespace {
 
@@ -70,6 +72,14 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     const AppConfig config;
     m_storeClipboard = config.option<Config::check_clipboard>();
     m_clipboardTab = config.option<Config::clipboard_tab>();
+
+    const QString audio = config.option<Config::clipboard_change_audio>();
+    if ( !audio.isEmpty() ) {
+        m_mediaPlayer = new QMediaPlayer(this);
+        m_mediaPlayer->setMedia( QUrl::fromLocalFile(audio) );
+        const int volume = config.option<Config::clipboard_change_audio_volume>();
+        m_mediaPlayer->setVolume(volume);
+    }
 
     m_clipboard->startMonitoring(formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
@@ -155,6 +165,8 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     } else if ( isClipboardDataHidden(data) ) {
         emit clipboardChanged(data, ClipboardOwnership::Hidden);
     } else {
+        playAudio();
+
         const auto defaultTab = m_clipboardTab.isEmpty() ? defaultClipboardTabName() : m_clipboardTab;
         setTextData(&data, defaultTab, mimeCurrentTab);
 
@@ -169,4 +181,10 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 
         emit clipboardChanged(data, ClipboardOwnership::Foreign);
     }
+}
+
+void ClipboardMonitor::playAudio()
+{
+    if (m_mediaPlayer)
+        m_mediaPlayer->play();
 }

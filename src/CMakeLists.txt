@@ -99,7 +99,7 @@ endif()
 add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_header)
 
 # Qt modules
-list(APPEND copyq_qt_modules Network Svg Xml Script)
+list(APPEND copyq_qt_modules Network Svg Xml Script Multimedia)
 foreach (copyq_qt_module ${copyq_qt_modules})
     find_package(Qt5${copyq_qt_module} REQUIRED)
     list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})

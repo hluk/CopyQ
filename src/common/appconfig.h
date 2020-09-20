@@ -55,6 +55,15 @@ struct clipboard_tab : Config<QString> {
     static Value defaultValue() { return defaultClipboardTabName(); }
 };
 
+struct clipboard_change_audio : Config<QString> {
+    static QString name() { return "clipboard_change_audio"; }
+};
+
+struct clipboard_change_audio_volume : Config<int> {
+    static QString name() { return "clipboard_change_audio_volume"; }
+    static Value defaultValue() { return 100; }
+};
+
 struct expire_tab : Config<int> {
     static QString name() { return "expire_tab"; }
 };

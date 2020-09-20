@@ -26,6 +26,8 @@
 
 #include <QVariantMap>
 
+class QMediaPlayer;
+
 enum class ClipboardOwnership {
     Foreign,
     Own,
@@ -47,6 +49,8 @@ signals:
 private:
     void onClipboardChanged(ClipboardMode mode);
 
+    void playAudio();
+
     QVariantMap m_clipboardData;
     QVariantMap m_selectionData;
 
@@ -62,6 +66,8 @@ private:
     bool m_clipboardToSelection;
     bool m_selectionToClipboard;
 #endif
+
+    QMediaPlayer *m_mediaPlayer = nullptr;
 };
 
 #endif // CLIPBOARDMONITOR_H
