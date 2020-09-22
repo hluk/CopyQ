@@ -1346,7 +1346,9 @@ Nota: esto no es posible en todos los sistemas.</translation>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transparencia de la ventana principal si no tiene el foco.
+
+Nota: Esto no es posible en todos los sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
@@ -2953,7 +2955,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="399"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡La pestaña %1 está dañada o faltan algunos complementos de CopyQ!.</translation>
     </message>
 </context>
 <context>
@@ -3195,7 +3197,8 @@ Los argumentoss son accesibles usando con &quot;arguments[0..N]&quot;.</translat
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar el portapapeles de la ventana actual
+(puede que no funcione con algunas aplicaciones).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -3210,7 +3213,7 @@ Los argumentoss son accesibles usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Escribir los datos sin formato en la fila indicada.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>

@@ -95,7 +95,7 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Komanda išsaugota</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="221"/>
@@ -109,13 +109,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Klaida: %1
- {1?}</translation>
+        <translation>Klaida: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="151"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Išėjimo kodas: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="183"/>
@@ -133,7 +132,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtruoti</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -1707,7 +1706,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="293"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Išeiti</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="317"/>
@@ -1811,13 +1810,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="808"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Klaida: %1
- {1?}</translation>
+        <translation>Klaida: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="865"/>
