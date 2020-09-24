@@ -642,7 +642,7 @@ Dejar en blanco para desactivarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Use el comando solo para elementos copiados al portapapeles desde la ventana cuyo texto del título coincida con esta expresión regular (déjelo vacío para que coincida con cualquier ventana). En macOS, contiene el nombre de la aplicación seguido de un guión (&amp;quot;-&amp;quot;) y luego el título de la ventana. Por ejemplo:  &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Use el comando solo para elementos copiados al portapapeles desde la ventana cuyo texto del título coincida con esta expresión regular (déjelo vacío para que coincida con cualquier ventana). En macOS, contiene el nombre de la aplicación seguido de un guión (&amp;quot;-&amp;quot;) y luego el título de la ventana. Por ejemplo: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="675"/>
@@ -916,7 +916,7 @@ Nota: si se aplica automáticamente, no se ejecutará ninguna otra orden automá
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation>Previsualización:</translation>
+        <translation>Vista Previa:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="444"/>
@@ -933,7 +933,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="451"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Algunas notas aleatorias (Shift+F2 para editar)</translation>
+        <translation>Algunas notas al azar (Mayús+F2 para editar)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="441"/>
@@ -978,7 +978,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">&amp;Idioma:</translation>
+        <translation>&amp;Idioma:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -988,17 +988,17 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished">Ajustar texto larg&amp;o</translation>
+        <translation>Ajustar texto larg&amp;o</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished">Mantener ventana principal por encima de las otras ventanas</translation>
+        <translation>Mantener ventana principal por encima de las otras ventanas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Siem&amp;pre arriba</translation>
+        <translation>Siem&amp;pre Arriba</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1013,12 +1013,12 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished">Permitir abrir las ventanas en la pantalla actual. Desactivar para abrir las ventanas donde fueron cerradas por última vez</translation>
+        <translation>Activar para abrir las ventanas en la pantalla actual. Desactivar para abrir las ventanas donde fueron cerradas por última vez</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished">Abrir ventanas en la &amp;pantalla actual</translation>
+        <translation>Abrir ventanas en la &amp;pantalla actual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
@@ -1028,77 +1028,77 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Confirmar &amp;salida de la aplicación</translation>
+        <translation>Confirmar &amp;salida de la aplicación</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished">Ejecutar la aplicación al iniciar el sistema</translation>
+        <translation>Ejecutar la aplicación al iniciar el sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished">Inicio &amp;automático</translation>
+        <translation>Inicio &amp;Automático</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished">Compatibilidad con teclas de navegación Vi (H, J, K, L, etc.), tecla de barra (/) para buscar</translation>
+        <translation>Compatibilidad con teclas de navegación Vi (H, J, K, L, etc.), tecla de barra diagonal (/) para buscar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished">Estilo de navegación &amp;Vi</translation>
+        <translation>Estilo de navegación &amp;Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Guardar y restablecer el historial de los filtros de elementos</translation>
+        <translation>Guardar y restablecer el historial de los filtros de elementos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Guardar el Historial de los Filtros</translation>
+        <translation>Guardar el Historial de los Filtros</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished">Automaticamente mostrar ventana emergente para completar la funcion, nombres de variables y tipos en ordenes</translation>
+        <translation>Mostrar automáticamente una ventana emergente para completar la función, tipo y nombre de variables en comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished">Auto-completar Ordenes</translation>
+        <translation>Autocompletar Comandos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Manipulación del portapapeles</translation>
+        <translation>Manipulación del Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Permitir pegar el contenido copiado de la misma forma que las selecciones del ratón (generalmente presionando el botón medio del raton)</translation>
+        <translation>Permitir pegar el contenido copiado de la misma manera que las selecciones del ratón (generalmente presionando el botón medio del raton)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Pegar portapapeles con el ratón</translation>
+        <translation>(&amp;3) Pegar el portapapeles con el ratón</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Permitir pegar las selecciones del ratón usando atajos (normalmente Ctrl+V o Shift+Insertar)</translation>
+        <translation>Permitir pegar las selecciones del ratón usando atajos (normalmente Ctrl+V o Mayús+Insertar)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Pegar selección del ratón con el teclado</translation>
+        <translation>(&amp;4) Pegar selección del ratón con el teclado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Guardar portapapeles en el historal</translation>
+        <translation>Guardar portapapeles en el historial</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
@@ -1108,7 +1108,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Guardar texto seleccionado con el ratón (selección primaria) en el historial</translation>
+        <translation>Guardar texto seleccionado con el ratón (selección primaria) en el historial</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1126,12 +1126,12 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">Ca&amp;ntidad máxima de elementos en el historial:</translation>
+        <translation>&amp;Número máximo de elementos en el historial:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Cantidad máxima de elementos en cada pestaña</translation>
+        <translation>Número máximo de elementos en cada pestaña</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
@@ -1143,9 +1143,9 @@ pulsar F2 para editar.</translation>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Limpiar cada pestaña, liberando espacio de memoria, luego la cantidad especificada de minutos de inactividad.
+        <translation>Quitar cada pestaña de la memoria después de un número especificado de minutos de inactividad.
 
-Definir como 0 para no limpiar pestañas.</translation>
+Definir como 0 para no quitar pestañas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
@@ -1160,7 +1160,7 @@ Definir como 0 para no limpiar pestañas.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Orden del editor externo (%1 es el archivo a editar).
+        <translation>Comando de editor externo (%1 es el archivo a editar).
   Ejemplos:
     gedit %1
     notepad %1
@@ -1177,7 +1177,7 @@ Definir como 0 para no limpiar pestañas.</translation>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">Nombre de la pestaña que guardará automáticamente el nuevo contenido en el portapapeles.
+        <translation>Nombre de la pestaña que guardará automáticamente el nuevo contenido del portapapeles.
 
 Dejar vacío para deshabilitar el guardado automático.</translation>
     </message>
@@ -1691,17 +1691,17 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished">Todos (&amp;A)</translation>
+        <translation>&amp;Todos</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished">Pestañas (&amp;T):</translation>
+        <translation>&amp;Pestañas:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished">Configuración (&amp;n)</translation>
+        <translation>Co&amp;nfiguración</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
@@ -1759,7 +1759,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="317"/>
         <source>Font</source>
-        <translation type="unfinished">Tipografía</translation>
+        <translation>Tipo de letra</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="322"/>
@@ -1784,17 +1784,17 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="347"/>
         <source>Foreground</source>
-        <translation type="unfinished">Principal</translation>
+        <translation>Primer Plano</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Background</source>
-        <translation type="unfinished">Fondo</translation>
+        <translation>Fondo</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="359"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Borrar Estilo</translation>
+        <translation>Borrar Estilo</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
@@ -1848,7 +1848,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
         <source>Ctrl+Shift+L</source>
-        <translation>Ctrl+Shift+L</translation>
+        <translation>Ctrl+Mayús+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="803"/>
@@ -2170,17 +2170,17 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="493"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished">¡No se pudo sincronizar la pestaña «%1» con el directorio «%2»!</translation>
+        <translation>¡No se pudo sincronizar la pestaña &quot;%1&quot; con el directorio &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
         <source>Remove Items?</source>
-        <translation type="unfinished">¿Quitar elementos?</translation>
+        <translation>¿Quitar Elementos?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished">¿Realmente desea &lt;strong&gt;quitar los elementos y archivos asociados&lt;/strong&gt;?</translation>
+        <translation>¿Realmente desea &lt;strong&gt;quitar los elementos y archivos asociados&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2558,7 +2558,7 @@ Definir como 0 para desactivar.</translation>
         <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished">&lt;OCULTO&gt;</translation>
+        <translation>&lt;OCULTO&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="576"/>
@@ -2622,7 +2622,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;portapapeles</translation>
+        <translation>&amp;portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
@@ -2632,7 +2632,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2647,27 +2647,27 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished">&amp;Preferencias...</translation>
+        <translation>&amp;Preferencias...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished">Ataj&amp;os de órdenes/globales...</translation>
+        <translation>Ataj&amp;os de órdenes/globales...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished">&amp;Órdenes...</translation>
+        <translation>&amp;Órdenes...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2677,57 +2677,57 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished">Ctrl+Shift+C</translation>
+        <translation>Ctrl+Mayús+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished">Al&amp;ternar almacenamiento del portapapeles</translation>
+        <translation>Al&amp;ternar Almacenamiento del Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished">Ctrl+Shift+X</translation>
+        <translation>Ctrl+Mayús+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished">Administrador de p&amp;rocesos</translation>
+        <translation>Administrador de P&amp;rocesos</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished">Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Mayús+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished">&amp;Salir</translation>
+        <translation>&amp;Salir</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished">Ordenar Elementos Seleccionados (&amp;S)</translation>
+        <translation>Ordenar Elementos &amp;Seleccionados</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished">Ctrl+Shift+S</translation>
+        <translation>Ctrl+Mayús+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished">&amp;Reversar Elementos Seleccionados</translation>
+        <translation>Inverti&amp;r Elementos Seleccionados</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished">Ctrl+Shift+R</translation>
+        <translation>Ctrl+Mayús+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -2742,7 +2742,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="97"/>
         <source>&amp;Find</source>
-        <translation type="unfinished">&amp;Buscar</translation>
+        <translation>&amp;Buscar</translation>
     </message>
     <message>
         <source>Move to &amp;Clipboard</source>
@@ -2751,22 +2751,22 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished">Mostrar Contenido... (&amp;S)</translation>
+        <translation>Mo&amp;strar Contenido...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished">Mostrar Previsualizar &amp;S</translation>
+        <translation>Mo&amp;strar Vista Previa</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -2777,132 +2777,132 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished">Quitar (&amp;R)</translation>
+        <translation>Quita&amp;r</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Editar</translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished">Editar &amp;notas</translation>
+        <translation>Editar &amp;Notas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
-        <translation type="unfinished">Shift+F2</translation>
+        <translation>Mayús+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished">E&amp;ditar con un editor</translation>
+        <translation>E&amp;ditar con un editor</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished">Ctrl+E</translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished">&amp;Acción...</translation>
+        <translation>&amp;Acción...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
-        <translation type="unfinished">Mover Arriba</translation>
+        <translation>Mover Arriba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished">Ctrl+Arriba</translation>
+        <translation>Ctrl+Arriba</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
-        <translation type="unfinished">Mover Abajo</translation>
+        <translation>Mover Abajo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished">Ctrl+Abajo</translation>
+        <translation>Ctrl+Abajo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
-        <translation type="unfinished">Mover a la Cima</translation>
+        <translation>Mover al Principio</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Ctrl+Home</source>
-        <translation type="unfinished">Ctrl+Home</translation>
+        <translation>Ctrl+Inicio</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished">Mover Al Fondo</translation>
+        <translation>Mover al Final</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Ctrl+End</source>
-        <translation type="unfinished">Ctrl+Fin</translation>
+        <translation>Ctrl+Fin</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">&amp;Nueva pestaña</translation>
+        <translation>&amp;Nueva Pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished">R&amp;enombrar pestaña</translation>
+        <translation>R&amp;enombrar Pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished">Q&amp;uitar pestaña</translation>
+        <translation>Eli&amp;minar Pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished">&amp;Cambiar ícono de la pestaña</translation>
+        <translation>&amp;Cambiar Icono de la Pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished">Ctrl+Shift+T</translation>
+        <translation>Ctrl+Mayús+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished">Pestaña Siguiente (&amp;x)</translation>
+        <translation>Pestaña &amp;Siguiente</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
@@ -2930,7 +2930,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished">Pestaña Anterior (&amp;P)</translation>
+        <translation>Pestaña &amp;Anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -2940,22 +2940,22 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished">Acerca de (&amp;A)</translation>
+        <translation>&amp;Acerca de</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Ayuda</translation>
+        <translation>&amp;Ayuda</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="399"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation>¡La pestaña %1 está dañada o faltan algunos complementos de CopyQ!.</translation>
+        <translation>¡La pestaña %1 está dañada o faltan algunos complementos de CopyQ!</translation>
     </message>
 </context>
 <context>
@@ -3178,7 +3178,7 @@ Los argumentoss son accesibles usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished">Ejecuta pruebas de la aplicación (adjunta el argumento --help para más información)</translation>
+        <translation>Ejecuta pruebas de la aplicación (adjunta el argumento --help para más información).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
@@ -3371,7 +3371,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Use el argumento guión (-) para leer datos de la entrada estándar.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
@@ -3433,17 +3433,17 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished">¡No existe una pestaña con el nombre indicado!</translation>
+        <translation>¡No existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished">¡El nombre de la pestaña no puede estar vacío!</translation>
+        <translation>¡El nombre de la pestaña no puede estar vacío!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished">¡Ya existe una pestaña con el nombre indicado!</translation>
+        <translation>¡Ya existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
@@ -3557,7 +3557,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Número &amp;máximo de elementos:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -3567,7 +3567,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Guardar Elementos</translation>
     </message>
 </context>
 <context>
