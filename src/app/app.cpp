@@ -79,9 +79,13 @@ void installTranslator(const QString &filename, const QString &directory)
 
 void installTranslator()
 {
-    QString locale = QSettings().value("Options/language").toString();
-    if (locale.isEmpty())
-        locale = QLocale::system().name();
+    QString locale = QString::fromUtf8( qgetenv("COPYQ_LOCALE") );
+    if (locale.isEmpty()) {
+        locale = QSettings().value("Options/language").toString();
+        if (locale.isEmpty())
+            locale = QLocale::system().name();
+        qputenv("COPYQ_LOCALE", locale.toUtf8());
+    }
 
 #ifdef COPYQ_TRANSLATION_PREFIX
     const QString translationPrefix = COPYQ_TRANSLATION_PREFIX;
