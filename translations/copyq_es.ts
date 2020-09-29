@@ -719,7 +719,7 @@ Dejar en blanco para desactivarlo.</translation>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Visualización</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="374"/>
@@ -1023,7 +1023,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished">Confirmar salida de la aplicación</translation>
+        <translation>Confirmar salida de la aplicación</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
@@ -1443,7 +1443,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>Despla&amp;zamiento horizontal:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
@@ -1706,7 +1706,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished">Ó&amp;rdenes</translation>
+        <translation>Co&amp;mandos</translation>
     </message>
 </context>
 <context>
@@ -2062,17 +2062,17 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Encima del Elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Debajo del Elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>Al &amp;lado del Elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2362,7 +2362,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation type="unfinished">Mostrar páginas web.</translation>
+        <translation>Mostrar páginas web.</translation>
     </message>
 </context>
 <context>
@@ -2570,7 +2570,7 @@ Definir como 0 para desactivar.</translation>
         <location filename="../src/common/common.cpp" line="578"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;ELEMENTOS&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="580"/>
@@ -2908,24 +2908,24 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Derecha</translation>
+        <translation>Derecha</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Izquierda</translation>
+        <translation>Izquierda</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir Menú Contextual Elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Shift+F10</translation>
+        <translation>Mayús+F10</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
@@ -3502,7 +3502,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gl&amp;obal</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
@@ -3512,7 +3512,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;plicación</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
