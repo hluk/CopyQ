@@ -290,7 +290,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation>Перемістити до вкладки  %1</translation>
+        <translation>Перемістити до вкладки %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
@@ -767,7 +767,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="553"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation>Розділювач, за яким вивід буде розбито  на кілька елементів</translation>
+        <translation>Розділювач, за яким вивід буде розбито на кілька елементів</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="556"/>
@@ -977,12 +977,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished">Розділити текст якщо він занадто довгий для тог,о щоб поміститися в стрічці</translation>
+        <translation>Розділити текст, якщо він занадто довгий для того, щоб поміститися в стрічці</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносити слова в довгому тексті</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
@@ -1022,7 +1022,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтверджувати вихід з програми</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
@@ -1072,7 +1072,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Дозволити вставляти скопійований вміст таким же способом, як  вибір миші (як правило, натиснувши середню кнопку миші)</translation>
+        <translation>Дозволити вставляти скопійований вміст таким же способом, як вибір миші (як правило, натиснувши середню кнопку миші)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
@@ -1180,7 +1180,7 @@ Leave empty to disable automatic storing.</source>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Не залишати прапорець  на клавіші Return, щоб зберегти відредагований елемент і Ctrl+Enter для створення нової лінії.
+        <translation>Не залишати прапорець на клавіші Return, щоб зберегти відредагований елемент і Ctrl+Enter для створення нового рядка.
 
 Примітка: Редаговані елементи можуть бути збережені з F2, що ігнорує цей параметр.</translation>
     </message>
@@ -1206,7 +1206,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished">Увімкнути пошук цифр, в іншому разі натискання цифрової клавіші активує  елемент в цій позиції</translation>
+        <translation>Увімкнути пошук цифр, в іншому разі натискання цифрової клавіші активує елемент в цій позиції</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
@@ -1274,27 +1274,27 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Сховати вкладки</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Сховати панель інструментів</translation>
+        <translation>Сховати панель інструментів</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Сховати панель інструментів</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Сховати мітки панелі інструментів</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Сховати головне вікно при закритті</translation>
+        <translation>Сховати головне вікно при закритті</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
@@ -1506,7 +1506,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Показувати елементи з поточної вкладки в меню  в треї</translation>
+        <translation>Показувати елементи з поточної вкладки в меню в треї</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
@@ -2084,7 +2084,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="73"/>
         <source>&amp;Up</source>
-        <translation>(&amp;u)  Вгору</translation>
+        <translation>(&amp;u) Вгору</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="83"/>
@@ -2164,7 +2164,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
         <source>Remove Items?</source>
-        <translation>Видалити  елементи?</translation>
+        <translation>Видалити елементи?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
@@ -2322,7 +2322,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Максимальна кількість рядків, які відображаються  (0 для показу всіх):</translation>
+        <translation>Максимальна кількість рядків, які відображаються (0 для показу всіх):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
