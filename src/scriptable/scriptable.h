@@ -375,6 +375,8 @@ public slots:
 
     void runMenuCommandFilters();
 
+    void runCommand();
+
     void monitorClipboard();
     void provideClipboard();
     void provideSelection();

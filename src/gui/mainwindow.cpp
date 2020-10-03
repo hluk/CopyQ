@@ -3709,7 +3709,10 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         actionDialog->setCommand(cmd);
     } else if ( cmd.cmd.isEmpty() ) {
         m_sharedData->actions->addFinishedAction(cmd.name);
+    } else if ( cmd.output.isEmpty() && cmd.input.isEmpty() && (cmd.cmd.startsWith("copyq:") || cmd.cmd.startsWith("copyq ")) ) {
+        return m_sharedData->actions->freeAction(cmd.name, cmd.cmd, data);
     } else {
+
         auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
         act->setInputWithFormat(data, cmd.input);

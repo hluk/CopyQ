@@ -21,6 +21,7 @@
 #define ACTIONHANDLER_H
 
 #include <QObject>
+#include <QPointer>
 #include <QSet>
 
 class Action;
@@ -50,6 +51,12 @@ public:
 
     void terminateAction(int id);
 
+    void addFreeAction();
+    Action *freeAction(const QString &name, const QString &command, const QVariantMap &data);
+
+signals:
+    void sendActionData(int actionId, const QByteArray &bytes);
+
 private:
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
@@ -61,6 +68,8 @@ private:
     QHash<int, Action*> m_actions;
     QSet<int> m_internalActions;
     int m_lastActionId = -1;
+
+    QVector<QPointer<Action>> m_freeActions;
 };
 
 #endif // ACTIONHANDLER_H

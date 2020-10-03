@@ -163,6 +163,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
              this, &ClipboardServer::onDisableClipboardStoringRequest );
     connect( m_wnd, &MainWindow::sendActionData,
              this, &ClipboardServer::sendActionData );
+    connect( m_sharedData->actions, &ActionHandler::sendActionData,
+             this, &ClipboardServer::sendActionData );
 
     // notify window if configuration changes
     connect( m_wnd, &MainWindow::configurationChanged,

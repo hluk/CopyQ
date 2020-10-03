@@ -63,6 +63,11 @@ ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QObject *pa
     , m_notificationDaemon(notificationDaemon)
     , m_actionModel(new ActionTableModel(maxRowCount(), parent))
 {
+    addFreeAction();
+    addFreeAction();
+    addFreeAction();
+    addFreeAction();
+    addFreeAction();
 }
 
 void ActionHandler::showProcessManagerDialog(QWidget *parent)
@@ -124,6 +129,31 @@ void ActionHandler::terminateAction(int id)
     Action *action = m_actions.value(id);
     if (action)
         action->terminate();
+}
+
+void ActionHandler::addFreeAction()
+{
+    Action *act = new Action(this);
+    act->setCommand( QStringList{"copyq", "--clipboard-access", "runCommand"} );
+    internalAction(act);
+    m_freeActions.push_back(act);
+}
+
+Action *ActionHandler::freeAction(const QString &name, const QString &command, const QVariantMap &data)
+{
+    Action *act;
+    do {
+        act = m_freeActions.takeFirst();
+        addFreeAction();
+    } while ( !act || !act->isRunning() );
+
+    act->setData(data);
+    act->setCommand(command);
+    act->setName(name);
+    m_actionModel->actionRenamed(act);
+    COPYQ_LOG( QString("Running: %1").arg(actionDescription(*act)) );
+    emit sendActionData( act->id(), command.toUtf8() );
+    return act;
 }
 
 void ActionHandler::closeAction(Action *action)

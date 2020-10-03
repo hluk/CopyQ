@@ -36,6 +36,7 @@ public:
     void actionStarted(Action *action);
     void actionFailed(Action *action, const QString &error);
     void actionFinished(Action *action);
+    void actionRenamed(Action *action);
     void actionFinished(const QString &name);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

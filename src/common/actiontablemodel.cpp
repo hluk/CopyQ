@@ -109,6 +109,16 @@ void ActionTableModel::actionFinished(Action *action)
     }
 }
 
+void ActionTableModel::actionRenamed(Action *action)
+{
+    const int row = rowFor(action);
+    ActionData &data = actionData(row);
+    data.started = QDateTime::currentDateTime();
+    data.name = action->name();
+    if ( data.name.isEmpty() )
+        data.name = action->commandLine();
+}
+
 void ActionTableModel::actionFinished(const QString &name)
 {
     ActionData actionData;

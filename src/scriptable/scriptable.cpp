@@ -2617,6 +2617,38 @@ void Scriptable::runMenuCommandFilters()
         loop.exec();
 }
 
+void Scriptable::runCommand()
+{
+    QEventLoop loop;
+    connect(this, &Scriptable::finished, &loop, [&]() {
+        if (m_abort == Abort::AllEvaluations)
+            loop.exit();
+    });
+
+    QByteArray bytes;
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(0);
+
+    connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
+        bytes = receivedBytes;
+        if ( !bytes.isEmpty() )
+            timer.start();
+    });
+
+    connect(&timer, &QTimer::timeout, &loop, [&]() {
+        const QString script = QString::fromUtf8(bytes);
+        getActionData(m_actionId);
+        eval(script);
+        abortEvaluation(Abort::AllEvaluations);
+    });
+
+    emit receiveData();
+
+    if (m_abort == Abort::None)
+        loop.exec();
+}
+
 void Scriptable::monitorClipboard()
 {
     if (!verifyClipboardAccess())
