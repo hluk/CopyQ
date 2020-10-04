@@ -184,6 +184,7 @@ void ClipboardClient::start(const QStringList &arguments)
         scriptable.setActionName(actionName);
 
         const int exitCode = scriptable.executeArguments(arguments);
+        socket.disconnect(&scriptable);
         exit(exitCode);
     }
 }
