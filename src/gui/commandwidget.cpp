@@ -283,11 +283,11 @@ QString CommandWidget::description() const
 
     if ( !(cmd.type() & CommandType::GlobalShortcut) ) {
         if (cmd.input.isEmpty() || cmd.input == mimeText)
-            description.append( QString("<div><b>input format:</b> text</div>") );
+            description.append( QLatin1String("<div><b>input format:</b> text</div>") );
         else if (cmd.input == "!OUTPUT")
-            description.append( QString("<div><b>input format NOT:</b> %1</div>").arg(cmd.output) );
+            description.append( QString::fromLatin1("<div><b>input format NOT:</b> %1</div>").arg(cmd.output) );
         else
-            description.append( QString("<div><b>input format:</b> %1</div>").arg(cmd.input) );
+            description.append( QString::fromLatin1("<div><b>input format:</b> %1</div>").arg(cmd.input) );
     }
 
     description.append("</td><td width=15></td><td>");
@@ -296,12 +296,12 @@ QString CommandWidget::description() const
 
     if ( !cmd.re.pattern().isEmpty() && isAutomaticOrMenu ) {
         description.append(
-            QString("<div>if text matches <b>/%1/</b></div>").arg(cmd.re.pattern()) );
+            QString::fromLatin1("<div>if text matches <b>/%1/</b></div>").arg(cmd.re.pattern()) );
     }
 
     if ( !cmd.wndre.pattern().isEmpty() && cmd.type() & CommandType::Automatic ) {
         description.append(
-            QString("<div>if current window title matches <b>/%1/</b></div>").arg(cmd.wndre.pattern()) );
+            QString::fromLatin1("<div>if current window title matches <b>/%1/</b></div>").arg(cmd.wndre.pattern()) );
     }
 
     if ( !cmd.matchCmd.isEmpty() && isAutomaticOrMenu )
@@ -313,13 +313,13 @@ QString CommandWidget::description() const
         description.append("<div><b>shows action dialog</b></div>");
     } else if ( !cmd.cmd.isEmpty() && isAutomaticOrMenu ) {
         if ( !cmd.output.isEmpty() )
-            description.append( QString("<div><b>output format:</b> %1</div>").arg(cmd.output) );
+            description.append( QString::fromLatin1("<div><b>output format:</b> %1</div>").arg(cmd.output) );
         if ( !cmd.outputTab.isEmpty() )
-            description.append( QString("<div><b>output tab:</b> %1</div>").arg(cmd.outputTab) );
+            description.append( QString::fromLatin1("<div><b>output tab:</b> %1</div>").arg(cmd.outputTab) );
     }
 
     if ( !cmd.tab.isEmpty() && cmd.type() & CommandType::Automatic )
-        description.append( QString("<div>saves clipboard in tab <b>%1</b></div>").arg(cmd.tab) );
+        description.append( QString::fromLatin1("<div>saves clipboard in tab <b>%1</b></div>").arg(cmd.tab) );
 
     if (cmd.remove) {
         if ( cmd.type() & CommandType::Automatic )

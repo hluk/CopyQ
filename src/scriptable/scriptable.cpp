@@ -306,29 +306,29 @@ struct ScriptValueFactory<Command> {
     {
         QJSValue value = scriptable->engine()->newObject();
 
-        value.setProperty("name", command.name);
-        value.setProperty("re", ::toScriptValue(command.re, scriptable));
-        value.setProperty("wndre", ::toScriptValue(command.wndre, scriptable));
-        value.setProperty("matchCmd", command.matchCmd);
-        value.setProperty("cmd", command.cmd);
-        value.setProperty("sep", command.sep);
-        value.setProperty("input", command.input);
-        value.setProperty("output", command.output);
-        value.setProperty("wait", command.wait);
-        value.setProperty("automatic", command.automatic);
-        value.setProperty("display", command.display);
-        value.setProperty("inMenu", command.inMenu);
-        value.setProperty("isGlobalShortcut", command.isGlobalShortcut);
-        value.setProperty("isScript", command.isScript);
-        value.setProperty("transform", command.transform);
-        value.setProperty("remove", command.remove);
-        value.setProperty("hideWindow", command.hideWindow);
-        value.setProperty("enable", command.enable);
-        value.setProperty("icon", command.icon);
-        value.setProperty("shortcuts", ::toScriptValue(command.shortcuts, scriptable));
-        value.setProperty("globalShortcuts", ::toScriptValue(command.globalShortcuts, scriptable));
-        value.setProperty("tab", command.tab);
-        value.setProperty("outputTab", command.outputTab);
+        value.setProperty(QLatin1String("name"), command.name);
+        value.setProperty(QLatin1String("re"), ::toScriptValue(command.re, scriptable));
+        value.setProperty(QLatin1String("wndre"), ::toScriptValue(command.wndre, scriptable));
+        value.setProperty(QLatin1String("matchCmd"), command.matchCmd);
+        value.setProperty(QLatin1String("cmd"), command.cmd);
+        value.setProperty(QLatin1String("sep"), command.sep);
+        value.setProperty(QLatin1String("input"), command.input);
+        value.setProperty(QLatin1String("output"), command.output);
+        value.setProperty(QLatin1String("wait"), command.wait);
+        value.setProperty(QLatin1String("automatic"), command.automatic);
+        value.setProperty(QLatin1String("display"), command.display);
+        value.setProperty(QLatin1String("inMenu"), command.inMenu);
+        value.setProperty(QLatin1String("isGlobalShortcut"), command.isGlobalShortcut);
+        value.setProperty(QLatin1String("isScript"), command.isScript);
+        value.setProperty(QLatin1String("transform"), command.transform);
+        value.setProperty(QLatin1String("remove"), command.remove);
+        value.setProperty(QLatin1String("hideWindow"), command.hideWindow);
+        value.setProperty(QLatin1String("enable"), command.enable);
+        value.setProperty(QLatin1String("icon"), command.icon);
+        value.setProperty(QLatin1String("shortcuts"), ::toScriptValue(command.shortcuts, scriptable));
+        value.setProperty(QLatin1String("globalShortcuts"), ::toScriptValue(command.globalShortcuts, scriptable));
+        value.setProperty(QLatin1String("tab"), command.tab);
+        value.setProperty(QLatin1String("outputTab"), command.outputTab);
 
         return value;
     }
@@ -433,14 +433,19 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     return v;
 }
 
-void addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSEngine *engine)
+QJSValue evaluateStrict(QJSEngine *engine, const char *script)
+{
+    return evaluateStrict(engine, QLatin1String(script));
+}
+
+void addScriptableClass(const QMetaObject *metaObject, const char *name, QJSEngine *engine)
 {
     auto cls = engine->newQMetaObject(metaObject);
-    const QString privateName("_copyq_" + name);
+    const QString privateName(QLatin1String("_copyq_") + QLatin1String(name));
     engine->globalObject().setProperty(privateName, cls);
     // Only single argument constructors are supported.
     // It's possible to use "...args" but it's not supported in Qt 5.9.
-    evaluateStrict(engine, QString(
+    evaluateStrict(engine, QString::fromLatin1(
         "function %1(arg) {return arg === undefined ? new %2() : new %2(arg);}"
         "%1.prototype = %2;"
     ).arg(name, privateName));
@@ -544,7 +549,7 @@ QJSValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Algorit
 {
     const auto data = scriptable->makeByteArray(scriptable->argument(0));
     const QByteArray hash = QCryptographicHash::hash(data, method).toHex();
-    return QString::fromUtf8(hash);
+    return QLatin1String(hash);
 }
 
 } // namespace
@@ -560,7 +565,7 @@ Scriptable::Scriptable(
     , m_input()
 {
     QJSValue globalObject = m_engine->globalObject();
-    globalObject.setProperty("global", globalObject);
+    globalObject.setProperty(QLatin1String("global"), globalObject);
 
     m_safeCall = evaluateStrict(m_engine,
         "(function() {"
@@ -783,8 +788,8 @@ QJSValue Scriptable::getPlugins()
     // Load plugins on demand.
     if ( m_plugins.isUndefined() ) {
         m_plugins = m_engine->newQObject(new ScriptablePlugins(this));
-        m_engine->globalObject().setProperty("_copyqPlugins", m_plugins);
-        const QString script(
+        m_engine->globalObject().setProperty(QLatin1String("_copyqPlugins"), m_plugins);
+        const QLatin1String script(
             "new Proxy({}, { get: function(_, name, _) { return _copyqPlugins.load(name); } });"
         );
         m_plugins = evaluateStrict(m_engine, script);
@@ -1367,19 +1372,19 @@ QJSValue Scriptable::notification()
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         const auto name = arg(i++);
-        if ( name == QString(".title") ) {
+        if ( name == QLatin1String(".title") ) {
             title = arg(i);
-        } else if ( name == QString(".message") ) {
+        } else if ( name == QLatin1String(".message") ) {
             message = arg(i);
-        } else if ( name == QString(".time") ) {
+        } else if ( name == QLatin1String(".time") ) {
             if ( !toInt(argument(i), &msec) ) {
                 return throwError("Expected number after .time argument");
             }
-        } else if ( name == QString(".id") ) {
+        } else if ( name == QLatin1String(".id") ) {
             notificationId = arg(i);
-        } else if ( name == QString(".icon") ) {
+        } else if ( name == QLatin1String(".icon") ) {
             icon = arg(i);
-        } else if ( name == QString(".button") ) {
+        } else if ( name == QLatin1String(".button") ) {
             NotificationButton button;
             button.name = arg(i);
             button.script = arg(++i);
@@ -1592,7 +1597,7 @@ QJSValue Scriptable::info()
 
     QString result;
     for (auto it = info.constBegin(); it != info.constEnd(); ++it)
-        result.append( QString("%1: %2\n").arg(it.key(), it.value()) );
+        result.append( QString::fromLatin1("%1: %2\n").arg(it.key(), it.value()) );
     result.chop(1);
 
     return result;
@@ -2021,9 +2026,9 @@ QJSValue Scriptable::execute()
     }
 
     QJSValue actionResult = m_engine->newObject();
-    actionResult.setProperty( "stdout", newByteArray(m_executeStdoutData) );
-    actionResult.setProperty( "stderr", getTextData(action.errorOutput()) );
-    actionResult.setProperty( "exit_code", action.exitCode() );
+    actionResult.setProperty( QLatin1String("stdout"), newByteArray(m_executeStdoutData) );
+    actionResult.setProperty( QLatin1String("stderr"), getTextData(action.errorOutput()) );
+    actionResult.setProperty( QLatin1String("exit_code"), action.exitCode() );
 
     m_executeStdoutData.clear();
     m_executeStdoutLastLine.clear();
@@ -2589,6 +2594,8 @@ void Scriptable::runMenuCommandFilters()
     const int actionId = m_actionId;
     m_actionId = -1;
 
+    const QString menuItemProperty = QLatin1String("menuItem");
+    const QString enabledProperty = QLatin1String("enabled");
     connect(&timer, &QTimer::timeout, &loop, [&]() {
         if ( bytes.isEmpty() )
             return;
@@ -2602,10 +2609,11 @@ void Scriptable::runMenuCommandFilters()
         PerformanceLogger logger( QLatin1String("Menu item filters") );
 
         for (int i = 0; i < matchCommands.length(); ++i) {
-            m_engine->globalObject().setProperty( "menuItem", m_engine->newObject() );
+            const auto obj = m_engine->newObject();
+            m_engine->globalObject().setProperty(menuItemProperty, obj);
             const bool enabled = canExecuteCommandFilter(matchCommands[i]);
-            QVariantMap menuItem = toDataMap(m_engine->globalObject().property("menuItem"));
-            menuItem["enabled"] = enabled && menuItem.value("enabled", true).toBool();
+            QVariantMap menuItem = toDataMap(obj);
+            menuItem[enabledProperty] = enabled && menuItem.value(enabledProperty, true).toBool();
             if ( !m_proxy->enableMenuItem(actionId, currentRun, i, menuItem) )
                 break;
         }
@@ -2724,8 +2732,8 @@ bool Scriptable::sourceScriptCommands()
 {
     const auto commands = m_proxy->scriptCommands();
     for (const auto &command : commands) {
-        const auto script = QString("(function(){%1\n;})()").arg(command.cmd);
-        const auto label = QString("source@<%1>").arg(command.name);
+        const auto script = QString::fromLatin1("(function(){%1\n;})()").arg(command.cmd);
+        const auto label = QString::fromLatin1("source@<%1>").arg(command.name);
         eval(script, label);
         if ( hasUncaughtException() ) {
             processUncaughtException(label);
@@ -2777,23 +2785,23 @@ int Scriptable::executeArguments(const QStringList &args)
         if ( result.isCallable() ) {
             const auto arguments = fnArgs.mid(skipArguments);
             if ( result.strictlyEquals(evalFn) )
-                globalObject.setProperty( "arguments", toScriptValue(arguments, this) );
+                globalObject.setProperty( QLatin1String("arguments"), toScriptValue(arguments, this) );
             m_skipArguments = -1;
-            const QString label = QString("call@arg:%1").arg(skipArguments);
+            const QString label = QString::fromLatin1("call@arg:%1").arg(skipArguments);
             result = call( label, &result, arguments );
             if (m_skipArguments == -1)
                 break;
             skipArguments += m_skipArguments;
         } else {
             cmd = toString(fnArgs[skipArguments]);
-            const QString label = QString("eval@arg:%1").arg(skipArguments + 1);
+            const QString label = QString::fromLatin1("eval@arg:%1").arg(skipArguments + 1);
             result = eval(cmd, label);
             ++skipArguments;
         }
     }
 
     if ( result.isCallable() && canContinue() && !hasUncaughtException() ) {
-        const QString label = QString("eval(arguments[%1])()").arg(skipArguments - 1);
+        const QString label = QString::fromLatin1("eval(arguments[%1])()").arg(skipArguments - 1);
         result = call( label, &result, fnArgs.mid(skipArguments) );
     }
 
@@ -2844,7 +2852,7 @@ void Scriptable::processUncaughtException(const QString &cmd)
     if ( !backtrace.isEmpty() )
         backtraceText = "\n\n--- backtrace ---\n" + backtrace.join("\n") + "\n--- end backtrace ---";
 
-    const auto exceptionText = QString("ScriptError: %3%4").arg(exceptionName, backtraceText);
+    const auto exceptionText = QString::fromLatin1("ScriptError: %3%4").arg(exceptionName, backtraceText);
 
     // Show exception popups only if the script was launched from application.
     // (avoid it if launched from command line).
@@ -2856,9 +2864,9 @@ void Scriptable::processUncaughtException(const QString &cmd)
             label.append("::" + cmd);
 
         if (label.isEmpty())
-            label = QString("Exception in command: ");
+            label = QLatin1String("Exception in command: ");
         else
-            label = QString("Exception in command \"%1\": ").arg(label);
+            label = QString::fromLatin1("Exception in command \"%1\": ").arg(label);
         m_proxy->serverLog(label + exceptionText);
     }
 
@@ -3056,7 +3064,7 @@ QJSValue Scriptable::eval(const QString &script)
 {
     constexpr auto maxScriptSize = 70;
     const auto scriptSimplified = script.left(maxScriptSize).simplified();
-    const QString name = QString("eval: %1%2")
+    const QString name = QString::fromLatin1("eval: %1%2")
         .arg(scriptSimplified, maxScriptSize < script.size() ? "..." : "");
     return eval(script, name);
 }
@@ -3067,7 +3075,7 @@ QTextCodec *Scriptable::codecFromNameOrThrow(const QJSValue &codecName)
     if (!codec) {
         QString codecs;
         for (const auto &availableCodecName : QTextCodec::availableCodecs())
-            codecs.append( "\n" + QString::fromUtf8(availableCodecName) );
+            codecs.append( "\n" + QLatin1String(availableCodecName) );
         throwError("Available codecs are:" + codecs);
     }
     return codec;
@@ -3141,7 +3149,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
     const QString tabName = getTextData(m_data, mimeCurrentTab);
 
     for (auto &command : commands) {
-        PerformanceLogger logger( QString("Command \"%1\"").arg(command.name) );
+        PerformanceLogger logger( QString::fromLatin1("Command \"%1\"").arg(command.name) );
 
         if ( command.outputTab.isEmpty() )
             command.outputTab = tabName;
@@ -3507,7 +3515,7 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
         if ( slot.parameterCount() != 0 )
             continue;
 
-        const auto name = QString::fromUtf8( slot.name() );
+        const QLatin1String name( slot.name() );
         const bool hasByteArrayReturnType = slot.returnType() == QMetaType::QByteArray;
 
         // Allow passing variable number of arguments to scriptable methods
@@ -3525,7 +3533,7 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
 
     for (int i = 0; i < metaObject->propertyCount(); ++i) {
         const QMetaProperty prop = metaObject->property(i);
-        const auto name = QString::fromUtf8( prop.name() );
+        const QLatin1String name( prop.name() );
 
         const auto args = QJSValueList() << name << from;
         const auto v = m_createProperty.callWithInstance(toObject, args);
@@ -3663,7 +3671,7 @@ QJSValue ScriptablePlugins::load(const QString &name)
     auto obj = m_factory->scriptableObject(name);
     if (!obj) {
         m_scriptable->throwError(
-            QString("Plugin \"%1\" is not installed").arg(name) );
+            QString::fromLatin1("Plugin \"%1\" is not installed").arg(name) );
         return QJSValue();
     }
 

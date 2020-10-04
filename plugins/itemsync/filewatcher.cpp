@@ -308,7 +308,7 @@ bool renameToUnique(
         *name = "copyq_0000";
     } else {
         // Replace/remove unsafe characters.
-        name->replace( QRegularExpression("/|\\\\|^\\."), QString("_") );
+        name->replace( QRegularExpression("/|\\\\|^\\."), QLatin1String("_") );
         name->remove( QRegularExpression("\\n|\\r") );
     }
 
@@ -339,7 +339,7 @@ bool renameToUnique(
     do {
         if (i >= 99999)
             return false;
-        newName = baseName + QString("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
+        newName = baseName + QString::fromLatin1("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
     } while ( !isUniqueBaseName(newName, fileNames, baseNames) );
 
     *name = newName;

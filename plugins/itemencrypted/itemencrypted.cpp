@@ -57,7 +57,7 @@ const int maxItemCount = 10000;
 struct KeyPairPaths {
     KeyPairPaths()
     {
-        const QString path = getConfigurationFilePath(QString());
+        const QString path = getConfigurationFilePath("");
         sec = QDir::toNativeSeparators(path + ".sec");
         pub = QDir::toNativeSeparators(path + ".pub");
     }

@@ -51,7 +51,7 @@ QString messageCodeToString(int code)
     case CommandData:
         return "CommandData";
     default:
-        return QString("Unknown(%1)").arg(code);
+        return QString::fromLatin1("Unknown(%1)").arg(code);
     }
 }
 

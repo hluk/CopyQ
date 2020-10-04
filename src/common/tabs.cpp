@@ -88,7 +88,7 @@ void Tabs::save(QSettings *settings, const QStringList &tabs)
 
         const bool isTab = tabs.contains(name);
         const bool isTabGroup =
-            !isTab && tabs.indexOf(QRegularExpression(QString("^%1/.*").arg(QRegularExpression::escape(name)))) != -1;
+            !isTab && tabs.indexOf(QRegularExpression(QString::fromLatin1("^%1/.*").arg(QRegularExpression::escape(name)))) != -1;
 
         if (isTab || isTabGroup) {
             settings->setArrayIndex(row++);

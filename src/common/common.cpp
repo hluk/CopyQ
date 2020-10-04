@@ -480,7 +480,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     }
 
     if (lastLine == -1)
-        return QString("...");
+        return QLatin1String("...");
 
     // If there are too many lines, append triple dot.
     if (lastLine + 1 != lines.size())
@@ -524,7 +524,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
 
     // Escape all ampersands.
     if (escapeAmpersands)
-        result.replace( QChar('&'), QString("&&") );
+        result.replace( QLatin1Char('&'), QLatin1String("&&") );
 
     return format.isEmpty() ? result : format.arg(result);
 }
@@ -545,7 +545,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         if (n > 1)
             label = QObject::tr("%1 (%n lines)", "Label for multi-line text in clipboard", n);
         else
-            label = QString("%1");
+            label = QLatin1String("%1");
 
         if (!format.isEmpty())
             label = format.arg(label);

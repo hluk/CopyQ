@@ -30,12 +30,12 @@ namespace {
 
 QString helpUrl(const char *url)
 {
-    return QString("<a href='%1'>%1</a>").arg(url);
+    return QString::fromLatin1("<a href='%1'>%1</a>").arg(url);
 }
 
 QString helpMail(const char *url)
 {
-    return QString("<a href='mailto:%1'>%1</a>").arg(url);
+    return QString::fromLatin1("<a href='mailto:%1'>%1</a>").arg(url);
 }
 
 QString helpLink(const QString &name, const QString &link, ushort icon)
@@ -49,7 +49,7 @@ QString helpLink(const QString &name, const QString &link, ushort icon)
 
 QString helpDeveloper(const char *name, const char *mail)
 {
-    return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='info'>%2</span></div>")
+    return QString::fromLatin1("<div>%1 &nbsp;&nbsp;&nbsp;<span class='info'>%2</span></div>")
             .arg(QString::fromUtf8(name), mail);
 }
 

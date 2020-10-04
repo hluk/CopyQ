@@ -230,7 +230,7 @@ void ShortcutButton::addShortcut(QAction *shortcutButton)
 void ShortcutButton::setButtonShortcut(QAction *shortcutButton, const QKeySequence &shortcut)
 {
     QString label = shortcut.toString(QKeySequence::NativeText);
-    label.replace( QChar('&'), QString("&&") );
+    label.replace( QLatin1Char('&'), QLatin1String("&&") );
     shortcutButton->setText(label);
     shortcutButton->setProperty(propertyShortcut, shortcut);
 }

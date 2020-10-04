@@ -58,7 +58,7 @@ QVector<Command> predefinedCommands()
     c->icon = QString(QChar(IconFile));
     c->input = c->output = "";
     c->wait = c->automatic = c->remove = false;
-    c->sep = QString("\\n");
+    c->sep = QLatin1String("\\n");
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");

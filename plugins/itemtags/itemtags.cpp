@@ -94,7 +94,7 @@ QString serializeColor(const QColor &color)
     if (color.alpha() == 255)
         return color.name();
 
-    return QString("rgba(%1,%2,%3,%4)")
+    return QString::fromLatin1("rgba(%1,%2,%3,%4)")
             .arg(color.red())
             .arg(color.green())
             .arg(color.blue())

@@ -26,7 +26,6 @@
 #include <QByteArray>
 #include <QDesktopWidget>
 #include <QDir>
-#include <QRegularExpression>
 #include <QScreen>
 #include <QSettings>
 #include <QString>
@@ -48,7 +47,7 @@ enum class GeometryAction {
 
 QString toString(const QRect &geometry)
 {
-    return QString("%1x%2,%3,%4")
+    return QString::fromLatin1("%1x%2,%3,%4")
             .arg(geometry.width())
             .arg(geometry.height())
             .arg(geometry.x())
@@ -71,7 +70,7 @@ QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction,
     if (openOnCurrentScreen) {
         const int n = screenNumber(widget, geometryAction);
         if (n > 0)
-            optionName.append( QString("_screen_%1").arg(n) );
+            optionName.append( QString::fromLatin1("_screen_%1").arg(n) );
     } else {
         optionName.append("_global");
     }
@@ -87,7 +86,7 @@ QString getGeometryConfigurationFilePath()
 QString resolutionTagForScreen(int i)
 {
     const QRect screenGeometry = ::screenGeometry(i);
-    return QString("_%1x%2")
+    return QString::fromLatin1("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
 }
@@ -152,19 +151,23 @@ void ensureWindowOnScreen(QWidget *w)
 
 } // namespace
 
-QString getConfigurationFilePath(const QString &suffix)
+QString getConfigurationFilePath(const char *suffix)
 {
     const QSettings settings(
                 QSettings::IniFormat, QSettings::UserScope,
                 QCoreApplication::organizationName(),
                 QCoreApplication::applicationName() );
     QString path = settings.fileName();
-    return path.replace( QRegularExpression("\\.ini$"), suffix );
+    // Replace suffix.
+    const int i = path.lastIndexOf(QLatin1Char('.'));
+    Q_ASSERT(i != -1);
+    Q_ASSERT( path.endsWith(QLatin1String(".ini")) );
+    return path.leftRef(i) + suffix;
 }
 
 QString settingsDirectoryPath()
 {
-    return QDir::cleanPath( getConfigurationFilePath("") + "/.." );
+    return QDir::cleanPath( getConfigurationFilePath("") + QLatin1String("/..") );
 }
 
 QVariant geometryOptionValue(const QString &optionName)
@@ -246,13 +249,13 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
 QByteArray mainWindowState(const QString &mainWindowObjectName)
 {
-    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    const QString optionName = QString::fromLatin1("Options/%1_state").arg(mainWindowObjectName);
     return geometryOptionValue(optionName).toByteArray();
 }
 
 void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
 {
-    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    const QString optionName = QString::fromLatin1("Options/%1_state").arg(mainWindowObjectName);
     setGeometryOptionValue(optionName, state);
 }
 

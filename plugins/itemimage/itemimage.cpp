@@ -39,11 +39,11 @@ namespace {
 QString findImageFormat(const QList<QString> &formats)
 {
     // Check formats in this order.
-    static const QStringList imageFormats = QStringList()
-            << QString("image/png")
-            << QString("image/bmp")
-            << QString("image/jpeg")
-            << QString("image/gif");
+    static const auto imageFormats = QList<QLatin1String>()
+            << QLatin1String("image/png")
+            << QLatin1String("image/bmp")
+            << QLatin1String("image/jpeg")
+            << QLatin1String("image/gif");
 
     for (const auto &format : imageFormats) {
         if ( formats.contains(format) )
@@ -223,10 +223,11 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
 
 QStringList ItemImageLoader::formatsToSave() const
 {
-    return QStringList()
-            << QString("image/svg+xml")
-            << QString("image/png")
-            << QString("image/gif");
+    return {
+        QLatin1String("image/svg+xml"),
+        QLatin1String("image/png"),
+        QLatin1String("image/gif")
+    };
 }
 
 QVariantMap ItemImageLoader::applySettings()

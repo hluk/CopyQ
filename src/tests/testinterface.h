@@ -78,7 +78,7 @@ public:
     /// Set clipboard through monitor process.
     virtual QByteArray setClipboard(
             const QByteArray &bytes,
-            const QString &mime = QString("text/plain"),
+            const QString &mime = QLatin1String("text/plain"),
             ClipboardMode mode = ClipboardMode::Clipboard) = 0;
 
     /// Verify clipboard content.

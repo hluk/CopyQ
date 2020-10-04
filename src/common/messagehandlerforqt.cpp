@@ -69,7 +69,7 @@ void messageHandler(QtMsgType type, const QString &message)
 
 void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    const QString message = QString("%1 (%2:%3, %4)")
+    const QString message = QString::fromLatin1("%1 (%2:%3, %4)")
             .arg(msg, context.file, QString::number(context.line), context.function);
     messageHandler(type, message);
 }

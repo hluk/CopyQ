@@ -149,22 +149,22 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
     size = qBound(0.1, size, 50.0);
 
     QString result;
-    result.append( QString(";font-family: \"%1\"").arg(font.family()) );
-    result.append( QString(";font:%1 %2 %3%4")
+    result.append( QString::fromLatin1(";font-family: \"%1\"").arg(font.family()) );
+    result.append( QString::fromLatin1(";font:%1 %2 %3%4")
                    .arg(font.style() == QFont::StyleItalic
                         ? "italic" : font.style() == QFont::StyleOblique ? "oblique" : "normal",
                         font.bold() ? "bold" : "")
                    .arg(size)
                    .arg(sizeUnits)
                    );
-    result.append( QString(";text-decoration:%1 %2 %3")
+    result.append( QString::fromLatin1(";text-decoration:%1 %2 %3")
                    .arg(font.strikeOut() ? "line-through" : "",
                         font.underline() ? "underline" : "",
                         font.overline() ? "overline" : "")
                    );
 
     const int w = getFontWeightForStyleSheet( font.weight() );
-    result.append( QString(";font-weight:%1").arg(w) );
+    result.append( QString::fromLatin1(";font-weight:%1").arg(w) );
 
     result.append(";");
 
@@ -507,7 +507,7 @@ void Theme::updateTheme()
     m_showRowNumber = value("show_number").toBool();
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
-    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
+    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QLatin1String("0123") ).size()
             + QSize(m_margins.width(), m_margins.height());
 
     m_antialiasing = value("font_antialiasing").toBool();
@@ -642,7 +642,7 @@ QString serializeColor(const QColor &color)
     if (color.alpha() == 255)
         return color.name();
 
-    return QString("rgba(%1,%2,%3,%4)")
+    return QString::fromLatin1("rgba(%1,%2,%3,%4)")
             .arg(color.red())
             .arg(color.green())
             .arg(color.blue())
