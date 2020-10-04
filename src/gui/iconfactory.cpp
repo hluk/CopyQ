@@ -160,7 +160,7 @@ QPixmap pixmapFromBitmapFile(const QString &path, QSize size)
 
 QPixmap pixmapFromFile(const QString &path, QSize size)
 {
-    const auto cacheKey = QString("path:%1|%2x%3")
+    const auto cacheKey = QString::fromLatin1("path:%1|%2x%3")
             .arg(path)
             .arg(size.width())
             .arg(size.height());
@@ -255,7 +255,7 @@ void disableIcon(QPixmap *pix)
 
 QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
 {
-    const auto cacheKey = QString("id:%1|%2x%3|%4")
+    const auto cacheKey = QString::fromLatin1("id:%1|%2x%3|%4")
             .arg(id)
             .arg(w)
             .arg(h)
@@ -479,7 +479,7 @@ public:
             return FontIconEngine::doCreatePixmap(size, mode, state, painter);
 
         // Tint tab icons.
-        if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
+        if ( m_iconName.startsWith(imagesRecourcePath + QLatin1String("tab_")) ) {
             const QPixmap pixmap = pixmapFromFile(m_iconName, size);
 
             QPixmap pixmap2(pixmap.size());
@@ -549,7 +549,7 @@ public:
         const bool useColoredIcon = !hasNormalIcon();
         const auto sessionColor = useColoredIcon ? sessionIconColor() : QColor();
 
-        const auto cacheKey = QString("app:%1|%2x%3|%4")
+        const auto cacheKey = QString::fromLatin1("app:%1|%2x%3|%4")
                 .arg(sessionColor.name())
                 .arg(size.width())
                 .arg(size.height())

@@ -49,20 +49,20 @@ bool readOrError(QDataStream *out, T *value, const char *error)
 const std::unordered_map<int, QString> &idToMime()
 {
     static const std::unordered_map<int, QString> map({
-        {1, QString(mimeWindowTitle)},
-        {2, QString(mimeItemNotes)},
+        {1, QLatin1String(mimeWindowTitle)},
+        {2, QLatin1String(mimeItemNotes)},
 
-        {3, QString(COPYQ_MIME_PREFIX)},
+        {3, QLatin1String(COPYQ_MIME_PREFIX)},
 
-        {4, QString(mimeText)},
-        {5, QString(mimeHtml)},
-        {6, QString(mimeUriList)},
+        {4, QLatin1String(mimeText)},
+        {5, QLatin1String(mimeHtml)},
+        {6, QLatin1String(mimeUriList)},
 
-        {7, QString("image/")},
-        {8, QString("text/")},
-        {9, QString("application/")},
-        {10, QString("audio/")},
-        {11, QString("video/")}
+        {7, QLatin1String("image/")},
+        {8, QLatin1String("text/")},
+        {9, QLatin1String("application/")},
+        {10, QLatin1String("audio/")},
+        {11, QLatin1String("video/")}
     });
     return map;
 }

@@ -132,7 +132,7 @@ void ConfigTabAppearance::onColorButtonClicked()
 void ConfigTabAppearance::onPushButtonLoadThemeClicked()
 {
     const QString filename = QFileDialog::getOpenFileName(this, tr("Open Theme File"),
-                                                          defaultUserThemePath(), QString("*.ini"));
+                                                          defaultUserThemePath(), QLatin1String("*.ini"));
     if ( !filename.isNull() ) {
         QSettings settings(filename, QSettings::IniFormat);
         loadTheme(settings);
@@ -142,7 +142,7 @@ void ConfigTabAppearance::onPushButtonLoadThemeClicked()
 void ConfigTabAppearance::onPushButtonSaveThemeClicked()
 {
     QString filename = QFileDialog::getSaveFileName(this, tr("Save Theme File As"),
-                                                    defaultUserThemePath(), QString("*.ini"));
+                                                    defaultUserThemePath(), QLatin1String("*.ini"));
     if ( !filename.isNull() ) {
         if ( !filename.endsWith(".ini") )
             filename.append(".ini");
@@ -452,17 +452,17 @@ void ConfigTabAppearance::decoratePreview()
     model->setData(index, dataMap, contentType::updateData);
 
     // Highlight found text but don't filter out any items.
-    c->filterItems( QRegularExpression(QString("^|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
+    c->filterItems( QRegularExpression(QLatin1String("^|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
 
     QAction *act;
 
     act = new QAction(c);
-    act->setShortcut( QString("Shift+F2") );
+    act->setShortcut( QKeySequence(QLatin1String("Shift+F2")) );
     connect(act, &QAction::triggered, c, &ClipboardBrowser::editNotes);
     c->addAction(act);
 
     act = new QAction(c);
-    act->setShortcut( QString("F2") );
+    act->setShortcut( QKeySequence(QLatin1String("F2")) );
     connect(act, &QAction::triggered, c, &ClipboardBrowser::editSelected);
     c->addAction(act);
 }

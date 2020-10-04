@@ -448,7 +448,7 @@ ItemScriptable *ItemFactory::scriptableObject(const QString &name) const
     if ( !findPluginDir(&pluginsDir) )
         return nullptr;
 
-    const QStringList nameFilters( QString("*%1*").arg(name) );
+    const QStringList nameFilters( QString::fromLatin1("*%1*").arg(name) );
     for (const auto &fileName : pluginsDir.entryList(nameFilters, QDir::Files)) {
         const QString path = pluginsDir.absoluteFilePath(fileName);
         auto loader = loadPlugin(path, name);

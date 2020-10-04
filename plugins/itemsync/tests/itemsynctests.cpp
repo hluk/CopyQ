@@ -35,7 +35,7 @@ const char sep[] = " ;; ";
 
 QString fileNameForId(int i)
 {
-    return QString("copyq_%1.txt").arg(i, 4, 10, QChar('0'));
+    return QString::fromLatin1("copyq_%1.txt").arg(i, 4, 10, QChar('0'));
 }
 
 class TestDir final {

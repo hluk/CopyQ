@@ -38,23 +38,23 @@ namespace {
 QString getFileSuffixFromMime(const QString &mime)
 {
     if (mime == mimeText)
-        return QString(".txt");
+        return QLatin1String(".txt");
     if (mime == "text/html")
-        return QString(".html");
+        return QLatin1String(".html");
     if (mime == "text/xml")
-        return QString(".xml");
+        return QLatin1String(".xml");
     if (mime == "image/bmp")
-        return QString(".bmp");
+        return QLatin1String(".bmp");
     if (mime == "image/jpeg")
-        return QString(".jpg");
+        return QLatin1String(".jpg");
     if (mime == "image/png")
-        return QString(".png");
+        return QLatin1String(".png");
     if (mime == "image/gif")
-        return QString(".gif");
+        return QLatin1String(".gif");
     if (mime == "image/svg+xml" || mime == "image/x-inkscape-svg-compressed")
-        return QString(".svg");
+        return QLatin1String(".svg");
     if (mime == COPYQ_MIME_PREFIX "theme")
-        return QString(".ini");
+        return QLatin1String(".ini");
     return QString();
 }
 

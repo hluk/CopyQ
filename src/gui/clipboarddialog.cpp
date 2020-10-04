@@ -113,9 +113,9 @@ void ClipboardDialog::onListWidgetFormatsCurrentItemChanged(
     ui->actionRemove_Format->setEnabled(current != nullptr);
 
     const QString mime = current ? current->text() : QString();
-    const bool hasImage = mime.startsWith(QString("image")) ;
+    const bool hasImage = mime.startsWith(QLatin1String("image")) ;
     const QByteArray animationFormat =
-            QString(mime).remove(QRegularExpression("^image/")).toUtf8();
+            QString(mime).remove(QRegularExpression(QLatin1String("^image/"))).toUtf8();
     const bool hasAnimation = QMovie::supportedFormats().contains(animationFormat);
 
     ui->textEdit->clear();

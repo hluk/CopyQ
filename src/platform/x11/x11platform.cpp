@@ -291,10 +291,10 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 {
     pluginsDir->setPath( qApp->applicationDirPath() );
 
-    if ( pluginsDir->dirName() == QString("bin")
+    if ( pluginsDir->dirName() == QLatin1String("bin")
          && pluginsDir->cdUp()
-         && (pluginsDir->cd("lib64") || pluginsDir->cd("lib"))
-         && pluginsDir->cd("copyq") )
+         && (pluginsDir->cd(QLatin1String("lib64")) || pluginsDir->cd(QLatin1String("lib")))
+         && pluginsDir->cd(QLatin1String("copyq")) )
     {
         // OK, installed in /usr/local/bin or /usr/bin.
         return true;
@@ -302,9 +302,9 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 
     pluginsDir->setPath( qApp->applicationDirPath() );
 
-    if ( pluginsDir->cd("plugins") ) {
+    if ( pluginsDir->cd(QLatin1String("plugins")) ) {
         // OK, plugins in same directory as executable.
-        pluginsDir->cd("copyq");
+        pluginsDir->cd(QLatin1String("copyq"));
         return true;
     }
 
@@ -313,7 +313,7 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 
 QString X11Platform::defaultEditorCommand()
 {
-    return "gedit --standalone -- %1";
+    return QLatin1String("gedit --standalone -- %1");
 }
 
 QString X11Platform::translationPrefix()

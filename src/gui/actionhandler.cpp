@@ -46,7 +46,7 @@ QString actionDescription(const Action &action)
 {
     const auto name = action.name();
     if ( !name.isEmpty() )
-        return QString("Command \"%1\"").arg(name);
+        return QString::fromLatin1("Command \"%1\"").arg(name);
 
     return action.commandLine();
 }
@@ -181,7 +181,7 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
     const auto lines = command.split("\n");
     const auto lineNumberWidth = static_cast<int>(std::log10(lines.size())) + 1;
     for (const auto &line : lines)
-        msg.append(QString("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
+        msg.append(QString::fromLatin1("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
 
     log(title + "\n" + msg);
 

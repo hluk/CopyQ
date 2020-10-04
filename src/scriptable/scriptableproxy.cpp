@@ -706,7 +706,7 @@ public:
         COPYQ_LOG( QString("Sending keys \"%1\" to %2.")
                    .arg(keys, widgetName) );
 
-        const auto popupMessage = QString("%1 (%2)")
+        const auto popupMessage = QString::fromLatin1("%1 (%2)")
                 .arg( quoteString(keys), widgetName );
         auto notification = m_wnd->createNotification();
         notification->setMessage(popupMessage);
@@ -769,13 +769,13 @@ private:
 
         const auto className = widget->metaObject()->className();
 
-        auto widgetName = QString("%1:%2")
+        auto widgetName = QString::fromLatin1("%1:%2")
                 .arg(widget->objectName(), className);
 
         const auto window = widget->window();
         if (window && widget != window) {
             widgetName.append(
-                QString(" in %1:%2")
+                QString::fromLatin1(" in %1:%2")
                     .arg(window->objectName(), window->metaObject()->className())
             );
         }
@@ -784,7 +784,7 @@ private:
         while (parent) {
             if ( parent != window && !parent->objectName().startsWith("qt_") ) {
                 widgetName.append(
-                    QString(" in %1:%2")
+                    QString::fromLatin1(" in %1:%2")
                         .arg(parent->objectName(), parent->metaObject()->className())
                 );
             }
@@ -1297,7 +1297,7 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
     INVOKE(browserRemoveRows, (tabName, rows));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return QString("Invalid tab");
+        return QLatin1String("Invalid tab");
 
     std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
@@ -2130,7 +2130,7 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
         text = elideText(text, font, QString(), false, width, maxLines);
         text = escapeHtml(text);
-        text.replace( QString("\n"), QString("<br />") );
+        text.replace( QLatin1String("\n"), QLatin1String("<br />") );
         notification->setMessage( format.arg(text), Qt::RichText );
     } else if (!isHidden && imageIndex != -1) {
         QPixmap pix;

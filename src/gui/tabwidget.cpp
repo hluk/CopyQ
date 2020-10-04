@@ -488,5 +488,5 @@ QString TabWidget::itemCountLabel(const QString &name)
         return QString();
 
     const int count = m_tabItemCounters.value(name, -1);
-    return count > 0 ? QString::number(count) : count == 0 ? QString() : QString("?");
+    return count > 0 ? QString::number(count) : count == 0 ? QString() : QLatin1String("?");
 }

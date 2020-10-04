@@ -125,7 +125,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         QGuiApplication::setApplicationDisplayName("CopyQ");
     } else {
         QGuiApplication::setApplicationDisplayName(
-            QString("CopyQ-%1").arg(sessionName));
+            QString::fromLatin1("CopyQ-%1").arg(sessionName));
     }
 
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);

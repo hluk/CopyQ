@@ -48,7 +48,7 @@ public:
         setSelectionMode(QAbstractItemView::SingleSelection);
         setDragDropMode(QAbstractItemView::NoDragDrop);
 
-        addItem( QString("") );
+        addItem( QString() );
         item(0)->setSizeHint(size);
     }
 

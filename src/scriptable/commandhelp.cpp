@@ -53,12 +53,12 @@ QString CommandHelp::toString() const
     const auto cmdArgs = cmd + args;
     if ( cmdArgs.size() > helpTextColumn - 2 || desc.contains('\n') ) {
         const auto indent = QString(' ').repeated(6);
-        return QString("    %1\n%2").arg(cmdArgs, indent)
+        return QString::fromLatin1("    %1\n%2").arg(cmdArgs, indent)
                 + QString(desc)
                     .replace('\n', "\n" + indent) + "\n";
     }
 
-    return QString("    %1 ").arg(cmdArgs, -helpTextColumn)
+    return QString::fromLatin1("    %1 ").arg(cmdArgs, -helpTextColumn)
             + QString(desc)
                 .replace('\n', "\n" + QString(' ')
                 .repeated(6 + helpTextColumn)) + "\n";

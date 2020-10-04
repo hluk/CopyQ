@@ -35,7 +35,7 @@ QString itemFileName(const QString &id)
 {
     QString part( id.toUtf8().toBase64() );
     part.replace( QChar('/'), QString('-') );
-    return getConfigurationFilePath("_tab_") + part + QString(".dat");
+    return getConfigurationFilePath("_tab_") + part + QLatin1String(".dat");
 }
 
 bool createItemDirectory()
