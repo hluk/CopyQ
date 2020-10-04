@@ -3824,10 +3824,14 @@ void Tests::networkGet()
 
 void Tests::pluginNotInstalled()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     RUN_EXPECT_ERROR_WITH_STDERR(
         "plugins.bad_plugin", CommandException,
         "Plugin \"bad_plugin\" is not installed"
     );
+#else
+    SKIP("Not supported in older Qt version");
+#endif
 }
 
 int Tests::run(

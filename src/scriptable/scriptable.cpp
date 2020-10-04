@@ -787,12 +787,32 @@ QJSValue Scriptable::getPlugins()
 {
     // Load plugins on demand.
     if ( m_plugins.isUndefined() ) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
         m_plugins = m_engine->newQObject(new ScriptablePlugins(this));
         m_engine->globalObject().setProperty(QLatin1String("_copyqPlugins"), m_plugins);
         const QLatin1String script(
             "new Proxy({}, { get: function(_, name, _) { return _copyqPlugins.load(name); } });"
         );
         m_plugins = evaluateStrict(m_engine, script);
+#else
+        m_plugins = m_engine->newObject();
+        m_engine->globalObject().setProperty(QLatin1String("_copyqPlugins"), m_plugins);
+        ItemFactory factory;
+        QSettings settings;
+        factory.loadPlugins();
+        factory.loadItemFactorySettings(&settings);
+        for (const ItemLoaderPtr &loader : factory.loaders()) {
+            const auto obj = loader->scriptableObject();
+            if (!obj)
+                continue;
+
+            auto plugin = m_engine->newObject();
+            m_plugins.setProperty(loader->id(), plugin);
+            installObject(obj, obj->metaObject(), plugin);
+            obj->setScriptable(this);
+            obj->start();
+        }
+#endif
     }
 
     return m_plugins;
