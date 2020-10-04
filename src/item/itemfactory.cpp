@@ -453,10 +453,9 @@ ItemScriptable *ItemFactory::scriptableObject(const QString &name) const
         const QString path = pluginsDir.absoluteFilePath(fileName);
         auto loader = loadPlugin(path, name);
         if (loader) {
-            static QSettings settings;
+            QSettings settings;
             settings.beginGroup("Plugins");
             loadItemFactorySettings(loader, &settings);
-            settings.endGroup();
             return loader->scriptableObject();
         }
     }
