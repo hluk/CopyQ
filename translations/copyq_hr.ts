@@ -607,7 +607,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation>Prikaži</translation>
+        <translation>Prikaz</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
