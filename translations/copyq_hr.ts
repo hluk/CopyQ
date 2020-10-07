@@ -923,7 +923,7 @@ Napomena: Ako se ovo automatski primijeni, ostale automatske naredbe se ne izvr�
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Set external editor command first!</source>
-        <translation>Najprije postavi naredbu vanjskog uređivača!</translation>
+        <translation>Najprije postavi naredbu za vanjskog uređivača!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="364"/>
@@ -1035,7 +1035,7 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation>&amp;Vi stil navigacije</translation>
+        <translation>&amp;Vi stil navigacija</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
@@ -1137,7 +1137,7 @@ Postavi na 0 za neuklanjanje kartica.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>Naredba vanjskog uređivača („%&amp;1” je datoteka koja se uređuje):</translation>
+        <translation>Naredba za vanjskog uređivača („%&amp;1” je datoteka koja se uređuje):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1368,7 +1368,7 @@ Napomena: Ovo nije podržano u svim sustavima.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation>Dno</translation>
+        <translation>Dolje</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
@@ -1508,7 +1508,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>P&amp;rikaži trenutačnu karticu u izborniku,</translation>
+        <translation>P&amp;rikaži trenutačnu karticu u izborniku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
@@ -2100,7 +2100,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Za uklanjanje elemenata, najprije ih otkvači.</translation>
+        <translation>Za uklanjanje elemenata najprije ih otkvači.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="389"/>
@@ -2569,13 +2569,13 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation>Brisanje unazad</translation>
+        <translation>Tipka Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation>Izbriši</translation>
+        <translation>Tipka Delete</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
