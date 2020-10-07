@@ -923,7 +923,7 @@ Napomena: Ako se ovo automatski primijeni, ostale automatske naredbe se ne izvr�
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Set external editor command first!</source>
-        <translation>Najprije postavi naredbu za vanjskog uređivača!</translation>
+        <translation>Najprije postavi naredbu za vanjski uređivač!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="364"/>
@@ -1137,7 +1137,7 @@ Postavi na 0 za neuklanjanje kartica.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>Naredba za vanjskog uređivača („%&amp;1” je datoteka koja se uređuje):</translation>
+        <translation>Naredba za vanjski uređivač („%&amp;1” je datoteka koja se uređuje):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1147,7 +1147,7 @@ Postavi na 0 za neuklanjanje kartica.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>Naredba za vanjskog uređivača („%1” je datoteka koja se uređuje).
+        <translation>Naredba za vanjski uređivač („%1” je datoteka koja se uređuje).
   Primjeri:
     gedit %1
     notepad %1
@@ -1706,7 +1706,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation>Naredba uređivača: %1</translation>
+        <translation>Naredba za uređivač: %1</translation>
     </message>
 </context>
 <context>
@@ -2008,22 +2008,22 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>&amp;Naredba za uređivača slika:</translation>
+        <translation>&amp;Naredba za uređivač slika:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>Naredba uređivača za podržane slikovne formate osim SVG formata.</translation>
+        <translation>Naredba za uređivač koji podržava slikovne formate koji nisu SVG format.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>Naredba za uređivač &amp;SVG slika:</translation>
+        <translation>Naredba za uređivač &amp;SVG-ova:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>Naredba uređivača za SVG format slika.</translation>
+        <translation>Naredba za uređivač slika u SVG formatu.</translation>
     </message>
 </context>
 <context>
