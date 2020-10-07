@@ -542,7 +542,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation>U izborniku prikazano me naredbe</translation>
+        <translation>U izborniku prikazano ime naredbe</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
@@ -1455,7 +1455,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>Maksimalna širina za obavijesti u ekranskim točkama</translation>
+        <translation>Maksimalna širina obavijesti u ekranskim točkama</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
@@ -1465,7 +1465,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Maksimalna visina za obavijesti u ekranskim točkama</translation>
+        <translation>Maksimalna visina obavijesti u ekranskim točkama</translation>
     </message>
 </context>
 <context>
@@ -1611,7 +1611,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="573"/>
         <source>Restart Required</source>
-        <translation>Zahtijeva ponovo pokretanje</translation>
+        <translation>Zahtijeva ponovno pokretanje</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="574"/>
@@ -2271,7 +2271,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Daljnje informacije su dostupne na &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki stranici&lt;/a&gt;.</translation>
+        <translation>Daljnje informacije dostupne su na &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki stranici&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -2317,12 +2317,12 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation>Spremi i prikaći HTML i formatirani tekst</translation>
+        <translation>Spremi i prikaži HTML i formatirani tekst</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Maksimalni broj prikazanih redaka (0 prikaz svih):</translation>
+        <translation>Maksimalni broj prikazanih redaka (0 za prikaz svih):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
@@ -3385,12 +3385,12 @@ Standardno se koristi prva kartica.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pritisni bilo koju tipkovničku kombinaciju. &lt;span style=&quot; font-weight:600;&quot;&gt;Tipka Escape&lt;/span&gt; za prekid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pritisni bilo koju tipkovničku kombinaciju. Tipka &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; za prekid.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation>Pritisni mišem ovdje i pritisni bilo koju tipkovničku kombinaciju</translation>
+        <translation>Ovdje pritisni mišem, zatim pritisni bilo koju tipkovničku kombinaciju</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
