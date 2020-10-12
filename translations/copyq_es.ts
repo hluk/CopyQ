@@ -1136,7 +1136,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">Limpiar pestaña l&amp;uego de un período de tiempo (en minutos):</translation>
+        <translation>Suprimir pestaña desp&amp;ués de un intervalo (en minutos):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
@@ -1217,7 +1217,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Búsqu&amp;eda de números</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="227"/>
@@ -2133,7 +2133,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Fijar elementos para bloquearlos en la fila actual y evitar que se borren (a menos se desfijen).&lt;/p&gt;&lt;p&gt;Proporciona atajos de teclado y funcionalidades para scripts.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2216,12 +2216,13 @@ Definir como 0 para desactivar.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Establecer el tipo de medio en &lt;strong&gt;-&lt;/strong&gt; (carácter menos) para ignorar los archivos. Cualquier otro archivo desconocido u oculto se ignora.&lt;/p&gt;
+&lt;p&gt;Ejemplo: cargar la extensión de archivo &lt;strong&gt;txt&lt;/strong&gt; como tipo de medio &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de medio del elemento</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2232,7 +2233,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation>Estensiones</translation>
+        <translation>Extensiones</translation>
     </message>
     <message>
         <source>Item MIME Type</source>
@@ -3219,12 +3220,13 @@ Los argumentoss son accesibles usando con &quot;arguments[0..N]&quot;.</translat
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejecute PROGRAMA en el texto del elemento en las filas.
+Utilice %1 en PROGRAMA para pasar el texto como argumento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muestrar el mensaje emergente de la bandeja durante TIEMPO milisegundos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3293,22 +3295,22 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Evaluar script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicia o se conecta a la instancia de la aplicación con un nombre de sesión dado.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimir ayuda para COMANDO o todos los comandos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muestra la versión del programa y de las bibliotecas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
