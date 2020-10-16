@@ -1222,7 +1222,7 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Ögeyi tek tıklama ile etkinleştir</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -2576,6 +2576,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -2947,6 +2948,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
