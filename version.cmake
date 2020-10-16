@@ -1,4 +1,4 @@
-set(copyq_version "v3.12.0")
+set(copyq_version "v3.13.0")
 
 find_package(Git)
 if(GIT_FOUND)
