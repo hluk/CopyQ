@@ -34,7 +34,6 @@ On **Ubuntu** you can install all build dependencies with:
 
     sudo apt install \
       git cmake \
-      qtbase5-private-dev \
       qtscript5-dev \
       qttools5-dev \
       qttools5-dev-tools \

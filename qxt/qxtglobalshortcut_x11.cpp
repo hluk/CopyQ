@@ -29,17 +29,13 @@
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-#   include <QX11Info>
-#else
-#   include <QApplication>
-#   include <qpa/qplatformnativeinterface.h>
-#   include <xcb/xcb.h>
-#endif
 #include <QVector>
 #include <QWidget>
+#include <QX11Info>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
+
+#include <xcb/xcb.h>
 
 #include "xcbkeyboard.h"
 
@@ -125,15 +121,7 @@ public:
         : m_display(nullptr)
     {
         createFirstWindow();
-
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         m_display = QX11Info::display();
-#else
-        QPlatformNativeInterface *native = qApp->platformNativeInterface();
-        void *display = native->nativeResourceForScreen(QByteArray("display"),
-                                                        QGuiApplication::primaryScreen());
-        m_display = reinterpret_cast<Display *>(display);
-#endif
     }
 
     bool isValid()

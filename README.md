@@ -235,7 +235,6 @@ To build the application from source code, first install the required dependenci
 ```bash
 sudo apt install \
   git cmake \
-  qtbase5-private-dev \
   qtscript5-dev \
   qttools5-dev \
   qttools5-dev-tools \

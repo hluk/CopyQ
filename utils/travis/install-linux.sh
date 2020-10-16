@@ -5,7 +5,6 @@ set -e -x
 packages=(
     qt5-default
 
-    qtbase5-private-dev
     qtscript5-dev
     qttools5-dev
     qttools5-dev-tools

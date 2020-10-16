@@ -29,7 +29,6 @@ if (USE_QXT)
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )
-    include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 endif()
 
 # Compile with tests?
