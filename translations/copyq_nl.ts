@@ -109,17 +109,17 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>ActionHandler</name>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="141"/>
+        <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
         <translation>Fout: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="151"/>
+        <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
         <translation>Afsluitcode: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="183"/>
+        <location filename="../src/gui/actionhandler.cpp" line="176"/>
         <source>Command %1</source>
         <translation>Opdracht %1</translation>
     </message>
@@ -329,17 +329,17 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation type="vanished">Tabblad is vol; kan geen items verwijderen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1583"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1870"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
         <source>Discard Changes?</source>
         <translation>Wijzigingen verwerpen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1871"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Weet u zeker dat u de &lt;strong&gt;wijzigingen wilt verwerpen&lt;/strong&gt;?</translation>
     </message>
@@ -399,27 +399,27 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="111"/>
+        <location filename="../src/app/clipboardserver.cpp" line="119"/>
         <source>CopyQ server is already running.</source>
         <translation>De CopyQ-server draait al.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="341"/>
+        <location filename="../src/app/clipboardserver.cpp" line="365"/>
         <source>Cancel Active Commands</source>
         <translation>Actieve opdrachten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="342"/>
+        <location filename="../src/app/clipboardserver.cpp" line="366"/>
         <source>Cancel active commands and exit?</source>
         <translation>Wilt u de actieve opdrachten annuleren en afsluiten?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="345"/>
+        <location filename="../src/app/clipboardserver.cpp" line="369"/>
         <source>Cancel Exiting</source>
         <translation>Afsluiten annuleren</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="346"/>
+        <location filename="../src/app/clipboardserver.cpp" line="370"/>
         <source>Exit Anyway</source>
         <translation>Tóch afsluiten</translation>
     </message>
@@ -427,7 +427,7 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="231"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="233"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation>Ctrl+Spatie</translation>
@@ -611,7 +611,7 @@ U kunt de opdracht instellen in het Voorkeuren-venster.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="384"/>
+        <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Gegevens van dit MIME-type zullen worden verstuurd naar de standaard invoer van deze opdracht.
@@ -633,12 +633,12 @@ Laat leeg om uit te schakelen.</translation>
         <translation>&amp;Inhoud:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="351"/>
+        <location filename="../src/ui/commandwidget.ui" line="378"/>
         <source>&amp;Filter:</source>
         <translation>&amp;Filteren:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="361"/>
+        <location filename="../src/ui/commandwidget.ui" line="397"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -660,17 +660,17 @@ Laat leeg om uit te schakelen.</translation>
         <translation>Op&amp;dracht</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="400"/>
+        <location filename="../src/ui/commandwidget.ui" line="415"/>
         <source>Action</source>
         <translation>Actie</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="433"/>
+        <location filename="../src/ui/commandwidget.ui" line="448"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Naam van tabblad waar nieuwe items naar toe moeten worden gekopieerd (laat leeg om niet te kopiëren)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="445"/>
+        <location filename="../src/ui/commandwidget.ui" line="460"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -679,52 +679,52 @@ Note: If this is applied automatically, no other automatic commands are executed
 Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatische opdrachten uitgevoerd.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="450"/>
+        <location filename="../src/ui/commandwidget.ui" line="465"/>
         <source>&amp;Remove Item</source>
         <translation>Item &amp;verwijderen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="460"/>
+        <location filename="../src/ui/commandwidget.ui" line="475"/>
         <source>Menu Action</source>
         <translation>Menu-actie</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="481"/>
+        <location filename="../src/ui/commandwidget.ui" line="496"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Venster verbergen nadat de opdracht is geactiveerd via het item-rechtermuisknopmenu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="484"/>
+        <location filename="../src/ui/commandwidget.ui" line="499"/>
         <source>&amp;Hide main window after activation</source>
         <translation>Hoofdvenster &amp;verbergen na activatie</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="494"/>
+        <location filename="../src/ui/commandwidget.ui" line="509"/>
         <source>Command options</source>
         <translation>Opdrachtopties</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="590"/>
+        <location filename="../src/ui/commandwidget.ui" line="605"/>
         <source>Show action dialog before executing the command</source>
         <translation>Actievenster weergeven voordat de opdracht wordt uitgevoerd</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="593"/>
+        <location filename="../src/ui/commandwidget.ui" line="608"/>
         <source>&amp;Wait</source>
         <translation>&amp;Wachten</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="600"/>
+        <location filename="../src/ui/commandwidget.ui" line="615"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Item wijzigen; geen nieuwe items creëren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="603"/>
+        <location filename="../src/ui/commandwidget.ui" line="618"/>
         <source>Tr&amp;ansform</source>
         <translation>Tr&amp;ansformeren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="523"/>
+        <location filename="../src/ui/commandwidget.ui" line="538"/>
         <source>O&amp;utput:</source>
         <translation>&amp;Uitvoer:</translation>
     </message>
@@ -746,47 +746,47 @@ Let op: als dit automatisch wordt toegepast, dan worden er verder geen automatis
         <translation>Weergave</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="374"/>
+        <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>For&amp;mat:</source>
         <translation>&amp;Opmaak:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="423"/>
+        <location filename="../src/ui/commandwidget.ui" line="438"/>
         <source>Cop&amp;y to tab:</source>
         <translation>Ko&amp;piëren naar tabblad:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="533"/>
+        <location filename="../src/ui/commandwidget.ui" line="548"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Items creëren vanuit standaard uitvoer van de applicatie (laat leeg om uit te schakelen)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="543"/>
+        <location filename="../src/ui/commandwidget.ui" line="558"/>
         <source>&amp;Separator:</source>
         <translation>&amp;Scheidingsteken:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="553"/>
+        <location filename="../src/ui/commandwidget.ui" line="568"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Overeen te komend scheidingsteken voor het splitsen van uitvoer naar meerdere items</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="556"/>
+        <location filename="../src/ui/commandwidget.ui" line="571"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="563"/>
+        <location filename="../src/ui/commandwidget.ui" line="578"/>
         <source>Output &amp;tab:</source>
         <translation>Uitvoer&amp;tabblad:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="573"/>
+        <location filename="../src/ui/commandwidget.ui" line="588"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Items opslaan op tabblad met de volgende naam (laat leeg om op te slaan op eerste tabblad)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="675"/>
+        <location filename="../src/ui/commandwidget.ui" line="690"/>
         <source>Show Advanced</source>
         <translation>Geavanceerde opties tonen</translation>
     </message>
@@ -1220,47 +1220,52 @@ Gebruik Itemvoorbeeld om gehele items weer te geven.</translation>
         <translation type="unfinished">Z&amp;oeken naar nummers</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="227"/>
+        <location filename="../src/ui/configtabhistory.ui" line="230"/>
+        <source>Activate item with single click</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation type="unfinished">Na het activeren van een item (dubbelklik of Enter-toets), kopieer het naar het klembord en ...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="233"/>
+        <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
         <translation type="unfinished">Item naar bovenkant van de lijst verplaatsen na activeren</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="236"/>
+        <location filename="../src/ui/configtabhistory.ui" line="249"/>
         <source>Move item to the t&amp;op</source>
         <translation type="unfinished">Item naar b&amp;oven verplaatsen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="243"/>
+        <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>Close main window after item is activated</source>
         <translation type="unfinished">Hoofdvenster sluiten na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="246"/>
+        <location filename="../src/ui/configtabhistory.ui" line="259"/>
         <source>&amp;Close main window</source>
         <translation type="unfinished">Hoofdvenster &amp;sluiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="253"/>
+        <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
         <translation type="unfinished">Laatstgebruikte venster focussen na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="256"/>
+        <location filename="../src/ui/configtabhistory.ui" line="269"/>
         <source>&amp;Focus last window</source>
         <translation type="unfinished">Laatstgebruikte venster &amp;focussen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="263"/>
+        <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>Paste to current window after item is activated</source>
         <translation type="unfinished">Plakken in huidig venster na activeren van item</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="266"/>
+        <location filename="../src/ui/configtabhistory.ui" line="279"/>
         <source>&amp;Paste to current window</source>
         <translation type="unfinished">&amp;Plakken in huidig venster</translation>
     </message>
@@ -1603,27 +1608,27 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="419"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="434"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ongeldige waarde voor optie &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="462"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="477"/>
         <source>Reset preferences?</source>
         <translation>Voorkeuren resetten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="463"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="478"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Deze actie zet al je voorkeuren (in alle tabbladen) terug naar de standaardwaarden.&lt;br /&gt;&lt;br /&gt;Weet je zeker dat je &lt;strong&gt;alle voorkeuren&lt;/strong&gt;wilt resetten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="566"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="581"/>
         <source>Restart Required</source>
         <translation>Herstart vereist</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="567"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="582"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Taal zal worden gewijzigd na het opnieuw opstarten van de applicatie.</translation>
     </message>
@@ -1811,104 +1816,104 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="603"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Om versleutelde items op andere computers of tijdens een sessie te delen, hebt u een openbare en een geheime sleutelbestand nodig: &lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewaar deze geheime sleutel op een veilige plaats.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="670"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuPG moet worden geïnstalleerd om gecodeerde tabbladen te kunnen bekijken.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="774"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="777"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Encryptie (heeft GnuPG nodig)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="780"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="790"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="784"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Decrypt</source>
         <translation>Ontsleutelen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="794"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
         <source>Decrypt and Copy</source>
         <translation>Ontsleutelen en kopiëren</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="799"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="803"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
         <source>Decrypt and Paste</source>
         <translation>Ontsleutelen en plakken</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="808"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="811"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Error: %1</source>
         <translation>Fout: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="865"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
         <source>Failed to generate keys.</source>
         <translation>Er kan geen sleutel worden aangemaakt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="882"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
         <source>Done</source>
         <translation>Klaar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Er worden nieuwe sleutels gemaakt(dit kan een paar minuten duren)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="899"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="905"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <source>Setting new password...</source>
         <translation>Nieuw wachtwoord instellen.....</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Er moeten Encryptiesleutels &lt;strong&gt; worden gegenereerd&lt;/strong&gt; voordat er encryptie kan worden gebruikt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="910"/>
         <source>Generate New Keys...</source>
         <translation>Genereer nieuwe sleutels.....</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="909"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <source>Change Password...</source>
         <translation>Wachtwoord wijzigen.....</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="332"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="335"/>
         <source>Encryption failed!</source>
         <translation>Het versleutelen is niet gelukt!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="915"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="918"/>
         <source>Decryption failed!</source>
         <translation>Het ontsleutelen is niet gelukt!</translation>
     </message>
@@ -2384,149 +2389,150 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation type="vanished">CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="541"/>
+        <location filename="../src/gui/mainwindow.cpp" line="603"/>
         <source>Exit?</source>
         <translation>Afsluiten?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="542"/>
+        <location filename="../src/gui/mainwindow.cpp" line="604"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Wilt u CopyQ&lt;strong&gt;geforceerd afsluiten&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="592"/>
+        <location filename="../src/gui/mainwindow.cpp" line="654"/>
         <source>&amp;File</source>
         <translation>&amp;Bestand</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="640"/>
+        <location filename="../src/gui/mainwindow.cpp" line="702"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bewerken</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="664"/>
+        <location filename="../src/gui/mainwindow.cpp" line="726"/>
         <source>&amp;Item</source>
         <translation>&amp;Item</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="668"/>
+        <location filename="../src/gui/mainwindow.cpp" line="730"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Tabs</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="693"/>
+        <location filename="../src/gui/mainwindow.cpp" line="755"/>
         <source>&amp;Help</source>
         <translation>&amp;Help</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="718"/>
+        <location filename="../src/gui/mainwindow.cpp" line="780"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Nieuw Tabblad</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="720"/>
+        <location filename="../src/gui/mainwindow.cpp" line="782"/>
         <source>Rename &amp;Group %1</source>
         <translation>Hernoemen &amp;Groep %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="722"/>
+        <location filename="../src/gui/mainwindow.cpp" line="784"/>
         <source>Re&amp;name Tab %1</source>
         <translation>Her&amp;noemen Tab %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="724"/>
+        <location filename="../src/gui/mainwindow.cpp" line="786"/>
         <source>Re&amp;move Tab %1</source>
         <translation>Verwijderen Tab%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="726"/>
+        <location filename="../src/gui/mainwindow.cpp" line="788"/>
         <source>Remove Group %1</source>
         <translation>Verwijderen Groep %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="728"/>
+        <location filename="../src/gui/mainwindow.cpp" line="790"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Aanpassen Picogram van Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1291"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Inschakelen Klembord Opslag</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1292"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Uitschakelen Opslaan op Klembord</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1883"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1948"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2069"/>
         <source>Options for Import</source>
         <translation type="unfinished">Opties voor Importeren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2120"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2306"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Fout</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="510"/>
+        <location filename="../src/gui/mainwindow.cpp" line="572"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Weergeven/Verbergen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3387"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3569"/>
         <source>Options for Export</source>
         <translation type="unfinished">Opties voor exporteren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3590"/>
         <source>Export Error</source>
         <translation type="unfinished">Export Fout</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3409"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3591"/>
         <source>Failed to export file %1!</source>
         <translation>Mislukt om bestand te exporteren %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="772"/>
+        <location filename="../src/gui/mainwindow.cpp" line="834"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;klembord: 1%</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="313"/>
+        <location filename="../src/gui/mainwindow.cpp" line="337"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Notities(*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3497"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3680"/>
         <source>Import Error</source>
         <translation type="unfinished">Fout Bij Importeren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3498"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3681"/>
         <source>Failed to import file %1!</source>
         <translation>Het is niet gelukt om bestand %1 te importeren!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3650"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3853"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle tabbladen in de groep verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3651"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3854"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wilt u &lt;strong&gt;alle tabbladen&lt;/strong&gt; in groep &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3698"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3901"/>
         <source>Remove Tab?</source>
         <translation>Tabblad verwijderen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3699"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3902"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wilt u het tabblad &lt;strong&gt;%1&lt;/strong&gt; verwijderen?</translation>
     </message>
@@ -2534,7 +2540,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="451"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="496"/>
         <source>Information</source>
         <translation>Informatie</translation>
     </message>
@@ -2593,7 +2599,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         <translation>Verwijderen</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2097"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2110"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -2602,7 +2608,7 @@ Deze op 0 zetten om dit uit te schakelen.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2100"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2113"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3348,22 +3354,22 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1403"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1417"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2825"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2830"/>
         <source>Exception</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2826"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2831"/>
         <source>Exception in %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2868"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2874"/>
         <source>Failed to copy to clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3371,17 +3377,17 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="606"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="596"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="611"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="601"/>
         <source>Tab name cannot be empty!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1105"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1118"/>
         <source>Tab with given name already exists!</source>
         <translation>Er bestaat al een tabblad met deze naam!</translation>
     </message>
@@ -3389,7 +3395,7 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
 <context>
     <name>ShortcutButton</name>
     <message>
-        <location filename="../src/gui/shortcutbutton.cpp" line="47"/>
+        <location filename="../src/gui/shortcutbutton.cpp" line="44"/>
         <source>Add shortcut</source>
         <translation type="unfinished"></translation>
     </message>
