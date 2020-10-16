@@ -4,8 +4,8 @@ set -e
 distros=(
     xenial
     bionic
-    eoan
     focal
+    groovy
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
