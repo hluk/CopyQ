@@ -3578,7 +3578,12 @@ void Tests::actionDialogAccept()
     RUN(script, "");
 
     RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    // Can't focus configuration checkboxes on OS X
+#ifdef Q_OS_MAC
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+#else
     RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
+#endif
     WAIT_ON_OUTPUT("settings" << "test", "SHOULD_BE_SET");
 }
 
@@ -3602,7 +3607,12 @@ void Tests::actionDialogSelection()
     RUN(args << "selectItems" << "0" << "2", "true\n");
 
     RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    // Can't focus configuration checkboxes on OS X
+#ifdef Q_OS_MAC
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+#else
     RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
+#endif
     WAIT_ON_OUTPUT("settings" << "test", "A\nC");
 }
 
@@ -3628,7 +3638,12 @@ void Tests::actionDialogSelectionInputOutput()
     RUN(args << "selectItems" << "0" << "2", "true\n");
 
     RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    // Can't focus configuration checkboxes on OS X
+#ifdef Q_OS_MAC
+    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+#else
     RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
+#endif
     WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
 }
 
