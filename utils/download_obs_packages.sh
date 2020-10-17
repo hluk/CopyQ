@@ -5,7 +5,7 @@ rpm_version=$2
 user=${3:-"lukho"}
 project=${4:-"copyq"}
 
-base_url="http://download.opensuse.org/repositories/home:/"
+base_url="https://download.opensuse.org/repositories/home:/"
 url=$base_url$user:/$project
 
 xdeb="-1_amd64.deb"
