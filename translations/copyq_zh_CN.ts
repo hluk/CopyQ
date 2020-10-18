@@ -1144,6 +1144,7 @@ press F2 to edit.</source>
 
 Set to 0 not to unload tabs.</source>
         <translation>设定多少分钟后，从内存中丢弃每一个不活动的标签页
+
 设置为 0 则不进行该操作.</translation>
     </message>
     <message>
@@ -1186,6 +1187,7 @@ Leave empty to disable automatic storing.</source>
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation>未选中的状态下，按 Return 保存，按 Ctrl+Return 换行.
+
 注: 编辑的条目可无视本选项用 F2 保存。</translation>
     </message>
     <message>
@@ -1199,6 +1201,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 
 Use Item Preview to display whole items.</source>
         <translation>显示每个条目的单行描述.
+
 使用条目预览显示整个条目内容.</translation>
     </message>
     <message>
@@ -1219,7 +1222,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>单击激活条目</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -1335,6 +1338,7 @@ Use Item Preview to display whole items.</source>
 
 Note: This is not supported on all systems.</source>
         <translation>主窗口聚焦时的透明度.
+
 注：不是所有系统都支持这个功能.</translation>
     </message>
     <message>
@@ -1348,6 +1352,7 @@ Note: This is not supported on all systems.</source>
 
 Note: This is not supported on all systems.</source>
         <translation>主窗口不聚焦时的透明度.
+
 注：不是所有系统都支持这个功能.</translation>
     </message>
     <message>
@@ -1415,8 +1420,10 @@ Note: This is not supported on all systems.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>每隔多少秒显示新增的剪贴板内容，或主窗口关闭时复制到剪贴板的条目的通知
+        <translation>每隔多少秒显示新增的剪贴板内容，或条目是否被复制到剪贴板的通知 (仅当主窗口关闭时)
+
 设置为 0 禁用本选项.
+
 设置为 -1 保持可见直到点击为止.</translation>
     </message>
     <message>
@@ -1430,6 +1437,7 @@ Set to -1 to keep visible until clicked.</source>
 
 Set to 0 to disable.</source>
         <translation>新剪贴板内容的显示行数.
+
 设为 0 则禁用.</translation>
     </message>
     <message>
@@ -3365,7 +3373,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - 使用双引号参数（“--”）读取所有跟随的参数，同时不展开转义序列（例如 \n、\t 等等)。</translation>
+        <translation>  - 使用双引号参数 (--) 读取所有跟随的参数，同时不展开转义序列 (例如 \n、\t 及其它)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
@@ -3528,9 +3536,9 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>标签页名称必须非空且不重复。&lt; br / &gt;
-标签页 &lt;b&gt;记录&lt;/b&gt; 可以使用 &lt;b&gt;Alt+t&lt;/b&gt; 打开。&lt; br / &gt;
-使用 &lt;b&gt;/&lt;/b&gt; 作为在标签页树视图布局中的路径分隔符。</translation>
+        <translation>标签页名称必须非空且不重复.&lt;br /&gt;
+标签页&lt;b&gt;笔&amp;amp;记&lt;/b&gt; 可以打开，用快捷键&lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+使用 &lt;b&gt;/&lt;/b&gt; 作为标签页树视图布局中的路径分隔符。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
