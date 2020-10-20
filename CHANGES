@@ -12,16 +12,17 @@ v3.13.0
   highlighting in the preview).
 
 - New command line option "tray_menu_open_on_left_click" to check default mouse
-  button behavior for tray icon (`copyq tray_menu_open_on_left_click true`).
+  button behavior for tray icon (`copyq config tray_menu_open_on_left_click
+  true`).
 
 - New command line option "activate_item_with_single_click" to activate items
-  with single click (`copyq activate_item_with_single_click true`).
+  with single click (`copyq config activate_item_with_single_click true`).
 
 - New command line options "filter_regular_expression" and
   "filter_case_insensitive" to change the item search behavior.
 
 - New command line option "native_menu_bar" to disable native/global menu bar
-  (`copyq native_menu_bar false`).
+  (`copyq config native_menu_bar false`).
 
 - Updated icons (Font Awesome 5.15.1)
 
@@ -34,10 +35,10 @@ v3.13.0
 - Fix size of scrollable text area in item preview (#1472).
 
 - OSX: Broken native/global menu bar was replaced by default with application
-  menu bar (#1444). This can be changed with `copyq native_menu_bar true`.
+  menu bar (#1444). This can be changed with `copyq config native_menu_bar true`.
 
 - OSX: Mouse click on tray icon is now handled similarly to other platforms.
-  This can be changed with `copyq tray_menu_open_on_left_click true`.
+  This can be changed with `copyq config tray_menu_open_on_left_click true`.
 
 v3.12.0
 
