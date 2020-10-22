@@ -87,8 +87,31 @@
 
 #include <type_traits>
 
+namespace {
+
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
+
+void registerMetaTypes() {
+    static bool registered = false;
+    if (registered)
+        return;
+
+    qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+    qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
+    qRegisterMetaTypeStreamOperators<Command>("Command");
+    qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
+    qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
+    qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
+    qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
+    qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
+    qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+
+    registered = true;
+}
+
+} // namespace
 
 #define BROWSER(tabName, call) \
     ClipboardBrowser *c = fetchBrowser(tabName); \
@@ -806,16 +829,7 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     : QObject(parent)
     , m_wnd(mainWindow)
 {
-    qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
-    qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
-    qRegisterMetaTypeStreamOperators<Command>("Command");
-    qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
-    qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
-    qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
-    qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
-    qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
-    qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
-    qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+    registerMetaTypes();
 }
 
 void ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
