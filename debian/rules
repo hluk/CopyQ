@@ -13,5 +13,4 @@ export QT_SELECT=5
 override_dh_auto_configure:
 	dh_auto_configure -- \
             -DCMAKE_VERBOSE_MAKEFILE=ON \
-            -DCMAKE_BUILD_TYPE=Release  \
-            -DWITH_WEBKIT=1
+            -DCMAKE_BUILD_TYPE=Release
