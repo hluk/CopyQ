@@ -5313,6 +5313,8 @@ EventResult FakeVimHandler::Private::handleSearchSubSubMode(const Input &input)
     } else if (input.isBackspace()) {
         if (g.searchBuffer.isEmpty())
             leaveCurrentMode();
+        else if (g.searchBuffer.hasSelection())
+            g.searchBuffer.deleteSelected();
         else
             g.searchBuffer.deleteChar();
     } else if (input.isReturn()) {
