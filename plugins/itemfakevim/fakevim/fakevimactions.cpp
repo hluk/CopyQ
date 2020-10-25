@@ -108,7 +108,7 @@ FakeVimSettings::FakeVimSettings()
     createAction(ConfigTildeOp,        false, "TildeOp",        "top");
     createAction(ConfigShowCmd,        true,  "ShowCmd",        "sc");
     createAction(ConfigRelativeNumber, false, "RelativeNumber", "rnu");
-    createAction(ConfigBlinkingCursor, false, "BlinkingCursor", "cb");
+    createAction(ConfigBlinkingCursor, false, "BlinkingCursor", "bc");
     createAction(ConfigScrollOff,      0,     "ScrollOff",      "so");
     createAction(ConfigBackspace,      QString("indent,eol,start"), "ConfigBackspace", "bs");
     createAction(ConfigIsKeyword,      QString("@,48-57,_,192-255,a-z,A-Z"), "IsKeyword", "isk");

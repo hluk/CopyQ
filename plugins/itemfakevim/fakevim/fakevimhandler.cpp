@@ -278,6 +278,23 @@ QDebug operator<<(QDebug ts, const CursorPosition &pos)
     return ts << "(line: " << pos.line << ", column: " << pos.column << ")";
 }
 
+// vi style configuration
+static QVariant config(int code)
+{
+    return theFakeVimSetting(code)->value();
+}
+
+static bool hasConfig(int code)
+{
+    return config(code).toBool();
+}
+
+static bool hasConfig(int code, const QString &value)
+{
+    return config(code).toString().contains(value);
+}
+
+
 class Mark final
 {
 public:
@@ -387,7 +404,7 @@ static bool eatString(const QString &prefix, QString *str)
     return true;
 }
 
-static QRegularExpression vimPatternToQtPattern(QString needle, bool ignoreCaseOption, bool smartCaseOption)
+static QRegularExpression vimPatternToQtPattern(const QString &needle)
 {
     /* Transformations (Vim regexp -> QRegularExpression):
      *   \a -> [A-Za-z]
@@ -418,9 +435,15 @@ static QRegularExpression vimPatternToQtPattern(QString needle, bool ignoreCaseO
      *   \c - set ignorecase for rest
      *   \C - set noignorecase for rest
      */
+
     // FIXME: Option smartcase should be used only if search was typed by user.
-    bool ignorecase = ignoreCaseOption
+    const bool ignoreCaseOption = hasConfig(ConfigIgnoreCase);
+    const bool smartCaseOption = hasConfig(ConfigSmartCase);
+    const bool initialIgnoreCase = ignoreCaseOption
         && !(smartCaseOption && needle.contains(QRegularExpression("[A-Z]")));
+
+    bool ignorecase = initialIgnoreCase;
+
     QString pattern;
     pattern.reserve(2 * needle.size());
 
@@ -429,7 +452,7 @@ static QRegularExpression vimPatternToQtPattern(QString needle, bool ignoreCaseO
     bool embraced = false;
     bool range = false;
     bool curly = false;
-    foreach (const QChar &c, needle) {
+    for (const QChar &c : needle) {
         if (brace) {
             brace = false;
             if (c == ']') {
@@ -530,7 +553,8 @@ static QRegularExpression vimPatternToQtPattern(QString needle, bool ignoreCaseO
     else if (brace)
         pattern.append('[');
 
-    return QRegularExpression(pattern);
+    return QRegularExpression(pattern, initialIgnoreCase ? QRegularExpression::CaseInsensitiveOption
+                                                         : QRegularExpression::NoPatternOption);
 }
 
 static bool afterEndOfLine(const QTextDocument *doc, int position)
@@ -539,22 +563,26 @@ static bool afterEndOfLine(const QTextDocument *doc, int position)
         && doc->findBlock(position).length() > 1;
 }
 
-static void searchForward(QTextCursor *tc, QRegularExpression &needleExp, int *repeat)
+static void searchForward(QTextCursor *tc, const QRegularExpression &needleExp, int *repeat)
 {
     const QTextDocument *doc = tc->document();
     const int startPos = tc->position();
+
+    QTextDocument::FindFlags flags = {};
+    if (!(needleExp.patternOptions() & QRegularExpression::CaseInsensitiveOption))
+        flags |= QTextDocument::FindCaseSensitively;
 
     // Search from beginning of line so that matched text is the same.
     tc->movePosition(StartOfLine);
 
     // forward to current position
-    *tc = doc->find(needleExp, *tc);
+    *tc = doc->find(needleExp, *tc, flags);
     while (!tc->isNull() && tc->anchor() < startPos) {
         if (!tc->hasSelection())
             tc->movePosition(Right);
         if (tc->atBlockEnd())
             tc->movePosition(NextBlock);
-        *tc = doc->find(needleExp, *tc);
+        *tc = doc->find(needleExp, *tc, flags);
     }
 
     if (tc->isNull())
@@ -567,7 +595,7 @@ static void searchForward(QTextCursor *tc, QRegularExpression &needleExp, int *r
             tc->movePosition(Right);
         if (tc->atBlockEnd())
             tc->movePosition(NextBlock);
-        *tc = doc->find(needleExp, *tc);
+        *tc = doc->find(needleExp, *tc, flags);
         if (tc->isNull())
             return;
         --*repeat;
@@ -672,18 +700,20 @@ static char backslashed(char t)
     return t;
 }
 
-static bool substituteText(QString *text, QRegularExpression &pattern, const QString &replacement,
-    bool global)
+static bool substituteText(QString *text,
+                           const QRegularExpression &pattern,
+                           const QString &replacement,
+                           bool global)
 {
     bool substituted = false;
     int pos = 0;
     int right = -1;
-    QRegularExpressionMatch m;
     while (true) {
-        m = pattern.match(*text, pos);
-        pos = m.capturedStart();
-        if (pos == -1)
+        const QRegularExpressionMatch match = pattern.match(*text, pos);
+        if (!match.hasMatch())
             break;
+
+        pos = match.capturedStart();
 
         // ensure that substitution is advancing towards end of line
         if (right == text->size() - pos) {
@@ -696,7 +726,7 @@ static bool substituteText(QString *text, QRegularExpression &pattern, const QSt
         right = text->size() - pos;
 
         substituted = true;
-        QString matched = text->mid(pos, m.capturedLength());
+        QString matched = text->mid(pos, match.captured(0).size());
         QString repl;
         bool escape = false;
         // insert captured texts
@@ -705,8 +735,8 @@ static bool substituteText(QString *text, QRegularExpression &pattern, const QSt
             if (escape) {
                 escape = false;
                 if (c.isDigit()) {
-                    if (c.digitValue() <= m.capturedTexts().size())
-                        repl += m.captured(c.digitValue());
+                    if (c.digitValue() <= match.lastCapturedIndex())
+                        repl += match.captured(c.digitValue());
                 } else {
                     repl += backslashed(c.unicode());
                 }
@@ -714,7 +744,7 @@ static bool substituteText(QString *text, QRegularExpression &pattern, const QSt
                 if (c == '\\')
                     escape = true;
                 else if (c == '&')
-                    repl += m.captured(0);
+                    repl += match.captured(0);
                 else
                     repl += c;
             }
@@ -782,7 +812,13 @@ static QString fromLocalEncoding(const QByteArray &data)
 static QString getProcessOutput(const QString &command, const QString &input)
 {
     QProcess proc;
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+    QStringList arguments = QProcess::splitCommand(command);
+    QString executable = arguments.takeFirst();
+    proc.start(executable, arguments);
+#else
     proc.start(command);
+#endif
     proc.waitForStarted();
     proc.write(toLocalEncoding(input));
     proc.closeWriteChannel();
@@ -891,6 +927,16 @@ static const QMap<QString, int> &vimKeyNames()
 static bool isOnlyControlModifier(const Qt::KeyboardModifiers &mods)
 {
     return (mods ^ ControlModifier) == Qt::NoModifier;
+}
+
+static bool isAcceptableModifier(const Qt::KeyboardModifiers &mods)
+{
+    if (mods & ControlModifier) {
+        // Generally, CTRL is not fine, except in combination with ALT.
+        // See QTCREATORBUG-24673
+        return mods & AltModifier;
+    }
+    return true;
 }
 
 
@@ -1065,7 +1111,7 @@ public:
 
     bool is(int c) const
     {
-        return m_xkey == c && !isControl();
+        return m_xkey == c && isAcceptableModifier(m_modifiers);
     }
 
     bool isControl() const
@@ -1418,8 +1464,9 @@ public:
     void moveEnd() { m_userPos = m_pos = m_buffer.size(); }
 
     void setHistoryAutoSave(bool autoSave) { m_historyAutoSave = autoSave; }
-    void historyDown() { setContents(m_history.move(userContents(), 1)); }
-    void historyUp() { setContents(m_history.move(userContents(), -1)); }
+    bool userContentsValid() const { return m_userPos >= 0 && m_userPos <= m_buffer.size(); }
+    void historyDown() { if (userContentsValid()) setContents(m_history.move(userContents(), 1)); }
+    void historyUp() { if (userContentsValid()) setContents(m_history.move(userContents(), -1)); }
     const QStringList &historyItems() const { return m_history.items(); }
     void historyPush(const QString &item = QString())
     {
@@ -1590,7 +1637,7 @@ public:
 
     bool walk(const Inputs &inputs)
     {
-        foreach (const Input &input, inputs) {
+        for (const Input &input : inputs) {
             if (!walk(input))
                 return false;
         }
@@ -1628,7 +1675,7 @@ public:
     void setInputs(const Inputs &key, const Inputs &inputs, bool unique = false)
     {
         ModeMapping *current = &(*m_parent)[m_mode];
-        foreach (const Input &input, key)
+        for (const Input &input : key)
             current = &(*current)[input];
         if (!unique || current->value().isEmpty())
             current->setValue(inputs);
@@ -2102,12 +2149,6 @@ public:
     void updateMarks(const Marks &newMarks);
     CursorPosition markLessPosition() const { return mark('<').position(document()); }
     CursorPosition markGreaterPosition() const { return mark('>').position(document()); }
-
-    // vi style configuration
-    QVariant config(int code) const { return theFakeVimSetting(code)->value(); }
-    bool hasConfig(int code) const { return config(code).toBool(); }
-    bool hasConfig(int code, const QString &value) const
-        { return config(code).toString().contains(value); }
 
     int m_targetColumn; // -1 if past end of line
     int m_visualTargetColumn; // 'l' can move past eol in visual mode only
@@ -2861,7 +2902,7 @@ void FakeVimHandler::Private::prependMapping(const Inputs &inputs)
     // FIXME: Implement Vim option maxmapdepth (default value is 1000).
     if (g.mapDepth >= 1000) {
         const int i = qMax(0, g.pendingInput.lastIndexOf(Input()));
-        QList<Input> inputs = g.pendingInput.mid(i);
+        const QList<Input> inputs = g.pendingInput.mid(i);
         clearPendingInput();
         g.pendingInput.append(inputs);
         showMessage(MessageError, Tr::tr("Recursive mapping"));
@@ -5517,16 +5558,16 @@ bool FakeVimHandler::Private::handleExSubstituteCommand(const ExCommand &cmd)
 
     int count = 1;
     QString line = cmd.args;
-    const int countIndex = line.lastIndexOf(QRegularExpression("\\d+$"));
-    if (countIndex != -1) {
-        count = line.midRef(countIndex).toInt();
-        line = line.mid(0, countIndex).trimmed();
+    const QRegularExpressionMatch match = QRegularExpression("\\d+$").match(line);
+    if (match.hasMatch()) {
+        count = match.captured().toInt();
+        line = line.left(match.capturedStart()).trimmed();
     }
 
     if (cmd.cmd.isEmpty()) {
         // keep previous substitution flags on '&&' and '~&'
         if (line.size() > 1 && line[1] == '&')
-            g.lastSubstituteFlags += line.midRef(2);
+            g.lastSubstituteFlags += line.mid(2);
         else
             g.lastSubstituteFlags = line.mid(1);
         if (line[0] == '~')
@@ -5556,8 +5597,7 @@ bool FakeVimHandler::Private::handleExSubstituteCommand(const ExCommand &cmd)
     if (g.lastSubstituteFlags.contains('i'))
         needle.prepend("\\c");
 
-    QRegularExpression pattern = vimPatternToQtPattern(needle, hasConfig(ConfigIgnoreCase),
-                                            hasConfig(ConfigSmartCase));
+    const QRegularExpression pattern = vimPatternToQtPattern(needle);
 
     QTextBlock lastBlock;
     QTextBlock firstBlock;
@@ -5746,7 +5786,11 @@ bool FakeVimHandler::Private::handleExRegisterCommand(const ExCommand &cmd)
     }
     QString info;
     info += "--- Registers ---\n";
-    foreach (char reg, regs) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,7,0)
+    for (char reg : qAsConst(regs)) {
+#else
+    for (char reg : regs) {
+#endif
         QString value = quoteUnprintable(registerContents(reg));
         info += QString("\"%1   %2\n").arg(reg).arg(value);
     }
@@ -6351,8 +6395,8 @@ void FakeVimHandler::Private::searchBalanced(bool forward, QChar needle, QChar o
 QTextCursor FakeVimHandler::Private::search(const SearchData &sd, int startPos, int count,
     bool showMessages)
 {
-    QRegularExpression needleExp = vimPatternToQtPattern(sd.needle, hasConfig(ConfigIgnoreCase),
-                                              hasConfig(ConfigSmartCase));
+    const QRegularExpression needleExp = vimPatternToQtPattern(sd.needle);
+
     if (!needleExp.isValid()) {
         if (showMessages) {
             QString error = needleExp.errorString();
@@ -6695,7 +6739,7 @@ void FakeVimHandler::Private::setupCharClass()
         m_charClass[i] = c.isSpace() ? 0 : 1;
     }
     const QString conf = config(ConfigIsKeyword).toString();
-    foreach (const QString &part, conf.split(',')) {
+    for (const QString &part : conf.split(',')) {
         if (part.contains('-')) {
             const int from = someInt(part.section('-', 0, 0));
             const int to = someInt(part.section('-', 1, 1));
@@ -7188,7 +7232,7 @@ void FakeVimHandler::Private::insertText(QTextCursor &tc, const QString &text)
           passEventToEditor(event, tc);
       }
 
-      foreach (QChar c, text) {
+      for (QChar c : text) {
           QKeyEvent event(QEvent::KeyPress, -1, Qt::NoModifier, QString(c));
           passEventToEditor(event, tc);
       }
@@ -7229,8 +7273,8 @@ void FakeVimHandler::Private::invertCase(const Range &range)
         [] (const QString &text) -> QString {
             QString result = text;
             for (int i = 0; i < result.length(); ++i) {
-                QCharRef c = result[i];
-                c = c.isUpper() ? c.toLower() : c.toUpper();
+                const QChar c = result[i];
+                result[i] = c.isUpper() ? c.toLower() : c.toUpper();
             }
             return result;
         });
@@ -8140,9 +8184,9 @@ void FakeVimHandler::Private::replay(const QString &command, int repeat)
 
     //qDebug() << "REPLAY: " << quoteUnprintable(command);
     clearCurrentMode();
-    Inputs inputs(command);
+    const Inputs inputs(command);
     for (int i = 0; i < repeat; ++i) {
-        foreach (const Input &in, inputs) {
+        for (const Input &in : inputs) {
             if (handleDefaultKey(in) != EventHandled)
                 return;
         }
@@ -8401,22 +8445,21 @@ bool FakeVimHandler::Private::changeNumberTextObject(int count)
 
     // find first decimal, hexadecimal or octal number under or after cursor position
     QRegularExpression re("(0[xX])(0*[0-9a-fA-F]+)|(0)(0*[0-7]+)(?=\\D|$)|(\\d+)");
-    QRegularExpressionMatch m;
+    QRegularExpressionMatch match;
     QRegularExpressionMatchIterator it = re.globalMatch(lineText);
     while (true) {
         if (!it.hasNext())
             return false;
-        m = it.next();
-        if (m.capturedEnd() >= posMin)
+        match = it.next();
+        if (match.capturedEnd() >= posMin)
             break;
     }
-
-    int pos = m.capturedStart();
-    int len = m.capturedLength();
-    QString prefix = m.captured(1) + m.captured(3);
+    int pos = match.capturedStart();
+    int len = match.capturedLength();
+    QString prefix = match.captured(1) + match.captured(3);
     bool hex = prefix.length() >= 2 && (prefix[1].toLower() == 'x');
     bool octal = !hex && !prefix.isEmpty();
-    const QString num = hex ? m.captured(2) : octal ? m.captured(4) : m.captured(5);
+    const QString num = hex ? match.captured(2) : octal ? match.captured(4) : match.captured(5);
 
     // parse value
     bool ok;
@@ -8713,8 +8756,6 @@ bool FakeVimHandler::eventFilter(QObject *ob, QEvent *ev)
          || (Private::g.mode == ExMode || Private::g.subsubmode == SearchSubSubMode))) {
         auto kev = static_cast<QKeyEvent *>(ev);
         KEY_DEBUG("KEYPRESS" << kev->key() << kev->text() << QChar(kev->key()));
-        if ( kev->key() == Key_Escape && !d->wantsOverride(kev) )
-            return false;
         EventResult res = d->handleEvent(kev);
         //if (Private::g.mode == InsertMode)
         //    completionRequested();
@@ -8779,9 +8820,9 @@ void FakeVimHandler::handleReplay(const QString &keys)
 
 void FakeVimHandler::handleInput(const QString &keys)
 {
-    Inputs inputs(keys);
+    const Inputs inputs(keys);
     d->enterFakeVim();
-    foreach (const Input &input, inputs)
+    for (const Input &input : inputs)
         d->handleKey(input);
     d->leaveFakeVim();
 }
