@@ -121,12 +121,13 @@ public:
         : m_display(nullptr)
     {
         createFirstWindow();
-        m_display = QX11Info::display();
+        if ( QX11Info::isPlatformX11() )
+            m_display = QX11Info::display();
     }
 
     bool isValid()
     {
-        return m_display != nullptr;
+        return QX11Info::isPlatformX11() && m_display != nullptr;
     }
 
     Display *display()
