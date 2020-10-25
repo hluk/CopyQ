@@ -159,6 +159,9 @@ public:
             if (m_completerPopup)
                 m_completerPopup->installEventFilter(this);
         }
+
+        // Let FakeVim handle indentation.
+        m_handler->handleCommand(QLatin1String("set nopasskeys"));
     }
 
     ~TextEditWrapper()
