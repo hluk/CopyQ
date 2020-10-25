@@ -3373,7 +3373,8 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - 使用双引号参数 (--) 读取所有跟随的参数，同时不展开转义序列 (例如 \n、\t 及其它)。</translation>
+        <translation>  - 使用双破折号参数(——)读取下面的所有参数而不
+    展开转义序列 (如 \n, \t 及其它).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
