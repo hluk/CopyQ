@@ -30,6 +30,7 @@ using namespace FakeVim::Internal;
 #include <QIcon>
 #include <QLabel>
 #include <QDialogButtonBox>
+#include <QLineEdit>
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QKeyEvent>
@@ -438,16 +439,31 @@ public:
       : QObject(parent)
       , m_editorWidget(editorWidget)
       , m_statusBar(statusBar)
+      , m_edit(new QLineEdit(statusBar))
+      , m_statusBarMessage(new QLabel(statusBar))
+      , m_statusBarData(new QLabel(statusBar))
       , m_statusBarIcon(new QLabel(statusBar))
     {
+        connect(m_edit, &QLineEdit::textEdited, this, &Proxy::cmdLineChanged);
+        connect(m_edit, &QLineEdit::cursorPositionChanged, this, &Proxy::cmdLineChanged);
+        connect(m_edit, &QLineEdit::selectionChanged, this, &Proxy::cmdLineChanged);
+        m_edit->setFrame(false);
+        m_edit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        m_edit->installEventFilter( &m_editorWidget->fakeVimHandler() );
+
+        m_statusBar->insertWidget(0, m_edit, 4);
+        m_edit->hide();
+        m_statusBar->insertWidget(1, m_statusBarMessage, 1);
+        m_statusBarMessage->show();
+        m_statusBar->addPermanentWidget(m_statusBarData);
+        m_statusBarData->show();
         m_statusBar->addPermanentWidget(m_statusBarIcon);
         m_statusBarIcon->show();
     }
 
     void changeStatusData(const QString &info)
     {
-        m_statusData = info;
-        updateStatusBar();
+        m_statusBarData->setText(info);
     }
 
     void highlightMatches(const QString &pattern)
@@ -476,10 +492,27 @@ public:
         m_statusBarIcon->setPixmap(pixmap);
     }
 
-    void changeStatusMessage(const QString &contents, int cursorPos, int messageLevel)
+    void changeStatusMessage(
+        const QString &contents, int cursorPos, int anchorPos, int messageLevel)
     {
-        m_statusMessage = cursorPos == -1 ? contents
-            : contents.left(cursorPos) + QChar(10073) + contents.mid(cursorPos);
+        if (cursorPos == -1) {
+            if (m_edit->hasFocus())
+                edited(QString(), -1, -1);
+            m_edit->hide();
+            m_statusBarMessage->setText(contents);
+        } else {
+            m_statusBarMessage->clear();
+            {
+                QSignalBlocker blocker(m_edit);
+                m_edit->setText(contents);
+                if (anchorPos != -1 && anchorPos != cursorPos)
+                    m_edit->setSelection(anchorPos, cursorPos - anchorPos);
+                else
+                    m_edit->setCursorPosition(cursorPos);
+            }
+            m_edit->show();
+            m_edit->setFocus();
+        }
 
         if (messageLevel == MessageWarning)
             setStatusIcon(QStyle::SP_MessageBoxWarning);
@@ -487,8 +520,6 @@ public:
             setStatusIcon(QStyle::SP_MessageBoxCritical);
         else
             m_statusBarIcon->clear();
-
-        updateStatusBar();
     }
 
     void changeExtraInformation(const QString &info)
@@ -496,15 +527,10 @@ public:
         QMessageBox::information(m_editorWidget->editor(), tr("Information"), info);
     }
 
-    void updateStatusBar()
-    {
-        int slack = 80 - m_statusMessage.size() - m_statusData.size();
-        QString msg = m_statusMessage + QString(slack, QLatin1Char(' ')) + m_statusData;
-        m_statusBar->showMessage(msg);
-    }
-
     void handleExCommand(bool *handled, const ExCommand &cmd)
     {
+        m_edit->hide();
+
         if (cmd.cmd == "set") {
             QString arg = cmd.args;
             bool enable = !arg.startsWith("no");
@@ -547,6 +573,20 @@ public:
     }
 
 private:
+    void cmdLineChanged()
+    {
+        const int cursorPos = m_edit->cursorPosition();
+        int anchorPos = m_edit->selectionStart();
+        if (anchorPos == cursorPos)
+            anchorPos = cursorPos + m_edit->selectedText().length();
+        edited(m_edit->text(), cursorPos, anchorPos);
+    }
+
+    void edited(const QString &text, int cursorPos, int anchorPos)
+    {
+        m_editorWidget->fakeVimHandler().miniBufferTextEdited(text, cursorPos, anchorPos);
+    }
+
     bool emitEditorSignal(const char *signal)
     {
         const auto editor = m_editorWidget->editor();
@@ -617,16 +657,17 @@ private:
 
     TextEditWrapper *m_editorWidget;
     QStatusBar *m_statusBar;
+    QLineEdit *m_edit;
+    QLabel *m_statusBarMessage;
+    QLabel *m_statusBarData;
     QLabel *m_statusBarIcon;
-    QString m_statusMessage;
-    QString m_statusData;
 };
 
 void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
-    handler->commandBufferChanged.connect(
-        [proxy](const QString &msg, int cursorPos, int, int messageLevel) {
-            proxy->changeStatusMessage(msg, cursorPos, messageLevel);
+    handler->commandBufferChanged
+            .connect([proxy](const QString &contents, int cursorPos, int anchorPos, int messageLevel) {
+            proxy->changeStatusMessage(contents, cursorPos, anchorPos, messageLevel);
         }
     );
     handler->extraInformationChanged.connect(
@@ -674,7 +715,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
     wrapper->setTextCursor( QTextCursor(wrapper->document()) );
 
     QStatusBar *statusBar = new QStatusBar(textEdit);
-    statusBar->setObjectName("item_child");
+    statusBar->setObjectName("editor_status_bar");
 
     const auto layout = textEdit->parentWidget()->layout();
     if (layout)

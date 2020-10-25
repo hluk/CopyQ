@@ -639,9 +639,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
             }
         // Omit overriding arrow keys in text editors.
         } else if ( type == QEvent::ShortcutOverride &&
-                    object->property("textInteractionFlags")
-                    .value<Qt::TextInteractionFlags>()
-                    .testFlag(Qt::TextSelectableByKeyboard) )
+                    (object->metaObject()->className() == QLatin1String("QLineEdit")
+                     || object->property("textInteractionFlags")
+                        .value<Qt::TextInteractionFlags>()
+                        .testFlag(Qt::TextSelectableByKeyboard)) )
         {
             QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
             if ( keyevent->key() == Qt::Key_Left

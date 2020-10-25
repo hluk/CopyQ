@@ -59,5 +59,10 @@ ${hsv_value_factor = 1}
     ;color: ${notes_fg}
 }
 
+#editor_status_bar * {
+    ;background: ${edit_bg}
+    ;color: ${edit_fg}
+}
+
 ${css:scrollbar}
 ${css:tooltip}
