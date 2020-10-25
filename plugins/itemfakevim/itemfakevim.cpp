@@ -496,8 +496,8 @@ public:
         const QString &contents, int cursorPos, int anchorPos, int messageLevel)
     {
         if (cursorPos == -1) {
-            if (m_edit->hasFocus())
-                edited(QString(), -1, -1);
+            if ( m_edit->hasFocus() )
+                m_editorWidget->editor()->setFocus();
             m_edit->hide();
             m_statusBarMessage->setText(contents);
         } else {
@@ -529,7 +529,8 @@ public:
 
     void handleExCommand(bool *handled, const ExCommand &cmd)
     {
-        m_edit->hide();
+        if ( m_edit->hasFocus() )
+            m_editorWidget->editor()->setFocus();
 
         if (cmd.cmd == "set") {
             QString arg = cmd.args;
