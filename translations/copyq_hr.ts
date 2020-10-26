@@ -1209,7 +1209,7 @@ Koristi „Element &gt; Prikaži pretprikaz” za prikaz cijelih elemenata.</tra
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviraj element jednim pritiskom</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
