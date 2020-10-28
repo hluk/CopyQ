@@ -1,6 +1,6 @@
 @echo on
 
-cmake --build build/ || goto :error
+cmake --build build/ --config Release || goto :error
 
 :error
 exit /b %errorlevel%

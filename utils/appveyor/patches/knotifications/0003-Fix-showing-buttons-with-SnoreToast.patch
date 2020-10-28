@@ -1,0 +1,38 @@
+From f029859c9664bd59ebbe588a653f15cc5a174b74 Mon Sep 17 00:00:00 2001
+From: Lukas Holecek <hluk@email.cz>
+Date: Sat, 31 Oct 2020 14:05:32 +0100
+Subject: [PATCH 3/6] Fix showing buttons with SnoreToast
+
+---
+ src/notifybysnore.cpp | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/src/notifybysnore.cpp b/src/notifybysnore.cpp
+index bb9524d..b3572a4 100644
+--- a/src/notifybysnore.cpp
++++ b/src/notifybysnore.cpp
+@@ -150,7 +150,8 @@ void NotifyBySnore::notifyDeferred(KNotification* notification)
+         QStringLiteral("-id"), QString::number(notification->id()),
+         QStringLiteral("-t"), notificationTitle,
+         QStringLiteral("-m"), stripRichText(notification->text()),
+-        QStringLiteral("-appID"), qApp->applicationName(),
++        // Buttons don't show up if appID is set.
++        //QStringLiteral("-appID"), qApp->applicationName(),
+         QStringLiteral("-pid"), QString::number(qApp->applicationPid()),
+         QStringLiteral("-pipename"), m_server.fullServerName()
+     };
+@@ -195,8 +196,9 @@ void NotifyBySnore::close(KNotification *notification)
+ 
+     const QStringList snoretoastArgsList{ QStringLiteral("-close"),
+                                           QString::number(notification->id()),
+-                                          QStringLiteral("-appID"),
+-                                          qApp->applicationName()
++                                          // Buttons don't show up if appID is set.
++                                          //QStringLiteral("-appID"),
++                                          //qApp->applicationName()
+                                         };
+ 
+     qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast closing notification with ID:" << notification->id();
+-- 
+2.26.2
+

@@ -5,27 +5,25 @@ image:
   - Visual Studio 2019
 
 cache:
-  - build
-  - dependencies\build
+  - usr
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   KF5_VERSION: 5.75
   KF5_PATCH: 0
+  SNORETOAST_VERSION: 0.7.0
 
   matrix:
-    - QTDIR: C:\Qt\5.13\mingw73_64
-      CMAKE_GENERATOR: MinGW Makefiles
-      MINGW_PATH: C:\Qt\Tools\mingw730_64
+    - QTDIR: C:\Qt\5.13\msvc2017_64
+      CMAKE_GENERATOR: Visual Studio 16 2019
+      CMAKE_GENERATOR_ARCH: x64
+      BUILD_SUB_DIR: Release
       # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
       OPENSSL_PATH: C:\OpenSSL-v111-Win64\bin
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
-
-      MSYS_BASE_URL: https://repo.msys2.org/mingw/x86_64
-      PHONON: mingw-w64-x86_64-phonon-qt5-4.11.1-1-any
 
 # Parameters for default build commands (build_script is used instead).
 build:

@@ -1,0 +1,34 @@
+From c2a5afb62fa1d43b121f54fd552bb332f4e3c6e3 Mon Sep 17 00:00:00 2001
+From: Lukas Holecek <hluk@email.cz>
+Date: Sat, 31 Oct 2020 15:35:14 +0100
+Subject: [PATCH 4/6] Drop some common warnings for notifybysnore
+
+---
+ src/notifybysnore.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/notifybysnore.cpp b/src/notifybysnore.cpp
+index b3572a4..367fbbf 100644
+--- a/src/notifybysnore.cpp
++++ b/src/notifybysnore.cpp
+@@ -79,7 +79,7 @@ NotifyBySnore::NotifyBySnore(QObject* parent) :
+                 notification = iter.value();
+             }
+             else {
+-                qCWarning(LOG_KNOTIFICATIONS) << "Received a response for an unknown notification.";
++                qCDebug(LOG_KNOTIFICATIONS) << "Received a response for an unknown notification.";
+                 return;
+             }
+ 
+@@ -190,7 +190,7 @@ void NotifyBySnore::close(KNotification *notification)
+ {
+     qCDebug(LOG_KNOTIFICATIONS) << "Requested to close notification with ID:" << notification->id();
+     if (m_notifications.constFind(notification->id()) == m_notifications.constEnd()) {
+-        qCWarning(LOG_KNOTIFICATIONS) << "Couldn't find the notification in m_notifications. Nothing to close.";
++        qCDebug(LOG_KNOTIFICATIONS) << "Couldn't find the notification in m_notifications. Nothing to close.";
+         return;
+     }
+ 
+-- 
+2.26.2
+

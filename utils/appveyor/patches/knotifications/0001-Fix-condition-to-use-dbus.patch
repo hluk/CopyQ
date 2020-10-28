@@ -1,0 +1,25 @@
+From 1f4b93f63f780af4f54555ea4e331b16a34e4d03 Mon Sep 17 00:00:00 2001
+From: Hannah von Reth <vonreth@kde.org>
+Date: Mon, 12 Oct 2020 18:25:49 +0200
+Subject: [PATCH 1/6] Fix condition to use dbus
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9bcc496..9bdc33b 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -90,7 +90,7 @@ endif()
+ find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
+ find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
+ 
+-if (NOT ANDROID OR (WIN32 AND NOT ${WITH_SNORETOAST}))
++if (NOT ANDROID AND NOT WIN32 OR (WIN32 AND NOT WITH_SNORETOAST))
+     find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
+     find_package(Canberra)
+     set_package_properties(Canberra PROPERTIES
+-- 
+2.26.2
+

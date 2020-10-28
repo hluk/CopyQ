@@ -189,6 +189,10 @@ elseif (APPLE)
     install(FILES ${copyq_THEMES} DESTINATION "${copyq_themes_dest_dir}" COMPONENT Runtime)
 endif()
 
+if (MSVC)
+    include(InstallRequiredSystemLibraries)
+endif()
+
 add_definitions( -DQT_NO_CAST_TO_ASCII )
 
 set_property(GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
