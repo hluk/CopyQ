@@ -188,10 +188,9 @@ App::App(QCoreApplication *application,
 #endif
 
     QString session("copyq");
-    if ( !sessionName.isEmpty() ) {
+    if ( !sessionName.isEmpty() )
         session += "-" + sessionName;
-        m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
-    }
+    m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
 
     qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
     qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());

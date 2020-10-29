@@ -283,7 +283,7 @@ void X11PlatformWindow::pasteClipboard()
 
 void X11PlatformWindow::copy()
 {
-    ClipboardSpy spy(ClipboardMode::Clipboard);
+    ClipboardSpy spy(ClipboardMode::Clipboard, QByteArray());
     sendKeyPress(XK_Control_L, XK_C);
     spy.wait();
 }

@@ -41,6 +41,8 @@ public:
 
     QByteArray clipboardOwner() override { return m_ownerMonitor.clipboardOwner(); }
 
+    const QMimeData *mimeData(ClipboardMode mode) const override;
+
 protected:
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);

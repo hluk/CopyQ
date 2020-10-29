@@ -20,65 +20,73 @@
 #include "clipboardspy.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
+
+#include "platform/platformclipboard.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QApplication>
-#include <QClipboard>
 #include <QTimer>
 
-namespace {
-
-template <typename Receiver, typename Slot>
-void connectClipboardSignal(ClipboardMode mode, Receiver *receiver, Slot slot)
-{
-    const auto signal = mode == ClipboardMode::Clipboard
-            ? &QClipboard::dataChanged
-            : &QClipboard::selectionChanged;
-    QObject::connect( QApplication::clipboard(), signal, receiver, slot );
-}
-
-} // namespace
-
-ClipboardSpy::ClipboardSpy(ClipboardMode mode)
+ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
     : m_mode(mode)
-    , m_oldOwnerData(clipboardOwnerData(mode))
+    , m_clipboard(platformNativeInterface()->clipboard())
 {
-    connectClipboardSignal(mode, this, &ClipboardSpy::onChanged);
+    m_oldOwnerData = owner.isEmpty() ? currentOwnerData() : owner;
+    connect( m_clipboard.get(), &PlatformClipboard::changed, this,
+        [this](ClipboardMode changedMode) {
+            if (changedMode == m_mode)
+                check();
+        }
+    );
+    m_clipboard->startMonitoring( QStringList(mimeOwner) );
 }
 
-void ClipboardSpy::wait(int ms)
+void ClipboardSpy::wait(int ms, int checkIntervalMs)
 {
-    if (m_changed || check())
-        return;
-
     QEventLoop loop;
-    connectClipboardSignal(m_mode, &loop, &QEventLoop::quit);
-
     connect( this, &ClipboardSpy::changed, &loop, &QEventLoop::quit );
+    connect( this, &ClipboardSpy::stopped, &loop, &QEventLoop::quit );
 
     QTimer timerStop;
-    timerStop.setInterval(ms);
-    connect( &timerStop, &QTimer::timeout, &loop, &QEventLoop::quit );
-    timerStop.start();
+    if (ms >= 0) {
+        timerStop.setInterval(ms);
+        connect( &timerStop, &QTimer::timeout, &loop, &QEventLoop::quit );
+        timerStop.start();
+    }
 
     QTimer timerCheck;
-    timerCheck.setInterval(100);
+    timerCheck.setInterval(checkIntervalMs);
     connect( &timerCheck, &QTimer::timeout, this, &ClipboardSpy::check );
     timerCheck.start();
 
     loop.exec();
 }
 
-void ClipboardSpy::onChanged()
+bool ClipboardSpy::setClipboardData(const QVariantMap &data)
 {
-    m_changed = true;
-    emit changed();
+    m_oldOwnerData = currentOwnerData();
+    m_clipboard->setData(m_mode, data);
+    wait();
+    m_oldOwnerData = data.value(mimeOwner).toByteArray();
+    return m_oldOwnerData == currentOwnerData();
+}
+
+QByteArray ClipboardSpy::currentOwnerData() const
+{
+    return m_clipboard->data(m_mode, QStringList(mimeOwner)).value(mimeOwner).toByteArray();
+}
+
+void ClipboardSpy::stop()
+{
+    emit stopped();
 }
 
 bool ClipboardSpy::check()
 {
-    if (m_oldOwnerData == clipboardOwnerData(m_mode))
+    if (!m_oldOwnerData.isEmpty() && m_oldOwnerData == currentOwnerData())
         return false;
 
-    onChanged();
+    emit changed();
     return true;
 }
