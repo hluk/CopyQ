@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/commandstore.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QDialog>
 
@@ -91,11 +92,15 @@ private:
 
     void updateIcon(int row);
 
+    QString commandsToPaste();
+
     Ui::CommandDialog *ui;
     Commands m_savedCommands;
 
     Commands m_pluginCommands;
     QStringList m_formats;
+
+    PlatformClipboardPtr m_clipboard;
 };
 
 #endif // COMMANDDIALOG_H

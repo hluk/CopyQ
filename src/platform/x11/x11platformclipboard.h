@@ -41,6 +41,8 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
+    const QMimeData *mimeData(ClipboardMode mode) const override;
+
 protected:
     void onChanged(int mode) override;
 
@@ -69,6 +71,8 @@ private:
 
     ClipboardData m_clipboardData;
     ClipboardData m_selectionData;
+
+    bool m_monitoring = false;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H

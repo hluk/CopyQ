@@ -28,6 +28,7 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/windowgeometryguard.h"
+#include "platform/platformclipboard.h"
 
 #include <QBuffer>
 #include <QListWidgetItem>
@@ -45,15 +46,6 @@ constexpr int priorityMedium = priorityHigh / 2;
 constexpr int priorityLow = priorityMedium / 2;
 constexpr int priorityLower = priorityLow / 2;
 constexpr int priorityLowest = 0;
-
-QVariant cloneClipboardData(const QString &format)
-{
-    const QMimeData *clipData = clipboardData();
-    if (!clipData)
-        return QVariant();
-
-    return cloneData(*clipData, QStringList(format)).value(format);
-}
 
 int formatSortPriority(const QString &format)
 {
@@ -82,10 +74,11 @@ int formatSortPriority(const QString &format)
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
+    , m_clipboard(platformNativeInterface()->clipboard())
 {
     init();
 
-    const QMimeData *clipData = clipboardData();
+    const QMimeData *clipData = m_clipboard->mimeData(ClipboardMode::Clipboard);
     if (clipData) {
         m_dataFromClipboard = true;
         for (const auto &format : clipData->formats()) {
@@ -135,8 +128,10 @@ void ClipboardDialog::onListWidgetFormatsCurrentItemChanged(
         ui->labelContent->setBuddy(ui->textEdit);
 
     QVariant value = m_data.value(mime);
-    if ( m_dataFromClipboard && !value.isValid() )
-        value = m_data[mime] = cloneClipboardData(mime).toByteArray();
+    if ( m_dataFromClipboard && !value.isValid() ) {
+        const auto data = m_clipboard->mimeData(ClipboardMode::Clipboard);
+        value = m_data[mime] = data ? data->data(mime) : QByteArray();
+    }
 
     const QByteArray bytes = value.toByteArray();
 

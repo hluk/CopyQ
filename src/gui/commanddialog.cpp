@@ -30,10 +30,10 @@
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QAction>
-#include <QClipboard>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
@@ -71,18 +71,6 @@ QIcon getCommandIcon(const QString &iconString, int commandType)
 bool hasCommandsToPaste(const QString &text)
 {
     return text.startsWith("[Command]") || text.startsWith("[Commands]");
-}
-
-QString commandsToPaste()
-{
-    const QMimeData *data = clipboardData();
-    if (data && data->hasText()) {
-        const QString text = data->text().trimmed();
-        if (hasCommandsToPaste(text))
-            return text;
-    }
-
-    return QString();
 }
 
 } // namespace
@@ -128,6 +116,7 @@ CommandDialog::CommandDialog(
     , ui(new Ui::CommandDialog)
     , m_pluginCommands(pluginCommands)
     , m_formats(formats)
+    , m_clipboard(platformNativeInterface()->clipboard())
 {
     ui->setupUi(this);
 
@@ -181,8 +170,9 @@ CommandDialog::CommandDialog(
 
     m_savedCommands = currentCommands();
 
-    connect(QApplication::clipboard(), &QClipboard::dataChanged,
-            this, &CommandDialog::onClipboardChanged);
+    m_clipboard->startMonitoring( QStringList(mimeText) );
+    connect( m_clipboard.get(), &PlatformClipboard::changed,
+             this, &CommandDialog::onClipboardChanged );
     onClipboardChanged();
 }
 
@@ -237,7 +227,8 @@ void CommandDialog::tryPasteCommandFromClipboard()
 
 void CommandDialog::copySelectedCommandsToClipboard()
 {
-    QApplication::clipboard()->setText(serializeSelectedCommands());
+    const auto commands = serializeSelectedCommands();
+    m_clipboard->setData( ClipboardMode::Clipboard, createDataMap(mimeText, commands) );
 }
 
 void CommandDialog::onCommandDropped(const QString &text, int row)
@@ -458,4 +449,16 @@ void CommandDialog::updateIcon(int row)
     const auto command = currentCommand(row);
     const auto icon = getCommandIcon(command.icon, command.type());
     ui->itemOrderListCommands->setItemIcon(row, icon);
+}
+
+QString CommandDialog::commandsToPaste()
+{
+    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
+    if (data && data->hasText()) {
+        const QString text = data->text().trimmed();
+        if (hasCommandsToPaste(text))
+            return text;
+    }
+
+    return QString();
 }

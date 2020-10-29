@@ -20,24 +20,17 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include "common/clipboardmode.h"
-
 #include <QtGlobal> // Q_WS_*
 #include <QVariantMap>
 
-class QAction;
 class QByteArray;
-class QClipboard;
 class QDropEvent;
 class QFont;
-class QIODevice;
 class QKeyEvent;
 class QMimeData;
-class QPoint;
 class QProcess;
 class QString;
 class QStringList;
-class QWidget;
 
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
 #   define NO_GLOBAL_SHORTCUTS
@@ -50,11 +43,7 @@ class QWidget;
 
 bool isMainThread();
 
-const QMimeData *clipboardData(ClipboardMode mode = ClipboardMode::Clipboard);
-
 QByteArray makeClipboardOwnerData();
-
-QByteArray clipboardOwnerData(ClipboardMode mode);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
 QVariantMap cloneData(const QMimeData &data, QStringList formats, bool *abortCloning = nullptr);

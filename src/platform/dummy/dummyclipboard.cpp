@@ -20,8 +20,9 @@
 #include "dummyclipboard.h"
 
 #include "common/common.h"
+#include "common/log.h"
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QStringList>
 
 QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
@@ -39,13 +40,13 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 
 void DummyClipboard::startMonitoring(const QStringList &)
 {
-    connect(QApplication::clipboard(), &QClipboard::changed,
+    connect(QGuiApplication::clipboard(), &QClipboard::changed,
             this, &DummyClipboard::onClipboardChanged);
 }
 
 QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const
 {
-    const QMimeData *data = clipboardData(mode);
+    const QMimeData *data = mimeData(mode);
     return data ? cloneData(*data, formats) : QVariantMap();
 }
 
@@ -54,6 +55,21 @@ void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
     Q_ASSERT( isMainThread() );
 
     QGuiApplication::clipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
+}
+
+const QMimeData *DummyClipboard::mimeData(ClipboardMode mode) const
+{
+    const auto modeText = mode == ClipboardMode::Clipboard ? "clipboard" : "selection";
+
+    COPYQ_LOG_VERBOSE( QString("Getting %1 data.").arg(modeText) );
+    const QMimeData *data = QGuiApplication::clipboard()->mimeData( modeToQClipboardMode(mode) );
+
+    if (data)
+        COPYQ_LOG_VERBOSE( QString("Got %1 data.").arg(modeText) );
+    else
+        log( QString("Null data in %1.").arg(modeText), LogError );
+
+    return data;
 }
 
 void DummyClipboard::onChanged(int mode)

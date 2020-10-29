@@ -14,7 +14,7 @@ matrix:
         - GCOV=gcov
 
     - os: linux
-      dist: xenial
+      dist: bionic
       compiler: clang
       env:
         - COMPILER=clang++

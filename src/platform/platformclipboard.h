@@ -25,6 +25,8 @@
 #include <QObject>
 #include <QVariantMap>
 
+class QMimeData;
+
 /**
  * Interface for clipboard.
  */
@@ -50,6 +52,8 @@ public:
     virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
 
     virtual QByteArray clipboardOwner() = 0;
+
+    virtual const QMimeData *mimeData(ClipboardMode mode) const = 0;
 
 signals:
     /// Notifies about clipboard changes.

@@ -2,7 +2,6 @@
 set -e
 
 distros=(
-    xenial
     bionic
     focal
     groovy

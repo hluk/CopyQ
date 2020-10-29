@@ -10,10 +10,12 @@ Build-Depends:
  libxfixes-dev,
  libxtst-dev,
  libqt5x11extras5-dev,
+ qtbase5-private-dev,
  qtscript5-dev,
  qttools5-dev,
  qttools5-dev-tools,
- wayland-dev,
+ qtwayland5-dev-tools,
+ libwayland-dev,
 Standards-Version: 4.1.0
 Homepage: https://hluk.github.io/CopyQ/
 Vcs-Browser: https://github.com/hluk/CopyQ

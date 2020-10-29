@@ -26,6 +26,8 @@
 #include <QVariantMap>
 #include <QTimer>
 
+#include "platform/platformnativeinterface.h"
+
 class QBuffer;
 class QListWidgetItem;
 class QMovie;
@@ -78,6 +80,8 @@ private:
 
     QBuffer *m_animationBuffer = nullptr;
     QMovie *m_animation = nullptr;
+
+    PlatformClipboardPtr m_clipboard;
 };
 
 #endif // CLIPBOARDDIALOG_H

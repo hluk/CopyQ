@@ -24,25 +24,23 @@
 #include "common/mimetypes.h"
 #include "common/textdata.h"
 
-#include <QAction>
 #include <QApplication>
 #include <QBuffer>
-#include <QClipboard>
 #include <QDropEvent>
 #include <QElapsedTimer>
+#include <QFont>
+#include <QFontMetrics>
 #include <QImage>
 #include <QImageWriter>
 #include <QKeyEvent>
 #include <QMimeData>
 #include <QMovie>
 #include <QObject>
-#include <QPoint>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QTextCodec>
 #include <QThread>
 #include <QUrl>
-#include <QWidget>
 
 #ifdef COPYQ_WS_X11
 # include "platform/x11/x11platform.h"
@@ -332,27 +330,6 @@ bool isMainThread()
     return QThread::currentThread() == qApp->thread();
 }
 
-const QMimeData *clipboardData(ClipboardMode mode)
-{
-    Q_ASSERT( isMainThread() );
-
-    const auto modeText = mode == ClipboardMode::Clipboard ? "clipboard" : "selection";
-    COPYQ_LOG_VERBOSE( QString("Getting %1 data.").arg(modeText) );
-
-    const auto qtmode = mode == ClipboardMode::Clipboard
-            ? QClipboard::Clipboard
-            : QClipboard::Selection;
-
-    const QMimeData *data = QGuiApplication::clipboard()->mimeData(qtmode);
-
-    if (data)
-        COPYQ_LOG_VERBOSE( QString("Got %1 data.").arg(modeText) );
-    else
-        log( QString("Null data in %1.").arg(modeText), LogError );
-
-    return data;
-}
-
 QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abortCloning)
 {
     ClipboardDataGuard data(rawData, abortCloning);
@@ -448,8 +425,11 @@ QMimeData* createMimeData(const QVariantMap &data)
     for ( const auto &format : copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
 
-    if ( !copyFormats.contains(mimeOwner) )
-        newClipboardData->setData( mimeOwner, makeClipboardOwnerData() );
+    if ( !copyFormats.contains(mimeOwner) ) {
+        const auto owner = makeClipboardOwnerData();
+        if ( !owner.isEmpty() )
+            newClipboardData->setData( mimeOwner, owner );
+    }
 
     // Set image data.
     const QStringList formats =
@@ -710,16 +690,12 @@ void acceptDrag(QDropEvent *event)
 
 QByteArray makeClipboardOwnerData()
 {
-    static int id = 0;
-    return qgetenv("COPYQ_SESSION_NAME")
-           + " " + logLabel()
-           + "/" + QByteArray::number(++id);
-}
+    static const QVariant owner = qApp->property("CopyQ_session_name");
+    if ( !owner.isValid() )
+        return QByteArray();
 
-QByteArray clipboardOwnerData(ClipboardMode mode)
-{
-    const auto data = clipboardData(mode);
-    return data ? data->data(mimeOwner) : QByteArray();
+    static int id = 0;
+    return owner.toString().toUtf8() + " " + logLabel() + "/" + QByteArray::number(++id);
 }
 
 QString cloneText(const QMimeData &data)

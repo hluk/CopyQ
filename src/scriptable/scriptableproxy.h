@@ -250,6 +250,9 @@ public slots:
 
     QString loadTheme(const QString &path);
 
+    QByteArray getClipboardData(const QString &mime, ClipboardMode mode);
+    bool hasClipboardFormat(const QString &mime, ClipboardMode mode);
+
 signals:
     void functionCallFinished(int functionCallId, const QVariant &returnValue);
     void inputDialogFinished(int dialogId, const NamedValueList &result);

@@ -21,6 +21,8 @@
 
 #include "waylandclipboard.h"
 
+#include <QDebug>
+#include <QElapsedTimer>
 #include <QGuiApplication>
 
 SystemClipboard *SystemClipboard::instance()
@@ -28,9 +30,22 @@ SystemClipboard *SystemClipboard::instance()
     if (!qApp || qApp->closingDown()) {
         return nullptr;
     }
-    static SystemClipboard *systemClipboard = nullptr;
+    static WaylandClipboard *systemClipboard = nullptr;
     if (!systemClipboard) {
+        qInfo() << "Using Wayland clipboard access";
         systemClipboard = new WaylandClipboard(qApp);
+
+        QElapsedTimer timer;
+        timer.start();
+        while ( !systemClipboard->isActive() && timer.elapsed() < 5000 ) {
+            QCoreApplication::processEvents();
+        }
+        if ( timer.elapsed() > 100 ) {
+            qWarning() << "Activating Wayland clipboard took" << timer.elapsed() << "ms";
+        }
+        if ( !systemClipboard->isActive() ) {
+            qCritical() << "Failed to activate Wayland clipboard";
+        }
     }
     return systemClipboard;
 }

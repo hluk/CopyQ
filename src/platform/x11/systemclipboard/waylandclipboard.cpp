@@ -46,7 +46,8 @@ public:
     }
 
     ~DataControlDeviceManager() {
-        destroy();
+        if ( isInitialized() )
+            destroy();
     }
 };
 
@@ -60,7 +61,8 @@ public:
     }
 
     ~DataControlOffer() {
-        destroy();
+        if ( isInitialized() )
+            destroy();
     }
 
     QStringList formats() const override
@@ -165,7 +167,8 @@ public:
     DataControlSource(struct ::zwlr_data_control_source_v1 *id, QMimeData *mimeData);
     DataControlSource();
     ~DataControlSource() {
-        destroy();
+        if ( isInitialized() )
+            destroy();
     }
 
     QMimeData *mimeData() {
@@ -214,7 +217,8 @@ public:
     {}
 
     ~DataControlDevice() {
-        destroy();
+        if ( isInitialized() )
+            destroy();
     }
 
     void setSelection(std::unique_ptr<DataControlSource> selection);
@@ -239,7 +243,11 @@ protected:
         if(!id ) {
             m_receivedSelection.reset();
         } else {
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
             auto deriv = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
+#else
+            auto deriv = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
+#endif
             auto offer = dynamic_cast<DataControlOffer*>(deriv); // dynamic because of the dual inheritance
             m_receivedSelection.reset(offer);
         }
@@ -282,9 +290,11 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
             m_device.reset(new DataControlDevice(m_manager->get_data_device(seat)));
 
             connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this]() {
+                    qDebug() << "receivedSelectionChanged";
                     emit changed(QClipboard::Clipboard);
             });
             connect(m_device.get(), &DataControlDevice::selectionChanged, this, [this]() {
+                    qDebug() << "selectionChanged";
                     emit changed(QClipboard::Clipboard);
             });
         } else {
