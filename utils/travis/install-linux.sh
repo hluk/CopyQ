@@ -5,6 +5,7 @@ set -e -x
 packages=(
     qt5-default
 
+    qtbase5-private-dev
     qtscript5-dev
     qttools5-dev
     qttools5-dev-tools
@@ -23,7 +24,10 @@ packages=(
 
     # Wayland support
     extra-cmake-modules
+    libqt5waylandclient5-dev
     libwayland-dev
+    qtwayland5
+    qtwayland5-dev-tools
 
     # encryption plugin
     gnupg2

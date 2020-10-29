@@ -234,27 +234,40 @@ To build the application from source code, first install the required dependenci
 
 ```bash
 sudo apt install \
-  git cmake \
+  cmake \
+  extra-cmake-modules \
+  git \
+  libqt5svg5 \
+  libqt5svg5-dev \
+  libqt5waylandclient5-dev \
+  libqt5x11extras5-dev \
+  libwayland-dev \
+  libxfixes-dev \
+  libxtst-dev \
+  qtbase5-private-dev \
   qtscript5-dev \
   qttools5-dev \
   qttools5-dev-tools \
-  libqt5svg5-dev \
-  libqt5x11extras5-dev \
-  libxfixes-dev \
-  libxtst-dev \
-  libqt5svg5
+  qtwayland5 \
+  qtwayland5-dev-tools
 ```
 #### RHEL / CentOS
 
 ```bash
 sudo yum install \
-  gcc-c++ git cmake \
-  libXtst-devel libXfixes-devel \
+  cmake \
+  extra-cmake-modules \
+  gcc-c++ \
+  git \
+  libXfixes-devel \
+  libXtst-devel \
   qt5-qtbase-devel \
+  qt5-qtscript-devel \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
-  qt5-qtscript-devel \
-  qt5-qtx11extras-devel
+  qt5-qtwayland-devel \
+  qt5-qtx11extras-devel \
+  wayland-devel
 ```
 
 ### Build the App

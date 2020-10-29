@@ -70,6 +70,7 @@
 #include <QListWidget>
 #include <QMetaMethod>
 #include <QMetaType>
+#include <QMimeData>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPen>
@@ -2209,6 +2210,28 @@ QString ScriptableProxy::loadTheme(const QString &path)
         return "Failed to parse theme";
 
     return QString();
+}
+
+QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode mode)
+{
+    INVOKE(getClipboardData, (mime, mode));
+
+    const QMimeData *data = m_wnd->getClipboardData(mode);
+    if (!data)
+        return QByteArray();
+
+    if (mime == "?")
+        return data->formats().join("\n").toUtf8() + '\n';
+
+    return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
+}
+
+bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode)
+{
+    INVOKE(hasClipboardFormat, (mime, mode));
+
+    const QMimeData *data = m_wnd->getClipboardData(mode);
+    return data && data->hasFormat(mime);
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)

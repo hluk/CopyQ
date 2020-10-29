@@ -1019,7 +1019,7 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
 
 void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
-    const QMimeData *data = clipboardData();
+    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
     if (data == nullptr)
         return;
 
@@ -3085,6 +3085,11 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
         setClipboard(QVariantMap());
 }
 
+const QMimeData *MainWindow::getClipboardData(ClipboardMode mode)
+{
+    return m_clipboard->mimeData(mode);
+}
+
 void MainWindow::activateCurrentItem()
 {
     // Omit activating item multiple times in quick succession.
@@ -3513,7 +3518,7 @@ void MainWindow::editNewItem()
 
 void MainWindow::pasteItems()
 {
-    const QMimeData *data = clipboardData();
+    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
     if (data == nullptr)
         return;
 

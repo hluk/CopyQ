@@ -29,6 +29,7 @@
 #include "common/sleeptimer.h"
 #include "common/version.h"
 #include "common/textdata.h"
+#include "gui/clipboardspy.h"
 #include "gui/icons.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
@@ -3219,28 +3220,14 @@ void Scriptable::provideClipboard(ClipboardMode mode)
     const auto owner = makeClipboardOwnerData();
     m_data.insert(mimeOwner, owner);
 
-    platformNativeInterface()->clipboard()->setData(mode, m_data);
-
-    QEventLoop loop;
-
-    const auto checkClipboardOwnership = [&]() {
-        if ( clipboardOwnerData(mode) != owner )
-            loop.quit();
-    };
-
-    QTimer t;
-    t.setInterval(8000);
-    connect(&t, &QTimer::timeout, this, checkClipboardOwnership);
-    t.start();
-
-    connect( this, &Scriptable::finished, &loop, &QEventLoop::quit );
-    connect( QGuiApplication::clipboard(), &QClipboard::changed,
-             &t, checkClipboardOwnership );
+    ClipboardSpy spy(mode, owner);
+    spy.setClipboardData(m_data);
+    connect( this, &Scriptable::finished, &spy, &ClipboardSpy::stop );
 
     COPYQ_LOG( QString("Started providing %1")
                .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
 
-    loop.exec();
+    spy.wait();
 
     COPYQ_LOG( QString("Finished providing %1")
                .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
@@ -3333,34 +3320,12 @@ void Scriptable::setActionData()
 
 QByteArray Scriptable::getClipboardData(const QString &mime, ClipboardMode mode)
 {
-    if ( !canAccessClipboard() ) {
-        const auto command = QString("copyq --clipboard-access %1 %2")
-                .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection")
-                .arg(mime);
-        return m_proxy->tryGetCommandOutput(command);
-    }
-
-    const QMimeData *data = clipboardData(mode);
-    if (!data)
-        return QByteArray();
-
-    if (mime == "?")
-        return data->formats().join("\n").toUtf8() + '\n';
-
-    return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
+    return m_proxy->getClipboardData(mime, mode);
 }
 
 bool Scriptable::hasClipboardFormat(const QString &mime, ClipboardMode mode)
 {
-    if ( !canAccessClipboard() ) {
-        const auto command = QString("copyq --clipboard-access %1 %2")
-                .arg(mode == ClipboardMode::Clipboard ? "hasClipboardFormat" : "hasSelectionFormat")
-                .arg(mime);
-        return m_proxy->tryGetCommandOutput(command).startsWith("true");
-    }
-
-    const QMimeData *data = clipboardData(mode);
-    return data && data->hasFormat(mime);
+    return m_proxy->hasClipboardFormat(mime, mode);
 }
 
 void Scriptable::synchronizeSelection(ClipboardMode targetMode)
@@ -3391,7 +3356,7 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         while ( tMin.sleep() ) {}
 
         // Stop if the clipboard/selection text already changed again.
-        const auto sourceData = clipboardData(sourceMode);
+        const auto sourceData = mimeData(sourceMode);
         if (!sourceData)
             return;
         const QString sourceText = cloneText(*sourceData);
@@ -3400,11 +3365,11 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
             return;
         }
 
-        const auto targetData = clipboardData(targetMode);
+        const auto targetData = mimeData(targetMode);
         if (!targetData)
             return;
         const QString targetText = cloneText(*targetData);
-        if ( clipboardOwnerData(targetMode).isEmpty() && !targetText.isEmpty() ) {
+        if ( targetData->data(mimeOwner).isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
             if (targetTextHash != qHash(targetText)) {
                 COPYQ_SYNC_LOG("Cancelled (target text changed)");
@@ -3473,6 +3438,18 @@ QScriptValue Scriptable::readInput()
 
     inputReaderThread->deleteLater();
     return newByteArray(inputReaderThread->input);
+}
+
+PlatformClipboard *Scriptable::clipboardInstance()
+{
+    if (m_clipboard == nullptr)
+        m_clipboard = platformNativeInterface()->clipboard();
+    return m_clipboard.get();
+}
+
+const QMimeData *Scriptable::mimeData(ClipboardMode mode)
+{
+    return clipboardInstance()->mimeData(mode);
 }
 
 QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)

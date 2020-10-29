@@ -31,6 +31,8 @@
 #include <QVariantMap>
 #include <QVector>
 
+#include "platform/platformnativeinterface.h"
+
 class Action;
 class ByteArrayClass;
 class ClipboardBrowser;
@@ -41,6 +43,7 @@ class ScriptableProxy;
 class TemporaryFileClass;
 
 class QFile;
+class QMimeData;
 class QNetworkReply;
 class QNetworkAccessManager;
 class QScriptEngine;
@@ -436,6 +439,9 @@ private:
 
     QScriptValue readInput();
 
+    PlatformClipboard *clipboardInstance();
+    const QMimeData *mimeData(ClipboardMode mode);
+
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
@@ -464,6 +470,8 @@ private:
     bool m_failed = false;
 
     QString m_tabName;
+
+    PlatformClipboardPtr m_clipboard;
 };
 
 class NetworkReply final : public QObject {

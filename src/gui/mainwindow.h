@@ -369,6 +369,8 @@ public:
     void setClipboardAndSelection(const QVariantMap &data);
     void moveToClipboard(ClipboardBrowser *c, int row);
 
+    const QMimeData *getClipboardData(ClipboardMode mode);
+
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
 

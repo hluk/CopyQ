@@ -35,6 +35,7 @@
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 #include "gui/tabicons.h"
+#include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QClipboard>
@@ -172,6 +173,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     output.remove("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain");
     output.remove("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry");
     output.remove("QtWarning: setGeometry: Unable to set geometry");
+    output.remove("QtWarning: Wayland does not support QWindow::requestActivate()");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)");
 #ifdef Q_OS_MAC
@@ -195,12 +197,6 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
     const QRegularExpression scriptExceptionError("ScriptError:");
     return output.indexOf(scriptExceptionError) == -1;
-}
-
-QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMode mode = ClipboardMode::Clipboard)
-{
-    const QMimeData *data = clipboardData(mode);
-    return (data != nullptr) ? data->data(mime) : QByteArray();
 }
 
 bool waitWhileFileExists(const QFile &file)
@@ -443,6 +439,11 @@ public:
         return readServerErrors(ReadErrorsWithoutScriptException);
     }
 
+    QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMode mode = ClipboardMode::Clipboard)
+    {
+        return clipboard()->data(mode, QStringList(mime)).value(mime).toByteArray();
+    }
+
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime, ClipboardMode mode) override
     {
         if ( getClipboard(mime, mode) == bytes )
@@ -450,10 +451,7 @@ public:
 
         waitFor(waitMsSetClipboard);
 
-        auto mimeData = new QMimeData();
-        mimeData->setData(mime, bytes);
-        const auto qmode = mode == ClipboardMode::Clipboard ? QClipboard::Clipboard : QClipboard::Selection;
-        QGuiApplication::clipboard()->setMimeData(mimeData, qmode);
+        clipboard()->setData( mode, createDataMap(mime, bytes) );
 
         waitFor(waitMsSetClipboard);
         return verifyClipboard(bytes, mime);
@@ -713,12 +711,21 @@ private:
         return "Unable to start server!" + readServerErrors(ReadAllStderr);
     }
 
+    PlatformClipboard *clipboard()
+    {
+        if (m_clipboard == nullptr)
+            m_clipboard = platformNativeInterface()->clipboard();
+        return m_clipboard.get();
+    }
+
     std::unique_ptr<QProcess> m_server;
     QProcessEnvironment m_env;
     QString m_testId;
     QVariantMap m_settings;
 
     QStringList m_failed;
+
+    PlatformClipboardPtr m_clipboard;
 };
 
 QString keyNameFor(QKeySequence::StandardKey standardKey)
