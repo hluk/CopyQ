@@ -175,6 +175,8 @@ public:
         return m_mimeData;
     }
 
+    bool isCancelled() const { return m_cancelled; }
+
 Q_SIGNALS:
     void cancelled();
 
@@ -182,7 +184,8 @@ protected:
     void zwlr_data_control_source_v1_send(const QString &mime_type, int32_t fd) override;
     void zwlr_data_control_source_v1_cancelled() override;
 private:
-    QMimeData *m_mimeData;
+    QMimeData *m_mimeData = nullptr;
+    bool m_cancelled = false;
 };
 
 DataControlSource::DataControlSource(struct ::zwlr_data_control_source_v1 *id, QMimeData *mimeData)
@@ -205,6 +208,7 @@ void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_typ
 
 void DataControlSource::zwlr_data_control_source_v1_cancelled()
 {
+    m_cancelled = true;
     Q_EMIT cancelled();
 }
 
@@ -221,17 +225,18 @@ public:
             destroy();
     }
 
-    void setSelection(std::unique_ptr<DataControlSource> selection);
-    QMimeData *receivedSelection() {
-        return m_receivedSelection.get();
+    void setSelection(std::unique_ptr<DataControlSource> selection, QClipboard::Mode mode);
+    void setSelectionData(::zwlr_data_control_source_v1 *id, QClipboard::Mode mode);
+    QMimeData *receivedSelection(QClipboard::Mode mode) {
+        return m_receivedSelection[mode].get();
     }
-    QMimeData *selection() {
-        return m_selection ? m_selection->mimeData() : nullptr;
+    QMimeData *selection(QClipboard::Mode mode) {
+        return m_selection[mode] ? m_selection[mode]->mimeData() : nullptr;
     }
 
 Q_SIGNALS:
-    void receivedSelectionChanged();
-    void selectionChanged();
+    void receivedSelectionChanged(QClipboard::Mode mode);
+    void selectionChanged(QClipboard::Mode mode);
 protected:
     void zwlr_data_control_device_v1_data_offer(struct ::zwlr_data_control_offer_v1 *id) override {
         new DataControlOffer(id);
@@ -240,8 +245,18 @@ protected:
     }
 
     void zwlr_data_control_device_v1_selection(struct ::zwlr_data_control_offer_v1 *id) override {
+        receiveSelection(id, QClipboard::Clipboard);
+    }
+
+    void zwlr_data_control_device_v1_primary_selection(struct ::zwlr_data_control_offer_v1 *id) override {
+        receiveSelection(id, QClipboard::Selection);
+    }
+
+private:
+    void receiveSelection(struct ::zwlr_data_control_offer_v1 *id, QClipboard::Mode mode) {
+        auto &receivedSelection = m_receivedSelection[mode];
         if(!id ) {
-            m_receivedSelection.reset();
+            receivedSelection.reset();
         } else {
 #if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
             auto deriv = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
@@ -249,26 +264,39 @@ protected:
             auto deriv = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
 #endif
             auto offer = dynamic_cast<DataControlOffer*>(deriv); // dynamic because of the dual inheritance
-            m_receivedSelection.reset(offer);
+            receivedSelection.reset(offer);
         }
-        emit receivedSelectionChanged();
+        emit receivedSelectionChanged(mode);
     }
-
-private:
-    std::unique_ptr<DataControlSource> m_selection; // selection set locally
-    std::unique_ptr<DataControlOffer> m_receivedSelection; // latest selection set from externally to here
+    std::unique_ptr<DataControlSource> m_selection[2]; // selection set locally
+    std::unique_ptr<DataControlOffer> m_receivedSelection[2]; // latest selection set from externally to here
 };
 
 
-void DataControlDevice::setSelection(std::unique_ptr<DataControlSource> selection)
+void DataControlDevice::setSelection(std::unique_ptr<DataControlSource> selection, QClipboard::Mode mode)
 {
-    m_selection = std::move(selection);
-    connect(m_selection.get(), &DataControlSource::cancelled, this, [this]() {
-        m_selection.reset();
-        Q_EMIT selectionChanged();
+    if (selection->isCancelled())
+        return;
+
+    m_selection[mode] = std::move(selection);
+    connect(m_selection[mode].get(), &DataControlSource::cancelled, this, [this, mode]() {
+        m_selection[mode].reset();
+        Q_EMIT selectionChanged(mode);
     });
-    set_selection(m_selection->object());
-    Q_EMIT selectionChanged();
+    setSelectionData(m_selection[mode]->object(), mode);
+    Q_EMIT selectionChanged(mode);
+}
+
+void DataControlDevice::setSelectionData(::zwlr_data_control_source_v1 *id, QClipboard::Mode mode)
+{
+    if (mode == QClipboard::Clipboard) {
+        set_selection(id);
+    } else if (mode == QClipboard::Selection) {
+        if (zwlr_data_control_device_v1_get_version(object()) >=
+                ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION) {
+            set_primary_selection(id);
+        }
+    }
 }
 
 WaylandClipboard::WaylandClipboard(QObject *parent)
@@ -289,13 +317,11 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
 
             m_device.reset(new DataControlDevice(m_manager->get_data_device(seat)));
 
-            connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this]() {
-                    qDebug() << "receivedSelectionChanged";
-                    emit changed(QClipboard::Clipboard);
+            connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this](QClipboard::Mode mode) {
+                    emit changed(mode);
             });
-            connect(m_device.get(), &DataControlDevice::selectionChanged, this, [this]() {
-                    qDebug() << "selectionChanged";
-                    emit changed(QClipboard::Clipboard);
+            connect(m_device.get(), &DataControlDevice::selectionChanged, this, [this](QClipboard::Mode mode) {
+                    emit changed(mode);
             });
         } else {
             m_device.reset();
@@ -309,9 +335,7 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
         return;
     }
     std::unique_ptr<DataControlSource> source(new DataControlSource(m_manager->create_data_source(), mime));
-    if (mode == QClipboard::Clipboard) {
-        m_device->setSelection(std::move(source));
-    }
+    m_device->setSelection(std::move(source), mode);
 }
 
 void WaylandClipboard::clear(QClipboard::Mode mode)
@@ -319,14 +343,7 @@ void WaylandClipboard::clear(QClipboard::Mode mode)
     if (!m_device) {
         return;
     }
-    if (mode == QClipboard::Clipboard) {
-        m_device->set_selection(nullptr);
-    } else if (mode == QClipboard::Selection) {
-        if (zwlr_data_control_device_v1_get_version(m_device->object()) >=
-                ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION) {
-            m_device->set_primary_selection(nullptr);
-        }
-    }
+    m_device->setSelectionData(nullptr, mode);
 }
 
 const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
@@ -334,11 +351,8 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
     if (!m_device) {
         return nullptr;
     }
-    if (mode == QClipboard::Clipboard) {
-        // return our locally set selection if it's not cancelled to avoid copying data to ourselves
-        return m_device->selection() ? m_device->selection() : m_device->receivedSelection();
-    }
-    return nullptr;
+    // return our locally set selection if it's not cancelled to avoid copying data to ourselves
+    return m_device->selection(mode) ? m_device->selection(mode) : m_device->receivedSelection(mode);
 }
 
 #include "waylandclipboard.moc"
