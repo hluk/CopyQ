@@ -580,7 +580,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
 bool MainWindow::browseMode() const
 {
-    return !ui->searchBar->isVisible();
+    return ui->searchBar->isHidden();
 }
 
 void MainWindow::exit()
