@@ -1222,7 +1222,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar elemento con un solo clic</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
