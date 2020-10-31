@@ -247,6 +247,11 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
 
     // Retry to retrieve clipboard data few times.
     if (!data) {
+        if ( !QX11Info::isPlatformX11() ) {
+            COPYQ_LOG("No Wayland clipboard data received yet.");
+            return;
+        }
+
         if (clipboardData->retry < maxRetryCount) {
             ++clipboardData->retry;
             m_timerCheckAgain.start(clipboardData->retry * maxCheckAgainIntervalMs);
