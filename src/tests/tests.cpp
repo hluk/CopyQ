@@ -644,7 +644,7 @@ public:
     {
         int exitCode = QTest::qExec(testObject, argc, argv);
 
-        const int maxRuns = m_env.value("COPYQ_TESTS_RERUN_FAILED", "0").toInt();
+        const int maxRuns = m_env.value("COPYQ_TESTS_RERUN_FAILED", "0").toInt() + 1;
         for (int runCounter = 0; exitCode != 0 && !m_failed.isEmpty() && runCounter < maxRuns; ++runCounter) {
             qInfo() << QString::fromLatin1("Rerunning %1 failed tests (%2/%3): %4")
                        .arg(m_failed.size())
