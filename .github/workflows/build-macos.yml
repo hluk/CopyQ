@@ -18,9 +18,6 @@ jobs:
             compiler: clang_64
             create_bundle: true
 
-    env:
-      qt: '5.15.2'
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -28,20 +25,8 @@ jobs:
           submodules: false
           fetch-depth: 1
 
-      - name: Restore Qt cache
-        uses: actions/cache@v2
-        id: cache-qt
-        with:
-          path: ${{runner.workspace}}/Qt/${{env.qt}}
-          key: ${{matrix.os}}-qt-${{env.qt}}-${{matrix.compiler}}
-
-      - name: Install Qt
-        uses: jurplel/install-qt-action@v2
-        if: steps.cache-qt.outputs.cache-hit != 'true'
-        with:
-          version: ${{env.qt}}
-          dir: ${{runner.workspace}}
-          cached: ${{steps.cache-qt.outputs.cache-hit}}
+      - name: Install dependencies
+        run: '${{github.workspace}}/utils/github/install-macos.sh'
 
       - name: Build with CMake
         uses: lukka/run-cmake@v3
@@ -54,7 +39,7 @@ jobs:
           cmakeAppendedArgs: >-
             -DWITH_TESTS=TRUE
             -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
-            -DCMAKE_PREFIX_PATH='${{runner.workspace}}/Qt/${{env.qt}}/${{matrix.compiler}}/'
+            -DCMAKE_PREFIX_PATH="/usr/local/opt/qt/lib/cmake"
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg
