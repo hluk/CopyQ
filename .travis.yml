@@ -5,7 +5,13 @@ language: cpp
 matrix:
   include:
     - os: osx
+      # https://docs.travis-ci.com/user/reference/osx
+      osx_image: xcode10.1
       compiler: clang
+      addons:
+        homebrew:
+          brewfile: true
+          update: true
 
     - os: linux
       dist: bionic

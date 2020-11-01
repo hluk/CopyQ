@@ -31,14 +31,20 @@ ls "$("$executable" info translations)/"
 test "$("$executable" info has-global-shortcuts)" -eq "1"
 
 # Uninstall local Qt to make sure we only use libraries from the bundle
-"$(brew --repo kde-mac/kde)/tools/uninstall.sh"
-brew uninstall --ignore-dependencies --force qt5
+# FIXME: Does this inhibit Homebrew cache?
+#"$(brew --repo kde-mac/kde)/tools/uninstall.sh"
+#brew uninstall --ignore-dependencies --force qt5
 
-# Run tests (retry once on error).
-export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
-export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
-export COPYQ_TESTS_RERUN_FAILED=1
-"$executable" tests
+(
+    export PATH=""
+    export LD_LIBRARY_PATH=""
+
+    # Run tests (retry once on error).
+    export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
+    export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
+    export COPYQ_TESTS_RERUN_FAILED=1
+    "$executable" tests
+)
 
 # Print dependencies to let us further make sure that we don't depend on local libraries
 otool -L $executable
