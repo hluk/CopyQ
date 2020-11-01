@@ -6,6 +6,7 @@ image:
 
 cache:
   - usr
+  - downloads
 
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
@@ -15,13 +16,13 @@ environment:
   SNORETOAST_VERSION: 0.7.0
 
   matrix:
-    - QTDIR: C:\Qt\5.13\msvc2017_64
+    - QTDIR: /c/Qt/5.13/msvc2017_64
       CMAKE_GENERATOR: Visual Studio 16 2019
       CMAKE_GENERATOR_ARCH: x64
       BUILD_SUB_DIR: Release
       # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: C:\OpenSSL-v111-Win64\bin
+      OPENSSL_PATH: /c/OpenSSL-v111-Win64/bin
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
 
@@ -29,16 +30,17 @@ environment:
 build:
 
 install:
-  - utils\appveyor\install.bat
+  - ps: $env:Path = "C:\Program Files\Git\bin;$env:Path"
+  - bash utils/appveyor/install.sh
 
 before_build:
-  - utils\appveyor\before_build.bat
+  - bash utils/appveyor/before_build.sh
 
 build_script:
-  - utils\appveyor\build_script.bat
+  - bash utils/appveyor/build_script.sh
 
 after_build:
-  - utils\appveyor\after_build.bat
+  - bash utils/appveyor/after_build.sh
 
 artifacts:
   - path: 'copyq-*-setup.exe'
