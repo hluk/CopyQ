@@ -1222,12 +1222,12 @@ Use Prévia do Item para exibir os itens que estiverem completos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Ativar elemento com um único clique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Após o item ser ativado (com clique duplo ou tecla Ente), copie-o para a área de transferência e ...</translation>
+        <translation>Após o item ser ativado (com clique duplo ou usando a tecla Enter), copie-o para a área de transferência e …</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
