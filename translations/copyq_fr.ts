@@ -333,7 +333,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished">Impossible d&apos;ajouter de nouveaux éléments à l&apos;onglet %1. Veuillez enlever manuellement des éléments pour libérer de l&apos;espace.</translation>
+        <translation>Impossible d&apos;ajouter de nouveaux éléments à l&apos;onglet %1. Veuillez enlever manuellement des éléments pour libérer de l&apos;espace.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -351,7 +351,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="130"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="123"/>
@@ -761,7 +761,7 @@ Remarque : si cette option est automatiquement appliquée, aucune autre commande
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Utiliser la commande uniquement pour les éléments copiés dans le presse-papiers à partir d&apos;une fenêtre dont le texte du titre correspond à cette expression régulière (laisser vide pour correspondre à n&apos;importe quelle fenêtre). Sous macOS, ceci contient le nom de l&apos;application suivi d&apos;un tiret (&amp;quot;-&amp;quot;) puis le titre de la fenêtre. Par exemple, &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="558"/>
@@ -1225,7 +1225,7 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer l&apos;élément en un seul clic</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -1370,47 +1370,47 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">Emplacement des &amp;notifications :</translation>
+        <translation>Emplacement des &amp;notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">Position des notifications sur l&apos;écran</translation>
+        <translation>Position des notifications sur l&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">En haut</translation>
+        <translation>En haut</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">En bas</translation>
+        <translation>En bas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">En haut à droite</translation>
+        <translation>En haut à droite</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">En bas à droite</translation>
+        <translation>En bas à droite</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">En bas à gauche</translation>
+        <translation>En bas à gauche</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">En haut à gauche</translation>
+        <translation>En haut à gauche</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">Int&amp;ervalle en secondes pour afficher les notifications :</translation>
+        <translation>Int&amp;ervalle en secondes pour afficher les notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
