@@ -1214,8 +1214,7 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Abilita ricerca numeri. 
-Altrimenti premendo un tasto numerico attiva l&apos;elemento alla posizione relativa</translation>
+        <translation>Abilita ricerca numeri. Altrimenti premendo un tasto numerico attiva l&apos;elemento alla posizione relativa</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
@@ -1225,7 +1224,7 @@ Altrimenti premendo un tasto numerico attiva l&apos;elemento alla posizione rela
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Attiva l&apos;elemento con un solo clic</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -2404,7 +2403,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="604"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation>Vuoi &lt;strong&gt;uscire&lt;/strong&gt;da  CopyQ?</translation>
+        <translation>Vuoi &lt;strong&gt;uscire&lt;/strong&gt;da CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="654"/>
@@ -3099,7 +3098,8 @@ Imposta contenuto Appunti.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>Modifica elementi o elemento nuovo. valore -1 per testo attuale negli Appunti.</translation>
+        <translation>Modifica elementi o elemento nuovo.
+Valore -1 per testo attuale negli Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
@@ -3543,7 +3543,7 @@ Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&g
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Il nome scheda non può essere vuoto e deve essere univoco.&lt;br/&gt;
 La scheda &lt;b&gt;No&amp;amp;ta&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
-Usa &lt;b&gt;/&lt;/b&gt;  come separatore percorso nella vista struttura.</translation>
+Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
