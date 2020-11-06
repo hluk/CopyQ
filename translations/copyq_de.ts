@@ -129,7 +129,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation>Prozess - Manager</translation>
+        <translation>Prozessverwalter</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -1223,7 +1223,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Element mit einem einzigen Klick aktivieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
