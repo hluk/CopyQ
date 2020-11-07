@@ -136,7 +136,7 @@ public:
             trySetPixmap(this, m_data, height);
         }
 
-        if (preview && !pixmap()) {
+        if (preview && !hasPixmap()) {
             setTextInteractionFlags(
                     textInteractionFlags()
                     | Qt::TextSelectableByMouse
@@ -158,7 +158,7 @@ public:
     {
         setFixedWidth(idealWidth);
 
-        if (!m_preview && !pixmap()) {
+        if (!m_preview && !hasPixmap()) {
             const int width = contentsRect().width();
             const QString label =
                     textLabelForData(m_data, font(), QString(), false, width, 1);
@@ -172,6 +172,15 @@ public:
     }
 
 private:
+    bool hasPixmap() const
+    {
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+        return !pixmap(Qt::ReturnByValue).isNull();
+#else
+        return pixmap() != nullptr;
+#endif
+    }
+
     bool m_hasText;
     QVariantMap m_data;
     QString m_imageFormat;

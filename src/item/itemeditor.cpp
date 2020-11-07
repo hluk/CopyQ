@@ -19,6 +19,7 @@
 
 #include "itemeditor.h"
 
+#include "common/action.h"
 #include "common/mimetypes.h"
 #include "common/log.h"
 #include "common/processsignals.h"
@@ -27,7 +28,6 @@
 #include <QDir>
 #include <QFile>
 #include <QHash>
-#include <QProcess>
 #include <QTemporaryFile>
 #include <QTimer>
 
@@ -80,8 +80,8 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
 
 ItemEditor::~ItemEditor()
 {
-    if (m_editor && m_editor->isOpen())
-        m_editor->close();
+    if (m_editor && m_editor->isRunning())
+        m_editor->terminate();
 
     QString tmpPath = m_info.filePath();
     if ( !tmpPath.isEmpty() ) {
@@ -123,41 +123,42 @@ bool ItemEditor::start()
              this, &ItemEditor::onTimer );
 
     // create editor process
-    m_editor = new QProcess(this);
-    connectProcessFinished(m_editor, this, &ItemEditor::close);
-    connectProcessError(m_editor, this, &ItemEditor::onError);
+    m_editor = new Action(this);
+    connect(m_editor, &Action::actionFinished, this, &ItemEditor::close);
 
     // use native path for filename to edit
     const auto nativeFilePath = QDir::toNativeSeparators( m_info.absoluteFilePath() );
-    const auto cmd = m_editorcmd.arg('"' + nativeFilePath + '"');
 
     // execute editor
-    m_editor->start(cmd, QIODevice::ReadOnly);
-    m_editor->closeWriteChannel();
-    m_editor->closeReadChannel(QProcess::StandardOutput);
+    m_editor->setCommand(m_editorcmd, {nativeFilePath});
+    COPYQ_LOG( QString("Starting editor command: %1").arg(m_editor->commandLine()) );
+    m_editor->start();
 
-    return m_editor->waitForStarted(10000);
+    return true;
 }
 
 void ItemEditor::close()
 {
-    // check if file was modified before closing
+    if (m_editor && (m_editor->actionFailed() || m_editor->exitCode() != 0) ) {
+        const QString errorString = m_editor->errorString();
+        if ( !errorString.isEmpty() )
+            log( QString("Editor command error: %1").arg(errorString), LogWarning );
+
+        const int exitCode = m_editor->exitCode();
+        if (exitCode != 0)
+            log( QString("Editor command exit code: %1").arg(exitCode), LogWarning );
+
+        const QString errorOutput = QString::fromUtf8(m_editor->errorOutput());
+        if ( !errorOutput.isEmpty() )
+            log( QString("Editor command stderr: %1").arg(errorOutput), LogWarning );
+
+        if ( m_editor->actionFailed() )
+            emit error( tr("Editor command failed (see logs)") );
+    }
+
     if ( m_modified || wasFileModified() )
         emit fileModified(m_data, m_mime, m_index);
 
-    if (m_editor && m_editor->exitCode() != 0 ) {
-        emitError( tr("editor exit code is %1").arg(m_editor->exitCode()) );
-        const QByteArray errors = m_editor->readAllStandardError();
-        if ( !errors.isEmpty() )
-            emitError( QString::fromUtf8(errors) );
-    }
-
-    emit closed(this, m_index);
-}
-
-void ItemEditor::onError()
-{
-    emitError( m_editor->errorString() );
     emit closed(this, m_index);
 }
 
@@ -185,11 +186,6 @@ bool ItemEditor::wasFileModified()
     }
 
     return false;
-}
-
-void ItemEditor::emitError(const QString &errorString)
-{
-    emit error( tr("Editor command: %1").arg(errorString) );
 }
 
 void ItemEditor::onTimer()

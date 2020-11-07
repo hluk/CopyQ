@@ -82,8 +82,8 @@ ActionDialog::ActionDialog(QWidget *parent)
             this, &ActionDialog::onButtonBoxClicked);
     connect(ui->comboBoxCommands, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ActionDialog::onComboBoxCommandsCurrentIndexChanged);
-    connect(ui->comboBoxInputFormat, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged),
-            this, &ActionDialog::onComboBoxInputFormatCurrentIndexChanged);
+    connect(ui->comboBoxInputFormat, &QComboBox::currentTextChanged,
+            this, &ActionDialog::onComboBoxInputFormatCurrentTextChanged);
     connect(ui->comboBoxOutputFormat, &QComboBox::editTextChanged,
             this, &ActionDialog::onComboBoxOutputFormatEditTextchanged);
     connect(ui->comboBoxOutputTab, &QComboBox::editTextChanged,
@@ -91,7 +91,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     connect(ui->separatorEdit, &QLineEdit::textEdited,
             this, &ActionDialog::onSeparatorEditTextEdited);
 
-    onComboBoxInputFormatCurrentIndexChanged(QString());
+    onComboBoxInputFormatCurrentTextChanged(QString());
     onComboBoxOutputFormatEditTextchanged(QString());
     loadSettings();
 }
@@ -264,7 +264,7 @@ void ActionDialog::onComboBoxCommandsCurrentIndexChanged(int index)
         ui->comboBoxOutputTab->setEditText(values.value(outputTab).toString());
 }
 
-void ActionDialog::onComboBoxInputFormatCurrentIndexChanged(const QString &format)
+void ActionDialog::onComboBoxInputFormatCurrentTextChanged(const QString &format)
 {
     setChangedByUser(ui->comboBoxInputFormat);
 

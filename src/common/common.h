@@ -105,11 +105,6 @@ bool isClipboardData(const QVariantMap &data);
 bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
 
 /**
- * Terminate process or kill if it takes too long.
- */
-void terminateProcess(QProcess *p);
-
-/**
  * Return true only if tabs can accept the drag'n'drop event.
  */
 bool canDropToTab(const QDropEvent &event);

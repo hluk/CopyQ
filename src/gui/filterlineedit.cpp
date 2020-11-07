@@ -30,6 +30,7 @@
 #include "filterlineedit.h"
 
 #include "common/appconfig.h"
+#include "common/compatibility.h"
 #include "common/config.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -135,7 +136,7 @@ QRegularExpression FilterLineEdit::filter() const
     if (m_actionRe->isChecked()) {
         pattern = text();
     } else {
-        for ( const auto &str : text().split(reWhiteSpace, QString::SkipEmptyParts) ) {
+        for ( const auto &str : text().split(reWhiteSpace, SKIP_EMPTY_PARTS) ) {
             if ( !pattern.isEmpty() )
                 pattern.append(".*");
             pattern.append( QRegularExpression::escape(str) );

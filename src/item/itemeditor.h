@@ -26,8 +26,8 @@
 #include <QPersistentModelIndex>
 #include <QString>
 
+class Action;
 class QModelIndex;
-class QProcess;
 class QTimer;
 
 class ItemEditor final : public QObject
@@ -77,14 +77,10 @@ class ItemEditor final : public QObject
          */
         void close();
 
-        void onError();
-
         void onTimer();
 
         /** Return true only if file was modified and reset this status. */
         bool wasFileModified();
-
-        void emitError(const QString &errorString);
 
         QByteArray m_data;
         QString m_mime;
@@ -92,7 +88,7 @@ class ItemEditor final : public QObject
         uint m_hash;
 
         QString m_editorcmd;
-        QProcess *m_editor;
+        Action *m_editor;
         QTimer *m_timer;
 
         QFileInfo m_info;

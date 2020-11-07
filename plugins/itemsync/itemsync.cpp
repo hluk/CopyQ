@@ -22,9 +22,10 @@
 
 #include "filewatcher.h"
 
+#include "common/compatibility.h"
+#include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/contenttype.h"
 #include "common/regexp.h"
 #include "gui/iconselectbutton.h"
 #include "gui/icons.h"
@@ -619,7 +620,7 @@ QVariantMap ItemSyncLoader::applySettings()
     for (int row = 0; row < t->rowCount(); ++row) {
         FileFormat fileFormat;
         fileFormat.extensions = t->item(row, formatSettingsTableColumns::formats)->text()
-                .split( QRegularExpression("[,;\\s]"), QString::SkipEmptyParts );
+                .split( QRegularExpression("[,;\\s]"), SKIP_EMPTY_PARTS );
         fileFormat.itemMime = t->item(row, formatSettingsTableColumns::itemMime)->text();
         if ( fileFormat.extensions.isEmpty() && fileFormat.itemMime.isEmpty() )
             continue;

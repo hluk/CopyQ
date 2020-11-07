@@ -70,7 +70,11 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     connect(ui->checkBoxAntialias, &QCheckBox::stateChanged,
             this, &ConfigTabAppearance::onCheckBoxAntialiasStateChanged);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+    connect(ui->comboBoxThemes, &QComboBox::textActivated,
+#else
     connect(ui->comboBoxThemes, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated),
+#endif
             this, &ConfigTabAppearance::onComboBoxThemesActivated);
 
     // Connect signals from theme buttons.
