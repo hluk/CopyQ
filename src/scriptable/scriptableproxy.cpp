@@ -1257,7 +1257,7 @@ void ScriptableProxy::showMessage(const QString &title,
 
     auto notification = m_wnd->createNotification(notificationId);
     notification->setTitle(title);
-    notification->setMessage(msg);
+    notification->setMessage(msg, Qt::AutoText);
     notification->setIcon(icon);
     notification->setInterval(msec);
     notification->setButtons(buttons);
@@ -2116,24 +2116,23 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     const QFont &font = qApp->font();
     const bool isHidden = data.contains(mimeHidden);
 
+    QString title;
+
     if (data.isEmpty()) {
         notification->setInterval(0);
     } if ( !isHidden && data.contains(mimeText) ) {
         QString text = getTextData(data);
         const int n = text.count('\n') + 1;
 
-        QString format;
         if (n > 1) {
-            format = QObject::tr("%1<br><i> - %n lines - </i>",
-                                 "Notification label for multi-line text in clipboard", n);
+            title = QObject::tr("Text Copied (%n lines)</i>",
+                                 "Notification title for multi-line text in clipboard", n);
         } else {
-            format = QObject::tr("%1", "Notification label for single-line text in clipboard");
+            title = QObject::tr("Text Copied", "Notification title for single-line text in clipboard");
         }
 
         text = elideText(text, font, QString(), false, width, maxLines);
-        text = text.toHtmlEscaped();
-        text.replace( QLatin1String("\n"), QLatin1String("<br />") );
-        notification->setMessage( format.arg(text), Qt::RichText );
+        notification->setMessage(text);
     } else if (!isHidden && imageIndex != -1) {
         QPixmap pix;
         const QString &imageFormat = formats[imageIndex];
@@ -2145,10 +2144,12 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
         notification->setPixmap(pix);
     } else {
+        title = QObject::tr("Data Copied", "Notification title for a copied data in clipboard");
         const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
-        notification->setMessage(text, Qt::PlainText);
+        notification->setMessage(text);
     }
 
+    notification->setTitle(title);
     notification->show();
 }
 

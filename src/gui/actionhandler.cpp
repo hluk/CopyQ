@@ -186,7 +186,7 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 
     auto notification = m_notificationDaemon->createNotification(notificationId);
     notification->setTitle(title);
-    notification->setMessage(msg);
+    notification->setMessage(msg, Qt::PlainText);
     notification->setIcon(icon);
     notification->show();
 }

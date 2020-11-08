@@ -45,7 +45,7 @@ public:
     ~Notification();
 
     void setTitle(const QString &title);
-    void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
+    void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
     void setPixmap(const QPixmap &pixmap);
     void setIcon(const QString &icon);
     void setIcon(ushort icon);
