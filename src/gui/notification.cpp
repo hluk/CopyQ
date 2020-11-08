@@ -165,7 +165,8 @@ void Notification::show()
 
     if (m_notification) {
         update();
-        m_notification->update();
+        if (m_notification)
+            m_notification->update();
         notificationLog("Updated");
         return;
     }
@@ -186,7 +187,8 @@ void Notification::show()
              this, &Notification::onDestroyed );
 
     update();
-    m_notification->sendEvent();
+    if (m_notification)
+        m_notification->sendEvent();
 
     notificationLog("Created");
 }
@@ -240,6 +242,14 @@ void Notification::onActivated()
 
 void Notification::update()
 {
+    if (!m_notification)
+        return;
+
+    if (m_intervalMsec == 0) {
+        close();
+        return;
+    }
+
     m_notification->setTitle(m_title);
     m_notification->setText(m_message);
 
