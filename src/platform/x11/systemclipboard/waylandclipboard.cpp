@@ -192,6 +192,15 @@ DataControlSource::DataControlSource(struct ::zwlr_data_control_source_v1 *id, Q
     : QtWayland::zwlr_data_control_source_v1(id)
     , m_mimeData(mimeData)
 {
+    const QString text = mimeData->text();
+    if (!text.isEmpty()) {
+        const auto data = text.toUtf8();
+        mimeData->setData(QLatin1String("text/plain;charset=utf-8"), data);
+        mimeData->setData(QLatin1String("STRING"), data);
+        mimeData->setData(QLatin1String("TEXT"), data);
+        mimeData->setData(QLatin1String("UTF8_STRING"), data);
+    }
+
     for (const QString &format: mimeData->formats()) {
         offer(format);
     }
