@@ -116,7 +116,6 @@ CommandDialog::CommandDialog(
     , ui(new Ui::CommandDialog)
     , m_pluginCommands(pluginCommands)
     , m_formats(formats)
-    , m_clipboard(platformNativeInterface()->clipboard())
 {
     ui->setupUi(this);
 
@@ -169,11 +168,6 @@ CommandDialog::CommandDialog(
     connect(this, &QDialog::finished, this, &CommandDialog::onFinished);
 
     m_savedCommands = currentCommands();
-
-    m_clipboard->startMonitoring( QStringList(mimeText) );
-    connect( m_clipboard.get(), &PlatformClipboard::changed,
-             this, &CommandDialog::onClipboardChanged );
-    onClipboardChanged();
 }
 
 CommandDialog::~CommandDialog()
@@ -228,7 +222,8 @@ void CommandDialog::tryPasteCommandFromClipboard()
 void CommandDialog::copySelectedCommandsToClipboard()
 {
     const auto commands = serializeSelectedCommands();
-    m_clipboard->setData( ClipboardMode::Clipboard, createDataMap(mimeText, commands) );
+    auto clipboard = platformNativeInterface()->clipboard();
+    clipboard->setData( ClipboardMode::Clipboard, createDataMap(mimeText, commands) );
 }
 
 void CommandDialog::onCommandDropped(const QString &text, int row)
@@ -349,11 +344,6 @@ void CommandDialog::onAddCommands(const QVector<Command> &commands)
     addCommandsWithoutSave(commands, targetRow);
 }
 
-void CommandDialog::onClipboardChanged()
-{
-    ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
-}
-
 void CommandDialog::onCommandTextChanged(const QString &command)
 {
     // Paste commands (starting with [Command] or [Commands]) correctly
@@ -453,7 +443,8 @@ void CommandDialog::updateIcon(int row)
 
 QString CommandDialog::commandsToPaste()
 {
-    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
+    auto clipboard = platformNativeInterface()->clipboard();
+    const QMimeData *data = clipboard->mimeData(ClipboardMode::Clipboard);
     if (data && data->hasText()) {
         const QString text = data->text().trimmed();
         if (hasCommandsToPaste(text))
