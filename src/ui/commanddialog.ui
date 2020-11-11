@@ -87,9 +87,6 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButtonPasteCommands">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="text">
         <string>Paste Commands</string>
        </property>

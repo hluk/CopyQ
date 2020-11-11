@@ -22,7 +22,6 @@
 
 #include "common/command.h"
 #include "common/commandstore.h"
-#include "platform/platformnativeinterface.h"
 
 #include <QDialog>
 
@@ -69,8 +68,6 @@ private:
 
     void onAddCommands(const QVector<Command> &commands);
 
-    void onClipboardChanged();
-
     void onCommandTextChanged(const QString &command);
 
     void onItemOrderListCommandsAddButtonClicked();
@@ -99,8 +96,6 @@ private:
 
     Commands m_pluginCommands;
     QStringList m_formats;
-
-    PlatformClipboardPtr m_clipboard;
 };
 
 #endif // COMMANDDIALOG_H
