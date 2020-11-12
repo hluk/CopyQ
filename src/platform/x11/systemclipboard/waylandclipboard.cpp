@@ -114,7 +114,7 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     wl_display_flush(display);
 
     QFile readPipe;
-    if (readPipe.open(pipeFds[0], QIODevice::ReadOnly)) {
+    if (readPipe.open(pipeFds[0], QIODevice::ReadOnly, QFile::AutoCloseHandle)) {
         QByteArray data;
         if (readData(pipeFds[0], data)) {
             return data;
