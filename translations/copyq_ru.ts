@@ -1222,7 +1222,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Активировать элемент по одному щелчку</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
