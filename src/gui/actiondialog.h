@@ -73,7 +73,7 @@ signals:
 private:
     void onButtonBoxClicked(QAbstractButton* button);
     void onComboBoxCommandsCurrentIndexChanged(int index);
-    void onComboBoxInputFormatCurrentIndexChanged(const QString &format);
+    void onComboBoxInputFormatCurrentTextChanged(const QString &format);
     void onComboBoxOutputFormatEditTextchanged(const QString &text);
     void onComboBoxOutputTabEditTextChanged(const QString &text);
     void onSeparatorEditTextEdited(const QString &text);

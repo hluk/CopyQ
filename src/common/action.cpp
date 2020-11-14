@@ -19,7 +19,6 @@
 
 #include "action.h"
 
-#include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/processsignals.h"
@@ -178,6 +177,18 @@ void pipeThroughProcesses(Iterator begin, Iterator end)
 }
 
 } // namespace
+
+void terminateProcess(QProcess *p)
+{
+    if (p->state() == QProcess::NotRunning)
+        return;
+
+    p->terminate();
+    if ( p->state() != QProcess::NotRunning && !p->waitForFinished(5000) ) {
+        p->kill();
+        p->waitForFinished(5000);
+    }
+}
 
 Action::Action(QObject *parent)
     : QObject(parent)

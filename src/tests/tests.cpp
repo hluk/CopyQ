@@ -20,6 +20,7 @@
 #include "tests.h"
 #include "test_utils.h"
 
+#include "common/action.h"
 #include "common/appconfig.h"
 #include "common/client_server.h"
 #include "common/common.h"
@@ -170,9 +171,15 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     output.remove("QtWarning: QXcbClipboard: SelectionRequest too old");
     output.remove("QtWarning: libpng warning: iCCP: known incorrect sRGB profile");
     output.remove("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain");
+
     output.remove("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry");
+    output.remove("QtWarning: QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event.");
     output.remove("QtWarning: setGeometry: Unable to set geometry");
+
     output.remove("QtWarning: Wayland does not support QWindow::requestActivate()");
+    output.remove("QtWarning: Unexpected wl_keyboard.enter event");
+    output.remove("QtWarning: The compositor sent a wl_pointer.enter");
+
     output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
     output.remove("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)");
 #ifdef Q_OS_MAC
@@ -2606,14 +2613,8 @@ void Tests::externalEditor()
     // The command finishes when the special tab is emptied by this test.
     // File to edit is removed by application when the command finished.
     const auto cmd = QString(
-                R"(
-                    "%1" tab "%2" eval
-                    "add(arguments[1]); while(length()) sleep(100);"
-                )"
-                "--")
-            .arg(QCoreApplication::applicationFilePath())
-            .arg(editorTab)
-            + " %1";
+        R"(copyq tab "%1" eval "add(arguments[1]); while(length()) sleep(100);" --)"
+    ).arg(editorTab) + " %1";
     RUN("config" << "editor" << cmd, cmd + "\n");
 
     // Set clipboard.

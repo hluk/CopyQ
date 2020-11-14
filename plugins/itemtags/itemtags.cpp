@@ -21,6 +21,7 @@
 #include "ui_itemtagssettings.h"
 
 #include "common/command.h"
+#include "common/compatibility.h"
 #include "common/contenttype.h"
 #include "common/regexp.h"
 #include "common/textdata.h"
@@ -138,7 +139,7 @@ QVariant cellWidgetProperty(QTableWidget *table, int row, int column, const char
 QStringList tags(const QVariant &tags)
 {
     return getTextData( tags.toByteArray() )
-            .split(',', QString::SkipEmptyParts);
+            .split(',', SKIP_EMPTY_PARTS);
 }
 
 QStringList tags(const QVariantMap &itemData)
