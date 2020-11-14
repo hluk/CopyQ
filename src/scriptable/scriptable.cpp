@@ -65,6 +65,8 @@
 #include <QThread>
 #include <QTimer>
 
+#include <knotifications_version.h>
+
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
 
@@ -844,6 +846,7 @@ QJSValue Scriptable::version()
     m_skipArguments = 0;
     return tr(programName) + " " COPYQ_VERSION "\n"
             + "Qt: " QT_VERSION_STR "\n"
+            + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
             + "Compiler: "
 #if defined(Q_CC_GNU)
             "GCC"

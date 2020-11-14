@@ -149,11 +149,18 @@ QString AboutDialog::aboutPage()
         "</p>"
 
             + helpLib("Qt Toolkit",
-                      "Copyright (c) 2016 The Qt Company Ltd. and other contributors", "https://www.qt.io/")
+                      "Copyright (c) 2020 The Qt Company Ltd. and other contributors",
+                      "https://www.qt.io/")
+            + helpLib("KDE Frameworks",
+                      "Copyright (c) 2020 KDE Community",
+                      "https://develop.kde.org/products/frameworks/")
+            + helpLib("Snoretoast",
+                      "Copyright (c) 2013 - 2020 Hannah von Reth",
+                      "https://invent.kde.org/libraries/snoretoast")
             + helpLib("Weblate",
-                      "Copyright (c) 2012 - 2017 Michal &#268;iha&#345;", "https://weblate.org")
+                      "Copyright (c) 2012 - 2020 Michal &#268;iha&#345;", "https://weblate.org")
             + helpLib("Font Awesome",
-                      "Copyright (c) 2017 Fonticons, Inc.", "https://fontawesome.com")
+                      "Copyright (c) 2020 Fonticons, Inc.", "https://fontawesome.com")
             + helpLib("LibQxt",
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized",
