@@ -59,7 +59,6 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
 {
     // Clipboard access requires QApplication.
     if ( arguments.size() > 1 && arguments[0] == "--clipboard-access" ) {
-        QGuiApplication::setDesktopSettingsAware(false);
         const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
         setLogLabel(arguments[1].toUtf8());
