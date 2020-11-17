@@ -290,7 +290,7 @@ const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
 struct InputDialog {
-    QDialog *dialog = nullptr;
+    QPointer<QDialog> dialog;
     QVariant defaultChoice; /// Default text for list widgets.
 };
 
@@ -1740,9 +1740,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     INVOKE(inputDialog, (values));
 
     InputDialog inputDialog;
-    const auto dialogPtr = std::make_shared<QDialog>(m_wnd);
-    inputDialog.dialog = dialogPtr.get();
-    QDialog &dialog = *dialogPtr;
+    inputDialog.dialog = new QDialog(m_wnd);
+    QDialog &dialog = *inputDialog.dialog;
 
     QIcon icon;
     QVBoxLayout layout(&dialog);
@@ -1802,12 +1801,15 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
         icon = appIcon();
     dialog.setWindowIcon(icon);
 
-    int dialogId = ++m_lastInputDialogId;
-    connect(&dialog, &QDialog::finished, this, [=]() {
+    const int dialogId = ++m_lastInputDialogId;
+    connect(&dialog, &QDialog::finished, this, [this, dialogId, inputDialog, widgets]() {
+        if (inputDialog.dialog == nullptr)
+            return;
+
         NamedValueList result;
         result.reserve( widgets.size() );
 
-        if ( dialogPtr->result() ) {
+        if ( inputDialog.dialog->result() ) {
             for ( auto w : widgets ) {
                 const QString propertyName = w->property(propertyWidgetProperty).toString();
                 const QString name = w->property(propertyWidgetName).toString();
@@ -1822,6 +1824,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             stream << dialogId << result;
         }
 
+        inputDialog.dialog->deleteLater();
         emit sendMessage(bytes, CommandInputDialogFinished);
     });
 
