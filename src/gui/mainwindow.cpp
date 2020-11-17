@@ -3003,20 +3003,26 @@ bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMa
 
     for (auto it = menuItem.constBegin(); it != menuItem.constEnd(); ++it) {
         const auto key = it.key().toUtf8();
-        if (key == "color" || key == "tag")
+        if (key == "color" || key == "tag" || key == "icon")
             continue;
 
         const auto value = it.value();
-        if (key == "icon") {
-            const QString icon = value.toString();
-            const QString colorName = menuItem.value("color").toString();
-            const QColor color = colorName.isEmpty() ? getDefaultIconColor(*this) : deserializeColor(colorName);
-            const QString tag = menuItem.value("tag").toString();
-            action->setIcon( iconFromFile(icon, tag, color) );
-        } else {
-            action->setProperty(key, value);
-        }
+        action->setProperty(key, value);
     }
+
+    if ( menuItem.contains("tag") || menuItem.contains("icon") ) {
+        QString icon = menuItem.value("icon").toString();
+        if (icon.isEmpty()) {
+            const auto commandAction = qobject_cast<CommandAction*>(action);
+            if (commandAction)
+                icon = commandAction->command().icon;
+        }
+        const QString colorName = menuItem.value("color").toString();
+        const QColor color = colorName.isEmpty() ? getDefaultIconColor(*this) : deserializeColor(colorName);
+        const QString tag = menuItem.value("tag").toString();
+        action->setIcon( iconFromFile(icon, tag, color) );
+    }
+
     const bool enabled = action->isEnabled();
     action->setProperty(propertyActionFilterCommandFailed, !enabled);
 
