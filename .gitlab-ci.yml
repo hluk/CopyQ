@@ -1,5 +1,5 @@
-# Use latest Ubuntu LTS docker image.
-image: ubuntu:xenial
+---
+image: ubuntu:bionic
 
 variables:
   BUILD_DIR: "build"

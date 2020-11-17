@@ -226,7 +226,6 @@ To build the application from source code, first install the required dependenci
 - [CMake](https://cmake.org/download/)
 - [Qt](https://download.qt.io/archive/qt/)
 - optional on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
-- optional [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
 
 ### Install Dependencies
 
@@ -245,7 +244,7 @@ sudo apt install \
   libxfixes-dev \
   libxtst-dev \
   qtbase5-private-dev \
-  qtscript5-dev \
+  qtdeclarative5-dev \
   qttools5-dev \
   qttools5-dev-tools \
   qtwayland5 \
@@ -262,7 +261,7 @@ sudo yum install \
   libXfixes-devel \
   libXtst-devel \
   qt5-qtbase-devel \
-  qt5-qtscript-devel \
+  qt5-qtdeclarative-devel \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
   qt5-qtwayland-devel \

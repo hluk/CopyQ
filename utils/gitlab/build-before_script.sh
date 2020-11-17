@@ -3,12 +3,20 @@ set -ex
 
 apt update
 
-# Build dependencies
-apt -y install g++ cmake make git
-apt -y install qtscript5-dev qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5x11extras5-dev
-
-# Optional: Better support for X11
-apt -y install libxfixes-dev libxtst-dev
-
-# Optional: CMake can get version from git
-apt -y install git
+apt -y install \
+    cmake \
+    extra-cmake-modules \
+    git \
+    libqt5svg5 \
+    libqt5svg5-dev \
+    libqt5waylandclient5-dev \
+    libqt5x11extras5-dev \
+    libwayland-dev \
+    libxfixes-dev \
+    libxtst-dev \
+    qtbase5-private-dev \
+    qtdeclarative5-dev \
+    qttools5-dev \
+    qttools5-dev-tools \
+    qtwayland5 \
+    qtwayland5-dev-tools

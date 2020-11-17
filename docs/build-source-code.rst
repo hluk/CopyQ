@@ -33,17 +33,22 @@ On **Ubuntu** you can install all build dependencies with:
 ::
 
     sudo apt install \
-      git cmake \
+      cmake \
       extra-cmake-modules \
-      qtscript5-dev \
-      qttools5-dev \
-      qttools5-dev-tools \
+      git \
+      libqt5svg5 \
       libqt5svg5-dev \
+      libqt5waylandclient5-dev \
       libqt5x11extras5-dev \
+      libwayland-dev \
       libxfixes-dev \
       libxtst-dev \
-      libqt5svg5 \
-      wayland-dev
+      qtbase5-private-dev \
+      qtdeclarative5-dev \
+      qttools5-dev \
+      qttools5-dev-tools \
+      qtwayland5 \
+      qtwayland5-dev-tools
 
 Fedora / RHEL / Centos
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -52,13 +57,17 @@ On **Fedora** and derivatives you can install all build dependencies with:
 ::
 
     sudo yum install \
-      gcc-c++ git cmake \
+      cmake \
       extra-cmake-modules \
-      libXtst-devel libXfixes-devel \
+      gcc-c++ \
+      git \
+      libXfixes-devel \
+      libXtst-devel \
       qt5-qtbase-devel \
+      qt5-qtdeclarative-devel \
       qt5-qtsvg-devel \
       qt5-qttools-devel \
-      qt5-qtscript-devel \
+      qt5-qtwayland-devel \
       qt5-qtx11extras-devel \
       wayland-devel
 

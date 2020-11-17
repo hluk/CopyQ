@@ -30,6 +30,12 @@ export COPYQ_LOG_FILE="$TESTS_LOG_DIR/copyq.log"
     done
 ) &
 
+# Avoid following warning:
+#     QtWarning: QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+export XDG_RUNTIME_DIR='/tmp/runtime-root'
+mkdir -p "$XDG_RUNTIME_DIR"
+chmod 0700 "$XDG_RUNTIME_DIR"
+
 # Disable encryption tests because exporting GPG key asks for password.
 export COPYQ_TESTS_SKIP_ITEMENCRYPT=1
 

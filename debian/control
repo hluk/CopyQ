@@ -11,7 +11,7 @@ Build-Depends:
  libxtst-dev,
  libqt5x11extras5-dev,
  qtbase5-private-dev,
- qtscript5-dev,
+ qtdeclarative5-dev,
  qttools5-dev,
  qttools5-dev-tools,
  qtwayland5-dev-tools,

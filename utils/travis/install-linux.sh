@@ -6,7 +6,7 @@ packages=(
     qt5-default
 
     qtbase5-private-dev
-    qtscript5-dev
+    qtdeclarative5-dev
     qttools5-dev
     qttools5-dev-tools
 
@@ -14,9 +14,6 @@ packages=(
 
     libqt5svg5-dev
     libqt5svg5
-
-    # web plugin
-    libqt5webkit5-dev
 
     # fixes some issues on X11
     libxfixes-dev
