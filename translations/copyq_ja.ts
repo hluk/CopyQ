@@ -103,7 +103,6 @@
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>保存されたコマンドは、アイテムメニューからアクセスできます。
-
 設定画面でコマンドを設定できます。</translation>
     </message>
 </context>
@@ -1224,7 +1223,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>シングルクリックでアイテムをアクティブにする</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
