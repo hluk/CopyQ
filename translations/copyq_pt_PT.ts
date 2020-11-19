@@ -1222,7 +1222,7 @@ Utilize a &quot;Pré-visualização&quot; para exibir os itens completos.</trans
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Ative o item com um único clique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
