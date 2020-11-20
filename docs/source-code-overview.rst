@@ -189,7 +189,7 @@ Continuous Integration (CI)
 The application binaries and packages are built and tested on multiple
 CI servers.
 
--  `Travis CI <https://travis-ci.org/hluk/CopyQ>`__
+-  `GitHub Actions <https://github.com/hluk/CopyQ/actions>`__
     -  Builds packages for OS X.
     -  Builds and runs tests for Linux binaries.
 
@@ -211,4 +211,4 @@ CI servers.
     -  Builds beta and unstable packages for various Linux distributions.
 
 -  `Coveralls <https://coveralls.io/github/hluk/CopyQ>`__
-    -  Contains coverage report from tests run with Travis CI.
+    -  Contains coverage report from tests run with GitHub Actions.

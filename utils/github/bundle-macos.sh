@@ -1,23 +1,11 @@
 #!/bin/bash
-# Build with Travis CI.
-
-set -exuo pipefail
-
-mkdir -p build
-cd build
-
-cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" \
-    -DWITH_TESTS=ON \
-    ..
-
-cmake --build . --target all
+# Creates macOS bundle.
+set -xeuo pipefail
 
 cpack
 
-app_bundle_path="_CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app"
-executable="$(ls ${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ)"
+app_bundle_path="$(echo _CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app)"
+executable="${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ"
 
 # Test the app before deployment.
 "$executable" --help
@@ -40,8 +28,8 @@ export COPYQ_TESTS_RERUN_FAILED=1
 "$executable" tests
 
 # Print dependencies to let us further make sure that we don't depend on local libraries
-otool -L $executable
-otool -L ${app_bundle_path}/Contents/PlugIns/copyq/*
-otool -L ${app_bundle_path}/Contents/Frameworks/Qt*.framework/Versions/5/Qt*
+otool -L "$executable"
+otool -L "$app_bundle_path/Contents/PlugIns/copyq/"*
+otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/5/Qt*
 
 mv copyq-*.dmg CopyQ.dmg

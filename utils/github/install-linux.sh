@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-set -e -x
+# Installs build dependencies.
+set -xeuo pipefail
 
 packages=(
     qt5-default
@@ -34,7 +34,4 @@ packages=(
     openbox
 )
 
-sudo apt-get install "${packages[@]}"
-
-# Coveralls
-pip install --user 'urllib3[secure]' cpp-coveralls
+sudo apt-get install "${packages[@]}" "$@"

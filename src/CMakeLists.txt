@@ -168,8 +168,12 @@ else()
     get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
 
     # Directories to look for dependencies
-    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS}")
+    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS};${Qt5Widgets_DIR}/../..")
 
+    message(STATUS "Fixup app: ${FIXUP_BUNDLE_APPS}")
+    message(STATUS "Fixup app plugins: ${_copyq_installed_plugins}")
+    message(STATUS "Fixup qt plugins: ${FIXUP_BUNDLE_QT_PLUGINS}")
+    message(STATUS "Fixup dirs: ${FIXUP_BUNDLE_DEP_DIRS}")
     install(CODE "
         include(BundleUtilities)
         set(BU_CHMOD_BUNDLE_ITEMS ON)

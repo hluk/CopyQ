@@ -2,7 +2,8 @@
 
 [![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](https://copyq.readthedocs.io/en/latest/?badge=latest)
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
-[![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
+[![Linux Build Status](https://github.com/hluk/CopyQ/workflows/Linux%20build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22Linux+Build%22)
+[![macOS Build Status](https://github.com/hluk/CopyQ/workflows/macOS%20build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22macOS+Build%22)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
 [![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.svg?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
 
