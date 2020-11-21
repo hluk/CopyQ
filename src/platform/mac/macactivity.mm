@@ -34,7 +34,7 @@ MacActivity::MacActivity(const QString &reason)
         reason:reason.toNSString()];
     if (act) {
         m_activity = reinterpret_cast<void*>(act);
-        ::log(QString("Started Background activity for: %1").arg(reason), LogNote);
+        COPYQ_LOG_VERBOSE(QString("Started Background activity for: %1").arg(reason));
     } else {
         ::log("Failed to create activity", LogWarning);
     }
@@ -44,7 +44,7 @@ MacActivity::~MacActivity() {
     id act = reinterpret_cast<id>(m_activity);
     if (act) {
         [[NSProcessInfo processInfo] endActivity:act];
-        ::log("Ended activity", LogNote);
+        COPYQ_LOG("Ended activity");
     } else {
         ::log("Failed to stop activity", LogWarning);
     }
