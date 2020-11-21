@@ -2368,7 +2368,13 @@ QJSValue Scriptable::setPointerPosition()
     int y = 0;
     if ( !toInt(argument(0), &x) || !toInt(argument(1), &y) )
         return throwError(argumentError());
+
     m_proxy->setPointerPosition(x, y);
+
+    const QPoint pos = m_proxy->pointerPosition();
+    if (pos != QPoint(x, y))
+        return throwError("Failed to set pointer position");
+
     return QJSValue();
 }
 

@@ -957,6 +957,9 @@ omitted.
 
    Moves mouse pointer to given coordinates on screen.
 
+   Throws an exception if the pointer position couldn't be set (e.g.
+   unsupported on current the system).
+
 .. js:function:: String iconColor()
 
    Get current tray and window icon color name.
