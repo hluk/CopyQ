@@ -155,7 +155,7 @@ omitted.
 
    Activates window that was focused before the main window.
 
-   Raises an exception when previous window cannot be activated.
+   Throws an exception when previous window cannot be activated.
 
 .. js:function:: bool preview([true|false])
 
@@ -223,7 +223,7 @@ omitted.
    This also sets ``mimeOwner`` format so automatic commands are not run on
    the new data and it's not stored in clipboard tab.
 
-   Exception is thrown if clipboard fails to be set.
+   Throws an exception if clipboard fails to be set.
 
    Example (set both text and rich text):
 
@@ -236,7 +236,7 @@ omitted.
 
    Sends ``Ctrl+C`` to current window.
 
-   Exception is thrown if clipboard doesn't change (clipboard is reset
+   Throws an exception if clipboard doesn't change (clipboard is reset
    before sending the shortcut).
 
 .. js:function:: copySelection(...)
@@ -478,8 +478,8 @@ omitted.
    Sets multiple application options and return list with values in format
    ``optionName=newValue``.
 
-   Throws an exception if there is an invalid option in which case it won't
-   set any options.
+   Throws an exception if there is an invalid option in which case it won't set
+   any options.
 
 .. js:function:: bool toggleConfig(optionName)
 
@@ -970,7 +970,7 @@ omitted.
 
    Resets color if color name is empty string.
 
-   Throws exception is the color name is not empty and invalid.
+   Throws an exception if the color name is empty or invalid.
 
    .. code-block:: js
 
@@ -999,7 +999,7 @@ omitted.
 
    Set current tray and window tag color name.
 
-   Throws exception is the color name is invalid.
+   Throws an exception if the color name is invalid.
 
 .. js:function:: loadTheme(path)
 
