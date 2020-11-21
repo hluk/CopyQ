@@ -663,6 +663,7 @@ public:
             args.prepend( QString::fromUtf8(argv[0]) );
             exitCode = QTest::qExec(testObject, args);
         }
+        m_failed.clear();
 
         return exitCode;
     }
