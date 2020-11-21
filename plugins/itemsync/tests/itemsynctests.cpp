@@ -33,6 +33,9 @@ using FilePtr = std::shared_ptr<QFile>;
 
 const char sep[] = " ;; ";
 
+const auto clipboardBrowserId = "focus:ClipboardBrowser";
+const auto confirmRemoveDialogId = "focus::QPushButton in :QMessageBox";
+
 QString fileNameForId(int i)
 {
     return QString::fromLatin1("copyq_%1.txt").arg(i, 4, 10, QChar('0'));
@@ -309,20 +312,9 @@ void ItemSyncTests::removeNotOwnedItems()
     RUN(args << "selectItems" << "1" << "2", "true\n");
     RUN(args << "testSelected", tab1.toUtf8() + " 2 1 2\n");
 
-    // Don't accept the "Remove Items?" dialog.
-    RUN(args << "keys" << m_test->shortcutToRemove(), "");
-    RUN(args << "keys" << "ESCAPE", "");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,C,B,A");
-    QCOMPARE( dir1.files().join(sep),
-              fileA
-              + sep + fileB
-              + sep + fileC
-              + sep + fileD
-              );
-
     // Accept the "Remove Items?" dialog.
-    RUN(args << "keys" << m_test->shortcutToRemove(), "");
-    RUN(args << "keys" << "ENTER", "");
+    RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
+    RUN(args << "keys" << confirmRemoveDialogId << "ENTER" << clipboardBrowserId, "");
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,A,,");
     QCOMPARE( dir1.files().join(sep),
               fileA
@@ -335,7 +327,38 @@ void ItemSyncTests::removeNotOwnedItems()
               fileA
               + sep + fileD
               );
+}
 
+void ItemSyncTests::removeNotOwnedItemsCancel()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "separator" << "," << "tab" << tab1;
+
+    const QString fileA = "test1.txt";
+    const QString fileB = "test2.txt";
+
+    TEST(createFile(dir1, fileA, "A"));
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+    TEST(createFile(dir1, fileB, "B"));
+    WAIT_ON_OUTPUT(args << "size", "2\n");
+
+    QCOMPARE(dir1.files().join(sep), fileA + sep + fileB );
+
+    // Move to test tab and select second item.
+    RUN("setCurrentTab" << tab1, "");
+    RUN(args << "selectItems" << "1", "true\n");
+    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
+
+    // Don't accept the "Remove Items?" dialog.
+    RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
+    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
+    RUN(args << "keys" << confirmRemoveDialogId << "ESCAPE" << clipboardBrowserId, "");
+    RUN(args << "read" << "0" << "1", "B,A");
+    QCOMPARE( dir1.files().join(sep), fileA + sep + fileB );
+    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
 }
 
 void ItemSyncTests::removeFiles()

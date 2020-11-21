@@ -44,7 +44,7 @@ MacActivity::~MacActivity() {
     id act = reinterpret_cast<id>(m_activity);
     if (act) {
         [[NSProcessInfo processInfo] endActivity:act];
-        COPYQ_LOG("Ended activity");
+        COPYQ_LOG_VERBOSE("Ended activity");
     } else {
         ::log("Failed to stop activity", LogWarning);
     }

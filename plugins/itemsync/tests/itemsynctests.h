@@ -47,6 +47,7 @@ private slots:
 
     void removeOwnItems();
     void removeNotOwnedItems();
+    void removeNotOwnedItemsCancel();
     void removeFiles();
 
     void modifyItems();
