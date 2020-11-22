@@ -2371,9 +2371,12 @@ QJSValue Scriptable::setPointerPosition()
 
     m_proxy->setPointerPosition(x, y);
 
-    const QPoint pos = m_proxy->pointerPosition();
-    if (pos != QPoint(x, y))
-        return throwError("Failed to set pointer position");
+    // Appearantly, on macOS the pointer position is set only after some time.
+    SleepTimer t(5000);
+    while ( m_proxy->pointerPosition() != QPoint(x, y) ) {
+        if ( !t.sleep() )
+            return throwError("Failed to set pointer position");
+    }
 
     return QJSValue();
 }
