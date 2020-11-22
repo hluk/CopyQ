@@ -35,19 +35,19 @@
  * didn't fail or print error.
  */
 #define TEST(ERRORS_OR_EMPTY) \
-    QVERIFY2( NO_ERRORS(ERRORS_OR_EMPTY), "Failed with errors above." );
+    QVERIFY2( NO_ERRORS(ERRORS_OR_EMPTY), "Failed with errors above." )
 
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
-    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) );
+    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) )
 
 #define RUN_WITH_INPUT(ARGUMENTS, INPUT, STDOUT_EXPECTED) \
-    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED), toByteArray(INPUT)) );
+    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED), toByteArray(INPUT)) )
 
 #define RUN_EXPECT_ERROR(ARGUMENTS, EXIT_CODE) \
-    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE)) );
+    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE)) )
 
 #define RUN_EXPECT_ERROR_WITH_STDERR(ARGUMENTS, EXIT_CODE, STDERR_CONTAINS) \
-    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE), toByteArray(STDERR_CONTAINS)) );
+    TEST( m_test->runClientWithError((Args() << ARGUMENTS), (EXIT_CODE), toByteArray(STDERR_CONTAINS)) )
 
 #define WAIT_FOR_CLIPBOARD(DATA) \
     TEST( m_test->verifyClipboard(DATA, "text/plain") )

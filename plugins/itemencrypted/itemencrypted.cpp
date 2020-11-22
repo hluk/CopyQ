@@ -756,7 +756,7 @@ QObject *ItemEncryptedLoader::tests(const TestInterfacePtr &test) const
     QObject *tests = new ItemEncryptedTests(test);
     return tests;
 #else
-    Q_UNUSED(test);
+    Q_UNUSED(test)
     return nullptr;
 #endif
 }

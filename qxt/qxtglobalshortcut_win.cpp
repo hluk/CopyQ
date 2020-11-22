@@ -39,8 +39,8 @@ bool QxtGlobalShortcutPrivate::eventFilter(void* message)
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     void * message, long * result)
 {
-    Q_UNUSED(eventType);
-    Q_UNUSED(result);
+    Q_UNUSED(eventType)
+    Q_UNUSED(result)
 #endif
     MSG* msg = static_cast<MSG*>(message);
     if (msg->message == WM_HOTKEY)

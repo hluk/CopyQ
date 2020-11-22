@@ -1,6 +1,7 @@
 file(GLOB copyq_plugin_itemfakevim_SOURCES
-    ${copyq_plugin_itemfakevim_SOURCES}
     ../../src/item/itemwidgetwrapper.cpp
+    )
+file(GLOB copyq_plugin_itemfakevim_external_SOURCES
     fakevim/*.cpp
     fakevim/utils/*.cpp
     )
@@ -15,30 +16,3 @@ set(copyq_plugin_itemfakevim_DEFINITIONS
 set(copyq_plugin_itemfakevim_RESOURCES itemfakevim.qrc)
 
 copyq_add_plugin(itemfakevim)
-
-# Disable warnings for 3rd-party source code.
-if (PEDANTIC)
-    if (CMAKE_COMPILER_IS_GNUCXX)
-        set(IGNORE_PEDANTIC_FLAGS "-Wno-suggest-override")
-    else()
-        set(IGNORE_PEDANTIC_FLAGS "-Wno-unused-macros")
-    endif()
-
-    set_source_files_properties(
-        fakevim/fakevimhandler.cpp
-        fakevim/fakevimactions.cpp
-        PROPERTIES COMPILE_FLAGS
-        "\
-        -Wno-shorten-64-to-32 \
-        -Wno-sign-conversion \
-        -Wno-conversion \
-        -Wno-unreachable-code \
-        -Wno-documentation-unknown-command \
-        -Wno-shadow \
-        -Wno-missing-declarations \
-        -Wno-strict-overflow \
-        -Wno-zero-as-null-pointer-constant \
-        ${IGNORE_PEDANTIC_FLAGS} \
-        ")
-endif()
-

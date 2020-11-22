@@ -191,7 +191,7 @@ QApplication *createGuiApplication(int &argc, char **argv)
     //             WM_QUERYENDSESSION (from installer) and similar events.
     auto w = new QWidget();
     auto winId = w->winId();
-    Q_UNUSED(winId);
+    Q_UNUSED(winId)
 
     return app;
 }

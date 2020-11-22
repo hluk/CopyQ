@@ -783,7 +783,7 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
     tests->setProperty("CopyQ_test_settings", settings);
     return tests;
 #else
-    Q_UNUSED(test);
+    Q_UNUSED(test)
     return nullptr;
 #endif
 }

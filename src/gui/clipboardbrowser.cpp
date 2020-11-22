@@ -715,10 +715,10 @@ void ClipboardBrowser::dragDropScroll()
 
     const auto y = mapFromGlobal(QCursor::pos()).y();
     const auto h = viewport()->contentsRect().height();
-    const auto d = h / 4;
+    const auto diff = h / 4;
     const auto scrollAmount =
-            (h < y + d) ? (y + d - h) / 4
-          : (y < d) ? -(d - y) / 4
+            (h < y + diff) ? (y + diff - h) / 4
+          : (y < diff) ? -(diff - y) / 4
           : 0;
 
     if (scrollAmount != 0) {
@@ -824,7 +824,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
         return QPixmap();
 
     const auto ratio = pixelRatio(this);
-    const int frameLineWidth = std::ceil(2 * ratio);
+    const int frameLineWidth = static_cast<int>( std::ceil(2 * ratio) );
 
     const auto height = qMin(maxHeight, h + s + 2 * frameLineWidth);
     const auto width = qMin(maxWidth, viewport()->contentsRect().width() + 2 * frameLineWidth);

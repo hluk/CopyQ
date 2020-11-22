@@ -232,7 +232,7 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     maybePrintFileError(desktopFile2, "Failed to write desktop file");
 #else
-    Q_UNUSED(enable);
+    Q_UNUSED(enable)
 #endif
 }
 

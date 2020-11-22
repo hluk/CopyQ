@@ -56,7 +56,10 @@ const int lightThreshold = 100;
 
 bool sessionIconTagEnabledFlag = true;
 
-QPointer<QObject> activePaintDevice;
+QPointer<QObject> &activePaintDevice() {
+    static QPointer<QObject> activePaintDevice;
+    return activePaintDevice;
+}
 
 QIcon fromTheme(const QString &name)
 {
@@ -355,7 +358,7 @@ QColor colorForMode(QPainter *painter, QIcon::Mode mode)
 {
     auto parent = painter
             ? dynamic_cast<QWidget*>(painter->device())
-            : qobject_cast<QWidget*>(activePaintDevice.data());
+            : qobject_cast<QWidget*>(activePaintDevice().data());
 
     const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
     QColor color = parent ? getDefaultIconColor(*parent, selected) : Qt::darkGray;
@@ -661,7 +664,7 @@ QIcon appIcon()
 
 void setActivePaintDevice(QObject *device)
 {
-    activePaintDevice = device;
+    activePaintDevice() = device;
 }
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected)

@@ -54,7 +54,7 @@ def write_icon_list_header_file(header_icon_list, icons):
         item_list_content = ',\n'.join(items)
         content = dedent('''\
             struct Icon {
-                unsigned int unicode;
+                unsigned short unicode;
                 bool isBrand;
                 const char *searchTerms;
             };

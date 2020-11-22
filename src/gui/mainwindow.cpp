@@ -760,10 +760,10 @@ void MainWindow::createMenu()
     // Open Item Menu
     createAction( Actions::ItemMenu, &MainWindow::showContextMenu, nullptr );
 
-    for (auto menu : menuBar()->findChildren<QMenu*>()) {
-        connect( menu, &QMenu::aboutToShow,
+    for (auto subMenu : menuBar()->findChildren<QMenu*>()) {
+        connect( subMenu, &QMenu::aboutToShow,
                  this, &MainWindow::disableHideWindowOnUnfocus );
-        connect( menu, &QMenu::aboutToHide,
+        connect( subMenu, &QMenu::aboutToHide,
                  this, &MainWindow::enableHideWindowOnUnfocus );
     }
 }

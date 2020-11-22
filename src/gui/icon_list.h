@@ -1,7 +1,7 @@
 // This file is generated with "update_icon_font.py" from FontAwesome's metadata.
 
 struct Icon {
-    unsigned int unicode;
+    unsigned short unicode;
     bool isBrand;
     const char *searchTerms;
 };

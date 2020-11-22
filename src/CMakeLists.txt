@@ -22,17 +22,21 @@ add_definitions(${Qt5Widgets_DEFINITIONS})
 
 include(platform/platform.cmake)
 
+# Compile with tests?
+if (WITH_TESTS)
+    file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
+endif()
+
+set_source_files_properties(
+    ${copyq_SOURCES} PROPERTIES
+    COMPILE_OPTIONS "${copyq_pedantic_flags}")
+
 # Qxt - global shortcuts
 if (USE_QXT)
     set(copyq_SOURCES ${copyq_SOURCES}
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )
-endif()
-
-# Compile with tests?
-if (WITH_TESTS)
-    file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
 endif()
 
 # translations

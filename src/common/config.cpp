@@ -272,7 +272,7 @@ void moveToCurrentWorkspace(QWidget *w)
         w->show();
     }
 #else
-    Q_UNUSED(w);
+    Q_UNUSED(w)
 #endif
 }
 

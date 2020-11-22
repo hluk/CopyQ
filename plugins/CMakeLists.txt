@@ -1,7 +1,7 @@
 macro (copyq_add_plugin copyq_pkg)
-
     file(GLOB copyq_plugin_SOURCES
         ${copyq_plugin_${copyq_pkg}_SOURCES}
+        ${copyq_plugin_${copyq_pkg}_external_SOURCES}
         *.cpp
         ../../src/item/itemwidget.cpp
         )
@@ -9,6 +9,10 @@ macro (copyq_add_plugin copyq_pkg)
         ${copyq_plugin_${copyq_pkg}_FORMS}
         *.ui
         )
+
+    set_source_files_properties(
+        ${copyq_plugin_${copyq_pkg}_SOURCES} PROPERTIES
+        COMPILE_OPTIONS "${copyq_pedantic_flags}")
 
     if (WITH_TESTS)
         file(GLOB copyq_plugin_SOURCES ${copyq_plugin_SOURCES} tests/*.cpp)

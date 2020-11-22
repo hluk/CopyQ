@@ -206,7 +206,6 @@ QVariant ActionTableModel::data(const QModelIndex &index, int role) const
                 }
             }
     } else if (role >= Qt::UserRole) {
-        role -= Qt::UserRole;
         if (role == ActionHandlerRole::sort) {
             const int row = index.row();
             const int column = index.column();

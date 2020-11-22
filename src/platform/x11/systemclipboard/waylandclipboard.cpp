@@ -90,7 +90,7 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     if (!hasFormat(mimeType)) {
         return QVariant();
     }
-    Q_UNUSED(type);
+    Q_UNUSED(type)
 
     int pipeFds[2];
     if (pipe(pipeFds) != 0){

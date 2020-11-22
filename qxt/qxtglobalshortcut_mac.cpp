@@ -43,8 +43,8 @@ static bool qxt_mac_handler_installed = false;
 
 OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event, void* data)
 {
-    Q_UNUSED(nextHandler);
-    Q_UNUSED(data);
+    Q_UNUSED(nextHandler)
+    Q_UNUSED(data)
     if (GetEventClass(event) == kEventClassKeyboard && GetEventKind(event) == kEventHotKeyPressed)
     {
         EventHotKeyID keyID;
@@ -76,9 +76,9 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     void * message, long * result)
 {
-    Q_UNUSED(result);
-    Q_UNUSED(message);
-    Q_UNUSED(eventType);
+    Q_UNUSED(result)
+    Q_UNUSED(message)
+    Q_UNUSED(eventType)
 
     return false;
 }

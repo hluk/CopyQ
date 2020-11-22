@@ -2107,8 +2107,8 @@ QJSValue Scriptable::dialog()
 
 QJSValue Scriptable::menuItems()
 {
-    const auto arg = argument(0);
-    if ( arg.isString() ) {
+    const auto text = argument(0);
+    if ( text.isString() ) {
         m_skipArguments = -1;
         QVector<QVariantMap> items;
         for (const auto &arg : arguments())
@@ -2120,7 +2120,7 @@ QJSValue Scriptable::menuItems()
     }
 
     m_skipArguments = 1;
-    const auto items = fromScriptValue<QVector<QVariantMap>>( arg, this );
+    const auto items = fromScriptValue<QVector<QVariantMap>>(text, this);
     if ( items.isEmpty() )
         return -1;
     return m_proxy->menuItems(items);
@@ -2752,8 +2752,8 @@ void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString 
         : "copyq --clipboard-access synchronizeFromSelection";
     m_proxy->runInternalAction(data, command);
 #else
-    Q_UNUSED(text);
-    Q_UNUSED(sourceMode);
+    Q_UNUSED(text)
+    Q_UNUSED(sourceMode)
 #endif
 }
 
@@ -3410,7 +3410,7 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
 #ifdef HAS_MOUSE_SELECTIONS
 #   define COPYQ_SYNC_LOG(MESSAGE) \
         COPYQ_LOG( QString("Synchronizing to %1: " MESSAGE) \
-                   .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+                   .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") )
 
     if (!verifyClipboardAccess())
         return;
@@ -3470,7 +3470,7 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         provideSelection();
 #   undef COPYQ_SYNC_LOG
 #else
-    Q_UNUSED(targetMode);
+    Q_UNUSED(targetMode)
 #endif
 }
 

@@ -32,7 +32,7 @@ void addMenuItem(
         const QKeySequence &shortcut, const QString &iconName, ushort iconId = 0)
 {
     Q_ASSERT(items.size() == id && "Menu item index must be same as its ID.");
-    Q_UNUSED(id);
+    Q_UNUSED(id)
 
     MenuItem item;
     item.text = text;

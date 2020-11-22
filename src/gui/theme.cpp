@@ -42,17 +42,19 @@ double normalizeFactor(double value)
     return qBound( 0.0, value, 1.0 );
 }
 
-int normalizeColorValue(float value)
+int normalizeColorValue(int value)
 {
-    return qBound( 0, static_cast<int>(value), 255 );
+    return qBound(0, value, 255);
 }
 
 /// Add RGB components properly.
 int addColor(int c1, float multiply, int c2)
 {
+    const float f1 = static_cast<float>(c1);
+    const float f2 = static_cast<float>(c2);
     return multiply > 0.0f
-            ? static_cast<int>( std::sqrt(c1*c1 + multiply * c2*c2) )
-            : c1 + static_cast<int>(multiply * c2);
+            ? static_cast<int>( std::sqrt(f1*f1 + multiply * f2*f2) )
+            : c1 + static_cast<int>(multiply * f2);
 }
 
 void addColor(
@@ -84,8 +86,11 @@ void addColor(
     *r = normalizeColorValue( addColor(*r, x, toAdd.red()) );
     *g = normalizeColorValue( addColor(*g, x, toAdd.green()) );
     *b = normalizeColorValue( addColor(*b, x, toAdd.blue()) );
-    if (multiply > 0.0f)
-        *a = normalizeColorValue(*a + x * toAdd.alpha());
+    if (multiply > 0.0f) {
+        const float fa = static_cast<float>(*a);
+        const float fad = static_cast<float>(toAdd.alpha());
+        *a = normalizeColorValue( static_cast<int>(fa + x * fad) );
+    }
 }
 
 int fitFontWeight(int weight, int low, int high, int highCss)

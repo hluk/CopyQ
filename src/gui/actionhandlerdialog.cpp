@@ -32,7 +32,7 @@ void terminateSelectedActions(QItemSelectionModel *selectionModel, ActionHandler
 {
      QSet<int> ids;
      for ( const auto &index : selectionModel->selectedIndexes() ) {
-         const int actionId = index.data(Qt::UserRole + ActionHandlerRole::id).toInt();
+         const int actionId = index.data(ActionHandlerRole::id).toInt();
          ids.insert(actionId);
      }
      for (const int id : ids)
@@ -44,7 +44,7 @@ void updateTerminateButton(QItemSelectionModel *selectionModel, QAbstractItemMod
      for ( const auto &index : selectionModel->selectedIndexes() ) {
          const int row = index.row();
          const auto statusIndex = model->index(row, 0);
-         const auto state = static_cast<ActionState>(statusIndex.data(Qt::UserRole + ActionHandlerRole::status).toInt());
+         const auto state = static_cast<ActionState>(statusIndex.data(ActionHandlerRole::status).toInt());
          if (state == ActionState::Running || state == ActionState::Starting) {
              button->setEnabled(true);
              return;
@@ -65,7 +65,7 @@ ActionHandlerDialog::ActionHandlerDialog(ActionHandler *actionHandler, QAbstract
     auto proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
     proxyModel->setDynamicSortFilter(true);
-    proxyModel->setSortRole(Qt::UserRole + ActionHandlerRole::sort);
+    proxyModel->setSortRole(ActionHandlerRole::sort);
     proxyModel->setFilterKeyColumn(ActionHandlerColumn::name);
     ui->tableView->setModel(proxyModel);
 

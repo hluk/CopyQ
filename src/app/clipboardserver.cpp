@@ -591,8 +591,8 @@ void ClipboardServer::onNotificationButtonClicked(const NotificationButton &butt
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)
 {
 #ifdef NO_GLOBAL_SHORTCUTS
-    Q_UNUSED(shortcut);
-    Q_UNUSED(command);
+    Q_UNUSED(shortcut)
+    Q_UNUSED(command)
 #else
     auto s = new QxtGlobalShortcut(shortcut, this);
     if (!s->isValid()) {
@@ -721,7 +721,7 @@ void ClipboardServer::loadSettings()
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
 #ifdef NO_GLOBAL_SHORTCUTS
-    Q_UNUSED(shortcut);
+    Q_UNUSED(shortcut)
 #else
     m_ignoreKeysTimer.start();
 

@@ -79,7 +79,7 @@ public:
 
     static int qxtX11ErrorHandler(Display* display, XErrorEvent *event)
     {
-        Q_UNUSED(display);
+        Q_UNUSED(display)
         switch (event->error_code)
         {
             case BadAccess:
@@ -227,7 +227,7 @@ bool QxtGlobalShortcutPrivate::eventFilter(void* message)
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     void * message, long * result)
 {
-    Q_UNUSED(result);
+    Q_UNUSED(result)
 
     xcb_key_press_event_t *kev = nullptr;
     if (eventType == "xcb_generic_event_t") {

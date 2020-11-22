@@ -1,6 +1,8 @@
 #ifndef ACTIONHANDLERENUMS_H
 #define ACTIONHANDLERENUMS_H
 
+#include <QtGlobal>
+
 enum class ActionState {
     Starting,
     Running,
@@ -22,7 +24,7 @@ enum {
 
 namespace ActionHandlerRole {
 enum {
-    sort,
+    sort = Qt::UserRole,
     status,
     id
 };

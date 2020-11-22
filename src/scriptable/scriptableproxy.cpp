@@ -121,27 +121,30 @@ void registerMetaTypes() {
 
 #define STR(str) str
 
-#define INVOKE_(function, arguments, functionCallId) \
+#define INVOKE_(function, arguments, functionCallId) do { \
     static const auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
     const auto args = f.argumentList arguments; \
-    emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall)
+    emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall); \
+} while(false)
 
-#define INVOKE(FUNCTION, ARGUMENTS) \
+#define INVOKE(FUNCTION, ARGUMENTS) do { \
     if (!m_wnd) { \
         using Result = decltype(FUNCTION ARGUMENTS); \
         const auto functionCallId = ++m_lastFunctionCallId; \
         INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
         const auto result = waitForFunctionCallFinished(functionCallId); \
         return result.value<Result>(); \
-    }
+    } \
+} while(false)
 
-#define INVOKE2(FUNCTION, ARGUMENTS) \
+#define INVOKE2(FUNCTION, ARGUMENTS) do { \
     if (!m_wnd) { \
         const auto functionCallId = ++m_lastFunctionCallId; \
         INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
         waitForFunctionCallFinished(functionCallId); \
         return; \
-    }
+    } \
+} while(false)
 
 Q_DECLARE_METATYPE(QFile*)
 
@@ -1340,7 +1343,7 @@ void ScriptableProxy::browserMoveSelected(int targetRow)
         return;
 
     QModelIndexList indexes;
-    for (const auto index : selected)
+    for (const auto &index : selected)
         indexes.append(index);
     c->move(indexes, targetRow);
 }
@@ -1794,8 +1797,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
     layout.addWidget(buttons);
 
-    installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Enter);
-    installShortcutToCloseDialog(&dialog, &dialog, Qt::CTRL | Qt::Key_Return);
+    installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Enter);
+    installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Return);
 
     if (icon.isNull())
         icon = appIcon();

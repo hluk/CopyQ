@@ -189,7 +189,7 @@ void Notification::updateIcon()
 
     auto pixmap = iconId == 0
             ? QPixmap(m_icon)
-            : createPixmap(iconId, color, height * ratio);
+            : createPixmap(iconId, color, static_cast<int>(height * ratio));
 
     pixmap.setDevicePixelRatio(ratio);
 

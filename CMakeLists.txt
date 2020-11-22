@@ -64,64 +64,63 @@ endif()
 
 if (PEDANTIC)
     if (CMAKE_COMPILER_IS_GNUCXX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall \
-            -Wsuggest-override \
-            -Wlogical-op \
-            -Wnoexcept \
-            -Wstrict-null-sentinel \
-            ")
+        list(APPEND copyq_pedantic_flags
+            -Wextra -Wall
+            -Wsuggest-override
+            -Wlogical-op
+            -Wnoexcept
+            -Wstrict-null-sentinel
+            )
     else()
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything \
-            -Winconsistent-missing-override \
-            ")
+        list(APPEND copyq_pedantic_flags
+            -Weverything
+            -Winconsistent-missing-override
+            )
 
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-            -Wno-c++98-compat \
-            -Wno-c++98-compat-pedantic \
-            -Wno-shadow-field-in-constructor \
-            -Wno-weak-vtables \
-            -Wno-disabled-macro-expansion \
-            -fcomment-block-commands=retval \
-            ")
-
-        # Disable errors from moc-generated files.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-            -Wno-undefined-reinterpret-cast \
-            -Wno-missing-prototypes \
-            ")
-
-        # Disable errors from qrc-generated files.
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-            -Wno-exit-time-destructors \
-            -Wno-global-constructors \
-            ")
+        list(APPEND copyq_pedantic_flags
+            -Wno-c++98-compat
+            -Wno-c++98-compat-pedantic
+            -Wno-disabled-macro-expansion
+            -Wno-exit-time-destructors
+            -Wno-extra-semi-stmt
+            -Wno-redundant-parens
+            -Wno-shadow-field
+            -Wno-shadow-field-in-constructor
+            -Wno-shorten-64-to-32
+            -Wno-sign-conversion
+            -Wno-suggest-destructor-override
+            -Wno-unknown-warning-option
+            -Wno-used-but-marked-unused
+            -Wno-weak-vtables
+            -fcomment-block-commands=retval
+            )
     endif()
 
-    set(CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -pedantic -Werror \
-        -Wcast-align \
-        -Wctor-dtor-privacy \
-        -Wdisabled-optimization \
-        -Wformat=2 \
-        -Winit-self \
-        -Wmissing-declarations \
-        -Wmissing-include-dirs \
-        -Wold-style-cast \
-        -Woverloaded-virtual \
-        -Wredundant-decls \
-        -Wstrict-overflow=4 \
-        -Wundef \
-        ")
+    list(APPEND copyq_pedantic_flags
+        -pedantic
+        -Wcast-align
+        -Wctor-dtor-privacy
+        -Wdisabled-optimization
+        -Wformat=2
+        -Winit-self
+        -Wmissing-declarations
+        -Wmissing-include-dirs
+        -Wold-style-cast
+        -Woverloaded-virtual
+        -Wredundant-decls
+        -Wstrict-overflow=4
+        -Wundef
+        )
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-        -Wno-padded \
-        -Wno-switch-enum \
-        ")
+    list(APPEND copyq_pedantic_flags
+        -Wno-padded
+        -Wno-switch-enum
+        )
 
     # Disable Q_OBJECT macro warnings.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
-        -Wno-unused-member-function \
-        ")
+    list(APPEND copyq_pedantic_flags
+        -Wno-unused-member-function
+        )
 endif()
 
 if(WITH_TESTS)
