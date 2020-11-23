@@ -94,12 +94,12 @@
         <translation>Salve itens na aba com o nome dado (deixe em branco para economizar na aba atual)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="220"/>
+        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
         <translation>Comando Salvo</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="221"/>
+        <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Comando foi salvo e pode ser acessado a partir do item menu.
@@ -347,12 +347,12 @@ Você pode configurar o comando nas preferências.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="130"/>
+        <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Não é possível conectar ao servidor! Comece servidor CopyQ primeiro.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="123"/>
+        <location filename="../src/app/clipboardclient.cpp" line="122"/>
         <source>Connection lost!</source>
         <translation>Conexão perdida!</translation>
     </message>
@@ -380,12 +380,12 @@ Você pode configurar o comando nas preferências.</translation>
         <translation>Remover Formatação</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
         <translation>Teor dos itens</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
         <translation>&lt;strong&gt;Tamanho:&lt;/strong&gt; %1 bytes</translation>
@@ -466,37 +466,37 @@ Você pode configurar o comando nas preferências.</translation>
         <translation>Copiar selecionado</translation>
     </message>
     <message>
-        <location filename="../src/ui/commanddialog.ui" line="94"/>
+        <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
         <translation>Colar comandos</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="212"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Unsaved Changes</source>
         <translation>Alterações não salvas</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="212"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>Diálogo de comandos tem mudanças não salvas.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="288"/>
+        <location filename="../src/gui/commanddialog.cpp" line="274"/>
         <source>Open Files with Commands</source>
         <translation>Abrir arquivos com comandos</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="289"/>
+        <location filename="../src/gui/commanddialog.cpp" line="275"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Comandos (* ini) ;; Configuração CopyQ (copyq.conf copyq - *. Conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="300"/>
+        <location filename="../src/gui/commanddialog.cpp" line="286"/>
         <source>Save Selected Commands</source>
         <translation>Salve comandos selecionados</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="301"/>
+        <location filename="../src/gui/commanddialog.cpp" line="287"/>
         <source>Commands (*.ini)</source>
         <translation>Comandos (* ini)</translation>
     </message>
@@ -919,55 +919,55 @@ Nota: Se este é aplicado automaticamente, não serão executados outros comando
         <translation>Visualização:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="441"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>item</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="443"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="447"/>
         <source>Search string is %1.</source>
         <translation>O termo de pesquisa é %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="444"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="448"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Selecione um item e
 pressione F2 para editar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="446"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Example item %1</source>
         <translation>Produto Exemplo %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="455"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Algumas notas aleatórias (Shift + F2 para editar)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="134"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="138"/>
         <source>Open Theme File</source>
         <translation>Abrir Arquivo de Tema</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="144"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="148"/>
         <source>Save Theme File As</source>
         <translation>Salvar Arquivo de Tema Como</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="163"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="167"/>
         <source>No External Editor</source>
         <translation>Nenhum editor externo</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="164"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="168"/>
         <source>Set external editor command first!</source>
         <translation>Defina o comando do editor externo primeiro!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="364"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="368"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1717,14 +1717,17 @@ Defina como 0 para desativar.</translation>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="149"/>
         <source>editor exit code is %1</source>
-        <translation>o código de saída do editor é %1</translation>
+        <translation type="vanished">o código de saída do editor é %1</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation>Comando do editor: %1</translation>
+        <translation type="vanished">Comando do editor: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemeditor.cpp" line="156"/>
+        <source>Editor command failed (see logs)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2144,18 +2147,18 @@ Defina como 0 para desativar.</translation>
 <context>
     <name>ItemSyncLoader</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="124"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="125"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>Procurar...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="814"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="815"/>
         <source>Open Directory for Synchronization</source>
         <translation>Abrir Pasta para Sincronização</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="828"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="829"/>
         <source>Failed to create synchronization directory</source>
         <translation>Falha ao criar pasta de sincronização</translation>
     </message>
@@ -2173,17 +2176,17 @@ Defina como 0 para desativar.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="493"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Falha ao sincronizar a aba &quot;%1&quot; com a pasta &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Remove Items?</source>
         <translation>Remover Itens?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Deseja realmente &lt;strong&gt;remover os itens e os arquivos associados&lt;/strong&gt;?</translation>
     </message>
@@ -2254,33 +2257,33 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="156"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="157"/>
         <source>Add a Tag</source>
         <translation>Adicionar Tag</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="161"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Remove a Tag</source>
         <translation>Remover Tag</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="180"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="181"/>
         <source>Tag as %1</source>
         <translation>Definir tag %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
         <source>Remove tag %1</source>
         <translation>Remover tag %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="696"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="697"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Importante</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="717"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
         <source>Clear all tags</source>
         <translation>Limpar todas as tags</translation>
     </message>
@@ -2367,22 +2370,19 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
 <context>
     <name>ItemWebLoader</name>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="vanished">Web</translation>
     </message>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation>Exibir páginas da web.</translation>
+        <translation type="vanished">Exibir páginas da web.</translation>
     </message>
 </context>
 <context>
     <name>ItemWebSettings</name>
     <message>
-        <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Altura máxima em pixels (0 para definir como sem limite):</translation>
+        <translation type="vanished">Altura máxima em pixels (0 para definir como sem limite):</translation>
     </message>
 </context>
 <context>
@@ -2492,17 +2492,17 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
         <translation>Erro do CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3569"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3580"/>
         <source>Options for Export</source>
         <translation>Opções para Exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3590"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3601"/>
         <source>Export Error</source>
         <translation>Erro de Exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3591"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3602"/>
         <source>Failed to export file %1!</source>
         <translation>Falha ao exportar arquivo %1!</translation>
     </message>
@@ -2518,32 +2518,32 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
         <translation>Itens do CopyQ (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3694"/>
         <source>Import Error</source>
         <translation>Erro de Importação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3681"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3695"/>
         <source>Failed to import file %1!</source>
         <translation>Falha ao importar arquivo %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3853"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3867"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Remover todas as abas do grupo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3854"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3868"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover &lt;strong&gt;todas as abas&lt;/strong&gt; do grupo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3901"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3915"/>
         <source>Remove Tab?</source>
         <translation>Remover aba?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3902"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3916"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover a aba &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2551,7 +2551,7 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="496"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="530"/>
         <source>Information</source>
         <translation>Informação</translation>
     </message>
@@ -2559,13 +2559,13 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="560"/>
+        <location filename="../src/common/common.cpp" line="540"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;OCULTO&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="566"/>
+        <location filename="../src/common/common.cpp" line="546"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2574,25 +2574,25 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="576"/>
+        <location filename="../src/common/common.cpp" line="556"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMAGEM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="578"/>
+        <location filename="../src/common/common.cpp" line="558"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="580"/>
+        <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;VAZIO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="582"/>
+        <location filename="../src/common/common.cpp" line="562"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DADOS&gt;</translation>
@@ -2610,7 +2610,7 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
         <translation>Delete</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2110"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2131"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2619,7 +2619,7 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2113"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2134"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -2966,7 +2966,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
         <translation>A&amp;juda</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="399"/>
+        <location filename="../src/item/itemfactory.cpp" line="414"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>A aba %1 está corrompida ou alguns plugins do CopyQ estão faltando!</translation>
     </message>
@@ -3395,34 +3395,34 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation>Número inválido de argumentos!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="827"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
         <translation>Comando não encontrado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="927"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="987"/>
         <source>Terminating server.
 </source>
         <translation>Finalizando servidor.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2830"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
         <source>Exception</source>
         <translation>Exceção</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2831"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
         <source>Exception in %1</source>
         <translation>Exceção em %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2874"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Falha ao copiar para a área de transferência!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="729"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="756"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Não foi possível salvar o arquivo &quot;%1&quot;!</translation>
     </message>
@@ -3432,12 +3432,12 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation>  - Use o argumento traço (-) para ler os dados da entrada padrão.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="734"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="761"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Não foi possível importar o arquivo &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1417"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Opção inválida &quot;%1&quot;!</translation>
     </message>
@@ -3445,17 +3445,17 @@ Imprimir versão do programa e bibliotecas.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="596"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="623"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>A aba com o nome informado não existe!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="601"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="628"/>
         <source>Tab name cannot be empty!</source>
         <translation>O nome da aba não pode estar vazio!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1118"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1136"/>
         <source>Tab with given name already exists!</source>
         <translation>Uma aba com esse nome já existe!</translation>
     </message>
@@ -3614,12 +3614,12 @@ Use &lt;b&gt;/&lt;/b&gt; como serapador de caminho na visualização em árvore 
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="118"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Regular Expression</source>
         <translation>Expressão Regular</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="121"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="122"/>
         <source>Case Insensitive</source>
         <translation>Não diferenciar maiúsculas de minúsculas</translation>
     </message>

@@ -94,12 +94,12 @@
         <translation>Spremi elemente u karticu sa zadanim imenom (ostavi prazno za spremanje u trenutačnu karticu)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="220"/>
+        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
         <translation>Naredba spremljena</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="221"/>
+        <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Naredba je spremljena i može joj se pristupiti u izborniku elemenata.
@@ -339,12 +339,12 @@ Naredbu je moguće postaviti u postavkama.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="123"/>
+        <location filename="../src/app/clipboardclient.cpp" line="122"/>
         <source>Connection lost!</source>
         <translation>Veza izgubljena!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="130"/>
+        <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Nije moguće povezati se s poslužiteljem. Najprije pokreni poslužitelj CopyQ-a.</translation>
     </message>
@@ -372,12 +372,12 @@ Naredbu je moguće postaviti u postavkama.</translation>
         <translation>Ukloni format</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="106"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
         <translation>Sadržaj elementa</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboarddialog.cpp" line="173"/>
+        <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
         <translation>&lt;strong&gt;Veličina:&lt;/strong&gt; %1 bajta</translation>
@@ -453,37 +453,37 @@ Naredbu je moguće postaviti u postavkama.</translation>
         <translation>Kopiraj odabrano</translation>
     </message>
     <message>
-        <location filename="../src/ui/commanddialog.ui" line="94"/>
+        <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
         <translation>Umetni naredbe</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="212"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Unsaved Changes</source>
         <translation>Nespremljene promjene</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="212"/>
+        <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>Dijalog naredbi sadrži nespremljene promjene.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="288"/>
+        <location filename="../src/gui/commanddialog.cpp" line="274"/>
         <source>Open Files with Commands</source>
         <translation>Otvori datoteke s naredbama</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="289"/>
+        <location filename="../src/gui/commanddialog.cpp" line="275"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Naredbe (*.ini);; CopyQ konfiguracija (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="300"/>
+        <location filename="../src/gui/commanddialog.cpp" line="286"/>
         <source>Save Selected Commands</source>
         <translation>Spremi odabrane naredbe</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="301"/>
+        <location filename="../src/gui/commanddialog.cpp" line="287"/>
         <source>Commands (*.ini)</source>
         <translation>Naredbe (*.ini)</translation>
     </message>
@@ -906,56 +906,56 @@ Napomena: Ako se ovo automatski primijeni, ostale automatske naredbe se ne izvr�
         <translation>Pretprikaz:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="134"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="138"/>
         <source>Open Theme File</source>
         <translation>Otvori datoteku teme</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="144"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="148"/>
         <source>Save Theme File As</source>
         <translation>Spremi datoteku teme kao</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="163"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="167"/>
         <source>No External Editor</source>
         <translation>Nema vanjskog uređivača</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="164"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="168"/>
         <source>Set external editor command first!</source>
         <translation>Najprije postavi naredbu za vanjski uređivač!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="364"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="368"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="441"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>element</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="443"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="447"/>
         <source>Search string is %1.</source>
         <translation>Znakovni niz za pretragu je „%1”.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="444"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="448"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Odaberi element i
 pritisni F2 za uređivanje.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="446"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Example item %1</source>
         <translation>Element primjera %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="451"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="455"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Neke slučajno odabrane napomene (Shift+F2 za uređivanje)</translation>
     </message>
@@ -1704,14 +1704,17 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="149"/>
         <source>editor exit code is %1</source>
-        <translation>kod za zatvaranje uređivača je „%1”</translation>
+        <translation type="vanished">kod za zatvaranje uređivača je „%1”</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="192"/>
         <source>Editor command: %1</source>
-        <translation>Naredba za uređivač: %1</translation>
+        <translation type="vanished">Naredba za uređivač: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemeditor.cpp" line="156"/>
+        <source>Editor command failed (see logs)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2131,18 +2134,18 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>ItemSyncLoader</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="124"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="125"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>Pregledaj …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="814"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="815"/>
         <source>Open Directory for Synchronization</source>
         <translation>Otvori mapu za sinkronizaciju</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="828"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="829"/>
         <source>Failed to create synchronization directory</source>
         <translation>Neuspjelo stvaranje mape za sinkronizaciju</translation>
     </message>
@@ -2160,17 +2163,17 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="493"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Neuspjelo sinkroniziranje kartice „%1” s mapom „%2”!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="528"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Remove Items?</source>
         <translation>Ukloniti elemente?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Zaista želiš &lt;strong&gt;ukloniti elemente i povezane datoteke&lt;/strong&gt;?</translation>
     </message>
@@ -2225,33 +2228,33 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="156"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="157"/>
         <source>Add a Tag</source>
         <translation>Dodaj oznaku</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="161"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Remove a Tag</source>
         <translation>Ukloni oznaku</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="180"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="181"/>
         <source>Tag as %1</source>
         <translation>Označi kao „%1”</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
         <source>Remove tag %1</source>
         <translation>Ukloni oznaku „%1”</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="696"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="697"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Važno</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="717"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
         <source>Clear all tags</source>
         <translation>Ukloni sve oznake</translation>
     </message>
@@ -2338,22 +2341,19 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>ItemWebLoader</name>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="90"/>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation type="vanished">Web</translation>
     </message>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="92"/>
         <source>Display web pages.</source>
-        <translation>Prikaži web-stranice.</translation>
+        <translation type="vanished">Prikaži web-stranice.</translation>
     </message>
 </context>
 <context>
     <name>ItemWebSettings</name>
     <message>
-        <location filename="../plugins/itemweb/itemwebsettings.ui" line="19"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Maksimalna visina u pikselima (0 za neograničenu):</translation>
+        <translation type="vanished">Maksimalna visina u pikselima (0 za neograničenu):</translation>
     </message>
 </context>
 <context>
@@ -2470,47 +2470,47 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <translation>CopyQ greška</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3569"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3580"/>
         <source>Options for Export</source>
         <translation>Opcije za izvoz</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3590"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3601"/>
         <source>Export Error</source>
         <translation>Greška izvoza</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3591"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3602"/>
         <source>Failed to export file %1!</source>
         <translation>Neuspio izvoz datoteke „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3680"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3694"/>
         <source>Import Error</source>
         <translation>Greška uvoza</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3681"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3695"/>
         <source>Failed to import file %1!</source>
         <translation>Neuspio uvoz datoteke „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3853"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3867"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ukloniti sve kartice iz grupe?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3854"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3868"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Želiš li ukloniti &lt;strong&gt;sve kartice&lt;/strong&gt; u grupi &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3901"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3915"/>
         <source>Remove Tab?</source>
         <translation>Ukloniti karticu?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3902"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3916"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Želiš li ukloniti karticu &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2518,7 +2518,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="496"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="530"/>
         <source>Information</source>
         <translation>Podaci</translation>
     </message>
@@ -2532,13 +2532,13 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <translation>&amp;međuspremnik</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="560"/>
+        <location filename="../src/common/common.cpp" line="540"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;SKRIVENO&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="566"/>
+        <location filename="../src/common/common.cpp" line="546"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2548,25 +2548,25 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="576"/>
+        <location filename="../src/common/common.cpp" line="556"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;SLIKA&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="578"/>
+        <location filename="../src/common/common.cpp" line="558"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ELEMENTI&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="580"/>
+        <location filename="../src/common/common.cpp" line="560"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;PRAZNO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="582"/>
+        <location filename="../src/common/common.cpp" line="562"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;PODACI&gt;</translation>
@@ -2908,7 +2908,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <translation>Shift+F10</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="399"/>
+        <location filename="../src/item/itemfactory.cpp" line="414"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>Kartica „%1” je pokvarena ili neki CopyQ dodaci nedostaju!</translation>
     </message>
@@ -2920,7 +2920,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2110"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2131"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
@@ -2930,7 +2930,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2113"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2134"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3313,44 +3313,44 @@ Standardno se koristi prva kartica.</translation>
         <translation>Neispravan broj argumenata!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="729"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="756"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Nije moguće spremiti datoteku „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="734"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="761"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Nije moguće uvesti datoteku „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="827"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
         <translation>Naredba nije pronađena!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="927"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="987"/>
         <source>Terminating server.
 </source>
         <translation>Poslužitelj se prekida.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1417"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Neispravna opcija „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2830"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
         <source>Exception</source>
         <translation>Iznimka</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2831"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
         <source>Exception in %1</source>
         <translation>Iznimka u %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2874"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Neuspjelo kopiranje u međuspremnik!</translation>
     </message>
@@ -3358,17 +3358,17 @@ Standardno se koristi prva kartica.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="596"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="623"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Kartica sa zadanim imenom ne postoji!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="601"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="628"/>
         <source>Tab name cannot be empty!</source>
         <translation>Ime kartice ne može biti prazno!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1118"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1136"/>
         <source>Tab with given name already exists!</source>
         <translation>Kartica sa zadanim imenom već postoji!</translation>
     </message>
@@ -3509,12 +3509,12 @@ Koristi &lt;b&gt;/&lt;/b&gt; kao znak razdvajanja staza u stablastom prikazu kar
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="118"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Regular Expression</source>
         <translation>Regularni izraz</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="121"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="122"/>
         <source>Case Insensitive</source>
         <translation>Bez razlikovanja velikih/malih slova</translation>
     </message>
