@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Σχετικά</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχειριστής προχείρου</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργός</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Ηλ. αλληλογραφία</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιστός</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Δωρεά</translation>
     </message>
 </context>
 <context>
@@ -39,69 +39,71 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάλογος ενέργειας</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ε&amp;ντολή:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Τυπική εί&amp;σοδος:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση της τυπικής ε&amp;ξόδου:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποστολή των δεδομένων του δοθέντος τύπου μέσου στην τυπική είσοδο της εντολής (αφήστε το κενό για απενεργοποίηση)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία αντικειμένων από την τυπική έξοδο του προγράμματος (αφήστε το κενό για απενεργοποίηση)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Διαχωριστικό νέων αντικειμένων:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Κανονική έκφραση για τον διαχωρισμό της εξόδου σε περισσότερα αντικείμενα.&lt;\p&gt;
+&lt;p&gt;Χρησιμοποιήστε το &lt;b&gt;\n&lt;/b&gt; για την αποθήκευση κάθε γραμμής σε διαφορετικό αντικείμενο.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Καρτέλα εξόδου:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση των αντικειμένων σε καρτέλα με το δοθέν όνομα (αφήστε το κενό για αποθήκευση στην τρέχουσα καρτέλα)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση εντολής</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εντολή αποθηκεύτηκε και μπορεί να προσπελαστεί από το μενού αντικειμένων.
+Μπορείτε να ρυθμίσετε την εντολή από τις προτιμήσεις.</translation>
     </message>
 </context>
 <context>
@@ -109,17 +111,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Κώδικας εξόδου: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="176"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή %1</translation>
     </message>
 </context>
 <context>
@@ -127,17 +129,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχειριστής διεργασιών</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Φίλτρο</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Τερματισμός των επιλεγμένων</translation>
     </message>
 </context>
 <context>
@@ -145,175 +147,175 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη εντολών</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση/απόκρυψη του κύριου παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του μενού του πλαισίου συστήματος</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του κυρίου παραθύρου κάτω από τον δρομέα του ποντικιού</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία του προχείρου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία του πρώτου αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή του δεύτερου αντικείμενου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του διαλόγου ενέργειας</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία νέου αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή επόμενου αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή προηγούμενου αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση προχείρου ως απλό κείμενο</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση της αποθήκευσης του προχείρου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση της αποθήκευσης του προχείρου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση και αντιγραφή του επόμενου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση και αντιγραφή του προηγμένου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Λήψη ενός στιγμιότυπου</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση της τρέχουσας ημερομηνίας και ώρας</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέα εντολή</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγνόηση των αντικειμένων με έναν ή κανέναν χαρακτήρα</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα στον &amp;φυλλομετρητή</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση ως απλό κείμενο</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτόματη αναπαραγωγή των βίντεο</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή της διευθύνσεως ιστού (URL) σε άλλη καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία εικόνας επισκόπησης (απαιτείται το ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία κωδικού QR από το URL (απαιτείται το qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Εργασίες</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη στην καρτέλα %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση στην καρτέλα %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγνόηση των αντιγραμμένων αρχείων</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Αγνόηση του παραθύρου *&quot;Κωδικός πρόσβασης&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικός πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση στα απορρίμματα</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(απορρίμματα)</translation>
     </message>
 </context>
 <context>
@@ -321,17 +323,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η προσθήκη νέων αντικειμένων στην καρτέλα %1. Παρακαλώ αφαιρέστε τα αντικείμενα χειροκίνητα για να δημιουργήσετε χώρο.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόρριψη των αλλαγών;</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε πραγματικά την &lt;strong&gt;απόρριψη των αλλαγών&lt;/strong&gt;;</translation>
     </message>
 </context>
 <context>
@@ -339,12 +341,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η σύνδεση χάθηκε!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η σύνδεση στην εξυπηρετητή! Εκκινήστε πρωτίστως τον εξυπηρετητή CopyQ.</translation>
     </message>
 </context>
 <context>
@@ -352,17 +354,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Περιεχόμενο του προχείρου</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μορφές</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Περιεχόμενο:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
@@ -372,13 +374,13 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Περιεχόμενο του αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;Μέγεθος:&lt;/strong&gt; %1 δυφιοσυλλαβές</translation>
     </message>
 </context>
 <context>
@@ -386,7 +388,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="119"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο εξυπηρετητής CopyQ εκτελείται ήδη.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="365"/>
@@ -423,7 +425,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολές</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -433,7 +435,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εύρεση:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
@@ -458,7 +460,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="196"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μη αποθηκευμένες αλλαγές</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="196"/>
@@ -522,7 +524,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
@@ -535,7 +537,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ό&amp;νομα:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
@@ -545,22 +547,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="62"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Συντόμευση:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="100"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Καθολική συντόμευση:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="143"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εντολή</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="175"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Για προχωρημένους</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
@@ -576,7 +578,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
         <source>Auto&amp;matic</source>
         <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αυτόματο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
@@ -599,13 +601,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σενάριο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="271"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
@@ -615,7 +617,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Περιεχόμενο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
@@ -625,7 +627,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Παράθυρο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
@@ -635,7 +637,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Μορφή:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
@@ -646,7 +648,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="378"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Φίλτρο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="397"/>
@@ -662,7 +664,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="415"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενέργεια</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="438"/>
@@ -684,7 +686,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αφαίρεση αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="475"/>
@@ -709,7 +711,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="538"/>
         <source>O&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδος</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="548"/>
@@ -719,7 +721,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="558"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχωριστικό</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="568"/>
@@ -729,7 +731,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="571"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="578"/>
@@ -749,7 +751,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="608"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">αναμονή</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="615"/>
@@ -759,7 +761,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="618"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετασχηματισμός</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="690"/>
@@ -772,57 +774,57 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Παρασκήνιο</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Βρέθηκαν</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλεγμένα</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμός</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κανονικό</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργαστής</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Γραμματοσειρά</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλακτικό</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσκήνιο</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Ειδοποίηση</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
@@ -832,12 +834,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση &amp;γραμμών κύλισης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γραμμές κύλισης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
@@ -852,7 +854,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εξομάλυνση</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
@@ -867,7 +869,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέμα:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
@@ -892,7 +894,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπισκόπηση:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="138"/>
@@ -918,13 +920,13 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="368"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αβγ</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">αντικείμενο</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="447"/>
@@ -953,7 +955,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Γλώσσα:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -973,7 +975,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πάντα ε&amp;πάνω</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1013,7 +1015,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αυτόματη εκκίνηση</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
@@ -1237,7 +1239,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση/Απόκρυψη</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1329,7 +1331,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Θέση ειδοποίησης:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
@@ -1339,32 +1341,32 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κορυφή</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Βάση</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Πάνω δεξιά</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάτω δεξιά</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάτω αριστερά</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Πάνω αριστερά</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
@@ -1420,7 +1422,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μέγιστο πλάτος:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
@@ -1430,7 +1432,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μέγιστο ύψος:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
@@ -1516,52 +1518,52 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαμόρφωση</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Γενικά</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάταξη</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιστορικό</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλαίσιο συστήματος</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Ειδοποιήσεις</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Καρτέλες</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντικείμενα</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Συντομεύσεις</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="434"/>
@@ -1571,7 +1573,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="477"/>
         <source>Reset preferences?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επαναφορά προτιμήσεων</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="478"/>
@@ -1611,13 +1613,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="39"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή εικονιδίου…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="74"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1625,12 +1627,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή εικονιδίου</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Περιήγηση...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
@@ -1640,7 +1642,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία εικόνας (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1648,22 +1650,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ό&amp;λες</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καρτέλες</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαμόρφωση</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Εντολές</translation>
     </message>
 </context>
 <context>
@@ -1679,7 +1681,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="283"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="285"/>
@@ -1690,12 +1692,12 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="286"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="290"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωση</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="292"/>
@@ -1706,52 +1708,52 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="293"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="301"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναίρεση</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="308"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Επανάληψη</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="317"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Γραμματοσειρά</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="322"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Έντονα</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="328"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλάγια</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="334"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Υπογράμμιση</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="340"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Μεσογράμμιση</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="347"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσκήνιο</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="352"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Παρασκήνιο</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="359"/>
@@ -1761,7 +1763,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αναζήτηση</translation>
     </message>
 </context>
 <context>
@@ -1769,7 +1771,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="335"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η κρυπτογράφηση απέτυχε.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
@@ -1790,22 +1792,22 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκρυπτογράφηση</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκρυπτογράφηση και αντιγραφή</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
@@ -1815,7 +1817,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="811"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
@@ -1825,12 +1827,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Σφάλμα: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Έγινε</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
@@ -1841,7 +1843,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="905"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωση</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
@@ -1861,17 +1863,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή κωδικού πρόσβασης...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="918"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η αποκρυπτογράφηση απέτυχε.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="98"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κρυπτογράφηση</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
@@ -1939,7 +1941,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="81"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνες</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="83"/>
@@ -1995,7 +1997,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="82"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="84"/>
@@ -2036,22 +2038,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="50"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Προσθήκη</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="63"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Α&amp;φαίρεση</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="73"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Πάνω</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="83"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Κάτω</translation>
     </message>
 </context>
 <context>
@@ -2069,7 +2071,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="389"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθήλωση</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="396"/>
@@ -2093,7 +2095,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="125"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Περιήγηση...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="815"/>
@@ -2108,7 +2110,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="145"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγχρονισμός</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="147"/>
@@ -2126,7 +2128,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση αντικειμένων;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
@@ -2150,12 +2152,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όνομα καρτέλας</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαδρομή</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
@@ -2171,7 +2173,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεκτάσεις</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
@@ -2199,13 +2201,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή ετικέτας</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="697"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημαντικό</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
@@ -2215,7 +2217,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Ετικέτες</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
@@ -2238,27 +2240,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όνομα tag:</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ταίριασμα</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Φύλλο στυλ</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Χρώμα</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικονίδιο</translation>
     </message>
 </context>
 <context>
@@ -2266,7 +2268,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="76"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κείμενο</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
@@ -2297,7 +2299,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καταγραφή</translation>
     </message>
 </context>
 <context>
@@ -2310,12 +2312,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="572"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση / Απόκρυψη</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="603"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδος</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="604"/>
@@ -2325,37 +2327,37 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="654"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Αρχείο</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="702"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Επεξεργασία</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="726"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντικείμενο</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="730"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καρτέλες</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="755"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="780"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Νέα καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="782"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ονομασία Ομάδας</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="784"/>
@@ -2370,7 +2372,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="788"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αφαίρεση ομάδας</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="790"/>
@@ -2381,7 +2383,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="834"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1291"/>
@@ -2456,7 +2458,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="530"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πληροφορίες</translation>
     </message>
 </context>
 <context>
@@ -2465,7 +2467,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="540"/>
@@ -2510,43 +2512,43 @@ Set to 0 to disable.</source>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαγραφή</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Νέο αντικείμενο</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Εισαγωγή...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="64"/>
         <source>&amp;Export...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Εξαγωγή...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προτιμήσεις...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
@@ -2556,12 +2558,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Εντολές</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="74"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2571,17 +2573,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση προεπισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2601,17 +2603,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Έξοδος</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
@@ -2621,7 +2623,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
@@ -2631,7 +2633,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -2646,7 +2648,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="97"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Αναζήτηση</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -2662,22 +2664,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>F4</source>
-        <translation type="unfinished"></translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Α&amp;φαίρεση</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Επεξεργασία</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="108"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
@@ -2687,7 +2689,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shift+F3</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -2697,42 +2699,42 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ενέργεια</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>F5</source>
-        <translation type="unfinished"></translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Move Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση πάνω</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"/>
         <source>Ctrl+Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Up</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Move Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετακίνηση κάτω</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="120"/>
         <source>Ctrl+Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Down</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Move to Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση πάνω</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
@@ -2742,7 +2744,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Move to Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετακίνηση κάτω</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
@@ -2752,12 +2754,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Νέα καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
@@ -2767,7 +2769,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
@@ -2777,7 +2779,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
@@ -2792,44 +2794,44 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Επό&amp;μενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δεξιά</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Προηγούμενη καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αριστερά</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Βοήθεια</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εμφάνιση καταγραφής</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>F12</source>
-        <translation type="unfinished"></translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&amp;Σχετικά</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2840,7 +2842,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shift+F3</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="414"/>
@@ -2882,7 +2884,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όνομα</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
@@ -2923,7 +2925,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>MIME</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπο δικτύου MIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -2952,7 +2954,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κείμενο</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -2984,7 +2986,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">γραμμή, σειρά</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
@@ -3016,7 +3018,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="143"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>ROWS</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Γραμμές</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
@@ -3033,7 +3035,7 @@ Value -1 is for current text in clipboard.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχωριστικό</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
@@ -3059,7 +3061,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρόγραμμα</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
@@ -3069,17 +3071,17 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μήνυμα</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ώρα</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
@@ -3098,7 +3100,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εντολή</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
@@ -3145,7 +3147,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>OPTION</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
@@ -3155,7 +3157,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τιμή</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
@@ -3165,12 +3167,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σενάριο</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="190"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Παράμετροι</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3180,7 +3182,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συνεδρία</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
@@ -3210,12 +3212,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="116"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">  &amp;Εντολές</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημειώσεις</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
@@ -3251,7 +3253,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δεν βρέθηκε η εντολή: %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="987"/>
@@ -3262,12 +3264,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μη έγκυρη επιλογή:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαίρεση</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
@@ -3303,7 +3305,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="44"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη συντόμευσης</translation>
     </message>
 </context>
 <context>
@@ -3326,7 +3328,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αφαίρεση συντόμευσης</translation>
     </message>
 </context>
 <context>
@@ -3334,12 +3336,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εύρεση:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καθολικό</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
@@ -3349,7 +3351,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εφαρμογή</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
@@ -3374,12 +3376,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ό&amp;νομα:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέα καρτέλα</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
@@ -3402,7 +3404,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">προκαθορισμένο</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
@@ -3420,7 +3422,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληκτρολογείστε για αναζήτηση</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="105"/>
@@ -3434,12 +3436,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Regular Expression</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="122"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διάκριση πεζών κεφαλαίων</translation>
     </message>
 </context>
 </TS>

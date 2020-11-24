@@ -367,7 +367,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation>&amp;Formatlar:</translation>
+        <translation>&amp;Biçimler:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
@@ -377,12 +377,12 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation>Format Sil</translation>
+        <translation>Biçimi Kaldır</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
-        <translation>Öğe İçeriği</translation>
+        <translation>Öge İçeriği</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
@@ -826,7 +826,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation>Editör</translation>
+        <translation>Düzenleyici</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
@@ -906,7 +906,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation>Mevcut temayı başka editörde düzenle</translation>
+        <translation>Geçerli temayı harici düzenleyicide düzenle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
@@ -959,7 +959,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="167"/>
         <source>No External Editor</source>
-        <translation>Editör Yok</translation>
+        <translation>Harici Düzenleyici Yok</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="168"/>
@@ -1150,7 +1150,7 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation>Harici editör komutu (düzenlenecek dosya %&amp;1):</translation>
+        <translation>Harici düzenleyici komutu (düzenlenecek dosya: %&amp;1):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1160,7 +1160,7 @@ Sekmeleri boşaltmamak için 0 olarak ayarlayın.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>Harici editör komutu (%1 düzenlenecek dosya).
+        <translation>Harici düzenleyici komutu (düzenlenecek dosya: %1).
   Örnekler:
     gedit %1
     notepad %1
@@ -1727,7 +1727,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenleyici komutu başarısız oldu (günlüklere bakın)</translation>
     </message>
 </context>
 <context>
@@ -1975,7 +1975,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Öğeleri düzenlerken Vim düzenleyicisini taklit edin.</translation>
+        <translation>Ögeleri düzenlerken Vim düzenleyicisini taklit et.</translation>
     </message>
 </context>
 <context>
@@ -2034,17 +2034,17 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>SVG dışındaki desteklenen görüntü formatları için editör komutu.</translation>
+        <translation>SVG dışındaki desteklenen görüntü biçimleri için düzenleyici komutu.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>&amp;SVG editörü komutu:</translation>
+        <translation>&amp;SVG düzenleyici komutu:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>SVG görüntü formatı için editör komutu.</translation>
+        <translation>SVG görüntü biçimi için düzenleyici komutu.</translation>
     </message>
 </context>
 <context>
@@ -2576,6 +2576,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n satır)</numerusform>
+            <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
     <message>
@@ -2792,7 +2793,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
         <source>E&amp;dit with editor</source>
-        <translation>&amp;Editör ile düzenle</translation>
+        <translation>Düzenleyici ile &amp;düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
@@ -2947,6 +2948,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n satır &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
