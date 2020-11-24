@@ -1727,7 +1727,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑器命令失败了 （见日志）</translation>
     </message>
 </context>
 <context>
