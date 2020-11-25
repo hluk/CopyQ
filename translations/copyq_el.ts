@@ -632,7 +632,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Χρήση της εντολής μόνο για αντικείμενα που έχουν αντιγραφεί στο πρόχειρο από παράθυρο με τίτλο που ταιριάζει αυτήν την κανονική έκφραση (αφήστε το κενό για ταίριασμα όλων των παραθύρων). Σε macOS, περιέχει το όνομα της εφαρμογής ακολουθούμενο από μια παύλα (&amp;quot;-&amp;quot;) και τον τίτλο του παραθύρου. Π.χ. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
@@ -643,7 +643,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα δεδομένα αυτού του τύπου MIME θα στέλνονται στην τυπική είσοδο της εντολής.
+Αφήστε το κενό για να το απενεργοποιήσετε.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="378"/>
@@ -659,12 +660,18 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Χρήση των εντολών μόνο αν η εντολή του φίλτρου επιτύχει.&lt;/p&gt;
+
+&lt;p&gt;Το κείμενο του αντικειμένου πέρασε στην &lt;b&gt;τυπική είσοδο&lt;/b&gt; του φίλτρου. Το αντικείμενο &lt;b&gt;χρησιμοποιείται μόνο αν ο κωδικός εξόδου της εντολής του φίλτρου είναι 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Χρησιμοποιήστε &lt;b&gt;%1&lt;/b&gt; για το κείμενο του αντικειμένου που έχει περάσει ως όρισμα και &lt;b&gt;%2&lt;/b&gt; ως &lt;b&gt;%9&lt;/b&gt; για το συλληφθέν κείμενο από την κανονική έκφραση (τα τμήματα μέσα στις παρενθέσεις).&lt;/p&gt;
+
+&lt;p&gt;Χρησιμοποιήστε &lt;b&gt;|&lt;/b&gt; για την αλυσίδωση περισσότερων εντολών (περνά την τυπική έξοδο στην επόμενη εντολή).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="415"/>
         <source>Action</source>
-        <translation type="unfinished">Ενέργεια</translation>
+        <translation>Ενέργεια</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="438"/>
@@ -674,7 +681,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="448"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της καρτέλας για την αντιγραφή των νέων αντικειμένων (αφήστε το κενό για να μην γίνει αντιγραφή)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="460"/>
@@ -701,12 +708,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="499"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυ&amp;ψη του κύριου παραθύρου μετά την ενεργοποίηση</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="509"/>
         <source>Command options</source>
-        <translation type="unfinished"></translation>
+        <translation>Command options</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="538"/>
@@ -789,7 +796,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished">Επιλεγμένα</translation>
+        <translation>Επιλεγμένα</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
@@ -844,12 +851,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση των εικονιδίων από το περιβάλλον εργασίας όταν είναι εφικτό.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ystem Icons</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -859,12 +866,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ορίστε τα χρώματα για τις καρτέλες, την γραμμή εργαλείων και τα μενού</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Επαναφορά θέματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
@@ -874,7 +881,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Φόρτωση θέματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
@@ -884,12 +891,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία του τρέχοντος θέματος σε εξωτερικό κειμενογράφο</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Επε&amp;ξεργασία του θέματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
@@ -899,12 +906,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="138"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα αρχείου θέματος</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="148"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση του αρχείου θέματος ως</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="167"/>
@@ -914,7 +921,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="168"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίστε την εντολή για τον εξωτερικό κειμενογράφο πρώτα!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="368"/>
@@ -926,7 +933,7 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished">αντικείμενο</translation>
+        <translation>αντικείμενο</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="447"/>
@@ -937,17 +944,18 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="448"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε ένα αντικείμενο και
+πιέστε F2 για επεξεργασία.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Παράδειγμα αντικείμενο %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="455"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μερικές τυχαιοποιημένες σημειώσεις (Shift+F2 για επεξεργασία)</translation>
     </message>
 </context>
 <context>
@@ -960,7 +968,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναδιπλώνει το κείμενο αν είναι πολύ μακρύ ούτως ώστε να χωρέσει στην γραμμή</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
@@ -970,12 +978,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>Διατήρηση του κύριου παραθύρου πάνω από τα άλλα παράθυρα</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Πάντα ε&amp;πάνω</translation>
+        <translation>&amp;Πάντα στην κορυφή</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1135,7 +1143,12 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή εξωτερικού κειμενογράφου (το %1 αντιστοιχεί στο αρχείο προς επεξεργασία).
+  Παραδείγματα:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
@@ -1279,7 +1292,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάταξη και διαφάνεια</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1341,7 +1354,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">Κορυφή</translation>
+        <translation>Κορυφή</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
@@ -1583,7 +1596,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="581"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαιτείται επανεκκίνηση</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="582"/>
@@ -1650,7 +1663,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished">Ό&amp;λες</translation>
+        <translation>Ό&amp;λες</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
@@ -1665,7 +1678,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished">&amp;Εντολές</translation>
+        <translation>&amp;Εντολές</translation>
     </message>
 </context>
 <context>
@@ -1686,7 +1699,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="285"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση του αντικειμένου (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="286"/>
@@ -1708,7 +1721,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="293"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Escape</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="301"/>
@@ -1763,7 +1776,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="366"/>
         <source>Search</source>
-        <translation type="unfinished">Αναζήτηση</translation>
+        <translation>Αναζήτηση</translation>
     </message>
 </context>
 <context>
@@ -1781,12 +1794,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την προβολή των κρυπτογραφημένων καρτελών, πρέπει να έχετε εγκατεστημένο το GnuPG</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="777"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυπτογράφηση (απαιτείται το GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
@@ -1812,17 +1825,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκρυπτογράφηση και επικόλληση</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="811"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Εισαγωγή</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία δημιουργίας των κλειδιών.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
@@ -1873,7 +1886,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="98"/>
         <source>Encryption</source>
-        <translation type="unfinished">Κρυπτογράφηση</translation>
+        <translation>Κρυπτογράφηση</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
@@ -1910,12 +1923,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="42"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="44"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Το πρόσθετο FakeVim είναι μέρος του Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
@@ -2212,7 +2225,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καθαρισμός όλων</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
@@ -2593,7 +2606,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
