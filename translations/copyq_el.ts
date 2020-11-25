@@ -393,22 +393,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="365"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωση των ενεργών εντολών</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="366"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωση των ενεργών εντολών και εγκατάλειψη;</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="369"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωση εγκατάλειψης</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="370"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγκατάλειψη ούτως ή άλλως</translation>
     </message>
 </context>
 <context>
@@ -430,7 +430,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός νέων εντολών που μπορούν να κληθούν αυτόματα σε νέο περιεχόμενο προχείρου ή από τον χρήστη από το μενού ή χρησιμοποιώντας τις συντομεύσεις του συστήματος.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
@@ -455,7 +455,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση εντολών</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="196"/>
@@ -498,27 +498,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όρισμα %1 του προγράμματος θα αντικατασταθεί από το κείμενο του αντικειμένου, και τα ορίσματα %2 ως %9 από το συλληφθέν κείμενο στην κανονική έκφραση.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο χαρακτήρας %1 μπορεί να χρησιμοποιηθεί για το πέρασμα της τυπικής εξόδου στο επόμενο πρόγραμμα.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η σύνταξη που ακολουθεί μπορεί να χρησιμοποιηθεί για το πέρασμα του υπολοίπου της εντολής ως μια παράμετρο.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δίνει την ίδια έξοδο με το %1 αλλά είναι πιο χρήσιμο για μακρύτερες εντολές.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι παρακάτω λειτουργίες μπορούν να χρησιμοποιηθούν όπως στις ακόλουθες εντολές.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
@@ -572,7 +572,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="237"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση της εντολής αυτόματα αν το πρόχειρο έχει ένα νέο περιεχόμενο</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="240"/>
@@ -583,7 +583,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της εντολής στο σχετικό μενού των ταιριαστών αντικειμένων.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
@@ -622,7 +622,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Χρησιμοποιήστε την εντολή μόνο για αντικείμενα των οποίων το κείμενο ταιριάζει με την κανονική έκφραση (αφήστε το κενό για ταίριασμα όλων).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Παραδείγματα:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ταίριασμα URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ταίριασμα ονομάτων αρχείων PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ταίριασμα μονού χαρακτήρα    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ταίριασμα απομακρυσμένου πολυμέσου    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="334"/>
@@ -669,7 +669,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="438"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγρα&amp;φή στην καρτέλα:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="448"/>
@@ -691,7 +691,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="475"/>
         <source>Menu Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενέργεια του μενού</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="496"/>
@@ -799,7 +799,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished">Κανονικό</translation>
+        <translation>Κανονικό</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
@@ -829,7 +829,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του αρι&amp;θμού</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
