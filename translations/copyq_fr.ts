@@ -351,7 +351,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
@@ -1342,7 +1342,7 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
@@ -1356,7 +1356,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si elle n&apos;est pas focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
@@ -1374,7 +1374,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation>Emplacement des &amp;notifications&#xa0;:</translation>
+        <translation>Emplacement des &amp;notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
@@ -1414,7 +1414,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Int&amp;ervalle en secondes pour afficher les notifications&#xa0;:</translation>
+        <translation>Int&amp;ervalle en secondes pour afficher les notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1617,7 +1617,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="434"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>L&apos;option &quot;%1&quot; a une valeur invalide</translation>
+        <translation>L&apos;option « %1 » a une valeur invalide</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="581"/>
@@ -1730,7 +1730,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la commande de l&apos;éditeur (voir les journaux)</translation>
     </message>
 </context>
 <context>
@@ -2228,7 +2228,8 @@ Mettre à 0 pour désactiver.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Réglez le type de média sur &lt;strong&gt;-&lt;/strong&gt; (caractère moins) pour ignorer les fichiers. Tous les autres fichiers inconnus ou cachés sont ignorés. &lt;/p&gt;
+&lt;p&gt;Exemple : chargez l&apos;extension de fichier &lt;strong&gt;txt&lt;/strong&gt; en tant que type de média &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
@@ -3232,7 +3233,8 @@ Les arguments sont accessibles avec &quot;arguments[0..N]&quot;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exécutez PROGRAMME sur le texte de l&apos;élément dans les lignes.
+Utilisez %1 dans PROGRAMME pour passer du texte comme argument.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
@@ -3326,7 +3328,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation>Option incorrecte &quot;%1&quot; !</translation>
+        <translation>Option incorrecte « %1 » !</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
