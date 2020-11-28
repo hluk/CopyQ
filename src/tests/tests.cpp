@@ -154,55 +154,80 @@ void runMultiple(Fn1 f1, Fn2 f2)
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    static const QRegularExpression reFailure("Warning:|ERROR:|ASSERT", QRegularExpression::CaseInsensitiveOption);
-    static const QRegularExpression reClient(
-        R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)");
+    static const QRegularExpression reFailure(".*(Warning:|ERROR:|ASSERT|ScriptError:).*", QRegularExpression::CaseInsensitiveOption);
+    const QLatin1String scriptError("ScriptError:");
 
-    QString output = QString::fromUtf8(stderrData);
-
+    const auto plain = [](const char *str){
+        return QRegularExpression(QRegularExpression::escape(QLatin1String(str)));
+    };
+    const auto regex = [](const char *str){
+        return QRegularExpression(QLatin1String(str));
+    };
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
-    output.remove(reClient);
+    static const std::vector<QRegularExpression> ignoreList{
+        regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
 
-    // FIXME: These warnings should be fixed.
-    // Ignore known warnings.
-    output.remove("QtWarning: QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom");
-    output.remove("QtWarning: QXcbConnection: XCB error:");
-    output.remove("QtWarning: QXcbClipboard: SelectionRequest too old");
-    output.remove("QtWarning: libpng warning: iCCP: known incorrect sRGB profile");
-    output.remove("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain");
+        // X11 (Linux)
+        plain("QtWarning: QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom"),
+        plain("QtWarning: QXcbConnection: XCB error:"),
+        plain("QtWarning: QXcbClipboard: SelectionRequest too old"),
+        plain("QtWarning: libpng warning: iCCP: known incorrect sRGB profile"),
+        plain("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain"),
 
-    output.remove("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry");
-    output.remove("QtWarning: QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event.");
-    output.remove("QtWarning: setGeometry: Unable to set geometry");
+        // Wayland (Linux)
+        plain("QtWarning: Wayland does not support QWindow::requestActivate()"),
+        plain("QtWarning: Unexpected wl_keyboard.enter event"),
+        plain("QtWarning: The compositor sent a wl_pointer.enter"),
 
-    output.remove("QtWarning: Wayland does not support QWindow::requestActivate()");
-    output.remove("QtWarning: Unexpected wl_keyboard.enter event");
-    output.remove("QtWarning: The compositor sent a wl_pointer.enter");
+        // Windows
+        plain("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry"),
+        plain("QtWarning: QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event."),
+        plain("QtWarning: setGeometry: Unable to set geometry"),
 
-    output.remove("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)");
-    output.remove("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)");
-#ifdef Q_OS_MAC
-    output.remove("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)");
-    output.remove("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed");
+        plain("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)"),
+        plain("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
 
-    static const QRegularExpression reBadPos(R"(QtWarning: Window position.* outside any known screen.*)");
-    output.remove(reBadPos);
+        // macOS
+        plain("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)"),
+        plain("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed"),
+        regex(R"(QtWarning: Window position.* outside any known screen.*)"),
 
-    // New in Qt 5.15.0.
-    static const QRegularExpression reFontWarning(
-        R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)");
-    output.remove(reFontWarning);
-#endif
+        // New in Qt 5.15.0.
+        regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)"),
+    };
+    static QHash<QString, bool> ignoreLog;
 
-    if ( output.indexOf(reFailure) != -1 )
-        return false;
+    const QString output = QString::fromUtf8(stderrData);
+    QRegularExpressionMatchIterator it = reFailure.globalMatch(output);
+    while ( it.hasNext() ) {
+        const auto match = it.next();
 
-    if (flag == TestInterface::ReadErrorsWithoutScriptException)
-        return true;
+        const QString log = match.captured();
 
-    const QRegularExpression scriptExceptionError("ScriptError:");
-    return output.indexOf(scriptExceptionError) == -1;
+        if ( flag == TestInterface::ReadErrorsWithoutScriptException
+             && log.contains(scriptError) )
+        {
+            return false;
+        }
+
+        if ( ignoreLog.contains(log) )
+            return ignoreLog[log];
+
+        qDebug() << "Failure in logs:" << log;
+
+        const bool ignore = std::any_of(
+            std::begin(ignoreList), std::end(ignoreList),
+                [&output](const QRegularExpression &reIgnore){
+                    return output.contains(reIgnore);
+                });
+
+        ignoreLog[log] = ignore;
+        if (!ignore)
+            return false;
+    }
+
+    return true;
 }
 
 bool waitWhileFileExists(const QFile &file)

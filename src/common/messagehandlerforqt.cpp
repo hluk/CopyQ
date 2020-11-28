@@ -44,34 +44,34 @@ private:
     QByteArray m_message;
 };
 
-void messageHandler(QtMsgType type, const QString &message)
-{
-    switch (type) {
-    case QtDebugMsg:
-        log("QtDebug: " + message, LogDebug);
-        break;
-#if QT_VERSION >= 0x050500
-    case QtInfoMsg:
-        log("QtInfo: " + message, LogDebug);
-        break;
-#endif
-    case QtWarningMsg:
-        log("QtWarning: " + message, LogDebug);
-        break;
-    case QtCriticalMsg:
-        log("QtCritical: " + message, LogError);
-        break;
-    case QtFatalMsg:
-        log("QtFatal: " + message, LogError);
-        throw ExceptionQtFatal( message.toUtf8() );
-    }
-}
-
 void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    const QString message = QString::fromLatin1("%1 (%2:%3, %4)")
-            .arg(msg, context.file, QString::number(context.line), context.function);
-    messageHandler(type, message);
+    QString message = msg;
+    if ( context.file != QLatin1String() ) {
+        message.append(
+            QString::fromLatin1(" (%1:%2, %3)")
+                .arg(context.file, QString::number(context.line), context.function));
+    }
+
+    const QString format = QString::fromLatin1("[%1] %3: %2");
+    const QLatin1String category(context.category);
+    switch (type) {
+    case QtDebugMsg:
+        log( format.arg(category, message, QLatin1String("QtDebug")), LogDebug);
+        break;
+    case QtInfoMsg:
+        log( format.arg(category, message, QLatin1String("QtInfo")), LogDebug);
+        break;
+    case QtWarningMsg:
+        log( format.arg(category, message, QLatin1String("QtWarning")), LogDebug);
+        break;
+    case QtCriticalMsg:
+        log( format.arg(category, message, QLatin1String("QtCritical")), LogError);
+        break;
+    case QtFatalMsg:
+        log( format.arg(category, message, QLatin1String("QtFatal")), LogError);
+        throw ExceptionQtFatal( message.toUtf8() );
+    }
 }
 
 } // namespace
