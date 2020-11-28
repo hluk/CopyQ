@@ -64,19 +64,19 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Programın standart çıktısından öğeler oluşturun (kapatmak için boş bırakın)</translation>
+        <translation>Programın standart çıktısından ögeler oluşturun (kapatmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation>&amp;Yeni öğeler için ayırıcı:</translation>
+        <translation>&amp;Yeni ögeler için ayırıcı:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Çıktıyı birden çok öğeye ayırmak için düzenli ifade.&lt;/p&gt;
-&lt;p&gt;Her satırı ayrı bir öğeye kaydetmek için &lt;b&gt;\n&lt;/b&gt; kullanın.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Çıktıyı birden çok ögeye ayırmak için düzenli ifade.&lt;/p&gt;
+&lt;p&gt;Her satırı ayrı bir ögeye kaydetmek için &lt;b&gt;\n&lt;/b&gt; kullanın.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Öğeleri verilen adla sekmesine kaydedin (geçerli sekmede kaydetmek için boş bırakın)</translation>
+        <translation>Ögeleri verilen adla sekmesine kaydedin (geçerli sekmede kaydetmek için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
@@ -172,12 +172,12 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation>İlk öğeyi düzenle</translation>
+        <translation>İlk ögeyi düzenle</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation>İkinci öğeyi kopyala</translation>
+        <translation>İkinci ögeyi kopyala</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
@@ -187,17 +187,17 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation>Yeni öğe oluştur</translation>
+        <translation>Yeni öge oluştur</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
-        <translation>Sıradaki öğeyi kopyala</translation>
+        <translation>Sıradaki ögeyi kopyala</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation>Önceki öğeyi kopyala</translation>
+        <translation>Önceki ögeyi kopyala</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
@@ -242,7 +242,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation>Öğeleri ve tek karakterleri yoksay</translation>
+        <translation>Tek karakter veya karakter içermeyen ögeleri yoksay</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
@@ -331,7 +331,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation>%1 sekmesine yeni öğeler eklenemiyor. Yer açmak için lütfen ögeleri el ile kaldırın.</translation>
+        <translation>%1 sekmesine yeni ögeler eklenemiyor. Yer açmak için lütfen ögeleri el ile kaldırın.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -576,7 +576,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
-        <translation>Eşleşen öğeleri içerik menüsünde göster</translation>
+        <translation>Eşleşen ögeleri içerik menüsünde göster</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
@@ -603,7 +603,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="287"/>
         <source>Match Items</source>
-        <translation>Eşleşen Öğeler</translation>
+        <translation>Eşleşen Ögeler</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
@@ -620,7 +620,7 @@ Bunu devre dışı bırakmak için boş bırakın.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Komutu yalnızca metni &quot;düzenli ifade&quot; ile eşleşen öğeler için kullanın. (her şeyi eşleştirmek için boş bırakın). &lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt;Örnekler: &lt;/span&gt;&lt;/p&gt;&lt;p&gt; URL’yi eşle &lt;span style=&quot;font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; PDF dosya adlarını eşle &lt;span style=&quot;font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Tek karakterle eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Uzak multimedyayla eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Komutu yalnızca metni &quot;düzenli ifade&quot; ile eşleşen ögeler için kullanın. (her şeyi eşleştirmek için boş bırakın). &lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-weight:600;&quot;&gt;Örnekler: &lt;/span&gt;&lt;/p&gt;&lt;p&gt; URL’yi eşle &lt;span style=&quot;font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; PDF dosya adlarını eşle &lt;span style=&quot;font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Tek karakterle eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Uzak multimedyayla eşleş &lt;span style=&quot;font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="264"/>
@@ -679,21 +679,21 @@ Bunu devre dışı bırakmak için boş bırakın.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="448"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>Yeni öğelerin kopyalanacağı sekmenin adı (kopyalamak için boş bırakın)</translation>
+        <translation>Yeni ögelerin kopyalanacağı sekmenin adı (kopyalamak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="460"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>Eşleşen öğeleri sil
+        <translation>Eşleşen ögeleri kaldır
 
 Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştırılmaz.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
         <source>&amp;Remove Item</source>
-        <translation>&amp;Öğeleri Kaldır</translation>
+        <translation>&amp;Ögeleri Kaldır</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="475"/>
@@ -703,7 +703,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="496"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation>Öğenin içerik menüsünden komut etkinleştirildikten sonra pencereyi gizle</translation>
+        <translation>Ögenin içerik menüsünden komut etkinleştirildikten sonra pencereyi gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="499"/>
@@ -728,7 +728,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="615"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation>Öğeyi değiştir, yeni öğe yaratma</translation>
+        <translation>Ögeyi değiştir, yeni öge yaratma</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="618"/>
@@ -743,7 +743,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Komutu, yalnızca normal ifadeyle eşleşen başlık metniyle pencereden panoya kopyalanan öğeler için kullanın (herhangi bir pencereye uyması için boş bırakın). MacOS&apos;ta bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;) ve ardından pencere başlığını içerir. Örneğin: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Komutu, yalnızca normal ifadeyle eşleşen başlık metniyle pencereden panoya kopyalanan ögeler için kullanın (herhangi bir pencereye uyması için boş bırakın). MacOS&apos;ta bu, uygulama adını ve ardından bir kısa çizgi (&amp;quot;-&amp;quot;) ve ardından pencere başlığını içerir. Örneğin: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
@@ -758,7 +758,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="548"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>Programın standart çıkışından öğeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
+        <translation>Programın standart çıkışından ögeleri oluşturun (devre dışı bırakmak için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="558"/>
@@ -768,7 +768,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="568"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation>Çıktıyı ayrı öğelere bölmek için kullanılacak ayırıcı</translation>
+        <translation>Çıktıyı ayrı ögelere bölmek için kullanılacak ayırıcı</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="571"/>
@@ -783,7 +783,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="588"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>Öğeleri verilen adla sekmeye kaydet (ilk sekmede kaydetmek için boş bırakın)</translation>
+        <translation>Ögeleri verilen adla sekmeye kaydet (ilk sekmede kaydetmek için boş bırakın)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="690"/>
@@ -922,7 +922,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
         <location filename="../src/gui/configtabappearance.cpp" line="445"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation>öğe</translation>
+        <translation>öge</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="447"/>
@@ -933,13 +933,13 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
         <location filename="../src/gui/configtabappearance.cpp" line="448"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>Bir öğe seçin ve
+        <translation>Bir öge seçin ve
 düzenlemek için F2&apos;ye basın.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Example item %1</source>
-        <translation>Örnek öğe %1</translation>
+        <translation>Örnek öge %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="455"/>
@@ -1053,7 +1053,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation>Öğe filtrelerinin geçmişini kaydet ve geri yükle</translation>
+        <translation>Öge filtrelerinin geçmişini kaydet ve geri yükle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1126,12 +1126,12 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>&amp;Geçmişte maksimum öğe sayısı:</translation>
+        <translation>&amp;Geçmişte maksimum öge sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation>Her sekmedeki maksimum öğe sayısı</translation>
+        <translation>Her sekmedeki maksimum öge sayısı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
@@ -1186,33 +1186,33 @@ Otomatik depolamayı devre dışı bırakmak için boş bırakın.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Düzenlenen öğeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni satır oluşturun.
+        <translation>Düzenlenen ögeyi kaydetmek için Return tuşunun işaretini kaldırın ve Ctrl+Return ile yeni satır oluşturun.
 
-Not: Düzenlenmiş öğeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
+Not: Düzenlenmiş ögeler, bu seçenek dikkate alınmadan F2 ile kaydedilebilir.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>&amp;Düzenlenen öğeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
+        <translation>&amp;Düzenlenen ögeyi Ctrl+Return ile kaydet ve Return tuşuyla yeni satır oluştur</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Her bir öğenin tek satır açıklamasını göster.
+        <translation>Her bir ögenin tek satır açıklamasını göster.
 
-Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</translation>
+Tüm ögeleri görüntülemek için Öge Önizleme&apos;yi kullanın.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation>&amp;Basit öğeleri göster</translation>
+        <translation>&amp;Basit ögeleri göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Numara aramayı etkinleştir, aksi halde rakam tuşuna basılması, bu konumdaki öğeyi etkinleştirir</translation>
+        <translation>Numara aramayı etkinleştir, aksi halde rakam tuşuna basılması, bu konumdaki ögeyi etkinleştirir</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
@@ -1227,22 +1227,22 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Öğe etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
+        <translation>Öge etkinleştirildikten sonra (çift tıklayın veya Enter tuşuna basın), panoya kopyalayın ve ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Öğe etkinleştirildikten sonra listenin en üstüne taşı</translation>
+        <translation>Öge etkinleştirildikten sonra listenin en üstüne taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
         <source>Move item to the t&amp;op</source>
-        <translation>&amp;Öğeyi en üste taşı</translation>
+        <translation>&amp;Ögeyi en üste taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>Close main window after item is activated</source>
-        <translation>Öğe etkinleştirildikten sonra ana pencereyi kapat</translation>
+        <translation>Öge etkinleştirildikten sonra ana pencereyi kapat</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
@@ -1252,7 +1252,7 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
-        <translation>Öğe etkinleştirildikten sonra son pencereye odaklan</translation>
+        <translation>Öge etkinleştirildikten sonra son pencereye odaklan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
@@ -1262,7 +1262,7 @@ Tüm öğeleri görüntülemek için Öğe Önizleme&apos;yi kullanın.</transla
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>Paste to current window after item is activated</source>
-        <translation>Öğe etkinleştirildikten sonra geçerli pencereye yapıştır</translation>
+        <translation>Öge etkinleştirildikten sonra geçerli pencereye yapıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
@@ -1358,12 +1358,12 @@ Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation>Sekmelerdeki öğe sayısını göster</translation>
+        <translation>Sekmelerdeki öge sayısını göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>&amp;Öğe Sayısını Göster</translation>
+        <translation>&amp;Öge Sayısını Göster</translation>
     </message>
 </context>
 <context>
@@ -1420,7 +1420,7 @@ Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Yeni pano içeriği bildirimi veya yeni öğe panoya kopyalandı bildirimi için saniye cinsinden zaman aralığı (yalnızca ana pencere kapalıysa)
+        <translation>Yeni pano içeriği bildirimi veya yeni öge panoya kopyalandı bildirimi için saniye cinsinden zaman aralığı (yalnızca ana pencere kapalıysa)
 
 Devre dışı bırakmak için 0 olarak ayarlayın.
 
@@ -1511,17 +1511,17 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Tepsi menüsündeki öğelerin sayısı:</translation>
+        <translation>Tepsi menüsündeki ögelerin sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation>Tepsi menüsündeki öğelerin sayısı</translation>
+        <translation>Tepsi menüsündeki ögelerin sayısı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Geçerli sekmedeki öğeleri tepsi menüsünde göster</translation>
+        <translation>Geçerli sekmedeki ögeleri tepsi menüsünde göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
@@ -1541,22 +1541,22 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation>Öğeyi menüden seçtikten sonra geçerli pencereye yapıştır</translation>
+        <translation>Ögeyi menüden seçtikten sonra geçerli pencereye yapıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>&amp;Etkinleştirilen öğeyi geçerli pencereye yapıştır</translation>
+        <translation>&amp;Etkinleştirilen ögeyi geçerli pencereye yapıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation>Menü öğelerinin yanında görüntü önizlemesi göster</translation>
+        <translation>Menü ögelerinin yanında görüntü önizlemesi göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>&amp;Görüntü önizlemesini menü öğesi simgesi olarak göster</translation>
+        <translation>&amp;Görüntü önizlemesini menü ögesi simgesi olarak göster</translation>
     </message>
 </context>
 <context>
@@ -1599,7 +1599,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation>Öğeler</translation>
+        <translation>Ögeler</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
@@ -1740,7 +1740,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="285"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>Öğeyi Kaydet (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
+        <translation>Ögeyi Kaydet (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="286"/>
@@ -1825,7 +1825,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Şifrelenmiş öğeleri diğer bilgisayarlarda veya oturumlarda paylaşmak için herkese açık ve gizli anahtar dosyalara ihtiyacınız vardır: &lt;ul&gt; &lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br/&gt; (Bu gizli anahtarı güvenli bir yerde saklayın.)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Şifrelenmiş ögeleri diğer bilgisayarlarda veya oturumlarda paylaşmak için herkese açık ve gizli anahtar dosyalara ihtiyacınız vardır: &lt;ul&gt; &lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br/&gt; (Bu gizli anahtarı güvenli bir yerde saklayın.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
@@ -1902,7 +1902,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Öğe şifrelemenin kullanılmasından önce şifreleme anahtarları &lt;strong&gt;oluşturulmalı&lt;/strong&gt;.</translation>
+        <translation>Öge şifrelemenin kullanılmasından önce şifreleme anahtarları &lt;strong&gt;oluşturulmalı&lt;/strong&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="910"/>
@@ -1932,7 +1932,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
         <source>Encrypt items and tabs.</source>
-        <translation>Öğeleri ve sekmeleri şifrele.</translation>
+        <translation>Ögeleri ve sekmeleri şifrele.</translation>
     </message>
 </context>
 <context>
@@ -1940,12 +1940,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Öğeleri şifrelemek ve şifresini çözmek için Komutlar sekmesi altındaki uygun komutları ekleyin.</translation>
+        <translation>Ögeleri şifrelemek ve şifresini çözmek için Komutlar sekmesi altındaki uygun komutları ekleyin.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation>Şifrelenmiş Öğeleri ve Sekmeleri Paylaşma</translation>
+        <translation>Şifrelenmiş Ögeleri ve Sekmeleri Paylaşma</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
@@ -1957,7 +1957,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Otomatik olarak şifrelenecek ve şifresi çözülecek sekmelerin adlarını (her satıra bir tane) belirtin.&lt;/p&gt;
-&lt;p&gt;Şifresi çözülmüş öğeleri bellekten güvenle kaldırmak için Geçmiş sekmesinde kaldırma sekmesi aralığını ayarlayın.&lt;/p&gt;</translation>
+&lt;p&gt;Şifresi çözülmüş ögeleri bellekten güvenle kaldırmak için Geçmiş sekmesinde kaldırma sekmesi aralığını ayarlayın.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1983,7 +1983,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation>Öğeleri Düzenlemek için FakeVim&apos;i etkinleştir</translation>
+        <translation>Ögeleri Düzenlemek için FakeVim&apos;i etkinleştir</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
@@ -2057,7 +2057,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="84"/>
         <source>Display notes for items.</source>
-        <translation>Öğeler için notları görüntüle.</translation>
+        <translation>Ögeler için notları görüntüle.</translation>
     </message>
 </context>
 <context>
@@ -2070,17 +2070,17 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>&amp;Öğenin üstünde</translation>
+        <translation>&amp;Ögenin üstünde</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>Öğenin &amp;Altında</translation>
+        <translation>Ögenin &amp;Altında</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>Öğenin &amp;Yanında</translation>
+        <translation>Ögenin &amp;Yanında</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2116,12 +2116,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
-        <translation>Sabitlenmiş Öğeler Kaldırılamıyor</translation>
+        <translation>Sabitlenmiş Ögeler Kaldırılamıyor</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Öğeleri kaldırmak için önce işaretini kaldırın.</translation>
+        <translation>Ögeleri kaldırmak için önce işaretini kaldırın.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="389"/>
@@ -2136,12 +2136,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="103"/>
         <source>Pinned Items</source>
-        <translation>İşaretli Öğeler</translation>
+        <translation>İşaretli Ögeler</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Geçerli satırda kilitlemek için öğeleri işaretleyin ve silmeyi önlemeyin (işaretlenmemişse).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Geçerli satırda kilitlemek için ögeleri işaretleyin ve silmeyi önlemeyin (işaretlenmemişse).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2170,7 +2170,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="147"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>Öğeleri ve notları diskteki bir klasörle eşitle.</translation>
+        <translation>Ögeleri ve notları diskteki bir klasörle eşitle.</translation>
     </message>
 </context>
 <context>
@@ -2183,12 +2183,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
         <source>Remove Items?</source>
-        <translation>Öğeleri Kaldır?</translation>
+        <translation>Ögeleri Kaldır?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>&lt;strong&gt;Öğeleri ve ilişkili dosyaları kaldırmayı&lt;/strong&gt; gerçekten istiyor musunuz?</translation>
+        <translation>&lt;strong&gt;Ögeleri ve ilişkili dosyaları kaldırmayı&lt;/strong&gt; gerçekten istiyor musunuz?</translation>
     </message>
 </context>
 <context>
@@ -2203,7 +2203,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt; içeriklerini verilen &lt;strong&gt;yolla&lt;/strong&gt; klasörüyle senkronize et.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt;deki öğeleri kaydetmeyecek &lt;strong&gt;boş bir yol&lt;/strong&gt; ayarla.&lt;/p&gt;</translation>
+&lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt;deki ögeleri kaydetmeyecek &lt;strong&gt;boş bir yol&lt;/strong&gt; ayarla.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2218,7 +2218,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation>Öğe Veri Biçimlerindeki Dosyalar</translation>
+        <translation>Öge Veri Biçimlerindeki Dosyalar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
@@ -2295,7 +2295,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
         <source>Display tags for items.</source>
-        <translation>Öğeler için etiketleri göster.</translation>
+        <translation>Ögeler için etiketleri göster.</translation>
     </message>
 </context>
 <context>
@@ -2303,7 +2303,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>Özel etiket ekleme ve çıkarma için menü öğeleri Komutlar iletişim kutusunda eklenebilir ve özelleştirilebilir.</translation>
+        <translation>Özel etiket ekleme ve çıkarma için menü ögeleri Komutlar iletişim kutusunda eklenebilir ve özelleştirilebilir.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
@@ -2346,7 +2346,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation>Düz metni ve basit HTML öğelerini görüntüleyin.</translation>
+        <translation>Düz metni ve basit HTML ögelerini görüntüleyin.</translation>
     </message>
 </context>
 <context>
@@ -2422,7 +2422,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="726"/>
         <source>&amp;Item</source>
-        <translation>&amp;Öğe</translation>
+        <translation>&amp;Öge</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="730"/>
@@ -2515,7 +2515,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="337"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation>CopyQ öğeler (*.cpq)</translation>
+        <translation>CopyQ ögeler (*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3694"/>
@@ -2540,7 +2540,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3915"/>
         <source>Remove Tab?</source>
-        <translation>Sekmeleri Kaldır?</translation>
+        <translation>Sekmeyi Kaldır?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3916"/>
@@ -2607,18 +2607,18 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation>Gerisilme</translation>
+        <translation>Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation>Sil</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation>&amp;Yeni Öğe</translation>
+        <translation>&amp;Yeni Öge</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2703,7 +2703,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>&amp;Seçili Öğeleri Sırala</translation>
+        <translation>&amp;Seçili Ögeleri Sırala</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
@@ -2713,7 +2713,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>&amp;Seçili Öğeler Tersine</translation>
+        <translation>&amp;Seçili Ögeler Tersine</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
@@ -2723,12 +2723,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Paste Items</source>
-        <translation>&amp;Öğeleri Yapıştır</translation>
+        <translation>&amp;Ögeleri Yapıştır</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Copy Selected Items</source>
-        <translation>&amp;Seçili Öğeleri Kopyala</translation>
+        <translation>&amp;Seçili Ögeleri Kopyala</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="97"/>
@@ -2910,7 +2910,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
-        <translation>Öğe İçeriği Menüsünü Aç</translation>
+        <translation>Öge İçeriği Menüsünü Aç</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
@@ -3075,12 +3075,12 @@ Pano içeriği ayarla.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Geçerli sekmedeki öğelerin miktarını yazdır.</translation>
+        <translation>Geçerli sekmedeki ögelerin miktarını yazdır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation>Satırdaki öğeyi panoya kopyalayın.</translation>
+        <translation>Satırdaki ögeyi panoya kopyalayın.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
@@ -3094,12 +3094,12 @@ Pano içeriği ayarla.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation>Bir sonraki öğeyi geçerli sekmeden panoya kopyalayın.</translation>
+        <translation>Bir sonraki ögeyi geçerli sekmeden panoya kopyalayın.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation>Önceki öğeyi geçerli sekmeden panoya kopyala.</translation>
+        <translation>Önceki ögeyi geçerli sekmeden panoya kopyala.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
@@ -3114,7 +3114,7 @@ Pano içeriği ayarla.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Remove items in given rows.</source>
-        <translation>Verilen satırlardaki öğeleri kaldırın.</translation>
+        <translation>Verilen satırlardaki ögeleri kaldır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
@@ -3127,13 +3127,13 @@ Pano içeriği ayarla.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>Öğeleri düzenleyin veya yenisini düzenleyin.
+        <translation>Ögeleri düzenleyin veya yenisini düzenleyin.
 -1 değeri panodaki geçerli metin içindir.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Set separator for items on output.</source>
-        <translation>Çıkıştaki öğeler için ayırıcı ayarlayın.</translation>
+        <translation>Çıkıştaki ögeler için ayırıcı ayarlayın.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
@@ -3144,7 +3144,7 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>Satırdaki öğenin veya panonun ham verilerini yazdır.</translation>
+        <translation>Satırdaki ögenin veya panonun ham verilerini yazdır.</translation>
     </message>
     <message>
         <source>
@@ -3237,7 +3237,7 @@ Varsayılan ayar ilk sekmedir.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
-        <translation>Sekmeyi Kaldır.</translation>
+        <translation>Sekmeyi kaldır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
@@ -3252,7 +3252,7 @@ Varsayılan ayar ilk sekmedir.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Export items to file.</source>
-        <translation>Öğeleri dosyaya aktarın.</translation>
+        <translation>Ögeleri dosyaya aktarın.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
@@ -3263,7 +3263,7 @@ Varsayılan ayar ilk sekmedir.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Import items from file.</source>
-        <translation>Öğeleri dosyadan içe aktar.</translation>
+        <translation>Ögeleri dosyadan içe aktar.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
@@ -3575,7 +3575,7 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>&amp;Maksimum öğe sayısı:</translation>
+        <translation>&amp;Maksimum öge sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
