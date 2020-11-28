@@ -288,7 +288,7 @@ QString iconForItem(const QVariantMap &dataMap, const QString &baseName, const Q
  * Return true only if the item was created by CopyQ
  * (i.e. has no file assigned or the file name matches internal format).
  */
-bool isOwnItem(const QString &baseName)
+bool isOwnFile(const QString &baseName)
 {
     return baseName.isEmpty() || FileWatcher::isOwnBaseName(baseName);
 }
@@ -301,12 +301,7 @@ bool isOwnItem(const QModelIndex &index)
 
 bool containsItemsWithNotOwnedFiles(const QList<QModelIndex> &indexList)
 {
-    for (const auto &index : indexList) {
-        if ( !isOwnItem(index) )
-            return true;
-    }
-
-    return false;
+    return !std::all_of( std::begin(indexList), std::end(indexList), isOwnItem );
 }
 
 void fixUserExtensions(QStringList *exts)
@@ -738,7 +733,7 @@ ItemSaverPtr ItemSyncLoader::initializeTab(const QString &tabName, QAbstractItem
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
     const auto baseName = FileWatcher::getBaseName(data);
-    if ( isOwnItem(baseName) )
+    if ( isOwnFile(baseName) )
         return nullptr;
 
     itemWidget->setTagged(true);
