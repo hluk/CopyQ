@@ -1714,7 +1714,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Naredba uređivača nije uspjela (pogledaj dnevnike)</translation>
     </message>
 </context>
 <context>
