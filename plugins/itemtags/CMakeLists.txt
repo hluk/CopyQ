@@ -1,5 +1,6 @@
 set(copyq_plugin_itemtags_SOURCES
     ../../src/item/itemwidgetwrapper.cpp
+    ../../src/item/itemsaverwrapper.cpp
     ../../src/common/config.cpp
     ../../src/common/log.cpp
     ../../src/common/mimetypes.cpp

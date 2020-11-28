@@ -36,6 +36,7 @@
 #include <QBoxLayout>
 #include <QColorDialog>
 #include <QLabel>
+#include <QMessageBox>
 #include <QModelIndex>
 #include <QPainter>
 #include <QPixmap>
@@ -43,6 +44,8 @@
 #include <QSettings>
 #include <QtPlugin>
 #include <QUrl>
+
+#include <memory>
 
 Q_DECLARE_METATYPE(ItemTags::Tag)
 
@@ -60,7 +63,8 @@ enum {
     match,
     styleSheet,
     color,
-    icon
+    icon,
+    lock
 };
 }
 
@@ -128,7 +132,7 @@ void setColorIcon(QPushButton *button, const QColor &color)
 void setFixedColumnSize(QTableWidget *table, int logicalIndex)
 {
     table->horizontalHeader()->setSectionResizeMode(logicalIndex, QHeaderView::Fixed);
-    table->horizontalHeader()->resizeSection(logicalIndex, table->rowHeight(0));
+    table->resizeColumnToContents(logicalIndex);
 }
 
 QVariant cellWidgetProperty(QTableWidget *table, int row, int column, const char *property)
@@ -278,6 +282,27 @@ ItemTags::Tag findMatchingTag(const QString &tagText, const ItemTags::Tags &tags
     }
 
     return ItemTags::Tag();
+}
+
+bool isLocked(const QModelIndex &index, const ItemTags::Tags &tags)
+{
+    const auto dataMap = index.data(contentType::data).toMap();
+    const auto itemTags = ::tags(dataMap);
+    return std::any_of(
+        std::begin(itemTags), std::end(itemTags),
+        [&tags](const QString &itemTag){
+            const auto tag = findMatchingTag(itemTag, tags);
+            return tag.lock;
+        });
+}
+
+bool containsLockedItems(const QModelIndexList &indexList, const ItemTags::Tags &tags)
+{
+    return std::any_of(
+        std::begin(indexList), std::end(indexList),
+        [&tags](const QModelIndex &index){
+            return isLocked(index, tags);
+        });
 }
 
 class TagTableWidgetItem final : public QTableWidgetItem
@@ -575,6 +600,40 @@ bool ItemTagsScriptable::removeTag(const QString &tagName, QStringList *tags)
     return true;
 }
 
+ItemTagsSaver::ItemTagsSaver(const ItemTags::Tags &tags, const ItemSaverPtr &saver)
+    : ItemSaverWrapper(saver)
+    , m_tags(tags)
+{
+}
+
+bool ItemTagsSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)
+{
+    if ( !containsLockedItems(indexList, m_tags) )
+        return ItemSaverWrapper::canRemoveItems(indexList, error);
+
+    if (error) {
+        *error = "Removing items with locked tags is not allowed (untag items first)";
+        return false;
+    }
+
+    QMessageBox::information(
+                QApplication::activeWindow(),
+                ItemTagsLoader::tr("Cannot Remove Items With a Locked Tag"),
+                ItemTagsLoader::tr("Untag items first to remove them.") );
+    return false;
+}
+
+bool ItemTagsSaver::canDropItem(const QModelIndex &index)
+{
+    return !isLocked(index, m_tags) && ItemSaverWrapper::canDropItem(index);
+}
+
+bool ItemTagsSaver::canMoveItems(const QList<QModelIndex> &indexList)
+{
+    return !containsLockedItems(indexList, m_tags)
+            && ItemSaverWrapper::canMoveItems(indexList);
+}
+
 ItemTagsLoader::ItemTagsLoader()
     : m_blockDataChange(false)
 {
@@ -636,6 +695,7 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     header->setSectionResizeMode(tagsTableColumns::match, QHeaderView::Stretch);
     setFixedColumnSize(ui->tableWidget, tagsTableColumns::color);
     setFixedColumnSize(ui->tableWidget, tagsTableColumns::icon);
+    setFixedColumnSize(ui->tableWidget, tagsTableColumns::lock);
 
     connect( ui->tableWidget, &QTableWidget::itemChanged,
              this, &ItemTagsLoader::onTableWidgetItemChanged );
@@ -651,6 +711,15 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QVariantMap 
 
     itemWidget->setTagged(true);
     return new ItemTags(itemWidget, tags);
+}
+
+ItemSaverPtr ItemTagsLoader::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *)
+{
+    // Avoid checking for locked items if no locked tags are specified in configuration.
+    const bool hasAnyLocks = std::any_of(
+        std::begin(m_tags), std::end(m_tags),
+        [](const ItemTags::Tag &tag){ return tag.lock; });
+    return hasAnyLocks ? std::make_shared<ItemTagsSaver>(m_tags, saver) : saver;
 }
 
 bool ItemTagsLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
@@ -777,7 +846,8 @@ QString ItemTagsLoader::serializeTag(const ItemTagsLoader::Tag &tag)
             + ";;" + escapeTagField(tag.color)
             + ";;" + escapeTagField(tag.icon)
             + ";;" + escapeTagField(tag.styleSheet)
-            + ";;" + escapeTagField(tag.match);
+            + ";;" + escapeTagField(tag.match)
+            + ";;" + (tag.lock ? "L" : "");
 }
 
 ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
@@ -790,6 +860,7 @@ ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
     tag.icon = unescapeTagField(tagFields.value(2));
     tag.styleSheet = unescapeTagField(tagFields.value(3));
     tag.match = unescapeTagField(tagFields.value(4));
+    tag.lock = unescapeTagField(tagFields.value(5)) == QLatin1String("L");
 
     return tag;
 }
@@ -836,6 +907,10 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
     t->setItem( row, tagsTableColumns::color, new QTableWidgetItem() );
     t->setItem( row, tagsTableColumns::icon, new QTableWidgetItem() );
 
+    auto lock = new QTableWidgetItem();
+    lock->setCheckState(tag.lock ? Qt::Checked : Qt::Unchecked);
+    t->setItem( row, tagsTableColumns::lock, lock );
+
     auto colorButton = new QPushButton(t);
     const QColor color = tag.color.isEmpty()
             ? QColor::fromRgb(50, 50, 50)
@@ -864,5 +939,6 @@ ItemTagsLoader::Tag ItemTagsLoader::tagFromTable(int row)
     tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon").toString();
     tag.styleSheet = t->item(row, tagsTableColumns::styleSheet)->text();
     tag.match = t->item(row, tagsTableColumns::match)->text();
+    tag.lock = t->item(row, tagsTableColumns::lock)->checkState() == Qt::Checked;
     return tag;
 }

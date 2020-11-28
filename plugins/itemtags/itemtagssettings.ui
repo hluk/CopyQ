@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>294</height>
+    <width>629</width>
+    <height>369</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -56,6 +56,14 @@
      <column>
       <property name="text">
        <string>Icon</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Lock</string>
+      </property>
+      <property name="toolTip">
+       <string>Avoid removing item</string>
       </property>
      </column>
     </widget>

@@ -22,6 +22,7 @@
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
+#include "item/itemsaverwrapper.h"
 
 #include <QWidget>
 
@@ -51,26 +52,18 @@ public slots:
     void unpinData();
 };
 
-class ItemPinnedSaver final : public QObject, public ItemSaverInterface
+class ItemPinnedSaver final : public QObject, public ItemSaverWrapper
 {
     Q_OBJECT
 
 public:
     ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver);
 
-    bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
-
     bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
 
     bool canDropItem(const QModelIndex &index) override;
 
     bool canMoveItems(const QList<QModelIndex> &indexList) override;
-
-    void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
-
-    QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
-
-    void setFocus(bool focus) override;
 
 private:
     void onRowsInserted(const QModelIndex &parent, int start, int end);
@@ -83,7 +76,6 @@ private:
 
     QPointer<QAbstractItemModel> m_model;
     QVariantMap m_settings;
-    ItemSaverPtr m_saver;
 
     // Last pinned row in list (improves performace of updates).
     int m_lastPinned = -1;

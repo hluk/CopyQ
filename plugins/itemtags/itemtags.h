@@ -22,6 +22,7 @@
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
+#include "item/itemsaverwrapper.h"
 
 #include <QVariant>
 #include <QVector>
@@ -44,6 +45,7 @@ public:
         QString icon;
         QString styleSheet;
         QString match;
+        bool lock;
     };
 
     using Tags = QVector<ItemTags::Tag>;
@@ -97,6 +99,21 @@ private:
     QStringList m_userTags;
 };
 
+class ItemTagsSaver final : public ItemSaverWrapper
+{
+public:
+    ItemTagsSaver(const ItemTags::Tags &tags, const ItemSaverPtr &saver);
+
+    bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
+
+    bool canDropItem(const QModelIndex &index) override;
+
+    bool canMoveItems(const QList<QModelIndex> &indexList) override;
+
+private:
+    ItemTags::Tags m_tags;
+};
+
 class ItemTagsLoader final : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
@@ -122,6 +139,8 @@ public:
     QWidget *createSettingsWidget(QWidget *parent) override;
 
     ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
+
+    ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model) override;
 
     bool matches(const QModelIndex &index, const QRegularExpression &re) const override;
 

@@ -164,9 +164,9 @@ void ItemPinnedScriptable::unpinData()
 }
 
 ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver)
-    : m_model(model)
+    : ItemSaverWrapper(saver)
+    , m_model(model)
     , m_settings(settings)
-    , m_saver(saver)
 {
     connect( model, &QAbstractItemModel::rowsInserted,
              this, &ItemPinnedSaver::onRowsInserted );
@@ -180,15 +180,10 @@ ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &setting
     updateLastPinned( 0, m_model->rowCount() );
 }
 
-bool ItemPinnedSaver::saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file)
-{
-    return m_saver->saveItems(tabName, model, file);
-}
-
 bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString *error)
 {
     if ( !containsPinnedItems(indexList) )
-        return m_saver->canRemoveItems(indexList, error);
+        return ItemSaverWrapper::canRemoveItems(indexList, error);
 
     if (error) {
         *error = "Removing pinned item is not allowed (unpin item first)";
@@ -204,28 +199,13 @@ bool ItemPinnedSaver::canRemoveItems(const QList<QModelIndex> &indexList, QStrin
 
 bool ItemPinnedSaver::canDropItem(const QModelIndex &index)
 {
-    return !isPinned(index) && m_saver->canDropItem(index);
+    return !isPinned(index) && ItemSaverWrapper::canDropItem(index);
 }
 
 bool ItemPinnedSaver::canMoveItems(const QList<QModelIndex> &indexList)
 {
     return !containsPinnedItems(indexList)
-            && m_saver->canMoveItems(indexList);
-}
-
-void ItemPinnedSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
-{
-    m_saver->itemsRemovedByUser(indexList);
-}
-
-QVariantMap ItemPinnedSaver::copyItem(const QAbstractItemModel &model, const QVariantMap &itemData)
-{
-    return m_saver->copyItem(model, itemData);
-}
-
-void ItemPinnedSaver::setFocus(bool focus)
-{
-    return m_saver->setFocus(focus);
+            && ItemSaverWrapper::canMoveItems(indexList);
 }
 
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
