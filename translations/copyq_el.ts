@@ -583,7 +583,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="247"/>
         <source>Show command in context menu of matching items</source>
-        <translation>Εμφάνιση της εντολής στο σχετικό μενού των ταιριαστών αντικειμένων.</translation>
+        <translation>Εμφάνιση της εντολής στο σχετικό μενού των ταιριαστών αντικειμένων</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="250"/>
@@ -688,7 +688,9 @@ Leave empty to disable this.</source>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση του αντικειμένου που ταιριάζει
+
+Σημείωση: Αν εφαρμόζεται αυτομάτως, δεν θα εκτελούνται άλλες αυτόματες εντολές.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="465"/>
@@ -703,7 +705,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="496"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη του παραθύρου μετά την ενεργοποίηση μιας εντολής από το σχετικό μενού ενός αντικειμένου</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="499"/>
@@ -713,7 +715,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="509"/>
         <source>Command options</source>
-        <translation>Command options</translation>
+        <translation>Επιλογές εντολής</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="538"/>
@@ -723,7 +725,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="548"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία αντικειμένων από την τυπική έξοδο του προγράμματος (αφήστε το κενό για απενεργοποίηση)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="558"/>
@@ -733,7 +735,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="568"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο διαχωριστής που θα ταιριάζει για τον διαχωρισμό της εξόδου σε πολλαπλά αντικείμενα</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="571"/>
@@ -743,17 +745,17 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="578"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Καρτέλα εξόδου:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="588"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση των αντικειμένων σε καρτέλα με το δοθέν όνομα (αφήστε το κενό για αποθήκευση στην πρώτη καρτέλα)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="605"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του διαλόγου ενέργειας πριν την εκτέλεση της εντολής</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="608"/>
@@ -763,7 +765,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="615"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή του αντικειμένου, να μην δημιουργηθούν νέα αντικείμενα</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="618"/>
@@ -773,7 +775,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="690"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Προβολή προηγμένων</translation>
     </message>
 </context>
 <context>
@@ -856,7 +858,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation>S&amp;ystem Icons</translation>
+        <translation>Εικονίδια του &amp;συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -886,7 +888,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αποθήκευση του θέματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -916,7 +918,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="167"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Κανένας εξωτερικός κειμενογράφος</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="168"/>
