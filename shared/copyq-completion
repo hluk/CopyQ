@@ -1,4 +1,9 @@
 # shellcheck shell=bash
+
+list_sessions() {
+    ss -l -x | sed -n '/\/\.copyq[^_]*_s /{s/.*\/\.copyq-\?\([^_]*\)_s .*/\1/;p}'
+}
+
 _copyq_completions() {
     case "$COMP_CWORD" in
         1)
@@ -132,8 +137,9 @@ _copyq_completions() {
                     # COMPREPLY=('[SCRIPT] [ARGUMENTS]')
                     ;;
                 session|-s|--session)
-                    # Not sure what this is. Any way to query available sessions for completion?
-                    # COMPREPLY=(SESSION)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(compgen -W "$(list_sessions)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 help|-h|--help)
                     while read -r item; do
