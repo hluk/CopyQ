@@ -9,11 +9,13 @@ Build-Depends:
  libqt5svg5-dev,
  libxfixes-dev,
  libxtst-dev,
+ libqt5waylandclient5-dev,
  libqt5x11extras5-dev,
  qtbase5-private-dev,
  qtdeclarative5-dev,
  qttools5-dev,
  qttools5-dev-tools,
+ qtwayland5,
  qtwayland5-dev-tools,
  libwayland-dev,
 Standards-Version: 4.1.0
