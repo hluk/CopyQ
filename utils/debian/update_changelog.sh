@@ -4,6 +4,9 @@ set -e
 distro=${1:-xenial}
 version="$(git describe|sed 's/^v//;s/-/./;s/-/~/')~$distro"
 
+sed -i "s/^set(copyq_version .*)$/set(copyq_version \"v$version\")/" version.cmake
+grep -Fq "\"v$version\"" version.cmake
+
 git checkout HEAD debian/control debian/rules
 sed -i 's/debhelper .*,/debhelper (>= 9),/' 'debian/control'
 sed -i 's/Standards-Version:.*/Standards-Version: 3.9.7/' 'debian/control'
