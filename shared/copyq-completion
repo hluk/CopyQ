@@ -1,4 +1,4 @@
-#!/bin/bash
+# shellcheck shell=bash
 _copyq_completions() {
     case "$COMP_CWORD" in
         1)
