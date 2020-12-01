@@ -28,19 +28,19 @@ _copyq_completions() {
                     done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 clipboard)
-                    # Generate mime type list?
-                    # COMPREPLY=(MIME)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq clipboard -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 selection)
-                    # Generate mime type list?
-                    # COMPREPLY=(MIME)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq selection -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 copy)
-                    # No reasonable way to predict user text.
-                    # COMPREPLY=(TEXT)
-                    # Generate mime type list?
-                    # No reasonable way to predict user text.
-                    # COMPREPLY=(MIME DATA [MIME DATA]...)
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 select)
                     # Generate numbers 1-n?
@@ -73,17 +73,14 @@ _copyq_completions() {
                     # COMPREPLY=(SEPARATOR)
                     ;;
                 read)
-                    # Generate mime type list?
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=('MIME|ROW...')
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq read -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 write)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # Generate mime type list?
-                    # No reasonable way to predict user text.
-                    # COMPREPLY=('[ROW=0] MIME DATA [MIME DATA]...')
+                    while read -r item; do
+                        COMPREPLY+=("$item")
+                    done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 action)
                     # Generate numbers 1-n?
