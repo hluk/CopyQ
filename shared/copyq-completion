@@ -1,7 +1,32 @@
 # shellcheck shell=bash
 
+commands=(
+    show hide toggle menu exit disable enable clipboard selection paste copy
+    count select next previous add insert remove edit separator read write
+    action popup tab removetab renametab exporttab importtab config eval session
+    help
+)
+
 list_sessions() {
     ss -l -x | sed -n '/\/\.copyq[^_]*_s /{s/.*\/\.copyq-\?\([^_]*\)_s .*/\1/;p}'
+}
+
+complete_words() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(compgen -W "$1" -- "${COMP_WORDS[$COMP_CWORD]}")
+}
+
+complete_lines() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(IFS=$'\n' compgen -W "$1" -- "${COMP_WORDS[$COMP_CWORD]}")
+}
+
+complete_files() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
 }
 
 _copyq_completions() {
@@ -9,19 +34,13 @@ _copyq_completions() {
         1)
             case "${COMP_WORDS[$COMP_CWORD]}" in
                 --*)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W '--session --help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_words '--session --help'
                     ;;
                 -*)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W '-e -s -h' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_words '-e -s -h'
                     ;;
                 *)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_words "${commands[*]}"
                     ;;
             esac
             ;;
@@ -29,142 +48,55 @@ _copyq_completions() {
             case "${COMP_WORDS[$COMP_CWORD-1]}" in
                 show)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq tab)"
                     ;;
                 clipboard)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq clipboard -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq clipboard -- ?)"
                     ;;
                 selection)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq selection -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq selection -- ?)"
                     ;;
                 copy)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
-                    ;;
-                select)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=(ROW)
-                    ;;
-                add)
-                    # No reasonable way to predict user text.
-                    # COMPREPLY=(TEXT)
-                    ;;
-                insert)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=(ROW)
-                    # No reasonable way to predict user text.
-                    # COMPREPLY=(TEXT)
-                    ;;
-                remove)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=(ROWS...)
-                    ;;
-                edit)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=(ROW...)
-                    ;;
-                separator)
-                    # No reasonable way to predict user separator.
-                    # COMPREPLY=(SEPARATOR)
+                    complete_lines "$(copyq clipboardFormatsToSave)"
                     ;;
                 read)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq read -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq read -- ?)"
                     ;;
                 write)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
-                    ;;
-                action)
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # COMPREPLY=('[ROWS=0...]')
-                    # Generate numbers 1-n?
-                    # Probably not very useful.
-                    # Can complete executables on PATH for PROGRAM.
-                    # No reasonable way to predict user separator.
-                    # COMPREPLY=('[ROWS=0...] [PROGRAM [SEPARATOR=\n]]')
-                    ;;
-                popup)
-                    # No reasonable way to predict user inputs.
-                    # COMPREPLY=('TITLE MESSAGE [TIME=8000]')
+                    complete_lines "$(copyq clipboardFormatsToSave)"
                     ;;
                 tab)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq tab)"
                     ;;
                 removetab)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq tab)"
                     ;;
                 renametab)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(copyq tab)"
                     ;;
                 exporttab)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_files
                     ;;
                 importtab)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_files
                     ;;
                 config)
                     pidof copyq &>/dev/null || return
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W "$(copyq config | grep '^[^ ]')" -- "${COMP_WORDS[$COMP_CWORD]}")
-                    ;;
-                eval|-e)
-                    # No reasonable way to predict user inputs.
-                    # COMPREPLY=('[SCRIPT] [ARGUMENTS]')
+                    complete_lines "$(copyq config | grep '^[^ ]')"
                     ;;
                 session|-s|--session)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W "$(list_sessions)" -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_lines "$(list_sessions)"
                     ;;
                 help|-h|--help)
-                    while read -r item; do
-                        COMPREPLY+=("$item")
-                    done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
-                    ;;
-            esac
-            ;;
-        3)
-            case "${COMP_WORDS[$COMP_CWORD-2]}" in
-                tab)
-                    # Which commands are valid in the tab context?
-
-                    # while read -r item; do
-                    #     COMPREPLY+=("$item")
-                    # done < <(compgen -W 'show hide toggle menu exit disable enable clipboard selection paste copy count select next previous add insert remove edit separator read write action popup tab removetab renametab exporttab importtab config eval session help' -- "${COMP_WORDS[$COMP_CWORD]}")
+                    complete_words "${commands[*]}"
                     ;;
             esac
             ;;
