@@ -28,21 +28,25 @@ _copyq_completions() {
         2)
             case "${COMP_WORDS[$COMP_CWORD-1]}" in
                 show)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 clipboard)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq clipboard -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 selection)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq selection -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 copy)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
@@ -78,11 +82,13 @@ _copyq_completions() {
                     # COMPREPLY=(SEPARATOR)
                     ;;
                 read)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq read -- ?)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 write)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq clipboardFormatsToSave)" -- "${COMP_WORDS[$COMP_CWORD]}")
@@ -102,16 +108,19 @@ _copyq_completions() {
                     # COMPREPLY=('TITLE MESSAGE [TIME=8000]')
                     ;;
                 tab)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 removetab)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 renametab)
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(IFS=$'\n' compgen -W "$(copyq tab)" -- "${COMP_WORDS[$COMP_CWORD]}")
@@ -127,7 +136,7 @@ _copyq_completions() {
                     done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
                     ;;
                 config)
-                    # Could generate allowed values for each config type but that would be a lot of work.
+                    pidof copyq &>/dev/null || return
                     while read -r item; do
                         COMPREPLY+=("$item")
                     done < <(compgen -W "$(copyq config | grep '^[^ ]')" -- "${COMP_WORDS[$COMP_CWORD]}")
