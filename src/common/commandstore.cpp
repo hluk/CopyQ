@@ -32,6 +32,17 @@
 
 namespace {
 
+void normalizeLineBreaks(QString &cmd)
+{
+    if (cmd.startsWith("\n    ")) {
+        cmd.remove(0, 5);
+        cmd.replace("\n    ", "\n");
+    } else if (cmd.startsWith("\r\n    ")) {
+        cmd.remove(0, 6);
+        cmd.replace("\r\n    ", "\n");
+    }
+}
+
 void loadCommand(const QSettings &settings, Commands *commands)
 {
     Command c;
@@ -138,13 +149,8 @@ Commands importCommands(QSettings *settings)
     auto commands = loadCommands(settings);
 
     for (auto &command : commands) {
-        if (command.cmd.startsWith("\n    ")) {
-            command.cmd.remove(0, 5);
-            command.cmd.replace("\n    ", "\n");
-        } else if (command.cmd.startsWith("\r\n    ")) {
-            command.cmd.remove(0, 6);
-            command.cmd.replace("\r\n    ", "\n");
-        }
+        normalizeLineBreaks(command.cmd);
+        normalizeLineBreaks(command.matchCmd);
     }
 
     return commands;
@@ -237,7 +243,7 @@ QString exportCommands(const Commands &commands)
     // Replace ugly '\n' with indented lines.
     const QString data = getTextData( temporarySettings.content() );
     QString commandData;
-    QRegularExpression re(R"(^(\d+\\)?Command="?)");
+    QRegularExpression re(R"(^(\d+\\)?(Command|MatchCommand)="?)");
 
     for (const auto &line : data.split('\n')) {
         const auto m = re.match(line);
