@@ -8,7 +8,7 @@ commands=(
 )
 
 list_sessions() {
-    ss -l -x | sed -n '/\/\.copyq[^_]*_s /{s/.*\/\.copyq-\?\([^_]*\)_s .*/\1/;p}'
+    ss -l -x | sed -nE 's#.*/\.copyq-?(\S*)_s .*#\1#p'
 }
 
 complete_words() {
