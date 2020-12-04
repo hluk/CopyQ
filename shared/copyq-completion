@@ -1,0 +1,106 @@
+# shellcheck shell=bash
+
+commands=(
+    show hide toggle menu exit disable enable clipboard selection paste copy
+    count select next previous add insert remove edit separator read write
+    action popup tab removetab renametab exporttab importtab config eval session
+    help
+)
+
+list_sessions() {
+    ss -l -x | sed -n '/\/\.copyq[^_]*_s /{s/.*\/\.copyq-\?\([^_]*\)_s .*/\1/;p}'
+}
+
+complete_words() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(compgen -W "$1" -- "${COMP_WORDS[$COMP_CWORD]}")
+}
+
+complete_lines() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(IFS=$'\n' compgen -W "$1" -- "${COMP_WORDS[$COMP_CWORD]}")
+}
+
+complete_files() {
+    while read -r item; do
+        COMPREPLY+=("$item")
+    done < <(compgen -f -- "${COMP_WORDS[$COMP_CWORD]}")
+}
+
+_copyq_completions() {
+    case "$COMP_CWORD" in
+        1)
+            case "${COMP_WORDS[$COMP_CWORD]}" in
+                --*)
+                    complete_words '--session --help'
+                    ;;
+                -*)
+                    complete_words '-e -s -h'
+                    ;;
+                *)
+                    complete_words "${commands[*]}"
+                    ;;
+            esac
+            ;;
+        2)
+            case "${COMP_WORDS[$COMP_CWORD-1]}" in
+                show)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq tab)"
+                    ;;
+                clipboard)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq clipboard -- ?)"
+                    ;;
+                selection)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq selection -- ?)"
+                    ;;
+                copy)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq clipboardFormatsToSave)"
+                    ;;
+                read)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq read -- ?)"
+                    ;;
+                write)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq clipboardFormatsToSave)"
+                    ;;
+                tab)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq tab)"
+                    ;;
+                removetab)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq tab)"
+                    ;;
+                renametab)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq tab)"
+                    ;;
+                exporttab)
+                    complete_files
+                    ;;
+                importtab)
+                    complete_files
+                    ;;
+                config)
+                    pidof copyq &>/dev/null || return
+                    complete_lines "$(copyq config | grep '^[^ ]')"
+                    ;;
+                session|-s|--session)
+                    complete_lines "$(list_sessions)"
+                    ;;
+                help|-h|--help)
+                    complete_words "${commands[*]}"
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+complete -o filenames -F _copyq_completions copyq
