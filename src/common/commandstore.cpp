@@ -255,7 +255,8 @@ QString exportCommands(const Commands &commands)
             if (addQuotes)
                 commandData.append('"');
 
-            commandData.append("\n    ");
+            commandData.append('\n');
+            const QLatin1String indent("    ");
             bool escape = false;
 
             for (; i < line.size(); ++i) {
@@ -265,14 +266,18 @@ QString exportCommands(const Commands &commands)
                     escape = false;
 
                     if (c == 'n') {
-                        commandData.append("\n    ");
+                        commandData.append('\n');
                     } else {
+                        if ( commandData.endsWith('\n') )
+                            commandData.append(indent);
                         commandData.append('\\');
                         commandData.append(c);
                     }
                 } else if (c == '\\') {
                     escape = !escape;
                 } else {
+                    if ( commandData.endsWith('\n') )
+                        commandData.append(indent);
                     commandData.append(c);
                 }
             }
