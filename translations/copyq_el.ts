@@ -1123,14 +1123,14 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>Α&amp;ποφόρτωση της καρτέλας μετά της καθυστέρησης σε λεπτά:</translation>
+        <translation>&amp;Εκφόρτωση της καρτέλας μετά της καθυστέρησης σε λεπτά:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>Αποφόρτωση των καρτελών από την μνήμη μετά από ένα καθορισμένο χρονικό διάστημα αδράνειας σε λεπτά.
+        <translation>Εκφόρτωση των καρτελών από την μνήμη μετά από ένα καθορισμένο χρονικό διάστημα αδράνειας σε λεπτά.
 
 Ορίστε το σε 0 για απενεργοποίηση.</translation>
     </message>
@@ -1423,32 +1423,34 @@ Set to -1 to keep visible until clicked.</source>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αριθμοί γραμμών εμφάνισης του νέου περιεχομένου του πρόχειρου.
+
+Ορίστε το σε 0 για απενεργοποίηση.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωμετρία ειδοποιήσεων (σε σημεία οθόνης)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Οριζόντια μετατόπιση:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόσταση των ειδοποιήσεων από την αριστερή ή δεξιά πλευρά της οθόνης σε σημεία οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Κάθετη μετατόπιση:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόσταση των ειδοποιήσεων από την κορυφή ή την βάση της οθόνης σε σημεία οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
@@ -1458,7 +1460,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο πλάτος για τις ειδοποιήσεις σε σημεία οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
@@ -1468,7 +1470,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο ύψος για τις ειδοποιήσεις σε σημεία οθόνης</translation>
     </message>
 </context>
 <context>
@@ -1476,72 +1478,72 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Να μην εμφανίζεται το εικονίδιο στο πλαίσιο συστήματος· ελαχιστοποίηση του παραθύρου κατά το κλείσιμο</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση του πλαισίου συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της εντολής για το τρέχον περιεχόμενου στο πρόχειρο στο μενού του πλαισίου συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των εντολών για το περιεχόμενο του πρόχειρου</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Πλήθος αντικειμένων στο πλαίσιο συστήματος:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Πλήθος αντικειμένων στο πλαίσιο συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των αντικειμένων από την τρέχουσα καρτέλα στο πλαίσιο συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της τρέχουσας καρτέλας στο μενού,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>ή &amp;επιλογή μιας άλλης καρτέλας:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της καρτέλας προς εμφάνιση στο μενού του πλαισίου συστήματος (αφήστε κενό για την πρώτη καρτέλα)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση του αντικειμένου στο τρέχον παράθυρο μετά την επιλογή του στο μενού</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Επικόλληση του ενεργοποιημένου αντικειμένου στο τρέχον παράθυρο</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της προεπισκόπησης της εικόνας δίπλα από το μενού αντικειμένων</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Εμφάνιση της προεπισκόπησης της εικόνας ως εικονίδιο του αντικειμένου στο μενού</translation>
     </message>
 </context>
 <context>
@@ -1599,7 +1601,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="434"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη έγκυρη τιμή για την επιλογή &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="477"/>
@@ -1609,7 +1611,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="478"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η ενέργεια θα επαναφέρει όλες σας τις ρυθμίσεις (σε όλες τις καρτέλες) στις προκαθορισμένες τιμές.&lt;br /&gt;&lt;br /&gt;Επιθυμείτε πραγματικά την &lt;strong&gt;επαναφορά όλων των ρυθμίσεων&lt;/strong&gt;;</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="581"/>
@@ -1619,7 +1621,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="582"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η αλλαγή της γλώσσας θα λάβει χώρα μετά την επανεκκίνηση της εφαρμογής.</translation>
     </message>
 </context>
 <context>
@@ -1627,7 +1629,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="683"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία δημιουργίας του καταλόγου συγχρονισμού &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
@@ -1636,7 +1638,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Κάτω</translation>
     </message>
 </context>
 <context>
@@ -1663,7 +1665,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
         <source>Browse...</source>
-        <translation type="unfinished">Περιήγηση...</translation>
+        <translation>Περιήγηση...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
@@ -1704,7 +1706,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εντολή επεξεργαστή απέτυχε (ανατρέξτε στις καταγραφές)</translation>
     </message>
 </context>
 <context>
@@ -1733,7 +1735,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="292"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ακύρωσςη της επεξεργασίας και επαναφορά των αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="293"/>
@@ -1807,7 +1809,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την κοινή χρήση κρυπτογραφημένων αντικειμένων σε άλλον υπολογιστή ή συνεδρία, χρειάζεστε τα αρχεία δημοσίου και μυστικού κλειδιού:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Διατηρήστε το μυστικό κλειδί σε ασφαλές μέρος.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
@@ -1868,7 +1870,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία νέων κλειδιών (μπορεί να διαρκέσει μερικά λεπτά)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
@@ -1879,17 +1881,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός νέου κωδικού πρόσβασης...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα κλειδιά κρυπτογράφησης &lt;strong&gt;πρέπει να δημιουργηθούν&lt;/strong&gt; πριν από την χρήση της κρυπτογράφησης αντικειμένων.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="910"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία νέων κλειδιών...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
@@ -1909,7 +1911,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυπτογράφηση αντικειμένων και καρτελών.</translation>
     </message>
 </context>
 <context>
@@ -1917,23 +1919,24 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την κρυπτογράφηση και αποκρυπτογράφηση των αντικειμένων προσθέστε τις κατάλληλες εντολές στην καρτέλα εντολών.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Κοινή χρήση κρυπτογραφημένων αντικειμένων και καρτελών</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυπτογραφημένες καρτέλες</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Καθορίστε τα ονόματα των καρτελών (μια ανά γραμμή) που θα κρυπτογραφηθούν/αποκρυπτογραφούν αυτομάτως.&lt;/p&gt;
+&lt;p&gt;Ορίστε το χρονικό διάστημα εκφόρτωσης της καρτέλας από το ιστορικό ούτως ώστε να εκφορτωθούν με ασφάλεια τα αποκρυπτογραφημένα αντικείμενα από την μνήμη.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1951,7 +1954,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσομοίωση του επεξεργαστή Vim κατά την επεξεργασία των αντικειμένων.</translation>
     </message>
 </context>
 <context>
@@ -1977,7 +1980,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="83"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση εικόνων.</translation>
     </message>
 </context>
 <context>
@@ -1985,7 +1988,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο &amp;πλάτος εικόνας:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
@@ -1995,7 +1998,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο ύ&amp;ψος εικόνας:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
@@ -2033,7 +2036,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="84"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των σημειώσεων των αντικειμένων.</translation>
     </message>
 </context>
 <context>
