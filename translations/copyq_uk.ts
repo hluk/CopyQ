@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Про програму</translation>
+        <translation>Про програму</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Діалог дій</translation>
+        <translation>Діалог дій</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Надіслати дані заданого типу медіа на стандартний ввід команди (залиште порожнім, щоб вимкнути)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Створити елементи зі стандартного виводу програми (залиште порожнім, щоб вимкнути)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
