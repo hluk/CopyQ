@@ -1137,7 +1137,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>&amp;Вивантажувати вкладки через певний час (хв):</translation>
+        <translation>Вивантажувати вкладки через певний &amp;час (хв):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
@@ -1194,7 +1194,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Зберігати змінений елемент клавішами Ctrl+Enter і створювати новий рядок клавішею Enter</translation>
+        <translation>З&amp;берігати змінений елемент клавішами Ctrl+Enter і створювати новий рядок клавішею Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1268,7 +1268,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
         <source>&amp;Paste to current window</source>
-        <translation>&amp;Вставляти в поточне вікно</translation>
+        <translation>В&amp;ставляти в поточне вікно</translation>
     </message>
 </context>
 <context>
@@ -2645,7 +2645,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>Команди/глобальні сполучення клавіш...</translation>
+        <translation>&amp;Команди/глобальні сполучення клавіш...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="72"/>
@@ -3294,7 +3294,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>NOTES:</source>
-        <translation>ПРИМІТКИ.</translation>
+        <translation>ПРИМІТКИ:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
