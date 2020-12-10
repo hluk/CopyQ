@@ -1962,12 +1962,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση του FakeVim για την επεξεργασία των αντικειμένων</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαδρομή του αρχείου διαμόρφωσης:</translation>
     </message>
 </context>
 <context>
@@ -1993,7 +1993,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο πλάτος της εικόνας του ιστορικού (ορίστε το σε μηδέν για το αρχικό μέγεθος)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2003,27 +2003,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο ύψος της εικόνας του ιστορικού (ορίστε το σε μηδέν για το αρχικό μέγεθος)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή επεξεργαστή ει&amp;κόνας:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή επεξεργαστή για υποστηριζόμενους τύπους εικόνων εκτός SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή επεξεργαστή &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή επεξεργαστή για τον τύπο εικόνας SVG.</translation>
     </message>
 </context>
 <context>
@@ -2120,7 +2120,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="106"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Καρφίτσωμα των αντικειμένων για κλείδωμα στην τρέχουσα γραμμή και αποφυγή διαγραφής (εκτός και αν το ξεκαρφιτσώσετε).&lt;/p&gt;&lt;p&gt;Παροχή συντομεύσεων και λειτουργία εγγραφής σεναρίων.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2134,12 +2134,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="815"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα καταλόγου για συγχρονισμό</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="829"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία δημιουργίας του καταλόγου συγχρονισμού</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="145"/>
@@ -2149,7 +2149,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="147"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγχρονισμός αντικειμένων και σημειώσεων με ένα κατάλογο στον δίσκο.</translation>
     </message>
 </context>
 <context>
@@ -2157,7 +2157,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία συγχρονισμού της καρτέλας &quot;%1&quot; με τον κατάλογο &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
@@ -2167,7 +2167,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε πραγματικά την &lt;strong&gt;αφαίρεση των αντικειμένων και των συσχετισμένων αρχείων&lt;/strong&gt;;</translation>
     </message>
 </context>
 <context>
@@ -2175,13 +2175,14 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγχρονισμός καρτελών και καταλόγων</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Συγχρονισμός των περιεχομένων της &lt;strong&gt;καρτέλας&lt;/strong&gt; με τον κατάλογο της δοθείσας &lt;strong&gt;διαδρομής&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Αφήστε &lt;strong&gt;κενή την διαδρομή&lt;/strong&gt; για να μην αποθηκεύονται τα αντικείμενα στην &lt;strong&gt;καρτέλα&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
