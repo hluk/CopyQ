@@ -1729,7 +1729,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>エディターコマンドに失敗しました (ログを確認してください)</translation>
     </message>
 </context>
 <context>
