@@ -207,12 +207,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation>Απενεργοποίηση της αποθήκευσης του προχείρου</translation>
+        <translation>Απενεργοποίηση της αποθήκευσης στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation>Ενεργοποίηση της αποθήκευσης του προχείρου</translation>
+        <translation>Ενεργοποίηση της αποθήκευσης στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
@@ -1157,7 +1157,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>&amp;Καρτέλα για την αποθήκευση του πρόχειρου:</translation>
+        <translation>&amp;Καρτέλα για την αποθήκευση στο πρόχειρο:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -2197,13 +2197,14 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο τύπος δεδομένων των αντικειμένων για τα αρχεία</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Ορίστε τον τύπο του μέσου σε &lt;strong&gt;-&lt;/strong&gt; (παύλα) για αγνόηση των αρχείων. Όλα τα υπόλοιπα άγνωστα ή κρυφά αρχεία θα αγνοηθούν.&lt;/p&gt;
+&lt;p&gt;Παράδειγμα: Φόρτωση της επέκτασης &lt;strong&gt;txt&lt;/strong&gt; ως τύπο μέσου&lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -2213,7 +2214,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος μέσου αντικειμένου</translation>
     </message>
 </context>
 <context>
@@ -2221,17 +2222,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="157"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ετικέτας</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση ετικέτας</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="181"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ετικέτας %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
@@ -2247,7 +2248,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
         <source>Clear all tags</source>
-        <translation type="unfinished">Καθαρισμός όλων</translation>
+        <translation>Καθαρισμός όλων των ετικετών</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
@@ -2257,7 +2258,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των ετικετών στα αντικείμενα.</translation>
     </message>
 </context>
 <context>
@@ -2265,12 +2266,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα αντικείμενα του μενού για την προσθήκη και αφαίρεση προσαρμοσμένων ετικετών μπορούν να προστεθούν και να προσαρμοστούν από τον διάλογο &quot;Εντολές&quot;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Για περισσότερες πληροφορίες ανατρέξτε στην σελίδα του &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -2303,12 +2304,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="76"/>
         <source>Text</source>
-        <translation type="unfinished">Κείμενο</translation>
+        <translation>Κείμενο</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="78"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση αντικειμένων απλού κειμένου και απλής HTML.</translation>
     </message>
 </context>
 <context>
@@ -2316,17 +2317,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση και εμφάνιση HTML και εμπλουτισμένου κειμένου</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστος αριθμός γραμμών προς εμφάνιση (0 για εμφάνιση όλων):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο ύψος σε εικονοστοιχεία (0 για απεριόριστο):</translation>
     </message>
 </context>
 <context>
@@ -2334,7 +2335,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Καταγραφή</translation>
+        <translation>Καταγραφή</translation>
     </message>
 </context>
 <context>
@@ -2342,12 +2343,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="337"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Αντικείμενα (*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="572"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished">Εμφάνιση / Απόκρυψη</translation>
+        <translation>&amp;Εμφάνιση/Απόκρυψη</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="603"/>
@@ -2357,7 +2358,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="604"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε την &lt;strong&gt;έξοδο&lt;/strong&gt; από το CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="654"/>
@@ -2392,7 +2393,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="782"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished">Ονομασία Ομάδας</translation>
+        <translation>Μετονομασία της ομάδος %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="784"/>
@@ -2402,17 +2403,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="786"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Α&amp;φαίρεση της καρτέλας %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="788"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished">Αφαίρεση ομάδας</translation>
+        <translation>Αφαίρεση της ομάδος %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="790"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή του ει&amp;κονιδίου καρτέλας</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="834"/>
@@ -2423,12 +2424,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1291"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ενεργοποίηση της αποθήκευσης στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1292"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Απενεργοποίηση της αποθήκευσης στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1948"/>
@@ -2455,7 +2456,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3602"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία εξαγωγής του αρχείου %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3694"/>
@@ -2465,27 +2466,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3695"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία εισαγωγής του αρχείου %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3867"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση όλων των καρτελών στην ομάδα;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3868"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε την αφαίρεση &lt;strong&gt;όλων των καρτελών&lt;/strong&gt; στην ομάδα &lt;strong&gt;%1&lt;/strong&gt;;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3915"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση της καρτέλας;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3916"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιθυμείτε την αφαίρεση της καρτέλας &lt;strong&gt;%1&lt;/strong&gt;;</translation>
     </message>
 </context>
 <context>
@@ -2603,7 +2604,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του &amp;περιεχόμενου του πρόχειρου</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
@@ -2613,7 +2614,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished">Εμφάνιση προεπισκόπησης</translation>
+        <translation>&amp;Εμφάνιση προεπισκόπησης</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
@@ -2623,7 +2624,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Ε&amp;ναλλαγή της αποθήκευσης στο πρόχειρο</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
@@ -2633,7 +2634,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Διαχειριστής διεργασιών</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
@@ -2653,7 +2654,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ταξινόμηση επιλεγμένων αντικειμένων</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
@@ -2663,7 +2664,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Αντιστροφή επιλεγμένων αντικειμένων</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
@@ -2888,7 +2889,8 @@ Set to 0 to disable.</source>
         <location filename="../src/main.cpp" line="215"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της συνεδρίας δεν μπορεί να περιέχει περισσότερους από 16 χαρακτήρες
+από γράμματα, αριθμούς, &quot;-&quot; ή &quot;_&quot;!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2131"/>
@@ -2911,7 +2913,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του κύριου παραθύρου και προαιρετικά άνοιγμα της καρτέλας με το δοθέν όνομα.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
@@ -2919,37 +2921,37 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
-        <translation type="unfinished">Όνομα</translation>
+        <translation>ΟΝΟΜΑ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη κύριου παραθύρου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση ή απόκρυψη του κύριου παραθύρου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
         <source>Open context menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα του σχετικού μενού.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Έξοδος εξυπηρετητή.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενεργοποίηση ή απενεργοποίηση της αποθήκευσης στο πρόχειρο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Print clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτύπωση του περιεχομένου του πρόχειρου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
@@ -2982,7 +2984,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Set clipboard text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός του κειμένου του πρόχειρου</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
@@ -2994,7 +2996,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός του περιεχομένου του πρόχειρου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
@@ -3348,12 +3350,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέα συντόμευση</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Πιέστε έναν συνδυασμό πλήκτρων.&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; για ακύρωση.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -3363,7 +3365,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished">Αφαίρεση συντόμευσης</translation>
+        <translation>Αφαίρεση συντόμευσης</translation>
     </message>
 </context>
 <context>
@@ -3371,12 +3373,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">Εύρεση:</translation>
+        <translation>&amp;Αναζήτηση:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished">Καθολικό</translation>
+        <translation>&amp;Καθολικές</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
@@ -3386,7 +3388,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished">Εφαρμογή</translation>
+        <translation>Ε&amp;φαρμογή</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
@@ -3411,7 +3413,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">Ό&amp;νομα:</translation>
+        <translation>Ό&amp;νομα:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
