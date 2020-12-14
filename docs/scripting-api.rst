@@ -232,6 +232,10 @@ omitted.
        copy(mimeText, 'Hello, World!',
             mimeHtml, '<p>Hello, World!</p>')
 
+.. js:function:: copy(Item)
+
+   Function override with an item argument.
+
 .. js:function:: copy()
 
    Sends ``Ctrl+C`` to current window.
@@ -324,11 +328,11 @@ omitted.
 
    Copies previous item from current tab to clipboard.
 
-.. js:function:: add(text|item...)
+.. js:function:: add(text|Item...)
 
    Same as ``insert(0, ...)``.
 
-.. js:function:: insert(row, text|item...)
+.. js:function:: insert(row, text|Item...)
 
    Inserts new items to current tab.
 
@@ -366,11 +370,27 @@ omitted.
 
    Throws an exception if space for the items cannot be allocated.
 
+.. js:function:: write(row, Item...)
+
+   Function override with one or more item arguments.
+
+.. js:function:: write(row, Item[])
+
+   Function override with item list argument.
+
 .. js:function:: change(row, mimeType, data, [mimeType, data]...)
 
    Changes data in item in current tab.
 
    If data is ``undefined`` the format is removed from item.
+
+.. js:function:: change(row, Item...)
+
+   Function override with one or more item arguments.
+
+.. js:function:: change(row, Item[])
+
+   Function override with item list argument.
 
 .. js:function:: String separator()
 
@@ -643,7 +663,7 @@ omitted.
 
    See `Selected Items`_.
 
-.. js:function:: bool setSelectedItemData(index, item)
+.. js:function:: bool setSelectedItemData(index, Item)
 
    Set data for given selected item.
 
@@ -661,7 +681,7 @@ omitted.
 
    See `Selected Items`_.
 
-.. js:function:: setSelectedItemsData(item[])
+.. js:function:: setSelectedItemsData(Item[])
 
    Set data to all selected items.
 
@@ -684,7 +704,7 @@ omitted.
 
    Returns deserialized object from serialized items.
 
-.. js:function:: ByteArray pack(item)
+.. js:function:: ByteArray pack(Item)
 
    Returns serialized item.
 
@@ -692,7 +712,7 @@ omitted.
 
    Returns an item in current tab.
 
-.. js:function:: setItem(row, text|item)
+.. js:function:: setItem(row, text|Item)
 
    Inserts item to current tab.
 
