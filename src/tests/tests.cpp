@@ -85,6 +85,7 @@ const auto tabDialogLineEditId = "focus:lineEditTabName";
 const auto commandDialogId = "focus:CommandDialog";
 const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
+const auto configurationDialogId = "focus:ConfigurationManager";
 const auto shortcutButtonId = "focus::QToolButton in CommandDialog";
 const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
@@ -2767,13 +2768,13 @@ void Tests::openAndSavePreferences()
     RUN("config" << "check_clipboard" << "false", "false\n");
 
     // Open preferences dialog.
-    RUN("keys" << "Ctrl+P", "");
+    RUN("keys" << "Ctrl+P" << configurationDialogId, "");
 
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
-    RUN("keys" << "ALT+1", "");
-    RUN("keys" << "ENTER", "");
-    RUN("config" << "check_clipboard", "true\n");
+    RUN("keys" << configurationDialogId << "ALT+1", "");
+    RUN("keys" << configurationDialogId << "ENTER" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("config" << "check_clipboard", "true\n");
 }
 
 void Tests::pasteFromMainWindow()
