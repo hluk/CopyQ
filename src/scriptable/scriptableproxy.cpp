@@ -1496,36 +1496,42 @@ QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QV
 
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return "Invalid tab";
+        return QLatin1String("Invalid tab");
 
     if ( !c->allocateSpaceForNewItems(items.size()) )
-        return "Tab is full (cannot remove any items)";
+        return QLatin1String("Tab is full (cannot remove any items)");
 
     for (const auto &item : items) {
         if ( !c->add(item, row) )
-            return "Failed to new add items";
+            return QLatin1String("Failed to new add items");
     }
 
     return QString();
 }
 
-bool ScriptableProxy::browserChange(const QString &tabName, const QVariantMap &data, int row)
+QString ScriptableProxy::browserChange(const QString &tabName, int row, const QVector<QVariantMap> &items)
 {
-    INVOKE(browserChange, (tabName, data, row));
+    INVOKE(browserChange, (tabName, row, items));
+
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return false;
+        return QLatin1String("Invalid tab");
 
-    const auto index = c->index(row);
-    QVariantMap itemData = c->model()->data(index, contentType::data).toMap();
-    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        if ( it.value().isValid() )
-            itemData.insert( it.key(), it.value() );
-        else
-            itemData.remove( it.key() );
+    int currentRow = row;
+    for (const auto &data : items) {
+        const auto index = c->index(currentRow);
+        QVariantMap itemData = c->model()->data(index, contentType::data).toMap();
+        for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+            if ( it.value().isValid() )
+                itemData.insert( it.key(), it.value() );
+            else
+                itemData.remove( it.key() );
+        }
+        c->model()->setData(index, itemData, contentType::data);
+        ++currentRow;
     }
 
-    return c->model()->setData(index, itemData, contentType::data);
+    return QString();
 }
 
 QByteArray ScriptableProxy::browserItemData(const QString &tabName, int arg1, const QString &arg2)

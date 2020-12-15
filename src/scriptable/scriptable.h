@@ -84,6 +84,7 @@ public:
         AllEvaluations,
     };
 
+    QJSValue argumentsArray() const;
     int argumentCount() const;
     QJSValue argument(int index) const;
 
@@ -218,8 +219,8 @@ public slots:
     QJSValue move();
 
     QJSValue read();
-    void write();
-    void change();
+    QJSValue write();
+    QJSValue change();
     void separator();
 
     void action();
@@ -400,8 +401,19 @@ private:
     void processUncaughtException(const QString &cmd);
     void showExceptionMessage(const QString &message);
     QVector<int> getRows() const;
+
+    /**
+     * Parses arguments as one of these or raises an argument error:
+     * - item...
+     * - mimeType, data, [mimeType, data]...
+     * - list of items
+     * - text
+     */
+    QVector<QVariantMap> getItemArguments(int begin, int end, QString *error);
+    QVector<QVariantMap> getItemList(int begin, int end, const QJSValue &arguments);
+
     QJSValue copy(ClipboardMode mode);
-    void changeItem(bool create);
+    QJSValue changeItem(bool create);
     void nextToClipboard(int where);
     QJSValue screenshot(bool select);
     QByteArray serialize(const QJSValue &value);

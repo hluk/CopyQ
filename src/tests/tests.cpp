@@ -85,6 +85,7 @@ const auto tabDialogLineEditId = "focus:lineEditTabName";
 const auto commandDialogId = "focus:CommandDialog";
 const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
+const auto configurationDialogId = "focus:ConfigurationManager";
 const auto shortcutButtonId = "focus::QToolButton in CommandDialog";
 const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
@@ -1103,6 +1104,25 @@ void Tests::commandsWriteRead()
     RUN("read" << COPYQ_MIME_PREFIX "test1" << "0", arg1.toLatin1());
     RUN("read" << COPYQ_MIME_PREFIX "test2" << "0", input);
     RUN("read" << COPYQ_MIME_PREFIX "test3" << "0", arg2.toLatin1());
+
+    RUN("write(1, {'text/plain': 'A'}, {'text/plain': 'B'})", "");
+    RUN("read(mimeText, 0, 1, 2, 3)", "\nB\nA\n");
+
+    RUN("write(0, [{'text/plain': 'C'}, {'text/plain': 'D'}])", "");
+    RUN("read(mimeText, 0, 1, 2, 3)", "D\nC\n\nB");
+
+    RUN("write(0, ['E', 'F'])", "");
+    RUN("read(mimeText, 0, 1, 2, 3)", "F\nE\nD\nC");
+
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "write(0, [{}], [{}])",
+        CommandException, "Unexpected multiple item list arguments");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "write(0)",
+        CommandException, "Expected item arguments");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "write(0, '1', '2', '3')",
+        CommandException, "Unexpected uneven number of mimeType/data arguments");
 }
 
 void Tests::commandChange()
@@ -1470,6 +1490,17 @@ void Tests::commandCopy()
          , "true\n" );
     WAIT_FOR_CLIPBOARD2("C", "DATA3");
     WAIT_FOR_CLIPBOARD2("D", "DATA4");
+
+    RUN( "copy({'DATA1': 1, 'DATA2': 2})", "true\n" );
+    WAIT_FOR_CLIPBOARD2("1", "DATA1");
+    WAIT_FOR_CLIPBOARD2("2", "DATA2");
+
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "copy({}, {})",
+        CommandException, "Expected single item");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "copy([{}, {}])",
+        CommandException, "Expected single item");
 }
 
 void Tests::commandClipboard()
@@ -2767,13 +2798,13 @@ void Tests::openAndSavePreferences()
     RUN("config" << "check_clipboard" << "false", "false\n");
 
     // Open preferences dialog.
-    RUN("keys" << "Ctrl+P", "");
+    RUN("keys" << "Ctrl+P" << configurationDialogId, "");
 
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
-    RUN("keys" << "ALT+1", "");
-    RUN("keys" << "ENTER", "");
-    RUN("config" << "check_clipboard", "true\n");
+    RUN("keys" << configurationDialogId << "ALT+1", "");
+    RUN("keys" << configurationDialogId << "ENTER" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("config" << "check_clipboard", "true\n");
 }
 
 void Tests::pasteFromMainWindow()

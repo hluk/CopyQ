@@ -169,7 +169,7 @@ public slots:
     bool browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard);
 
     QString browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items);
-    bool browserChange(const QString &tabName, const QVariantMap &data, int row);
+    QString browserChange(const QString &tabName, int row, const QVector<QVariantMap> &items);
 
     QByteArray browserItemData(const QString &tabName, int arg1, const QString &arg2);
     QVariantMap browserItemData(const QString &tabName, int arg1);

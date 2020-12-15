@@ -4,6 +4,9 @@ configuration: Release
 image:
 - Visual Studio 2019
 
+# Build and test only once for a pull request.
+skip_branch_with_pr: true
+
 environment:
   matrix:
     - QTDIR: C:\Qt\5.13\mingw73_32

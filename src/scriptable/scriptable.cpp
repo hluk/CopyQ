@@ -624,16 +624,19 @@ Scriptable::Scriptable(
     addScriptableClass(&ScriptableDir::staticMetaObject, "Dir", m_engine);
 }
 
+QJSValue Scriptable::argumentsArray() const
+{
+    return m_engine->globalObject().property("_copyqArguments");
+}
+
 int Scriptable::argumentCount() const
 {
-    const auto args = m_engine->globalObject().property("_copyqArguments");
-    return args.property("length").toInt();
+    return argumentsArray().property("length").toInt();
 }
 
 QJSValue Scriptable::argument(int index) const
 {
-    const auto args = m_engine->globalObject().property("_copyqArguments");
-    return args.property(static_cast<quint32>(index) );
+    return argumentsArray().property(static_cast<quint32>(index) );
 }
 
 QJSValue Scriptable::newByteArray(const QByteArray &bytes) const
@@ -1306,16 +1309,16 @@ QJSValue Scriptable::read()
     return newByteArray(result);
 }
 
-void Scriptable::write()
+QJSValue Scriptable::write()
 {
     m_skipArguments = -1;
-    changeItem(true);
+    return changeItem(true);
 }
 
-void Scriptable::change()
+QJSValue Scriptable::change()
 {
     m_skipArguments = -1;
-    changeItem(false);
+    return changeItem(false);
 }
 
 void Scriptable::separator()
@@ -2931,16 +2934,77 @@ QVector<int> Scriptable::getRows() const
     return rows;
 }
 
+QVector<QVariantMap> Scriptable::getItemArguments(int begin, int end, QString *error)
+{
+    if (begin == end) {
+        *error = QLatin1String("Expected item arguments");
+        return {};
+    }
+
+    const auto firstArg = argument(begin);
+    if (firstArg.isArray()) {
+        if (end - begin != 1) {
+            *error = QLatin1String("Unexpected multiple item list arguments");
+            return {};
+        }
+        return getItemList(0, firstArg.property("length").toInt(), firstArg);
+    }
+
+    QVector<QVariantMap> items;
+    if (firstArg.toVariant().canConvert<QVariantMap>()) {
+        for (int i = begin; i < end; ++i)
+            items.append( fromScriptValue<QVariantMap>(argument(i), this) );
+    } else if (end - begin == 1) {
+        QVariantMap data;
+        QJSValue value = argument(begin);
+        setTextData( &data, toString(value) );
+        items.append(data);
+    } else {
+        if ((end - begin) % 2 != 0) {
+            *error = QLatin1String("Unexpected uneven number of mimeType/data arguments");
+            return {};
+        }
+        QVariantMap data;
+        for (int i = begin; i < end; i += 2) {
+            // MIME
+            const QString mime = toString(argument(i));
+            // DATA
+            toItemData( argument(i + 1), mime, &data );
+        }
+        items.append(data);
+    }
+
+    return items;
+}
+
+QVector<QVariantMap> Scriptable::getItemList(int begin, int end, const QJSValue &arguments)
+{
+    if (end < begin)
+        return {};
+
+    QVector<QVariantMap> items;
+    items.reserve(end - begin);
+
+    for (int i = begin; i < end; ++i) {
+        const auto arg = arguments.property( static_cast<quint32>(i) );
+        if ( arg.isObject() && getByteArray(arg) == nullptr && !arg.isArray() )
+            items.append( fromScriptValue<QVariantMap>(arg, this) );
+        else
+            items.append( createDataMap(mimeText, toString(arg)) );
+    }
+
+    return items;
+}
+
 QJSValue Scriptable::copy(ClipboardMode mode)
 {
     const int args = argumentCount();
-    QVariantMap data;
 
     if (args == 0) {
         // Reset clipboard first.
         const QString mime = COPYQ_MIME_PREFIX "invalid";
         const QByteArray value = "invalid";
-        data.insert(mime, value);
+        const QVariantMap data = createDataMap(mime, value);
         m_proxy->setClipboard(data, mode);
 
         m_proxy->copyFromCurrentWindow();
@@ -2955,27 +3019,16 @@ QJSValue Scriptable::copy(ClipboardMode mode)
         return throwError( tr("Failed to copy to clipboard!") );
     }
 
-    if (args == 1) {
-        QJSValue value = argument(0);
-        setTextData( &data, toString(value) );
-        m_proxy->setClipboard(data, mode);
-        return true;
-    }
+    QString error;
+    const QVector<QVariantMap> items = getItemArguments(0, args, &error);
+    if ( !error.isEmpty() )
+        return throwError(error);
 
-    if (args % 2 == 0) {
-        for (int i = 0; i < args; ++i) {
-            // MIME
-            QString mime = toString(argument(i));
+    if (items.size() != 1)
+        return throwError(QLatin1String("Expected single item"));
 
-            // DATA
-            toItemData(argument(++i), mime, &data);
-        }
-
-        m_proxy->setClipboard(data, mode);
-        return true;
-    }
-
-    return throwError(argumentError());
+    m_proxy->setClipboard(items[0], mode);
+    return true;
 }
 
 void Scriptable::abortEvaluation(Abort abort)
@@ -2985,7 +3038,7 @@ void Scriptable::abortEvaluation(Abort abort)
     emit finished();
 }
 
-void Scriptable::changeItem(bool create)
+QJSValue Scriptable::changeItem(bool create)
 {
     int row;
     int args = argumentCount();
@@ -2993,37 +3046,27 @@ void Scriptable::changeItem(bool create)
 
     // [ROW]
     if ( toInt(argument(0), &row) ) {
-        if (args < 3 || args % 2 != 1 ) {
-            throwError(argumentError());
-            return;
-        }
         i = 1;
     } else {
-        if (args < 2 || args % 2 != 0 ) {
-            throwError(argumentError());
-            return;
-        }
         row = 0;
         i = 0;
     }
 
-    QVariantMap data;
-
-    for (; i < args; i += 2) {
-        // MIME
-        const QString mime = toString(argument(i));
-        // DATA
-        toItemData( argument(i + 1), mime, &data );
-    }
+    QString error;
+    const QVector<QVariantMap> items = getItemArguments(i, args, &error);
+    if ( !error.isEmpty() )
+        return throwError(error);
 
     if (create) {
-        QVector<QVariantMap> items(1, data);
-        const auto error = m_proxy->browserInsert(m_tabName, row, items);
+        error = m_proxy->browserInsert(m_tabName, row, items);
         if ( !error.isEmpty() )
-            throwError(error);
+            return throwError(error);
     } else {
-        m_proxy->browserChange(m_tabName, data, row);
+        error = m_proxy->browserChange(m_tabName, row, items);
+        if ( !error.isEmpty() )
+            return throwError(error);
     }
+    return QJSValue();
 }
 
 void Scriptable::nextToClipboard(int where)
@@ -3325,17 +3368,7 @@ void Scriptable::insert(int row, int argumentsBegin, int argumentsEnd)
 {
     m_skipArguments = argumentsEnd;
 
-    QVector<QVariantMap> items;
-    items.reserve(argumentsEnd - argumentsBegin);
-
-    for (int i = argumentsBegin; i < argumentsEnd; ++i) {
-        const auto arg = argument(i);
-        if ( arg.isObject() && getByteArray(arg) == nullptr && !arg.isArray() )
-            items.append( fromScriptValue<QVariantMap>(arg, this) );
-        else
-            items.append( createDataMap(mimeText, toString(arg)) );
-    }
-
+    const QVector<QVariantMap> items = getItemList(argumentsBegin, argumentsEnd, argumentsArray());
     const auto error = m_proxy->browserInsert(m_tabName, row, items);
     if ( !error.isEmpty() )
         throwError(error);
