@@ -41,9 +41,6 @@ after_build:
 - utils\appveyor\after_build.bat
 
 artifacts:
-- path: 'copyq*.zip'
-  name: CopyQ Portable
-
 - path: 'copyq-*-setup.exe'
   name: CopyQ Setup
 

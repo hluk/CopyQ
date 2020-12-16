@@ -42,6 +42,7 @@ xcopy /F "%OPENSSL_PATH%\%LIBSSL%" "%Destination%" || goto :error
   "%Executable%" || goto :error
 
 7z a "%Name%.zip" -r "%Destination%" || goto :error
+appveyor PushArtifact "%Name%.zip" -DeploymentName "CopyQ Portable" || goto :error
 
 choco install -y InnoSetup || goto :error
 "C:\ProgramData\chocolatey\bin\ISCC.exe" "/O%APPVEYOR_BUILD_FOLDER%" "/DAppVersion=%AppVersion%" "/DRoot=%Destination%" "/DSource=%Source%" "%Source%\Shared\copyq.iss" || goto :error
