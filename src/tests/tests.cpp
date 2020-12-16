@@ -189,6 +189,10 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)"),
         plain("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
 
+        // Windows Qt 5.15.2
+        plain("[qt.qpa.mime] QtWarning: Retrying to obtain clipboard."),
+        plain("[qt.qpa.fonts] QtWarning: Unable to enumerate family ' \"Font Awesome 5 Free Solid (CopyQ)\" '"),
+
         // macOS
         plain("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)"),
         plain("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed"),
