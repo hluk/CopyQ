@@ -608,7 +608,7 @@ U kunt de opdracht instellen in het voorkeurenvenster.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Gebruik de opdracht alleen bij items die gekopieerd zijn naar het venster met titeltekst die overeenkomt met deze reguliere uitdrukking (laat leeg om elk venster overeen te laten komen). Op macOS omvat dit de programmanaam, gevolgd door een streepje (&amp;quot;-&amp;quot;) en de venstertitel. Voorbeeld: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
@@ -978,7 +978,7 @@ druk op F2 om te bewerken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">Taa&amp;l:</translation>
+        <translation>Taa&amp;l:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1325,12 +1325,12 @@ Gebruik Itemvoorbeeld om gehele items te tonen.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">Boomst&amp;ructuur met tabbladen</translation>
+        <translation>Boomwee&amp;rgave</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">Doorzichtigheid bij &amp;focus:</translation>
+        <translation>Doorzichtigheid bij &amp;focus:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -1344,7 +1344,7 @@ Let op: niet alle systemen ondersteunen dit.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">Doorzichtigheid bij ontfoc&amp;us:</translation>
+        <translation>Doorzichtigheid bij ongefoc&amp;ust:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1516,7 +1516,7 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Aantal items in systeemvakmenu</translation>
+        <translation>Aantal items in systeemvakmenu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
@@ -1541,7 +1541,7 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Plakken in het huidige venster na selectie in het menu</translation>
+        <translation>Plakken in het huidige venster na selectie in het menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
@@ -2871,70 +2871,70 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladnaam &amp;wijzigen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="130"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad verw&amp;ijderen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished">&amp;Aanpassen Picogram van Tab</translation>
+        <translation>Tabbladpi&amp;ctogram wijzigen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Volgen&amp;d tabblad</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pijltje naar rechts</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pijltje naar links</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Open Item Context Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Item-rechtermuisknopmenu tonen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Vori&amp;g tabblad</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Logboek &amp;bekijken</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -2944,17 +2944,17 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Over</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Help</translation>
+        <translation>&amp;Hulp</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="414"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabblad &quot;%1&quot; is beschadigd geraakt of er ontbreken CopyQ-plug-ins!</translation>
     </message>
 </context>
 <context>
@@ -2962,7 +2962,7 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon het hoofdvenster en open een tabblad met de opgegeven naam (optioneel).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
@@ -2970,37 +2970,37 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NAAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verberg het hoofhvenster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon of verberg het hoofdvenster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="78"/>
         <source>Open context menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon het rechtermuisknopmenu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sluit de server af.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakel klembordopslag in of uit.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Print clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon de klembordinhoud.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
@@ -3011,36 +3011,38 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="137"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>MIME</source>
-        <translation type="unfinished"></translation>
+        <translation>MIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print X11 selection content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon de X11-selectie-inhoud.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Plak de klemborditems in het huidige venster
+(werkt mogelijk niet in alle programma&apos;s).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer het klembord uit het huidige venster
+(werkt mogelijk niet in alle programma&apos;s).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Set clipboard text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de klembordtekst in.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEKST</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
@@ -3048,17 +3050,17 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="138"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>GEGEVENS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Print amount of items in current tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon het aantal items vanop het huidige tabblad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer het item in de rij naar het klembord.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
@@ -3067,203 +3069,207 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation>RIJ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer het volgende item van het huidige tabblad naar het klembord.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopieer het vorige item van het huidige tabblad naar het klembord.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg tekst toe aan het klembord.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg tekst toe in de opgegeven rij.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder items uit de opgegeven rijen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="143"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>ROWS</source>
-        <translation type="unfinished"></translation>
+        <translation>RIJEN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bewerk items of voeg nieuwe toe.
+-1 = huidige tekst op klembord.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Set separator for items on output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voeg scheidingstekens toe aan items in de uitvoer.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation>SCHEIDINGSTEKEN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon kale klembord- of itemgegevens in de rij.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon het actievenster.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAMMA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel de klembordinhoud in.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf kale gegevens naar de opgegeven rij.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer PROGRAMMA uit op de itemtekst in de rijen.
+Gebruik %1 in PROGRAMMA om tekst mee te geven als aanvullende optie.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon een systeemvakbericht voor TIJD milliseconden.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>TITEL</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation>BERICHT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>TIJD</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon de beschikbare tabbladnamen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer een opdracht uit op het tabblad met de opgegeven naam.
+Indien nodig wordt het tabblad aangemaakt.
+Standaard is dit het eerste tabblad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>OPDRACHT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder een tabblad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wijzig een tabbladnaam.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>NEW_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>NIEUWE_NAAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporteer items naar een bestand.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="176"/>
         <source>FILE_NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>BESTANDSNAAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Importeer items uit een bestand.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon alle opties.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>Get option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon een optiewaarde.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>OPTION</source>
-        <translation type="unfinished"></translation>
+        <translation>OPTIE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stel een optiewaarde in.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation>WAARDE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Evalueer een script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start of koppelt een programmaproces met de opgegeven sessienaam.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon de hulp bij een OPDRACHT of alle opdrachten.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon de programma- en bibliotheekversies.</translation>
     </message>
     <message>
         <source>
@@ -3276,104 +3282,106 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation>SCRIPT</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="190"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation>AANVULLENDE OPTIES</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESSIE</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer programmatests uit (ken --help toe voor meer informatie).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruik: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start de server als er geen opdracht is opgegeven.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="116"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>  OPDRACHTEN:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>AANTEKENINGEN:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Gebruik een streepje (-) als aanvullende optie om gegevens uit de standaardinvoer uit te lezen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Gebruik twee streepjes (--) als aanvullende optie om de volgende opties te gebruiken zonder
+    escape-sequenties (zoals \n, \t, etc.).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Gebruik ? i.c.m. MIME om alle beschikbare mimetypes te tonen (standaard: &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="130"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldig aantal aanvullende opties!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdracht niet gevonden!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="987"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>De server wordt afgesloten.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="756"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan &quot;%1&quot; niet opslaan!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="761"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan &quot;%1&quot; niet importeren!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongeldige optie &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitzondering</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Uitzondering in %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet kopiëren naar klembord!</translation>
     </message>
 </context>
 <context>
@@ -3381,17 +3389,17 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="623"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Het opgegeven tabblad bestaat niet!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="628"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Geef het tabblad een naam.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1136"/>
         <source>Tab with given name already exists!</source>
-        <translation>Er bestaat al een tabblad met deze naam!</translation>
+        <translation>Er is al een tabblad met deze naam!</translation>
     </message>
 </context>
 <context>
@@ -3399,7 +3407,7 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="44"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Sneltoets toevoegen</translation>
     </message>
 </context>
 <context>
@@ -3407,22 +3415,22 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuwe sneltoets</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Druk op een toetscombinatie. Druk op &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; om af te breken.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik hier en druk op een toetscombinatie</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Sneltoets verwijderen</translation>
     </message>
 </context>
 <context>
@@ -3435,27 +3443,27 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Gl&amp;obaal</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Globale sneltoetsen kunnen vanuit elk programma worden gebruikt.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Programma</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programmasneltoetsen kunnen alleen worden gebruikt in het hoofdvenster.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Sneltoets is al in gebruik!</translation>
     </message>
 </context>
 <context>
@@ -3465,7 +3473,9 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>De tabbladnaam mag niet blanco en moet uniek zijn.&lt;br /&gt;
+Tabblad&lt;b&gt;aan&amp;amp;tekeningen&lt;/b&gt; kunnen worden geopend met &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Gebruik &lt;b&gt;/&lt;/b&gt; als padscheiding in de boomweergave-indeling.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3475,17 +3485,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Nieuw tabblad</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladnaam wijzigen</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladgroepsnaam wijzigen</translation>
     </message>
 </context>
 <context>
@@ -3493,17 +3503,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maximaal aantal items:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>standaard</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Items op&amp;slaan</translation>
     </message>
 </context>
 <context>
@@ -3511,18 +3521,18 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Druk op &apos;/&apos; om te zoeken</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ om te zoeken</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="105"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
@@ -3530,12 +3540,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="119"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Reguliere uitdrukking</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="122"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoofdletterongevoelig</translation>
     </message>
 </context>
 </TS>
