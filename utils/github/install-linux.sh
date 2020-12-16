@@ -34,4 +34,5 @@ packages=(
     openbox
 )
 
+sudo apt-get update
 sudo apt-get install "${packages[@]}" "$@"
