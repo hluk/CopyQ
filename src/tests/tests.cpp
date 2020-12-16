@@ -3939,6 +3939,14 @@ int runTests(int argc, char *argv[])
     Settings::canModifySettings = true;
     platform->loadSettings();
 
+    // Set higher default tests timeout.
+    // The default value is 5 minutes (in Qt 5.15) which is not enough to run
+    // all tests in Tests class on some systems.
+    bool ok;
+    const int timeout = qEnvironmentVariableIntValue("QTEST_FUNCTION_TIMEOUT", &ok);
+    if (!ok || timeout <= 0)
+        qputenv("QTEST_FUNCTION_TIMEOUT", QByteArray::number(15 * 60 * 1000));
+
     int exitCode = 0;
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
     Tests tc(test);
