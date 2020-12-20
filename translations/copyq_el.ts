@@ -853,7 +853,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation>Χρήση των εικονιδίων από το περιβάλλον εργασίας όταν είναι εφικτό.</translation>
+        <translation>Χρήση των εικονιδίων από το περιβάλλον εργασίας όταν είναι εφικτό</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -940,7 +940,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="447"/>
         <source>Search string is %1.</source>
-        <translation>Η συμβολοσειρά αναζήτησης είναι η %1</translation>
+        <translation>Η συμβολοσειρά αναζήτησης είναι η %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="448"/>
@@ -1005,7 +1005,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation>Άνοιγμα των παραθύρων στην τρέχουσα οθόνη</translation>
+        <translation>Ά&amp;νοιγμα των παραθύρων στην τρέχουσα οθόνη</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
@@ -1180,7 +1180,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Αποθήκευση του επεξεργασμένου αντικειμένου με Ctrl+Enter και εισαγωγή νέας γραμμής με Enter</translation>
+        <translation>Απο&amp;θήκευση του επεξεργασμένου αντικειμένου με Ctrl+Enter και εισαγωγή νέας γραμμής με Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1199,7 +1199,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation>Ενεργοποίηση αναζήτησης αριθμών, διαφορετικά πιέζοντας ένα πλήκτρο ψηφίου ενεργοποιείται το αντικείμενο στην συγκεκριμένη θέση.</translation>
+        <translation>Ενεργοποίηση αναζήτησης αριθμών, διαφορετικά πιέζοντας ένα πλήκτρο ψηφίου ενεργοποιείται το αντικείμενο στην συγκεκριμένη θέση</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
@@ -1398,7 +1398,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Χρονικό διάστημα εμφάνισης ειδοποιήσεων:</translation>
+        <translation>Χρονικό &amp;διάστημα εμφάνισης ειδοποιήσεων:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1483,7 +1483,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>Απενεργοποίηση του πλαισίου συστήματος</translation>
+        <translation>Α&amp;πενεργοποίηση του πλαισίου συστήματος</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1493,7 +1493,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>Εμφάνιση των εντολών για το περιεχόμενο του πρόχειρου</translation>
+        <translation>Ε&amp;μφάνιση των εντολών για το περιεχόμενο του πρόχειρου</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
@@ -1513,7 +1513,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>Εμφάνιση της τρέχουσας καρτέλας στο μενού,</translation>
+        <translation>Εμφάνιση της &amp;τρέχουσας καρτέλας στο μενού,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
@@ -1814,7 +1814,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation>Για την προβολή των κρυπτογραφημένων καρτελών, πρέπει να έχετε εγκατεστημένο το GnuPG</translation>
+        <translation>Για την προβολή των κρυπτογραφημένων καρτελών, πρέπει να έχετε εγκατεστημένο το GnuPG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="777"/>
@@ -2393,7 +2393,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="782"/>
         <source>Rename &amp;Group %1</source>
-        <translation>Μετονομασία της ομάδος %1</translation>
+        <translation>Μετονομασία της &amp;ομάδος %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="784"/>
@@ -2986,7 +2986,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Set clipboard text.</source>
-        <translation>Ορισμός του κειμένου του πρόχειρου</translation>
+        <translation>Ορισμός του κειμένου του πρόχειρου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
@@ -3030,27 +3030,27 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή του επόμενου αντικειμένου από την τρέχουσα καρτέλα στο πρόχειρο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή του προηγούμενου αντικειμένου από την τρέχουσα καρτέλα στο πρόχειρο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη κειμένου στο πρόχειρο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγωγή του κειμένου στην δοθείσα γραμμή.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση των αντικείμενων από τις δοθείσες γραμμές.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
@@ -3063,12 +3063,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία των αντικειμένων ή δημιουργία ενός νέου.
+Η τιμή -1 είναι για το τρέχον κείμενο στο πρόχειρο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Set separator for items on output.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός του διαχωριστή για τα αντικείμενα στην έξοδο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
@@ -3079,23 +3080,24 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση ακατέργαστων δεδομένων του πρόχειρου ή ενός αντικειμένου στη γραμμή.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εγγραφή ακατέργαστων δεδομένων στην δοθείσα γραμμή.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του διαλόγου ενέργειας.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση του ΠΡΟΓΡΑΜΜΑΤΟΣ στο κείμενο του αντικειμένου στις γραμμές.
+Χρησιμοποιήστε %1 στο ΠΡΟΓΡΑΜΜΑ για να περάσετε το κείμενο ως όρισμα.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
@@ -3105,7 +3107,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση του αναδυόμενου μηνύματος στο πλαίσιο συστήματος για τα χιλιοστά δευτερολέπτου του ΧΡΟΝΟΥ.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3125,14 +3127,16 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση των διαθέσιμων ονομάτων των καρτελών.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση της εντολής στην καρτέλα με το δοθέν όνομα.
+Αν η καρτέλα δεν υπάρχει, θα δημιουργηθεί.
+Η πρώτη καρτέλα είναι και η εξ ορισμού.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3144,7 +3148,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση καρτέλας.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
@@ -3159,7 +3163,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή αντικειμένων σε αρχείο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
@@ -3170,17 +3174,17 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγωγή αντικειμένων από αρχείο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση όλων των επιλογών.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>Get option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Λήψη της τιμής της επιλογής.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
@@ -3191,7 +3195,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ορισμός της τιμής της επιλογής.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
@@ -3201,7 +3205,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αξιολόγηση σεναρίου.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3216,7 +3220,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση ή σύνδεση στην εφαρμογή με το δοθέν όνομα συνεδρίας.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
@@ -3226,32 +3230,32 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της βοήθειας για την ΕΝΤΟΛΗ ή για όλες τις εντολές.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της έκδοσης του προγράμματος και των βιβλιοθηκών.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκτέλεση ελέγχων της εφαρμογής (προσθέστε το όρισμα --help για περισσότερες πληροφορίες).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση του εξυπηρετητή αν δεν έχει καθοριστεί κάποια εντολή.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="116"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished">  &amp;Εντολές</translation>
+        <translation>  ΕΝΤΟΛΕΣ:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="121"/>
@@ -3261,49 +3265,51 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Χρήση της παύλας (-) ως όρισμα για ανάγνωση από την τυπική είσοδο.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Χρήση διπλής παύλας ως όρισμα (--) για ανάγνωση όλων των ακόλουθων ορισμάτων
+    χωρίς την επέκταση των ακολουθιών διαφυγής (π.χ. \n, \t και άλλων).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Χρήση του τύπου MIME ? για εμφάνιση των διαθέσιμων τύπων MIME (ο προκαθορισμένος είναι &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="130"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη έγκυρος αριθμός ορισμάτων!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="756"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η αποθήκευση στο αρχείο &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="761"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδύνατη η εισαγωγή του αρχείου &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
-        <translation type="unfinished">Δεν βρέθηκε η εντολή: %1</translation>
+        <translation>Δεν βρέθηκε η εντολή!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="987"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Τερματισμός του εξυπηρετητή.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished">Μη έγκυρη επιλογή:</translation>
+        <translation>Μη έγκυρη επιλογή &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
@@ -3313,12 +3319,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαίρεση στο %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία αντιγραφής στο πρόχειρο!</translation>
     </message>
 </context>
 <context>
@@ -3326,17 +3332,17 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="623"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα με το δοθέν όνομα δεν υπάρχει!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="628"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της καρτέλας δεν μπορεί να είναι κενό!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1136"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα με το δοθέν όνομα υπάρχει ήδη!</translation>
     </message>
 </context>
 <context>
@@ -3362,7 +3368,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάντε κλικ εδώ και πιέστε έναν συνδυασμό πλήκτρων</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
@@ -3385,7 +3391,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι καθολικές συντομεύσεις μπορούν να ενεργοποιηθούν από οποιαδήποτε εφαρμογή.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3395,12 +3401,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι συντομεύσεις της εφαρμογής μπορούν να ενεργοποιηθούν μόνον από το κύριο παράθυρο.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η συντόμευση υπάρχει ήδη!</translation>
     </message>
 </context>
 <context>
@@ -3410,7 +3416,9 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το όνομα της καρτέλας δεν πρέπει να είναι κενό και διπλότυπο.&lt;br /&gt;
+Μπορείτε να έχετε πρόσβαση στις &lt;b&gt;Ση&amp;amp;μειώσεις&lt;/b&gt; της καρτέλας με &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Χρησιμοποιήστε &lt;b&gt;/&lt;/b&gt; ως διαχωριστικό διαδρομής στην διάταξη δέντρου προβολής καρτελών.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3438,7 +3446,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>Μέγιστος αριθμός αντικειμένων:</translation>
+        <translation>&amp;Μέγιστος αριθμός αντικειμένων:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
