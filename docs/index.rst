@@ -18,6 +18,7 @@ advanced topics like scripting and application development process.
     keyboard
     images
     tags
+    security
     theme
     faq
     known-issues

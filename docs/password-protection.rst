@@ -1,3 +1,5 @@
+.. _encrypt:
+
 Password Protection
 ===================
 

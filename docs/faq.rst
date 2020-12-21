@@ -80,7 +80,7 @@ To re-enable the functionality select "File - Enable Clipboard Storing" (same sh
 
 To permanently disable storing the clipboard in CopyQ:
 
-1. And pen "Preferences" (``Ctrl+P`` shortcut).
+1. Open "Preferences" (``Ctrl+P`` shortcut).
 2. Go to "History" tab.
 3. Clear "Tab for storing clipboard" field.
 
@@ -96,6 +96,8 @@ then choose what to import back.
 .. note::
 
    Importing tabs and commands won't override existing tabs, and will create new ones.
+
+.. _faq-disable-notifications:
 
 How to enable or disable displaying notification when clipboard changes?
 ------------------------------------------------------------------------
@@ -138,6 +140,8 @@ opens main window on Ctrl+Shift+1). To use the command in CopyQ:
 
 To share your commands, you can select the commands from command list in
 "Command" dialog and press "Copy Selected" button (or just hit Ctrl+C).
+
+.. _faq-ignore-password-manager:
 
 How to omit storing text copied from specific windows like a password manager?
 ------------------------------------------------------------------------------
@@ -344,6 +348,8 @@ Here is the correct command to use for some editors::
     sublime_text --wait %1
     code --wait %1
     open -t -W -n %1
+
+.. _faq-config-path:
 
 Where to find saved items and configuration?
 --------------------------------------------
