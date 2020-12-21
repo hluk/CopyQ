@@ -207,12 +207,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation>Отключить хранение буфера обмена</translation>
+        <translation>Отключить сохранение буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation>Включить хранение буфера обмена</translation>
+        <translation>Включить сохранение буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
@@ -1186,14 +1186,14 @@ Leave empty to disable automatic storing.</source>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Оставьте флажок для ключа Return, чтобы сохранить изменённый элемент, и Ctrl+Return, чтобы создать новую строку.
+        <translation>Если флажок снят, клавиша Enter будет сохранять отредактированный элемент, а Ctrl+Enter будет создавать новую строку.
 
-Примечание: Изменённые элементы можно сохранить с помощью F2 вне зависимости от этого параметра.</translation>
+Примечание: изменённые элементы можно сохранить клавишей F2 независимо от этого параметра.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Сохраните изменённый элемент с помощью Ctrl+Return и создайте новую строку с помощью ключа Return</translation>
+        <translation>Со&amp;хранять изменённый элемент клавишами Ctrl+Enter и создавать новую строку клавишей Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1727,7 +1727,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка команды редактора (см. журнал)</translation>
     </message>
 </context>
 <context>
@@ -1825,7 +1825,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Для совместного использования зашифрованных элементов на другом компьютере или сеансе вам понадобятся общедоступные и секретные ключевые файлы:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Сохраните этот секретный ключ в безопасном месте.)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Для совместного использования зашифрованных элементов на другом компьютере или сеансе вам понадобятся общедоступные и секретные файлы ключей:&lt;ul&gt;&lt;li&gt; %1&lt;/li&gt;&lt;li&gt; %2&lt;br /&gt; (Сохраните этот секретный ключ в безопасном месте.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
