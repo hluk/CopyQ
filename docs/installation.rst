@@ -10,7 +10,7 @@ b. On **OS X**, you can use `Homebrew <https://brew.sh/>`__ to install the app.
 
 .. code-block:: bash
 
-    brew cask install copyq
+    brew install --cask copyq
 
 On Debian unstable, **Debian 10+**, **Ubuntu 18.04+** and later derivatives can
 install stable version from official repositories:
