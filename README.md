@@ -78,7 +78,7 @@ choco install copyq
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
 ```bash
-brew cask install copyq
+brew install --cask copyq
 ```
 
 ### Debian 10+, Ubuntu 18.04+, and their derivatives
