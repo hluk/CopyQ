@@ -986,7 +986,7 @@ omitted.
 
 .. js:function:: iconColor(colorName)
 
-   Set current tray and window icon color name.
+   Set current tray and window icon color name (e.g. 'orange', '#ffa500', '#09f').
 
    Resets color if color name is empty string.
 
