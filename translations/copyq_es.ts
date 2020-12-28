@@ -1727,7 +1727,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Error en el comando del editor (ver registros)</translation>
     </message>
 </context>
 <context>
