@@ -1421,7 +1421,7 @@ Poznámka: Tato funkce není podporována na některých systémech.</translatio
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Interval v sekundách pro zobrazení upozornění při kopírovaní prvku (pouze  pokud je zavřené hlavní okno).
+        <translation>Interval v sekundách pro zobrazení upozornění při kopírovaní prvku (pouze pokud je zavřené hlavní okno).
 
 Nastav na 0 pro vypnutí.
 
@@ -2456,8 +2456,7 @@ Nastav na 0 pro vypnutí.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="834"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation>&amp;Schránka:
-%1</translation>
+        <translation>&amp;Schránka: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="337"/>
@@ -3478,7 +3477,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
