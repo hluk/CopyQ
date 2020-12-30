@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Sla items op op het tabblad met de opgegeven naam (laat leeg om op te slaan op het huidige tabblad)</translation>
+        <translation type="unfinished">Sla items op het tabblad met de opgegeven naam (laat leeg om op te slaan op het huidige tabblad)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
@@ -1688,7 +1688,7 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation>Afbeeldingsbestanden (*.png *.jpg *.jpeg *.bmp *.bmp *.ico *.svg)</translation>
+        <translation>Afbeeldingsbestanden (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -2203,7 +2203,7 @@ Stel in op 0 om uit te schakelen.</translation>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Synchroniseer de inhoud van het &lt;strong&gt;tabblad&lt;/strong&gt; naar een map op de opgegeven &lt;strong&gt;locatie&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Laat &lt;strong&gt;leeg&lt;/strong&gt; om items &lt;strong&gt;niet op te slaan &lt;strong&gt;.&lt;/p&gt;</translation>
+&lt;p&gt;Laat &lt;strong&gt;leeg&lt;/strong&gt; om items &lt;strong&gt;niet op te slaan &lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
