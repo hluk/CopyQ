@@ -75,7 +75,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Regulær udtryk til at opdele output i flere elementer.&lt;\p&gt; &lt;p&gt;brug &lt;b&gt;\n&lt;/b&gt; til at gemme hver linje i separate elementer.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Regulær udtryk til at opdele output i flere elementer.&lt;\p&gt;
+&lt;p&gt;Brug &lt;b&gt;\n&lt;/b&gt; til at gemme hver linje i separate elementer.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -115,8 +116,7 @@ Du kan ændre kommandoen i indstillinget.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished">Exit code: %1
- {1?}</translation>
+        <translation type="unfinished">Exit code: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="176"/>
@@ -1053,7 +1053,7 @@ tryk F2 for at redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished">Gemme og gendanne  element filtre historik</translation>
+        <translation>Gemme og gendanne element filtre historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1078,7 +1078,7 @@ tryk F2 for at redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Tillad at indsætte kopieret indhold på samme måde  som muse markeringer (normalt ved at trykke på midterste museknap)</translation>
+        <translation>Tillad at indsætte kopieret indhold på samme måde som muse markeringer (normalt ved at trykke på midterste museknap)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
@@ -1620,7 +1620,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="478"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished">Denne handling vil nulstille alle dine præferencer (i alle faner) til standard værdier. &lt; br / &gt; &lt; br / &gt; vil du virkelig ønsker at &lt;strong&gt;nulstille alle indstillinger&lt;/strong&gt;?</translation>
+        <translation>Denne handling vil nulstille alle dine præferencer (i alle faner) til standard værdier. &lt;br /&gt;&lt;br /&gt;vil du virkelig ønsker at &lt;strong&gt;nulstille alle indstillinger&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="581"/>
@@ -1952,8 +1952,8 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished">&lt;p&gt;Angiv navnene på fanerne (én pr. linje), som automatisk vil blive krypteret og dekrypteret.&lt;/p&gt;
-&lt;p&gt;Sæt tidsinterval i Historikfanen til sikkert at fjerne dekrypterede elementer fra hukommelsen.&lt;/p</translation>
+        <translation>&lt;p&gt;Angiv navnene på fanerne (én pr. linje), som automatisk vil blive krypteret og dekrypteret.&lt;/p&gt;
+&lt;p&gt;Sæt tidsinterval i Historikfanen til sikkert at fjerne dekrypterede elementer fra hukommelsen.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3364,7 +3364,8 @@ Udskriv programversion og biblioteker.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished">  -Brug dobbelt-bindestreg argument (-) til at læse alle følgende argumenter uden at udvide escape-sekvenser (dvs. \n, \t m.fl.).</translation>
+        <translation type="unfinished">  - Brug dobbelt-bindestreg argument (--) til at læse alle følgende argumenter
+    uden at udvide escape-sekvenser (dvs. \n, \t m.fl.).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
