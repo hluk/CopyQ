@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished">Sla items op het tabblad met de opgegeven naam (laat leeg om op te slaan op het huidige tabblad)</translation>
+        <translation>Bewaar items op het tabblad met de opgegeven naam (laat leeg om op te slaan op het huidige tabblad)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
