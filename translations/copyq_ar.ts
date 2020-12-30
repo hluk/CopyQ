@@ -1817,8 +1817,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Error: %1</source>
-        <translation type="unfinished">خطأ: %1
- {1?}</translation>
+        <translation type="unfinished">خطأ: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
