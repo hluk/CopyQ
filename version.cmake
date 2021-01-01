@@ -20,7 +20,3 @@ else()
         endif()
     endif()
 endif()
-
-message(STATUS "Building CopyQ version ${copyq_version}.")
-
-configure_file("${INPUT_FILE}" "${OUTPUT_FILE}")

@@ -60,6 +60,10 @@ set(copyq_COMPILE
     ${copyq_QM}
     )
 
+if (NOT copyq_version)
+    message(FATAL_ERROR "Application version is unset")
+endif()
+
 if (NOT APPLE)
     add_executable(${COPYQ_EXECUTABLE_NAME} ${copyq_COMPILE})
 else()
