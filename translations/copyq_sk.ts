@@ -393,7 +393,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Veľkosť: &lt;/strong&gt; %1 bajtov</translation>
+        <translation>&lt;strong&gt;Veľkosť:&lt;/strong&gt; %1 bajtov</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -1018,7 +1018,7 @@ stlačte F2 pre editáciu.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoliť otváranie okien na aktuálnej obrazovke. Zakázaným otvoríte okná tam, kde boli naposledy zatvorené</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
@@ -1196,7 +1196,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ulož prvok pomocou Ctrl + Enter a vytvor nový riadok pomocou klávesy Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1248,7 +1248,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Zavrieť hlavné okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1258,7 +1258,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Vyber posledné aktívne okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
