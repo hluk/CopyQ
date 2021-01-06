@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Informazioni su</translation>
+        <translation>Informazioni sul programma</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation>E-mail</translation>
+        <translation>Email</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Inserimento &amp;Standard:</translation>
+        <translation>Inserimento &amp;standard:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
@@ -59,24 +59,24 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Inviare i dati del tipo di supporto dato allo standard input del comando (lasciare vuoto per spegnere)</translation>
+        <translation>Invia i dati del tipo di supporto dato allo standard input del comando (lascia vuoto per disabilitare)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Creare campi dallo standard output del programma (lasciare vuoto per spegnere)</translation>
+        <translation>Crea campi dallo standard output del programma (lascia vuoto per disabilitare)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation>&amp;Separatore per i nuovi elementi:</translation>
+        <translation>&amp;Separatore per nuovi elementi:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Espressione regolare per suddividere l&apos;outuput in uscita in più elementi.&lt;\p&gt;
-&lt;p&gt;Usare &lt;b&gt;\n&lt;/b&gt; per memorizzare ogni riga in un elemento separato.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Espressione regolare per suddividere l&apos;outuput in più elementi.&lt;\p&gt;
+&lt;p&gt;Usa &lt;b&gt;\n&lt;/b&gt; per memorizzare ogni riga in un elemento separato.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -91,19 +91,19 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Salva gli elementi nella scheda con un dato nome (lasciare vuoto per salvare nella scheda in uso)</translation>
+        <translation>Salva gli elementi nella scheda con un dato nome (lascia vuoto per salvare nella scheda attuale)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
-        <translation>Il comando è stato salvato</translation>
+        <translation>Comando salvato</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Il comando è stato salvato e può essere visualizzato dal menu dell&apos;elemento.
-Potete impostare il comando nelle preferenze.</translation>
+Puoi impostare il comando nelle preferenze.</translation>
     </message>
 </context>
 <context>
@@ -129,17 +129,17 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation>Gestore processo</translation>
+        <translation>Gestione processo</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation>Filtra</translation>
+        <translation>Filtro</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>Termina Selezionati</translation>
+        <translation>&amp;Termina selezionati</translation>
     </message>
 </context>
 <context>
@@ -202,7 +202,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation>Incolla Appunto come testo semplice</translation>
+        <translation>Incolla Appunti come testo semplice</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
@@ -331,12 +331,12 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation>Impossibile aggiungere elementi alla scheda %1. Libera spazio rimuovendo elementi manualmente.</translation>
+        <translation>Impossibile aggiungere elementi alla scheda %1. Libera spazio rimuovendo manualmente elementi.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
         <source>Discard Changes?</source>
-        <translation>Tralasciare le modifiche?</translation>
+        <translation>Vuoi tralasciare le modifiche?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
@@ -349,7 +349,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossibile connettersi al server! Prima avviate CopyQ dal server.</translation>
+        <translation>Impossibile connettersi al server! Prima avvia CopyQ nel server.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
@@ -443,7 +443,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation>Definisci nuovi comandi che possono essere invocati automaticamente in base al contenuto Appunti o dall&apos;utente dal menu o usando le scorciatoie di sistema.</translation>
+        <translation>Definisci nuovi comandi che possono essere invocati automaticamente in base al contenuto Appunti o dall&apos;utente nel menu o usando le scorciatoie di sistema.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
@@ -453,17 +453,17 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation>&amp;Carico Comandi…</translation>
+        <translation>&amp;Carica comandi…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation>Sal&amp;va Selezionato…</translation>
+        <translation>Sal&amp;va selezionati…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Copia selezionato</translation>
+        <translation>Copia selezionati</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
@@ -488,7 +488,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="275"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation>Coamndi (*.ini);; Configurazione CopyQ (copyq.conf copyq-*.conf)</translation>
+        <translation>Comandi (*.ini);; Configurazione CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="286"/>
@@ -506,7 +506,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="132"/>
         <source>Show command help (F1)</source>
-        <translation>Visualizza aiuto comando (F1)</translation>
+        <translation>Visualizza guida in linea comando (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
@@ -516,7 +516,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation>Il parametro programma %1 verrà sostituito dall&apos;elemento testo, e da %2 fino %9 per i testi catturati da espressioni regolari.</translation>
+        <translation>Il parametro %1 verrà sostituito dall&apos;elemento testo, e da %2 fino %9 per i testi catturati da espressioni regolari.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -536,7 +536,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation>Le funzioni elencate sotto possono essere usate nei seguenti comandi.</translation>
+        <translation>Le funzioni sotto elencate possono essere usate nei seguenti comandi.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
@@ -603,7 +603,7 @@ Potete impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="344"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Usa il comando solo per gli elementi copiati negli appunti della finestra con il testo del titolo che corrisponde a questa espressione regolare (lascia vuoto per riferirti a qualsiasi finestra). 
+        <translation>&lt;p&gt;Usa il comando solo per gli elementi copiati negli Appunti della finestra con il testo del titolo che corrisponde a questa espressione regolare (lascia vuoto per riferirti a qualsiasi finestra). 
 In macOS, questo consiste nel nome dell&apos;applicazione seguito da un trattino (&amp;quot;-&amp;quot;) seguito dal titolo della finestra. 
 Ad esempio &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
@@ -611,7 +611,7 @@ Ad esempio &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
         <location filename="../src/ui/commandwidget.ui" line="367"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>I dati di questo tipo di MIME verranno inviati al comando input standard.
+        <translation>I dati di questo tipo di MIME verranno inviati all&apos; input standard del comando.
 Lascialo vuoto per disabilitarlo.</translation>
     </message>
     <message>
@@ -863,7 +863,7 @@ Nota: se questo è applicato automaticamente, nessun altro comando automatico ve
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation>Ba&amp;rra di scorrimento</translation>
+        <translation>Barra di s&amp;corrimento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
@@ -941,7 +941,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="450"/>
         <source>Example item %1</source>
-        <translation>Elemento esempio %1</translation>
+        <translation>Esempio elemento %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="455"/>
@@ -1045,7 +1045,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>Supporto per tasti navigazione Vi (H, J, K, L e altri), tasto slash (/) per ricerca</translation>
+        <translation>Supporto tasti navigazione Vi (H, J, K, L e altri), tasto slash (/) per ricerca</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
@@ -1055,7 +1055,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation>Salva e ripristina cronologia degli elementi filtrati</translation>
+        <translation>Salva e ripristina cronologia elementi filtrati</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1075,7 +1075,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation>Manipolazione Appunti</translation>
+        <translation>Gestione Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
@@ -1729,7 +1729,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica comando fallita (vedi registro eventi)</translation>
     </message>
 </context>
 <context>
