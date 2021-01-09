@@ -1,28 +1,45 @@
 /* Remove icon border in menus. */
-#menu_bar>QMenu::item:selected{border:none}
+#MainWindow>QMenu::item:selected,
+#menu_bar>QMenu::item:selected
+{
+    border:none
+}
 
+#MainWindow>QMenu::item,
 #menu_bar>QMenu::item
 {
     ;padding: 0.2em 1em 0.2em 1em
     ;padding-left: ${scale=2}${icon_size}${scale=1}px
 }
 
+#MainWindow>QMenu::icon,
 #menu_bar>QMenu::icon
 {
     ;padding-left: ${scale=0.5}${icon_size}${scale=1}px
 }
 
 /* Keep default item highlighted (removing icon border resets the style). */
-#menu_bar>QMenu::item:default{font-weight:bold}
+#MainWindow>QMenu::item:default,
+#menu_bar>QMenu::item:default
+{
+    font-weight:bold
+}
 
-#menu_bar>QMenu{${menu_css}}
+#MainWindow>QMenu,
+#menu_bar>QMenu
+{
+    ${menu_css}
+}
 
+#MainWindow>QMenu::item,
+#MainWindow>QMenu::separator,
 #menu_bar>QMenu::item,
 #menu_bar>QMenu::separator
 {
     ${menu_bar_css}
 }
 
+#MainWindow>QMenu::item:selected,
 #menu_bar>QMenu::item:selected
 {
     ${menu_bar_selected_css}
