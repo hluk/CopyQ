@@ -184,6 +184,27 @@ You can copy current log file path to clipboard from Action dialog (F5 shortcut)
 by entering command ``copyq 'copy(info("log"))'``. Alternatively, press ``F12``
 to directly access the log.
 
+If you **cannot access GUI**, you can **restart CopyQ from terminal** and **log
+to a separate file**. On Linux and macOS:
+
+.. code-block:: zsh
+
+    copyq exit
+    export COPYQ_LOG_LEVEL='DEBUG'
+    export COPYQ_LOG_FILE="$HOME\copyq.log"
+    echo "Logs will be written to $COPYQ_LOG_FILE"
+    copyq
+
+On Windows (in PowerShell):
+
+.. code-block:: powershell
+
+    & 'C:\Program Files (X86)\CopyQ\copyq.exe' exit
+    $env:COPYQ_LOG_LEVEL = 'DEBUG'
+    $env:COPYQ_LOG_FILE = [Environment]::GetFolderPath("MyDocuments") + '\copyq.log'
+    echo "Logs will be written to $env:COPYQ_LOG_FILE"
+    & 'C:\Program Files (X86)\CopyQ\copyq.exe'
+
 How to preserve the order of copied items when copying or pasting multiple items?
 ---------------------------------------------------------------------------------
 
