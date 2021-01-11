@@ -118,6 +118,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("open", "bool open(url, ...)", "Tries to open URLs in appropriate applications.");
     addDocumentation("execute", "FinishedCommand execute(argument, ..., null, stdinData, ...)", "Executes a command.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle()", "Returns window title of currently focused window.");
+    addDocumentation("currentWindowClass", "String currentWindowClass()", "Returns class/application name of currently focused window.");
     addDocumentation("dialog", "Value dialog(...)", "Shows messages or asks user for input.");
     addDocumentation("menuItems", "String menuItems(text...)", "Opens menu with given items and returns selected item or an empty string.");
     addDocumentation("menuItems", "int menuItems(items[])", "Opens menu with given items and returns index of selected item or -1.");

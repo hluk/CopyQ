@@ -40,6 +40,11 @@ public:
     virtual QString getTitle() = 0;
 
     /**
+     * Return window class name (usually application name).
+     */
+    virtual QString getClassName() = 0;
+
+    /**
      * Raise/focus window.
      */
     virtual void raise() = 0;

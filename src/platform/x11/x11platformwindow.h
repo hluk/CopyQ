@@ -37,6 +37,8 @@ public:
 
     QString getTitle() override;
 
+    QString getClassName() override;
+
     void raise() override;
 
     void pasteClipboard() override;

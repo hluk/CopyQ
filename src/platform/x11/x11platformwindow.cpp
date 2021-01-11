@@ -232,6 +232,27 @@ QString X11PlatformWindow::getTitle()
     return QString();
 }
 
+QString X11PlatformWindow::getClassName()
+{
+    Q_ASSERT( isValid() );
+
+    if (!QX11Info::isPlatformX11())
+        return QString();
+
+    auto display = QX11Info::display();
+    static Atom atomName = XInternAtom(display, "WM_CLASS", false);
+    static Atom atomString = XInternAtom(display, "STRING", false);
+
+    X11WindowProperty property(display, m_window, atomName, 0, (~0L), atomString);
+    if ( property.isValid() ) {
+        const auto len = static_cast<int>(property.len);
+        QByteArray result(reinterpret_cast<const char *>(property.data), len);
+        return QString::fromUtf8(result);
+    }
+
+    return QString();
+}
+
 void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );

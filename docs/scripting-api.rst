@@ -769,6 +769,10 @@ omitted.
 
    Returns window title of currently focused window.
 
+.. js:function:: String currentWindowClass()
+
+   Returns class/application name of currently focused window.
+
 .. js:function:: Value dialog(...)
 
    Shows messages or asks user for input.

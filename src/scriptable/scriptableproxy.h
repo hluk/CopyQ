@@ -199,6 +199,7 @@ public slots:
     void serverLog(const QString &text);
 
     QString currentWindowTitle();
+    QString currentWindowClass();
 
     int inputDialog(const NamedValueList &values);
 

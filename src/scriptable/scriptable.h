@@ -308,6 +308,7 @@ public slots:
     QJSValue execute();
 
     QJSValue currentWindowTitle();
+    QJSValue currentWindowClass();
 
     QJSValue dialog();
 

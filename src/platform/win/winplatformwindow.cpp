@@ -35,8 +35,19 @@ const int maxWaitForModsReleaseMs = 2000;
 QString windowTitle(HWND window)
 {
     WCHAR buf[1024];
-    GetWindowTextW(window, buf, 1024);
-    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+    const int count = GetWindowTextW(window, buf, 1024);
+    return count > 0
+        ? QString::fromUtf16(reinterpret_cast<ushort *>(buf))
+        : QString();
+}
+
+QString windowClassName(HWND window)
+{
+    WCHAR buf[1024];
+    const int count = GetClassNameW(window, buf, 1024);
+    return count > 0
+        ? QString::fromUtf16(reinterpret_cast<ushort *>(buf))
+        : QString();
 }
 
 INPUT createInput(WORD key, DWORD flags = 0)
@@ -63,7 +74,7 @@ QString windowLogText(QString text, HWND window)
 
     const DWORD lastError = GetLastError();
     if (lastError != 0)
-        text.append( QString(" (last error is %1)").arg(GetLastError()) );
+        text.append( QString(" (last error is %1)").arg(lastError) );
 
     return text;
 }
@@ -149,6 +160,11 @@ WinPlatformWindow::WinPlatformWindow(HWND window)
 QString WinPlatformWindow::getTitle()
 {
     return windowTitle(m_window);
+}
+
+QString WinPlatformWindow::getClassName()
+{
+    return windowClassName(m_window);
 }
 
 void WinPlatformWindow::raise()

@@ -212,9 +212,7 @@ MacPlatformWindow::~MacPlatformWindow() {
 
 QString MacPlatformWindow::getTitle()
 {
-    QString appTitle;
-    if (m_runningApplication)
-        appTitle = QString::fromNSString([m_runningApplication localizedName]);
+    const QString appTitle = getClassName();
 
     QString windowTitle;
     if (m_window)
@@ -237,6 +235,14 @@ QString MacPlatformWindow::getTitle()
         result = QString("%1 - %2").arg(appTitle, windowTitle);
     }
     return result;
+}
+
+QString MacPlatformWindow::getClassName()
+{
+    QString appTitle;
+    return m_runningApplication
+        ? QString::fromNSString([m_runningApplication localizedName])
+        : QString();
 }
 
 void MacPlatformWindow::raise()

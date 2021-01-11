@@ -1744,6 +1744,13 @@ QString ScriptableProxy::currentWindowTitle()
     return window ? window->getTitle() : QString();
 }
 
+QString ScriptableProxy::currentWindowClass()
+{
+    INVOKE(currentWindowClass, ());
+    PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
+    return window ? window->getClassName() : QString();
+}
+
 int ScriptableProxy::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog, (values));

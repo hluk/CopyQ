@@ -1480,6 +1480,21 @@ void Tests::commandCurrentWindowTitle()
     RUN("enable", "");
 }
 
+void Tests::commandCurrentWindowClass()
+{
+#ifdef Q_OS_MAC
+    RUN("currentWindowTitle", "CopyQ\n");
+#elif defined(Q_OS_WIN)
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+
+    QCOMPARE( run(Args("currentWindowClass"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( QString::fromUtf8(stdoutActual).contains("QWindowIcon"), stdoutActual );
+#else
+    RUN("currentWindowClass", "copyq\n");
+#endif
+}
+
 void Tests::commandCopy()
 {
     RUN("copy" << "A", "true\n");

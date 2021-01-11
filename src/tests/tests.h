@@ -104,6 +104,8 @@ private slots:
 
     void commandCurrentWindowTitle();
 
+    void commandCurrentWindowClass();
+
     void commandCopy();
     void commandClipboard();
     void commandHasClipboardFormat();

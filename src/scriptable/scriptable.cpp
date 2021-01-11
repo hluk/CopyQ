@@ -2066,6 +2066,12 @@ QJSValue Scriptable::currentWindowTitle()
     return m_proxy->currentWindowTitle();
 }
 
+QJSValue Scriptable::currentWindowClass()
+{
+    m_skipArguments = 0;
+    return m_proxy->currentWindowClass();
+}
+
 QJSValue Scriptable::dialog()
 {
     m_skipArguments = -1;
