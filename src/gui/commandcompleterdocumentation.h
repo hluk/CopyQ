@@ -142,7 +142,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("pointerPosition", "int[] pointerPosition()", "Returns current mouse pointer position (x, y coordinates on screen).");
     addDocumentation("setPointerPosition", "setPointerPosition(x, y)", "Moves mouse pointer to given coordinates on screen.");
     addDocumentation("iconColor", "String iconColor()", "Get current tray and window icon color name.");
-    addDocumentation("iconColor", "iconColor(colorName)", "Set current tray and window icon color name.");
+    addDocumentation("iconColor", "iconColor(colorName)", "Set current tray and window icon color name (e.g. 'orange', '#ffa500', '#09f').");
     addDocumentation("iconTag", "String iconTag()", "Get current tray and window tag text.");
     addDocumentation("iconTag", "iconTag(tag)", "Set current tray and window tag text.");
     addDocumentation("iconTagColor", "String iconTagColor()", "Get current tray and window tag color name.");
