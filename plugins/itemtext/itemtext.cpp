@@ -53,8 +53,6 @@ const char optionUseRichText[] = "use_rich_text";
 const char optionMaximumLines[] = "max_lines";
 const char optionMaximumHeight[] = "max_height";
 
-const char mimeRichText[] = "text/richtext";
-
 // Some applications insert \0 teminator at the end of text data.
 // It needs to be removed because QTextBrowser can render the character.
 void removeTrailingNull(QString *text)
@@ -67,11 +65,6 @@ bool getRichText(const QVariantMap &dataMap, QString *text)
 {
     if ( dataMap.contains(mimeHtml) ) {
         *text = getTextData(dataMap, mimeHtml);
-        return true;
-    }
-
-    if ( dataMap.contains(mimeRichText) ) {
-        *text = getTextData(dataMap, mimeRichText);
         return true;
     }
 
@@ -331,7 +324,7 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
 QStringList ItemTextLoader::formatsToSave() const
 {
     return m_settings.value(optionUseRichText, true).toBool()
-            ? QStringList(mimeText) << mimeHtml << mimeRichText
+            ? QStringList(mimeText) << mimeHtml
             : QStringList(mimeText);
 }
 
