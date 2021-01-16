@@ -9,6 +9,7 @@ Terminal=false
 X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false
 X-KDE-UniqueApplet=true
+X-GNOME-Autostart-Delay=3
 Categories=Qt;KDE;Utility;
 GenericName[af]=Klipbord Program
 GenericName[ar]=أداة الحافظة
@@ -177,4 +178,3 @@ Comment[wa]=Ene ahesse d' istwere di coper/aclacper
 Comment[x-test]=xxA cut & paste history utilityxx
 Comment[zh_CN]=管理剪切和粘贴历史的工具
 Comment[zh_TW]=剪貼紀錄公用程式
-
