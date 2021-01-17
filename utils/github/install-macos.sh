@@ -10,6 +10,9 @@ set -xeuo pipefail
     git commit -m "Initial"
 )
 
+# workaround for symlink issue
+rm -rf /usr/local/bin/2to3
+
 # Install Homebrew: https://brew.sh/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
