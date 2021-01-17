@@ -3,6 +3,8 @@ Name=CopyQ
 Exec=copyq
 Icon=${ICON_NAME}
 GenericName=Clipboard Manager
+# Workaround / fix for issue #1526 that prevents a proper autostart of the tray icon in GNOME
+X-GNOME-Autostart-Delay=3
 # The rest is taken from Klipper application.
 Type=Application
 Terminal=false
@@ -177,4 +179,3 @@ Comment[wa]=Ene ahesse d' istwere di coper/aclacper
 Comment[x-test]=xxA cut & paste history utilityxx
 Comment[zh_CN]=管理剪切和粘贴历史的工具
 Comment[zh_TW]=剪貼紀錄公用程式
-
