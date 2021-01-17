@@ -2,6 +2,8 @@
 set -ex
 
 packages=(
+    libkf5notifications5
+
     libqt5core5a
     libqt5gui5
     libqt5network5

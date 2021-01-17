@@ -4,10 +4,11 @@ set -ex
 apt update
 
 apt -y install \
+    build-essential \
     cmake \
     extra-cmake-modules \
     git \
-    libkf5notifications-dev
+    libkf5notifications-dev \
     libqt5svg5 \
     libqt5svg5-dev \
     libqt5waylandclient5-dev \

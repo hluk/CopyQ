@@ -1,11 +1,12 @@
 ---
-image: ubuntu:bionic
+image: ubuntu:20.04
 
 variables:
   BUILD_DIR: "build"
   INSTALL_PREFIX: "copyq"
   SCREENSHOT_DIR: "screenshots"
   TESTS_LOG_DIR: "logs"
+  DEBIAN_FRONTEND: "noninteractive"
 
 build:
   stage: build
