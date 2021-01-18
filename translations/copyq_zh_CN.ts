@@ -331,7 +331,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation>无法添加新条目至标签 %1。请手动移除条目来腾出空间。</translation>
+        <translation>不能添加新的条目到标签页%1. 请手动删除一些条目以腾出空间.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -2224,13 +2224,13 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;设置媒体类型到 &lt;strong&gt;-&lt;/strong&gt; (负字节) 以忽略文件。任何其他未知或隐藏文件都被忽略。&lt;/p&gt;
-&lt;p&gt;如: 加载 &lt;strong&gt;txt&lt;/strong&gt; 文件扩展名 为 &lt;strong&gt;text/plain&lt;/strong&gt;媒体类型&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;将媒体类型设置成&lt;strong&gt;-&lt;/strong&gt; (减号字符)来忽略文件. 任何其他未知或隐藏的文件都会被忽略.&lt;/p&gt;
+&lt;p&gt;例如: 扩展名为&lt;strong&gt;txt&lt;/strong&gt; 的文件属于 &lt;strong&gt;text/plain&lt;/strong&gt; 媒体类型.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation>条目媒体类型</translation>
+        <translation>条目的媒体类型</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -3202,8 +3202,8 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation>从当前窗口复制剪贴板
-（可能不适用于某些应用程序).</translation>
+        <translation>从当前窗口的剪贴板进行复制
+(在某些应用程序里也许无法使用).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -3218,19 +3218,19 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation>将原始数据写入给定的行.</translation>
+        <translation>把原始数据写到给定的行.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation>对行中的条目文本运行PROGRAM.
-使用PROGRAM中的％1将文本作为参数传递.</translation>
+        <translation>针对各行里的条目文字执行 程序 .
+使用 %1 将条目文字当做参数传给 程序.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>托盘弹出消息显示持续时间TIME毫秒.</translation>
+        <translation>将托盘处弹出消息的显示时间设为 TIME 毫秒.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3299,7 +3299,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation>评估脚本.</translation>
+        <translation>试运行脚本.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3314,17 +3314,17 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>用给定的会话名称启动或连接到应用程序实例.</translation>
+        <translation>运行或连接到符合给定会话名称的应用实体.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation>打印COMMAND或所有命令的帮助.</translation>
+        <translation>显示 COMMAND 或者所有指令的帮助信息.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation>打印程序和库的版本.</translation>
+        <translation>显示程序和库文件的版本信息.</translation>
     </message>
     <message>
         <source>
