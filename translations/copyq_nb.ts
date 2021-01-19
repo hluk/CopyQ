@@ -1223,7 +1223,7 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiver element med ett klikk</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -1729,7 +1729,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Redigerer-kommando mislyktes (sjekk loggen)</translation>
     </message>
 </context>
 <context>
@@ -3038,7 +3038,8 @@ som kan bestå av bokstaver, tall, &apos;-&apos; eeler &apos;_&apos;!</translati
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kopier utklippstavle fra nåværende vindu
+(trenger ikke å fungere i alle programmer).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3184,12 +3185,13 @@ Vis systemstatusfelt-melding i TIME milisekunder.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kjøpr PROGRAM på elementtekst i radene.
+Bruk %1 i PROGRAM for å sende tekst som argument.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis oppsprettsmelding i systemkurven for TID i millisekunder.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3292,12 +3294,12 @@ Standard er første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Starter eller kobler til en programinstans med gitt brukernavn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriver ut hjelp for KOMMANDO, eller alle kommandoer.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>

@@ -1053,7 +1053,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation>儲存和還原項目篩選的歷史記錄</translation>
+        <translation>儲存和還原項目篩選的歷史紀錄</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1126,7 +1126,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>歷史記錄中的項目數量上限(&amp;N):</translation>
+        <translation>歷史紀錄中的項目數量上限(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
@@ -1727,7 +1727,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>執行編輯器命令失敗 (見紀錄)</translation>
     </message>
 </context>
 <context>
