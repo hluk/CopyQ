@@ -220,7 +220,7 @@ void X11Platform::setAutostartEnabled(bool enable)
     desktopFile2.write("Exec=" + cmd.toUtf8() + "\n");
 
     desktopFile2.write("Hidden=");
-    desktopFile2.write(enable ? "False" : "True");
+    desktopFile2.write(enable ? "false" : "true");
     desktopFile2.write("\n");
 
     desktopFile2.write("X-GNOME-Autostart-enabled=");
