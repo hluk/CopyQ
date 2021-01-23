@@ -81,7 +81,8 @@ public:
 
     void createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow);
 
-    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList);
+    void prependItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList);
+    void insertItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList);
 
     /**
      * Check for new files.

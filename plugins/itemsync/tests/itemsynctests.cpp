@@ -36,11 +36,6 @@ const char sep[] = " ;; ";
 const auto clipboardBrowserId = "focus:ClipboardBrowser";
 const auto confirmRemoveDialogId = "focus::QPushButton in :QMessageBox";
 
-QString fileNameForId(int i)
-{
-    return QString::fromLatin1("copyq_%1.txt").arg(i, 4, 10, QChar('0'));
-}
-
 class TestDir final {
 public:
     explicit TestDir(int i, bool createPath = true)
@@ -209,8 +204,11 @@ void ItemSyncTests::itemsToFiles()
     RUN(args << "read" << "0" << "1" << "2", "C\nB\nA");
     RUN(args << "size", "3\n");
 
-    QCOMPARE( dir1.files().join(sep),
-              fileNameForId(0) + sep + fileNameForId(1) + sep + fileNameForId(2) );
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 3, files.join(sep).toUtf8() );
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
+    QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
 }
 
 void ItemSyncTests::filesToItems()
@@ -232,9 +230,9 @@ void ItemSyncTests::filesToItems()
     TEST(createFile(dir1, "test2.txt", text2));
 
     WAIT_ON_OUTPUT(args << "size", "2\n");
-    // Newer files first.
-    RUN(args << "read" << "0", text2);
-    RUN(args << "read" << "1", text1);
+    // Older files first.
+    RUN(args << "read" << "0", text1);
+    RUN(args << "read" << "1", text2);
 }
 
 void ItemSyncTests::removeOwnItems()
@@ -247,17 +245,12 @@ void ItemSyncTests::removeOwnItems()
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
 
-    const QString fileA = fileNameForId(0);
-    const QString fileB = fileNameForId(1);
-    const QString fileC = fileNameForId(2);
-    const QString fileD = fileNameForId(3);
-
-    QCOMPARE( dir1.files().join(sep),
-              fileA
-              + sep + fileB
-              + sep + fileC
-              + sep + fileD
-              );
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 4, files.join(sep).toUtf8() );
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
+    QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
+    QVERIFY2( files[3].startsWith("copyq_"), files[3].toUtf8() );
 
     // Move to test tab and select second and third item.
     RUN("setCurrentTab" << tab1, "");
@@ -268,14 +261,14 @@ void ItemSyncTests::removeOwnItems()
     RUN(args << "keys" << m_test->shortcutToRemove(), "");
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,A,,");
     QCOMPARE( dir1.files().join(sep),
-              fileA
-              + sep + fileD
+              files[0]
+              + sep + files[3]
               );
 
     // Removing own items works from script.
     RUN(args << "remove" << "1", "");
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,,,");
-    QCOMPARE( dir1.files().join(sep), fileD );
+    QCOMPARE( dir1.files().join(sep), files[3] );
 }
 
 void ItemSyncTests::removeNotOwnedItems()
@@ -315,7 +308,7 @@ void ItemSyncTests::removeNotOwnedItems()
     // Accept the "Remove Items?" dialog.
     RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
     RUN(args << "keys" << confirmRemoveDialogId << "ENTER" << clipboardBrowserId, "");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,A,,");
+    RUN(args << "read" << "0" << "1" << "2" << "3", "A,D,,");
     QCOMPARE( dir1.files().join(sep),
               fileA
               + sep + fileD
@@ -356,7 +349,7 @@ void ItemSyncTests::removeNotOwnedItemsCancel()
     RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
     RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
     RUN(args << "keys" << confirmRemoveDialogId << "ESCAPE" << clipboardBrowserId, "");
-    RUN(args << "read" << "0" << "1", "B,A");
+    RUN(args << "read" << "0" << "1", "A,B");
     QCOMPARE( dir1.files().join(sep), fileA + sep + fileB );
     RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
 }
@@ -371,19 +364,14 @@ void ItemSyncTests::removeFiles()
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
 
-    const QString fileA = fileNameForId(0);
-    const QString fileB = fileNameForId(1);
-    const QString fileC = fileNameForId(2);
-    const QString fileD = fileNameForId(3);
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 4, files.join(sep).toUtf8() );
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
+    QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
+    QVERIFY2( files[3].startsWith("copyq_"), files[3].toUtf8() );
 
-    QCOMPARE( dir1.files().join(sep),
-              fileA
-              + sep + fileB
-              + sep + fileC
-              + sep + fileD
-              );
-
-    FilePtr file = dir1.file(fileC);
+    FilePtr file = dir1.file(files[2]);
     QVERIFY(file->open(QIODevice::ReadOnly));
     QCOMPARE(file->readAll().data(), QByteArray("C").data());
     file->remove();
@@ -391,8 +379,8 @@ void ItemSyncTests::removeFiles()
     WAIT_ON_OUTPUT(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "D,B,A");
 
-    dir1.file(fileB)->remove();
-    dir1.file(fileA)->remove();
+    dir1.file(files[1])->remove();
+    dir1.file(files[0])->remove();
 
     WAIT_ON_OUTPUT(args << "size", "1\n");
     RUN(args << "read" << "0", "D");
@@ -408,8 +396,10 @@ void ItemSyncTests::modifyItems()
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
 
-    const QString fileC = fileNameForId(2);
-    FilePtr file = dir1.file(fileC);
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 4, files.join(sep).toUtf8() );
+
+    FilePtr file = dir1.file(files[2]);
     QVERIFY(file->open(QIODevice::ReadOnly));
     QCOMPARE(file->readAll().data(), QByteArray("C").data());
     file->close();
@@ -418,7 +408,7 @@ void ItemSyncTests::modifyItems()
     RUN(args << "size", "4\n");
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,XXX,B,A");
 
-    file = dir1.file(fileC);
+    file = dir1.file(files[2]);
     QVERIFY(file->open(QIODevice::ReadOnly));
     QCOMPARE(file->readAll().data(), QByteArray("XXX").data());
     file->close();
@@ -434,19 +424,14 @@ void ItemSyncTests::modifyFiles()
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
 
-    const QString fileA = fileNameForId(0);
-    const QString fileB = fileNameForId(1);
-    const QString fileC = fileNameForId(2);
-    const QString fileD = fileNameForId(3);
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 4, files.join(sep).toUtf8() );
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
+    QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
+    QVERIFY2( files[3].startsWith("copyq_"), files[3].toUtf8() );
 
-    QCOMPARE( dir1.files().join(sep),
-              fileA
-              + sep + fileB
-              + sep + fileC
-              + sep + fileD
-              );
-
-    FilePtr file = dir1.file(fileC);
+    FilePtr file = dir1.file(files[2]);
     QVERIFY(file->open(QIODevice::ReadWrite));
     QCOMPARE(file->readAll().data(), QByteArray("C").data());
     file->write("X");
@@ -512,23 +497,21 @@ void ItemSyncTests::notes()
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "TEST3;TEST2;TEST1");
 
-    const QString fileTest1 = fileNameForId(0);
-    const QString fileTest2 = fileNameForId(1);
-    const QString fileTest3 = fileNameForId(2);
-
-    const QStringList files1 = QStringList() << fileTest1 << fileTest2 << fileTest3;
-
-    QCOMPARE( dir1.files().join(sep), files1.join(sep) );
+    const auto files = dir1.files();
+    QVERIFY2( files.size() == 3, files.join(sep).toUtf8() );
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
+    QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
 
     RUN(args << "keys" << "HOME" << "DOWN" << "SHIFT+F2" << ":NOTE1" << "F2", "");
     RUN(args << "read" << mimeItemNotes << "0" << "1" << "2", ";NOTE1;");
 
     // One new file for notes.
     const QStringList files2 = dir1.files();
-    QCOMPARE( files2.size(), files1.size() + 1 );
+    QCOMPARE( files2.size(), files.size() + 1 );
     QString fileNote;
     for (const auto &file : files2) {
-        if ( !files1.contains(file) ) {
+        if ( !files.contains(file) ) {
             fileNote = file;
             break;
         }
@@ -572,7 +555,7 @@ void ItemSyncTests::customFormats()
     createFile(dir1, "test2.yyy", "TEST2");
 
     WAIT_ON_OUTPUT(args << "size", "2\n");
-    RUN(args << "read" << mime2 << "0", "TEST2");
+    RUN(args << "read" << mime2 << "1", "TEST2");
 
     createFile(dir1, "test3.zzz", "TEST3");
 
@@ -592,9 +575,9 @@ void ItemSyncTests::customFormats()
     WAIT_ON_OUTPUT(
         args << script,
         "  size: 3"
-        "  basename: test3;test2;test1"
-        "  mime1: ;;TEST1"
-        "  mime2: TEST3;TEST2;"
+        "  basename: test1;test2;test3"
+        "  mime1: TEST1;;"
+        "  mime2: ;TEST2;TEST3"
         );
 
     // Remove
@@ -603,9 +586,9 @@ void ItemSyncTests::customFormats()
     WAIT_ON_OUTPUT(
         args << script,
         "  size: 2"
-        "  basename: test3;test1;"
-        "  mime1: ;TEST1;"
-        "  mime2: TEST3;;"
+        "  basename: test1;test3;"
+        "  mime1: TEST1;;"
+        "  mime2: ;TEST3;"
         );
 
     // Modify file
@@ -617,9 +600,9 @@ void ItemSyncTests::customFormats()
     WAIT_ON_OUTPUT(
         args << script,
         "  size: 2"
-        "  basename: test3;test1;"
-        "  mime1: ;TEST1UPDATE;"
-        "  mime2: TEST3;;"
+        "  basename: test1;test3;"
+        "  mime1: TEST1UPDATE;;"
+        "  mime2: ;TEST3;"
         );
 
     // Create item with custom data
@@ -627,7 +610,10 @@ void ItemSyncTests::customFormats()
 
     RUN(args << "size", "3\n");
 
-    const QString fileData = QString(fileNameForId(0)).replace("txt", "zzz");
+    const auto files = dir1.files();
+    QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
+    const QString fileData = QString(files[0]).replace("txt", "zzz");
+    QVERIFY2( fileData.endsWith(".zzz"), fileData.toUtf8() );
 
     // Check data
     file = dir1.file(fileData);
@@ -640,7 +626,7 @@ void ItemSyncTests::customFormats()
     file->close();
 
     WAIT_ON_OUTPUT(
-        Args(args) << "read" << mime2 << "0" << "1" << mime1 << "2",
+        Args(args) << "read" << mime2 << "0" << "2" << mime1 << "1",
         "NEW_ITEM+UPDATE;TEST3;TEST1UPDATE");
     RUN(args << "size", "3\n");
 }

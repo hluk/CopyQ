@@ -245,15 +245,37 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     return fileList;
 }
 
-/// Load hash of all existing files to map (hash -> filename).
+/// Sorts own files (copyq_*) first by creation date newer first and other
+/// files by name alphabetically.
+QFileInfoList sortedFilesInfos(const QDir &dir, const QDir::Filters &itemFileFilter)
+{
+    QFileInfoList infoList = dir.entryInfoList(itemFileFilter);
+    std::sort(std::begin(infoList), std::end(infoList), [](const QFileInfo &lhs, const QFileInfo &rhs){
+        const QString lhsBaseName = lhs.baseName();
+        const QString rhsBaseName = rhs.baseName();
+        const bool isLhsOwn = FileWatcher::isOwnBaseName(lhsBaseName);
+        const bool isRhsOwn = FileWatcher::isOwnBaseName(rhsBaseName);
+        // Sort own items by creation time (basename format is
+        // "copyq_yyyyMMddhhmmsszzz").
+        if (isLhsOwn && isRhsOwn)
+            return lhsBaseName > rhsBaseName;
+        if (isLhsOwn)
+            return true;
+        if (isRhsOwn)
+            return false;
+        return lhsBaseName < rhsBaseName;
+    });
+    return infoList;
+}
+
 QStringList listFiles(const QDir &dir)
 {
     QStringList files;
 
     const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
-    // Get files ordered by name to achive same result on multiple platforms.
+    // Get files ordered by name to achieve same result on multiple platforms.
     // NOTE: Sorting by modification time can be slow.
-    for ( const auto &info : dir.entryInfoList(itemFileFilter, QDir::Name) ) {
+    for ( const auto &info : sortedFilesInfos(dir, itemFileFilter) ) {
         if ( canUseFile(info) )
             files.append(info.absoluteFilePath());
     }
@@ -305,7 +327,10 @@ bool renameToUnique(
         const QList<FileFormat> &formatSettings)
 {
     if ( name->isEmpty() ) {
-        *name = "copyq_0000";
+        const auto dateFormat = "yyyyMMddhhmmsszzz";
+        const auto dateTime = QDateTime::currentDateTimeUtc();
+        const auto now = dateTime.toString(dateFormat);
+        *name = QString::fromLatin1("copyq_%1").arg(now);
     } else {
         // Replace/remove unsafe characters.
         name->replace( QRegularExpression("/|\\\\|^\\."), QLatin1String("_") );
@@ -321,30 +346,30 @@ bool renameToUnique(
     QString baseName;
     getBaseNameAndExtension(*name, &baseName, &ext, formatSettings);
 
-    int i = 0;
+    qulonglong i = 0;
     int fieldWidth = 0;
 
     QRegularExpression re("\\d+$");
     const auto m = re.match(baseName);
     if (m.hasMatch()) {
         const QString num = m.captured();
-        i = num.toInt();
+        i = num.toULongLong();
         fieldWidth = num.size();
         baseName = baseName.mid( 0, baseName.size() - fieldWidth );
     } else {
         baseName.append('-');
     }
 
-    QString newName;
-    do {
-        if (i >= 99999)
-            return false;
-        newName = baseName + QString::fromLatin1("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
-    } while ( !isUniqueBaseName(newName, fileNames, baseNames) );
+    for (int counter = 0; counter < 99999; ++counter) {
+        *name = baseName + QString::fromLatin1("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
+        if ( isUniqueBaseName(*name, fileNames, baseNames) )
+            return true;
+    }
 
-    *name = newName;
-
-    return true;
+    log( QString::fromLatin1(
+                "ItemSync: Failed to find unique base name with prefix: %1")
+            .arg(baseName), LogError);
+    return false;
 }
 
 } // namespace
@@ -434,7 +459,7 @@ FileWatcher::FileWatcher(
     if (model->rowCount() > 0)
         saveItems(0, model->rowCount() - 1);
 
-    createItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
+    prependItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
 }
 
 bool FileWatcher::lock()
@@ -465,13 +490,37 @@ void FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions 
     }
 }
 
-void FileWatcher::createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+void FileWatcher::prependItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
 {
     for (const auto &baseNameWithExts : fileList) {
         if ( m_model->rowCount() >= m_maxItems )
             break;
 
         createItemFromFiles(dir, baseNameWithExts, 0);
+    }
+}
+
+void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+{
+    int row = 0;
+    for (const auto &baseNameWithExts : fileList) {
+        const bool isOwn = isOwnBaseName(baseNameWithExts.baseName);
+
+        // Insert owned items; append non-owned items.
+        const int rowCount = m_model->rowCount();
+        if (!isOwn)
+            row = rowCount;
+
+        if (row >= m_maxItems)
+            break;
+
+        createItemFromFiles(dir, baseNameWithExts, row);
+        const int newRowCount = m_model->rowCount();
+        const int newItems = newRowCount - rowCount;
+        row += qMax(0, newItems);
+
+        if ( newRowCount >= m_maxItems )
+            m_model->removeRows(m_maxItems, newRowCount - m_maxItems);
     }
 }
 
@@ -548,7 +597,7 @@ void FileWatcher::updateItems()
 
     t.restart();
 
-    createItemsFromFiles(dir, m_fileList);
+    insertItemsFromFiles(dir, m_fileList);
 
     if ( t.elapsed() > 100 )
         log( QString("ItemSync: Items created in %1 ms").arg(t.elapsed()) );
@@ -592,6 +641,8 @@ void FileWatcher::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
 {
+    const bool wasFull = m_maxItems >= m_model->rowCount();
+
     for ( const auto &index : indexList(first, last) ) {
         if ( !index.isValid() )
             continue;
@@ -604,6 +655,10 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
             removeFilesForRemovedIndex(m_path, index);
         m_indexData.erase(it);
     }
+
+    // If the tab is no longer full, try to add new files.
+    if (wasFull)
+        m_updateTimer.start(0);
 }
 
 FileWatcher::IndexDataList::iterator FileWatcher::findIndexData(const QModelIndex &index)
