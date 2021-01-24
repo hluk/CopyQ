@@ -189,6 +189,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)"),
         plain("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
 
+        regex("QtWarning: QTemporaryDir: Unable to remove .* most likely due to the presence of read-only files."),
+
         // Windows Qt 5.15.2
         plain("[qt.qpa.mime] QtWarning: Retrying to obtain clipboard."),
         plain("[qt.qpa.fonts] QtWarning: Unable to enumerate family ' \"Font Awesome 5 Free Solid (CopyQ)\" '"),
