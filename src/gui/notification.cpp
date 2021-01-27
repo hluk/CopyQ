@@ -102,13 +102,10 @@ Notification::Notification(const QColor &iconColor, QObject *parent)
 
 Notification::~Notification()
 {
-    notificationLog("Delete");
-
     auto notification = dropNotification();
     if (notification) {
-        // FIXME: For some reason this doesn't update the notification.
-        notification->setFlags(KNotification::CloseOnTimeout);
-        notification->update();
+        notificationLog("Delete");
+        notification->close();
     }
 }
 
