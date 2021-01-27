@@ -40,6 +40,8 @@
 #include <QStandardPaths>
 #include <QTextEdit>
 
+#include <knotifications_version.h>
+
 #include <memory>
 
 namespace {
@@ -181,8 +183,13 @@ void Notification::show()
              this, &Notification::onClosed );
     connect( m_notification.data(), &KNotification::ignored,
              this, &Notification::onIgnored );
+#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,67,0)
     connect( m_notification.data(), static_cast<void (KNotification::*)()>(&KNotification::activated),
              this, &Notification::onActivated );
+#else
+    connect( m_notification.data(), &KNotification::defaultActivated,
+             this, &Notification::onActivated );
+#endif
     connect( m_notification.data(), &QObject::destroyed,
              this, &Notification::onDestroyed );
 
