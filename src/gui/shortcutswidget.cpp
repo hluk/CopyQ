@@ -272,13 +272,8 @@ void ShortcutsWidget::onLineEditFilterTextChanged(const QString &text)
         }
 
         const int row = action.tableItem->row();
-
-        for (auto table : { ui->tableWidgetApplication, ui->tableWidgetGlobal }) {
-            if (found)
-                table->showRow(row);
-            else
-                table->hideRow(row);
-        }
+        QTableWidget *table = action.tableItem->tableWidget();
+        table->setRowHidden(row, !found);
     }
 }
 
