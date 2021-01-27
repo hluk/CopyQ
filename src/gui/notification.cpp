@@ -46,8 +46,7 @@ namespace {
 
 constexpr auto componentName = "copyq";
 
-constexpr auto defaultConfiguration = R"(
-[Global]
+constexpr auto defaultConfiguration = R"([Global]
 IconName=copyq
 Comment=CopyQ Clipboard Manager
 Name=CopyQ
@@ -77,7 +76,11 @@ void Notification::initConfiguration()
     }
 
     const QString configPath = dir.absoluteFilePath("%1.notifyrc").arg(componentName);
+    COPYQ_LOG( QString("Notification configuration: %1").arg(configPath) );
     QFile configFile(configPath);
+    if ( configFile.exists() )
+        return;
+
     if ( !configFile.open(QIODevice::WriteOnly) ) {
         log( QString("Failed to open notification config file \"%1\": %2")
              .arg(configPath, configFile.errorString()), LogWarning );
