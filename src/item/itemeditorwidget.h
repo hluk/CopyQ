@@ -20,10 +20,10 @@
 #ifndef ITEMEDITORWIDGET_H
 #define ITEMEDITORWIDGET_H
 
+#include "item/itemfilter.h"
 #include "item/itemwidget.h"
 
 #include <QPersistentModelIndex>
-#include <QRegularExpression>
 #include <QTextEdit>
 
 #include <memory>
@@ -56,7 +56,7 @@ public:
 
     QModelIndex index() const { return m_index; }
 
-    void search(const QRegularExpression &re);
+    void search(const ItemFilterPtr &filter);
 
     void findNext();
 
@@ -94,7 +94,7 @@ private:
     QPersistentModelIndex m_index;
     bool m_saveOnReturnKey;
     bool m_editNotes;
-    QRegularExpression m_re;
+    ItemFilterPtr m_filter;
 };
 
 #endif // ITEMEDITORWIDGET_H

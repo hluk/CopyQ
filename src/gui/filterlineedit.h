@@ -32,6 +32,8 @@
 
 #include "fancylineedit.h"
 
+#include "item/itemfilter.h"
+
 class QTimer;
 
 namespace Utils {
@@ -42,12 +44,12 @@ class FilterLineEdit final : public FancyLineEdit
 public:
     explicit FilterLineEdit(QWidget *parent = nullptr);
 
-    QRegularExpression filter() const;
+    ItemFilterPtr filter() const;
 
     void loadSettings();
 
 signals:
-    void filterChanged(const QRegularExpression &);
+    void filterChanged();
 
 protected:
     void keyPressEvent(QKeyEvent *ke) override;
@@ -59,11 +61,9 @@ private:
     void onTextChanged();
     void onMenuAction();
 
-    void emitTextChanged();
-
-    QTimer *m_timerSearch;
-    QAction *m_actionRe;
-    QAction *m_actionCaseInsensitive;
+    QTimer *m_timerSearch = nullptr;
+    QAction *m_actionRe = nullptr;
+    QAction *m_actionCaseInsensitive = nullptr;
 };
 
 } // namespace Utils

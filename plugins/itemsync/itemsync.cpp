@@ -31,6 +31,7 @@
 #include "gui/icons.h"
 #include "gui/iconfont.h"
 #include "gui/iconwidget.h"
+#include "item/itemfilter.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itemsynctests.h"
@@ -398,44 +399,6 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setPlainText(label);
 }
 
-void ItemSync::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
-{
-    ItemWidgetWrapper::highlight(re, highlightFont, highlightPalette);
-
-    QList<QTextEdit::ExtraSelection> selections;
-
-    if ( re.isValid() && !re.pattern().isEmpty() ) {
-        QTextEdit::ExtraSelection selection;
-        selection.format.setBackground( highlightPalette.base() );
-        selection.format.setForeground( highlightPalette.text() );
-        selection.format.setFont(highlightFont);
-
-        QTextCursor cur = m_label->document()->find(re);
-        int a = cur.position();
-        while ( !cur.isNull() ) {
-            if ( cur.hasSelection() ) {
-                selection.cursor = cur;
-                selections.append(selection);
-            } else {
-                cur.movePosition(QTextCursor::NextCharacter);
-            }
-            cur = m_label->document()->find(re, cur);
-            int b = cur.position();
-            if (a == b) {
-                cur.movePosition(QTextCursor::NextCharacter);
-                cur = m_label->document()->find(re, cur);
-                b = cur.position();
-                if (a == b) break;
-            }
-            a = b;
-        }
-    }
-
-    m_label->setExtraSelections(selections);
-
-    update();
-}
-
 void ItemSync::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
@@ -741,11 +704,11 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QVariantMap 
     return new ItemSync(baseName, icon, itemWidget);
 }
 
-bool ItemSyncLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
+bool ItemSyncLoader::matches(const QModelIndex &index, const ItemFilter &filter) const
 {
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QString text = dataMap.value(mimeBaseName).toString();
-    return text.contains(re);
+    return filter.matches(text);
 }
 
 QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const

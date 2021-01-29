@@ -42,6 +42,7 @@ namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
 const char propertySizeUpdated[] = "CopyQ_sizeUpdated";
+const char propertyFilterId[] = "CopyQ_filterId";
 
 } // namespace
 
@@ -49,7 +50,6 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
     : QItemDelegate(parent)
     , m_view(view)
     , m_sharedData(sharedData)
-    , m_re()
     , m_maxSize(2048, 2048 * 8)
     , m_idealWidth(0)
     , m_cache()
@@ -305,9 +305,31 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
 
 void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 {
-    const auto &font = m_sharedData->theme.searchFont();
-    const auto &palette = m_sharedData->theme.searchPalette();
-    itemWidget->setHighlight(m_re, font, palette);
+    QWidget *w = itemWidget->widget();
+    if ( w->property(propertyFilterId).toInt() == m_filterId )
+        return;
+
+    w->setProperty(propertyFilterId, m_filterId);
+
+    const auto textEdits = w->findChildren<QTextEdit*>();
+    auto maybeTextEdit = qobject_cast<QTextEdit*>(w);
+    if (m_filter) {
+        QTextCharFormat format;
+        format.setFont( m_sharedData->theme.searchFont() );
+        QPalette palette = m_sharedData->theme.searchPalette();
+        format.setBackground( palette.base() );
+        format.setForeground( palette.text() );
+
+        for (QTextEdit *edit : textEdits)
+            m_filter->highlight(edit, format);
+        if (maybeTextEdit)
+            m_filter->highlight(maybeTextEdit, format);
+    } else {
+        for (QTextEdit *edit : textEdits)
+            edit->setExtraSelections({});
+        if (maybeTextEdit)
+            maybeTextEdit->setExtraSelections({});
+    }
 }
 
 void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent)
@@ -422,9 +444,10 @@ bool ItemDelegate::invalidateHidden(QWidget *widget)
     return true;
 }
 
-void ItemDelegate::setSearch(const QRegularExpression &re)
+void ItemDelegate::setItemFilter(const ItemFilterPtr &filter)
 {
-    m_re = re;
+    m_filter = filter;
+    ++m_filterId;
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,

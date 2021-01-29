@@ -463,7 +463,7 @@ private:
     void tabBarMenuRequested(QPoint pos, int tab);
     void tabTreeMenuRequested(QPoint pos, const QString &groupPath);
     void tabCloseRequested(int tab);
-    void onFilterChanged(const QRegularExpression &re);
+    void onFilterChanged();
 
     void raiseLastWindowAfterMenuClosed();
 

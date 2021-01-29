@@ -142,7 +142,7 @@ public:
 
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model) override;
 
-    bool matches(const QModelIndex &index, const QRegularExpression &re) const override;
+    bool matches(const QModelIndex &index, const ItemFilter &filter) const override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

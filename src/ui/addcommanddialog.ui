@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="Utils::FilterLineEdit" name="filterLineEdit"/>
+    <widget class="QLineEdit" name="lineEditFilter"/>
    </item>
    <item>
     <widget class="QListView" name="listViewCommands">
@@ -39,13 +39,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Utils::FilterLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>gui/filterlineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

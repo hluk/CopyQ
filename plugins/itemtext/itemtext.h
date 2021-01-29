@@ -41,9 +41,6 @@ public:
     ItemText(const QString &text, const QString &richText, int maxLines, int lineLength, int maximumHeight, QWidget *parent);
 
 protected:
-    void highlight(const QRegularExpression &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette) override;
-
     void updateSize(QSize maximumSize, int idealWidth) override;
 
     bool eventFilter(QObject *, QEvent *event) override;

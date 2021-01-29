@@ -122,15 +122,15 @@ QVariantMap ItemEditorWidget::data() const
     return data;
 }
 
-void ItemEditorWidget::search(const QRegularExpression &re)
+void ItemEditorWidget::search(const ItemFilterPtr &filter)
 {
-    if ( !re.isValid() || re.pattern().isEmpty() )
+    if ( !filter || filter->matchesNone() )
         return;
 
     auto tc = textCursor();
     tc.setPosition(tc.selectionStart());
     setTextCursor(tc);
-    m_re = re;
+    m_filter = filter;
     findNext();
 }
 
@@ -374,27 +374,6 @@ QWidget *ItemEditorWidget::createToolbar(QWidget *parent)
 
 void ItemEditorWidget::search(bool backwards)
 {
-    if ( !m_re.isValid() )
-        return;
-
-    auto tc = textCursor();
-    if ( tc.isNull() )
-        return;
-
-    QTextDocument::FindFlags flags;
-    if (backwards)
-        flags = QTextDocument::FindBackward;
-
-    auto tc2 = tc.document()->find(m_re, tc, flags);
-    if (tc2.isNull()) {
-        tc2 = tc;
-        if (backwards)
-            tc2.movePosition(QTextCursor::End);
-        else
-            tc2.movePosition(QTextCursor::Start);
-        tc2 = tc.document()->find(m_re, tc2, flags);
-    }
-
-    if (!tc2.isNull())
-        setTextCursor(tc2);
+    if (m_filter)
+        m_filter->search(this, backwards);
 }

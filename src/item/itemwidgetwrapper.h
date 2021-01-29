@@ -17,9 +17,6 @@ public:
     void setTagged(bool tagged) override;
 
 protected:
-    void highlight(const QRegularExpression &re, const QFont &highlightFont,
-                   const QPalette &highlightPalette) override;
-
     ItemWidget *childItem() const { return m_childItem.get(); }
 
 private:

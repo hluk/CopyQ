@@ -28,13 +28,10 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QEvent>
-#include <QFont>
 #include <QMimeData>
 #include <QModelIndex>
 #include <QMouseEvent>
-#include <QPalette>
 #include <QTextEdit>
-#include <QTextFormat>
 #include <QUrl>
 #include <QWidget>
 
@@ -48,8 +45,7 @@ bool canMouseInteract(const QMouseEvent &event)
 } // namespace
 
 ItemWidget::ItemWidget(QWidget *widget)
-    : m_re()
-    , m_widget(widget)
+    : m_widget(widget)
 {
     Q_ASSERT(widget != nullptr);
 
@@ -64,15 +60,6 @@ ItemWidget::ItemWidget(QWidget *widget)
 
     // Disable drag'n'drop by default.
     widget->setAcceptDrops(false);
-}
-
-void ItemWidget::setHighlight(const QRegularExpression &re, const QFont &highlightFont,
-                              const QPalette &highlightPalette)
-{
-    if (m_re == re)
-        return;
-    m_re = re;
-    highlight(re, highlightFont, highlightPalette);
 }
 
 void ItemWidget::updateSize(QSize maximumSize, int idealWidth)
@@ -275,7 +262,7 @@ ItemSaverPtr ItemLoaderInterface::transformSaver(const ItemSaverPtr &saver, QAbs
     return saver;
 }
 
-bool ItemLoaderInterface::matches(const QModelIndex &, const QRegularExpression &) const
+bool ItemLoaderInterface::matches(const QModelIndex &, const ItemFilter &) const
 {
     return false;
 }

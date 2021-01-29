@@ -357,17 +357,17 @@ bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
 
 bool ClipboardBrowser::isFiltered(int row) const
 {
-    const auto re = d.searchExpression();
-    if ( re.pattern().isEmpty() || !m_itemSaver)
+    const auto filter = d.itemFilter();
+    if ( !filter || filter->matchesAll() || !m_itemSaver)
         return false;
 
-    if ( !re.isValid() )
+    if ( filter->matchesNone() )
         return true;
 
     const QModelIndex ind = m.index(row);
     return m_filterRow != row
             && m_sharedData->itemFactory
-            && !m_sharedData->itemFactory->matches(ind, re);
+            && !m_sharedData->itemFactory->matches(ind, *filter);
 }
 
 QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
@@ -456,11 +456,11 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClip
         } else {
             setFocus();
             maybeEmitEditingFinished();
-            const auto oldSearch = d.searchExpression().pattern();
-            if ( oldSearch.isEmpty() )
+            const auto filter = d.itemFilter();
+            if ( !filter || filter->matchesAll() )
                 emit searchHideRequest();
             else
-                emit searchShowRequest(oldSearch);
+                emit searchShowRequest(filter->searchString());
         }
 
         emit internalEditorStateChanged(this);
@@ -1299,31 +1299,34 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
     }
 }
 
-void ClipboardBrowser::filterItems(const QRegularExpression &re)
+void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
 {
     // Search in editor if open.
     if ( isInternalEditorOpen() ) {
-        m_editor->search(re);
+        m_editor->search(filter);
         return;
     }
 
-    // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
-    const auto oldRe = d.searchExpression();
-    if ( (oldRe.pattern().isEmpty() && re.pattern().isEmpty()) || oldRe == re )
+    // Do nothing if same regexp was already set.
+    // FIXME: Compare other options.
+    const auto oldFilter = d.itemFilter();
+    const auto oldSearch = oldFilter ? oldFilter->searchString() : QString();
+    const auto newSearch = filter ? filter->searchString() : QString();
+    if (oldSearch == newSearch)
         return;
 
-    d.setSearch(re);
+    d.setItemFilter(filter);
 
     // If search string is a number, highlight item in that row.
     bool filterByRowNumber = !m_sharedData->numberSearch;
     if (filterByRowNumber)
-        m_filterRow = re.pattern().toInt(&filterByRowNumber);
+        m_filterRow = newSearch.toInt(&filterByRowNumber);
     if (!filterByRowNumber)
         m_filterRow = -1;
 
     int row = 0;
 
-    if ( re.pattern().isEmpty() ) {
+    if ( !filter || filter->matchesAll() ) {
         for ( ; row < length(); ++row )
             hideFiltered(row);
 
@@ -1367,7 +1370,7 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
         return;
 
     emit searchHideRequest();
-    filterItems(QRegularExpression());
+    filterItems(nullptr);
     if ( add(text) )
         editItem(currentIndex(), false, changeClipboard);
 }

@@ -25,8 +25,8 @@
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/regexp.h"
 #include "common/textdata.h"
+#include "item/itemfilter.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
@@ -230,10 +230,10 @@ public:
         return std::make_shared<DummySaver>();
     }
 
-    bool matches(const QModelIndex &index, const QRegularExpression &re) const override
+    bool matches(const QModelIndex &index, const ItemFilter &filter) const override
     {
         const QString text = index.data(contentType::text).toString();
-        return text.contains(re);
+        return filter.matches(text);
     }
 };
 
@@ -431,20 +431,13 @@ ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemMod
     return nullptr;
 }
 
-bool ItemFactory::matches(const QModelIndex &index, const QRegularExpression &re) const
+bool ItemFactory::matches(const QModelIndex &index, const ItemFilter &filter) const
 {
-    // Match formats if the filter expression contains single '/'.
-    if (re.pattern().count('/') == 1) {
-        const auto re2 = anchoredRegExp(re.pattern());
-        const QVariantMap data = index.data(contentType::data).toMap();
-        for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-            if ( it.key().contains(re2) )
-                return true;
-        }
-    }
+    if ( filter.matches(index) )
+        return true;
 
     for ( const auto &loader : enabledLoaders() ) {
-        if ( isLoaderEnabled(loader) && loader->matches(index, re) )
+        if ( isLoaderEnabled(loader) && loader->matches(index, filter) )
             return true;
     }
 

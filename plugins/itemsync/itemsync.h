@@ -46,9 +46,6 @@ public:
     ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = nullptr);
 
 protected:
-    void highlight(const QRegularExpression &re, const QFont &highlightFont,
-                           const QPalette &highlightPalette) override;
-
     void updateSize(QSize maximumSize, int idealWidth) override;
 
     bool eventFilter(QObject *, QEvent *event) override;
@@ -163,7 +160,7 @@ public:
 
     ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
-    bool matches(const QModelIndex &index, const QRegularExpression &re) const override;
+    bool matches(const QModelIndex &index, const ItemFilter &filter) const override;
 
     QObject *tests(const TestInterfacePtr &test) const override;
 

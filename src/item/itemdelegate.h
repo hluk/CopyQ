@@ -20,6 +20,7 @@
 #ifndef ITEMDELEGATE_H
 #define ITEMDELEGATE_H
 
+#include "item/itemfilter.h"
 #include "gui/clipboardbrowsershared.h"
 
 #include <QItemDelegate>
@@ -66,10 +67,10 @@ class ItemDelegate final : public QItemDelegate
         bool invalidateHidden(QWidget *widget);
 
         /** Set regular expression for highlighting. */
-        void setSearch(const QRegularExpression &re);
+        void setItemFilter(const ItemFilterPtr &filter);
 
         /** Return regular expression for highlighting. */
-        const QRegularExpression &searchExpression() const { return m_re; }
+        const ItemFilterPtr &itemFilter() const { return m_filter; }
 
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
@@ -141,7 +142,8 @@ class ItemDelegate final : public QItemDelegate
 
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
-        QRegularExpression m_re;
+        ItemFilterPtr m_filter;
+        int m_filterId = 0;
         QSize m_maxSize;
         int m_idealWidth;
 

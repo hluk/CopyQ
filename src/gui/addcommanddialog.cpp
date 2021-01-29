@@ -89,12 +89,10 @@ AddCommandDialog::AddCommandDialog(const QVector<Command> &pluginCommands, QWidg
 {
     ui->setupUi(this);
 
-    connect(ui->filterLineEdit, &Utils::FilterLineEdit::filterChanged,
-            this, &AddCommandDialog::onFilterLineEditFilterChanged);
+    connect(ui->lineEditFilter, &QLineEdit::textChanged,
+            this, &AddCommandDialog::onLineEditFilterTextChanged);
     connect(ui->listViewCommands, &QListView::activated,
             this, &AddCommandDialog::onListViewCommandsActivated);
-
-    ui->filterLineEdit->loadSettings();
 
     QAbstractItemModel *model = new CommandModel(predefinedCommands() + pluginCommands, m_filterModel);
     m_filterModel->setSourceModel(model);
@@ -127,16 +125,14 @@ void AddCommandDialog::accept()
     QDialog::accept();
 }
 
-void AddCommandDialog::onFilterLineEditFilterChanged(const QRegularExpression &re)
+void AddCommandDialog::onLineEditFilterTextChanged(const QString &text)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
+    const QRegularExpression re(text, QRegularExpression::CaseInsensitiveOption);
     m_filterModel->setFilterRegularExpression(re);
 #else
-    const auto caseSensitivity = re.patternOptions().testFlag(QRegularExpression::CaseInsensitiveOption)
-        ? Qt::CaseSensitive
-        : Qt::CaseInsensitive;
-    const QRegExp re2(re.pattern(), caseSensitivity);
-    m_filterModel->setFilterRegExp(re2);
+    const QRegExp re(text, Qt::CaseInsensitive);
+    m_filterModel->setFilterRegExp(re);
 #endif
 }
 

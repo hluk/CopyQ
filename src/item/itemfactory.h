@@ -123,7 +123,7 @@ public:
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
      */
-    bool matches(const QModelIndex &index, const QRegularExpression &re) const;
+    bool matches(const QModelIndex &index, const ItemFilter &filter) const;
 
     ItemScriptable* scriptableObject(const QString &name) const;
 

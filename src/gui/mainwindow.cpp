@@ -2805,7 +2805,7 @@ void MainWindow::tabChanged(int current, int)
         // update item menu (necessary for keyboard shortcuts to work)
         auto c = browserOrNull();
         if (c) {
-            c->filterItems( browseMode() ? QRegularExpression() : ui->searchBar->filter() );
+            c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 
             if ( current >= 0 ) {
                 if( !c->currentIndex().isValid() && isVisible() ) {
@@ -3214,16 +3214,17 @@ ClipboardBrowserPlaceholder *MainWindow::getPlaceholderForTrayMenu()
     return i != -1 ? getPlaceholder(i) : nullptr;
 }
 
-void MainWindow::onFilterChanged(const QRegularExpression &re)
+void MainWindow::onFilterChanged()
 {
-    if (re.pattern().isEmpty())
+    ItemFilterPtr filter = ui->searchBar->filter();
+    if ( filter->matchesAll() )
         enterBrowseMode();
     else if ( browseMode() )
         enterSearchMode();
 
     auto c = browser();
     if (c)
-        c->filterItems(re);
+        c->filterItems(filter);
     updateItemPreviewAfterMs(2 * itemPreviewUpdateIntervalMsec);
 }
 
@@ -3289,7 +3290,7 @@ void MainWindow::enterBrowseMode()
 
     auto c = browserOrNull();
     if (c)
-        c->filterItems(QRegularExpression());
+        c->filterItems(nullptr);
 }
 
 void MainWindow::enterSearchMode()

@@ -32,8 +32,9 @@
 #include "gui/iconfont.h"
 #include "gui/pixelratio.h"
 #include "gui/theme.h"
-#include "item/itemeditor.h"
 #include "item/itemdelegate.h"
+#include "item/itemeditor.h"
+#include "item/itemfilter.h"
 
 #include <QAbstractScrollArea>
 #include <QAction>
@@ -44,7 +45,46 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QSettings>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTextEdit>
 #include <QTemporaryFile>
+
+#include <memory>
+
+namespace {
+
+class ItemFilterSimple : public ItemFilter {
+public:
+    explicit ItemFilterSimple(const QString &text)
+        : m_text(text)
+    {
+    }
+
+    QString searchString() const override { return m_text; }
+    bool matchesAll() const override { return false; }
+    bool matchesNone() const override { return false; }
+    bool matches(const QString &) const override { return true; }
+    bool matches(const QModelIndex &) const override { return true; }
+
+    void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
+    {
+        QTextCursor cur = edit->document()->find(m_text);
+        if ( !cur.hasSelection() )
+            return;
+
+        QTextEdit::ExtraSelection selection{cur, format};
+        edit->setExtraSelections({selection});
+        edit->update();
+    }
+
+    void search(QTextEdit *, bool) const override {}
+
+private:
+    QString m_text;
+};
+
+} // namespace
 
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     : QWidget(parent)
@@ -456,7 +496,7 @@ void ConfigTabAppearance::decoratePreview()
     model->setData(index, dataMap, contentType::updateData);
 
     // Highlight found text but don't filter out any items.
-    c->filterItems( QRegularExpression(QLatin1String("^|") + searchFor, QRegularExpression::CaseInsensitiveOption) );
+    c->filterItems(std::make_shared<ItemFilterSimple>(searchFor));
 
     QAction *act;
 

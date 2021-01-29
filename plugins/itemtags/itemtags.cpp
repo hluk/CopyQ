@@ -28,6 +28,7 @@
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
 #include "gui/pixelratio.h"
+#include "item/itemfilter.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itemtagstests.h"
@@ -722,12 +723,12 @@ ItemSaverPtr ItemTagsLoader::transformSaver(const ItemSaverPtr &saver, QAbstract
     return hasAnyLocks ? std::make_shared<ItemTagsSaver>(m_tags, saver) : saver;
 }
 
-bool ItemTagsLoader::matches(const QModelIndex &index, const QRegularExpression &re) const
+bool ItemTagsLoader::matches(const QModelIndex &index, const ItemFilter &filter) const
 {
     const QByteArray tagsData =
             index.data(contentType::data).toMap().value(mimeTags).toByteArray();
     const auto tags = getTextData(tagsData);
-    return tags.contains(re);
+    return filter.matches(tags);
 }
 
 QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const

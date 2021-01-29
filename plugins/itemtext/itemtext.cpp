@@ -164,42 +164,6 @@ ItemText::ItemText(const QString &text, const QString &richText, int maxLines, i
              this, &ItemText::onSelectionChanged );
 }
 
-void ItemText::highlight(const QRegularExpression &re, const QFont &highlightFont, const QPalette &highlightPalette)
-{
-    QList<QTextEdit::ExtraSelection> selections;
-
-    if ( re.isValid() && !re.pattern().isEmpty() ) {
-        QTextEdit::ExtraSelection selection;
-        selection.format.setBackground( highlightPalette.base() );
-        selection.format.setForeground( highlightPalette.text() );
-        selection.format.setFont(highlightFont);
-
-        QTextCursor cur = m_textDocument.find(re);
-        int a = cur.position();
-        while ( !cur.isNull() ) {
-            if ( cur.hasSelection() ) {
-                selection.cursor = cur;
-                selections.append(selection);
-            } else {
-                cur.movePosition(QTextCursor::NextCharacter);
-            }
-            cur = m_textDocument.find(re, cur);
-            int b = cur.position();
-            if (a == b) {
-                cur.movePosition(QTextCursor::NextCharacter);
-                cur = m_textDocument.find(re, cur);
-                b = cur.position();
-                if (a == b) break;
-            }
-            a = b;
-        }
-    }
-
-    setExtraSelections(selections);
-
-    update();
-}
-
 void ItemText::updateSize(QSize maximumSize, int idealWidth)
 {
     if ( m_textDocument.isEmpty() ) {

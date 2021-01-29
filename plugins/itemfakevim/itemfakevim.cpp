@@ -36,6 +36,7 @@ using namespace FakeVim::Internal;
 #include <QKeyEvent>
 #include <QPaintEvent>
 #include <QPainter>
+#include <QRegularExpression>
 #include <QStatusBar>
 #include <QTextBlock>
 #include <QTextEdit>

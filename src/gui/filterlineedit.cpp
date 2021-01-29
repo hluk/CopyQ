@@ -32,20 +32,132 @@
 #include "common/appconfig.h"
 #include "common/compatibility.h"
 #include "common/config.h"
+#include "common/contenttype.h"
+#include "common/regexp.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/filtercompleter.h"
 
 #include <QKeyEvent>
 #include <QMenu>
+#include <QModelIndex>
 #include <QPainter>
 #include <QRegularExpression>
 #include <QSettings>
+#include <QTextCursor>
+#include <QTextDocument>
+#include <QTextEdit>
 #include <QTimer>
 
 namespace {
 
 const char optionFilterHistory[] = "filter_history";
+
+class ItemFilterRegExp : public ItemFilter {
+public:
+    explicit ItemFilterRegExp(const QRegularExpression &re, const QString &searchString)
+        : m_re(re)
+        , m_searchString(searchString)
+    {
+    }
+
+    QString searchString() const override
+    {
+        return m_searchString;
+    }
+
+    bool matchesAll() const override
+    {
+        return m_re.pattern().isEmpty();
+    }
+
+    bool matchesNone() const override
+    {
+        return !m_re.isValid();
+    }
+
+    bool matches(const QString &text) const override
+    {
+        return text.contains(m_re);
+    }
+
+    bool matches(const QModelIndex &index) const override
+    {
+        // Match formats if the filter expression contains single '/'.
+        if ( m_re.pattern().count('/') != 1 )
+            return false;
+
+        const auto re2 = anchoredRegExp(m_re.pattern());
+        const QVariantMap data = index.data(contentType::data).toMap();
+        return std::any_of(data.keyBegin(), data.keyEnd(), [&re2](const QString &key) {
+            return key.contains(re2);
+        });
+    }
+
+    void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
+    {
+        QList<QTextEdit::ExtraSelection> selections;
+
+        if ( m_re.isValid() && !m_re.pattern().isEmpty() ) {
+            QTextEdit::ExtraSelection selection;
+            selection.format = format;
+
+            QTextCursor cur = edit->document()->find(m_re);
+            int a = cur.position();
+            while ( !cur.isNull() ) {
+                if ( cur.hasSelection() ) {
+                    selection.cursor = cur;
+                    selections.append(selection);
+                } else {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                }
+                cur = edit->document()->find(m_re, cur);
+                int b = cur.position();
+                if (a == b) {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                    cur = edit->document()->find(m_re, cur);
+                    b = cur.position();
+                    if (a == b) break;
+                }
+                a = b;
+            }
+        }
+
+        edit->setExtraSelections(selections);
+        edit->update();
+    }
+
+    void search(QTextEdit *edit, bool backwards) const override
+    {
+        if ( matchesAll() )
+            return;
+
+        auto tc = edit->textCursor();
+        if ( tc.isNull() )
+            return;
+
+        QTextDocument::FindFlags flags;
+        if (backwards)
+            flags = QTextDocument::FindBackward;
+
+        auto tc2 = tc.document()->find(m_re, tc, flags);
+        if (tc2.isNull()) {
+            tc2 = tc;
+            if (backwards)
+                tc2.movePosition(QTextCursor::End);
+            else
+                tc2.movePosition(QTextCursor::Start);
+            tc2 = tc.document()->find(m_re, tc2, flags);
+        }
+
+        if (!tc2.isNull())
+            edit->setTextCursor(tc2);
+    }
+
+private:
+    QRegularExpression m_re;
+    QString m_searchString;
+};
 
 class FilterHistory final {
 public:
@@ -106,7 +218,7 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
     m_timerSearch->setInterval(200);
 
     connect( m_timerSearch, &QTimer::timeout,
-             this, &FilterLineEdit::emitTextChanged );
+             this, &FilterLineEdit::filterChanged );
     connect( this, &QLineEdit::textChanged,
              this, &FilterLineEdit::onTextChanged );
 
@@ -123,7 +235,7 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
     m_actionCaseInsensitive->setCheckable(true);
 }
 
-QRegularExpression FilterLineEdit::filter() const
+ItemFilterPtr FilterLineEdit::filter() const
 {
     static const QRegularExpression reWhiteSpace("\\s+");
 
@@ -143,7 +255,7 @@ QRegularExpression FilterLineEdit::filter() const
         }
     }
 
-    return QRegularExpression(pattern, sensitivity);
+    return std::make_shared<ItemFilterRegExp>(QRegularExpression(pattern, sensitivity), text());
 }
 
 void FilterLineEdit::loadSettings()
@@ -221,7 +333,7 @@ void FilterLineEdit::onTextChanged()
     if ( hasFocus() )
         m_timerSearch->start();
     else
-        emitTextChanged();
+        emit filterChanged();
 }
 
 void FilterLineEdit::onMenuAction()
@@ -230,14 +342,7 @@ void FilterLineEdit::onMenuAction()
     appConfig.setOption("filter_regular_expression", m_actionRe->isChecked());
     appConfig.setOption("filter_case_insensitive", m_actionCaseInsensitive->isChecked());
 
-    const QRegularExpression re = filter();
-    if ( re.isValid() && !re.pattern().isEmpty() )
-        emit filterChanged(re);
-}
-
-void FilterLineEdit::emitTextChanged()
-{
-    emit filterChanged(filter());
+    emit filterChanged();
 }
 
 } // namespace Utils

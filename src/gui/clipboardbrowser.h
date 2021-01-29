@@ -26,6 +26,7 @@
 #include "gui/theme.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
+#include "item/itemfilter.h"
 #include "item/itemwidget.h"
 
 #include <QListView>
@@ -154,7 +155,7 @@ class ClipboardBrowser final : public QListView
         /** Move items to clipboard. */
         void moveToClipboard(const QModelIndexList &indexes);
         /** Show only items matching the regular expression. */
-        void filterItems(const QRegularExpression &re);
+        void filterItems(const ItemFilterPtr &filter);
         /** Open editor. */
         bool openEditor(const QByteArray &textData, bool changeClipboard = false);
         /** Open editor for an item. */

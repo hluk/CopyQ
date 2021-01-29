@@ -22,7 +22,6 @@
 
 #include "tests/testinterface.h"
 
-#include <QRegularExpression>
 #include <QStringList>
 #include <QtPlugin>
 #include <QVariantMap>
@@ -31,13 +30,11 @@
 
 #include <memory>
 
+class ItemFilter;
 class QAbstractItemModel;
 class QTextEdit;
 class QIODevice;
-class QFont;
 class QModelIndex;
-class QPalette;
-class QRegularExpression;
 struct Command;
 
 class ItemLoaderInterface;
@@ -49,7 +46,7 @@ using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 class ItemScriptableFactoryInterface;
 using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
 
-#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/3.13.0"
+#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/4.0.0"
 
 /**
  * Handles item in list.
@@ -60,12 +57,6 @@ public:
     explicit ItemWidget(QWidget *widget);
 
     virtual ~ItemWidget() = default;
-
-    /**
-     * Set search and selections highlight color and font.
-     */
-    void setHighlight(const QRegularExpression &re, const QFont &highlightFont,
-                      const QPalette &highlightPalette);
 
     /**
      * Return widget to render.
@@ -94,12 +85,6 @@ public:
 
 protected:
     /**
-     * Highlight matching text with given font and color.
-     * Default implementation does nothing.
-     */
-    virtual void highlight(const QRegularExpression &, const QFont &, const QPalette &) {}
-
-    /**
      * Filter mouse events for QTextEdit widgets.
      *
      * With Shift modifier pressed (item should be selected first), text in QTextEdit widget
@@ -114,7 +99,6 @@ protected:
     bool filterMouseEvents(QTextEdit *edit, QEvent *event);
 
 private:
-    QRegularExpression m_re;
     QWidget *m_widget;
 };
 
@@ -375,7 +359,7 @@ public:
      * Return true if regular expression matches items content.
      * Returns false by default.
      */
-    virtual bool matches(const QModelIndex &index, const QRegularExpression &re) const;
+    virtual bool matches(const QModelIndex &index, const ItemFilter &filter) const;
 
     /**
      * Return object with tests.
