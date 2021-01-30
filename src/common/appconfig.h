@@ -118,7 +118,7 @@ struct save_filter_history : Config<bool> {
 
 struct filter_regular_expression : Config<bool> {
     static QString name() { return "filter_regular_expression"; }
-    static Value defaultValue() { return true; }
+    static Value defaultValue() { return false; }
 };
 
 struct filter_case_insensitive : Config<bool> {
