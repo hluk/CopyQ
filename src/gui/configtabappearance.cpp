@@ -65,7 +65,7 @@ public:
     bool matchesAll() const override { return false; }
     bool matchesNone() const override { return false; }
     bool matches(const QString &) const override { return true; }
-    bool matches(const QModelIndex &) const override { return true; }
+    bool matchesIndex(const QModelIndex &) const override { return true; }
 
     void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
     {

@@ -433,7 +433,7 @@ ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemMod
 
 bool ItemFactory::matches(const QModelIndex &index, const ItemFilter &filter) const
 {
-    if ( filter.matches(index) )
+    if ( filter.matchesIndex(index) )
         return true;
 
     for ( const auto &loader : enabledLoaders() ) {

@@ -53,11 +53,10 @@ namespace {
 
 const char optionFilterHistory[] = "filter_history";
 
-class ItemFilterRegExp : public ItemFilter {
+class BaseItemFilter : public ItemFilter {
 public:
-    explicit ItemFilterRegExp(const QRegularExpression &re, const QString &searchString)
-        : m_re(re)
-        , m_searchString(searchString)
+    explicit BaseItemFilter(const QString &searchString)
+        : m_searchString(searchString)
     {
     }
 
@@ -68,7 +67,32 @@ public:
 
     bool matchesAll() const override
     {
-        return m_re.pattern().isEmpty();
+        return m_searchString.isEmpty();
+    }
+
+    bool matchesIndex(const QModelIndex &index) const override
+    {
+        // Match formats if the filter expression contains single '/'.
+        if ( m_searchString.count('/') != 1 )
+            return false;
+
+        const auto re2 = anchoredRegExp(m_searchString);
+        const QVariantMap data = index.data(contentType::data).toMap();
+        return std::any_of(data.keyBegin(), data.keyEnd(), [&re2](const QString &key) {
+            return key.contains(re2);
+        });
+    }
+
+private:
+    QString m_searchString;
+};
+
+class ItemFilterRegExp : public BaseItemFilter {
+public:
+    ItemFilterRegExp(const QRegularExpression &re, const QString &searchString)
+        : BaseItemFilter(searchString)
+        , m_re(re)
+    {
     }
 
     bool matchesNone() const override
@@ -81,24 +105,11 @@ public:
         return text.contains(m_re);
     }
 
-    bool matches(const QModelIndex &index) const override
-    {
-        // Match formats if the filter expression contains single '/'.
-        if ( m_re.pattern().count('/') != 1 )
-            return false;
-
-        const auto re2 = anchoredRegExp(m_re.pattern());
-        const QVariantMap data = index.data(contentType::data).toMap();
-        return std::any_of(data.keyBegin(), data.keyEnd(), [&re2](const QString &key) {
-            return key.contains(re2);
-        });
-    }
-
     void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
     {
         QList<QTextEdit::ExtraSelection> selections;
 
-        if ( m_re.isValid() && !m_re.pattern().isEmpty() ) {
+        if ( m_re.isValid() && !matchesAll() ) {
             QTextEdit::ExtraSelection selection;
             selection.format = format;
 
@@ -156,7 +167,124 @@ public:
 
 private:
     QRegularExpression m_re;
-    QString m_searchString;
+};
+
+class ItemFilterFixedStrings : public BaseItemFilter {
+public:
+    ItemFilterFixedStrings(const QString &searchString, Qt::CaseSensitivity caseSensitivity)
+        : BaseItemFilter(searchString)
+        , m_needles( searchString.split(QRegularExpression("\\s+"), SKIP_EMPTY_PARTS) )
+        , m_caseSensitivity(caseSensitivity)
+    {
+    }
+
+    bool matchesNone() const override
+    {
+        return false;
+    }
+
+    bool matches(const QString &text) const override
+    {
+        return std::all_of(std::begin(m_needles), std::end(m_needles),
+            [&text, this](const QString &needle) {
+                return text.contains(needle, m_caseSensitivity);
+            });
+    }
+
+    void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
+    {
+        QList<QTextEdit::ExtraSelection> selections;
+
+        QTextEdit::ExtraSelection selection;
+        selection.format = format;
+
+        QTextDocument::FindFlags flags;
+        if (m_caseSensitivity == Qt::CaseSensitive)
+            flags = QTextDocument::FindCaseSensitively;
+
+        for ( const QString &needle : m_needles ) {
+            QTextCursor cur = edit->document()->find(needle, 0, flags);
+            int a = cur.position();
+            while ( !cur.isNull() ) {
+                if ( cur.hasSelection() ) {
+                    selection.cursor = cur;
+                    selections.append(selection);
+                } else {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                }
+                cur = edit->document()->find(needle, cur, flags);
+                int b = cur.position();
+                if (a == b) {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                    cur = edit->document()->find(needle, cur, flags);
+                    b = cur.position();
+                    if (a == b) break;
+                }
+                a = b;
+            }
+        }
+
+        edit->setExtraSelections(selections);
+        edit->update();
+    }
+
+    void search(QTextEdit *edit, bool backwards) const override
+    {
+        if ( matchesAll() )
+            return;
+
+        auto tc = edit->textCursor();
+        if ( tc.isNull() )
+            return;
+
+        QTextDocument::FindFlags flags;
+        if (backwards)
+            flags = QTextDocument::FindBackward;
+        if (m_caseSensitivity == Qt::CaseSensitive)
+            flags = QTextDocument::FindCaseSensitively;
+
+        QTextCursor tc2;
+        int minDistance = std::numeric_limits<int>::max();
+        for ( const QString &needle : m_needles ) {
+            int distance = 0;
+            auto tc3 = tc.document()->find(needle, tc, flags);
+
+            // Wrap around.
+            if ( tc3.isNull() ) {
+                tc3 = tc;
+                tc3.movePosition(QTextCursor::End);
+                const int endPos = tc3.position();
+                if (!backwards)
+                    tc3.movePosition(QTextCursor::Start);
+                tc3 = tc.document()->find(needle, tc3, flags);
+                if ( tc3.isNull() )
+                    continue;
+                distance = backwards
+                    ? tc.selectionStart() + (endPos - tc3.selectionEnd())
+                    : endPos - tc.selectionStart() + tc3.selectionStart();
+            } else {
+                distance = backwards
+                    ? tc.selectionEnd() - tc3.selectionEnd()
+                    : tc3.selectionStart() - tc.selectionStart();
+            }
+
+            // Find longest selection closest to the text cursor.
+            if ( tc2.isNull()
+                 || distance < minDistance
+                 || tc3.selectedText().size() > tc2.selectedText().size() )
+            {
+                minDistance = distance;
+                tc2 = tc3;
+            }
+        }
+
+        if ( !tc2.isNull() )
+            edit->setTextCursor(tc2);
+    }
+
+private:
+    QStringList m_needles;
+    Qt::CaseSensitivity m_caseSensitivity;
 };
 
 class FilterHistory final {
@@ -237,25 +365,18 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
 
 ItemFilterPtr FilterLineEdit::filter() const
 {
-    static const QRegularExpression reWhiteSpace("\\s+");
-
-    const auto sensitivity =
-        m_actionCaseInsensitive->isChecked()
-        ? QRegularExpression::CaseInsensitiveOption
-        : QRegularExpression::NoPatternOption;
-
-    QString pattern;
+    const QString pattern = text();
     if (m_actionRe->isChecked()) {
-        pattern = text();
-    } else {
-        for ( const auto &str : text().split(reWhiteSpace, SKIP_EMPTY_PARTS) ) {
-            if ( !pattern.isEmpty() )
-                pattern.append(".*");
-            pattern.append( QRegularExpression::escape(str) );
-        }
+        const auto sensitivity =
+            m_actionCaseInsensitive->isChecked()
+            ? QRegularExpression::CaseInsensitiveOption
+            : QRegularExpression::NoPatternOption;
+        return std::make_shared<ItemFilterRegExp>(QRegularExpression(pattern, sensitivity), pattern);
     }
 
-    return std::make_shared<ItemFilterRegExp>(QRegularExpression(pattern, sensitivity), text());
+    const auto sensitivity = m_actionCaseInsensitive->isChecked()
+        ? Qt::CaseInsensitive : Qt::CaseSensitive;
+    return std::make_shared<ItemFilterFixedStrings>(pattern, sensitivity);
 }
 
 void FilterLineEdit::loadSettings()
