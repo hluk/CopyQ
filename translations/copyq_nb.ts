@@ -2226,7 +2226,8 @@ Settes til 0 for å deaktivere.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Sett mediatype til &lt;strong&gt;-&lt;/strong&gt; (minus tegn) for å ignorere filer. Alle andre ukjente eller skjulte filer ignoreres.&lt;/p&gt;
+&lt;p&gt;Eksempel: Last inn &lt;strong&gt;txt&lt;/strong&gt;-filendelse som &lt;strong&gt;text/plain&lt;/strong&gt;-mediatype.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
