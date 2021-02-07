@@ -276,9 +276,6 @@ void X11PlatformWindow::pasteClipboard()
         sendKeyPress(XK_Control_L, XK_V);
     else
         sendKeyPress(XK_Shift_L, XK_Insert);
-
-    // Don't do anything hasty until the content is actually pasted.
-    usleep(150000);
 }
 
 void X11PlatformWindow::copy()

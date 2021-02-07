@@ -193,7 +193,7 @@ public slots:
     QJSValue isClipboard();
     QJSValue copy();
     QJSValue copySelection();
-    void paste();
+    QJSValue paste();
 
     QJSValue tab();
     QJSValue removeTab();
@@ -450,6 +450,8 @@ private:
 
     PlatformClipboard *clipboardInstance();
     const QMimeData *mimeData(ClipboardMode mode);
+
+    void interruptibleSleep(int msec);
 
     ScriptableProxy *m_proxy;
     QJSEngine *m_engine;

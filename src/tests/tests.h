@@ -208,6 +208,8 @@ private slots:
     void traySearch();
     void trayPaste();
 
+    void pasteNext();
+
     // Options for tray menu.
     void configTrayTab();
     void configMove();

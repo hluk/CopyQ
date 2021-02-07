@@ -162,9 +162,6 @@ void WinPlatformWindow::pasteClipboard()
         sendKeyPress(VK_LCONTROL, 'V');
     else
         sendKeyPress(VK_LSHIFT, VK_INSERT);
-
-    // Don't do anything hasty until the content is actually pasted.
-    Sleep(150);
 }
 
 void WinPlatformWindow::copy()

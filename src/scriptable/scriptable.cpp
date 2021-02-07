@@ -1114,10 +1114,20 @@ QJSValue Scriptable::copySelection()
 #endif
 }
 
-void Scriptable::paste()
+QJSValue Scriptable::paste()
 {
     m_skipArguments = 0;
-    m_proxy->pasteToCurrentWindow();
+    if ( !m_proxy->pasteToCurrentWindow() )
+        return throwError( QLatin1String("Failed to paste clipboard") );
+
+    const QString option = QString::fromLatin1("script_paste_delay_ms");
+    const auto values = m_proxy->config({option}).toMap();
+    const int msec = values.value(option).toInt();
+    COPYQ_LOG( QString::fromLatin1("Delay after paste: %1ms").arg(msec) );
+    if (msec > 0)
+        interruptibleSleep(msec);
+
+    return QJSValue();
 }
 
 QJSValue Scriptable::tab()
@@ -2239,18 +2249,7 @@ QJSValue Scriptable::sleep()
     if ( !toInt(argument(0), &msec) )
         return throwError(argumentError());
 
-    if (canContinue()) {
-        QEventLoop loop;
-        connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
-
-        QTimer t;
-        t.setTimerType(Qt::PreciseTimer);
-        t.setInterval(msec);
-        connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
-        t.start();
-
-        loop.exec();
-    }
+    interruptibleSleep(msec);
 
     return QJSValue();
 }
@@ -3562,6 +3561,23 @@ PlatformClipboard *Scriptable::clipboardInstance()
 const QMimeData *Scriptable::mimeData(ClipboardMode mode)
 {
     return clipboardInstance()->mimeData(mode);
+}
+
+void Scriptable::interruptibleSleep(int msec)
+{
+    if ( !canContinue() )
+        return;
+
+    QEventLoop loop;
+    connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+
+    QTimer t;
+    t.setTimerType(Qt::PreciseTimer);
+    t.setInterval(msec);
+    connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
+    t.start();
+
+    loop.exec();
 }
 
 void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject)

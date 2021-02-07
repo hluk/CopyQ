@@ -2913,6 +2913,25 @@ void Tests::trayPaste()
     RUN("tab" << tab1 << "read" << "0", "NEW ");
 }
 
+void Tests::pasteNext()
+{
+    const auto tab1 = testTab(1);
+    RUN("setCurrentTab" << tab1, "");
+    RUN("keys"
+        << clipboardBrowserId << "CTRL+N"
+        << editorId << ":NEW ", "");
+
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "add" << "test3" << "test2" << "test1", "");
+    RUN("tab" << tab2 << "next(); paste(); next()", "");
+    waitFor(waitMsPasteClipboard);
+
+    RUN("keys" << editorId, "");
+    WAIT_FOR_CLIPBOARD("test3");
+    RUN("keys" << editorId << "F2", "");
+    RUN("tab" << tab1 << "read" << "0", "NEW test2");
+}
+
 void Tests::configTrayTab()
 {
     const auto tab1 = testTab(1);

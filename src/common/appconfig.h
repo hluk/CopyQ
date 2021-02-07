@@ -353,6 +353,11 @@ struct native_menu_bar : Config<bool> {
 #endif
 };
 
+struct script_paste_delay_ms : Config<int> {
+    static QString name() { return "script_paste_delay_ms"; }
+    static Value defaultValue() { return 250; }
+};
+
 } // namespace Config
 
 class AppConfig final
