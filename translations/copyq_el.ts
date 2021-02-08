@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation>Ηλ. αλληλογραφία</translation>
+        <translation>Ηλεκτρονικό ταχυδρομείο</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
@@ -247,7 +247,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation>Άνοιγμα στον &amp;φυλλομετρητή</translation>
+        <translation>Άνοιγμα σε πρόγραμμα &amp;περιήγησης</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
@@ -1730,18 +1730,18 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="290"/>
         <source>Cancel</source>
-        <translation>Ακύρωση</translation>
+        <translation>Άκυρο</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="292"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation>Ακύρωσςη της επεξεργασίας και επαναφορά των αλλαγών</translation>
+        <translation>Ακύρωση της επεξεργασίας και επαναφορά των αλλαγών</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="293"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation>Escape</translation>
+        <translation>Διαφυγή (Escape)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="301"/>
@@ -1876,7 +1876,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="905"/>
         <source>Cancel</source>
-        <translation>Ακύρωση</translation>
+        <translation>Άκυρο</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
@@ -3451,7 +3451,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation>προκαθορισμένο</translation>
+        <translation>προεπιλογή</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
