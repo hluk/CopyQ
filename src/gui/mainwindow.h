@@ -670,7 +670,6 @@ private:
     QTimer m_timerUpdateContextMenu;
     QTimer m_timerUpdateTrayMenuItems;
     QTimer m_timerUpdatePreview;
-    QTimer m_timerTrayAvailable;
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
     QTimer m_timerRaiseLastWindowAfterMenuClosed;

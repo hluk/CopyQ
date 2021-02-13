@@ -561,7 +561,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdateTrayMenuItems, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuItemsTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
-    initSingleShotTimer( &m_timerTrayAvailable, 1000, this, [this]() { setTrayEnabled(); } );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
@@ -1327,7 +1326,8 @@ void MainWindow::setHideTabs(bool hide)
 
 bool MainWindow::closeMinimizes() const
 {
-    return !m_tray;
+    return !m_options.hideMainWindow
+        && (!m_tray || !QSystemTrayIcon::isSystemTrayAvailable());
 }
 
 ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameMatching nameMatch, const Tabs &tabs)
@@ -1586,29 +1586,25 @@ void MainWindow::updateToolBar()
 
 void MainWindow::setTrayEnabled(bool enable)
 {
-    m_timerTrayAvailable.stop();
-
     const bool trayAlreadyEnabled = m_tray != nullptr;
     if (enable == trayAlreadyEnabled)
         return;
 
     if (enable) {
-        if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
-            m_tray = new QSystemTrayIcon(this);
-            connect( m_tray, &QSystemTrayIcon::activated,
-                     this, &MainWindow::trayActivated );
-            updateIcon();
-            // On macOS, avoid showing tray menu with the main window.
-#ifndef Q_OS_MAC
-            m_tray->setContextMenu(m_trayMenu);
-#endif
-            m_tray->show();
+        m_tray = new QSystemTrayIcon(this);
+        connect( m_tray, &QSystemTrayIcon::activated,
+                 this, &MainWindow::trayActivated );
+        updateIcon();
 
-            if ( isMinimized() )
-                hideWindow();
-        } else {
-            m_timerTrayAvailable.start();
-        }
+        // On macOS, avoid showing tray menu with the main window.
+#ifndef Q_OS_MAC
+        m_tray->setContextMenu(m_trayMenu);
+#endif
+
+        m_tray->show();
+
+        if ( isMinimized() )
+            hideWindow();
     } else {
         // Hide tray on Ubuntu (buggy sni-qt) before disabling.
         m_tray->hide();
