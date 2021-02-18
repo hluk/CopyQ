@@ -1193,21 +1193,21 @@ Nota: puede guardar los elementos editados con F2 sin importar la configuración
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">&amp;Guardar el elemento editado con Ctrl+Enter y crear una nueva línea con la tecla Enter</translation>
+        <translation>Guardar el elemento editado con Ctrl+Enter y crear una nueva línea con la tecla Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">Mostrar la descripción en una sola linea de cada elemento.
+        <translation>Mostrar la descripción en una sola línea de cada elemento.
 
 Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Mostrar elementos simples (&amp;w)</translation>
+        <translation>Mostrar elementos simples</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
@@ -1227,22 +1227,22 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">Luego de que se active el elemento (doble-click o tecla Enter), copiarlo al portapapeles y...</translation>
+        <translation>Después de activar el elemento (doble-click o tecla Enter), copiarlo al portapapeles y...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Mover elemento al top de la lista luego de activarlo</translation>
+        <translation>Mover elemento arriba después de que este sea activado</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">Mover elemento al t&amp;ope</translation>
+        <translation>Mover elemento arriba</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">Cerrar ventana principal luego de activar un elemento</translation>
+        <translation>Cerrar ventana principal tras activar el elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
@@ -1252,22 +1252,22 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">Mover foco a la úlima ventana luego de activar un elemento</translation>
+        <translation>Mover foco a la última ventana tras activar el elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">Mover el &amp;foco a la última ventana</translation>
+        <translation>Mover el foco a la última ventana</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">Pegar a la ventana actual luego de activar un elemento</translation>
+        <translation>Pegar a la ventana actual tras activar el elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">&amp;Pegar a la ventana actual</translation>
+        <translation>&amp;Pegar a la ventana actual</translation>
     </message>
 </context>
 <context>
@@ -1275,22 +1275,22 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">Mostrar/ocultar</translation>
+        <translation>Mostrar/ocultar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">Ocultar pestañas (pulsar la tecla Alt para mostrarlas)</translation>
+        <translation>Ocultar pestañas (pulsar la tecla Alt para mostrarlas)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">Ocul&amp;tar pestañas</translation>
+        <translation>Ocultar pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Ocultar barra de herramientas</translation>
+        <translation>Ocultar barra de herramientas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
@@ -1300,17 +1300,17 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">Esconder etiquetas de la &amp;barra de herramientas</translation>
+        <translation>Ocultar etiquetas de la &amp;barra de herramientas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Esconder la ventana principal cuando se cierre</translation>
+        <translation>Ocultar la ventana principal cuando se cierre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">Esconder ventana &amp;principal</translation>
+        <translation>Ocultar ventana &amp;principal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
@@ -1320,7 +1320,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">Mostrar árbol con pestañas en lugar de barra de pestañas</translation>
+        <translation>Mostrar árbol con pestañas en lugar de barra de pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
@@ -1330,7 +1330,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">Transparencia con &amp;foco:</translation>
+        <translation>Transparencia al hacer foco:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -1371,47 +1371,47 @@ Nota: Esto no es posible en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished">Posición de las &amp;notificaciones:</translation>
+        <translation>Posición de las notificaciones:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished">Posición en la pantalla de las notificaciones</translation>
+        <translation>Posición en la pantalla de las notificaciones</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished">Arriba</translation>
+        <translation>Arriba</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished">Abajo</translation>
+        <translation>Abajo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">Arriba a la derecha</translation>
+        <translation>Arriba a la derecha</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">Abajo a la derecha</translation>
+        <translation>Abajo a la derecha</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">Abajo a la izquierda</translation>
+        <translation>Abajo a la izquierda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">Arriba a la izquierda</translation>
+        <translation>Arriba a la izquierda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished">Intervalo (en segundos) durante en cual mostrar notificaciones:</translation>
+        <translation>Intervalo (en segundos) durante en cual mostrar notificaciones:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1429,7 +1429,7 @@ Definir como -1 para mantenerla visible hasta que se pulse en ella.</translation
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">Canti&amp;dad de líneas de la notificación del portapapeles:</translation>
+        <translation>Cantidad de líneas de la notificación del portapapeles:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
@@ -1443,7 +1443,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">Geometría de las notificaciones (en puntos de pantalla)</translation>
+        <translation>Geometría de las notificaciones (en puntos de pantalla)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
@@ -1458,7 +1458,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">Desplazamiento &amp;vertical:</translation>
+        <translation>Desplazamiento vertical:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
@@ -1468,7 +1468,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">Anc&amp;ho máximo:</translation>
+        <translation>Ancho máximo:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
