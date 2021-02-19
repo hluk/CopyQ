@@ -34,6 +34,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QJSEngine>
+#include <QProcess>
 #include <QSettings>
 
 #ifdef HAS_TESTS
@@ -67,7 +68,7 @@ int evaluate(
     const auto result = function.call(functionArguments);
 
     const auto output = scriptable.fromString(result.toString());
-    if ( !output.isEmpty() ) {
+    if ( !output.isEmpty() && canUseStandardOutput() ) {
         QFile f;
         if ( scriptable.hasUncaughtException() )
             f.open(stderr, QIODevice::WriteOnly);
@@ -133,6 +134,22 @@ int startServer(int argc, char *argv[], QString sessionName)
     return app.exec();
 }
 
+void startServerInBackground(const QString &applicationPath, QString sessionName)
+{
+    const bool couldUseStandardOutput = canUseStandardOutput();
+    if (couldUseStandardOutput)
+        qputenv("COPYQ_NO_OUTPUT", "1");
+
+    const QStringList arguments{QString::fromLatin1("-s"), sessionName};
+    const bool started = QProcess::startDetached(applicationPath, arguments);
+
+    if (!couldUseStandardOutput)
+        qunsetenv("COPYQ_NO_OUTPUT");
+
+    if (!started)
+        log( QLatin1String("Failed to start the server"), LogError );
+}
+
 int startClient(int argc, char *argv[], const QStringList &arguments, const QString &sessionName)
 {
     ClipboardClient app(argc, argv, arguments, sessionName);
@@ -163,6 +180,11 @@ bool needsLogs(const QString &arg)
 {
     return arg == "--logs" ||
            arg == "logs";
+}
+
+bool needsStartServer(const QString &arg)
+{
+    return arg == "--start-server";
 }
 
 #ifdef HAS_TESTS
@@ -221,6 +243,12 @@ int startApplication(int argc, char **argv)
     if ( arguments.size() > skipArguments ) {
         const auto arg = arguments[skipArguments];
 
+        if ( needsStartServer(arg) ) {
+            startServerInBackground( QString::fromUtf8(argv[0]), sessionName );
+            return skipArguments + 1 == arguments.size() ? 0
+                : startClient(argc, argv, arguments.mid(skipArguments + 1), sessionName);
+        }
+
         if ( needsVersion(arg) )
             return evaluate( "version", QStringList(), argc, argv, sessionName );
 
@@ -243,7 +271,7 @@ int startApplication(int argc, char **argv)
 
     // If server hasn't been run yet and no argument were specified
     // then run this process as server.
-    if ( arguments.size() - skipArguments == 0 )
+    if ( skipArguments == arguments.size() )
         return startServer(argc, argv, sessionName);
 
     // If argument was specified and server is running

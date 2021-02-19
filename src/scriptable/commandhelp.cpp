@@ -200,5 +200,8 @@ QList<CommandHelp> commandHelp()
             << CommandHelp("tests, --tests",
                            Scriptable::tr("Run application tests (append --help argument for more info)."))
 #endif
+            << CommandHelp("--start-server",
+                           Scriptable::tr("Start server in background before running a command."))
+               .addArg("[" + Scriptable::tr("COMMAND") + "]")
                ;
 }

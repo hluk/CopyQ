@@ -3390,7 +3390,7 @@ void Scriptable::print(const QByteArray &message)
 {
     if (m_action) {
         m_action->appendOutput(message);
-    } else {
+    } else if ( canUseStandardOutput() ) {
         QFile f;
         f.open(stdout, QIODevice::WriteOnly);
         f.write(message);
@@ -3401,7 +3401,7 @@ void Scriptable::printError(const QByteArray &message)
 {
     if (m_action) {
         m_action->appendErrorOutput(message);
-    } else {
+    } else if ( canUseStandardOutput() ) {
         QFile f;
         f.open(stderr, QIODevice::WriteOnly);
         f.write(message);

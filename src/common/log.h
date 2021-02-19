@@ -53,4 +53,7 @@ void setLogLabel(const QByteArray &name);
 
 QByteArray &logLabel();
 
+/// True if stdout and stderr can be used.
+bool canUseStandardOutput();
+
 #endif // LOG_H

@@ -3920,6 +3920,28 @@ void Tests::pluginNotInstalled()
 #endif
 }
 
+void Tests::startServerAndRunCommand()
+{
+    RUN("--start-server" << "tab" << testTab(1) << "write('TEST');read(0)", "TEST");
+    TEST( m_test->stopServer() );
+
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+
+    QCOMPARE( run(Args("--start-server") << "tab" << testTab(1) << "read" << "0", &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QCOMPARE(stdoutActual, "TEST");
+
+    QCOMPARE( run(Args() << "tab" << testTab(1) << "read" << "0", &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QCOMPARE(stdoutActual, "TEST");
+
+    // The sleep() call ensures that the server finishes and terminates the
+    // client connection.
+    QCOMPARE( run(Args("--start-server") << "exit();sleep(10000)", &stdoutActual, &stderrActual), 0 );
+    QCOMPARE(stdoutActual, "Terminating server.\n");
+}
+
 int Tests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)

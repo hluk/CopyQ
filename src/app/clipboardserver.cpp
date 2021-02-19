@@ -115,8 +115,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         COPYQ_LOG("Server \"" + serverName + "\" started.");
     } else {
         restoreSettings(false);
-        COPYQ_LOG("Server \"" + serverName + "\" already running!");
-        log( tr("CopyQ server is already running."), LogWarning );
+        if ( canUseStandardOutput() ) {
+            COPYQ_LOG("Server \"" + serverName + "\" already running!");
+            log( tr("CopyQ server is already running."), LogWarning );
+        }
         exit(0);
         return;
     }
