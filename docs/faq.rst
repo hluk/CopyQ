@@ -313,7 +313,8 @@ How to trigger a command based on primary selection only?
 
 You can check ``application/x-copyq-clipboard-mode`` format in automatic commands.
 
-E.g. if you set input format of a command it will be only executed on X11 selection change:
+E.g. if you set input format of a command it will be only executed on Linux
+mouse selection change:
 
 .. code-block:: ini
 

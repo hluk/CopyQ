@@ -193,7 +193,7 @@ omitted.
 
 .. js:function:: ByteArray selection([mimeType])
 
-   Same as ``clipboard()`` for Linux/X11 mouse selection.
+   Same as ``clipboard()`` for `Linux mouse selection`_.
 
 .. js:function:: bool hasClipboardFormat(mimeType)
 
@@ -201,14 +201,14 @@ omitted.
 
 .. js:function:: bool hasSelectionFormat(mimeType)
 
-   Same as ``hasClipboardFormat()`` for Linux/X11 mouse selection.
+   Same as ``hasClipboardFormat()`` for `Linux mouse selection`_.
 
 .. js:function:: bool isClipboard()
 
    Returns true only in automatic command triggered by clipboard change.
 
    This can be used to check if current automatic command was triggered by
-   clipboard and not Linux/X11 mouse selection change.
+   clipboard and not `Linux mouse selection`_ change.
 
 .. js:function:: copy(text)
 
@@ -245,7 +245,7 @@ omitted.
 
 .. js:function:: copySelection(...)
 
-   Same as ``copy(...)`` for Linux/X11 mouse selection.
+   Same as ``copy(...)`` for `Linux mouse selection`_.
 
 .. js:function:: paste()
 
@@ -1029,7 +1029,7 @@ omitted.
 
 .. js:function:: onClipboardChanged()
 
-   Called when clipboard or X11 selection changes.
+   Called when clipboard or `Linux mouse selection`_ changes.
 
    Default implementation is:
 
@@ -1046,7 +1046,7 @@ omitted.
 
 .. js:function:: onOwnClipboardChanged()
 
-   Called when clipboard or X11 selection changes by a CopyQ instance.
+   Called when clipboard or `Linux mouse selection`_ changes by a CopyQ instance.
 
    Owned clipboard data contains ``mimeOwner`` format.
 
@@ -1054,7 +1054,7 @@ omitted.
 
 .. js:function:: onHiddenClipboardChanged()
 
-   Called when hidden clipboard or X11 selection changes.
+   Called when hidden clipboard or `Linux mouse selection`_ changes.
 
    Hidden clipboard data contains ``mimeHidden`` format set to ``1``.
 
@@ -1062,7 +1062,7 @@ omitted.
 
 .. js:function:: onClipboardUnchanged()
 
-   Called when clipboard or X11 selection changes but data remained the same.
+   Called when clipboard or `Linux mouse selection`_ changes but data remained the same.
 
    Default implementation does nothing.
 
@@ -1121,7 +1121,7 @@ omitted.
 
 .. js:function:: synchronizeToSelection(text)
 
-   Synchronize current data from clipboard to X11 selection.
+   Synchronize current data from clipboard to `Linux mouse selection`_.
 
    Called automatically from clipboard monitor process if option
    ``copy_clipboard`` is enabled.
@@ -1130,7 +1130,7 @@ omitted.
 
 .. js:function:: synchronizeFromSelection(text)
 
-   Synchronize current data from X11 selection to clipboard.
+   Synchronize current data from `Linux mouse selection`_ to clipboard.
 
    Called automatically from clipboard monitor process if option
    ``copy_selection`` is enabled.
@@ -1375,7 +1375,7 @@ These MIME types values are assigned to global variables prefixed with
 
 .. js:data:: mimeClipboardMode (application/x-copyq-clipboard-mode)
 
-   Contains ``selection`` if data is from X11 mouse selection.
+   Contains ``selection`` if data is from `Linux mouse selection`_.
 
 .. js:data:: mimeCurrentTab (application/x-copyq-current-tab)
 
@@ -1451,6 +1451,18 @@ in menu.
 
 Selected items are indexed from top to bottom as they appeared in the
 current tab at the time the command is executed.
+
+Linux Mouse Selection
+---------------------
+
+In many application on Linux, if you select a text with mouse, it's possible to
+paste it with middle mouse button.
+
+The text is stored separately from normal clipboard content.
+
+On non-Linux system, functions that support mouse selection will do nothing
+(for example ``copySelection()``) or return ``undefined`` (in case of
+``selection()``).
 
 Plugins
 -------

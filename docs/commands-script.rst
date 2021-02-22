@@ -73,7 +73,7 @@ pasting clipboard:
             throw 'Failed to run xdotool: ' + str(x.stderr)
     }
 
-E.g. show custom notifications for clipboard and X11 selection changes.
+E.g. show custom notifications for clipboard and Linux mouse selection changes.
 
 .. code-block:: js
 

@@ -351,7 +351,7 @@ Replace All Occurrences in Selected Text
     Name=Replace in Selection
     Command="
         copyq:
-        // Copy without changing X11 selection (on Windows you can use "copy" instead).
+        // Copy without changing Linux mouse selection (on Windows you can use "copy" instead).
         function copy2() {
           try {
             var x = config('copy_clipboard')
