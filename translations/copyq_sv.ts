@@ -331,7 +331,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det går inte att lägga till nya objekt på fliken %1. Ta bort objekt manuellt för att skapa utrymme.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
@@ -388,7 +388,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Storlek:&lt;/strong&gt; %1 byte</translation>
+        <translation>&lt;strong&gt;Storlek:&lt;/strong&gt; %1 byte</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -1222,7 +1222,7 @@ Använd objektförhandsvisning för att visa hela objekt.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivera objekt med enkelklick</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
@@ -1443,7 +1443,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="214"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">Aviseringsgeometri (i skärmpunkter)</translation>
+        <translation>Aviseringsgeometri (i skärmpunkter)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="220"/>
@@ -1453,7 +1453,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">Aviseringsavstånd från vänster eller höger skärmkant i bildpunkter</translation>
+        <translation>Aviseringsavstånd från vänster eller höger skärmkant i skärmpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="260"/>
@@ -1463,7 +1463,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">Aviseringsavstånd från övre eller nedre skärmkant i bildpunkter</translation>
+        <translation>Aviseringsavstånd från övre eller nedre skärmkant i skärmpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="300"/>
@@ -1473,7 +1473,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="312"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">Maximal bredd för avisering i bildpunkter</translation>
+        <translation>Maximal bredd för avisering i skärmpunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="337"/>
@@ -1483,7 +1483,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Maximal höjd för avisering i bildpunkter</translation>
+        <translation>Maximal höjd för avisering i skärmpunkter</translation>
     </message>
 </context>
 <context>
@@ -1727,7 +1727,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>Editor-kommandot misslyckades (se loggar)</translation>
     </message>
 </context>
 <context>
@@ -2224,12 +2224,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Ställ in medietyp till &lt;strong&gt;-&lt;/strong&gt; (minus tecken) för att ignorera filer. Alla andra okända eller dolda filer ignoreras.&lt;/p&gt;
+&lt;p&gt;Exempel: Ladda &lt;strong&gt;txt&lt;/strong&gt; filtillägg som &lt;strong&gt;text/vanlig&lt;/strong&gt; mediatyp.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Mediatyp för objekt</translation>
     </message>
     <message>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
@@ -2756,7 +2757,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Flytta till &amp;urklipp</translation>
+        <translation>Flytta till &amp;urklipp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3036,7 +3037,8 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiera urklipp från nuvarande fönster
+(fungerar kanske inte med vissa program).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
@@ -3171,18 +3173,19 @@ Visa aktivitetsfältsmeddelande under TID millisekunder.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ställ in urklippsinnehåll.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv rådata till angiven rad.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kör PROGRAM på objekttext i raderna.
+Använd %1 i PROGRAM för att skicka text som argument.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
@@ -3285,7 +3288,7 @@ Standard är den första fliken.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utvärdera skript.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3295,12 +3298,12 @@ Standard är den första fliken.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv ut hjälp för KOMMANDO eller alla kommandon.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv version av program och bibliotek.</translation>
     </message>
     <message>
         <source>
@@ -3576,7 +3579,7 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Spara objekt</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
