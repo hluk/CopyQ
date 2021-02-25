@@ -38,6 +38,11 @@ bool openOnCurrentScreen()
     return AppConfig().option<Config::open_windows_on_current_screen>();
 }
 
+bool isRestoreWindowGeometryEnabled()
+{
+    return AppConfig().option<Config::restore_window_geometry>();
+}
+
 } // namespace
 
 void WindowGeometryGuard::create(QWidget *window)
@@ -105,6 +110,9 @@ bool WindowGeometryGuard::lockWindowGeometry()
 
 void WindowGeometryGuard::saveWindowGeometry()
 {
+    if ( !isRestoreWindowGeometryEnabled() )
+        return;
+
     if ( !lockWindowGeometry() )
         return;
 
@@ -114,6 +122,9 @@ void WindowGeometryGuard::saveWindowGeometry()
 
 void WindowGeometryGuard::restoreWindowGeometry()
 {
+    if ( !isRestoreWindowGeometryEnabled() )
+        return;
+
     if ( !lockWindowGeometry() )
         return;
 

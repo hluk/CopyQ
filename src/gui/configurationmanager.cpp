@@ -337,6 +337,8 @@ void ConfigurationManager::initOptions()
     bind<Config::native_menu_bar>();
 
     bind<Config::script_paste_delay_ms>();
+
+    bind<Config::restore_window_geometry>();
 }
 
 template <typename Config, typename Widget>
