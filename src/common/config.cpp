@@ -34,7 +34,7 @@
 #include <QWindow>
 
 #define GEOMETRY_LOG(window, message) \
-    COPYQ_LOG( QString("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
+    COPYQ_LOG( QString::fromLatin1("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
 
 namespace {
 
@@ -130,12 +130,12 @@ void ensureWindowOnScreen(QWidget *widget, QPoint pos)
         y = availableGeometry.top();
 
     if ( size != QSize(w, h) ) {
-        GEOMETRY_LOG( widget, QString("Resize window: %1x%2").arg(w).arg(h) );
+        GEOMETRY_LOG( widget, QString::fromLatin1("Resize window: %1x%2").arg(w).arg(h) );
         widget->resize(w, h);
     }
 
     if ( widget->pos() != QPoint(x, y) ) {
-        GEOMETRY_LOG( widget, QString("Move window: %1, %2").arg(x).arg(y) );
+        GEOMETRY_LOG( widget, QString::fromLatin1("Move window: %1, %2").arg(x).arg(y) );
         widget->move(x, y);
     }
 }
@@ -159,7 +159,7 @@ QString getConfigurationFilePath(const char *suffix)
     const int i = path.lastIndexOf(QLatin1Char('.'));
     Q_ASSERT(i != -1);
     Q_ASSERT( path.endsWith(QLatin1String(".ini")) );
-    return path.leftRef(i) + suffix;
+    return path.leftRef(i) + QLatin1String(suffix);
 }
 
 QString settingsDirectoryPath()
@@ -221,7 +221,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
     const QRect newGeometry = w->geometry();
     GEOMETRY_LOG( w,
-        QString("%5 geometry \"%1%2\": %3 -> %4").arg(
+        QString::fromLatin1("%5 geometry \"%1%2\": %3 -> %4").arg(
             optionName,
             restoreUntaggedGeometry ? QString() : tag,
             toString(oldGeometry),
@@ -236,7 +236,8 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     geometrySettings.setValue( optionName + tag, w->saveGeometry() );
     geometrySettings.setValue( optionName, w->saveGeometry() );
-    GEOMETRY_LOG( w, QString("Save geometry \"%1%2\": %3").arg(optionName, tag, toString(w->geometry())) );
+    GEOMETRY_LOG( w, QString::fromLatin1("Save geometry \"%1%2\": %3")
+                  .arg(optionName, tag, toString(w->geometry())) );
 }
 
 QByteArray mainWindowState(const QString &mainWindowObjectName)
@@ -256,7 +257,7 @@ void moveToCurrentWorkspace(QWidget *w)
 #ifdef COPYQ_WS_X11
     /* Re-initialize window in window manager so it can popup on current workspace. */
     if (w->isVisible()) {
-        GEOMETRY_LOG(w, "Move to current workspace");
+        GEOMETRY_LOG( w, QLatin1String("Move to current workspace") );
         const bool blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
         if (blockUntilHide)
@@ -276,7 +277,7 @@ void moveWindowOnScreen(QWidget *w, QPoint pos)
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
 {
-    GEOMETRY_LOG( w, QString("Geometry blocked until hidden: %1").arg(blocked) );
+    GEOMETRY_LOG( w, QString::fromLatin1("Geometry blocked until hidden: %1").arg(blocked) );
     w->setProperty(propertyGeometryLockedUntilHide, blocked);
 }
 
