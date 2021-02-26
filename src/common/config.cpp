@@ -192,49 +192,47 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
 
     // If geometry for screen resolution doesn't exist, use last saved one.
-    const bool hasGeometryTag = geometry.isEmpty();
-    if (hasGeometryTag) {
+    const bool restoreUntaggedGeometry = geometry.isEmpty();
+    if (restoreUntaggedGeometry) {
         geometry = geometryOptionValue(optionName).toByteArray();
 
         // If geometry for the screen doesn't exist, move window to the middle of the screen.
         if (geometry.isEmpty()) {
             const QRect availableGeometry = screenAvailableGeometry(QCursor::pos());
-            const auto position = availableGeometry.center() - w->rect().center();
+            const QPoint position = availableGeometry.center() - w->rect().center();
             w->move(position);
-
-            GEOMETRY_LOG( w, QString("New geometry for \"%1%2\"").arg(optionName, tag) );
         }
     }
 
-    if (w->saveGeometry() != geometry) {
-        if ( openOnCurrentScreen ) {
-            const int screenNumber = ::screenNumber(*w, GeometryAction::Restore);
-            QScreen *screen = QGuiApplication::screens().value(screenNumber);
-            if (screen) {
-                // WORKAROUND: Fixes QWidget::restoreGeometry() for different monitor scaling.
-                auto windowHandle = w->windowHandle();
-                if ( windowHandle && windowHandle->screen() != screen )
-                    windowHandle->setScreen(screen);
+    if (openOnCurrentScreen) {
+        const int screenNumber = ::screenNumber(*w, GeometryAction::Restore);
+        QScreen *screen = QGuiApplication::screens().value(screenNumber);
+        if (screen) {
+            // WORKAROUND: Fixes QWidget::restoreGeometry() for different monitor scaling.
+            QWindow *windowHandle = w->windowHandle();
+            if ( windowHandle && windowHandle->screen() != screen )
+                windowHandle->setScreen(screen);
 
-                const QRect availableGeometry = screen->availableGeometry();
-                const auto position = availableGeometry.center() - w->rect().center();
-                w->move(position);
-            }
+            const QRect availableGeometry = screen->availableGeometry();
+            const QPoint position = availableGeometry.center() - w->rect().center();
+            w->move(position);
         }
-
-        const auto oldGeometry = w->geometry();
-        if ( !geometry.isEmpty() )
-            w->restoreGeometry(geometry);
-
-        ensureWindowOnScreen(w);
-
-        const auto newGeometry = w->geometry();
-        GEOMETRY_LOG( w, QString("Restore geometry \"%1%2\": %3 -> %4").arg(
-                          optionName,
-                          hasGeometryTag ? tag : QString(),
-                          toString(oldGeometry),
-                          toString(newGeometry)) );
     }
+
+    const QRect oldGeometry = w->geometry();
+    if ( !geometry.isEmpty() )
+        w->restoreGeometry(geometry);
+
+    ensureWindowOnScreen(w);
+
+    const QRect newGeometry = w->geometry();
+    GEOMETRY_LOG( w,
+        QString("%5 geometry \"%1%2\": %3 -> %4").arg(
+            optionName,
+            restoreUntaggedGeometry ? QString() : tag,
+            toString(oldGeometry),
+            toString(newGeometry),
+            geometry.isEmpty() ? QLatin1String("New") : QLatin1String("Restore")) );
 }
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
@@ -265,7 +263,7 @@ void moveToCurrentWorkspace(QWidget *w)
     /* Re-initialize window in window manager so it can popup on current workspace. */
     if (w->isVisible()) {
         GEOMETRY_LOG(w, "Move to current workspace");
-        const auto blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
+        const bool blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
         if (blockUntilHide)
             setGeometryGuardBlockedUntilHidden(w);
