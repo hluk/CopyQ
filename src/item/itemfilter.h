@@ -1,11 +1,8 @@
 #pragma once
 
-#include <QtContainerFwd>
-
 #include <memory>
 
 class QModelIndex;
-class QPalette;
 class QString;
 class QTextCharFormat;
 class QTextEdit;
@@ -13,6 +10,7 @@ class QTextEdit;
 class ItemFilter
 {
 public:
+    virtual ~ItemFilter() = default;
     virtual bool matchesAll() const = 0;
     virtual bool matchesNone() const = 0;
     virtual bool matches(const QString &text) const = 0;

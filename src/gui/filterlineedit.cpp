@@ -87,7 +87,7 @@ private:
     QString m_searchString;
 };
 
-class ItemFilterRegExp : public BaseItemFilter {
+class ItemFilterRegExp final : public BaseItemFilter {
 public:
     ItemFilterRegExp(const QRegularExpression &re, const QString &searchString)
         : BaseItemFilter(searchString)
@@ -169,7 +169,7 @@ private:
     QRegularExpression m_re;
 };
 
-class ItemFilterFixedStrings : public BaseItemFilter {
+class ItemFilterFixedStrings final : public BaseItemFilter {
 public:
     ItemFilterFixedStrings(const QString &searchString, Qt::CaseSensitivity caseSensitivity)
         : BaseItemFilter(searchString)
