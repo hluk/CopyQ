@@ -184,9 +184,6 @@ void setGeometryOptionValue(const QString &optionName, const QVariant &value)
 
 void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
-    if ( isGeometryGuardBlockedUntilHidden(w) )
-        return;
-
     const QString optionName = geometryOptionName(*w, GeometryAction::Restore, openOnCurrentScreen);
     const QString tag = resolutionTag(*w, GeometryAction::Restore, openOnCurrentScreen);
     QByteArray geometry = geometryOptionValue(optionName + tag).toByteArray();
@@ -266,7 +263,7 @@ void moveToCurrentWorkspace(QWidget *w)
         const bool blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
         if (blockUntilHide)
-            setGeometryGuardBlockedUntilHidden(w);
+            setGeometryGuardBlockedUntilHidden(w, true);
         w->show();
     }
 #else
@@ -282,10 +279,8 @@ void moveWindowOnScreen(QWidget *w, QPoint pos)
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
 {
-    if ( isGeometryGuardBlockedUntilHidden(w) != blocked ) {
-        GEOMETRY_LOG( w, QString("Geometry blocked until hidden: %1").arg(blocked) );
-        w->setProperty(propertyGeometryLockedUntilHide, blocked);
-    }
+    GEOMETRY_LOG( w, QString("Geometry blocked until hidden: %1").arg(blocked) );
+    w->setProperty(propertyGeometryLockedUntilHide, blocked);
 }
 
 bool isGeometryGuardBlockedUntilHidden(const QWidget *w)

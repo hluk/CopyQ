@@ -604,7 +604,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
 
 void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
-    setGeometryGuardBlockedUntilHidden(window);
+    setGeometryGuardBlockedUntilHidden(window, true);
 
     const auto pos = (geometry.x() == -1 && geometry.y() == -1)
             ? QCursor::pos()
