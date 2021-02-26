@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Névjegy</translation>
+        <translation>Névjegy</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -44,17 +44,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation>Parancs:</translation>
+        <translation type="unfinished">Parancs:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sztenderd bemenet:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sztenderd kimenet eltárolása:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -69,7 +69,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Új elemek elválasztása:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
@@ -80,12 +80,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kimenet &amp;tab:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -95,7 +95,7 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Parancs elmentve</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
@@ -109,17 +109,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Hiba: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Visszatérési kód: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="176"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Parancs %1</translation>
     </message>
 </context>
 <context>
@@ -132,12 +132,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Szűrés</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kijelölt megszakítása</translation>
     </message>
 </context>
 <context>
@@ -145,12 +145,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Fő ablak megjelenítése/eltüntetése</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Tálca ikon megjelenítése</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
