@@ -63,19 +63,16 @@ int screenNumber(const QWidget &widget, GeometryAction geometryAction)
 
 QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
 {
-    QString widgetName = widget.objectName();
-    QString optionName = "Options/" + widgetName + "_geometry";
+    const QString widgetName = widget.objectName();
 
-    // current screen number
-    if (openOnCurrentScreen) {
-        const int n = screenNumber(widget, geometryAction);
-        if (n > 0)
-            optionName.append( QString::fromLatin1("_screen_%1").arg(n) );
-    } else {
-        optionName.append("_global");
-    }
+    if (!openOnCurrentScreen)
+        return QString::fromLatin1("Options/%1_geometry_global").arg(widgetName);
 
-    return optionName;
+    const int n = screenNumber(widget, geometryAction);
+    if (n > 0)
+        return QString::fromLatin1("Options/%1_geometry_screen_%2").arg(widgetName).arg(n);
+
+    return QString::fromLatin1("Options/%1_geometry").arg(widgetName);
 }
 
 QString getGeometryConfigurationFilePath()
