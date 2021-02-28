@@ -8,7 +8,6 @@ import json
 import os
 import sys
 
-from shutil import copyfile
 from textwrap import dedent
 
 from fontTools.merge import Merger
