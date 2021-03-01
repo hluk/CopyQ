@@ -56,7 +56,7 @@ namespace {
 
 class ItemFilterSimple final : public ItemFilter {
 public:
-    explicit ItemFilterSimple(const QString &text)
+    explicit ItemFilterSimple(const QString &text) noexcept
         : m_text(text)
     {
     }
