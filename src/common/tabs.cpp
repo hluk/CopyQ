@@ -37,7 +37,6 @@ Tabs::Tabs()
 {
     QSettings settings;
     const int size = settings.beginReadArray(settingsGroupTabs);
-    QHash<QString, QVariantMap> dataMaps;
     for(int i = 0; i < size; ++i) {
         settings.setArrayIndex(i);
 

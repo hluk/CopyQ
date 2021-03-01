@@ -89,9 +89,8 @@ QString getDesktopFilename()
 void printFileError(const QFile &file, const char *message, LogLevel logLevel = LogError)
 {
     log( QString("%1 \"%2\": %3")
-         .arg(message)
-         .arg(file.fileName())
-         .arg(file.errorString()), logLevel );
+         .arg( QString::fromLatin1(message), file.fileName(), file.errorString()),
+         logLevel );
 }
 
 void maybePrintFileError(const QFile &file, const char *message)

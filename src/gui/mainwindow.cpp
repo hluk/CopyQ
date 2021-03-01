@@ -509,6 +509,13 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     // NOTE: QWidget::isVisible() returns false if parent is not visible.
     m_showItemPreview = !ui->dockWidgetItemPreview->isHidden();
 
+    // Disable the show-preview option when the preview dock is closed.
+    connect( ui->dockWidgetItemPreview, &QDockWidget::visibilityChanged,
+             this, [this]() {
+                if ( ui->dockWidgetItemPreview->isHidden() )
+                    setItemPreviewVisible(false);
+             } );
+
     updateIcon();
 
     updateFocusWindows();
@@ -883,13 +890,6 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveDown, this, &MainWindow::moveDown );
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
-
-    // Disable the show-preview option when the preview dock is closed.
-    connect( ui->dockWidgetItemPreview, &QDockWidget::visibilityChanged,
-             this, [this]() {
-                if ( ui->dockWidgetItemPreview->isHidden() )
-                    setItemPreviewVisible(false);
-             }, Qt::UniqueConnection );
 
     updateToolBar();
     updateActionShortcuts();
@@ -3386,7 +3386,7 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
         actionDialog->setCurrentTab(currentTab);
     }
 
-    connect( actionDialog, &ActionDialog::accepted,
+    connect( actionDialog, &ActionDialog::commandAccepted,
              this, &MainWindow::onActionDialogAccepted );
 
     connect( actionDialog, &ActionDialog::saveCommand,

@@ -34,9 +34,11 @@ namespace {
 
 void clearDataExceptInternal(QVariantMap *data)
 {
-    for ( const auto &format : data->keys() ) {
-        if ( !format.startsWith(COPYQ_MIME_PREFIX) )
-            data->remove(format);
+    QMutableMapIterator<QString, QVariant> it(*data);
+    while (it.hasNext()) {
+        const auto item = it.next();
+        if ( !item.key().startsWith(COPYQ_MIME_PREFIX) )
+            it.remove();
     }
 }
 
@@ -61,9 +63,11 @@ bool ClipboardItem::operator ==(const ClipboardItem &item) const
 
 void ClipboardItem::setText(const QString &text)
 {
-    for ( const auto &format : m_data.keys() ) {
-        if ( format.startsWith("text/") )
-            m_data.remove(format);
+    QMutableMapIterator<QString, QVariant> it(m_data);
+    while (it.hasNext()) {
+        const auto item = it.next();
+        if ( item.key().startsWith("text/") )
+            it.remove();
     }
 
     setTextData(&m_data, text);

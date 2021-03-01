@@ -675,7 +675,6 @@ void ClipboardBrowser::moveToTop(const QModelIndex &index)
     if ( !index.isValid() || !isLoaded() )
         return;
 
-    const auto data = index.data(contentType::data).toMap();
     if ( m_itemSaver->canMoveItems(QList<QModelIndex>() << index) )
         m.moveRow(QModelIndex(), index.row(), QModelIndex(), 0);
 }

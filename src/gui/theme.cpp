@@ -214,10 +214,10 @@ void Theme::loadTheme(const QSettings &settings)
 {
     resetTheme();
 
-    for ( const auto &key : m_theme.keys() ) {
-        const auto value = settings.value(key);
+    for ( auto key = m_theme.keyBegin(); key != m_theme.keyEnd(); ++key ) {
+        const auto value = settings.value(*key);
         if ( value.isValid() )
-            m_theme[key].setValue(value);
+            m_theme[*key].setValue(value);
     }
 
     updateTheme();
@@ -536,8 +536,7 @@ QString Theme::getStyleSheet(const QString &name, Values values, int maxRecursio
     QFile file(fileName);
     if ( !file.open(QIODevice::ReadOnly) ) {
         log( QString("Failed to open stylesheet \"%1\": %2")
-             .arg(fileName)
-             .arg(file.errorString()), LogError );
+             .arg(fileName, file.errorString()), LogError );
         return QString();
     }
 
@@ -553,17 +552,17 @@ QString Theme::parseStyleSheet(const QString &css, Values values, int maxRecursi
     for ( int i = 0; i < css.size(); ++i ) {
         const int a = css.indexOf(variableBegin, i);
         if (a == -1) {
-            output.append(css.mid(i));
+            output.append(css.midRef(i));
             break;
         }
 
         const int b = css.indexOf(variableEnd, a + variableBegin.size());
         if (b == -1) {
-            output.append(css.mid(i));
+            output.append(css.midRef(i));
             break;
         }
 
-        output.append(css.mid(i, a - i));
+        output.append(css.midRef(i, a - i));
         i = b + variableEnd.size() - 1;
 
         const QString name = css

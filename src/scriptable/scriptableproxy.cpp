@@ -1335,7 +1335,6 @@ void ScriptableProxy::browserMoveSelected(int targetRow)
 {
     INVOKE2(browserMoveSelected, (targetRow));
 
-    QVector<int> selectedRows;
     const QList<QPersistentModelIndex> selected = selectedIndexes();
     if ( selected.isEmpty() )
         return;

@@ -114,7 +114,6 @@ QList<QKeySequence> ShortcutButton::shortcuts() const
 void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                              const QIcon &warningIcon, const QString &warningToolTip)
 {
-    QList<QKeySequence> shortcuts = this->shortcuts();
     for (auto action : actions()) {
         if ( ambiguousShortcuts.contains( shortcutForButton(*action) ) ) {
             action->setProperty("icon", warningIcon);

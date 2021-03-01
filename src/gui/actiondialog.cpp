@@ -327,7 +327,7 @@ void ActionDialog::acceptCommand()
     if ( ui->inputText->isVisible() )
         m_data[mimeText] = ui->inputText->toPlainText();
 
-    emit accepted(command, capturedTexts, m_data);
+    emit commandAccepted(command, capturedTexts, m_data);
 }
 
 QVariant ActionDialog::createCurrentItemData()

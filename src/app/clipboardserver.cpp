@@ -328,8 +328,6 @@ void ClipboardServer::onSaveState(QSessionManager &sessionManager)
 
     const QString lastSessionIdPrefix = "last_session_id_for_";
     const auto lastSessionIdKey = lastSessionIdPrefix + sessionName;
-    const auto lastSessionId = settings.value(lastSessionIdKey).toString();
-    const auto lastSessionNameKey = "session_" + lastSessionId;
     settings.setValue(lastSessionIdKey, sessionNameKey);
 
     // Remove no longer valid sessions from configuration.

@@ -2727,11 +2727,14 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
 void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership)
 {
     COPYQ_LOG( QString("onMonitorClipboardChanged: %1 %2, owner is \"%3\"")
-               .arg(ownership == ClipboardOwnership::Own ? "own"
-                  : ownership == ClipboardOwnership::Foreign ? "foreign"
-                  : "hidden")
-               .arg(isClipboardData(data) ? "clipboard" : "selection")
-               .arg(getTextData(data, mimeOwner)) );
+               .arg(
+                   QString::fromLatin1(
+                       ownership == ClipboardOwnership::Own ? "own"
+                       : ownership == ClipboardOwnership::Foreign ? "foreign"
+                       : "hidden"),
+                   QString::fromLatin1(isClipboardData(data) ? "clipboard" : "selection"),
+                   getTextData(data, mimeOwner)
+               ) );
 
     const QString command =
         ownership == ClipboardOwnership::Own ? "copyq onOwnClipboardChanged"

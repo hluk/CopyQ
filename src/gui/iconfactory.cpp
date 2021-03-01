@@ -73,7 +73,6 @@ bool hasNormalIconHelper()
 {
     // QIcon::hasThemeIcon() returns true even if icon "copyq-normal" is not available
     // but "copyq" is.
-    const QString iconName = COPYQ_ICON_NAME "-normal";
     const QIcon normalIcon = fromTheme(COPYQ_ICON_NAME "-normal");
     if ( normalIcon.isNull() )
         return false;

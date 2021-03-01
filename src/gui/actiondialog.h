@@ -66,7 +66,7 @@ public:
 
 signals:
     /** Emitted if dialog was accepted. */
-    void accepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
+    void commandAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
     void saveCommand(const Command &command);
 

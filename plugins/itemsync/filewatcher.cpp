@@ -443,7 +443,7 @@ FileWatcher::FileWatcher(
     m_updateTimer.setSingleShot(true);
 
     bool ok;
-    const int interval = qgetenv("COPYQ_SYNC_UPDATE_INTERVAL_MS").toInt(&ok);
+    const int interval = qEnvironmentVariableIntValue("COPYQ_SYNC_UPDATE_INTERVAL_MS", &ok);
     m_interval = ok && interval > 0 ? interval : defaultUpdateFocusItemsIntervalMs;
 
     connect( &m_updateTimer, &QTimer::timeout,
@@ -710,9 +710,9 @@ void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &i
     QMap<QString, Hash> &formatData = data.formatHash;
     formatData.clear();
 
-    for ( const auto &format : mimeToExtension.keys() ) {
-        if ( !format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
-            formatData.insert(format, calculateHash(itemData.value(format).toByteArray()) );
+    for ( auto format = mimeToExtension.keyBegin(); format != mimeToExtension.keyEnd(); ++format ) {
+        if ( !format->startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
+            formatData.insert(*format, calculateHash(itemData.value(*format).toByteArray()) );
     }
 }
 
@@ -757,15 +757,18 @@ void FileWatcher::saveItems(int first, int last)
 
         const QVariantMap noSaveData = itemData.value(mimeNoSave).toMap();
 
-        for ( const auto &format : itemData.keys() ) {
+        QMutableMapIterator<QString, QVariant> it(itemData);
+        while (it.hasNext()) {
+            const auto item = it.next();
+            const QString &format = item.key();
             if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
 
-            const QByteArray bytes = itemData[format].toByteArray();
+            const QByteArray bytes = it.value().toByteArray();
             const Hash hash = calculateHash(bytes);
 
             if ( noSaveData.contains(format) && noSaveData[format].toByteArray() == hash ) {
-                itemData.remove(format);
+                it.remove();
                 continue;
             }
 
@@ -800,8 +803,8 @@ void FileWatcher::saveItems(int first, int last)
         if ( !noSaveData.isEmpty() || mimeToExtension != oldMimeToExtension ) {
             itemData.remove(mimeNoSave);
 
-            for ( const auto &format : mimeToExtension.keys() )
-                oldMimeToExtension.remove(format);
+            for ( auto format = mimeToExtension.keyBegin(); format != mimeToExtension.keyEnd(); ++format )
+                oldMimeToExtension.remove(*format);
 
             itemData.insert(mimeExtensionMap, mimeToExtension);
             updateIndexData(index, itemData);

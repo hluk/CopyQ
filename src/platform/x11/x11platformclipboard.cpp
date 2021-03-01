@@ -171,8 +171,10 @@ void X11PlatformClipboard::onChanged(int mode)
     const auto currentWindowTitle = clipboardOwner();
     if (currentWindowTitle != clipboardData.newOwner) {
         COPYQ_LOG( QString("New %1 owner: \"%2\"")
-                   .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection")
-                   .arg(QString::fromUtf8(currentWindowTitle)) );
+                   .arg(
+                       QString::fromLatin1(mode == QClipboard::Clipboard ? "clipboard" : "selection"),
+                       QString::fromUtf8(currentWindowTitle)
+                   ) );
         clipboardData.newOwner = currentWindowTitle;
     }
 
@@ -309,10 +311,11 @@ void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
         m_timerCheckAgain.setInterval(0);
 
     COPYQ_LOG( QString("Clipboard %1, selection %2.%3")
-               .arg(m_clipboardData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged")
-               .arg(m_selectionData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged")
-               .arg(m_timerCheckAgain.isActive()
+               .arg(
+                   QString::fromLatin1(m_clipboardData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged"),
+                   QString::fromLatin1(m_selectionData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged"),
+                   m_timerCheckAgain.isActive()
                     ? QString(" Test again in %1ms.").arg(m_timerCheckAgain.interval())
-                    : QString())
-             );
+                    : QString()
+               ) );
 }
