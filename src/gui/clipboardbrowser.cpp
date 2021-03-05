@@ -868,12 +868,14 @@ void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
     QModelIndex current;
     QItemSelection selection;
 
+    const bool select = hasFocus() && isVisible();
     for (int row = first; row <= last; ++row) {
         if ( !hideFiltered(row) ) {
             const auto newIndex = index(row);
             if ( !current.isValid() )
                 current = newIndex;
-            selection.select(newIndex, newIndex);
+            if (select)
+                selection.select(newIndex, newIndex);
         }
     }
 

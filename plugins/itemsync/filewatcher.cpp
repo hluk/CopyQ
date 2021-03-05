@@ -55,9 +55,12 @@ struct BaseNameExtensions {
     explicit BaseNameExtensions(const QString &baseName = QString(),
                                 const QList<Ext> &exts = QList<Ext>())
         : baseName(baseName)
-        , exts(exts) {}
+        , exts(exts)
+        , isOwn( FileWatcher::isOwnBaseName(baseName) )
+    {}
     QString baseName;
     QList<Ext> exts;
+    bool isOwn;
 };
 
 namespace {
@@ -221,7 +224,8 @@ bool getBaseNameExtension(const QString &filePath, const QList<FileFormat> &form
 }
 
 BaseNameExtensionsList listFiles(const QStringList &files,
-                                 const QList<FileFormat> &formatSettings)
+                                 const QList<FileFormat> &formatSettings,
+                                 const int maxItemCount)
 {
     BaseNameExtensionsList fileList;
     QMap<QString, int> fileMap;
@@ -233,11 +237,13 @@ BaseNameExtensionsList listFiles(const QStringList &files,
             int i = fileMap.value(baseName, -1);
             if (i == -1) {
                 i = fileList.size();
-                fileList.append( BaseNameExtensions(baseName) );
+                fileList.append( BaseNameExtensions(baseName, {ext}) );
                 fileMap.insert(baseName, i);
+                if (fileList.size() >= maxItemCount)
+                    break;
+            } else {
+                fileList[i].exts.append(ext);
             }
-
-            fileList[i].exts.append(ext);
         }
     }
 
@@ -457,7 +463,7 @@ FileWatcher::FileWatcher(
     if (model->rowCount() > 0)
         saveItems(0, model->rowCount() - 1);
 
-    prependItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
+    prependItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings, m_maxItems) );
 }
 
 bool FileWatcher::lock()
@@ -474,7 +480,7 @@ void FileWatcher::unlock()
     m_valid = true;
 }
 
-void FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
+QVariantMap FileWatcher::itemDataFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts)
 {
     QVariantMap dataMap;
     QVariantMap mimeToExtension;
@@ -484,42 +490,61 @@ void FileWatcher::createItemFromFiles(const QDir &dir, const BaseNameExtensions 
     if ( !mimeToExtension.isEmpty() ) {
         dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
         dataMap.insert(mimeExtensionMap, mimeToExtension);
-        createItem(dataMap, targetRow);
     }
+
+    return dataMap;
 }
 
 void FileWatcher::prependItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
 {
-    for (const auto &baseNameWithExts : fileList) {
-        if ( m_model->rowCount() >= m_maxItems )
-            break;
+    QVector<QVariantMap> items;
+    items.reserve(fileList.size());
 
-        createItemFromFiles(dir, baseNameWithExts, 0);
+    for (auto it = fileList.rbegin(); it != fileList.rend(); ++it) {
+        const QVariantMap item = itemDataFromFiles(dir, *it);
+        items.append(item);
     }
+
+    createItems(items, 0);
 }
 
 void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
 {
-    int row = 0;
+    if ( fileList.isEmpty() )
+        return;
+
+    QVector<QVariantMap> ownItems;
+    ownItems.reserve(fileList.size());
+
+    QVector<QVariantMap> nonOwnItems;
+    nonOwnItems.reserve(fileList.size());
+
+    const int oldRowCount = m_model->rowCount();
     for (const auto &baseNameWithExts : fileList) {
-        const bool isOwn = isOwnBaseName(baseNameWithExts.baseName);
+        const QVariantMap item = itemDataFromFiles(dir, baseNameWithExts);
+        // Skip if the associated file was just removed.
+        if ( item.isEmpty() )
+            continue;
 
-        // Insert owned items; append non-owned items.
-        const int rowCount = m_model->rowCount();
-        if (!isOwn)
-            row = rowCount;
-
-        if (row >= m_maxItems)
-            break;
-
-        createItemFromFiles(dir, baseNameWithExts, row);
-        const int newRowCount = m_model->rowCount();
-        const int newItems = newRowCount - rowCount;
-        row += qMax(0, newItems);
-
-        if ( newRowCount >= m_maxItems )
-            m_model->removeRows(m_maxItems, newRowCount - m_maxItems);
+        if (baseNameWithExts.isOwn)
+            ownItems.append(item);
+        else
+            nonOwnItems.append(item);
     }
+
+    // Allocate space for new owned items.
+    const int itemCount = oldRowCount + ownItems.size();
+    if (m_maxItems < itemCount) {
+        const int toRemove = itemCount - m_maxItems;
+        if (toRemove < oldRowCount)
+            m_model->removeRows(oldRowCount - toRemove, toRemove);
+        else
+            m_model->removeRows(0, oldRowCount);
+    }
+
+    // Insert owned items; append non-owned items.
+    createItems(ownItems, 0);
+    createItems( nonOwnItems, m_model->rowCount() );
 }
 
 void FileWatcher::updateItems()
@@ -538,7 +563,7 @@ void FileWatcher::updateItems()
 
     if ( m_batchIndexData.isEmpty() ) {
         const QStringList files = listFiles(dir);
-        m_fileList = listFiles(files, m_formatSettings);
+        m_fileList = listFiles(files, m_formatSettings, m_maxItems);
         m_batchIndexData = m_indexData;
 
         // Sort so that top rows get updated first.
@@ -562,15 +587,18 @@ void FileWatcher::updateItems()
         if ( baseName.isEmpty() )
             continue;
 
-        int j = 0;
-        for ( j = 0; j < m_fileList.size() && m_fileList[j].baseName != baseName; ++j ) {}
+        const auto it = std::find_if(
+            std::begin(m_fileList), std::end(m_fileList),
+            [&](const BaseNameExtensions &baseNameExtensions) {
+                return baseNameExtensions.baseName == baseName;
+            });
 
         QVariantMap dataMap;
         QVariantMap mimeToExtension;
 
-        if ( j < m_fileList.size() ) {
-            updateDataAndWatchFile(dir, m_fileList[j], &dataMap, &mimeToExtension);
-            m_fileList.removeAt(j);
+        if ( it != m_fileList.cend() ) {
+            updateDataAndWatchFile(dir, *it, &dataMap, &mimeToExtension);
+            m_fileList.erase(it);
         }
 
         if ( mimeToExtension.isEmpty() ) {
@@ -672,20 +700,26 @@ FileWatcher::IndexData &FileWatcher::indexData(const QModelIndex &index)
     return *it;
 }
 
-void FileWatcher::createItem(const QVariantMap &dataMap, int targetRow)
+void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
 {
+    if ( items.isEmpty() )
+        return;
+
     const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
-    if ( !m_model->insertRow(row) )
+    if ( !m_model->insertRows(row, items.size()) )
         return;
 
     // Find index if it was moved after inserted.
     const int rows = m_model->rowCount();
+    auto it = std::begin(items);
     for ( int i = 0; i < rows; ++i ) {
         const int row2 = (row + i) % rows;
         auto index = m_model->index(row2, 0);
         if ( getBaseName(index).isEmpty() ) {
-            updateIndexData(index, dataMap);
-            return;
+            updateIndexData(index, *it);
+            ++it;
+            if (it == std::end(items))
+                break;
         }
     }
 }
@@ -901,35 +935,39 @@ bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow,
     QMimeData tmpData;
     tmpData.setData(mimeUriList, uriData);
 
-    bool copied = false;
-
     const QDir dir(m_path);
 
+    QVector<QVariantMap> items;
+
     for ( const auto &url : tmpData.urls() ) {
-        if ( url.isLocalFile() ) {
-            QFile f(url.toLocalFile());
+        if ( !url.isLocalFile() )
+            continue;
 
-            if (f.exists()) {
-                QString extName;
-                QString baseName;
-                getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &extName,
-                                         m_formatSettings );
+        QFile f(url.toLocalFile());
 
-                if ( renameToUnique(dir, baseNames, &baseName, m_formatSettings) ) {
-                    const QString targetFilePath = dir.absoluteFilePath(baseName + extName);
-                    f.copy(targetFilePath);
-                    Ext ext;
-                    if ( m_model->rowCount() < m_maxItems
-                         && getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) )
-                    {
-                            BaseNameExtensions baseNameExts(baseName, QList<Ext>() << ext);
-                            createItemFromFiles( QDir(m_path), baseNameExts, targetRow );
-                            copied = true;
-                    }
-                }
-            }
+        if ( !f.exists() )
+            continue;
+
+        QString extName;
+        QString baseName;
+        getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &extName,
+                                 m_formatSettings );
+
+        if ( !renameToUnique(dir, baseNames, &baseName, m_formatSettings) )
+            continue;
+
+        const QString targetFilePath = dir.absoluteFilePath(baseName + extName);
+        f.copy(targetFilePath);
+        Ext ext;
+        if ( getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) ) {
+            BaseNameExtensions baseNameExts(baseName, {ext});
+            const QVariantMap item = itemDataFromFiles( QDir(m_path), baseNameExts );
+            items.append(item);
+            if (items.size() >= m_maxItems)
+                break;
         }
     }
 
-    return copied;
+    createItems(items, targetRow);
+    return !items.isEmpty();
 }
