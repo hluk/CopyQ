@@ -592,7 +592,7 @@ public:
         for ( const auto &fileName : settingsDir.entryList(settingsFileFilters) ) {
             const auto path = settingsDir.absoluteFilePath(fileName);
             QFile settingsFile(path);
-            if ( !settingsFile.remove() ) {
+            if ( settingsFile.exists() && !settingsFile.remove() ) {
                 return QString::fromLatin1("Failed to remove settings file \"%1\": %2")
                     .arg(settingsPath, settingsFile.errorString())
                     .toUtf8();
