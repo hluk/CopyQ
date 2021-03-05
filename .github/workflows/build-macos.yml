@@ -39,7 +39,7 @@ jobs:
           cmakeAppendedArgs: >-
             -DWITH_TESTS=TRUE
             -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
-            -DCMAKE_PREFIX_PATH="/usr/local/opt/qt/lib/cmake"
+            -DCMAKE_PREFIX_PATH="/usr/local/opt/qt@5/lib/cmake"
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg
