@@ -668,11 +668,12 @@ private:
 
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;
-    QTimer m_timerUpdateTrayMenuItems;
     QTimer m_timerUpdatePreview;
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
     QTimer m_timerRaiseLastWindowAfterMenuClosed;
+
+    bool m_trayMenuDirty = true;
 
     QVariantMap m_clipboardData;
 

@@ -522,6 +522,8 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
     connect( m_trayMenu, &QMenu::aboutToShow,
              this, &MainWindow::updateFocusWindows );
+    connect( m_trayMenu, &QMenu::aboutToShow,
+             this, &MainWindow::updateTrayMenuItemsTimeout );
     connect( m_trayMenu, &QMenu::aboutToHide,
              this, [this](){ m_timerRaiseLastWindowAfterMenuClosed.start(); } );
     connect( m_trayMenu, &TrayMenu::searchRequest,
@@ -566,7 +568,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
-    initSingleShotTimer( &m_timerUpdateTrayMenuItems, trayMenuUpdateIntervalMsec, this, &MainWindow::updateTrayMenuItemsTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
     initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
@@ -826,8 +827,7 @@ void MainWindow::updateContextMenu(int intervalMsec)
 
 void MainWindow::updateTrayMenuItems()
 {
-    if ( !m_timerUpdateTrayMenuItems.isActive() )
-        m_timerUpdateTrayMenuItems.start();
+    m_trayMenuDirty = true;
 }
 
 void MainWindow::updateTrayMenuCommands()
@@ -2585,7 +2585,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 
     setTrayEnabled( !appConfig.option<Config::disable_tray>() );
     updateTrayMenuItems();
-    updateTrayMenuCommands();
 
     updateIcon();
 
@@ -2751,10 +2750,8 @@ bool MainWindow::toggleMenu()
 {
     m_trayMenu->search(QString());
 
-    if ( !m_trayMenu->isVisible() && m_timerUpdateTrayMenuItems.isActive() ) {
-        m_timerUpdateTrayMenuItems.stop();
+    if ( !m_trayMenu->isVisible() )
         updateTrayMenuItemsTimeout();
-    }
 
     return toggleMenu(m_trayMenu);
 }
@@ -3323,11 +3320,16 @@ void MainWindow::enterSearchMode(const QString &txt)
 
 void MainWindow::updateTrayMenuItemsTimeout()
 {
+    if (!m_trayMenuDirty)
+        return;
+
     // Update tray only if not currently visible.
     if ( m_trayMenu->isVisible() ) {
         updateTrayMenuItems();
         return;
     }
+
+    m_trayMenuDirty = false;
 
     COPYQ_LOG("Updating tray menu");
 
