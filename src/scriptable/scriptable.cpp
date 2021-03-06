@@ -72,7 +72,6 @@ Q_DECLARE_METATYPE(QFile*)
 
 namespace {
 
-const char *const programName = "CopyQ Clipboard Manager";
 const char *const mimeIgnore = COPYQ_MIME_PREFIX "ignore";
 
 class PerformanceLogger {
@@ -844,7 +843,7 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
 QJSValue Scriptable::version()
 {
     m_skipArguments = 0;
-    return tr(programName) + " " COPYQ_VERSION "\n"
+    return tr("CopyQ Clipboard Manager") + " " COPYQ_VERSION "\n"
             + "Qt: " QT_VERSION_STR "\n"
             + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
             + "Compiler: "
@@ -879,7 +878,7 @@ QJSValue Scriptable::help()
         for (const auto &hlp : commandHelp())
             helpString.append(hlp.toString());
 
-        helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
+        helpString.append("\n" + helpTail() + "\n\n" + tr("CopyQ Clipboard Manager")
             + " " + COPYQ_VERSION + "\n");
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
