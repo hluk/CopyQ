@@ -49,9 +49,9 @@ const int maxLineLengthInPreview = 16 * maxLineLength;
 const int maxLineCount = 4 * 1024;
 const int maxLineCountInPreview = 16 * maxLineCount;
 
-const char optionUseRichText[] = "use_rich_text";
-const char optionMaximumLines[] = "max_lines";
-const char optionMaximumHeight[] = "max_height";
+const QLatin1String optionUseRichText("use_rich_text");
+const QLatin1String optionMaximumLines("max_lines");
+const QLatin1String optionMaximumHeight("max_height");
 
 // Some applications insert \0 teminator at the end of text data.
 // It needs to be removed because QTextBrowser can render the character.

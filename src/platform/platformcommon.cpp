@@ -25,7 +25,11 @@
 #include <QRegularExpression>
 #include <QSettings>
 
-const char optionName[] = "paste_with_ctrl_v_windows";
+namespace {
+
+const QLatin1String optionName("paste_with_ctrl_v_windows");
+
+} // namespace
 
 bool pasteWithCtrlV(PlatformWindow &window)
 {

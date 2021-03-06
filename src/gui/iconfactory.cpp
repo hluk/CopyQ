@@ -49,7 +49,7 @@
 
 namespace {
 
-const char imagesRecourcePath[] = ":/images/";
+const QLatin1String imagesRecourcePath(":/images/");
 
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;

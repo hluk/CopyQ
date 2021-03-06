@@ -52,9 +52,9 @@ Q_DECLARE_METATYPE(ItemTags::Tag)
 
 namespace {
 
-const char mimeTags[] = "application/x-copyq-tags";
+const QLatin1String mimeTags("application/x-copyq-tags");
 
-const char configTags[] = "tags";
+const QLatin1String configTags("tags");
 
 const char propertyColor[] = "CopyQ_color";
 

@@ -38,7 +38,7 @@
 
 namespace {
 
-const char mimePinned[] = "application/x-copyq-item-pinned";
+const QLatin1String mimePinned("application/x-copyq-item-pinned");
 
 bool isPinned(const QModelIndex &index)
 {
@@ -115,7 +115,7 @@ bool ItemPinnedScriptable::isPinned()
         const int row = arg.toInt(&ok);
         if (ok) {
             const auto result = call("read", QVariantList() << "?" << row);
-            if ( result.toByteArray().contains(mimePinned) )
+            if ( result.toByteArray().contains(mimePinned.data()) )
                 return true;
         }
     }

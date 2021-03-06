@@ -72,13 +72,13 @@ enum {
 }
 
 const int currentVersion = 1;
-const char dataFileHeader[] = "CopyQ_itemsync_tab";
+const QLatin1String dataFileHeader("CopyQ_itemsync_tab");
 
-const char configVersion[] = "copyq_itemsync_version";
-const char configSyncTabs[] = "sync_tabs";
-const char configFormatSettings[] = "format_settings";
+const QLatin1String configVersion("copyq_itemsync_version");
+const QLatin1String configSyncTabs("sync_tabs");
+const QLatin1String configFormatSettings("format_settings");
 
-const char tabConfigSavedFiles[] = "saved_files";
+const QLatin1String tabConfigSavedFiles("saved_files");
 
 bool readConfigHeader(QDataStream *stream)
 {

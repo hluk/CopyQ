@@ -1294,11 +1294,11 @@ void Tests::commandMenuItems()
 
 void Tests::commandsPackUnpack()
 {
-    QMap<QByteArray, QByteArray> data;
+    QMap<QLatin1String, QByteArray> data;
     data[mimeText] = "plain text";
     data[mimeHtml] = "<b>HTML text</b>";
-    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
-    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+    data[QLatin1String(COPYQ_MIME_PREFIX "test1")] = "test1 data";
+    data[QLatin1String(COPYQ_MIME_PREFIX "test2")] = "test2 data";
 
     auto args = Args() << "write";
     for (const auto &mime : data.keys())

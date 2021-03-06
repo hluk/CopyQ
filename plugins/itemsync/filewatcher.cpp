@@ -32,12 +32,12 @@
 #include <QRegularExpression>
 #include <QUrl>
 
-const char mimeExtensionMap[] = COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
-const char mimeBaseName[] = COPYQ_MIME_PREFIX_ITEMSYNC "basename";
-const char mimeNoSave[] = COPYQ_MIME_PREFIX_ITEMSYNC "no-save";
-const char mimeSyncPath[] = COPYQ_MIME_PREFIX_ITEMSYNC "sync-path";
-const char mimeNoFormat[] = COPYQ_MIME_PREFIX_ITEMSYNC "no-format";
-const char mimeUnknownFormats[] = COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats";
+const QLatin1String mimeExtensionMap(COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map");
+const QLatin1String mimeBaseName(COPYQ_MIME_PREFIX_ITEMSYNC "basename");
+const QLatin1String mimeNoSave(COPYQ_MIME_PREFIX_ITEMSYNC "no-save");
+const QLatin1String mimeSyncPath(COPYQ_MIME_PREFIX_ITEMSYNC "sync-path");
+const QLatin1String mimeNoFormat(COPYQ_MIME_PREFIX_ITEMSYNC "no-format");
+const QLatin1String mimeUnknownFormats(COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats");
 
 struct Ext {
     Ext() : extension(), format() {}
@@ -65,8 +65,8 @@ struct BaseNameExtensions {
 
 namespace {
 
-const char dataFileSuffix[] = "_copyq.dat";
-const char noteFileSuffix[] = "_note.txt";
+const QLatin1String dataFileSuffix("_copyq.dat");
+const QLatin1String noteFileSuffix("_note.txt");
 
 const int defaultUpdateFocusItemsIntervalMs = 10000;
 const int batchItemUpdateIntervalMs = 100;

@@ -72,7 +72,7 @@ Q_DECLARE_METATYPE(QFile*)
 
 namespace {
 
-const char *const mimeIgnore = COPYQ_MIME_PREFIX "ignore";
+const QLatin1String mimeIgnore(COPYQ_MIME_PREFIX "ignore");
 
 class PerformanceLogger {
 public:

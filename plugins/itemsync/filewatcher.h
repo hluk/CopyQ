@@ -35,12 +35,12 @@ struct Ext;
 struct BaseNameExtensions;
 
 #define COPYQ_MIME_PREFIX_ITEMSYNC COPYQ_MIME_PREFIX "itemsync-"
-extern const char mimeExtensionMap[];
-extern const char mimeBaseName[];
-extern const char mimeNoSave[];
-extern const char mimeSyncPath[];
-extern const char mimeNoFormat[];
-extern const char mimeUnknownFormats[];
+extern const QLatin1String mimeExtensionMap;
+extern const QLatin1String mimeBaseName;
+extern const QLatin1String mimeNoSave;
+extern const QLatin1String mimeSyncPath;
+extern const QLatin1String mimeNoFormat;
+extern const QLatin1String mimeUnknownFormats;
 
 struct FileFormat {
     bool isValid() const { return !extensions.isEmpty(); }

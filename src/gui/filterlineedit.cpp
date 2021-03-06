@@ -51,7 +51,7 @@
 
 namespace {
 
-const char optionFilterHistory[] = "filter_history";
+const QLatin1String optionFilterHistory("filter_history");
 
 class BaseItemFilter : public ItemFilter {
 public:

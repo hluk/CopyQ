@@ -47,10 +47,10 @@
 
 namespace {
 
-const char mimeEncryptedData[] = "application/x-copyq-encrypted";
+const QLatin1String mimeEncryptedData("application/x-copyq-encrypted");
 
-const char dataFileHeader[] = "CopyQ_encrypted_tab";
-const char dataFileHeaderV2[] = "CopyQ_encrypted_tab v2";
+const QLatin1String dataFileHeader("CopyQ_encrypted_tab");
+const QLatin1String dataFileHeaderV2("CopyQ_encrypted_tab v2");
 
 const int maxItemCount = 10000;
 
@@ -343,7 +343,7 @@ bool ItemEncryptedScriptable::isEncrypted()
         const int row = arg.toInt(&ok);
         if (ok) {
             const auto result = call("read", QVariantList() << "?" << row);
-            if ( result.toByteArray().contains(mimeEncryptedData) )
+            if ( result.toByteArray().contains(mimeEncryptedData.data()) )
                 return true;
         }
     }
