@@ -21,7 +21,6 @@
 
 #include "common/contenttype.h"
 #include "common/log.h"
-#include "common/regexp.h"
 #include "item/serialize.h"
 
 #include <QAbstractItemModel>
@@ -386,8 +385,7 @@ QString FileWatcher::getBaseName(const QVariantMap &data)
 
 bool FileWatcher::isOwnBaseName(const QString &baseName)
 {
-    static const auto re = anchoredRegExp("copyq_\\d*");
-    return baseName.contains(re);
+    return baseName.startsWith(QLatin1String("copyq_"));
 }
 
 void FileWatcher::removeFilesForRemovedIndex(const QString &tabPath, const QModelIndex &index)
