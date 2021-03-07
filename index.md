@@ -10,7 +10,7 @@ CopyQ is advanced clipboard manager with editing and scripting features.
 - [Documentation](https://copyq.readthedocs.io)
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
-- [Donate](https://www.bountysource.com/teams/copyq)
+- [Donate](https://liberapay.com/CopyQ/)
 - [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Overview
@@ -52,9 +52,22 @@ For unlisted systems, please follow the instructions in
 
 ### Windows
 
-On Windows you either use installer ([setup.exe](https://github.com/hluk/CopyQ/releases)),
-portable [zip](https://github.com/hluk/CopyQ/releases)
-or you can install the copyq [Chocolatey package](https://chocolatey.org/packages/copyq).
+[![Chocolatey package](https://repology.org/badge/version-for-repo/chocolatey/copyq.svg)](https://repology.org/metapackage/copyq)
+
+On Windows you can use one of the following options to install the app:
+
+* [The Installer (setup.exe)](https://github.com/hluk/CopyQ/releases)
+* [Portable zip package](https://github.com/hluk/CopyQ/releases)
+* [Scoop package](https://scoop.sh/) from the [extras bucket](https://github.com/lukesampson/scoop-extras).
+* [Chocolatey package](https://chocolatey.org/packages/copyq)
+
+Using Scoop:
+
+```
+scoop install copyq
+```
+
+Using Chocolatey:
 
 ```
 choco install copyq
@@ -62,10 +75,12 @@ choco install copyq
 
 ### OS X
 
+[![Homebrew package](https://repology.org/badge/version-for-repo/homebrew/copyq.svg)](https://repology.org/metapackage/copyq)
+
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
 ```bash
-brew cask install copyq
+brew install --cask copyq
 ```
 
 ### Debian 10+, Ubuntu 18.04+, and their derivatives
@@ -101,7 +116,7 @@ Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
 flatpak install flathub com.github.hluk.copyq
 ```
 
-Start the application from menu or with following command.
+Start the application from menu or with following command:
 
 ```bash
 flatpak run com.github.hluk.copyq
@@ -117,12 +132,13 @@ or running `copyq toggle`.
 Copying text or image to clipboard will create new item in the list.
 
 Selected items can be:
-* edited (`F2`),
-* removed (`Delete`),
-* sorted (`Ctrl+Shift+S`, `Ctrl+Shift+R`),
-* moved around (with mouse or `Ctrl+Up/Down`),
-* copied back to clipboard (`Ctrl+C`) or
-* pasted to previously active window (`Enter`).
+
+* edited (`F2`)
+* removed (`Delete`)
+* sorted (`Ctrl+Shift+S`, `Ctrl+Shift+R`)
+* moved around (with mouse or `Ctrl+Up/Down`)
+* copied back to clipboard (`Ctrl+C`)
+* pasted to previously active window (`Enter`)
 
 All items will be restored when application is started next time.
 
@@ -130,6 +146,7 @@ To exit the application select Exit from tray menu or press `Ctrl-Q` keys in the
 application window.
 
 Read more:
+
 - [Basic Usage](https://copyq.readthedocs.io/en/latest/basic-usage.html)
 - [Keyboard](https://copyq.readthedocs.io/en/latest/keyboard.html)
 
@@ -145,6 +162,7 @@ from menu, with shortcut or when clipboard changes:
 One of very useful predefined commands there is "Show/hide main window".
 
 Read more:
+
 - [Writing Commands](https://copyq.readthedocs.io/en/latest/writing-commands-and-adding-functionality.html)
 - [CopyQ Commands Repository](https://github.com/hluk/copyq-commands)
 
@@ -199,17 +217,18 @@ Create image items:
     copyq write image/svg - < image.svg
 
 Read more:
+
 - [Scripting](https://copyq.readthedocs.io/en/latest/scripting.html)
 - [Scripting API](https://copyq.readthedocs.io/en/latest/scripting-api.html)
 
 ## Build from Source Code
 
 To build the application from source code, first install the required dependencies:
+
 - [Git](https://git-scm.com/)
 - [CMake](https://cmake.org/download/)
 - [Qt](https://download.qt.io/archive/qt/)
-- Optionally on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
-- Optionally [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) (more advanced HTML rendering)
+- optional on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
 
 ### Install Dependencies
 
@@ -217,28 +236,40 @@ To build the application from source code, first install the required dependenci
 
 ```bash
 sudo apt install \
-  git cmake \
-  qtbase5-private-dev \
-  qtscript5-dev \
-  qttools5-dev \
-  qttools5-dev-tools \
+  cmake \
+  extra-cmake-modules \
+  git \
+  libqt5svg5 \
   libqt5svg5-dev \
+  libqt5waylandclient5-dev \
   libqt5x11extras5-dev \
+  libwayland-dev \
   libxfixes-dev \
   libxtst-dev \
-  libqt5svg5
+  qtbase5-private-dev \
+  qtdeclarative5-dev \
+  qttools5-dev \
+  qttools5-dev-tools \
+  qtwayland5 \
+  qtwayland5-dev-tools
 ```
 #### RHEL / CentOS
 
 ```bash
 sudo yum install \
-  gcc-c++ git cmake \
-  libXtst-devel libXfixes-devel \
+  cmake \
+  extra-cmake-modules \
+  gcc-c++ \
+  git \
+  libXfixes-devel \
+  libXtst-devel \
   qt5-qtbase-devel \
+  qt5-qtdeclarative-devel \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
-  qt5-qtscript-devel \
-  qt5-qtx11extras-devel
+  qt5-qtwayland-devel \
+  qt5-qtx11extras-devel \
+  wayland-devel
 ```
 
 ### Build the App
@@ -266,6 +297,7 @@ or help [fix issues and implement new features](https://github.com/hluk/CopyQ/is
 [![Translations](https://hosted.weblate.org/widgets/copyq/-/287x66-white.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 
 Read more:
+
 - [Build from Source Code](https://copyq.readthedocs.io/en/latest/build-source-code.html)
 - [Fixing Bugs and Adding Features](https://copyq.readthedocs.io/en/latest/fixing-bugs.html)
 - [Translations](https://copyq.readthedocs.io/en/latest/translations.html)
