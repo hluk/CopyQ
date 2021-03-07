@@ -2266,12 +2266,12 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze odstranit prvky s uzamčeným štítkem</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>K odstranění je nutné uzamčený štítek nejprve odebrat.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2335,12 +2335,12 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknout</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Zabraní odstranění prvku</translation>
     </message>
 </context>
 <context>
@@ -2977,23 +2977,23 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Text zkopírován (%n řádek)</numerusform>
+            <numerusform>Text zkopírován (%n řádky)</numerusform>
+            <numerusform>Text zkopírován (%n řádků)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Text zkopírován</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Data zkopírována</translation>
     </message>
 </context>
 <context>
@@ -3353,7 +3353,7 @@ Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spustí server v pozadí před provedením příkazu.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1507"/>
@@ -3422,7 +3422,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="846"/>
         <location filename="../src/scriptable/scriptable.cpp" line="881"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Správce Schránky</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2917"/>
