@@ -73,7 +73,7 @@ choco install copyq
 
 ### OS X
 
-[![Homebrew package](https://repology.org/badge/version-for-repo/homebrew/copyq.svg)](https://repology.org/metapackage/copyq)
+[![Homebrew package](https://repology.org/badge/version-for-repo/homebrew_casks/copyq.svg)](https://repology.org/metapackage/copyq)
 
 On OS X you can use [Homebrew](https://brew.sh/) to install the app.
 
