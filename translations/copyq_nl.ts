@@ -2259,12 +2259,12 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Items met het label &apos;Vergrendeld&apos; kunnen niet worden verwijderd</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwijder de labels alvorens de items te verwijderen.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2328,12 +2328,12 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Vergrendelen</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Voorkom verwijdering</translation>
     </message>
 </context>
 <context>
@@ -2964,22 +2964,22 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Tekst gekopieerd (%n regel)</numerusform>
+            <numerusform>Tekst gekopieerd (%n regels)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekst gekopieerd</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gegevens gekopieerd</translation>
     </message>
 </context>
 <context>
@@ -3164,7 +3164,7 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Start de server op de achtergrond alvorens een opdracht uit te voeren.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -3376,7 +3376,7 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
         <location filename="../src/scriptable/scriptable.cpp" line="846"/>
         <location filename="../src/scriptable/scriptable.cpp" line="881"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ-klembordbeheerder</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="893"/>
