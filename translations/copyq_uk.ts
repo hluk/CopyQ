@@ -119,7 +119,7 @@ You can set up the command in preferences.</source>
         <translation>Код виходу: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="176"/>
+        <location filename="../src/gui/actionhandler.cpp" line="175"/>
         <source>Command %1</source>
         <translation>Команда %1</translation>
     </message>
@@ -329,17 +329,17 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Вкладку заповнено. Не вдалося видалити будь-які предмети.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1585"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1589"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Не вдається додати нові елементи на вкладку %1. Видалить елементи вручну, щоб звільнити місце.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1864"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1868"/>
         <source>Discard Changes?</source>
         <translation>Скасувати зміни?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1865"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1869"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Дійсно &lt;strong&gt;скасувати зміни&lt;/strong&gt;?</translation>
     </message>
@@ -399,7 +399,7 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="119"/>
+        <location filename="../src/app/clipboardserver.cpp" line="120"/>
         <source>CopyQ server is already running.</source>
         <translation>Сервер CopyQ вже запущено.</translation>
     </message>
@@ -849,88 +849,88 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation>Сповіщення</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="283"/>
+        <location filename="../src/ui/configtabappearance.ui" line="269"/>
         <source>Show &amp;Number</source>
         <translation>Показувати &amp;номери</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="290"/>
+        <location filename="../src/ui/configtabappearance.ui" line="276"/>
         <source>Show scrollbars</source>
         <translation>Показати смуги прокрутки</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="293"/>
+        <location filename="../src/ui/configtabappearance.ui" line="279"/>
         <source>S&amp;crollbars</source>
         <translation>Смуги &amp;прокрутки</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="300"/>
+        <location filename="../src/ui/configtabappearance.ui" line="286"/>
         <source>Use icons from desktop environment whenever possible</source>
         <translation>Використовувати піктограми із середовища стільниці, якщо це можливо</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="319"/>
+        <location filename="../src/ui/configtabappearance.ui" line="305"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
         <translation>&amp;Встановити кольори для вкладок, панелі інструментів та меню</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="303"/>
+        <location filename="../src/ui/configtabappearance.ui" line="289"/>
         <source>S&amp;ystem Icons</source>
         <translation>&amp;Системні піктограми</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="310"/>
+        <location filename="../src/ui/configtabappearance.ui" line="296"/>
         <source>&amp;Antialias</source>
         <translation>З&amp;гладжування</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="341"/>
+        <location filename="../src/ui/configtabappearance.ui" line="327"/>
         <source>&amp;Reset Theme</source>
         <translation>С&amp;кинути тему</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="348"/>
+        <location filename="../src/ui/configtabappearance.ui" line="334"/>
         <source>Theme:</source>
         <translation>Тема:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="355"/>
+        <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Load Theme</source>
         <translation>&amp;Завантажити тему</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="362"/>
+        <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>&amp;Save Theme</source>
         <translation>З&amp;берегти тему</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="369"/>
+        <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>Edit current theme in external editor</source>
         <translation>Редагувати поточну тему в зовнішньому редакторі</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="372"/>
+        <location filename="../src/ui/configtabappearance.ui" line="358"/>
         <source>E&amp;dit Theme</source>
         <translation>&amp;Редагувати тему</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="393"/>
+        <location filename="../src/ui/configtabappearance.ui" line="379"/>
         <source>Preview:</source>
         <translation>Попередній перегляд:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="445"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translation>елемент</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="447"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="487"/>
         <source>Search string is %1.</source>
         <translation>Рядок пошуку %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="448"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="488"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Виділіть елемент
@@ -938,37 +938,37 @@ press F2 to edit.</source>
 для редагування.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="450"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="490"/>
         <source>Example item %1</source>
         <translation>Приклад елемента %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="455"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="495"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>Деякі випадкові нотатки (Shift+F2 для редагування)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="138"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="178"/>
         <source>Open Theme File</source>
         <translation>Відкрити файл теми</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="148"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="188"/>
         <source>Save Theme File As</source>
         <translation>Зберегти тему як файл</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="167"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="207"/>
         <source>No External Editor</source>
         <translation>Немає зовнішнього редактора</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="168"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="208"/>
         <source>Set external editor command first!</source>
         <translation>Спочатку вкажіть команду зовнішнього редактора!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="368"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="408"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Абв</translation>
@@ -1370,52 +1370,44 @@ Note: This is not supported on all systems.</source>
 <context>
     <name>ConfigTabNotifications</name>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation>Розташування &amp;сповіщення:</translation>
+        <translation type="vanished">Розташування &amp;сповіщення:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation>Розташування сповіщень на екрані</translation>
+        <translation type="vanished">Розташування сповіщень на екрані</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation>Вгорі</translation>
+        <translation type="vanished">Вгорі</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation>Внизу</translation>
+        <translation type="vanished">Внизу</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation>Вгорі праворуч</translation>
+        <translation type="vanished">Вгорі праворуч</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation>Внизу праворуч</translation>
+        <translation type="vanished">Внизу праворуч</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation>Внизу ліворуч</translation>
+        <translation type="vanished">Внизу ліворуч</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation>Вгорі ліворуч</translation>
+        <translation type="vanished">Вгорі ліворуч</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="129"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
         <translation>&amp;Час показу сповіщень (с):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="141"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
@@ -1428,12 +1420,12 @@ Set to -1 to keep visible until clicked.</source>
 Встановіть -1, щоб показувати, поки сповіщення не буде клацнуто мишею.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="173"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="109"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
         <translation>&amp;Кількість рядків для сповіщення про буфер обміну:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="185"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="121"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
@@ -1442,49 +1434,43 @@ Set to 0 to disable.</source>
 Встановіть 0, щоб вимкнути.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="214"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="150"/>
         <source>Notification Geometry (in screen points)</source>
         <translation>Геометрія сповіщень (у пікселях)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="220"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation>&amp;Горизонтальне зміщення:</translation>
+        <translation type="vanished">&amp;Горизонтальне зміщення:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="232"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Відстань сповіщення від лівого та правого країв екрану (у пікселях)</translation>
+        <translation type="vanished">Відстань сповіщення від лівого та правого країв екрану (у пікселях)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="260"/>
         <source>&amp;Vertical offset:</source>
-        <translation>&amp;Вертикальне зміщення:</translation>
+        <translation type="vanished">&amp;Вертикальне зміщення:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="272"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>Відстань сповіщення від верхнього та нижнього країв екрану (у пікселях)</translation>
+        <translation type="vanished">Відстань сповіщення від верхнього та нижнього країв екрану (у пікселях)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="300"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="156"/>
         <source>Maximum &amp;width:</source>
         <translation>Максимальна &amp;ширина:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="312"/>
+        <location filename="../src/ui/configtabnotifications.ui" line="168"/>
         <source>Maximum width for notification in screen points</source>
         <translation>Максимальна ширина сповіщення (у пікселях)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="337"/>
         <source>Ma&amp;ximum height:</source>
-        <translation>Максимальна &amp;висота:</translation>
+        <translation type="vanished">Максимальна &amp;висота:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabnotifications.ui" line="349"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Максимальна висота для сповіщень в точках екрану</translation>
+        <translation type="vanished">Максимальна висота для сповіщень в точках екрану</translation>
     </message>
 </context>
 <context>
@@ -1613,27 +1599,27 @@ Set to 0 to disable.</source>
         <translation>Вигляд</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="434"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="432"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Неприпустиме значення для параметра &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="477"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="475"/>
         <source>Reset preferences?</source>
         <translation>Скинути налаштування?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="478"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="476"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Це скине всі налаштування (у всіх вкладках) на стандартні значення.&lt;br /&gt;&lt;br /&gt;Дійсно &lt;strong&gt;скинути всі налаштування&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="581"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="579"/>
         <source>Restart Required</source>
         <translation>Потрібен перезапуск</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="582"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="580"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Зміна мови відбудеться після перезапуску програми.</translation>
     </message>
@@ -1641,7 +1627,7 @@ Set to 0 to disable.</source>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="683"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="770"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Не вдалось створити теку синхронізації &quot;%1&quot;!</translation>
     </message>
@@ -2047,12 +2033,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="82"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="79"/>
         <source>Notes</source>
         <translation>Примітки</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="84"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="81"/>
         <source>Display notes for items.</source>
         <translation>Показ приміток для елементів</translation>
     </message>
@@ -2111,32 +2097,32 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="195"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>Не вдається видалити закріплені елементи</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="196"/>
         <source>Unpin items first to remove them.</source>
         <translation>Відкріпити елементи перед видаленням.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="389"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="369"/>
         <source>Pin</source>
         <translation>Закріпити</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="396"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="376"/>
         <source>Unpin</source>
         <translation>Відкріпити</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="103"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="95"/>
         <source>Pinned Items</source>
         <translation>Закріплені елементи</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="106"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="98"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Закріплення елементів, щоб зафіксувати їх у поточному рядку та уникнути видалення (на відміну від відкріплених)&lt;/p&gt;&lt;p&gt;Надає сполучення клавіш та функції для сценаріїв.&lt;/p&gt;</translation>
     </message>
@@ -2144,28 +2130,28 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemSyncLoader</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="125"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="126"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
         <translation>Огляд...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="815"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="773"/>
         <source>Open Directory for Synchronization</source>
         <translation>Відкрити теку для синхронізації</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="829"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="787"/>
         <source>Failed to create synchronization directory</source>
         <translation>Не вдалося створити теку синхронізації</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="145"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="142"/>
         <source>Synchronize</source>
         <translation>Синхронізація</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.h" line="147"/>
+        <location filename="../plugins/itemsync/itemsync.h" line="144"/>
         <source>Synchronize items and notes with a directory on disk.</source>
         <translation>Синхронізація елементів та приміток з текою на диску.</translation>
     </message>
@@ -2173,17 +2159,17 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemSyncSaver</name>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="494"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="452"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
         <translation>Не вдалось синхронізувати вкладку &quot;%1&quot; з текою &quot;%2&quot;!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="529"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="487"/>
         <source>Remove Items?</source>
         <translation>Видалити елементи?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="530"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="488"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>Дійсно &lt;strong&gt;видалити елементи та пов&apos;язані файли&lt;/strong&gt;?</translation>
     </message>
@@ -2238,43 +2224,53 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="157"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Add a Tag</source>
         <translation>Додати мітку</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="167"/>
         <source>Remove a Tag</source>
         <translation>Видалити мітку</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="181"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
         <source>Tag as %1</source>
         <translation>Помітити як %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="187"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="192"/>
         <source>Remove tag %1</source>
         <translation>Видалити мітку %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="697"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
+        <source>Cannot Remove Items With a Locked Tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
+        <source>Untag items first to remove them.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Важливо</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="718"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="788"/>
         <source>Clear all tags</source>
         <translation>Очистити всі мітки</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="111"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="128"/>
         <source>Tags</source>
         <translation>Мітки</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.h" line="113"/>
+        <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Display tags for items.</source>
         <translation>Показ міток для елементів</translation>
     </message>
@@ -2316,16 +2312,26 @@ Set to 0 to disable.</source>
         <source>Icon</source>
         <translation>Піктограма</translation>
     </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
+        <source>Lock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
+        <source>Avoid removing item</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ItemTextLoader</name>
     <message>
-        <location filename="../plugins/itemtext/itemtext.h" line="76"/>
+        <location filename="../plugins/itemtext/itemtext.h" line="73"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtext/itemtext.h" line="78"/>
+        <location filename="../plugins/itemtext/itemtext.h" line="75"/>
         <source>Display plain text and simple HTML items.</source>
         <translation>Показ звичайного тексту та простих HTML-елементів</translation>
     </message>
@@ -2373,119 +2379,119 @@ Set to 0 to disable.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="603"/>
+        <location filename="../src/gui/mainwindow.cpp" line="610"/>
         <source>Exit?</source>
         <translation>Вийти?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="604"/>
+        <location filename="../src/gui/mainwindow.cpp" line="611"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Дійсно &lt;strong&gt;закрити&lt;/strong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="654"/>
+        <location filename="../src/gui/mainwindow.cpp" line="661"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="702"/>
+        <location filename="../src/gui/mainwindow.cpp" line="709"/>
         <source>&amp;Edit</source>
         <translation>&amp;Редагування</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="726"/>
+        <location filename="../src/gui/mainwindow.cpp" line="733"/>
         <source>&amp;Item</source>
         <translation>&amp;Елемент</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="730"/>
+        <location filename="../src/gui/mainwindow.cpp" line="737"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Вкладки</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="755"/>
+        <location filename="../src/gui/mainwindow.cpp" line="762"/>
         <source>&amp;Help</source>
         <translation>&amp;Довідка</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3580"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3582"/>
         <source>Options for Export</source>
         <translation>Параметри експорту</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3601"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3603"/>
         <source>Export Error</source>
         <translation>Помилка експорту</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3694"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3696"/>
         <source>Import Error</source>
         <translation>Помилка імпорту</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="572"/>
+        <location filename="../src/gui/mainwindow.cpp" line="579"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Показати/сховати</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3602"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3604"/>
         <source>Failed to export file %1!</source>
         <translation>Не вдалося експортувати файл %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1291"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1290"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Зберігати буфер обміну</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1292"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1291"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Не зберігати буфер обміну</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1948"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2069"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1944"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2065"/>
         <source>Options for Import</source>
         <translation>Параметри імпорту</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2306"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2302"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Помилка CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="780"/>
+        <location filename="../src/gui/mainwindow.cpp" line="787"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Створити вкладку</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="782"/>
+        <location filename="../src/gui/mainwindow.cpp" line="789"/>
         <source>Rename &amp;Group %1</source>
         <translation>Перейменувати &amp;групу %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="784"/>
+        <location filename="../src/gui/mainwindow.cpp" line="791"/>
         <source>Re&amp;name Tab %1</source>
         <translation>&amp;Перейменувати вкладку %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="786"/>
+        <location filename="../src/gui/mainwindow.cpp" line="793"/>
         <source>Re&amp;move Tab %1</source>
         <translation>&amp;Видалити вкладку %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="788"/>
+        <location filename="../src/gui/mainwindow.cpp" line="795"/>
         <source>Remove Group %1</source>
         <translation>Видалити групу %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="790"/>
+        <location filename="../src/gui/mainwindow.cpp" line="797"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Змінити піктограму вкладки</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="834"/>
+        <location filename="../src/gui/mainwindow.cpp" line="840"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Буфер обміну: %1</translation>
@@ -2496,27 +2502,27 @@ Set to 0 to disable.</source>
         <translation>Елементи CopyQ (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3695"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3697"/>
         <source>Failed to import file %1!</source>
         <translation>Не вдалося імпортувати файл %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3867"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3869"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Видалити всі вкладки у групі?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3868"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3870"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Дійсно видалити &lt;strong&gt;всі вкладки&lt;/strong&gt; у групі &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3915"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3917"/>
         <source>Remove Tab?</source>
         <translation>Видалити вкладку?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3916"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3918"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Дійсно видалити вкладку &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2524,7 +2530,7 @@ Set to 0 to disable.</source>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="530"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="531"/>
         <source>Information</source>
         <translation>Відомості</translation>
     </message>
@@ -2584,23 +2590,21 @@ Set to 0 to disable.</source>
         <translation>Del</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2131"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation>
+        <translation type="vanished">
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n рядок &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n рядки &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n рядків &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2134"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation>%1</translation>
+        <translation type="vanished">%1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="215"/>
+        <location filename="../src/main.cpp" line="237"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Назва сеансу повинна містити не більше 16 символів,
@@ -2941,6 +2945,28 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>Вкладка %1 пошкоджена або відсутні деякі плагіни CopyQ!</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
+        <source>Text Copied (%n lines)</source>
+        <comment>Notification title for multi-line text in clipboard</comment>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
+        <source>Text Copied</source>
+        <comment>Notification title for single-line text in clipboard</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
+        <source>Data Copied</source>
+        <comment>Notification title for a copied data in clipboard</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Scriptable</name>
@@ -3131,6 +3157,11 @@ Default is the first tab.</source>
         <translation>Виконати тести додатка (для додаткових відомостей додайте аргумент --help).</translation>
     </message>
     <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
+        <source>Start server in background before running a command.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
@@ -3180,7 +3211,8 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>COMMAND</source>
         <translation>КОМАНДА</translation>
     </message>
@@ -3277,27 +3309,27 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <translation>СЕАНС</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>Usage: copyq [%1]</source>
         <translation>Використання: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
         <source>Starts server if no command is specified.</source>
         <translation>Запускає сервер, якщо не вказано команду.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="117"/>
         <source>  COMMANDs:</source>
         <translation>  КОМАНДИ:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>NOTES:</source>
         <translation>ПРИМІТКИ:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Використовуйте подвійне тире (--) в якості аргументу для зчитування
@@ -3305,59 +3337,65 @@ Use %1 in PROGRAM to pass text as argument.</source>
     (наприклад \n, \t тощо).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Використовуйте ? для MIME, щоб вивести усі доступні типи MIME (за замовчуванням використовується &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="130"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
         <source>Invalid number of arguments!</source>
         <translation>Неприпустима кількість аргументів!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="888"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="846"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="881"/>
+        <source>CopyQ Clipboard Manager</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/scriptable.cpp" line="893"/>
         <source>Command not found!</source>
         <translation>Команду не знайдено!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="987"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="992"/>
         <source>Terminating server.
 </source>
         <translation>Сервер закривається.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2911"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2917"/>
         <source>Exception</source>
         <translation>Виняток</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2912"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2918"/>
         <source>Exception in %1</source>
         <translation>Виняток у %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3022"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Не вдалося скопіювати у буфер обміну!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="756"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="760"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Не вдається зберегти файл у &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Використовуйте тире (-) в якості аргументу, щоб зчитати дані зі стандартного вводу.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="761"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="765"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Не вдається імпортувати файл &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1493"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1507"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Неприпустимий параметр &quot;%1&quot;!</translation>
     </message>
@@ -3375,7 +3413,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <translation>Назва вкладки не може бути порожньою!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1136"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1137"/>
         <source>Tab with given name already exists!</source>
         <translation>Вкладка з такою назвою вже існує!</translation>
     </message>
@@ -3516,12 +3554,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="119"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="359"/>
         <source>Regular Expression</source>
         <translation>Регулярний вираз</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="122"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="362"/>
         <source>Case Insensitive</source>
         <translation>Чутливість до регістру</translation>
     </message>
