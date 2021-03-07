@@ -2265,12 +2265,12 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível remover itens com uma tag bloqueada</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Remova a tag dos itens primeiro para removê-los.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2334,12 +2334,12 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Evitar remover item</translation>
     </message>
 </context>
 <context>
@@ -2978,22 +2978,22 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Texto copiado (%n linha)</numerusform>
+            <numerusform>Texto copiado (%n linhas)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Texto copiado</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dados copiados</translation>
     </message>
 </context>
 <context>
@@ -3363,7 +3363,7 @@ Use %1 em PROGRAM para passar texto como argumento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inicie o servidor em segundo plano antes de executar um comando.</translation>
     </message>
     <message>
         <source>
@@ -3429,7 +3429,7 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="846"/>
         <location filename="../src/scriptable/scriptable.cpp" line="881"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Clipboard Manager</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="893"/>
