@@ -93,7 +93,6 @@
 namespace {
 
 const int contextMenuUpdateIntervalMsec = 100;
-const int trayMenuUpdateIntervalMsec = 100;
 const int itemPreviewUpdateIntervalMsec = 100;
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
