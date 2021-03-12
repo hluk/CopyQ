@@ -2265,12 +2265,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно удалить элементы с заблокированной меткой</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Снимите метки с элементов перед тем, как удалить их.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2334,12 +2334,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Предотвращать удаление элемента</translation>
     </message>
 </context>
 <context>
@@ -2980,23 +2980,23 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Текст скопирован (%n линия)</numerusform>
+            <numerusform>Текст скопирован (%n линии)</numerusform>
+            <numerusform>Текст скопирован (%n линий)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Текст скопирован</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Данные скопированы</translation>
     </message>
 </context>
 <context>
@@ -3366,7 +3366,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустите сервер в фоне перед тем, как выполнить команду.</translation>
     </message>
     <message>
         <source>
@@ -3432,7 +3432,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="846"/>
         <location filename="../src/scriptable/scriptable.cpp" line="881"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Диспетчер буфера обмена CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="893"/>
