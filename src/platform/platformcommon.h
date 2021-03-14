@@ -17,11 +17,11 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLATFORMCOMMON_H
-#define PLATFORMCOMMON_H
+#pragma once
 
+class AppConfig;
 class PlatformWindow;
 
-bool pasteWithCtrlV(PlatformWindow &window);
+bool pasteWithCtrlV(PlatformWindow &window, const AppConfig &config);
 
-#endif // PLATFORMCOMMON_H
+void waitMs(int msec);

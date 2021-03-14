@@ -26,6 +26,7 @@
 
 #include <memory>
 
+class AppConfig;
 class QWidget;
 
 class X11PlatformWindow final : public PlatformWindow
@@ -48,7 +49,7 @@ public:
 private:
     bool waitForFocus(int ms);
 
-    void sendKeyPress(int modifier, int key);
+    void sendKeyPress(int modifier, int key, const AppConfig &config);
 
     Window m_window;
 };

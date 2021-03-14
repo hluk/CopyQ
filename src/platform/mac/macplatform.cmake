@@ -2,6 +2,7 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
     platform/mac/*.cpp
     platform/mac/*.mm
     platform/dummy/dummyclipboard.cpp
+    platform/platformcommon.cpp
     ../qxt/qxtglobalshortcut_mac.cpp
     )
 

@@ -358,6 +358,49 @@ struct script_paste_delay_ms : Config<int> {
     static Value defaultValue() { return 250; }
 };
 
+struct window_paste_with_ctrl_v_regex : Config<QString> {
+    static QString name() { return "window_paste_with_ctrl_v_regex"; }
+};
+
+struct window_wait_before_raise_ms : Config<int> {
+    static QString name() { return "window_wait_before_raise_ms"; }
+#ifdef Q_OS_WIN
+    static Value defaultValue() { return 0; }
+#else
+    static Value defaultValue() { return 20; }
+#endif
+};
+
+struct window_wait_raised_ms : Config<int> {
+    static QString name() { return "window_wait_raised_ms"; }
+    static Value defaultValue() { return 150; }
+};
+
+struct window_wait_after_raised_ms : Config<int> {
+    static QString name() { return "window_wait_after_raised_ms"; }
+#ifdef Q_OS_WIN
+    static Value defaultValue() { return 150; }
+#else
+    static Value defaultValue() { return 0; }
+#endif
+};
+
+struct window_key_press_time_ms : Config<int> {
+    static QString name() { return "window_key_press_time_ms"; }
+#ifdef Q_OS_WIN
+    static Value defaultValue() { return 0; }
+#elif defined(Q_OS_MAC)
+    static Value defaultValue() { return 100; }
+#else
+    static Value defaultValue() { return 50; }
+#endif
+};
+
+struct window_wait_for_modifiers_released_ms : Config<int> {
+    static QString name() { return "window_wait_for_modifiers_released_ms"; }
+    static Value defaultValue() { return 50; }
+};
+
 } // namespace Config
 
 class AppConfig final

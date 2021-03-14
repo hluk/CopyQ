@@ -27,6 +27,8 @@
 #endif
 #include <qt_windows.h>
 
+class AppConfig;
+
 class WinPlatformWindow final : public PlatformWindow
 {
 public:
@@ -40,7 +42,7 @@ public:
     void copy() override;
 
 private:
-    void sendKeyPress(WORD modifier, WORD key);
+    void sendKeyPress(WORD modifier, WORD key, const AppConfig &config);
 
     HWND m_window;
 };

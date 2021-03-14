@@ -337,6 +337,13 @@ void ConfigurationManager::initOptions()
     bind<Config::native_menu_bar>();
 
     bind<Config::script_paste_delay_ms>();
+
+    bind<Config::window_paste_with_ctrl_v_regex>();
+    bind<Config::window_wait_before_raise_ms>();
+    bind<Config::window_wait_raised_ms>();
+    bind<Config::window_wait_after_raised_ms>();
+    bind<Config::window_key_press_time_ms>();
+    bind<Config::window_wait_for_modifiers_released_ms>();
 }
 
 template <typename Config, typename Widget>

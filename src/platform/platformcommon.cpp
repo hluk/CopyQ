@@ -21,9 +21,12 @@
 #include "platformwindow.h"
 
 #include "common/log.h"
+#include "common/appconfig.h"
 
+#include <QEventLoop>
 #include <QRegularExpression>
 #include <QSettings>
+#include <QTimer>
 
 namespace {
 
@@ -31,9 +34,10 @@ const QLatin1String optionName("paste_with_ctrl_v_windows");
 
 } // namespace
 
-bool pasteWithCtrlV(PlatformWindow &window)
+bool pasteWithCtrlV(PlatformWindow &window, const AppConfig &config)
 {
-    const auto pattern = QSettings().value(optionName).toString();
+    const auto value = config.option<Config::window_paste_with_ctrl_v_regex>();
+    const auto pattern = value.isEmpty() ? QSettings().value(optionName).toString() : value;
     if (pattern.isEmpty())
         return false;
 
@@ -55,4 +59,16 @@ bool pasteWithCtrlV(PlatformWindow &window)
     COPYQ_LOG(QString("Paste with Ctrl+V requested with option \"%1\" for window \"%2\".")
               .arg(optionName, windowTitle));
     return true;
+}
+
+void waitMs(int msec)
+{
+    if (msec <= 0)
+        return;
+
+    QEventLoop loop;
+    QTimer t;
+    QObject::connect(&t, &QTimer::timeout, &loop, &QEventLoop::quit);
+    t.start(msec);
+    loop.exec();
 }

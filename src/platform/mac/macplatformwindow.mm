@@ -19,7 +19,9 @@
 
 #include "macplatformwindow.h"
 
+#include "common/appconfig.h"
 #include "common/log.h"
+#include "platform/platformcommon.h"
 
 #include <AppKit/NSGraphics.h>
 #include <Cocoa/Cocoa.h>
@@ -269,11 +271,16 @@ void MacPlatformWindow::pasteClipboard()
         return;
     }
 
-    // Window MUST be raised, otherwise we can't send events to it
-    raise();
+    const AppConfig config;
 
-    // Paste after after 100ms, try 5 times
-    delayedSendShortcut(kVK_Command, kVK_ANSI_V, 100, 5, m_window);
+    // Window MUST be raised, otherwise we can't send events to it
+    waitMs(config.option<Config::window_wait_before_raise_ms>());
+    raise();
+    waitMs(config.option<Config::window_wait_after_raised_ms>());
+
+    // Paste after after a delay, try 5 times
+    const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
+    delayedSendShortcut(kVK_Command, kVK_ANSI_V, keyPressTimeMs, 5, m_window);
 }
 
 void MacPlatformWindow::copy()
@@ -283,9 +290,14 @@ void MacPlatformWindow::copy()
         return;
     }
 
-    // Window MUST be raised, otherwise we can't send events to it
-    raise();
+    const AppConfig config;
 
-    // Copy after after 100ms, try 5 times
-    delayedSendShortcut(kVK_Command, kVK_ANSI_C, 100, 5, m_window);
+    // Window MUST be raised, otherwise we can't send events to it
+    waitMs(config.option<Config::window_wait_before_raise_ms>());
+    raise();
+    waitMs(config.option<Config::window_wait_after_raised_ms>());
+
+    // Copy after after a delay, try 5 times
+    const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
+    delayedSendShortcut(kVK_Command, kVK_ANSI_C, keyPressTimeMs, 5, m_window);
 }

@@ -20,7 +20,9 @@
 #include "platform/platformcommon.h"
 #include "winplatformwindow.h"
 
+#include "common/appconfig.h"
 #include "common/log.h"
+#include "common/sleeptimer.h"
 
 #include <QApplication>
 #include <QElapsedTimer>
@@ -28,9 +30,6 @@
 #include <QVector>
 
 namespace {
-
-const int waitForModsReleaseMs = 25;
-const int maxWaitForModsReleaseMs = 2000;
 
 QString windowTitle(HWND window)
 {
@@ -128,15 +127,30 @@ bool isModifierPressed()
         || isKeyPressed(VK_MENU);
 }
 
-bool waitForModifiersReleased()
+bool waitForModifiersReleased(const AppConfig &config)
 {
-    for (int ms = 0; ms < maxWaitForModsReleaseMs; ms += waitForModsReleaseMs) {
-        if (!isModifierPressed())
-            return true;
-        Sleep(waitForModsReleaseMs);
+    const int maxWaitForModsReleaseMs = config.option<Config::window_wait_for_modifiers_released_ms>();
+    if (maxWaitForModsReleaseMs >= 0) {
+        SleepTimer t(maxWaitForModsReleaseMs);
+        while (t.sleep()) {
+            if (!isModifierPressed())
+                return true;
+        }
     }
 
-    return false;
+    return !isModifierPressed();
+}
+
+bool sendInputs(QVector<INPUT> input, HWND wnd)
+{
+    const UINT numberOfAddedEvents = SendInput( input.size(), input.data(), sizeof(INPUT) );
+    if (numberOfAddedEvents == 0u) {
+        logWindow("Failed to paste", wnd);
+        return false;
+    }
+
+    logWindow("Paste successful", wnd);
+    return true;
 }
 
 } // namespace
@@ -158,16 +172,20 @@ void WinPlatformWindow::raise()
 
 void WinPlatformWindow::pasteClipboard()
 {
-    if ( pasteWithCtrlV(*this) )
-        sendKeyPress(VK_LCONTROL, 'V');
+    const AppConfig config;
+
+    if ( pasteWithCtrlV(*this, config) )
+        sendKeyPress(VK_LCONTROL, 'V', config);
     else
-        sendKeyPress(VK_LSHIFT, VK_INSERT);
+        sendKeyPress(VK_LSHIFT, VK_INSERT, config);
 }
 
 void WinPlatformWindow::copy()
 {
+    const AppConfig config;
+
     const DWORD clipboardSequenceNumber = GetClipboardSequenceNumber();
-    sendKeyPress(VK_LCONTROL, 'C');
+    sendKeyPress(VK_LCONTROL, 'C', config);
 
     // Wait for clipboard to change.
     QElapsedTimer t;
@@ -176,27 +194,40 @@ void WinPlatformWindow::copy()
         QApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
-void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
+void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key, const AppConfig &config)
 {
-     if (!raiseWindow(m_window))
+    waitMs(config.option<Config::window_wait_before_raise_ms>());
+
+    if (!raiseWindow(m_window))
         return;
 
-    Sleep(150);
+    waitMs(config.option<Config::window_wait_after_raised_ms>());
 
     // Wait for user to release modifiers.
-    if (!waitForModifiersReleased())
+    if (!waitForModifiersReleased(config))
         return;
 
-    auto input = QVector<INPUT>()
-          << createInput(modifier)
-          << createInput(key)
-          << createInput(key, KEYEVENTF_KEYUP)
-          << createInput(modifier, KEYEVENTF_KEYUP);
+    const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
+    if (keyPressTimeMs <= 0) {
+        sendInputs({
+           createInput(modifier),
+           createInput(key),
+           createInput(key, KEYEVENTF_KEYUP),
+           createInput(modifier, KEYEVENTF_KEYUP)
+        }, m_window);
+    } else {
+        const bool sent = sendInputs({
+            createInput(modifier),
+            createInput(key)
+        }, m_window);
+        if (!sent)
+            return;
 
-    const UINT numberOfAddedEvents = SendInput( input.size(), input.data(), sizeof(INPUT) );
+        waitMs(keyPressTimeMs);
 
-    if (numberOfAddedEvents == 0u)
-        logWindow("Failed to paste", m_window);
-    else
-        logWindow("Paste successful", m_window);
+        sendInputs({
+           createInput(key, KEYEVENTF_KEYUP),
+           createInput(modifier, KEYEVENTF_KEYUP)
+        }, m_window);
+    }
 }
