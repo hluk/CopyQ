@@ -14,22 +14,24 @@ Most icons in the application are taken from theme by default (which
 currently works only on Linux) with fallback to built-in icons provided
 by `FontAwesome <http://fontawesome.io/>`__.
 
-Application logo was created in `Blender <https://www.blender.org/>`__
-(scene source is
-`here <https://github.com/hluk/CopyQ/blob/master/src/images/logo.blend>`__).
-
-The logo is used for bigger application icon. Smaller icons were created
-in `Inkscape <https://inkscape.org/>`__ (icon source is
-`here <https://github.com/hluk/CopyQ/blob/master/src/images/icon.svg>`__).
+The application logo and icons were created in `Inkscape
+<https://inkscape.org/>`__ (icon source is in `src/images/icon.svg
+<https://github.com/hluk/CopyQ/blob/master/src/images/icon.svg>`__).
 
 Application Processes
 ---------------------
 
-There are these system processes:
+There are these system processes related to CopyQ:
 
--  main GUI application
--  clipboard monitor (started from main application)
--  multiple clients (run scripts in main application)
+- Main GUI application
+- Clipboard monitor - executes automatic clipboard commands
+- Menu command filter - enables/hides custom menu items based on "Filter" field
+  in menu commands
+- Display command - executes display commands as needed
+- Clipboard and X11 selection owner and synchronization - provides clipboard
+  data; launched as needed
+- Multiple clients - anything run by user from Action dialog or triggered as
+  menu, automatic or global-shortcut command
 
 Main GUI Application
 ~~~~~~~~~~~~~~~~~~~~
@@ -68,8 +70,8 @@ syntax and functions as JavaScript).
 
 API is described in :ref:`scripting-api`.
 
-A script can be started by passing arguments to ``copyq``. This tells
-the server (main GUI application) to run the script.
+A script can be started by passing arguments to ``copyq``.
+For example: ``copyq "1+1"``
 
 After script finishes, the server sends back output of last command and
 exit code (non-zero if script crashes).
@@ -156,12 +158,12 @@ and ``platformNativeInterface()``.
 
 The implementations can contain:
 
--  creating Qt application objects
--  clipboard handling (for clipboard monitor)
--  focusing window and getting window titles
--  getting system paths
--  setting "autostart" option
--  handling global shortcuts (**note:** this part is in
+-  Creating Qt application objects
+-  Clipboard handling (for clipboard monitor)
+-  Focusing window and getting window titles
+-  Getting system paths
+-  Setting "autostart" option
+-  Handling global shortcuts (**note:** this part is in
    `qxt/ <https://github.com/hluk/CopyQ/tree/master/qxt>`__)
 
 For unsupported platforms there is `simple
