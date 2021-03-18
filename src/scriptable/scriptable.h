@@ -35,6 +35,7 @@
 class Action;
 class ClipboardBrowser;
 class ItemFactory;
+class NetworkReply;
 class ScriptableProxy;
 
 class QFile;
@@ -325,6 +326,8 @@ public slots:
 
     QJSValue networkGet();
     QJSValue networkPost();
+    QJSValue networkGetAsync();
+    QJSValue networkPostAsync();
 
     QJSValue env();
     QJSValue setEnv();
@@ -453,6 +456,9 @@ private:
 
     void interruptibleSleep(int msec);
 
+    NetworkReply *networkGetHelper();
+    NetworkReply *networkPostHelper();
+
     ScriptableProxy *m_proxy;
     QJSEngine *m_engine;
     QJSValue m_temporaryFileClass;
@@ -503,32 +509,30 @@ class NetworkReply final : public QObject {
     Q_PROPERTY(QJSValue headers READ headers CONSTANT)
 
 public:
-    static QJSValue get(const QString &url, Scriptable *scriptable);
-    static QJSValue post(const QString &url, const QByteArray &postData, Scriptable *scriptable);
+    static NetworkReply *get(const QString &url, Scriptable *scriptable);
+    static NetworkReply *post(const QString &url, const QByteArray &postData, Scriptable *scriptable);
 
     ~NetworkReply();
 
     QJSValue data();
 
-    QJSValue error() const;
+    QJSValue error();
 
-    QJSValue status() const;
-    QJSValue redirect() const;
+    QJSValue status();
+    QJSValue redirect();
     QJSValue headers();
+
+    QJSValue toScriptValue();
 
 private:
     explicit NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable);
 
-    QJSValue toScriptValue();
-
-    void fetchHeaders();
-
     Scriptable *m_scriptable;
     QNetworkAccessManager *m_manager;
     QNetworkReply *m_reply;
-    QNetworkReply *m_replyHead;
     QJSValue m_data;
     QJSValue m_self;
+    QByteArray m_rawData;
 };
 
 class ScriptablePlugins final : public QObject {

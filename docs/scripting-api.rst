@@ -925,6 +925,20 @@ omitted.
 
    Returns reply.
 
+.. js:function:: NetworkReply networkGetAsync(url)
+
+   Same as ``networkGet()`` but the request is asynchronous.
+
+   The request is handled asynchronously and may not be finished until you get
+   a property of the reply.
+
+.. js:function:: NetworkReply networkPostAsync(url, postData)
+
+   Same as ``networkPost()`` but the request is asynchronous.
+
+   The request is handled asynchronously and may not be finished until you get
+   a property of the reply.
+
 .. js:function:: ByteArray env(name)
 
    Returns value of environment variable with given name.
@@ -1296,6 +1310,7 @@ Types
    Properties are:
 
    -  ``data`` - reply data
+   -  ``status`` - HTTP status
    -  ``error`` - error string (set only if an error occurred)
    -  ``redirect`` - URL for redirection (set only if redirection is
       needed)
