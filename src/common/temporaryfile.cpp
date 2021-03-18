@@ -34,7 +34,7 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
         log( QString("Failed to open temporary file \"%1\" (template \"%2\")")
              .arg(file->fileName(), tmpPath),
              LogError );
-        return true;
+        return false;
     }
 
     if ( !file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner) ) {
