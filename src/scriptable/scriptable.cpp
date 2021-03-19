@@ -3720,6 +3720,11 @@ QJSValue NetworkReply::headers()
     return headers;
 }
 
+QJSValue NetworkReply::finished()
+{
+    return m_reply->isFinished();
+}
+
 NetworkReply::NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable)
     : QObject(scriptable)
     , m_scriptable(scriptable)

@@ -1316,6 +1316,8 @@ Types
       needed)
    -  ``headers`` - reply headers (array of pairs with header name and
       header content)
+   -  ``finished`` - true only if request has been completed, false only for
+     unfinished asynchronous requests
 
 .. js:class:: Command (Object)
 

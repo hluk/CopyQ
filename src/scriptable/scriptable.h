@@ -507,6 +507,7 @@ class NetworkReply final : public QObject {
     Q_PROPERTY(QJSValue status READ status CONSTANT)
     Q_PROPERTY(QJSValue redirect READ redirect CONSTANT)
     Q_PROPERTY(QJSValue headers READ headers CONSTANT)
+    Q_PROPERTY(QJSValue finished READ finished CONSTANT)
 
 public:
     static NetworkReply *get(const QString &url, Scriptable *scriptable);
@@ -521,6 +522,8 @@ public:
     QJSValue status();
     QJSValue redirect();
     QJSValue headers();
+
+    QJSValue finished();
 
     QJSValue toScriptValue();
 
