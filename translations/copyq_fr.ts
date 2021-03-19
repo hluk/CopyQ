@@ -351,7 +351,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
@@ -1342,7 +1342,7 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
@@ -1356,7 +1356,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si elle n&apos;est pas focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
@@ -1373,7 +1373,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <name>ConfigTabNotifications</name>
     <message>
         <source>&amp;Notification position:</source>
-        <translation type="vanished">Emplacement des &amp;notifications&#xa0;:</translation>
+        <translation type="vanished">Emplacement des &amp;notifications :</translation>
     </message>
     <message>
         <source>Position on screen for notifications</source>
@@ -1406,7 +1406,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Int&amp;ervalle en secondes pour afficher les notifications&#xa0;:</translation>
+        <translation>Int&amp;ervalle en secondes pour afficher les notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
@@ -1603,7 +1603,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="432"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>L&apos;option « %1&#xa0;» a une valeur invalide</translation>
+        <translation>L&apos;option « %1 » a une valeur invalide</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="579"/>
@@ -2268,7 +2268,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Enlever l&apos;étiquette des éléments avant de les supprimer.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2333,12 +2333,12 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquer</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Évitez de supprimer l&apos;élément</translation>
     </message>
 </context>
 <context>
@@ -2977,22 +2977,22 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Texte copié (%n ligne)</numerusform>
+            <numerusform>Texte copié (%n lignes)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Texte copié</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Donnée copiée</translation>
     </message>
 </context>
 <context>
@@ -3334,32 +3334,32 @@ Utilisez %1 dans PROGRAMME pour passer du texte comme argument.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Évaluer le script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarre ou se connecte à l&apos;instance de l&apos;application avec le nom de session donné.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Montre l&apos;aide pour COMMAND ou pour toutes les commandes.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Affiche la version du programme et des bibliothèques.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarre le serveur en arrière-plan avant d&apos;exécuter une commande.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1507"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation>Option incorrecte « %1 »&#xa0;!</translation>
+        <translation>Option incorrecte « %1 » !</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3423,7 +3423,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="846"/>
         <location filename="../src/scriptable/scriptable.cpp" line="881"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Gestionnaire de presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2917"/>
@@ -3554,22 +3554,22 @@ Affiche la version du programme et de ses bibliothèques.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation type="unfinished"></translation>
+        <translation>Global</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les raccourcis globaux peuvent être déclenchés à partir de n&apos;importe quelle application.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation type="unfinished"></translation>
+        <translation>Application</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les raccourcis d&apos;application ne peuvent être déclenchés qu&apos;à partir de la fenêtre principale.</translation>
     </message>
 </context>
 <context>
@@ -3609,17 +3609,17 @@ Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescen
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre maximum d&apos;éléments :</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>par défaut</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer éléments</translation>
     </message>
 </context>
 <context>
