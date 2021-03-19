@@ -3908,6 +3908,14 @@ void Tests::networkGet()
     RUN("r = networkGet('https://example.com'); r.data; r.status", "200\n");
 }
 
+void Tests::networkGetPostAsync()
+{
+    RUN("r = networkGetAsync('copyq-test://example.com'); print([r.finished,r.error,r.finished])",
+        "false,Protocol \"copyq-test\" is unknown,true");
+    RUN("r = networkPostAsync('copyq-test://example.com'); print([r.finished,r.error,r.finished])",
+        "false,Protocol \"copyq-test\" is unknown,true");
+}
+
 void Tests::pluginNotInstalled()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)

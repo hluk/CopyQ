@@ -282,6 +282,7 @@ private slots:
     void changeAlwaysOnTop();
 
     void networkGet();
+    void networkGetPostAsync();
 
     void pluginNotInstalled();
 
