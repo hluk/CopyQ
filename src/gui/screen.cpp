@@ -25,6 +25,8 @@ int screenNumberAt(const QPoint &pos)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     auto screen = QGuiApplication::screenAt(pos);
+    if (screen == nullptr)
+        screen = QGuiApplication::primaryScreen();
     return QGuiApplication::screens().indexOf(screen);
 #else
     return QApplication::desktop()->screenNumber(pos);
