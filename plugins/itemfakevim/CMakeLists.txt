@@ -6,13 +6,12 @@ file(GLOB copyq_plugin_itemfakevim_external_SOURCES
     fakevim/utils/*.cpp
     )
 
-include_directories(fakevim)
-
-add_definitions( -DFAKEVIM_STANDALONE -DQTCREATOR_UTILS_STATIC_LIB )
 set(copyq_plugin_itemfakevim_DEFINITIONS
-    FAKEVIM_STANDALONE
+    QT_NO_CAST_TO_ASCII
+    QT_RESTRICTED_CAST_FROM_ASCII
     QTCREATOR_UTILS_STATIC_LIB)
 
 set(copyq_plugin_itemfakevim_RESOURCES itemfakevim.qrc)
 
 copyq_add_plugin(itemfakevim)
+target_include_directories(itemfakevim SYSTEM PRIVATE fakevim)

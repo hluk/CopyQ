@@ -25,6 +25,12 @@
 
 #pragma once
 
+#define FAKEVIM_STANDALONE
+
+#ifdef FAKEVIM_STANDALONE
+#   include "private/fakevim_export.h"
+#endif
+
 #include <QObject>
 #include <QTextEdit>
 
@@ -45,7 +51,7 @@ enum RangeMode
     RangeBlockAndTailMode // Ctrl-v for D and X
 };
 
-struct Range
+struct FAKEVIM_EXPORT Range
 {
     Range() = default;
     Range(int b, int e, RangeMode m = RangeCharMode);
@@ -57,7 +63,7 @@ struct Range
     RangeMode rangemode = RangeCharMode;
 };
 
-struct ExCommand
+struct FAKEVIM_EXPORT ExCommand
 {
     ExCommand() = default;
     ExCommand(const QString &cmd, const QString &args = QString(),
@@ -84,7 +90,7 @@ enum MessageLevel
 };
 
 template <typename Type>
-class Signal final
+class Signal
 {
 public:
     using Callable = std::function<Type>;
@@ -102,7 +108,7 @@ private:
     std::vector<Callable> m_callables;
 };
 
-class FakeVimHandler final : public QObject
+class FAKEVIM_EXPORT FakeVimHandler : public QObject
 {
     Q_OBJECT
 

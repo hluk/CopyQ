@@ -1,0 +1,1 @@
+#define FAKEVIM_EXPORT
