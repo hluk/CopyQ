@@ -6,7 +6,7 @@ This page describes application processes and source code.
 Applications, Frameworks and Libraries
 --------------------------------------
 
-The application is written in C++11 and uses Qt framework.
+The application is written in C++17 and uses Qt framework.
 
 Source code can be build either with CMake.
 
