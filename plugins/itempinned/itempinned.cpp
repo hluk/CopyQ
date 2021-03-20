@@ -78,7 +78,7 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
 void ItemPinned::paintEvent(QPaintEvent *paintEvent)
 {
     const auto *parent = parentWidget();
-    auto color = parent->palette().color(QPalette::Background);
+    auto color = parent->palette().color(QPalette::Window);
     const int lightThreshold = 100;
     const bool menuBackgrounIsLight = color.lightness() > lightThreshold;
     color.setHsl(

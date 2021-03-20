@@ -147,8 +147,6 @@ void ItemNotes::setCurrent(bool current)
 
     m_isCurrent = current;
 
-    ItemWidget::setCurrent(current);
-
     if (m_timerShowToolTip == nullptr)
         return;
 
