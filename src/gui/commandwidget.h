@@ -70,11 +70,16 @@ private:
 
     void updateWidgets();
 
+    void updateShowAdvanced();
+
+    void setShowAdvanced(bool showAdvanced);
+
     void emitIconChanged();
 
     QString description() const;
 
     Ui::CommandWidget *ui;
+    bool m_showAdvanced = true;
 };
 
 #endif // COMMANDWIDGET_H

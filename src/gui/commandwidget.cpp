@@ -86,6 +86,11 @@ CommandWidget::CommandWidget(QWidget *parent)
                 this, &CommandWidget::updateWidgets);
     }
 
+    for (auto button : findChildren<QToolButton *>()) {
+        connect(button, &QToolButton::toggled,
+                this, &CommandWidget::updateWidgets);
+    }
+
     for (auto lineEdit : findChildren<QLineEdit *>()) {
         connect(lineEdit, &QLineEdit::textEdited,
                 this, &CommandWidget::updateWidgets);
@@ -104,16 +109,16 @@ CommandWidget::CommandWidget(QWidget *parent)
     updateWidgets();
 
 #ifdef NO_GLOBAL_SHORTCUTS
-    ui->checkBoxGlobalShortcut->hide();
+    ui->toolButtonGlobalShortcut->hide();
     ui->shortcutButtonGlobalShortcut->hide();
 #else
-    ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
+    ui->toolButtonGlobalShortcut->setIcon(iconShortcut());
 #endif
 
-    ui->checkBoxAutomatic->setIcon(iconClipboard());
-    ui->checkBoxInMenu->setIcon(iconMenu());
-    ui->checkBoxIsScript->setIcon(iconScript());
-    ui->checkBoxDisplay->setIcon(iconDisplay());
+    ui->toolButtonAutomatic->setIcon(iconClipboard());
+    ui->toolButtonInMenu->setIcon(iconMenu());
+    ui->toolButtonIsScript->setIcon(iconScript());
+    ui->toolButtonDisplay->setIcon(iconDisplay());
 
     // Add tab names to combo boxes.
     initTabComboBox(ui->comboBoxCopyToTab);
@@ -140,11 +145,11 @@ Command CommandWidget::command() const
     c.input  = ui->comboBoxInputFormat->currentText();
     c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
-    c.automatic = ui->checkBoxAutomatic->isChecked();
-    c.display = ui->checkBoxDisplay->isChecked();
-    c.inMenu  = ui->checkBoxInMenu->isChecked();
-    c.isGlobalShortcut  = ui->checkBoxGlobalShortcut->isChecked();
-    c.isScript  = ui->checkBoxIsScript->isChecked();
+    c.automatic = ui->toolButtonAutomatic->isChecked();
+    c.display = ui->toolButtonDisplay->isChecked();
+    c.inMenu  = ui->toolButtonInMenu->isChecked();
+    c.isGlobalShortcut  = ui->toolButtonGlobalShortcut->isChecked();
+    c.isScript  = ui->toolButtonIsScript->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
     c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
@@ -169,11 +174,11 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxInputFormat->setEditText(c.input);
     ui->comboBoxOutputFormat->setEditText(c.output);
     ui->checkBoxWait->setChecked(c.wait);
-    ui->checkBoxAutomatic->setChecked(c.automatic);
-    ui->checkBoxDisplay->setChecked(c.display);
-    ui->checkBoxInMenu->setChecked(c.inMenu);
-    ui->checkBoxGlobalShortcut->setChecked(c.isGlobalShortcut);
-    ui->checkBoxIsScript->setChecked(c.isScript);
+    ui->toolButtonAutomatic->setChecked(c.automatic);
+    ui->toolButtonDisplay->setChecked(c.display);
+    ui->toolButtonInMenu->setChecked(c.inMenu);
+    ui->toolButtonGlobalShortcut->setChecked(c.isGlobalShortcut);
+    ui->toolButtonIsScript->setChecked(c.isScript);
     ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
@@ -197,7 +202,7 @@ void CommandWidget::setFormats(const QStringList &formats)
 
 void CommandWidget::showEvent(QShowEvent *event)
 {
-    AppConfig appConfig;
+    const AppConfig appConfig;
     const bool showAdvanced = appConfig.option<Config::show_advanced_command_settings>();
     ui->checkBoxShowAdvanced->setChecked(showAdvanced);
 
@@ -216,11 +221,7 @@ void CommandWidget::onButtonIconCurrentIconChanged()
 
 void CommandWidget::onCheckBoxShowAdvancedStateChanged(int state)
 {
-    const bool showAdvanced = state == Qt::Checked;
-    AppConfig appConfig;
-    appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
-    ui->tabWidget->setVisible(showAdvanced);
-    ui->labelDescription->setVisible(showAdvanced);
+    setShowAdvanced(state == Qt::Checked);
 }
 
 void CommandWidget::onCommandEditCommandTextChanged(const QString &command)
@@ -230,18 +231,18 @@ void CommandWidget::onCommandEditCommandTextChanged(const QString &command)
 
 void CommandWidget::updateWidgets()
 {
-    const bool isScript = ui->checkBoxIsScript->isChecked();
+    const bool isScript = ui->toolButtonIsScript->isChecked();
     const bool isAutomatic = !isScript
-            && (ui->checkBoxAutomatic->isChecked() || ui->checkBoxDisplay->isChecked());
-    const bool inMenu = !isScript && ui->checkBoxInMenu->isChecked();
-    const bool isGlobalShortcut = !isScript && ui->checkBoxGlobalShortcut->isChecked();
+            && (ui->toolButtonAutomatic->isChecked() || ui->toolButtonDisplay->isChecked());
+    const bool inMenu = !isScript && ui->toolButtonInMenu->isChecked();
+    const bool isGlobalShortcut = !isScript && ui->toolButtonGlobalShortcut->isChecked();
     const bool copyOrExecute = inMenu || isAutomatic;
 
-    ui->checkBoxAutomatic->setVisible(!isScript);
-    ui->checkBoxDisplay->setVisible(!isScript);
-    ui->checkBoxInMenu->setVisible(!isScript);
-    ui->checkBoxGlobalShortcut->setVisible(!isScript);
-    ui->checkBoxIsScript->setVisible(!isAutomatic && !inMenu && !isGlobalShortcut);
+    ui->toolButtonAutomatic->setVisible(!isScript);
+    ui->toolButtonDisplay->setVisible(!isScript);
+    ui->toolButtonInMenu->setVisible(!isScript);
+    ui->toolButtonGlobalShortcut->setVisible(!isScript);
+    ui->toolButtonIsScript->setVisible(!isAutomatic && !inMenu && !isGlobalShortcut);
 
     ui->widgetGlobalShortcut->setVisible(isGlobalShortcut);
     ui->widgetMenuShortcut->setVisible(inMenu);
@@ -253,7 +254,34 @@ void CommandWidget::updateWidgets()
 
     ui->labelDescription->setText(description());
 
+    updateShowAdvanced();
+
     emitIconChanged();
+}
+
+void CommandWidget::updateShowAdvanced()
+{
+    ui->tabWidget->setVisible(m_showAdvanced);
+    ui->labelDescription->setVisible(m_showAdvanced);
+
+    // Hide the Advanced tab if there are no visible widgets.
+    const auto advancedTabWidgets = ui->tabAdvanced->findChildren<QGroupBox*>();
+    const auto showAdvancedTab = std::any_of(
+        std::begin(advancedTabWidgets), std::end(advancedTabWidgets), [](const QGroupBox *w) {
+            return !w->isHidden();
+        });
+    ui->tabWidget->setTabEnabled(1, showAdvancedTab);
+}
+
+void CommandWidget::setShowAdvanced(bool showAdvanced)
+{
+    if (m_showAdvanced == showAdvanced)
+        return;
+
+    m_showAdvanced = showAdvanced;
+    AppConfig appConfig;
+    appConfig.setOption(Config::show_advanced_command_settings::name(), showAdvanced);
+    updateShowAdvanced();
 }
 
 void CommandWidget::emitIconChanged()

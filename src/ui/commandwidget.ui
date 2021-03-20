@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>297</width>
-    <height>770</height>
+    <width>453</width>
+    <height>655</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -46,6 +46,103 @@
       <widget class="IconSelectButton" name="buttonIcon"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QWidget" name="widget_2" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_9">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Type:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonAutomatic">
+        <property name="toolTip">
+         <string>Run the command automatically if clipboard has new content</string>
+        </property>
+        <property name="text">
+         <string extracomment="Type of command; triggered by whenever clipboard changes">Auto&amp;matic</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonInMenu">
+        <property name="toolTip">
+         <string>Show command in context menu of matching items</string>
+        </property>
+        <property name="text">
+         <string extracomment="Type of command; triggered by a custom application shortcut">In M&amp;enu</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonGlobalShortcut">
+        <property name="text">
+         <string extracomment="Type of command; triggered by a custom global/system shortcut">Global Shortcut</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonIsScript">
+        <property name="text">
+         <string extracomment="Type of command; allows to extend scripting capabilities">Script</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButtonDisplay">
+        <property name="text">
+         <string extracomment="Type of command; allows change how items are displayed">Display</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextBesideIcon</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QWidget" name="widgetMenuShortcut" native="true">
@@ -138,6 +235,9 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <property name="tabBarAutoHide">
+      <bool>true</bool>
+     </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
        <string>Comman&amp;d</string>
@@ -197,84 +297,13 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>277</width>
-            <height>564</height>
+            <width>437</width>
+            <height>412</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item alignment="Qt::AlignTop">
-              <widget class="QGroupBox" name="groupBox_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="title">
-                <string>Type of Action</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_5">
-                <property name="spacing">
-                 <number>2</number>
-                </property>
-                <property name="leftMargin">
-                 <number>4</number>
-                </property>
-                <property name="topMargin">
-                 <number>4</number>
-                </property>
-                <property name="rightMargin">
-                 <number>4</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>4</number>
-                </property>
-                <item>
-                 <widget class="QCheckBox" name="checkBoxAutomatic">
-                  <property name="toolTip">
-                   <string>Run the command automatically if clipboard has new content</string>
-                  </property>
-                  <property name="text">
-                   <string extracomment="Type of command; triggered by whenever clipboard changes">Auto&amp;matic</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="checkBoxInMenu">
-                  <property name="toolTip">
-                   <string>Show command in context menu of matching items</string>
-                  </property>
-                  <property name="text">
-                   <string extracomment="Type of command; triggered by a custom application shortcut">In M&amp;enu</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="checkBoxGlobalShortcut">
-                  <property name="text">
-                   <string extracomment="Type of command; triggered by a custom global/system shortcut">Global Shortcut</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="checkBoxIsScript">
-                  <property name="text">
-                   <string extracomment="Type of command; allows to extend scripting capabilities">Script</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="checkBoxDisplay">
-                  <property name="text">
-                   <string extracomment="Type of command; allows change how items are displayed">Display</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
              <item alignment="Qt::AlignTop">
               <widget class="QGroupBox" name="groupBoxMatchItems">
                <property name="sizePolicy">
@@ -721,14 +750,14 @@ Note: If this is applied automatically, no other automatic commands are executed
  <tabstops>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
+  <tabstop>toolButtonAutomatic</tabstop>
+  <tabstop>toolButtonInMenu</tabstop>
+  <tabstop>toolButtonGlobalShortcut</tabstop>
+  <tabstop>toolButtonIsScript</tabstop>
+  <tabstop>toolButtonDisplay</tabstop>
   <tabstop>shortcutButton</tabstop>
   <tabstop>shortcutButtonGlobalShortcut</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>checkBoxAutomatic</tabstop>
-  <tabstop>checkBoxInMenu</tabstop>
-  <tabstop>checkBoxGlobalShortcut</tabstop>
-  <tabstop>checkBoxIsScript</tabstop>
-  <tabstop>checkBoxDisplay</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
