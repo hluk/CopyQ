@@ -212,7 +212,9 @@ void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_typ
 {
     QFile c;
     QString send_mime_type = mime_type;
-    if(send_mime_type == QStringLiteral("text/plain;charset=utf-8")) {
+    if( send_mime_type == QStringLiteral("text/plain;charset=utf-8")
+        && !m_mimeData->hasFormat(QStringLiteral("text/plain;charset=utf-8")) )
+    {
         // if we get a request on the fallback mime, send the data from the original mime type
         send_mime_type = QStringLiteral("text/plain");
     }
