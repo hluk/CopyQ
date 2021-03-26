@@ -54,7 +54,7 @@ private:
         QByteArray newOwner;
         QTimer timerEmitChange;
         QStringList formats;
-        QByteArray newDataTimestamp;
+        quint32 newDataTimestamp;
         ClipboardMode mode;
         bool enabled = true;
         bool cloningData = false;

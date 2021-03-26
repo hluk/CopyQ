@@ -268,9 +268,18 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
     clipboardData->retry = 0;
 
-    const auto newDataTimestamp = data->data(QLatin1String("TIMESTAMP"));
+    const QByteArray newDataTimestampData = data->data(QLatin1String("TIMESTAMP"));
+    quint32 newDataTimestamp = 0;
+    if ( !newDataTimestampData.isEmpty() ) {
+        QDataStream stream(newDataTimestampData);
+        stream.setByteOrder(QDataStream::LittleEndian);
+        stream >> newDataTimestamp;
+        if (stream.status() != QDataStream::Ok)
+            newDataTimestamp = 0;
+    }
+
     // In case there is a timestamp, omit update if it did not change.
-    if ( !newDataTimestamp.isEmpty() && clipboardData->newDataTimestamp == newDataTimestamp )
+    if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp )
         return;
 
     clipboardData->timerEmitChange.stop();
@@ -285,7 +294,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
 
     // In case there is no timestamp, update only if the data changed.
-    if ( newDataTimestamp.isEmpty() && clipboardData->data == clipboardData->newData )
+    if ( newDataTimestamp == 0 && clipboardData->data == clipboardData->newData )
         return;
 
     clipboardData->newDataTimestamp = newDataTimestamp;
