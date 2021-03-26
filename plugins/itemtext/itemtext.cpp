@@ -71,21 +71,6 @@ bool getRichText(const QVariantMap &dataMap, QString *text)
     return false;
 }
 
-bool getText(const QVariantMap &dataMap, QString *text)
-{
-    if ( dataMap.contains(mimeText) ) {
-        *text = getTextData(dataMap, mimeText);
-        return true;
-    }
-
-    if ( dataMap.contains(mimeUriList) ) {
-        *text = getTextData(dataMap, mimeUriList);
-        return true;
-    }
-
-    return false;
-}
-
 QString normalizeText(QString text)
 {
     removeTrailingNull(&text);
@@ -253,8 +238,8 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
     const bool isRichText = m_settings.value(optionUseRichText, true).toBool()
             && getRichText(data, &richText);
 
-    QString text;
-    const bool isPlainText = getText(data, &text);
+    QString text = getTextData(data);
+    const bool isPlainText = !text.isEmpty();
 
     if (!isRichText && !isPlainText)
         return nullptr;
@@ -288,8 +273,8 @@ ItemWidget *ItemTextLoader::create(const QVariantMap &data, QWidget *parent, boo
 QStringList ItemTextLoader::formatsToSave() const
 {
     return m_settings.value(optionUseRichText, true).toBool()
-            ? QStringList(mimeText) << mimeHtml
-            : QStringList(mimeText);
+            ? QStringList{mimeText, mimeTextUtf8, mimeHtml}
+            : QStringList{mimeText, mimeTextUtf8};
 }
 
 QVariantMap ItemTextLoader::applySettings()

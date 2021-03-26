@@ -22,6 +22,7 @@
 #include <QLatin1String>
 
 const QLatin1String mimeText("text/plain");
+const QLatin1String mimeTextUtf8("text/plain;charset=utf-8");
 const QLatin1String mimeHtml("text/html");
 const QLatin1String mimeUriList("text/uri-list");
 const QLatin1String mimeWindowTitle(COPYQ_MIME_PREFIX "owner-window-title");

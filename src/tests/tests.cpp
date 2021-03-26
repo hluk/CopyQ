@@ -2413,6 +2413,7 @@ void Tests::clipboardToItem()
     TEST( m_test->setClipboard("TEXT1") );
     RUN("clipboard", "TEXT1");
     WAIT_ON_OUTPUT("read" << "0", "TEXT1");
+    RUN("read" << "?" << "0", "text/plain\n");
 
     TEST( m_test->setClipboard("DATA1", "DATA") );
     WAIT_ON_OUTPUT("clipboard" << "DATA", "DATA1");
@@ -3257,6 +3258,8 @@ void Tests::automaticCommandIgnore()
 
     TEST( m_test->setClipboard("SHOULD BE IGNORED 1") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
+    RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,,");
+    RUN("size", "1\n");
 
     TEST( m_test->setClipboard("SHOULD BE IGNORED 2") );
     WAIT_ON_OUTPUT("size", "2\n");

@@ -385,6 +385,10 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
         }
     }
 
+    // Drop duplicate UTF-8 text format.
+    if ( newdata.contains(mimeTextUtf8) && newdata[mimeTextUtf8] == newdata.value(mimeText) )
+        newdata.remove(mimeTextUtf8);
+
     return newdata;
 }
 

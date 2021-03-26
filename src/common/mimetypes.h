@@ -23,6 +23,7 @@ class QLatin1String;
 
 #define COPYQ_MIME_PREFIX "application/x-copyq-"
 extern const QLatin1String mimeText;
+extern const QLatin1String mimeTextUtf8;
 extern const QLatin1String mimeHtml;
 extern const QLatin1String mimeUriList;
 extern const QLatin1String mimeWindowTitle;

@@ -118,7 +118,9 @@ public:
     DummyItem(const QVariantMap &data, QWidget *parent, bool preview)
         : QLabel(parent)
         , ItemWidget(this)
-        , m_hasText( data.contains(mimeText) || data.contains(mimeUriList) )
+        , m_hasText( data.contains(mimeText)
+                  || data.contains(mimeTextUtf8)
+                  || data.contains(mimeUriList) )
         , m_data(data)
         , m_preview(preview)
     {
@@ -368,6 +370,8 @@ QStringList ItemFactory::formatsToSave() const
         formats.append(mimeItemNotes);
     if ( !formats.contains(mimeItems) )
         formats.append(mimeItems);
+    if ( !formats.contains(mimeTextUtf8) )
+        formats.append(mimeTextUtf8);
 
     return formats;
 }
