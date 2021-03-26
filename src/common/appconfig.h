@@ -380,8 +380,10 @@ struct window_wait_after_raised_ms : Config<int> {
     static QString name() { return "window_wait_after_raised_ms"; }
 #ifdef Q_OS_WIN
     static Value defaultValue() { return 150; }
-#else
+#elif defined(Q_OS_MAC)
     static Value defaultValue() { return 0; }
+#else
+    static Value defaultValue() { return 50; }
 #endif
 };
 
