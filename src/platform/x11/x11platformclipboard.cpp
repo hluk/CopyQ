@@ -152,6 +152,15 @@ const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
     if ( QX11Info::isPlatformX11() )
         return DummyClipboard::mimeData(mode);
 
+    // Avoid deadlock by providing own clipboard using Qt
+    // and not using pipes in WaylandClipboard.
+    if ( mode == ClipboardMode::Clipboard
+         ? QGuiApplication::clipboard()->ownsClipboard()
+         : QGuiApplication::clipboard()->ownsSelection() )
+    {
+        return DummyClipboard::mimeData(mode);
+    }
+
     auto clipboard = SystemClipboard::instance();
     if (clipboard == nullptr)
         return nullptr;
