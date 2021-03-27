@@ -190,6 +190,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         m_actionDataToSend.clear();
     });
 
+    initSingleShotTimer(&m_updateThemeTimer, 1000, this, &ClipboardServer::loadSettings);
+
     startMonitoring();
 
     callback("onStart");
@@ -633,6 +635,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
             COPYQ_LOG( QString("Saving items on application state change (%1)").arg(state) );
             m_wnd->saveTabs();
         }
+    } else if (type == QEvent::ThemeChange) {
+        if ( !m_updateThemeTimer.isActive() )
+            COPYQ_LOG("Got theme change event");
+        m_updateThemeTimer.start();
     }
 
     return false;

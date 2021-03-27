@@ -142,6 +142,7 @@ private:
     bool m_ignoreNewConnections = false;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QTimer m_ignoreKeysTimer;
+    QTimer m_updateThemeTimer;
     uint m_monitorCommandsStateHash = 0;
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
