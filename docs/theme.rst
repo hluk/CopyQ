@@ -56,6 +56,48 @@ configuration dialog and click OK button.
 You can set ``COPYQ_THEME_PREFIX`` environment variable for the preferred path
 for CSS files.
 
+CSS files can contain placeholders like ``${bg}`` which are defined in theme
+configuration file. You can edit this file in Appearance configuration tab with
+"Edit Theme" button.
+
+Placeholder can be assigned to colors in following formats:
+
+- ``#RGB`` (each of R, G, and B is a single hex digit)
+- ``#RRGGBB``
+- ``#AARRGGBB`` (with alpha channel)
+- `a color name <https://www.w3.org/TR/SVG11/types.html#ColorKeywords>`__
+- ``transparent``
+- ``rgba(R,G,B,A)`` (each of R, G, and B is 0-255, A is alpha channel 0.0-1.0)
+
+There are extra color names for current system theme:
+
+- ``default_bg`` - background for list and line/text edit widgets
+- ``default_text`` - foreground color for the above
+- ``default_placeholder_text`` - placeholder text color
+- ``default_alt_bg`` - alternative item background
+- ``default_highlight_bg`` - highlight background
+- ``default_highlight_text`` - highlighted text color
+- ``default_tooltip_bg`` - tooltip background
+- ``default_tooltip_text`` - tooltip text color
+- ``default_window`` - window background
+- ``default_window_text`` - window text color
+- ``default_button`` - button background
+- ``default_button_text`` - button text color
+- ``default_bright_text`` - bright window text color
+- ``default_light`` - lighter than button
+- ``default_midlight`` - between button and light
+- ``default_dark`` - darker than button
+- ``default_mid`` - between button and dark
+- ``default_shadow`` - very dark
+- ``default_link`` - hyperlink color
+- ``default_link_visited`` - visited hyperlink color
+
+Placeholder can be also assigned color expressions, for example:
+
+- ``sel_bg=bg + #000409 - #100``
+- ``menu_bar_css="background: ${bg}; color: ${fg + #444}"``
+- ``${bg + #333}`` (directly in CSS)
+
 Here are some special placeholders for CSS files:
 
 - ``${css:scrollbar}`` - include ``scrollbar.css`` style sheet.
