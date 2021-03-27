@@ -37,6 +37,55 @@
 
 namespace {
 
+const QLatin1String defaultColorVarBase("default_bg");
+const QLatin1String defaultColorVarText("default_text");
+const QLatin1String defaultColorVarPlaceholderText("default_placeholder_text");
+const QLatin1String defaultColorVarAlternateBase("default_alt_bg");
+const QLatin1String defaultColorVarHighlight("default_highlight_bg");
+const QLatin1String defaultColorVarHighlightText("default_highlight_text");
+const QLatin1String defaultColorVarToolTipBase("default_tooltip_bg");
+const QLatin1String defaultColorVarToolTipText("default_tooltip_text");
+const QLatin1String defaultColorVarWindow("default_window");
+const QLatin1String defaultColorVarWindowText("default_window_text");
+const QLatin1String defaultColorVarButton("default_button");
+const QLatin1String defaultColorVarButtonText("default_button_text");
+const QLatin1String defaultColorVarBrightText("default_bright_text");
+const QLatin1String defaultColorVarLight("default_light");
+const QLatin1String defaultColorVarMidlight("default_midlight");
+const QLatin1String defaultColorVarDark("default_dark");
+const QLatin1String defaultColorVarMid("default_mid");
+const QLatin1String defaultColorVarShadow("default_shadow");
+const QLatin1String defaultColorLink("default_link");
+const QLatin1String defaultColorLinkVisited("default_link_visited");
+
+QPalette::ColorRole defaultColorVarToRole(const QString &varName)
+{
+    static QHash<QString, QPalette::ColorRole> map = {
+        {defaultColorVarBase, QPalette::Base},
+        {defaultColorVarText, QPalette::Text},
+        {defaultColorVarPlaceholderText, QPalette::PlaceholderText},
+        {defaultColorVarAlternateBase, QPalette::AlternateBase},
+        {defaultColorVarHighlight, QPalette::Highlight},
+        {defaultColorVarHighlightText, QPalette::HighlightedText},
+        {defaultColorVarToolTipBase, QPalette::ToolTipBase},
+        {defaultColorVarToolTipText, QPalette::ToolTipText},
+        {defaultColorVarWindow, QPalette::Window},
+        {defaultColorVarWindowText, QPalette::WindowText},
+        {defaultColorVarButton, QPalette::Button},
+        {defaultColorVarButtonText, QPalette::ButtonText},
+        {defaultColorVarBrightText, QPalette::BrightText},
+        {defaultColorVarLight, QPalette::Light},
+        {defaultColorVarMidlight, QPalette::Midlight},
+        {defaultColorVarDark, QPalette::Dark},
+        {defaultColorVarMid, QPalette::Mid},
+        {defaultColorVarShadow, QPalette::Shadow},
+        {defaultColorLink, QPalette::Link},
+        {defaultColorLinkVisited, QPalette::LinkVisited},
+    };
+    const auto it = map.find(varName);
+    return (it == std::end(map)) ? QPalette::NoRole : it.value();
+}
+
 double normalizeFactor(double value)
 {
     return qBound( 0.0, value, 1.0 );
@@ -77,6 +126,9 @@ void addColor(
         toAdd = deserializeColor(color);
         if ( !toAdd.isValid() )
             toAdd = QColor(Qt::black);
+    } else if ( color.startsWith(QStringLiteral("default_")) ) {
+        const QPalette::ColorRole role = defaultColorVarToRole(color);
+        toAdd = QPalette().color(role);
     } else if (maxRecursion > 0) {
         const QVariant v = values.contains(color)
                 ? values.value(color) : theme.value(color);
@@ -337,28 +389,18 @@ bool Theme::isAntialiasingEnabled() const
 
 void Theme::resetTheme()
 {
-    QString name;
-    QPalette p;
-    name = serializeColor( p.color(QPalette::Base) );
-    m_theme["bg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorBg : nullptr);
-    m_theme["edit_bg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorBg : nullptr);
-    name = serializeColor( p.color(QPalette::Text) );
-    m_theme["fg"]          = Option(name, "VALUE", ui ? ui->pushButtonColorFg : nullptr);
-    m_theme["edit_fg"]     = Option(name, "VALUE", ui ? ui->pushButtonColorEditorFg : nullptr);
-    name = serializeColor( p.color(QPalette::Text).lighter(400) );
-    m_theme["num_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorNumberFg : nullptr);
-    name = serializeColor( p.color(QPalette::AlternateBase) );
-    m_theme["alt_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorAltBg : nullptr);
-    name = serializeColor( p.color(QPalette::Highlight) );
-    m_theme["sel_bg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelBg : nullptr);
-    name = serializeColor( p.color(QPalette::HighlightedText) );
-    m_theme["sel_fg"]      = Option(name, "VALUE", ui ? ui->pushButtonColorSelFg : nullptr);
-    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui ? ui->pushButtonColorFoundBg : nullptr);
-    m_theme["find_fg"]     = Option("#000", "VALUE", ui ? ui->pushButtonColorFoundFg : nullptr);
-    name = serializeColor( p.color(QPalette::ToolTipBase) );
-    m_theme["notes_bg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesBg : nullptr);
-    name = serializeColor( p.color(QPalette::ToolTipText) );
-    m_theme["notes_fg"]  = Option(name, "VALUE", ui ? ui->pushButtonColorNotesFg : nullptr);
+    m_theme["bg"]        = Option(defaultColorVarBase, "VALUE", ui ? ui->pushButtonColorBg : nullptr);
+    m_theme["edit_bg"]   = Option(defaultColorVarBase, "VALUE", ui ? ui->pushButtonColorEditorBg : nullptr);
+    m_theme["fg"]        = Option(defaultColorVarText, "VALUE", ui ? ui->pushButtonColorFg : nullptr);
+    m_theme["edit_fg"]   = Option(defaultColorVarText, "VALUE", ui ? ui->pushButtonColorEditorFg : nullptr);
+    m_theme["num_fg"]    = Option(defaultColorVarPlaceholderText, "VALUE", ui ? ui->pushButtonColorNumberFg : nullptr);
+    m_theme["alt_bg"]    = Option(defaultColorVarAlternateBase, "VALUE", ui ? ui->pushButtonColorAltBg : nullptr);
+    m_theme["sel_bg"]    = Option(defaultColorVarHighlight, "VALUE", ui ? ui->pushButtonColorSelBg : nullptr);
+    m_theme["sel_fg"]    = Option(defaultColorVarHighlightText, "VALUE", ui ? ui->pushButtonColorSelFg : nullptr);
+    m_theme["find_bg"]   = Option("#ff0", "VALUE", ui ? ui->pushButtonColorFoundBg : nullptr);
+    m_theme["find_fg"]   = Option("#000", "VALUE", ui ? ui->pushButtonColorFoundFg : nullptr);
+    m_theme["notes_bg"]  = Option(defaultColorVarToolTipBase, "VALUE", ui ? ui->pushButtonColorNotesBg : nullptr);
+    m_theme["notes_fg"]  = Option(defaultColorVarToolTipText, "VALUE", ui ? ui->pushButtonColorNotesFg : nullptr);
     m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui ? ui->pushButtonColorNotificationFg : nullptr);
 
     m_theme["font"]        = Option("", "VALUE", ui ? ui->pushButtonFont : nullptr);
@@ -648,7 +690,7 @@ QColor deserializeColor(const QString &colorName)
 {
     QColor color;
 
-    if ( colorName.startsWith("rgba(") ) {
+    if ( colorName.startsWith(QStringLiteral("rgba(")) ) {
         QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
         int r = list.value(0).toInt();
         int g = list.value(1).toInt();
@@ -656,6 +698,9 @@ QColor deserializeColor(const QString &colorName)
         int a = static_cast<int>( list.value(3).toDouble() * 255 );
 
         color = QColor(r, g, b, a > 255 ? a / 255 : a);
+    } else if ( colorName.startsWith(QStringLiteral("default_")) ) {
+        const QPalette::ColorRole role = defaultColorVarToRole(colorName);
+        color = QPalette().color(role);
     } else {
         color = QColor(colorName);
     }
