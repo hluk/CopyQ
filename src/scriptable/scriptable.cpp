@@ -2704,6 +2704,11 @@ QJSValue Scriptable::clipboardFormatsToSave()
     return toScriptValue(formats, this);
 }
 
+QJSValue Scriptable::styles()
+{
+    return toScriptValue( m_proxy->styles(), this );
+}
+
 void Scriptable::onExecuteOutput(const QByteArray &output)
 {
     m_executeStdoutData.append(output);

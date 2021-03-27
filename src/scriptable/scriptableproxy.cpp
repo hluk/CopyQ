@@ -79,6 +79,7 @@
 #include <QScreen>
 #include <QShortcut>
 #include <QSpinBox>
+#include <QStyleFactory>
 #include <QTextEdit>
 #include <QUrl>
 
@@ -2248,6 +2249,12 @@ bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode
 
     const QMimeData *data = m_wnd->getClipboardData(mode);
     return data && data->hasFormat(mime);
+}
+
+QStringList ScriptableProxy::styles()
+{
+    INVOKE(styles, ());
+    return QStyleFactory::keys();
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)

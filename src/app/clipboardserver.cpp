@@ -50,6 +50,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QSessionManager>
+#include <QStyleFactory>
 #include <QTextEdit>
 
 #ifdef NO_GLOBAL_SHORTCUTS
@@ -655,11 +656,24 @@ void ClipboardServer::loadSettings()
 
     m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 
+    AppConfig appConfig;
+
+    const QString styleName = appConfig.option<Config::style>();
+    if ( !styleName.isEmpty() ) {
+        log( QString("Style: %1").arg(styleName) );
+        QStyle *style = QStyleFactory::create(styleName);
+        if (style) {
+            QApplication::setStyle(style);
+        } else {
+            const QString styles = QStyleFactory::keys().join(", ");
+            log( QString("Failed to set style, valid are: %1").arg(styles), LogWarning );
+        }
+    }
+
     settings.beginGroup("Theme");
     m_sharedData->theme.loadTheme(settings);
     settings.endGroup();
 
-    AppConfig appConfig;
     m_sharedData->editor = appConfig.option<Config::editor>();
     m_sharedData->maxItems = appConfig.option<Config::maxitems>();
     m_sharedData->textWrap = appConfig.option<Config::text_wrap>();
@@ -684,6 +698,8 @@ void ClipboardServer::loadSettings()
         stopMonitoring();
         startMonitoring();
     }
+
+    m_updateThemeTimer.stop();
 
     COPYQ_LOG("Configuration loaded");
 }

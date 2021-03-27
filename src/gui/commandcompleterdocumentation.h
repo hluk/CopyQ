@@ -169,6 +169,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("showDataNotification", "showDataNotification()", "Show notification for current data.");
     addDocumentation("hideDataNotification", "hideDataNotification()", "Hide notification for current data.");
     addDocumentation("setClipboardData", "setClipboardData()", "Sets clipboard data for menu commands.");
+    addDocumentation("styles", "styles()", "List available styles for `style` option.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");

@@ -403,6 +403,10 @@ struct window_wait_for_modifiers_released_ms : Config<int> {
     static Value defaultValue() { return 50; }
 };
 
+struct style : Config<QString> {
+    static QString name() { return "style"; }
+};
+
 } // namespace Config
 
 class AppConfig final

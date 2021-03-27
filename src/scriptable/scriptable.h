@@ -388,6 +388,8 @@ public slots:
 
     QJSValue clipboardFormatsToSave();
 
+    QJSValue styles();
+
 signals:
     void finished();
     void dataReceived(const QByteArray &data);

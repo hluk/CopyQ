@@ -1198,6 +1198,16 @@ omitted.
 
    Sets clipboard data for menu commands.
 
+.. js:function:: styles()
+
+   List available styles for ``style`` option.
+
+   To change or update style use::
+
+   .. code-block:: js
+
+       config("style", styleName)
+
 Types
 -----
 

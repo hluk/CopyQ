@@ -344,6 +344,8 @@ void ConfigurationManager::initOptions()
     bind<Config::window_wait_after_raised_ms>();
     bind<Config::window_key_press_time_ms>();
     bind<Config::window_wait_for_modifiers_released_ms>();
+
+    bind<Config::style>();
 }
 
 template <typename Config, typename Widget>
