@@ -2624,27 +2624,40 @@ void Scriptable::runMenuCommandFilters()
 
     const QString menuItemProperty = QLatin1String("menuItem");
     const QString enabledProperty = QLatin1String("enabled");
+    bool running = false;
+    bool restart = false;
     connect(&timer, &QTimer::timeout, &loop, [&]() {
         if ( bytes.isEmpty() )
             return;
 
-        const int currentRun = bytes.toInt();
-
-        getActionData(actionId);
-        const QStringList matchCommands =
-            m_data.value(COPYQ_MIME_PREFIX "match-commands").toStringList();
-
-        PerformanceLogger logger( QLatin1String("Menu item filters") );
-
-        for (int i = 0; i < matchCommands.length(); ++i) {
-            const auto obj = m_engine->newObject();
-            m_engine->globalObject().setProperty(menuItemProperty, obj);
-            const bool enabled = canExecuteCommandFilter(matchCommands[i]);
-            QVariantMap menuItem = toDataMap(obj);
-            menuItem[enabledProperty] = enabled && menuItem.value(enabledProperty, true).toBool();
-            if ( !m_proxy->enableMenuItem(actionId, currentRun, i, menuItem) )
-                break;
+        if (running) {
+            restart = true;
+            return;
         }
+        running = true;
+
+        do {
+            restart = false;
+            const int currentRun = bytes.toInt();
+
+            getActionData(actionId);
+            const QStringList matchCommands =
+                m_data.value(COPYQ_MIME_PREFIX "match-commands").toStringList();
+
+            PerformanceLogger logger( QLatin1String("Menu item filters") );
+
+            for (int i = 0; i < matchCommands.length(); ++i) {
+                const auto obj = m_engine->newObject();
+                m_engine->globalObject().setProperty(menuItemProperty, obj);
+                const bool enabled = canExecuteCommandFilter(matchCommands[i]);
+                QVariantMap menuItem = toDataMap(obj);
+                menuItem[enabledProperty] = enabled && menuItem.value(enabledProperty, true).toBool();
+                if ( restart || !m_proxy->enableMenuItem(actionId, currentRun, i, menuItem) )
+                    break;
+            }
+        } while (restart);
+
+        running = false;
     });
 
     emit receiveData();
