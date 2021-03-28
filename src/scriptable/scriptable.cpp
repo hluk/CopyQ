@@ -3196,9 +3196,12 @@ bool Scriptable::runAction(Action *action)
     setActionData();
 
     action->setWorkingDirectory( getCurrentPath() );
-    action->start();
 
-    while ( !action->waitForFinished(5000) && canContinue() ) {}
+    QEventLoop loop;
+    connect(action, &Action::actionFinished, &loop, &QEventLoop::quit);
+    connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
+    action->start();
+    loop.exec();
 
     if ( action->isRunning() && !action->waitForFinished(5000) ) {
         action->terminate();
