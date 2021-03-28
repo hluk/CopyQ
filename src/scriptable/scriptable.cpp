@@ -2785,6 +2785,20 @@ int Scriptable::executeArguments(const QStringList &args)
     if ( !sourceScriptCommands() )
         return CommandError;
 
+    const int exitCode = executeArgumentsSimple(args);
+
+    if (exitCode == CommandFinished)
+        setActionData();
+
+    // Destroy objects so destructors are run before script finishes
+    // (e.g. file writes are flushed or temporary files are automatically removed).
+    m_engine->collectGarbage();
+
+    return exitCode;
+}
+
+int Scriptable::executeArgumentsSimple(const QStringList &args)
+{
     /* Special arguments:
      * "-"  read this argument from stdin
      * "--" read all following arguments without control sequences
@@ -2855,13 +2869,6 @@ int Scriptable::executeArguments(const QStringList &args)
         print(message);
         exitCode = CommandFinished;
     }
-
-    if (exitCode == CommandFinished)
-        setActionData();
-
-    // Destroy objects so destructors are run before script finishes
-    // (e.g. file writes are flushed or temporary files are automatically removed).
-    m_engine->collectGarbage();
 
     return exitCode;
 }
@@ -3177,7 +3184,7 @@ bool Scriptable::runAction(Action *action)
         const auto oldAction = m_action;
         m_action = action;
 
-        const auto exitCode = executeArguments(cmd1.mid(1));
+        const auto exitCode = executeArgumentsSimple(cmd1.mid(1));
         action->setExitCode(exitCode);
         m_failed = false;
         clearExceptions();

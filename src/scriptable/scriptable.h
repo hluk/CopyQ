@@ -160,6 +160,7 @@ public:
     void setActionId(int actionId);
     void setActionName(const QString &actionName);
     int executeArguments(const QStringList &args);
+    int executeArgumentsSimple(const QStringList &args);
 
     void abortEvaluation(Abort abort = Abort::AllEvaluations);
 
