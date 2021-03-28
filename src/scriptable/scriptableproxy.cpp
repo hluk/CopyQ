@@ -123,7 +123,7 @@ void registerMetaTypes() {
 #define STR(str) str
 
 #define INVOKE_(function, arguments, functionCallId) do { \
-    static const auto f = FunctionCallSerializer(STR(#function)).withSlotArguments arguments; \
+    static const auto f = FunctionCallSerializer(QByteArrayLiteral(STR(#function))).withSlotArguments arguments; \
     const auto args = f.argumentList arguments; \
     emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall); \
 } while(false)
@@ -300,9 +300,9 @@ struct InputDialog {
 
 class FunctionCallSerializer final {
 public:
-    explicit FunctionCallSerializer(const char *functionName)
+    explicit FunctionCallSerializer(QByteArray functionName)
+        : m_slotName(std::move(functionName))
     {
-        m_slotName = functionName;
     }
 
     template<typename ...Ts>
