@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentang</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Surel</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Sumbang</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialog Aksi</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
