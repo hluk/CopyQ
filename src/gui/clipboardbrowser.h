@@ -140,6 +140,8 @@ class ClipboardBrowser final : public QListView
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
+        bool addAndSelect(const QVariantMap &data, int row);
+
         /**
          * Add item and remove duplicates.
          */
@@ -407,6 +409,8 @@ class ClipboardBrowser final : public QListView
         QPoint m_dragStartPosition;
 
         int m_filterRow = -1;
+
+        bool m_selectNewItems = false;
 };
 
 #endif // CLIPBOARDBROWSER_H

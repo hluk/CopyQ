@@ -2097,10 +2097,8 @@ void ScriptableProxy::saveData(const QString &tab, const QVariantMap &data, Clip
     INVOKE2(saveData, (tab, data, mode));
 
     auto c = m_wnd->tab(tab);
-    if (c) {
+    if (c)
         c->addUnique(data, mode);
-        c->setCurrent(0);
-    }
 }
 
 void ScriptableProxy::showDataNotification(const QVariantMap &data)

@@ -871,7 +871,16 @@ void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
     QModelIndex current;
     QItemSelection selection;
 
-    const bool select = hasFocus() && isVisible();
+    // Select new items only if explicitly asked for
+    // or select new top item when not actively using the item list.
+    const bool select = m_selectNewItems
+        || !currentIndex().isValid()
+        || (first == 0
+            && !isInternalEditorOpen()
+            && (currentIndex().row() == last + 1
+                || !isVisible()
+                || !isActiveWindow()));
+
     for (int row = first; row <= last; ++row) {
         if ( !hideFiltered(row) ) {
             const auto newIndex = index(row);
@@ -1042,7 +1051,7 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
         return; // handled in mouseMoveEvent()
 
     const QVariantMap data = cloneData( *event->mimeData() );
-    add(data, m_dragTargetRow);
+    addAndSelect(data, m_dragTargetRow);
     m_dragTargetRow = -1;
 }
 
@@ -1375,7 +1384,12 @@ void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
 
     emit searchHideRequest();
     filterItems(nullptr);
-    if ( add(text) )
+
+    m_selectNewItems = true;
+    const bool added = add(text);
+    m_selectNewItems = false;
+
+    if (added)
         editItem(currentIndex(), false, changeClipboard);
 }
 
@@ -1638,6 +1652,14 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     }
 
     return true;
+}
+
+bool ClipboardBrowser::addAndSelect(const QVariantMap &data, int row)
+{
+    m_selectNewItems = true;
+    bool added = add(data, row);
+    m_selectNewItems = false;
+    return added;
 }
 
 void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
