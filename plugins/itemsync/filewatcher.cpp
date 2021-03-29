@@ -32,6 +32,9 @@
 #include <QRegularExpression>
 #include <QUrl>
 
+#include <array>
+#include <vector>
+
 const QLatin1String mimeExtensionMap(COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map");
 const QLatin1String mimeBaseName(COPYQ_MIME_PREFIX_ITEMSYNC "basename");
 const QLatin1String mimeNoSave(COPYQ_MIME_PREFIX_ITEMSYNC "no-save");
@@ -51,15 +54,17 @@ struct Ext {
     QString format;
 };
 
+using Exts = std::vector<Ext>;
+
 struct BaseNameExtensions {
     explicit BaseNameExtensions(const QString &baseName = QString(),
-                                const QList<Ext> &exts = QList<Ext>())
+                                const Exts &exts = Exts())
         : baseName(baseName)
         , exts(exts)
         , isOwn( FileWatcher::isOwnBaseName(baseName) )
     {}
     QString baseName;
-    QList<Ext> exts;
+    Exts exts;
     bool isOwn;
 };
 
@@ -111,26 +116,22 @@ void getBaseNameAndExtension(const QString &fileName, QString *baseName, QString
     }
 }
 
-QList<Ext> fileExtensionsAndFormats()
+const std::array<Ext, 12> &fileExtensionsAndFormats()
 {
-    static QList<Ext> exts;
-
-    if ( exts.isEmpty() ) {
-        exts.append( Ext(noteFileSuffix, mimeItemNotes) );
-
-        exts.append( Ext(".bmp", "image/bmp") );
-        exts.append( Ext(".gif", "image/gif") );
-        exts.append( Ext(".html", mimeHtml) );
-        exts.append( Ext("_inkscape.svg", "image/x-inkscape-svg-compressed") );
-        exts.append( Ext(".jpg", "image/jpeg") );
-        exts.append( Ext(".jpg", "image/jpeg") );
-        exts.append( Ext(".png", "image/png") );
-        exts.append( Ext(".txt", mimeText) );
-        exts.append( Ext(".uri", mimeUriList) );
-        exts.append( Ext(".xml", "application/xml") );
-        exts.append( Ext(".svg", "image/svg+xml") );
-        exts.append( Ext(".xml", "text/xml") );
-    }
+    static const std::array<Ext, 12> exts = {
+        Ext(noteFileSuffix, mimeItemNotes),
+        Ext(".txt", mimeText),
+        Ext(".html", mimeHtml),
+        Ext(".uri", mimeUriList),
+        Ext(".png", "image/png"),
+        Ext("_inkscape.svg", "image/x-inkscape-svg-compressed"),
+        Ext(".svg", "image/svg+xml"),
+        Ext(".bmp", "image/bmp"),
+        Ext(".gif", "image/gif"),
+        Ext(".jpg", "image/jpeg"),
+        Ext(".xml", "application/xml"),
+        Ext(".xml", "text/xml"),
+    };
 
     return exts;
 }
@@ -138,9 +139,7 @@ QList<Ext> fileExtensionsAndFormats()
 QString findByFormat(const QString &format, const QList<FileFormat> &formatSettings)
 {
     // Find in default extensions.
-    const QList<Ext> &exts = fileExtensionsAndFormats();
-
-    for (const auto &ext : exts) {
+    for (const auto &ext : fileExtensionsAndFormats()) {
         if (ext.format == format)
             return ext.extension;
     }
@@ -177,9 +176,7 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
     }
 
     // Find in default formats.
-    const QList<Ext> &exts = fileExtensionsAndFormats();
-
-    for (const auto &ext : exts) {
+    for (const auto &ext : fileExtensionsAndFormats()) {
         if ( fileName.endsWith(ext.extension) )
             return ext;
     }
@@ -193,7 +190,7 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
     if ( !existingFiles->removeOne(filePath) || hashChanged ) {
         QFile f(filePath);
         if ( !f.open(QIODevice::WriteOnly) || f.write(bytes) == -1 ) {
-            log( QString("ItemSync: %1").arg(f.errorString()), LogError );
+            log( QStringLiteral("ItemSync: %1").arg(f.errorString()), LogError );
             return false;
         }
     }
@@ -203,7 +200,7 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
 
 bool canUseFile(const QFileInfo &info)
 {
-    return !info.isHidden() && !info.fileName().startsWith('.') && info.isReadable();
+    return !info.isHidden() && !info.fileName().startsWith(QLatin1Char('.')) && info.isReadable();
 }
 
 bool getBaseNameExtension(const QString &filePath, const QList<FileFormat> &formatSettings,
@@ -214,7 +211,7 @@ bool getBaseNameExtension(const QString &filePath, const QList<FileFormat> &form
         return false;
 
     *ext = findByExtension(filePath, formatSettings);
-    if ( ext->format.isEmpty() || ext->format == "-" )
+    if ( ext->format.isEmpty() || ext->format == QLatin1String("-") )
         return false;
 
     const QString fileName = info.fileName();
@@ -242,7 +239,7 @@ BaseNameExtensionsList listFiles(const QStringList &files,
                 if (fileList.size() >= maxItemCount)
                     break;
             } else {
-                fileList[i].exts.append(ext);
+                fileList[i].exts.push_back(ext);
             }
         }
     }
@@ -332,14 +329,15 @@ bool renameToUnique(
         const QList<FileFormat> &formatSettings)
 {
     if ( name->isEmpty() ) {
-        const auto dateFormat = "yyyyMMddhhmmsszzz";
+        const auto dateFormat = QStringLiteral("yyyyMMddhhmmsszzz");
         const auto dateTime = QDateTime::currentDateTimeUtc();
         const auto now = dateTime.toString(dateFormat);
-        *name = QString::fromLatin1("copyq_%1").arg(now);
+        *name = QStringLiteral("copyq_%1").arg(now);
     } else {
         // Replace/remove unsafe characters.
-        name->replace( QRegularExpression("/|\\\\|^\\."), QLatin1String("_") );
-        name->remove( QRegularExpression("\\n|\\r") );
+        name->replace( QRegularExpression(QLatin1String(R"(/|\\|^\.)")),
+                       QLatin1String("_") );
+        name->remove( QRegularExpression(QLatin1String(R"(\n|\r)")) );
     }
 
     const QStringList fileNames = dir.entryList();
@@ -354,7 +352,7 @@ bool renameToUnique(
     qulonglong i = 0;
     int fieldWidth = 0;
 
-    QRegularExpression re("\\d+$");
+    QRegularExpression re(QLatin1String(R"(\d+$)"));
     const auto m = re.match(baseName);
     if (m.hasMatch()) {
         const QString num = m.captured();
@@ -366,12 +364,12 @@ bool renameToUnique(
     }
 
     for (int counter = 0; counter < 99999; ++counter) {
-        *name = baseName + QString::fromLatin1("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
+        *name = baseName + QStringLiteral("%1").arg(++i, fieldWidth, 10, QLatin1Char('0')) + ext;
         if ( isUniqueBaseName(*name, fileNames, baseNames) )
             return true;
     }
 
-    log( QString::fromLatin1(
+    log( QStringLiteral(
                 "ItemSync: Failed to find unique base name with prefix: %1")
             .arg(baseName), LogError);
     return false;
@@ -575,7 +573,7 @@ void FileWatcher::updateItems()
 
         m_lastBatchIndex = -1;
         if ( t.elapsed() > 100 )
-            log( QString("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
+            log( QStringLiteral("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
     }
 
     for ( int i = m_lastBatchIndex + 1; i < m_batchIndexData.size(); ++i ) {
@@ -610,7 +608,7 @@ void FileWatcher::updateItems()
         }
 
         if ( t.elapsed() > 20 ) {
-            COPYQ_LOG_VERBOSE( QString("ItemSync: Items updated in %1 ms, last row %2/%3")
+            COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Items updated in %1 ms, last row %2/%3")
                  .arg(t.elapsed())
                  .arg(i + 1)
                  .arg(m_batchIndexData.size()) );
@@ -626,7 +624,7 @@ void FileWatcher::updateItems()
     insertItemsFromFiles(dir, m_fileList);
 
     if ( t.elapsed() > 100 )
-        log( QString("ItemSync: Items created in %1 ms").arg(t.elapsed()) );
+        log( QStringLiteral("ItemSync: Items created in %1 ms").arg(t.elapsed()) );
 
     m_fileList.clear();
     m_batchIndexData.clear();
