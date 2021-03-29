@@ -61,11 +61,9 @@ struct BaseNameExtensions {
                                 const Exts &exts = Exts())
         : baseName(baseName)
         , exts(exts)
-        , isOwn( FileWatcher::isOwnBaseName(baseName) )
     {}
     QString baseName;
     Exts exts;
-    bool isOwn;
 };
 
 namespace {
@@ -247,6 +245,19 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     return fileList;
 }
 
+bool isBaseNameLessThan(const QString &lhsBaseName, const QString &rhsBaseName)
+{
+    const bool isLhsOwn = FileWatcher::isOwnBaseName(lhsBaseName);
+    const bool isRhsOwn = FileWatcher::isOwnBaseName(rhsBaseName);
+    if (isLhsOwn && isRhsOwn)
+        return lhsBaseName > rhsBaseName;
+    if (isLhsOwn)
+        return true;
+    if (isRhsOwn)
+        return false;
+    return lhsBaseName < rhsBaseName;
+}
+
 /// Sorts own files (copyq_*) first by creation date newer first and other
 /// files by name alphabetically.
 QFileInfoList sortedFilesInfos(const QDir &dir, const QDir::Filters &itemFileFilter)
@@ -255,17 +266,7 @@ QFileInfoList sortedFilesInfos(const QDir &dir, const QDir::Filters &itemFileFil
     std::sort(std::begin(infoList), std::end(infoList), [](const QFileInfo &lhs, const QFileInfo &rhs){
         const QString lhsBaseName = lhs.baseName();
         const QString rhsBaseName = rhs.baseName();
-        const bool isLhsOwn = FileWatcher::isOwnBaseName(lhsBaseName);
-        const bool isRhsOwn = FileWatcher::isOwnBaseName(rhsBaseName);
-        // Sort own items by creation time (basename format is
-        // "copyq_yyyyMMddhhmmsszzz").
-        if (isLhsOwn && isRhsOwn)
-            return lhsBaseName > rhsBaseName;
-        if (isLhsOwn)
-            return true;
-        if (isRhsOwn)
-            return false;
-        return lhsBaseName < rhsBaseName;
+        return isBaseNameLessThan(lhsBaseName, rhsBaseName);
     });
     return infoList;
 }
@@ -511,38 +512,49 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
     if ( fileList.isEmpty() )
         return;
 
-    QVector<QVariantMap> ownItems;
-    ownItems.reserve(fileList.size());
-
-    QVector<QVariantMap> nonOwnItems;
-    nonOwnItems.reserve(fileList.size());
-
-    const int oldRowCount = m_model->rowCount();
+    QVector<QVariantMap> items;
+    items.reserve(fileList.size());
     for (const auto &baseNameWithExts : fileList) {
         const QVariantMap item = itemDataFromFiles(dir, baseNameWithExts);
         // Skip if the associated file was just removed.
-        if ( item.isEmpty() )
-            continue;
-
-        if (baseNameWithExts.isOwn)
-            ownItems.append(item);
-        else
-            nonOwnItems.append(item);
+        if ( !item.isEmpty() )
+            items.append(item);
     }
 
-    // Allocate space for new owned items.
-    const int itemCount = oldRowCount + ownItems.size();
-    if (m_maxItems < itemCount) {
-        const int toRemove = itemCount - m_maxItems;
-        if (toRemove < oldRowCount)
-            m_model->removeRows(oldRowCount - toRemove, toRemove);
-        else
-            m_model->removeRows(0, oldRowCount);
+    items.reserve(fileList.size());
+
+    int row = 0;
+    int i = 0;
+    for (; i < items.size(); ++i) {
+        const QVariantMap &item = items[i];
+        const QString &newBaseName = getBaseName(item);
+        for ( ; row < m_model->rowCount(); ++row ) {
+            const QString rowBaseName = getBaseName( m_model->index(row, 0) );
+            if ( isBaseNameLessThan(newBaseName, rowBaseName) )
+                break;
+        }
+
+        if ( row >= m_model->rowCount() )
+            break;
+
+        createItems({item}, row);
+        ++row;
     }
 
-    // Insert owned items; append non-owned items.
-    createItems(ownItems, 0);
-    createItems( nonOwnItems, m_model->rowCount() );
+    // Append rest of the items.
+    if ( i < items.size() ) {
+        const int space = m_maxItems - m_model->rowCount();
+        if (space <= 0)
+            return;
+
+        items.erase(items.begin(), items.begin() + i);
+        if ( space < items.size() )
+            items.erase(items.begin(), items.begin() + space);
+        createItems( items, m_model->rowCount() );
+    }
+
+    // TODO: Remove excesive items, but not pinned.
+    // This must be done elsewhere using QTimer 0.
 }
 
 void FileWatcher::updateItems()
