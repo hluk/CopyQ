@@ -95,6 +95,10 @@ namespace {
 const int contextMenuUpdateIntervalMsec = 100;
 const int itemPreviewUpdateIntervalMsec = 100;
 
+const QLatin1String menuItemKeyColor("color");
+const QLatin1String menuItemKeyIcon("icon");
+const QLatin1String menuItemKeyTag("tag");
+
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconTabIcon() { return getIconFromResources("tab_icon"); }
 const QIcon iconTabNew() { return getIconFromResources("tab_new"); }
@@ -2997,24 +3001,24 @@ bool MainWindow::setMenuItemEnabled(int actionId, int currentRun, int menuItemMa
         return true;
 
     for (auto it = menuItem.constBegin(); it != menuItem.constEnd(); ++it) {
-        const auto key = it.key().toUtf8();
-        if (key == "color" || key == "tag" || key == "icon")
+        const auto &key = it.key();
+        if (key == menuItemKeyColor || key == menuItemKeyIcon || key == menuItemKeyTag)
             continue;
 
         const auto value = it.value();
-        action->setProperty(key, value);
+        action->setProperty(key.toLatin1(), value);
     }
 
-    if ( menuItem.contains("tag") || menuItem.contains("icon") ) {
-        QString icon = menuItem.value("icon").toString();
+    if ( menuItem.contains(menuItemKeyTag) || menuItem.contains(menuItemKeyIcon) ) {
+        QString icon = menuItem.value(menuItemKeyIcon).toString();
         if (icon.isEmpty()) {
             const auto commandAction = qobject_cast<CommandAction*>(action);
             if (commandAction)
                 icon = commandAction->command().icon;
         }
-        const QString colorName = menuItem.value("color").toString();
+        const QString colorName = menuItem.value(menuItemKeyColor).toString();
         const QColor color = colorName.isEmpty() ? getDefaultIconColor(*this) : deserializeColor(colorName);
-        const QString tag = menuItem.value("tag").toString();
+        const QString tag = menuItem.value(menuItemKeyTag).toString();
         action->setIcon( iconFromFile(icon, tag, color) );
     }
 
