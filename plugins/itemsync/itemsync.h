@@ -60,15 +60,7 @@ class ItemSyncSaver final : public QObject, public ItemSaverInterface
     Q_OBJECT
 
 public:
-    explicit ItemSyncSaver(const QString &tabPath);
-
-    ItemSyncSaver(
-            QAbstractItemModel *model,
-            const QString &tabPath,
-            const QString &path,
-            const QStringList &files,
-            int maxItems,
-            const QList<FileFormat> &formatSettings);
+    ItemSyncSaver(QAbstractItemModel *model, const QString &tabPath, FileWatcher *watcher);
 
     bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
 
@@ -80,7 +72,12 @@ public:
 
     void setFocus(bool focus) override;
 
+    void setFileWatcher(FileWatcher *watcher);
+
 private:
+    void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
+
+    QPointer<QAbstractItemModel> m_model;
     QString m_tabPath;
     FileWatcher *m_watcher;
 };

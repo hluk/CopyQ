@@ -69,7 +69,7 @@ public:
     static Hash calculateHash(const QByteArray &bytes);
 
     FileWatcher(const QString &path, const QStringList &paths, QAbstractItemModel *model,
-                int maxItems, const QList<FileFormat> &formatSettings, QObject *parent);
+                int maxItems, const QList<FileFormat> &formatSettings, QObject *parent = nullptr);
 
     const QString &path() const { return m_path; }
 

@@ -65,6 +65,8 @@ private slots:
 
     void addItemsWhenFullOmitDeletingNotOwned();
 
+    void moveOwnItemsSortsBaseNames();
+
 private:
     TestInterfacePtr m_test;
 };

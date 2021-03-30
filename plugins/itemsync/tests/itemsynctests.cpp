@@ -692,3 +692,59 @@ void ItemSyncTests::addItemsWhenFullOmitDeletingNotOwned()
     FilePtr f1(dir1.file(testFileName1));
     QVERIFY(f1->exists());
 }
+
+void ItemSyncTests::moveOwnItemsSortsBaseNames()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "separator" << "," << "tab" << tab1;
+
+    const QString testScript = R"(
+        var baseNames = [];
+        for (var i = 0; i < 4; ++i) {
+            baseNames.push(str(read(plugins.itemsync.mimeBaseName, i)));
+        }
+        for (var i = 0; i < 3; ++i) {
+            var j = i + 1;
+            if (baseNames[i] <= baseNames[j]) {
+                print("Failed test: baseNames["+i+"] > baseNames["+j+"]\\n");
+                print("  Where baseNames["+i+"] = '" + baseNames[i] + "'\\n");
+                print("        baseNames["+j+"] = '" + baseNames[j] + "'\\n");
+            }
+        }
+    )";
+
+    RUN(args << "add" << "A" << "B" << "C" << "D", "");
+    RUN(args << "read(0,1,2,3)", "D,C,B,A");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "END" << "CTRL+UP", "");
+    RUN(args << "read(0,1,2,3)", "D,C,A,B");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "DOWN" << "CTRL+UP", "");
+    RUN(args << "read(0,1,2,3)", "D,C,B,A");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "DOWN" << "SHIFT+UP" << "CTRL+UP", "");
+    RUN(args << "read(0,1,2,3)", "D,B,A,C");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "CTRL+UP", "");
+    RUN(args << "read(0,1,2,3)", "B,A,D,C");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "CTRL+DOWN", "");
+    RUN(args << "read(0,1,2,3)", "D,B,A,C");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "END" << "CTRL+HOME", "");
+    RUN(args << "read(0,1,2,3)", "C,D,B,A");
+    RUN(args << testScript, "");
+
+    RUN(args << "keys" << "END" << "UP" << "CTRL+HOME", "");
+    RUN(args << "read(0,1,2,3)", "B,C,D,A");
+    RUN(args << testScript, "");
+}

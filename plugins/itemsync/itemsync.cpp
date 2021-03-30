@@ -419,22 +419,15 @@ bool ItemSync::eventFilter(QObject *, QEvent *event)
     return ItemWidget::filterMouseEvents(m_label, event);
 }
 
-ItemSyncSaver::ItemSyncSaver(const QString &tabPath)
-    : m_tabPath(tabPath)
-    , m_watcher(nullptr)
+ItemSyncSaver::ItemSyncSaver(QAbstractItemModel *model, const QString &tabPath, FileWatcher *watcher)
+    : m_model(model)
+    , m_tabPath(tabPath)
+    , m_watcher(watcher)
 {
-}
-
-ItemSyncSaver::ItemSyncSaver(
-        QAbstractItemModel *model,
-        const QString &tabPath,
-        const QString &path,
-        const QStringList &files,
-        int maxItems,
-        const QList<FileFormat> &formatSettings)
-    : m_tabPath(tabPath)
-    , m_watcher(new FileWatcher(path, files, model, maxItems, formatSettings, this))
-{
+    if (m_watcher)
+        m_watcher->setParent(this);
+    connect( model, &QAbstractItemModel::rowsMoved,
+             this, &ItemSyncSaver::onRowsMoved );
 }
 
 bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file)
@@ -536,6 +529,44 @@ void ItemSyncSaver::setFocus(bool focus)
 {
     if (m_watcher)
         m_watcher->setUpdatesEnabled(focus);
+}
+
+void ItemSyncSaver::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow)
+{
+    if (!m_model)
+        return;
+
+    /* If own items were moved, change their base names in data to trigger
+     * updating/renaming file names so they are also moved in other app instances.
+     *
+     * The implementation works in common cases but will fail if:
+     * - Items are moved after the last own item.
+     * - Items move repeatedly to some not-top position.
+     */
+    const int count = end - start + 1;
+
+    const int baseRow = destinationRow < start
+        ? destinationRow + count
+        : destinationRow;
+    QString baseName;
+    if (destinationRow > 0) {
+        const QModelIndex baseIndex = m_model->index(baseRow, 0);
+        baseName = FileWatcher::getBaseName(baseIndex);
+
+        if ( !isOwnFile(baseName) )
+            return;
+
+        if ( !baseName.isEmpty() && !baseName.contains(QLatin1Char('-')) )
+            baseName.append(QLatin1String("-0000"));
+    }
+
+    for (int row = baseRow - 1; row >= baseRow - count; --row) {
+        const auto index = m_model->index(row, 0);
+        if ( isOwnItem(index) ) {
+            const QVariantMap data = {{mimeBaseName, baseName}};
+            m_model->setData(index, data, contentType::updateData);
+        }
+    }
 }
 
 QString ItemSyncScriptable::getMimeBaseName() const
@@ -780,7 +811,7 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
     const auto tabPath = m_tabPaths.value(tabName);
     const auto path = files.isEmpty() ? tabPath : QFileInfo(files.first()).absolutePath();
     if ( path.isEmpty() )
-        return std::make_shared<ItemSyncSaver>(tabPath);
+        return std::make_shared<ItemSyncSaver>(model, tabPath, nullptr);
 
     QDir dir(path);
     if ( !dir.mkpath(".") ) {
@@ -788,5 +819,6 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
         return nullptr;
     }
 
-    return std::make_shared<ItemSyncSaver>(model, tabPath, dir.path(), files, maxItems, m_formatSettings);
+    auto *watcher = new FileWatcher(path, files, model, maxItems, m_formatSettings);
+    return std::make_shared<ItemSyncSaver>(model, tabPath, watcher);
 }
