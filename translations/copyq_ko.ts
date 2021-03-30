@@ -991,7 +991,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>활성화 하면 현재 화면에서 창을 엽니다. 비활성화 하면 마지막으로 닫은 곳에서 창을 엽니다.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
