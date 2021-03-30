@@ -215,7 +215,10 @@ void moveIndexes(QList<QPersistentModelIndex> &indexesToMove, int targetRow, Cli
     if (start < targetRow)
         std::sort( std::begin(indexesToMove), std::end(indexesToMove) );
     else if (targetRow < end)
-        std::sort( std::begin(indexesToMove), std::end(indexesToMove), std::not2(std::less<QModelIndex>()) );
+        std::sort( std::begin(indexesToMove), std::end(indexesToMove),
+                   [](const QModelIndex &lhs, const QModelIndex &rhs) {
+                       return lhs.row() >= rhs.row();
+                   });
     else
         return;
 
