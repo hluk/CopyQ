@@ -27,7 +27,9 @@
 #include <QApplication>
 #include <QEvent>
 #include <QMoveEvent>
+#include <QScreen>
 #include <QVariant>
+#include <QWindow>
 
 namespace {
 
@@ -52,6 +54,11 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
         if ( !isWindowGeometryLocked() ) {
             m_timerSaveGeometry.stop();
             m_timerRestoreGeometry.start();
+        }
+        if (!m_screenChangeConnected && m_window->windowHandle()) {
+            m_screenChangeConnected = true;
+            connect(m_window->windowHandle(), &QWindow::screenChanged,
+                    this, &WindowGeometryGuard::onScreenChanged);
         }
         break;
 
@@ -120,4 +127,10 @@ void WindowGeometryGuard::restoreWindowGeometry()
 void WindowGeometryGuard::unlockWindowGeometry()
 {
     m_timerUnlockGeometry.stop();
+}
+
+void WindowGeometryGuard::onScreenChanged()
+{
+    m_timerUnlockGeometry.stop();
+    restoreWindowGeometry();
 }

@@ -45,6 +45,16 @@ enum class GeometryAction {
     Restore
 };
 
+QPoint mousePos()
+{
+    // On Wayland, getting mouse position can return
+    // the last known mouse position in an own Qt application window.
+    static const bool supported = !QCursor::pos().isNull();
+    if (supported)
+        return QCursor::pos();
+    return QPoint();
+}
+
 QString toString(const QRect &geometry)
 {
     return QString::fromLatin1("%1x%2,%3,%4")
@@ -56,9 +66,28 @@ QString toString(const QRect &geometry)
 
 int screenNumber(const QWidget &widget, GeometryAction geometryAction)
 {
-    return geometryAction == GeometryAction::Save
-            ? QApplication::desktop()->screenNumber(&widget)
-            : screenNumberAt(QCursor::pos());
+    if (geometryAction == GeometryAction::Restore) {
+        const QPoint pos = mousePos();
+        if ( !pos.isNull() ) {
+            const int n = screenNumberAt(pos);
+            if (n != -1)
+                return n;
+        }
+    }
+
+    QWindow *windowHandle = widget.windowHandle();
+    if (windowHandle) {
+        QScreen *screen = windowHandle->screen();
+        if (screen)
+            return QGuiApplication::screens().indexOf(screen);
+    }
+
+    const int n = QApplication::desktop()->screenNumber(&widget);
+    if (n != -1)
+        return n;
+
+    QScreen *screen = QGuiApplication::primaryScreen();
+    return QGuiApplication::screens().indexOf(screen);
 }
 
 QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
@@ -192,7 +221,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
         // If geometry for the screen doesn't exist, move window to the middle of the screen.
         if (geometry.isEmpty()) {
-            const QRect availableGeometry = screenAvailableGeometry(QCursor::pos());
+            const QRect availableGeometry = screenAvailableGeometry(w->pos());
             const QPoint position = availableGeometry.center() - w->rect().center();
             w->move(position);
         }

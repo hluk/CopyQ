@@ -41,11 +41,15 @@ private:
     void restoreWindowGeometry();
     void unlockWindowGeometry();
 
+    void onScreenChanged();
+
     QWidget *m_window;
 
     QTimer m_timerSaveGeometry;
     QTimer m_timerRestoreGeometry;
     QTimer m_timerUnlockGeometry;
+
+    bool m_screenChangeConnected = false;
 };
 
 #endif // WINDOWGEOMETRYGUARD_H
