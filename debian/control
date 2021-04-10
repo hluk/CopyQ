@@ -6,6 +6,7 @@ Build-Depends:
  cmake,
  debhelper (>= 10),
  extra-cmake-modules,
+ libkf5notifications-dev,
  libqt5svg5-dev,
  libxfixes-dev,
  libxtst-dev,
