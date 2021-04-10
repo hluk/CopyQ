@@ -90,7 +90,7 @@
 
 - Command dialog always shows the command type at top.
 
-- Updated icons (Font Awesome 5.15.2).
+- Updated icons (Font Awesome 5.15.3).
 
 - FakeVim: Command line not supports better text interaction (select, copy,
   cut, paste).
