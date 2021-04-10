@@ -3937,6 +3937,8 @@ void Tests::startServerAndRunCommand()
 
 #ifdef Q_OS_MAC
     SKIP("FIXME: For some reason the server is not started again on macOS");
+#elif defined(Q_OS_WIN)
+    SKIP("FIXME: For some reason the server is not stopped reliably on Windows");
 #endif
     TEST( m_test->stopServer() );
 
