@@ -48,7 +48,7 @@ desktop-file-validate $RPM_BUILD_ROOT%{_datadir}/applications/com.github.hluk.%{
 appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/com.github.hluk.%{name}.appdata.xml
 
 %files -f %{name}.lang
-%doc AUTHORS CHANGES HACKING README.md
+%doc AUTHORS CHANGES.md HACKING README.md
 %license LICENSE
 %{_bindir}/%{name}
 %{_libdir}/%{name}/

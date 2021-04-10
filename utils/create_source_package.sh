@@ -10,7 +10,7 @@ die () {
     exit 1
 }
 
-grep -q '^v'"$version"'$' CHANGES ||
+grep -q '^# v'"$version"'$' "CHANGES.md" ||
     die "CHANGES file doesn't contain changes for given version!"
 
 grep -q '"v'"$version"'"' "$version_header" ||

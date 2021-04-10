@@ -8,7 +8,7 @@ This is step-by-step description on how to release new version of CopyQ.
 
 # Update Version and Changelog
 
-Update CHANGES file.
+Update `CHANGES.md` file.
 
 Bump version.
 
