@@ -35,7 +35,7 @@
 // std::optional from Apple's Clang supports methods that throw std::bad_optional_access only
 // with deployment target >= macOS 10.14
 // TODO: Use std::optional everywhere when we can require macOS 10.14
-#if !defined(__apple_build_version__)
+#if !defined(__apple_build_version__) && __cpp_lib_optional >= 201603
 
 #include <optional>
 

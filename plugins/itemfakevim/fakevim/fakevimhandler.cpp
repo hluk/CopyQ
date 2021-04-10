@@ -104,6 +104,10 @@
 #   define UNDO_DEBUG(s)
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+using QStringView = QStringRef;
+#endif
+
 namespace FakeVim {
 namespace Internal {
 
@@ -1510,7 +1514,11 @@ public:
         m_buffer = s; m_pos = m_userPos = pos; m_anchor = anchor >= 0 ? anchor : pos;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    QStringRef userContents() const { return QStringRef(&m_buffer).left(m_userPos); }
+#else
     QStringView userContents() const { return QStringView{m_buffer}.left(m_userPos); }
+#endif
     const QChar &prompt() const { return m_prompt; }
     const QString &contents() const { return m_buffer; }
     bool isEmpty() const { return m_buffer.isEmpty(); }
@@ -2833,9 +2841,17 @@ void FakeVimHandler::Private::updateEditor()
 
 void FakeVimHandler::Private::setTabSize(int tabSize)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     const int charWidth = QFontMetrics(EDITOR(font())).horizontalAdvance(' ');
+#else
+    const int charWidth = QFontMetrics(EDITOR(font())).width(' ');
+#endif
     const int width = charWidth * tabSize;
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     EDITOR(setTabStopDistance(width));
+#else
+    EDITOR(setTabStopWidth(width));
+#endif
 }
 
 void FakeVimHandler::Private::restoreWidget(int tabSize)

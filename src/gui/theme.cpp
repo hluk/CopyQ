@@ -63,7 +63,11 @@ QPalette::ColorRole defaultColorVarToRole(const QString &varName)
     static QHash<QString, QPalette::ColorRole> map = {
         {defaultColorVarBase, QPalette::Base},
         {defaultColorVarText, QPalette::Text},
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
         {defaultColorVarPlaceholderText, QPalette::PlaceholderText},
+#else
+        {defaultColorVarPlaceholderText, QPalette::AlternateBase},
+#endif
         {defaultColorVarAlternateBase, QPalette::AlternateBase},
         {defaultColorVarHighlight, QPalette::Highlight},
         {defaultColorVarHighlightText, QPalette::HighlightedText},
