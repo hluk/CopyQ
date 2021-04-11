@@ -258,7 +258,15 @@ void Notification::update()
     }
 
     m_notification->setTitle(m_title);
+#ifdef Q_OS_WIN
+    // On Windows, notification doesn't show up if the message is empty.
+    if (m_message.isEmpty())
+        m_notification->setText(QLatin1String("-"));
+    else
+        m_notification->setText(m_message);
+#else
     m_notification->setText(m_message);
+#endif
 
     if (m_pixmap.isNull() && m_iconId != 0) {
         const auto height = 64;
