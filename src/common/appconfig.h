@@ -403,6 +403,11 @@ struct window_wait_for_modifiers_released_ms : Config<int> {
     static Value defaultValue() { return 50; }
 };
 
+struct row_index_from_one : Config<bool> {
+    static QString name() { return "row_index_from_one"; }
+    static Value defaultValue() { return true; }
+};
+
 struct style : Config<QString> {
     static QString name() { return "style"; }
 };

@@ -688,6 +688,7 @@ void ClipboardServer::loadSettings()
     m_sharedData->saveDelayMsOnItemRemoved = appConfig.option<Config::save_delay_ms_on_item_removed>();
     m_sharedData->saveDelayMsOnItemMoved = appConfig.option<Config::save_delay_ms_on_item_moved>();
     m_sharedData->saveDelayMsOnItemEdited = appConfig.option<Config::save_delay_ms_on_item_edited>();
+    m_sharedData->rowIndexFromOne = appConfig.option<Config::row_index_from_one>();
 
     m_wnd->loadSettings(settings, appConfig);
 

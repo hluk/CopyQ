@@ -12,6 +12,10 @@
 
 - System notification popups are now used instead of own implementation.
 
+- Item rows in main window and tray menu are now indexed from one instead of
+  zero by default (#1085). This can be reverted to the old behavior using
+  command `copyq row_index_from_one false`.
+
 - A tag can be marked as "locked" in configuration. Items with such tags cannot
   be removed until the tag is removed or "unlocked".
 

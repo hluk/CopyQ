@@ -61,6 +61,9 @@ public:
 
     void markItemInClipboard(const QVariantMap &clipboardData);
 
+    /** Row numbers start from one instead of zero? */
+    void setRowIndexFromOne(bool rowIndexFromOne) { m_rowIndexFromOne = rowIndexFromOne; }
+
 signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(const QVariantMap &itemData, bool omitPaste);
@@ -100,6 +103,8 @@ private:
     QString m_searchText;
 
     QTimer m_timerUpdateActiveAction;
+
+    bool m_rowIndexFromOne = true;
 };
 
 #endif // TRAYMENU_H

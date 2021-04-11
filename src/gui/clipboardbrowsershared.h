@@ -44,6 +44,7 @@ struct ClipboardBrowserShared {
     int saveDelayMsOnItemRemoved = 0;
     int saveDelayMsOnItemMoved = 0;
     int saveDelayMsOnItemEdited = 0;
+    bool rowIndexFromOne = true;
     ItemFactory *itemFactory = nullptr;
     ActionHandler *actions = nullptr;
     NotificationDaemon *notifications = nullptr;

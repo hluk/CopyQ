@@ -346,6 +346,8 @@ void ConfigurationManager::initOptions()
     bind<Config::window_wait_for_modifiers_released_ms>();
 
     bind<Config::style>();
+
+    bind<Config::row_index_from_one>();
 }
 
 template <typename Config, typename Widget>

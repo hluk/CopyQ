@@ -1398,6 +1398,7 @@ int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
 
     TrayMenu menu;
     menu.setObjectName("CustomMenu");
+    menu.setRowIndexFromOne( AppConfig().option<Config::row_index_from_one>() );
 
     const auto addMenuItems = [&](const QString &searchText) {
         menu.clearClipboardItems();

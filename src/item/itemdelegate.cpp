@@ -482,7 +482,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     // Render number.
     if ( m_sharedData->theme.showRowNumber() ) {
-        const QString num = QString::number(row);
+        const QString num = QString::number(row + static_cast<int>(m_sharedData->rowIndexFromOne));
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
         painter->setFont( m_sharedData->theme.rowNumberFont() );

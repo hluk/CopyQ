@@ -1332,8 +1332,11 @@ void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
 
     // If search string is a number, highlight item in that row.
     bool filterByRowNumber = !m_sharedData->numberSearch;
-    if (filterByRowNumber)
+    if (filterByRowNumber) {
         m_filterRow = newSearch.toInt(&filterByRowNumber);
+        if (m_filterRow > 0 && m_sharedData->rowIndexFromOne)
+            --m_filterRow;
+    }
     if (!filterByRowNumber)
         m_filterRow = -1;
 

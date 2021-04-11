@@ -2288,6 +2288,13 @@ void Tests::searchItemsAndSelect()
 void Tests::searchRowNumber()
 {
     RUN("add" << "d2" << "c" << "b2" << "a", "");
+
+    RUN("keys" << ":2" << "TAB", "");
+    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+    RUN("keys" << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " 1 1 3\n");
+
+    RUN("config" << "row_index_from_one" << "false", "false\n");
     RUN("keys" << ":2" << "TAB", "");
     RUN("testSelected", QString(clipboardTabName) + " 2 2\n");
     RUN("keys" << "CTRL+A", "");
@@ -2869,6 +2876,23 @@ void Tests::menu()
     RUN("menu" << tab << "2", "");
     RUN("keys" << menuId << "END", "");
     ACTIVATE_MENU_ITEM(menuId, clipboardBrowserId, "B");
+
+#ifdef Q_OS_MAC
+    SKIP("Number keys don't seem to work in the tray menu on macOS.");
+#endif
+
+    // Select item by row number.
+    RUN("tab" << tab << "add(3,2,1,0)", "");
+    RUN("menu" << tab, "");
+    RUN("keys" << menuId << "3" << clipboardBrowserId, "");
+    WAIT_FOR_CLIPBOARD("2");
+
+    // Select item by index.
+    RUN("config" << "row_index_from_one" << "false", "false\n");
+    RUN("tab" << tab << "add(3,2,1,0)", "");
+    RUN("menu" << tab, "");
+    RUN("keys" << menuId << "3" << clipboardBrowserId, "");
+    WAIT_FOR_CLIPBOARD("3");
 }
 
 void Tests::traySearch()

@@ -73,6 +73,9 @@ Functions
 Argument list parts ``...`` and ``[...]`` are optional and can be
 omitted.
 
+Item **row** values in scripts always **start from 0** (like array index),
+unlike in GUI, where row numbers start from 1 by default.
+
 .. js:function:: String version()
 
    Returns version string.
