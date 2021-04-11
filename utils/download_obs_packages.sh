@@ -14,7 +14,6 @@ xrpm=".x86_64.rpm"
 pkg="${project}_${version}"
 pkg_deb="amd64/${pkg}${xdeb}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
-pkg_rpm_lp15="x86_64/${project}-${version}-lp152.${rpm_version}${xrpm}"
 
 failed=""
 
@@ -34,8 +33,8 @@ if [ -z "$version" ]; then
 fi
 
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
-fetch_package "${pkg}_openSUSE_Leap_15.2${xrpm}"  "$url/openSUSE_Leap_15.2/${pkg_rpm_lp15}"
-fetch_package "${pkg}_openSUSE_Leap_15.3${xrpm}"  "$url/openSUSE_Leap_15.3/${pkg_rpm_lp15}"
+fetch_package "${pkg}_openSUSE_Leap_15.2${xrpm}"  "$url/openSUSE_Leap_15.2/x86_64/${project}-${version}-lp152.${rpm_version}${xrpm}"
+fetch_package "${pkg}_openSUSE_Leap_15.3${xrpm}"  "$url/openSUSE_Leap_15.3/x86_64/${project}-${version}-lp153.${rpm_version}${xrpm}"
 fetch_package "${pkg}_Debian_10${xdeb}"           "$url/Debian_10/${pkg_deb}"
 
 if [ -n "$failed" ]; then
