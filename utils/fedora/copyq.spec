@@ -52,8 +52,11 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/com.gi
 %license LICENSE
 %{_bindir}/%{name}
 %{_libdir}/%{name}/
+%{_datadir}/bash-completion/completions/%{name}
 %{_datadir}/metainfo/com.github.hluk.%{name}.appdata.xml
 %{_datadir}/applications/com.github.hluk.%{name}.desktop
+%dir %{_datadir}/icons/hicolor/*/
+%dir %{_datadir}/icons/hicolor/*/apps/
 %{_datadir}/icons/hicolor/*/apps/%{name}*.png
 %{_datadir}/icons/hicolor/*/apps/%{name}*.svg
 %dir %{_datadir}/%{name}/
