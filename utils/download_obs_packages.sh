@@ -9,12 +9,10 @@ base_url="https://download.opensuse.org/repositories/home:/"
 url=$base_url$user:/$project
 
 xdeb="-1_amd64.deb"
-xdeb_i386="-1_i386.deb"
 xrpm=".x86_64.rpm"
 
 pkg="${project}_${version}"
 pkg_deb="amd64/${pkg}${xdeb}"
-pkg_deb_i386="i386/${pkg}${xdeb_i386}"
 pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
 pkg_rpm_lp15="x86_64/${project}-${version}-lp152.${rpm_version}${xrpm}"
 
@@ -37,8 +35,7 @@ fi
 
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
 fetch_package "${pkg}_openSUSE_Leap_15.2${xrpm}"  "$url/openSUSE_Leap_15.2/${pkg_rpm_lp15}"
-fetch_package "${pkg}_Debian_9.0${xdeb_i386}"     "$url/Debian_9.0/${pkg_deb_i386}"
-fetch_package "${pkg}_Debian_9.0${xdeb}"          "$url/Debian_9.0/${pkg_deb}"
+fetch_package "${pkg}_openSUSE_Leap_15.3${xrpm}"  "$url/openSUSE_Leap_15.3/${pkg_rpm_lp15}"
 fetch_package "${pkg}_Debian_10${xdeb}"           "$url/Debian_10/${pkg_deb}"
 
 if [ -n "$failed" ]; then
