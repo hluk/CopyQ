@@ -716,7 +716,6 @@ public:
         notification->setMessage(popupMessage);
         notification->setIcon(IconKeyboard);
         notification->setInterval(2000);
-        notification->show();
 
         if ( keys.startsWith(":") ) {
             const auto text = keys.mid(1);
@@ -1265,7 +1264,6 @@ void ScriptableProxy::showMessage(const QString &title,
     notification->setIcon(icon);
     notification->setInterval(msec);
     notification->setButtons(buttons);
-    notification->show();
 }
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
@@ -2124,7 +2122,9 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
 
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegularExpression("^image/.*"));
-    const QFont &font = qApp->font();
+    const QFont &font = notification->widget()
+        ? notification->widget()->font()
+        : qApp->font();
     const bool isHidden = data.contains(mimeHidden);
 
     QString title;
@@ -2161,7 +2161,6 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     }
 
     notification->setTitle(title);
-    notification->show();
 }
 
 bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)

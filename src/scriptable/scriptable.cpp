@@ -65,7 +65,9 @@
 #include <QThread>
 #include <QTimer>
 
-#include <knotifications_version.h>
+#ifdef WITH_NATIVE_NOTIFICATIONS
+#   include <knotifications_version.h>
+#endif
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
@@ -824,7 +826,9 @@ QJSValue Scriptable::version()
     m_skipArguments = 0;
     return tr("CopyQ Clipboard Manager") + " " COPYQ_VERSION "\n"
             + "Qt: " QT_VERSION_STR "\n"
+#ifdef WITH_NATIVE_NOTIFICATIONS
             + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
+#endif
             + "Compiler: "
 #if defined(Q_CC_GNU)
             "GCC"

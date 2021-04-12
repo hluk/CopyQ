@@ -1,0 +1,15 @@
+#Notification, #Notification QWidget
+{
+    /* Resets notification opacity. It will be set in NotificationDaemon::setNotificationOpacity(). */
+    ;background: ${notification_bg + #000}
+}
+#Notification QWidget{
+    ;color: ${notification_fg}
+    ;${notification_font}
+}
+#Notification #NotificationTitle{
+    ;${scale=1.2}${notification_font}${scale=1}
+}
+#Notification #NotificationTip{
+    ;font-style: italic
+}

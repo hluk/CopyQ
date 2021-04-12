@@ -17,12 +17,13 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "gui/notification.h"
+#include "notificationnative.h"
 
 #include "common/log.h"
 #include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/notification.h"
 
 #include <KNotification>
 #include <QApplication>
@@ -36,6 +37,7 @@
 #include <QMap>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPointer>
 #include <QPushButton>
 #include <QStandardPaths>
 #include <QTextEdit>
@@ -64,9 +66,57 @@ QPixmap defaultIcon()
     return pixmap;
 }
 
+class NotificationNative final : public Notification
+{
+    Q_OBJECT
+
+public:
+    explicit NotificationNative(const QColor &iconColor, QObject *parent = nullptr);
+
+    ~NotificationNative();
+
+    void setTitle(const QString &title) override;
+    void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText) override;
+    void setPixmap(const QPixmap &pixmap) override;
+    void setIcon(const QString &icon) override;
+    void setIcon(ushort icon) override;
+    void setInterval(int msec) override;
+    void setOpacity(qreal) override {}
+    void setButtons(const NotificationButtons &buttons) override;
+    void adjust() override {}
+    QWidget *widget() override { return nullptr; }
+    void show() override;
+    void close() override;
+
+private:
+    void onButtonClicked(unsigned int id);
+    void onDestroyed();
+    void onClosed();
+    void onIgnored();
+    void onActivated();
+    void update();
+
+    void notificationLog(const char *message);
+
+    KNotification *dropNotification();
+
+    QPointer<KNotification> m_notification;
+    NotificationButtons m_buttons;
+
+    QColor m_iconColor;
+    QTimer m_timer;
+    int m_intervalMsec = -1;
+    QString m_title;
+    QString m_message;
+    QString m_icon;
+    ushort m_iconId;
+    QPixmap m_pixmap;
+    bool m_closed = false;
+};
+
 } // namespace
 
-void Notification::initConfiguration()
+void initNotificationNativeConfiguration()
 {
     const QString dataDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     QDir dir(dataDir);
@@ -98,14 +148,14 @@ void Notification::initConfiguration()
     configFile.close();
 }
 
-Notification::Notification(const QColor &iconColor, QObject *parent)
-    : QObject(parent)
+NotificationNative::NotificationNative(const QColor &iconColor, QObject *parent)
+    : Notification(parent)
     , m_iconColor(iconColor)
 {
-    initSingleShotTimer( &m_timer, 0, this, &Notification::close );
+    initSingleShotTimer( &m_timer, 0, this, &NotificationNative::close );
 }
 
-Notification::~Notification()
+NotificationNative::~NotificationNative()
 {
     auto notification = dropNotification();
     if (notification) {
@@ -114,12 +164,12 @@ Notification::~Notification()
     }
 }
 
-void Notification::setTitle(const QString &title)
+void NotificationNative::setTitle(const QString &title)
 {
     m_title = title;
 }
 
-void Notification::setMessage(const QString &msg, Qt::TextFormat format)
+void NotificationNative::setMessage(const QString &msg, Qt::TextFormat format)
 {
     if (format == Qt::PlainText)
         m_message = msg.toHtmlEscaped();
@@ -127,14 +177,14 @@ void Notification::setMessage(const QString &msg, Qt::TextFormat format)
         m_message = msg;
 }
 
-void Notification::setPixmap(const QPixmap &pixmap)
+void NotificationNative::setPixmap(const QPixmap &pixmap)
 {
     m_icon.clear();
     m_iconId = 0;
     m_pixmap = pixmap;
 }
 
-void Notification::setIcon(const QString &icon)
+void NotificationNative::setIcon(const QString &icon)
 {
     m_iconId = toIconId(icon);
     if (m_iconId == 0)
@@ -144,25 +194,28 @@ void Notification::setIcon(const QString &icon)
     m_pixmap = QPixmap();
 }
 
-void Notification::setIcon(ushort icon)
+void NotificationNative::setIcon(ushort icon)
 {
     m_icon.clear();
     m_iconId = icon;
     m_pixmap = QPixmap();
 }
 
-void Notification::setInterval(int msec)
+void NotificationNative::setInterval(int msec)
 {
     m_intervalMsec = msec;
 }
 
-void Notification::setButtons(const NotificationButtons &buttons)
+void NotificationNative::setButtons(const NotificationButtons &buttons)
 {
     m_buttons = buttons;
 }
 
-void Notification::show()
+void NotificationNative::show()
 {
+    if (m_closed)
+        return;
+
     notificationLog("Update");
 
     if (m_notification) {
@@ -178,20 +231,20 @@ void Notification::show()
     m_notification->setComponentName(componentName);
 
     connect( m_notification.data(), static_cast<void (KNotification::*)(unsigned int)>(&KNotification::activated),
-             this, &Notification::onButtonClicked );
+             this, &NotificationNative::onButtonClicked );
     connect( m_notification.data(), &KNotification::closed,
-             this, &Notification::onClosed );
+             this, &NotificationNative::onClosed );
     connect( m_notification.data(), &KNotification::ignored,
-             this, &Notification::onIgnored );
+             this, &NotificationNative::onIgnored );
 #if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,67,0)
     connect( m_notification.data(), static_cast<void (KNotification::*)()>(&KNotification::activated),
-             this, &Notification::onActivated );
+             this, &NotificationNative::onActivated );
 #else
     connect( m_notification.data(), &KNotification::defaultActivated,
-             this, &Notification::onActivated );
+             this, &NotificationNative::onActivated );
 #endif
     connect( m_notification.data(), &QObject::destroyed,
-             this, &Notification::onDestroyed );
+             this, &NotificationNative::onDestroyed );
 
     update();
     if (m_notification)
@@ -200,7 +253,7 @@ void Notification::show()
     notificationLog("Created");
 }
 
-void Notification::close()
+void NotificationNative::close()
 {
     notificationLog("Close");
 
@@ -213,7 +266,7 @@ void Notification::close()
     emit closeNotification(this);
 }
 
-void Notification::onButtonClicked(unsigned int id)
+void NotificationNative::onButtonClicked(unsigned int id)
 {
     notificationLog("onButtonClicked");
 
@@ -223,31 +276,31 @@ void Notification::onButtonClicked(unsigned int id)
     }
 }
 
-void Notification::onDestroyed()
+void NotificationNative::onDestroyed()
 {
     notificationLog("Destroyed");
     dropNotification();
 }
 
-void Notification::onClosed()
+void NotificationNative::onClosed()
 {
     notificationLog("onClosed");
     dropNotification();
 }
 
-void Notification::onIgnored()
+void NotificationNative::onIgnored()
 {
     notificationLog("onIgnored");
     dropNotification();
 }
 
-void Notification::onActivated()
+void NotificationNative::onActivated()
 {
     notificationLog("onActivated");
     dropNotification();
 }
 
-void Notification::update()
+void NotificationNative::update()
 {
     if (!m_notification)
         return;
@@ -298,7 +351,7 @@ void Notification::update()
     }
 }
 
-void Notification::notificationLog(const char *message)
+void NotificationNative::notificationLog(const char *message)
 {
     COPYQ_LOG_VERBOSE(
         QString("Notification [%1:%2]: %3")
@@ -307,8 +360,9 @@ void Notification::notificationLog(const char *message)
         .arg(message) );
 }
 
-KNotification *Notification::dropNotification()
+KNotification *NotificationNative::dropNotification()
 {
+    m_closed = true;
     if (!m_notification)
         return nullptr;
 
@@ -317,3 +371,10 @@ KNotification *Notification::dropNotification()
     notification->disconnect(this);
     return notification;
 }
+
+Notification *createNotificationNative(const QColor &iconColor, QObject *parent)
+{
+    return new NotificationNative(iconColor, parent);
+}
+
+#include "notificationnative.moc"

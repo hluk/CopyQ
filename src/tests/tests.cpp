@@ -189,6 +189,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("ERROR: QtCritical: QWindowsPipeWriter::write failed. (The pipe is being closed.)"),
         plain("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
 
+        plain("[kf.notifications] QtWarning: Received a response for an unknown notification."),
+
         regex("QtWarning: QTemporaryDir: Unable to remove .* most likely due to the presence of read-only files."),
 
         // Windows Qt 5.15.2

@@ -700,6 +700,35 @@ void ClipboardServer::loadSettings()
         startMonitoring();
     }
 
+    m_sharedData->notifications->setNativeNotificationsEnabled(
+        appConfig.option<Config::native_notifications>() );
+    m_sharedData->notifications->setNotificationOpacity(
+        m_sharedData->theme.color("notification_bg").alphaF() );
+    m_sharedData->notifications->setNotificationStyleSheet(
+        m_sharedData->theme.getNotificationStyleSheet() );
+
+    int id = appConfig.option<Config::notification_position>();
+    NotificationDaemon::Position position;
+    switch (id) {
+    case 0: position = NotificationDaemon::Top; break;
+    case 1: position = NotificationDaemon::Bottom; break;
+    case 2: position = NotificationDaemon::TopRight; break;
+    case 3: position = NotificationDaemon::BottomRight; break;
+    case 4: position = NotificationDaemon::BottomLeft; break;
+    default: position = NotificationDaemon::TopLeft; break;
+    }
+    m_sharedData->notifications->setPosition(position);
+
+    const int x = appConfig.option<Config::notification_horizontal_offset>();
+    const int y = appConfig.option<Config::notification_vertical_offset>();
+    m_sharedData->notifications->setOffset(x, y);
+
+    const int w = appConfig.option<Config::notification_maximum_width>();
+    const int h = appConfig.option<Config::notification_maximum_height>();
+    m_sharedData->notifications->setMaximumSize(w, h);
+
+    m_sharedData->notifications->updateNotificationWidgets();
+
     m_updateThemeTimer.stop();
 
     COPYQ_LOG("Configuration loaded");

@@ -252,8 +252,22 @@
            </property>
           </widget>
          </item>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="pushButtonColorNotificationBg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
          <item row="8" column="2">
           <widget class="QPushButton" name="pushButtonColorNotificationFg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="3">
+          <widget class="QPushButton" name="pushButtonNotificationFont">
            <property name="text">
             <string/>
            </property>
@@ -402,7 +416,9 @@
   <tabstop>pushButtonNotesFont</tabstop>
   <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>pushButtonNumberFont</tabstop>
+  <tabstop>pushButtonColorNotificationBg</tabstop>
   <tabstop>pushButtonColorNotificationFg</tabstop>
+  <tabstop>pushButtonNotificationFont</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>

@@ -77,15 +77,19 @@ export COPYQ_TESTS_RERUN_FAILED=1
 "$Executable" write text/html "<p><b>Rich text</b> <i>item</i></p>"
 "$Executable" write image/png - < "$Source/src/images/icon_128x128.png"
 
-# FIXME: This does not show notifications.
+# FIXME: This does not show native notifications.
 #        Maybe a user interaction, like mouse move, is required.
-"$Executable" popup "Popup title" "Popup message..."
-"$Executable" notification \
-    .title "Notification title" \
-    .message "Notification message..." \
-    .button OK cmd data \
-    .button Close cmd data
+for native in "true" "false"; do
+    "$Executable" config native_notifications "$native"
+    "$Executable" popup "Popup title" "Popup message..."
+    "$Executable" notification \
+        .title "Notification title" \
+        .message "Notification message..." \
+        .button OK cmd data \
+        .button Close cmd data
+done
 
+"$Executable" sleep 1000
 "$Executable" screenshot > screenshot.png
 
 "$Executable" exit
