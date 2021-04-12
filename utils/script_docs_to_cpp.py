@@ -28,23 +28,20 @@ re_title = re.compile(r'''
       # arguments
       \(.*
     )
-
     |
-
     ^\.\.\s*js:data::\s*
     # variable name
     (?P<variable_name>\w+)
     \s*
     # followed by opening parenthesis
     (?P<variable_api>\(.*)
-
     |
-
     ^\.\.\s*js:class::\s*
     # type name
     (?P<type_name>\w+)$
   )
   ''', re.VERBOSE)
+
 
 def main():
     with open(output_path, mode='w', encoding='utf-8') as output_file:
@@ -59,7 +56,7 @@ def main():
                         name = match.group('function_name') or match.group('variable_name') or match.group('type_name')
                         api = match.group('function_api') or match.group('variable_api') or name
                         description = line.strip()
-                        output = '    addDocumentation("{}", "{}", "{}");\n'\
+                        output = '    addDocumentation("{}", "{}", "{}");\n' \
                             .format(name, api, description)
                         output_file.write(output)
                         match = None
@@ -67,6 +64,7 @@ def main():
                         match = re.match(re_title, line)
 
         output_file.write(footer + '\n')
+
 
 if __name__ == "__main__":
     main()
