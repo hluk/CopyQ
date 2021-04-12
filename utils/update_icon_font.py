@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 '''
 Updates icon font and header files for CopyQ repository.
-
 First argument is path to upacked Font Awesome archive (https://fontawesome.com/).
 '''
 import json
@@ -57,7 +56,6 @@ def write_icon_list_header_file(header_icon_list, icons):
                 bool isBrand;
                 const char *searchTerms;
             };
-
             constexpr Icon iconList[] = {
             %s
             };
@@ -89,7 +87,6 @@ def rename_font_family(path):
     """
     Adds suffix to font family it doesn't conflict with font installed on
     system, which could be in incorrect version.
-
     See: https://github.com/fonttools/fonttools/blob/master/Snippets/rename-fonts.py
     """
 
@@ -151,7 +148,7 @@ def main():
     copy_fonts(font_awesome_src, target_font_dir)
 
     icons_json = os.path.join(
-            font_awesome_src, 'metadata', 'icons.json')
+        font_awesome_src, 'metadata', 'icons.json')
     icons = read_icons(icons_json)
 
     write_icon_list_header_file(header_icon_list, icons)
