@@ -23,6 +23,7 @@
 #include "gui/theme.h"
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui {
 class ConfigTabAppearance;
@@ -82,6 +83,7 @@ private:
     QIcon createThemeIcon(const QString &fileName);
 
     void decoratePreview();
+    void decoratePreviewNow();
 
     Ui::ConfigTabAppearance *ui;
     Theme m_theme;
@@ -89,6 +91,8 @@ private:
 
     QWidget *m_preview = nullptr;
     ItemFactory *m_itemFactory = nullptr;
+
+    QTimer m_timerPreview;
 };
 
 #endif // CONFIGTABAPPEARANCE_H

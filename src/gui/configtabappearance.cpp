@@ -27,6 +27,7 @@
 #include "common/temporarysettings.h"
 #include "common/temporaryfile.h"
 #include "common/textdata.h"
+#include "common/timer.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/iconfont.h"
@@ -116,6 +117,8 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     connect(ui->comboBoxThemes, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated),
 #endif
             this, &ConfigTabAppearance::onComboBoxThemesActivated);
+
+    initSingleShotTimer(&m_timerPreview, 0, this, &ConfigTabAppearance::decoratePreviewNow);
 
     // Connect signals from theme buttons.
     for (auto button : ui->scrollAreaTheme->findChildren<QPushButton *>()) {
@@ -461,6 +464,11 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 }
 
 void ConfigTabAppearance::decoratePreview()
+{
+    m_timerPreview.start();
+}
+
+void ConfigTabAppearance::decoratePreviewNow()
 {
     if ( !m_itemFactory || !isVisible() )
         return;
