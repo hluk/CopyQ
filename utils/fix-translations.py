@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
 One time script to fix window title translation strings in CopyQ.
-
 Removes unneeded application from window titles from translation files.
-
 The application name is added to the title by using
 QGuiApplication::setApplicationDisplayName().
 """
