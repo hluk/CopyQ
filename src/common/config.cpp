@@ -24,7 +24,6 @@
 
 #include <QApplication>
 #include <QByteArray>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QScreen>
 #include <QSettings>
@@ -45,14 +44,12 @@ enum class GeometryAction {
     Restore
 };
 
-QPoint mousePos()
+bool isMousePositionSupported()
 {
     // On Wayland, getting mouse position can return
     // the last known mouse position in an own Qt application window.
     static const bool supported = !QCursor::pos().isNull();
-    if (supported)
-        return QCursor::pos();
-    return QPoint();
+    return supported;
 }
 
 QString toString(const QRect &geometry)
@@ -67,12 +64,11 @@ QString toString(const QRect &geometry)
 int screenNumber(const QWidget &widget, GeometryAction geometryAction)
 {
     if (geometryAction == GeometryAction::Restore) {
-        const QPoint pos = mousePos();
-        if ( !pos.isNull() ) {
-            const int n = screenNumberAt(pos);
-            if (n != -1)
-                return n;
-        }
+        if ( !isMousePositionSupported() )
+            return -1;
+        const int n = screenNumberAt(QCursor::pos());
+        if (n != -1)
+            return n;
     }
 
     QWindow *windowHandle = widget.windowHandle();
@@ -82,26 +78,26 @@ int screenNumber(const QWidget &widget, GeometryAction geometryAction)
             return QGuiApplication::screens().indexOf(screen);
     }
 
-    const int n = QApplication::desktop()->screenNumber(&widget);
-    if (n != -1)
-        return n;
+    return -1;
+}
 
-    QScreen *screen = QGuiApplication::primaryScreen();
-    return QGuiApplication::screens().indexOf(screen);
+QString geometryOptionName(const QWidget &widget)
+{
+    return QString::fromLatin1("Options/%1_geometry").arg(widget.objectName());
 }
 
 QString geometryOptionName(const QWidget &widget, GeometryAction geometryAction, bool openOnCurrentScreen)
 {
-    const QString widgetName = widget.objectName();
+    const QString baseGeometryName = geometryOptionName(widget);
 
     if (!openOnCurrentScreen)
-        return QString::fromLatin1("Options/%1_geometry_global").arg(widgetName);
+        return QString::fromLatin1("%1_global").arg(baseGeometryName);
 
     const int n = screenNumber(widget, geometryAction);
     if (n > 0)
-        return QString::fromLatin1("Options/%1_geometry_screen_%2").arg(widgetName).arg(n);
+        return QString::fromLatin1("%1_screen_%2").arg(baseGeometryName).arg(n);
 
-    return QString::fromLatin1("Options/%1_geometry").arg(widgetName);
+    return baseGeometryName;
 }
 
 QString getGeometryConfigurationFilePath()
@@ -121,6 +117,8 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
 {
     if (openOnCurrentScreen) {
         const int i = screenNumber(widget, geometryAction);
+        if (i == -1)
+            return QString();
         return resolutionTagForScreen(i);
     }
 
@@ -263,8 +261,10 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     const QString optionName = geometryOptionName(*w, GeometryAction::Save, openOnCurrentScreen);
     const QString tag = resolutionTag(*w, GeometryAction::Save, openOnCurrentScreen);
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
-    geometrySettings.setValue( optionName + tag, w->saveGeometry() );
-    geometrySettings.setValue( optionName, w->saveGeometry() );
+    const auto geometry = w->saveGeometry();
+    geometrySettings.setValue(optionName + tag, geometry);
+    geometrySettings.setValue(optionName, geometry);
+    geometrySettings.setValue(geometryOptionName(*w), geometry);
     GEOMETRY_LOG( w, QString::fromLatin1("Save geometry \"%1%2\": %3")
                   .arg(optionName, tag, toString(w->geometry())) );
 }
