@@ -55,11 +55,6 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
             m_timerSaveGeometry.stop();
             m_timerRestoreGeometry.start();
         }
-        if (!m_screenChangeConnected && m_window->windowHandle()) {
-            m_screenChangeConnected = true;
-            connect(m_window->windowHandle(), &QWindow::screenChanged,
-                    this, &WindowGeometryGuard::onScreenChanged);
-        }
         break;
 
     case QEvent::Move:
@@ -127,10 +122,4 @@ void WindowGeometryGuard::restoreWindowGeometry()
 void WindowGeometryGuard::unlockWindowGeometry()
 {
     m_timerUnlockGeometry.stop();
-}
-
-void WindowGeometryGuard::onScreenChanged()
-{
-    m_timerUnlockGeometry.stop();
-    restoreWindowGeometry();
 }
