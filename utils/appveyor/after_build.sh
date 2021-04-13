@@ -65,20 +65,35 @@ export COPYQ_TESTS_RERUN_FAILED=1
 "$Executable" --info
 "$Executable" tests
 
-# Take a screenshot of the main window and notifications.
+# Take a screenshot of the app.
 "$Executable" &
-"$Executable" show
-"$Executable" popup TEST MESSAGE
+"$Executable" showAt 0 0 9999 9999
+
+"$Executable" add "Plain text item"
+"$Executable" add "Unicode: "
+"$Executable" 'write(mimeText, "Highlighted item", mimeColor, "#ff0")'
+"$Executable" 'write(mimeText, "Item with notes", mimeItemNotes, "Notes...")'
+"$Executable" 'write(mimeText, "Item with tags", plugins.itemtags.mimeTags, "important")'
+"$Executable" write text/html "<p><b>Rich text</b> <i>item</i></p>"
+"$Executable" write image/png - < "$Source/src/images/icon_128x128.png"
+
+# FIXME: This does not show notifications.
+#        Maybe a user interaction, like mouse move, is required.
+"$Executable" popup "Popup title" "Popup message..."
 "$Executable" notification \
-    .title Test \
-    .message Message... \
+    .title "Notification title" \
+    .message "Notification message..." \
     .button OK cmd data \
     .button Close cmd data
+
 "$Executable" screenshot > screenshot.png
+
 "$Executable" exit
 wait
+
 export PATH=$OldPath
-appveyor PushArtifact screenshot.png -DeploymentName "Screenshot of the main window with notifications"
+
+appveyor PushArtifact screenshot.png -DeploymentName "App Screenshot"
 
 choco install -y InnoSetup
 cmd " /c C:/ProgramData/chocolatey/bin/ISCC.exe /O$APPVEYOR_BUILD_FOLDER /DAppVersion=$APP_VERSION /DRoot=$Destination /DSource=$Source $Source/Shared/copyq.iss"
