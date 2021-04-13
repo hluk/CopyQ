@@ -20,6 +20,7 @@ class Kf5Kconfig < Formula
     args << "-DKDE_INSTALL_QTPLUGINDIR=lib/qt5/plugins"
 
     args << "-DKCONFIG_USE_GUI=OFF"
+    args << "-DKCONFIG_USE_DBUS=OFF"
 
     mkdir "build" do
       system "cmake", "-G", "Ninja", "..", *args

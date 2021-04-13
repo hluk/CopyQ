@@ -10,7 +10,7 @@ export PATH=$PATH:$INSTALL_PREFIX/bin
 
 "$build" snoretoast "v$SNORETOAST_VERSION" "$SNORETOAST_BASE_URL"
 "$build" extra-cmake-modules
-"$build" kconfig "" "" "-DKCONFIG_USE_GUI=OFF"
+"$build" kconfig "" "" "-DKCONFIG_USE_GUI=OFF -DKCONFIG_USE_DBUS=OFF"
 "$build" kwindowsystem
 "$build" kcoreaddons
 "$build" knotifications
