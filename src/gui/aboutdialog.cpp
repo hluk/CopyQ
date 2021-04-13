@@ -164,7 +164,7 @@ QString AboutDialog::aboutPage()
             + helpLib("LibQxt",
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized",
-                      "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
+                      "Copyright (c) 2011 Ethan Schoonover", "https://ethanschoonover.com/solarized")
 
         + "<p></p>"
 
