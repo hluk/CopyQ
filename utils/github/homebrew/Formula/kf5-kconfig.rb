@@ -1,13 +1,14 @@
 class Kf5Kconfig < Formula
   desc "Configuration system"
   homepage "https://www.kde.org"
-  url "https://download.kde.org/stable/frameworks/5.79/kconfig-5.79.0.tar.xz"
-  sha256 "f948718ac87f573b14bbf73e4af02d488f023cfcf011425af7cdbc0cefca510a"
+  url "https://download.kde.org/stable/frameworks/5.81/kconfig-5.81.0.tar.xz"
+  sha256 "1ddf9e384140ce72bbd555eb36a76d0db1a256391429b02b51769c08ebf0ae8f"
   head "https://invent.kde.org/frameworks/kconfig.git"
 
   depends_on "cmake" => [:build, :test]
-  depends_on "kde-extra-cmake-modules" => [:build, :test]
   depends_on "ninja" => :build
+
+  depends_on "copyq/kde/extra-cmake-modules" => [:build, :test]
 
   depends_on "qt@5"
 

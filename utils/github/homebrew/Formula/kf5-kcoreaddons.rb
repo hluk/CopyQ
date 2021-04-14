@@ -1,13 +1,14 @@
 class Kf5Kcoreaddons < Formula
   desc "Addons to QtCore"
   homepage "https://www.kde.org"
-  url "https://download.kde.org/stable/frameworks/5.79/kcoreaddons-5.79.0.tar.xz"
-  sha256 "6f221bd93be73aeec863cd7089c69e84fef76bea83a906c6cd2c853937813659"
+  url "https://download.kde.org/stable/frameworks/5.81/kcoreaddons-5.81.0.tar.xz"
+  sha256 "ac0ccb1687dd159ad2c6926f766498a2450906266139ec924d7794839a8cfedb"
   head "https://invent.kde.org/frameworks/kcoreaddons.git"
 
   depends_on "cmake" => [:build, :test]
-  depends_on "kde-extra-cmake-modules" => [:build, :test]
   depends_on "ninja" => :build
+
+  depends_on "copyq/kde/extra-cmake-modules" => [:build, :test]
 
   depends_on "qt@5"
 
