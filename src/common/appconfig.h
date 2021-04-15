@@ -420,7 +420,7 @@ struct window_key_press_time_ms : Config<int> {
 
 struct window_wait_for_modifiers_released_ms : Config<int> {
     static QString name() { return "window_wait_for_modifiers_released_ms"; }
-    static Value defaultValue() { return 50; }
+    static Value defaultValue() { return 2000; }
 };
 
 struct row_index_from_one : Config<bool> {
