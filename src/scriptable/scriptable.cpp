@@ -535,6 +535,14 @@ QJSValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Algorit
     return QLatin1String(hash);
 }
 
+QString scriptToLabel(const QString &script)
+{
+    constexpr auto maxScriptSize = 30;
+    if (maxScriptSize < script.size())
+        return script.left(maxScriptSize).simplified() + QLatin1String("...");
+    return script;
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -818,8 +826,10 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QVariantList
 QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList &arguments)
 {
     m_stack.prepend(label);
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
     const auto v = m_safeCall.callWithInstance(*fn, arguments);
     m_stack.pop_front();
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
     return v;
 }
 
@@ -2844,20 +2854,20 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     auto globalObject = engine()->globalObject();
     const auto evalFn = globalObject.property("eval");
 
+    QString label;
     while ( skipArguments < fnArgs.size() && canContinue() && !hasUncaughtException() ) {
         if ( result.isCallable() ) {
             const auto arguments = fnArgs.mid(skipArguments);
             if ( result.strictlyEquals(evalFn) )
                 globalObject.setProperty( QStringLiteral("arguments"), toScriptValue(arguments, this) );
             m_skipArguments = -1;
-            const QString label = QStringLiteral("call@arg:%1").arg(skipArguments);
             result = call( label, &result, arguments );
             if (m_skipArguments == -1)
                 break;
             skipArguments += m_skipArguments;
         } else {
             cmd = toString(fnArgs[skipArguments]);
-            const QString label = QStringLiteral("eval@arg:%1").arg(skipArguments + 1);
+            label = scriptToLabel(cmd);
             result = eval(cmd, label);
             ++skipArguments;
         }
@@ -3128,9 +3138,11 @@ QJSValue Scriptable::screenshot(bool select)
 
 QJSValue Scriptable::eval(const QString &script, const QString &label)
 {
-    m_stack.prepend(label);
+    m_stack.prepend(QStringLiteral("eval:") + label);
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
     const auto result = m_safeEval.call(QJSValueList() << QJSValue(script));
     m_stack.pop_front();
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
 
     if (m_abort != Abort::None) {
         clearExceptions();
@@ -3158,11 +3170,7 @@ void Scriptable::setActionName(const QString &actionName)
 
 QJSValue Scriptable::eval(const QString &script)
 {
-    constexpr auto maxScriptSize = 70;
-    const auto scriptSimplified = script.left(maxScriptSize).simplified();
-    const QString name = QStringLiteral("eval: %1%2")
-        .arg(scriptSimplified, maxScriptSize < script.size() ? "..." : "");
-    return eval(script, name);
+    return eval(script, scriptToLabel(script));
 }
 
 QTextCodec *Scriptable::codecFromNameOrThrow(const QJSValue &codecName)

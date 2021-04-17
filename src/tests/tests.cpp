@@ -3540,7 +3540,7 @@ void Tests::scriptCommandWithError()
     );
     RUN_EXPECT_ERROR_WITH_STDERR(
         "", CommandError,
-        "\nsource@<bad_script>\n"
+        "\neval:source@<bad_script>\n"
         "--- end backtrace ---\n"
     );
     m_test->setEnv("COPYQ_TEST_THROW", "0");
