@@ -176,6 +176,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("TemporaryFile", "TemporaryFile", "Wrapper for QTemporaryFile Qt class.");
     addDocumentation("arguments", "(Array)", "Array for accessing arguments passed to current function or the script");
     addDocumentation("global", "(Object)", "Object allowing to modify global scope which contains all functions like");
+    addDocumentation("console", "(Object)", "Allows some logging and debugging.");
     addDocumentation("mimeText", "(text/plain)", "Data contains plain text content.");
     addDocumentation("mimeHtml", "(text/html)", "Data contains HTML content.");
     addDocumentation("mimeUriList", "(text/uri-list)", "Data contains list of links to files, web pages etc.");

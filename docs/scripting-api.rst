@@ -1364,6 +1364,27 @@ Objects
     Object allowing to modify global scope which contains all functions like
     ``copy()`` or ``add()``. This is useful for :ref:`commands-script`.
 
+.. js:data:: console (Object)
+
+    Allows some logging and debugging.
+
+   .. code-block:: js
+
+        // Print a message if COPYQ_LOG_LEVEL=DEBUG
+        // environment variable is set
+        console.log(
+            'Supported console properties/functions:',
+            Object.getOwnPropertyNames(console))
+        console.warn('Changing clipboard...')
+
+        // Elapsed time
+        console.time('copy')
+        copy('TEST')
+        console.timeEnd('copy')
+
+        // Ensure a condition is true before continuing
+        console.assert(str(clipboard()) == 'TEST')
+
 MIME Types
 ----------
 

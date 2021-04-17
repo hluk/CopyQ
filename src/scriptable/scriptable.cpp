@@ -547,6 +547,8 @@ Scriptable::Scriptable(
     , m_inputSeparator("\n")
     , m_input()
 {
+    m_engine->installExtensions(QJSEngine::ConsoleExtension);
+
     QJSValue globalObject = m_engine->globalObject();
     globalObject.setProperty(QStringLiteral("global"), globalObject);
 
