@@ -6,8 +6,20 @@ Scripting API
 CopyQ provides scripting capabilities to automatically handle clipboard
 changes, organize items, change settings and much more.
 
-In addition to features provided by Qt Script there are following
-`functions`_, `types`_, `objects`_ and `MIME types`_.
+Supported language features and base function can be found at `ECMAScript
+Reference <http://doc.qt.io/qt-5/ecmascript.html>`__.
+
+CopyQ-specific features described in this document:
+
+- `Functions`_
+- `Types`_
+- `Objects`_
+- `MIME types`_
+- `Plugins`_
+
+.. note::
+
+    These terms are equivalent: format, MIME type, media type
 
 Execute Script
 --------------

@@ -5,8 +5,7 @@ If you need to process items in some non-trivial way you can take
 advantage of the scripting interface the application provides. This is
 accessible on command line as ``copyq eval SCRIPT`` or
 ``copyq -e SCRIPT`` where ``SCRIPT`` is string containing commands
-written in JavaScript-similar scripting language (Qt Script is
-ECMAScript scripting language, currently equivalent to ES5).
+written in JavaScript-similar scripting language (see :ref:`scripting-api`).
 
 Every command line option is available as function in the scripting
 interface. Command ``copyq help tab`` can be written as
@@ -65,9 +64,5 @@ As mentioned above, all command line options are also available for
 scripting e.g.: ``show()``, ``hide()``, ``toggle()``, ``copy()``,
 ``paste()``.
 
-Reference for available scripting functions can be found at
-:ref:`scripting-api`.
-
-Other supported functions can be found at `ECMAScript
-Reference <http://doc.qt.io/qt-5/ecmascript.html>`__.
-
+Reference for available scripting functions and language features can be found
+at :ref:`scripting-api`.
