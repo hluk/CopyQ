@@ -1954,3 +1954,7 @@ Use ``plugins`` object to access functionality of plugins.
 
    Unpin items in given rows or selected items.
 
+.. js:data:: plugins.itempinned.mimePinned (application/x-copyq-item-pinned)
+
+   Presence of the format in an item indicates that it is pinned.
+

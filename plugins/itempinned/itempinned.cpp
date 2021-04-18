@@ -208,6 +208,11 @@ bool ItemPinnedSaver::canMoveItems(const QList<QModelIndex> &indexList)
             && ItemSaverWrapper::canMoveItems(indexList);
 }
 
+QString ItemPinnedSaver::getMimePinned() const
+{
+    return ::mimePinned;
+}
+
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)
 {
     if (!m_model || m_lastPinned < start) {
