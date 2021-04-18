@@ -39,18 +39,10 @@
 
 namespace {
 
-QStringList scriptableCompletions()
-{
-    return scriptableObjects()
-         + scriptableProperties()
-         + scriptableFunctions()
-         + scriptableKeywords();
-}
-
 class CommandCompleterModel final : public QStringListModel {
 public:
     explicit CommandCompleterModel(QObject *parent)
-        : QStringListModel(scriptableCompletions(), parent)
+        : QStringListModel(parent)
     {
         for (const auto &name : scriptableObjects())
             m_doc[name].tag = "t";
@@ -65,6 +57,8 @@ public:
             m_doc[name].tag = "k";
 
         addDocumentation();
+
+        setStringList(m_doc.keys());
     }
 
     int columnCount(const QModelIndex &) const override

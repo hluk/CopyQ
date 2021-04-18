@@ -248,39 +248,56 @@ private:
     QColor m_bgColor;
 };
 
+QStringList getScriptableObjects()
+{
+    QJSEngine engine;
+    Scriptable scriptable(&engine, nullptr);
+
+    QJSValue globalObject = engine.globalObject();
+    QJSValueIterator it(globalObject);
+
+    QStringList result;
+    while (it.hasNext()) {
+        it.next();
+        result.append(it.name());
+    }
+
+    return result;
+}
+
 } // namespace
 
 QStringList scriptableKeywords()
 {
-    return QStringList()
-            << "arguments"
-            << "break"
-            << "do"
-            << "instanceof"
-            << "typeof"
-            << "case"
-            << "else"
-            << "new"
-            << "var"
-            << "catch"
-            << "finally"
-            << "return"
-            << "void"
-            << "continue"
-            << "for"
-            << "switch"
-            << "while"
-            << "debugger"
-            << "function"
-            << "this"
-            << "with"
-            << "default"
-            << "if"
-            << "throw"
-            << "delete"
-            << "in"
-            << "try"
-               ;
+    return {
+        QStringLiteral("arguments"),
+        QStringLiteral("break"),
+        QStringLiteral("do"),
+        QStringLiteral("instanceof"),
+        QStringLiteral("typeof"),
+        QStringLiteral("case"),
+        QStringLiteral("else"),
+        QStringLiteral("new"),
+        QStringLiteral("var"),
+        QStringLiteral("catch"),
+        QStringLiteral("finally"),
+        QStringLiteral("return"),
+        QStringLiteral("void"),
+        QStringLiteral("continue"),
+        QStringLiteral("for"),
+        QStringLiteral("switch"),
+        QStringLiteral("while"),
+        QStringLiteral("debugger"),
+        QStringLiteral("function"),
+        QStringLiteral("this"),
+        QStringLiteral("with"),
+        QStringLiteral("default"),
+        QStringLiteral("if"),
+        QStringLiteral("throw"),
+        QStringLiteral("delete"),
+        QStringLiteral("in"),
+        QStringLiteral("try"),
+    };
 }
 
 QStringList scriptableProperties()
@@ -319,22 +336,7 @@ QStringList scriptableFunctions()
 
 QStringList scriptableObjects()
 {
-    QStringList result;
-    result.append("ByteArray");
-    result.append("Dir");
-    result.append("File");
-    result.append("TemporaryFile");
-
-    QJSEngine engine;
-
-    QJSValue globalObject = engine.globalObject();
-    QJSValueIterator it(globalObject);
-
-    while (it.hasNext()) {
-        it.next();
-        result.append(it.name());
-    }
-
+    static const QStringList result = getScriptableObjects();
     return result;
 }
 

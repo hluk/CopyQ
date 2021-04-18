@@ -24,7 +24,7 @@ re_title = re.compile(r'''
       # function return value
       .*?
       # function name
-      (?P<function_name>\w+)
+      (?P<function_name>[\w.]+)
       # arguments
       \(.*
     )
@@ -33,40 +33,69 @@ re_title = re.compile(r'''
 
     ^\.\.\s*js:data::\s*
     # variable name
-    (?P<variable_name>\w+)
+    (?P<variable_name>[\w.]+)
     \s*
     # followed by opening parenthesis
-    (?P<variable_api>\(.*)
+    (?P<variable_api>\(.*)?
 
     |
 
     ^\.\.\s*js:class::\s*
     # type name
-    (?P<type_name>\w+)$
+    (?P<type_name>[\w.]+)$
   )
   ''', re.VERBOSE)
+
+
+def write_api(output_file, name, api, description, rtype):
+    if rtype:
+        api = f'{api} -> {rtype}'
+    output = '    addDocumentation("{}", "{}", "{}");\n'\
+        .format(name, api, description)
+    output_file.write(output)
+
 
 def main():
     with open(output_path, mode='w', encoding='utf-8') as output_file:
         output_file.write((header % readme_path) + '\n')
 
         with open(readme_path, mode='r', encoding='utf-8') as readme_file:
-            match = None
+            name = None
+            api = None
+            description = None
+            rtype = None
             for line in readme_file:
+                # Skip lines with large indentation, like function aliases.
+                if line.startswith(' ' * 5):
+                    continue
+
                 line = line.strip().replace('``', '`')
-                if line:
-                    if match:
-                        name = match.group('function_name') or match.group('variable_name') or match.group('type_name')
-                        api = match.group('function_api') or match.group('variable_api') or name
-                        description = line.strip()
-                        output = '    addDocumentation("{}", "{}", "{}");\n'\
-                            .format(name, api, description)
-                        output_file.write(output)
-                        match = None
+                line = re.sub(r':js:func:`([^`]+)`', r'`\1()`', line)
+                line = re.sub(r'/\*[^*]+\*/', r'', line)
+
+                match = re.match(re_title, line)
+                if match:
+                    if name:
+                        write_api(output_file, name, api, description, rtype)
+                    name = match.group('function_name') or match.group('variable_name') or match.group('type_name')
+                    api = match.group('function_api') or match.group('variable_api') or name
+                    description = None
+                    rtype = None
+                elif not description or not description.endswith("."):
+                    if description:
+                        description += " " + line.strip()
                     else:
-                        match = re.match(re_title, line)
+                        description = line.strip()
+                else:
+                    rtype_match = re.match(r'^\s*:rtype: (?P<rtype>.+)', line)
+                    if rtype_match:
+                        rtype = rtype_match.group('rtype')
+
+            if name:
+                write_api(output_file, name, api, description, rtype)
 
         output_file.write(footer + '\n')
+
 
 if __name__ == "__main__":
     main()
