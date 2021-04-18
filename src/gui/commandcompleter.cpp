@@ -58,7 +58,9 @@ public:
 
         addDocumentation();
 
-        setStringList(m_doc.keys());
+        QStringList completionItems = m_doc.keys();
+        std::sort(std::begin(completionItems), std::end(completionItems));
+        setStringList(completionItems);
     }
 
     int columnCount(const QModelIndex &) const override
