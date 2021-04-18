@@ -1702,8 +1702,9 @@ Objects
 .. js:data:: global
 
     Object allowing to modify global scope which contains all functions like
-    :js:func:`copy` or :js:func:`add`. This is useful for
-    :ref:`commands-script`.
+    :js:func:`copy` or :js:func:`add`.
+
+    This is useful for :ref:`commands-script`.
 
 .. js:data:: console
 

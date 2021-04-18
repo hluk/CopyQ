@@ -39,22 +39,32 @@
 
 namespace {
 
+const QLatin1String tagObject("obj");
+const QLatin1String tagType("type");
+const QLatin1String tagProperty("prop");
+const QLatin1String tagFunction("fn");
+const QLatin1String tagKeyword("kw");
+
 class CommandCompleterModel final : public QStringListModel {
 public:
     explicit CommandCompleterModel(QObject *parent)
         : QStringListModel(parent)
     {
-        for (const auto &name : scriptableObjects())
-            m_doc[name].tag = "t";
+        for (const QString &name : scriptableObjects()) {
+            if (name.size() > 1 && name[0].isUpper() && name[1].isLower())
+                m_doc[name].tag = tagType;
+            else
+                m_doc[name].tag = tagObject;
+        }
 
         for (const auto &name : scriptableProperties())
-            m_doc[name].tag = "o";
+            m_doc[name].tag = tagProperty;
 
         for (const auto &name : scriptableFunctions())
-            m_doc[name].tag = "fn";
+            m_doc[name].tag = tagFunction;
 
         for (const auto &name : scriptableKeywords())
-            m_doc[name].tag = "k";
+            m_doc[name].tag = tagKeyword;
 
         addDocumentation();
 
@@ -74,7 +84,7 @@ public:
 
         if (index.column() == 1) {
             if (role == Qt::DisplayRole || role == Qt::EditRole)
-                return QString(documentationForRow(row).tag);
+                return documentationForRow(row).tag;
 
             if (role == Qt::ForegroundRole)
                 return QColor(Qt::gray);
@@ -122,18 +132,17 @@ private:
     QString typeForRow(int row) const
     {
         const auto tagText = documentationForRow(row).tag;
-        if (tagText.isEmpty())
-            return QString();
-
-        const char tag = tagText[0].toLatin1();
-        switch (tag) {
-        case 'a': return "array";
-        case 'k': return "keyword";
-        case 'f': return "function";
-        case 'o': return "object";
-        case 't': return "type";
-        default: return QString();
-        }
+        if (tagText == tagObject)
+            return QStringLiteral("object");
+        if (tagText == tagType)
+            return QStringLiteral("type");
+        if (tagText == tagProperty)
+            return QStringLiteral("property");
+        if (tagText == tagFunction)
+            return QStringLiteral("function");
+        if (tagText == tagKeyword)
+            return QStringLiteral("keyword");
+        return tagText;
     }
 
     QHash<QString, ScriptableDocumentation> m_doc;

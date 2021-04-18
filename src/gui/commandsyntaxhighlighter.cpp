@@ -248,6 +248,11 @@ private:
     QColor m_bgColor;
 };
 
+bool isPublicName(const QString &name)
+{
+    return !name.startsWith('_');
+}
+
 QStringList getScriptableObjects()
 {
     QJSEngine engine;
@@ -259,7 +264,8 @@ QStringList getScriptableObjects()
     QStringList result;
     while (it.hasNext()) {
         it.next();
-        result.append(it.name());
+        if ( isPublicName(it.name()) )
+            result.append(it.name());
     }
 
     return result;
@@ -307,7 +313,8 @@ QStringList scriptableProperties()
     QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
     for (int i = 0; i < scriptableMetaObject.propertyCount(); ++i) {
         QMetaProperty property = scriptableMetaObject.property(i);
-        result.append(property.name());
+        if ( isPublicName(property.name()) )
+            result.append(property.name());
     }
 
     result.removeOne("objectName");
@@ -325,7 +332,8 @@ QStringList scriptableFunctions()
 
         if (method.methodType() == QMetaMethod::Slot && method.access() == QMetaMethod::Public) {
             const QString name = methodName(method);
-            result.append(name);
+            if ( isPublicName(name) )
+                result.append(name);
         }
     }
 

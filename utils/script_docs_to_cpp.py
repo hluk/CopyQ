@@ -71,6 +71,7 @@ def main():
 
                 line = line.strip().replace('``', '`')
                 line = re.sub(r':js:func:`([^`]+)`', r'`\1()`', line)
+                line = re.sub(r':js:[^:]*:`([^`]+)`', r'`\1`', line)
                 line = re.sub(r'/\*[^*]+\*/', r'', line)
 
                 match = re.match(re_title, line)
