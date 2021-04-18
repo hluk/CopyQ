@@ -163,6 +163,11 @@ void ItemPinnedScriptable::unpinData()
     call("removeData", QVariantList() << mimePinned);
 }
 
+QString ItemPinnedScriptable::getMimePinned() const
+{
+    return ::mimePinned;
+}
+
 ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver)
     : ItemSaverWrapper(saver)
     , m_model(model)
@@ -206,11 +211,6 @@ bool ItemPinnedSaver::canMoveItems(const QList<QModelIndex> &indexList)
 {
     return !containsPinnedItems(indexList)
             && ItemSaverWrapper::canMoveItems(indexList);
-}
-
-QString ItemPinnedSaver::getMimePinned() const
-{
-    return ::mimePinned;
 }
 
 void ItemPinnedSaver::onRowsInserted(const QModelIndex &, int start, int end)

@@ -42,6 +42,8 @@ protected:
 class ItemPinnedScriptable final : public ItemScriptable
 {
     Q_OBJECT
+    Q_PROPERTY(QString mimePinned READ getMimePinned CONSTANT)
+
 public slots:
     bool isPinned();
 
@@ -50,12 +52,13 @@ public slots:
 
     void pinData();
     void unpinData();
+
+    QString getMimePinned() const;
 };
 
 class ItemPinnedSaver final : public QObject, public ItemSaverWrapper
 {
     Q_OBJECT
-    Q_PROPERTY(QString mimePinned READ getMimePinned CONSTANT)
 
 public:
     ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver);
@@ -65,8 +68,6 @@ public:
     bool canDropItem(const QModelIndex &index) override;
 
     bool canMoveItems(const QList<QModelIndex> &indexList) override;
-
-    QString getMimePinned() const;
 
 private:
     void onRowsInserted(const QModelIndex &parent, int start, int end);

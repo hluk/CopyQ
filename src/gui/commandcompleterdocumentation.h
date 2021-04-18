@@ -210,4 +210,5 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("plugins.itempinned.isPinned", "plugins.itempinned.isPinned(rows, ...)", "Returns true only if any item in given rows is pinned.");
     addDocumentation("plugins.itempinned.pin", "plugins.itempinned.pin(rows, ...)", "Pin items in given rows or selected items or new item created from clipboard (if called from automatic command).");
     addDocumentation("plugins.itempinned.unpin", "plugins.itempinned.unpin(rows, ...)", "Unpin items in given rows or selected items.");
+    addDocumentation("plugins.itempinned.mimePinned", "(application/x-copyq-item-pinned)", "Presence of the format in an item indicates that it is pinned.");
 }
