@@ -191,7 +191,9 @@ QString getConfigurationFilePath(const char *suffix)
 
 QString settingsDirectoryPath()
 {
-    return QDir::cleanPath( getConfigurationFilePath("") + QLatin1String("/..") );
+    static const QString path =
+        QDir::cleanPath( getConfigurationFilePath("") + QLatin1String("/..") );
+    return path;
 }
 
 QVariant geometryOptionValue(const QString &optionName)
