@@ -23,6 +23,4 @@ class Notification;
 class QColor;
 class QObject;
 
-void initNotificationNativeConfiguration();
-
 Notification *createNotificationNative(const QColor &iconColor, QObject *parent);

@@ -50,16 +50,6 @@ namespace {
 
 constexpr auto componentName = "copyq";
 
-constexpr auto defaultConfiguration = R"([Global]
-IconName=copyq
-Comment=CopyQ Clipboard Manager
-Name=CopyQ
-
-[Event/generic]
-Name=Generic event
-Action=Popup
-)";
-
 QPixmap defaultIcon()
 {
     static QPixmap pixmap = appIcon().pixmap(512);
@@ -115,38 +105,6 @@ private:
 };
 
 } // namespace
-
-void initNotificationNativeConfiguration()
-{
-    const QString dataDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    QDir dir(dataDir);
-    const bool pathOk = dir.mkpath("knotifications5") && dir.cd("knotifications5");
-    if (!pathOk) {
-        log( QString("Failed to create directory for notification configuration: %1")
-             .arg(dir.absolutePath()), LogWarning );
-        return;
-    }
-
-    const QString configPath = dir.absoluteFilePath("%1.notifyrc").arg(componentName);
-    COPYQ_LOG( QString("Notification configuration: %1").arg(configPath) );
-    QFile configFile(configPath);
-    if ( configFile.exists() )
-        return;
-
-    if ( !configFile.open(QIODevice::WriteOnly) ) {
-        log( QString("Failed to open notification config file \"%1\": %2")
-             .arg(configPath, configFile.errorString()), LogWarning );
-        return;
-    }
-
-    if ( configFile.write(defaultConfiguration) == -1 ) {
-        log( QString("Failed to write notification config file \"%1\": %2")
-             .arg(configPath, configFile.errorString()), LogWarning );
-        return;
-    }
-
-    configFile.close();
-}
 
 NotificationNative::NotificationNative(const QColor &iconColor, QObject *parent)
     : Notification(parent)

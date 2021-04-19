@@ -69,11 +69,6 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_maximumWidthPoints(300)
     , m_maximumHeightPoints(100)
 {
-#ifdef WITH_NATIVE_NOTIFICATIONS
-    if (hasNativeNotifications())
-        initNotificationNativeConfiguration();
-#endif
-
     initSingleShotTimer( &m_timerUpdate, 100, this, &NotificationDaemon::doUpdateNotificationWidgets );
 }
 
