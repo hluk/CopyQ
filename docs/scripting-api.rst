@@ -534,9 +534,18 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Opens action dialog.
 
-.. js:function:: /*row*/ action(row, ..., command, outputItemSeparator)
+.. js:function:: /*row*/ action([rows, ...], command, [outputItemSeparator])
 
    Runs command for items in current tab.
+
+   If rows arguments is specified, ``%1`` in the command will be replaced with
+   concatenated text of the rows.
+
+   If no rows are specified, ``%1`` in the command will be replaced with
+   clipboard text.
+
+   The concatenated text (if rows are defined) or clipboard text is also passed
+   on standard input of the command.
 
 .. js:function:: popup(title, message, [time=8000])
 

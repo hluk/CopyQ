@@ -1353,6 +1353,8 @@ void Scriptable::action()
         text.append( getTextData(m_proxy->browserItemData(m_tabName, row, mimeText)) );
     }
 
+    QString cmd = toString(value);
+
     m_skipArguments = i + 2;
 
     if (!anyRows) {
@@ -1363,7 +1365,7 @@ void Scriptable::action()
 
     if (i < argumentCount()) {
         Command command;
-        command.cmd = toString(value);
+        command.cmd = cmd;
         command.output = mimeText;
         command.input = mimeText;
         command.wait = false;

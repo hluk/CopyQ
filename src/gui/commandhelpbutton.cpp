@@ -75,7 +75,7 @@ QString help()
             + example("copyq add \"1 + 2 = 3\"; copyq show\ncopyq popup \"1 + 2\" \"= 3\"")
             + " "
             + escapeHtml( CommandHelpButton::tr(
-                              "Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.") )
+                              "Program argument %1 will be substituted for item text.") )
             + "</p>"
             + "<p>"
             + escapeHtml( CommandHelpButton::tr(
