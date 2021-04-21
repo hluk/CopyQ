@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-set -exo pipefail
+set -exuo pipefail
 
 # shellcheck disable=SC1091
 source utils/appveyor/env.sh
@@ -7,14 +7,22 @@ source utils/appveyor/env.sh
 Source=$APPVEYOR_BUILD_FOLDER
 Destination=$APPVEYOR_BUILD_FOLDER/$APP
 Executable=$Destination/copyq.exe
-BuildPlugins=$BUILD_PATH/plugins/$BUILD_SUB_DIR
+BuildPlugins=$BUILD_PATH/plugins/${BUILD_SUB_DIR:-}
 
 mkdir -p "$Destination"
 
 cmake --install "$BUILD_PATH" --config Release --prefix "$Destination" --verbose
 
-cp -v "$INSTALL_PREFIX/bin/KF5"*.dll "$Destination"
-cp -v "$INSTALL_PREFIX/bin/snoretoast.exe" "$Destination"
+if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
+    cp -v "$INSTALL_PREFIX/bin/KF5"*.dll "$Destination"
+    cp -v "$INSTALL_PREFIX/bin/snoretoast.exe" "$Destination"
+    kf5_libraries=(
+        "$Destination/KF5ConfigCore.dll"
+        "$Destination/KF5Notifications.dll"
+    )
+else
+    kf5_libraries=()
+fi
 
 cp -v "$Source/AUTHORS" "$Destination"
 cp -v "$Source/LICENSE" "$Destination"
@@ -38,8 +46,7 @@ cp -v "$OPENSSL_PATH/$LIBSSL" "$Destination"
     --no-angle \
     --no-opengl-sw \
     --no-quick \
-    "$Destination/KF5ConfigCore.dll" \
-    "$Destination/KF5Notifications.dll" \
+    "${kf5_libraries[@]}" \
     "$Executable"
 
 # Create and upload portable zip file.
@@ -77,17 +84,15 @@ export COPYQ_TESTS_RERUN_FAILED=1
 "$Executable" write text/html "<p><b>Rich text</b> <i>item</i></p>"
 "$Executable" write image/png - < "$Source/src/images/icon_128x128.png"
 
-# FIXME: This does not show native notifications.
+# FIXME: Native notifications do not show up.
 #        Maybe a user interaction, like mouse move, is required.
-for native in "true" "false"; do
-    "$Executable" config native_notifications "$native"
-    "$Executable" popup "Popup title" "Popup message..."
-    "$Executable" notification \
-        .title "Notification title" \
-        .message "Notification message..." \
-        .button OK cmd data \
-        .button Close cmd data
-done
+"$Executable" config native_notifications "false"
+"$Executable" popup "Popup title" "Popup message..."
+"$Executable" notification \
+    .title "Notification title" \
+    .message "Notification message..." \
+    .button OK cmd data \
+    .button Close cmd data
 
 "$Executable" sleep 1000
 "$Executable" screenshot > screenshot.png

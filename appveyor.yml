@@ -28,6 +28,15 @@ environment:
       OPENSSL_PATH: /c/OpenSSL-v111-Win64/bin
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
+      WITH_NATIVE_NOTIFICATIONS: "ON"
+
+    - QTDIR: /c/Qt/5.15/mingw81_64
+      CMAKE_GENERATOR: MinGW Makefiles
+      MINGW_PATH: /c/Qt/Tools/mingw810_64
+      OPENSSL_PATH: /c/OpenSSL-v111-Win64/bin
+      LIBSSL: libssl-1_1-x64.dll
+      LIBCRYPTO: libcrypto-1_1-x64.dll
+      WITH_NATIVE_NOTIFICATIONS: "OFF"
 
 # Parameters for default build commands (build_script is used instead).
 build:

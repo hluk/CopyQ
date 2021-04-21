@@ -121,7 +121,7 @@ set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LI
 target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
 
 # install
-if (MSVC)
+if (WIN32)
     install(TARGETS ${COPYQ_EXECUTABLE_NAME}
         RUNTIME DESTINATION . COMPONENT Runtime
         LIBRARY DESTINATION . COMPONENT Runtime
