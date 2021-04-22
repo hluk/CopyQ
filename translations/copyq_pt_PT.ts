@@ -661,7 +661,7 @@ Deixe vazio para desativar.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="444"/>
@@ -809,7 +809,7 @@ Nota: se for aplicado manualmente, nenhuns outros comandos automáticos são exe
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Dicas de contexto</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
@@ -1451,7 +1451,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Utilizar notificações nativas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1651,7 +1651,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferências</translation>
     </message>
 </context>
 <context>
@@ -2290,12 +2290,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Não pode remover itens com uma etiqueta de bloqueio</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Desmarcar as etiquetas dos itens primeiro para os remover.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2359,12 +2359,12 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquear</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Evite remover o item</translation>
     </message>
 </context>
 <context>
@@ -3003,22 +3003,22 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Texto copiado (%n linha)</numerusform>
+            <numerusform>Texto copiado (%n linhas)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Texto copiado</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dados copiados</translation>
     </message>
 </context>
 <context>
@@ -3365,7 +3365,7 @@ A predefinição é o primeiro.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar o gestor em segundo plano antes de executar um comando.</translation>
     </message>
     <message>
         <source>
@@ -3459,7 +3459,7 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="839"/>
         <location filename="../src/scriptable/scriptable.cpp" line="876"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Gestor da Área de Transferência</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
