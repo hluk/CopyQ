@@ -1,3 +1,41 @@
+# v4.1.0
+
+- Old notification system can now be used instead of native/system
+  notifications (#1620). This can be disabled in Notifications tab in
+  Preferences.
+
+- Additional configuration file for notifications will not be created
+  automatically (#1638).
+
+- In scripting, `console` object can be used for logging, measuring elapsed
+  time and asserting conditions.
+
+- `plugins.itempinned.mimePinned` contains item data format for pinned items
+  (item is pinned if it contains the format).
+
+- Command completion menu contains more complete list of script
+  objects/function and better description.
+
+- Action dialog command, `action()` and commands (if "Content"/filter regular
+  expression is unset) now do not replace `%2` through `%9`. This allows
+  passing URLs without requiring to escape encoded characters like `%20` or
+  `%3A`.
+
+- Syntax highlighting for hexadecimal and boolean values in the command editor.
+
+- Fix moving the main window to different display/screen (#1624).
+
+- Windows: Native notifications are disabled on Windows 7 (#1623). This fixes
+  crash because of unsupported features.
+
+- Windows: Fixed crash when loading some themes (#1621).
+
+- Wayland: Restores last stored geometry for a window (since getting current
+  screen does not work).
+
+- MinGW Windows builds are available again (without native notification
+  support).
+
 # v4.0.0
 
 ## Features
