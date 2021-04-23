@@ -90,7 +90,7 @@ bool isModifierPressed(Display *display)
 
 bool waitForModifiersReleased(Display *display, const AppConfig &config)
 {
-    const int maxWaitForModsReleaseMs = config.option<Config::window_wait_for_modifiers_released_ms>();
+    const int maxWaitForModsReleaseMs = config.option<Config::window_wait_for_modifier_released_ms>();
     if (maxWaitForModsReleaseMs >= 0) {
         SleepTimer t(maxWaitForModsReleaseMs);
         while (t.sleep()) {

@@ -418,8 +418,8 @@ struct window_key_press_time_ms : Config<int> {
 #endif
 };
 
-struct window_wait_for_modifiers_released_ms : Config<int> {
-    static QString name() { return "window_wait_for_modifiers_released_ms"; }
+struct window_wait_for_modifier_released_ms : Config<int> {
+    static QString name() { return "window_wait_for_modifier_released_ms"; }
     static Value defaultValue() { return 2000; }
 };
 
