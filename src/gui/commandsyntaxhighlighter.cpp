@@ -92,7 +92,7 @@ public:
         , m_reFunctions(createRegExp(scriptableFunctions()))
         , m_reKeywords(createRegExp(scriptableKeywords()))
         , m_reLabels(commandLabelRegExp())
-        , m_reNumbers("(?:\\b|%)\\d+")
+        , m_reConstants("\\b0x[0-9A-Fa-f]+|(?:\\b|%)\\d+|\\btrue\\b|\\bfalse\\b")
     {
     }
 
@@ -123,9 +123,9 @@ protected:
         labelsFormat.setForeground(mixColor(m_bgColor, 40, 40, -40));
         highlight(text, m_reLabels, labelsFormat);
 
-        QTextCharFormat numberFormat;
-        numberFormat.setForeground(mixColor(m_bgColor, 40, -40, -40));
-        highlight(text, m_reNumbers, numberFormat);
+        QTextCharFormat constantFormat;
+        constantFormat.setForeground(mixColor(m_bgColor, 40, -40, -40));
+        highlight(text, m_reConstants, constantFormat);
 
         highlightBlocks(text);
     }
@@ -244,7 +244,7 @@ private:
     QRegularExpression m_reFunctions;
     QRegularExpression m_reKeywords;
     QRegularExpression m_reLabels;
-    QRegularExpression m_reNumbers;
+    QRegularExpression m_reConstants;
     QColor m_bgColor;
 };
 
