@@ -291,6 +291,8 @@ unlike in GUI, where row numbers start from 1 by default.
    This also sets :js:data:`mimeOwner` format so automatic commands are not run
    on the new data and it's not stored in clipboard tab.
 
+   All other data formats are dropped from clipboard.
+
    :throws Error: Thrown if clipboard fails to be set.
 
    Example -- set both text and rich text:
