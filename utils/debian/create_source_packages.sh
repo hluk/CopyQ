@@ -5,6 +5,7 @@ distros=(
     bionic
     focal
     groovy
+    hirsute
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
