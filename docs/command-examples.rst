@@ -394,14 +394,14 @@ for item in row "2".
     Name=Copy Nth Item
     Command="
         copyq:
-        var shortcut = str(data(\"application/x-copyq-shortcut\"))
-        var number = shortcut ? shortcut.replace(/^\\D+/g, '') : currentItem();
-        selectItems(number)
-        copy(\"application/x-copyq-item\", pack(getItem(number)))"
+        var shortcut = str(data(\"application/x-copyq-shortcut\"));
+        var row = shortcut ? shortcut.replace(/^\\D+/g, '') : currentItem();
+        var itemIndex = (config('row_index_from_one') == 'true') ? row - 1 : row;
+        selectItems(itemIndex);
+        copy(\"application/x-copyq-item\", pack(getItem(itemIndex)));"
     InMenu=true
     Icon=\xf0cb
     Shortcut=ctrl+1, ctrl+2, ctrl+3, ctrl+4, ctrl+5, ctrl+6, ctrl+7, ctrl+8, ctrl+9, ctrl+0
-    GlobalShortcut=meta+shift+w, meta+shift+e, meta+shift+q, DISABLED
 
 Edit Files
 ~~~~~~~~~~
