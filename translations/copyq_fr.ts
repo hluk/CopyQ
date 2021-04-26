@@ -351,7 +351,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
@@ -490,7 +490,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="275"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation>Commandes (*.ini);; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
+        <translation>Commandes (*.ini) ;; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="286"/>
@@ -694,7 +694,7 @@ Laisser vide pour désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type :</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
@@ -882,7 +882,7 @@ Remarque : si cette option est automatiquement appliquée, aucune autre commande
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Infobulles</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
@@ -1089,42 +1089,42 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished">Permettre de coller du contenu copié comme les sélections de souris (généralement en pressant le bouton du milieu de la souris)</translation>
+        <translation>Permettre de coller du contenu copié comme les sélections de souris (généralement en pressant le bouton du milieu de la souris)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished">(&amp;3) Coller le presse-papier en utilisant la souris</translation>
+        <translation>(&amp;3) Coller le presse-papier avec la souris</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished">Permettre de coller les sélections de la souris en utilisant un raccourci (Ctrl+V ou Maj+Insérer)</translation>
+        <translation>Permettre de coller les sélections de la souris en utilisant un raccourci (Ctrl+V ou Maj+Insérer)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished">(&amp;4) Coller la sélection de la souris avec le clavier</translation>
+        <translation>(&amp;4) Coller la sélection de la souris avec le clavier</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished">Enregistrer le presse-papier dans l&apos;historique</translation>
+        <translation>Enregistrer le presse-papier dans l&apos;historique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Mémoriser le presse-papier</translation>
+        <translation>(&amp;1) Mémoriser le presse-papier</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished">Enregistrer le texte sélectionné avec la souris (sélection principale) dans l&apos;historique</translation>
+        <translation>Enregistrer le texte sélectionné avec la souris (sélection principale) dans l&apos;historique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Stocker le texte sélectionné en utilisant la souris</translation>
+        <translation>(&amp;2) Stocker le texte sélectionné en utilisant la souris</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1137,31 +1137,31 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished">&amp;Nombre maximal d&apos;éléments dans l&apos;historique :</translation>
+        <translation>&amp;Nombre maximal d&apos;éléments dans l&apos;historique :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished">Nombre maximal d&apos;éléments par onglet</translation>
+        <translation>Nombre maximal d&apos;éléments par onglet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished">Décharger l&apos;onglet après un intervalle en &amp;minutes :</translation>
+        <translation>Décharger l&apos;onglet après un intervalle en &amp;minutes :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished">Décharger chaque onglet de la mémoire après le nombre de minutes d&apos;inactivité indiqué.
+        <translation>Décharger chaque onglet de la mémoire après le nombre de minutes d&apos;inactivité indiqué.
 
 Mettre 0 pour ne pas décharger les onglets.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished">Commande de l&apos;éditeur externe (%&amp;1 est le fichier à éditer) :</translation>
+        <translation>Commande de l&apos;éditeur externe (%&amp;1 est le fichier à éditer) :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1171,7 +1171,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished">Commande pour l&apos;éditeur externe (%1 est le nom du fichier à modifier).
+        <translation>Commande pour l&apos;éditeur externe (%1 est le nom du fichier à modifier).
   Exemples :
     gedit %1
     notepad %1
@@ -1181,14 +1181,14 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">Onglet pour stoc&amp;ker le presse-papier :</translation>
+        <translation>Onglet pour stoc&amp;ker le presse-papier :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished">Nom de l&apos;onglet qui va automatiquement stocker le nouveau contenu du presse-papier.↵
+        <translation>Nom de l&apos;onglet qui va automatiquement stocker le nouveau contenu du presse-papier.↵
 ↵
 Laisser vide pour désactiver le stockage automatique.</translation>
     </message>
@@ -1197,38 +1197,38 @@ Laisser vide pour désactiver le stockage automatique.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Laisser décoché pour que Entrée enregistre l&apos;élément édité et Ctrl+Entrée crée une nouvelle ligne
+        <translation>Laisser décoché pour que Entrée enregistre l&apos;élément édité et Ctrl+Entrée crée une nouvelle ligne
 
 Remarque : les éléments modifiés peuvent être enregistrés à l&apos;aide de F2, quelle que soit l&apos;option.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished">Enregistrer l&apos;élément édité avec Ctrl+Entrée et créer une nou&amp;velle ligne avec la touche Entrée</translation>
+        <translation>Enregistrer l&apos;élément édité avec Ctrl+Entrée et créer une nou&amp;velle ligne avec la touche Entrée</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished">Afficher la description de chaque éléments sur une ligne .↵
+        <translation>Afficher la description de chaque éléments sur une ligne .↵
 ↵
-Aperçu de l’élément permet d’afficher des éléments entiers.</translation>
+Aperçu de l’élément permet d’afficher des éléments en entiers.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Afficher les éléments sim&amp;ples</translation>
+        <translation>Afficher les éléments sim&amp;ples</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished">Activer la recherche de chiffres, sinon appuyer sur une touche numérique active l&apos;élément à cette position</translation>
+        <translation>Activer la recherche de chiffres, sinon appuyer sur une touche numérique active l&apos;élément à cette position</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished">R&amp;echerche de chiffres</translation>
+        <translation>R&amp;echerche de chiffres</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
@@ -1238,47 +1238,47 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished">Après que l&apos;élément est activé (double-clic ou la touche Entrée), le copier dans le presse-papier et ...</translation>
+        <translation>Après que l&apos;élément est activé (double-clic ou la touche Entrée), le copier dans le presse-papier et...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished">Déplacer l&apos;objet en haut de la liste après qu&apos;il ait été activé</translation>
+        <translation>Déplacer l&apos;objet en haut de la liste après qu&apos;il ait été activé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished">Déplacer l&apos;élément vers le &amp;haut</translation>
+        <translation>Déplacer l&apos;élément vers le &amp;haut</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished">Fermer la fenêtre principale après que l&apos;élément ait été activé</translation>
+        <translation>Fermer la fenêtre principale après que l&apos;élément ait été activé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">&amp;Fermer la fenêtre principale</translation>
+        <translation>&amp;Fermer la fenêtre principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished">Donner le contrôle à la dernière fenêtre active après que l&apos;élément ait été activé</translation>
+        <translation>Donner le contrôle à la dernière fenêtre active après que l&apos;élément ait été activé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished">Basculer sur la &amp;dernière fenêtre active</translation>
+        <translation>Basculer sur la &amp;dernière fenêtre active</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished">Coller dans la fenêtre active après que l’élément ait été activé</translation>
+        <translation>Coller dans la fenêtre active après que l’élément ait été activé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished">&amp;Coller vers la fenêtre active</translation>
+        <translation>&amp;Coller vers la fenêtre active</translation>
     </message>
 </context>
 <context>
@@ -1286,62 +1286,62 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished">Afficher / Masquer</translation>
+        <translation>Afficher / Masquer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished">Masquer les onglets (appuyez sur la touche Alt pour afficher)</translation>
+        <translation>Masquer les onglets (appuyez sur la touche Alt pour afficher)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished">Masquer les &amp;onglets</translation>
+        <translation>Masquer les &amp;onglets</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished">Masquer la barre d&apos;outils</translation>
+        <translation>Masquer la barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">&amp;Masquer la barre d&apos;outils</translation>
+        <translation>&amp;Masquer la barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished">Cacher les textes de la &amp;barre d&apos;outils</translation>
+        <translation>Cacher les textes de la &amp;barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished">Cacher la fenêtre principale lorsque fermé</translation>
+        <translation>Cacher la fenêtre principale lorsque fermé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished">Cac&amp;her la fenêtre principale</translation>
+        <translation>Cac&amp;her la fenêtre principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Disposition et transparence</translation>
+        <translation>Disposition et transparence</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished">Afficher l&apos;arborescence des onglets à la place de la barre des onglets</translation>
+        <translation>Afficher l&apos;arborescence des onglets à la place de la barre des onglets</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">Vue &amp;arborescente des onglets</translation>
+        <translation>Vue &amp;arborescente des onglets</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished">&amp;Transparence sur focus :</translation>
+        <translation>&amp;Transparence sur focus :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -1350,12 +1350,12 @@ Aperçu de l’élément permet d’afficher des éléments entiers.</translatio
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">&amp;Transparence sur perte de focus :</translation>
+        <translation>&amp;Transparence sur perte de focus :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1364,17 +1364,17 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
 Note: This is not supported on all systems.</source>
         <translation>Transparence de la fenêtre principale si elle n&apos;est pas focalisée.
 
-Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
+Remarque : ceci n&apos;est pas pris en charge par tous les systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">Afficher le nombre d&apos;éléments dans les onglets</translation>
+        <translation>Afficher le nombre d&apos;éléments dans les onglets</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">&amp;Afficher le nombre d&apos;éléments</translation>
+        <translation>&amp;Afficher le nombre d&apos;éléments</translation>
     </message>
 </context>
 <context>
@@ -1382,7 +1382,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation>Emplacement des &amp;notifications&#xa0;:</translation>
+        <translation>Emplacement des &amp;notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
@@ -1422,7 +1422,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Int&amp;ervalle en secondes pour afficher les notifications&#xa0;:</translation>
+        <translation>Int&amp;ervalle en secondes pour afficher les notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1431,7 +1431,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">Intervalle en secondes pour notifier d&apos;un nouveau contenu dans le presse-papier (seulement lorsque la fenêtre principale est fermée).
+        <translation>Intervalle en secondes pour notifier d&apos;un nouveau contenu dans le presse-papier (seulement lorsque la fenêtre principale est fermée).
 ↵
 Mettre à 0 pour désactiver.
 ↵
@@ -1440,66 +1440,66 @@ Mettre à -1 pour garder visible jusqu&apos;à ce qu&apos;elle soit cliquée.</t
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished">Nom&amp;bre de lignes pour la notification du presse-papier :</translation>
+        <translation>Nom&amp;bre de lignes pour la notification du presse-papier :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">Nombre de lignes à afficher pour le nouveau contenu du presse-papier.
+        <translation>Nombre de lignes à afficher pour le nouveau contenu du presse-papier.
 
 Mettre à 0 pour désactiver.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Utiliser les notifications natives</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished">Géométrie de la notification (en points d&apos;écran)</translation>
+        <translation>Géométrie de la notification (en points d&apos;écran)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="227"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished">Décalage hori&amp;zontal :</translation>
+        <translation>Décalage hori&amp;zontal :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">Distance de la notification par rapport à la droite ou la gauche de l&apos;écran, en points d&apos;écran</translation>
+        <translation>Distance de la notification par rapport à la droite ou la gauche de l&apos;écran, en points d&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">Décalage &amp;vertical :</translation>
+        <translation>Décalage &amp;vertical :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">Distance de la notification par rapport au haut ou au bas de l&apos;écran, en points d&apos;écran</translation>
+        <translation>Distance de la notification par rapport au haut ou au bas de l&apos;écran, en points d&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished">Lar&amp;geur maximale :</translation>
+        <translation>Lar&amp;geur maximale :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">Largeur maximale des notifications en points d&apos;écran</translation>
+        <translation>Largeur maximale des notifications en points d&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">Hauteur ma&amp;ximale :</translation>
+        <translation>Hauteur ma&amp;ximale :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Hauteur maximale pour les notifications en points d&apos;écran</translation>
+        <translation>Hauteur maximale pour les notifications en points d&apos;écran</translation>
     </message>
 </context>
 <context>
@@ -1507,72 +1507,72 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">Ne pas afficher l&apos;icône dans la zone de notifications ; minimiser la fenêtre quand elle est fermée</translation>
+        <translation>Ne pas afficher l&apos;icône dans la zone de notifications ; minimiser la fenêtre quand elle est fermée</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">Désactiver la &amp;zone de notifications</translation>
+        <translation>Désactiver la &amp;zone de notifications</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">Afficher la commande pour le contenu actuel du presse-papier dans le menu de la zone de notification</translation>
+        <translation>Afficher la commande pour le contenu actuel du presse-papier dans le menu de la zone de notification</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">&amp;Afficher les commandes pour le contenu du presse-papier</translation>
+        <translation>&amp;Afficher les commandes pour le contenu du presse-papier</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">Nombre d&apos;éléments dans le menu de la &amp;zone de notifications :</translation>
+        <translation>Nombre d&apos;éléments dans le menu de la &amp;zone de notifications :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Nombre d&apos;éléments dans la zone de notifications</translation>
+        <translation>Nombre d&apos;éléments dans la zone de notifications</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Afficher les éléments de l&apos;onglet actuel dans le menu de la zone de notification</translation>
+        <translation>Afficher les éléments de l&apos;onglet actuel dans le menu de la zone de notification</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">Affiche&amp;r l&apos;onglet actif dans le menu,</translation>
+        <translation>Affiche&amp;r l&apos;onglet actif dans le menu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">ou &amp;choisir un autre onglet :</translation>
+        <translation>ou &amp;choisir un autre onglet :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">Nom de l&apos;onglet à afficher dans le menu de la zone de notification (vide pour le premier onglet)</translation>
+        <translation>Nom de l&apos;onglet à afficher dans le menu de la zone de notification (vide pour le premier onglet)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Coller l&apos;élément dans la fenêtre active après qu&apos;il ait été sélectionné dans le menu</translation>
+        <translation>Coller l&apos;élément dans la fenêtre active après qu&apos;il ait été sélectionné dans le menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">&amp;Coller l&apos;élément actif vers la fenêtre active</translation>
+        <translation>&amp;Coller l&apos;élément actif dans la fenêtre active</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">Afficher l&apos;aperçu de l&apos;image à côté des éléments de menu</translation>
+        <translation>Afficher l&apos;aperçu de l&apos;image à côté des éléments de menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">Afficher la prévisualisation d&apos;&amp;image comme une icône d&apos;un élément de menu</translation>
+        <translation>Afficher la prévisualisation d&apos;&amp;image comme une icône d&apos;un élément de menu</translation>
     </message>
 </context>
 <context>
@@ -1604,7 +1604,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation type="unfinished">Plateau</translation>
+        <translation>Zone de notification</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
@@ -1629,7 +1629,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="448"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>L&apos;option « %1&#xa0;» a une valeur invalide</translation>
+        <translation>L&apos;option « %1 » a une valeur invalide</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="595"/>
@@ -1654,7 +1654,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Préférences</translation>
     </message>
 </context>
 <context>
@@ -1693,7 +1693,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Sélection d&apos;icône de</translation>
+        <translation>Sélection d&apos;icône de</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2294,7 +2294,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de retirer les articles avec une étiquette verrouillée</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
@@ -2426,7 +2426,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Journal de</translation>
+        <translation>Journal</translation>
     </message>
 </context>
 <context>
@@ -2536,17 +2536,17 @@ Mettre à 0 pour désactiver.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="1947"/>
         <location filename="../src/gui/mainwindow.cpp" line="2068"/>
         <source>Options for Import</source>
-        <translation type="unfinished">Options de CopyQ pour l&apos;import</translation>
+        <translation>Options de CopyQ pour l&apos;import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3587"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Options de CopyQ pour l&apos;export</translation>
+        <translation>Options de CopyQ pour l&apos;export</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3608"/>
         <source>Export Error</source>
-        <translation type="unfinished">Erreur d&apos;exportation de</translation>
+        <translation>Erreur d&apos;exportation</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3609"/>
@@ -2556,7 +2556,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3701"/>
         <source>Import Error</source>
-        <translation type="unfinished">Erreur d&apos;importation de</translation>
+        <translation>Erreur d&apos;importation</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3702"/>
@@ -2819,7 +2819,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">Déplacer dans le &amp;presse-papier</translation>
+        <translation>Déplacer dans le &amp;presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3289,13 +3289,13 @@ Les arguments sont accessibles avec &quot;arguments[0..N]&quot;.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished">Exécutez PROGRAMME sur le texte de l&apos;élément dans les lignes.
+        <translation>Exécutez PROGRAMME sur le texte de l&apos;élément dans les lignes.
 Utilisez %1 dans PROGRAMME pour passer du texte comme argument.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher un message dans une infobulle de la zone de notification pour TEMPS millisecondes.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3390,7 +3390,7 @@ Utilisez %1 dans PROGRAMME pour passer du texte comme argument.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1502"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation>Option incorrecte « %1 »&#xa0;!</translation>
+        <translation>Option incorrecte « %1 » !</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3552,7 +3552,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Nouveau raccourci de</translation>
+        <translation>Nouveau raccourci</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3622,17 +3622,17 @@ Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescen
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Nouvel onglet de</translation>
+        <translation>Nouvel onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Renommer l&apos;onglet de</translation>
+        <translation>Renommer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Renommer un groupe d&apos;onglets de</translation>
+        <translation>Renommer un groupe d&apos;onglets</translation>
     </message>
 </context>
 <context>
@@ -3640,7 +3640,7 @@ Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescen
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>Nombre maximum d&apos;éléments&#x202f;:</translation>
+        <translation>Nombre maximum d&apos;éléments :</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
