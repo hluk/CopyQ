@@ -547,7 +547,7 @@ Naredbu je moguÄ‡e postaviti u postavkama.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrsta:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
@@ -796,7 +796,7 @@ Napomena: Ako se ovo automatski primijeni, ostale automatske naredbe se ne izvrÅ
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis alata</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
@@ -1438,7 +1438,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Koristi izvorne obavijesti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1638,7 +1638,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Postavke</translation>
     </message>
 </context>
 <context>

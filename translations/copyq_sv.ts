@@ -668,7 +668,7 @@ Lämna tomt för att inaktivera detta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
@@ -809,7 +809,7 @@ Observera: Om detta verkställs automatiskt körs inga andra automatiska kommand
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Inforutor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
@@ -1451,7 +1451,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Använd inhemska aviseringar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1651,7 +1651,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar</translation>
     </message>
 </context>
 <context>
