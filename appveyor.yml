@@ -19,15 +19,15 @@ environment:
   SNORETOAST_VERSION: 0.9.0
 
   matrix:
-    - QTDIR: /c/Qt/5.15/msvc2019_64
+    - QTDIR: /c/Qt/5.15/msvc2019
       CMAKE_GENERATOR: Visual Studio 16 2019
-      CMAKE_GENERATOR_ARCH: x64
+      CMAKE_GENERATOR_ARCH: Win32
       BUILD_SUB_DIR: Release
       # https://wiki.qt.io/Qt_5.15_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: /c/OpenSSL-v111-Win64/bin
-      LIBSSL: libssl-1_1-x64.dll
-      LIBCRYPTO: libcrypto-1_1-x64.dll
+      OPENSSL_PATH: /c/OpenSSL-v111-Win32/bin
+      LIBSSL: libssl-1_1.dll
+      LIBCRYPTO: libcrypto-1_1.dll
       WITH_NATIVE_NOTIFICATIONS: "ON"
       GPGPATH: /c/Program Files/Git/usr/bin
 
@@ -55,6 +55,11 @@ test_script:
 on_finish:
   - ps: >-
       Get-ChildItem -recurse -include copyq*.log*
+      | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+on_failure:
+  - ps: >-
+      Get-ChildItem -recurse -include CMake*.log*
       | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 matrix:
