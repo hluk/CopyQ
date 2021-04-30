@@ -2726,11 +2726,13 @@ bool MainWindow::focusPrevious()
 
 void MainWindow::onMenuActionTriggered(const QVariantMap &data, bool omitPaste)
 {
+    m_menu->close();
     activateMenuItem( getPlaceholderForMenu(), data, omitPaste );
 }
 
 void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 {
+    m_trayMenu->close();
     activateMenuItem( getPlaceholderForTrayMenu(), data, omitPaste );
 }
 
@@ -3242,8 +3244,23 @@ void MainWindow::updateFocusWindows()
     auto platform = platformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow) {
-        COPYQ_LOG( QString("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
-        m_lastWindow = lastWindow;
+        const QString title = lastWindow->getTitle();
+        const QWidget *activeWindow = qApp->activeWindow();
+        if (activeWindow) {
+            if (activeWindow == m_trayMenu || activeWindow == m_menu) {
+                COPYQ_LOG(QString("Focus window is \"%1\" - tray menu - ignoring").arg(title) );
+            } else {
+                COPYQ_LOG(QString("Focus window is \"%1\": [%2] %3").arg(
+                    title,
+                    QLatin1String(activeWindow->metaObject()->className()),
+                    activeWindow->windowTitle()
+                ));
+                m_lastWindow = lastWindow;
+            }
+        } else {
+            COPYQ_LOG( QString("Focus window is \"%1\"").arg(title) );
+            m_lastWindow = lastWindow;
+        }
     }
 
     if (m_options.closeOnUnfocus)
