@@ -54,7 +54,7 @@ set(copyq_ICON_NORMAL     src/images/icon.svg)
 set(copyq_ICON_MASK       src/images/icon_mask.svg)
 set(copyq_DESKTOP         shared/${copyq_APP_ID}.desktop)
 set(copyq_APPDATA         shared/${copyq_APP_ID}.appdata.xml)
-set(copyq_BASH_COMPLETION shared/${copyq_APP_ID}.appdata.xml)
+set(copyq_BASH_COMPLETION shared/copyq-completion)
 set(copyq_MANPAGE         debian/copyq.1)
 
 # Be more strict while compiling debugging version
