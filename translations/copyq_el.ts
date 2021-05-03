@@ -547,7 +547,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληκτρολογήστε:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
@@ -1438,7 +1438,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Χρήση αυτόχθονων κοινοποιήσεων</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1638,7 +1638,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Προτιμήσεις</translation>
     </message>
 </context>
 <context>
