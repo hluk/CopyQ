@@ -2259,12 +2259,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Δεν είναι δυνατή η αφαίρεση αντικειμένων με κλειδωμένη ετικέτα</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ξεκαρφιτσώστε τα αντικείμενα πρώτα για να τα αφαιρέσετε.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2328,12 +2328,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλειδαριά</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποφύγετε την αφαίρεση αντικειμένου</translation>
     </message>
 </context>
 <context>
@@ -2955,13 +2955,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή κειμένου</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή δεδομένων</translation>
     </message>
 </context>
 <context>
@@ -3302,7 +3302,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκκίνηση του διακομιστή στο παρασκήνιο πριν από την εκτέλεση μιας εντολής.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="117"/>
@@ -3360,7 +3360,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="839"/>
         <location filename="../src/scriptable/scriptable.cpp" line="876"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχειριστής πρόχειρου CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
