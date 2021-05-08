@@ -72,7 +72,7 @@ export COPYQ_TESTS_RERUN_FAILED=1
 "$Executable" --info
 "$Executable" tests
 
-# Take a screenshot of the app.
+# Take screenshots of the app.
 "$Executable" &
 "$Executable" showAt 0 0 9999 9999
 
@@ -95,14 +95,26 @@ export COPYQ_TESTS_RERUN_FAILED=1
     .button Close cmd data
 
 "$Executable" sleep 1000
-"$Executable" screenshot > screenshot.png
+
+export PATH=$Destination:$OldPath
+
+screenshot() {
+    "$Executable" screenshot > "$1.png"
+    appveyor PushArtifact "$1.png" -DeploymentName "$1"
+}
+
+screenshot "Screenshot - App"
+
+"$Executable" keys "Ctrl+P" "focus:ConfigurationManager"
+for n in $(seq 9); do
+    screenshot "Screenshot - Configuration Tab $n"
+    "$Executable" keys "DOWN" "focus:ConfigurationManager"
+done
 
 "$Executable" exit
 wait
 
 export PATH=$OldPath
-
-appveyor PushArtifact screenshot.png -DeploymentName "App Screenshot"
 
 choco install -y InnoSetup
 cmd " /c C:/ProgramData/chocolatey/bin/ISCC.exe /O$APPVEYOR_BUILD_FOLDER /DAppVersion=$APP_VERSION /DRoot=$Destination /DSource=$Source $Source/Shared/copyq.iss"
