@@ -34,7 +34,7 @@ public:
 
     virtual ~App();
 
-    void restoreSettings(bool canModifySettings = false);
+    static void installTranslator();
 
     /**
      * Execute application. Returns immediately if exit() was called before.

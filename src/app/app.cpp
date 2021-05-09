@@ -21,7 +21,6 @@
 
 #include "common/command.h"
 #include "common/commandstore.h"
-#include "common/config.h"
 #include "common/log.h"
 #include "common/settings.h"
 #include "common/textdata.h"
@@ -129,49 +128,6 @@ void installTranslator()
     QLocale::setDefault(QLocale(locale));
 }
 
-/// Move commands to separate config file.
-void migrateCommands(const QString &commandConfigPath)
-{
-    Settings oldSettings;
-    const auto oldCommands = loadCommands(oldSettings.settingsData());
-
-    const QString commandConfigPathNew = commandConfigPath + ".new";
-    {
-        Settings newSettings(commandConfigPathNew);
-        saveCommands(oldCommands, newSettings.settingsData());
-    }
-
-    {
-        QSettings newSettings(commandConfigPathNew, QSettings::IniFormat);
-        const auto newCommands = loadCommands(&newSettings);
-        if ( newCommands != oldCommands ) {
-            log( QString("Failed to save commands in new file %1")
-                 .arg(commandConfigPathNew), LogError );
-            return;
-        }
-    }
-
-    if ( !QFile::rename(commandConfigPathNew, commandConfigPath) ) {
-        log( QString("Failed to save commands in new file %1")
-             .arg(commandConfigPath), LogError );
-        return;
-    }
-
-    oldSettings.remove("Commands");
-    oldSettings.remove("Command");
-}
-
-void restoreConfiguration()
-{
-    Settings().restore();
-
-    const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
-    if ( QFile::exists(commandConfigPath) )
-        Settings(commandConfigPath).restore();
-    else
-        migrateCommands(commandConfigPath);
-}
-
 } // namespace
 
 App::App(QCoreApplication *application,
@@ -219,16 +175,9 @@ App::~App()
     delete m_app;
 }
 
-void App::restoreSettings(bool canModifySettings)
+void App::installTranslator()
 {
-    Settings::canModifySettings = canModifySettings;
-
-    platformNativeInterface()->loadSettings();
-
-    if (canModifySettings)
-        restoreConfiguration();
-
-    installTranslator();
+    ::installTranslator();
 }
 
 int App::exec()

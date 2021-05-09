@@ -24,6 +24,7 @@
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
+#include "common/config.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -96,6 +97,49 @@ void setTabWidth(QTextEdit *editor, int spaces)
 #endif
 }
 
+/// Move commands to separate config file.
+void migrateCommands(const QString &commandConfigPath)
+{
+    Settings oldSettings;
+    const auto oldCommands = loadCommands(oldSettings.settingsData());
+
+    const QString commandConfigPathNew = commandConfigPath + ".new";
+    {
+        Settings newSettings(commandConfigPathNew);
+        saveCommands(oldCommands, newSettings.settingsData());
+    }
+
+    {
+        QSettings newSettings(commandConfigPathNew, QSettings::IniFormat);
+        const auto newCommands = loadCommands(&newSettings);
+        if ( newCommands != oldCommands ) {
+            log( QString("Failed to save commands in new file %1")
+                 .arg(commandConfigPathNew), LogError );
+            return;
+        }
+    }
+
+    if ( !QFile::rename(commandConfigPathNew, commandConfigPath) ) {
+        log( QString("Failed to save commands in new file %1")
+             .arg(commandConfigPath), LogError );
+        return;
+    }
+
+    oldSettings.remove("Commands");
+    oldSettings.remove("Command");
+}
+
+void restoreConfiguration()
+{
+    Settings().restore();
+
+    const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
+    if ( QFile::exists(commandConfigPath) )
+        Settings(commandConfigPath).restore();
+    else
+        migrateCommands(commandConfigPath);
+}
+
 } // namespace
 
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
@@ -112,10 +156,12 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     if ( m_server->isListening() ) {
         ::createSessionMutex();
-        restoreSettings(true);
+        Settings::canModifySettings = true;
+        restoreConfiguration();
+        App::installTranslator();
         COPYQ_LOG("Server \"" + serverName + "\" started.");
     } else {
-        restoreSettings(false);
+        App::installTranslator();
         if ( canUseStandardOutput() ) {
             COPYQ_LOG("Server \"" + serverName + "\" already running!");
             log( tr("CopyQ server is already running."), LogWarning );

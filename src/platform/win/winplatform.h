@@ -52,8 +52,6 @@ public:
 
     QGuiApplication *createTestApplication(int &argc, char **argv) override;
 
-    void loadSettings() override;
-
     PlatformClipboardPtr clipboard() override;
 
     int keyCode(const QKeyEvent &event) override;

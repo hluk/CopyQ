@@ -106,11 +106,6 @@ public:
     virtual QGuiApplication *createTestApplication(int &argc, char **argv) = 0;
 
     /**
-     * Modify settings (QSettings) before it's first used.
-     */
-    virtual void loadSettings() = 0;
-
-    /**
      * Return object for managing clipboard.
      */
     virtual PlatformClipboardPtr clipboard() = 0;

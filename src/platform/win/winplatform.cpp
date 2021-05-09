@@ -48,81 +48,27 @@ void setBinaryFor(int fd)
     _setmode(fd, _O_BINARY);
 }
 
-bool isPortableVersion()
+QString portableConfigFolder()
 {
     const QString appDir = QCoreApplication::applicationDirPath();
-    const QString uninstPath = appDir + "/unins000.exe";
-    return !QFile::exists(uninstPath);
-}
+    if ( !QFileInfo(appDir).isWritable() )
+        return {};
 
-QDir configFolder(bool *isPortable)
-{
-    const QString appDir = QCoreApplication::applicationDirPath();
-    const QString path = appDir + "/config";
+    const QString uninstPath = appDir + QLatin1String("/unins000.exe");
+    if ( QFile::exists(uninstPath) )
+        return {};
+
+    const QString path = appDir + QLatin1String("/config");
     QDir dir(path);
 
-    QSettings::setDefaultFormat(QSettings::IniFormat);
+    if ( !dir.mkpath(".") || !dir.isReadable() )
+        return {};
 
-    *isPortable = isPortableVersion()
-            && QFileInfo(appDir).isWritable()
-            && dir.mkpath(".")
-            && dir.isReadable()
-            && QFileInfo(dir.absolutePath()).isWritable();
+    const QString fullPath = dir.absolutePath();
+    if ( !QFileInfo(fullPath).isWritable() )
+        return {};
 
-    return dir;
-}
-
-void migrateDirectory(const QString oldPath, const QString newPath)
-{
-    QDir oldDir(oldPath);
-    QDir newDir(newPath);
-
-    if ( oldDir.exists() ) {
-        newDir.mkpath(".");
-
-        for ( const auto &fileName : oldDir.entryList(QDir::Files) ) {
-            const QString oldFileName = oldDir.absoluteFilePath(fileName);
-            const QString newFileName = newDir.absoluteFilePath(fileName);
-            COPYQ_LOG( QString("Migrating \"%1\" -> \"%2\"")
-                       .arg(oldFileName)
-                       .arg(newFileName) );
-            QFile::copy(oldFileName, newFileName);
-        }
-    }
-}
-
-void migrateConfigToAppDir()
-{
-    // Don't use Windows registry.
-    QSettings::setDefaultFormat(QSettings::IniFormat);
-
-    bool isPortable;
-    const QDir dir = configFolder(&isPortable);
-
-    if (isPortable) {
-        const QString oldConfigFileName =
-                QSettings(QSettings::IniFormat, QSettings::UserScope,
-                          QCoreApplication::organizationName(),
-                          QCoreApplication::applicationName()).fileName();
-        const QString oldConfigPath = QDir::cleanPath(oldConfigFileName + "/..");
-
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, dir.absolutePath());
-        Settings newSettings;
-
-        if ( Settings::canModifySettings && newSettings.isEmpty() ) {
-            COPYQ_LOG("Migrating configuration to application directory.");
-            const QString newConfigPath = QDir::cleanPath(newSettings.fileName() + "/..");
-
-            // Migrate configuration from system directory.
-            migrateDirectory(oldConfigPath, newConfigPath);
-
-            // Migrate themes from system directory.
-            migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
-        }
-    } else if ( dir.exists() ) {
-        log( QString("Ignoring configuration in \"%1\" (https://github.com/hluk/CopyQ/issues/583).")
-             .arg(dir.absolutePath()), LogWarning );
-    }
+    return fullPath;
 }
 
 BOOL ctrlHandler(DWORD fdwCtrlType)
@@ -172,12 +118,14 @@ Application *createApplication(int &argc, char **argv)
     setBinaryFor(0);
     setBinaryFor(1);
 
-    // Override log file for portable version.
-    bool isPortable;
-    const QDir dir = configFolder(&isPortable);
-    if (isPortable) {
-        const QString logFileName = dir.absolutePath() + "/copyq.log";
-        qputenv("COPYQ_LOG_FILE", logFileName.toUtf8());
+    // Don't use Windows registry.
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+
+    // Use config and log file in portable app folder.
+    const QString portableFolder = portableConfigFolder();
+    if ( !portableFolder.isEmpty() ) {
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, portableFolder);
+        qputenv("COPYQ_LOG_FILE", portableFolder.toUtf8() + "/copyq.log");
     }
 
     return app;
@@ -305,11 +253,6 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 QGuiApplication *WinPlatform::createTestApplication(int &argc, char **argv)
 {
     return createApplication<QGuiApplication>(argc, argv);
-}
-
-void WinPlatform::loadSettings()
-{
-    migrateConfigToAppDir();
 }
 
 PlatformClipboardPtr WinPlatform::clipboard()

@@ -33,7 +33,6 @@
 #include <QApplication>
 #include <QFile>
 #include <QJSEngine>
-#include <QSettings>
 #include <QThread>
 #include <QTimer>
 
@@ -75,7 +74,7 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
 ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &arguments, const QString &sessionName)
     : App(createClientApplication(argc, argv, arguments), sessionName)
 {
-    restoreSettings();
+    App::installTranslator();
 
     // Start script after QCoreApplication::exec().
     auto timer = new QTimer(this);
