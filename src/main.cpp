@@ -66,11 +66,12 @@ int evaluate(
         functionArguments.append(argument);
 
     const auto result = function.call(functionArguments);
+    const bool hasUncaughtException = result.isError() || scriptable.hasUncaughtException();
 
     const auto output = scriptable.fromString(result.toString());
     if ( !output.isEmpty() && canUseStandardOutput() ) {
         QFile f;
-        if ( scriptable.hasUncaughtException() )
+        if (hasUncaughtException)
             f.open(stderr, QIODevice::WriteOnly);
         else
             f.open(stdout, QIODevice::WriteOnly);
@@ -81,7 +82,7 @@ int evaluate(
         f.close();
     }
 
-    const int exitCode = scriptable.hasUncaughtException() ? CommandException : 0;
+    const int exitCode = hasUncaughtException ? CommandException : 0;
     app.exit(exitCode);
     return exitCode;
 }

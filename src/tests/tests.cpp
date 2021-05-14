@@ -912,6 +912,16 @@ void Tests::badSessionName()
     RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
 }
 
+void Tests::commandCatchExceptions()
+{
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
+    SKIP("Internal exceptions are not handled well before Qt 5.12.");
+#endif
+
+    RUN("try { removeTab('MISSING') } catch(e) { print(e) }",
+        "Error: Tab with given name doesn't exist!");
+}
+
 void Tests::commandExit()
 {
     RUN("exit", "Terminating server.\n");

@@ -743,8 +743,13 @@ QJSValue Scriptable::throwError(const QString &errorMessage)
         "(function(text) {throw new Error(text);})"
     ));
     const auto exc = throwFn.call(QJSValueList() << errorMessage);
+#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
+    m_engine->throwError(QJSValue::GenericError, errorMessage);
+    return exc;
+#else
     setUncaughtException(exc);
     return m_uncaughtException;
+#endif
 }
 
 QJSValue Scriptable::throwSaveError(const QString &filePath)

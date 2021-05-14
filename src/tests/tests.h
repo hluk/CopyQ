@@ -50,6 +50,8 @@ private slots:
     void badCommand();
     void badSessionName();
 
+    void commandCatchExceptions();
+
     void commandExit();
     void commandEval();
     void commandEvalThrows();
