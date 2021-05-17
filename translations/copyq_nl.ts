@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Verstuur gegevens van het opgegeven soort media naar de standaardinvoer van de opdracht (laat leeg om uit te schakelen)</translation>
+        <translation>Verstuur data van een bepaald media type als standaard invoer voor het commando (leeg laten om de actie uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Maak items van de standaardinvoer van het programma (laat leeg om uit te schakelen)</translation>
+        <translation>Maak nieuwe items aan voor standaard uitvoer van het programma (leeg laten om de actie uit te schakelen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -1021,7 +1021,7 @@ druk op F2 om te bewerken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn.</translation>
+        <translation>Schakel in om vensters te openen op het huidige scherm. Schakel uit om vensters te openen op het scherm waar ze het laatst gesloten zijn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
@@ -2654,7 +2654,7 @@ Stel in op 0 om uit te schakelen.</translation>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>De sessienaam mag maximaal 16 tekens bevatten,
-bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;.</translation>
+bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;!</translation>
     </message>
     <message>
         <location filename="../src/common/appconfig.cpp" line="39"/>
@@ -3462,7 +3462,7 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="629"/>
         <source>Tab name cannot be empty!</source>
-        <translation>Geef het tabblad een naam.</translation>
+        <translation>Het tabblad moet een naam hebben!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1137"/>
@@ -3553,17 +3553,17 @@ Gebruik &lt;b&gt;/&lt;/b&gt; als padscheiding in de boomweergave-indeling.</tran
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation>Nieuw tabblad</translation>
+        <translation>Nieuwe Tab</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation>Tabbladnaam wijzigen</translation>
+        <translation>Hernoem TAB</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation>Tabbladgroepsnaam wijzigen</translation>
+        <translation>Hernoem Tab Groep</translation>
     </message>
 </context>
 <context>
@@ -3589,7 +3589,7 @@ Gebruik &lt;b&gt;/&lt;/b&gt; als padscheiding in de boomweergave-indeling.</tran
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>Druk op &apos;/&apos; om te zoeken</translation>
+        <translation>Druk &apos;/&apos; om het zoeken te starten</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
@@ -3608,12 +3608,12 @@ Gebruik &lt;b&gt;/&lt;/b&gt; als padscheiding in de boomweergave-indeling.</tran
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="359"/>
         <source>Regular Expression</source>
-        <translation>Reguliere uitdrukking</translation>
+        <translation>Reguliere expressie</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="362"/>
         <source>Case Insensitive</source>
-        <translation>Hoofdletterongevoelig</translation>
+        <translation>Niet hoofdlettergevoelig</translation>
     </message>
 </context>
 </TS>
