@@ -2359,7 +2359,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Lås</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
@@ -3003,22 +3003,22 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Text kopierad (%n rad)</numerusform>
+            <numerusform>Text kopierad (%n rader)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Text kopierad</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Data kopierad</translation>
     </message>
 </context>
 <context>
