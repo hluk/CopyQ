@@ -367,14 +367,14 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     , m_tagWidget(new QWidget(childItem->widget()->parentWidget()))
 {
     QBoxLayout *tagLayout = new QHBoxLayout(m_tagWidget);
-    tagLayout->setMargin(0);
+    tagLayout->setContentsMargins({});
     addTagButtons(tagLayout, tags);
 
     childItem->widget()->setObjectName("item_child");
     childItem->widget()->setParent(this);
 
     QBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins({});
     layout->setSpacing(0);
 
     layout->addWidget(m_tagWidget, 0);

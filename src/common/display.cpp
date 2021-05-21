@@ -22,11 +22,32 @@
 #include "gui/screen.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QPoint>
+#include <QScreen>
 #include <QStyle>
 #include <QWidget>
 #include <QWindow>
+
+namespace {
+
+QScreen *screenForWidget(QWidget *w)
+{
+    if (w) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+        if ( w->screen() )
+            return w->screen();
+#endif
+
+        const int i = screenNumberAt(w->pos());
+        const auto screens = QGuiApplication::screens();
+        if (0 <= i && i < screens.size())
+            return screens[i];
+    }
+
+    return QGuiApplication::primaryScreen();
+}
+
+} // namespace
 
 int smallIconSize()
 {
@@ -47,7 +68,8 @@ QPoint toScreen(QPoint pos, QWidget *w)
                 );
 }
 
-int pointsToPixels(int points)
+int pointsToPixels(int points, QWidget *w)
 {
-    return points * QApplication::desktop()->physicalDpiX() / 72;
+    QScreen *screen = screenForWidget(w);
+    return static_cast<int>(points * screen->physicalDotsPerInchX() / 72.0);
 }

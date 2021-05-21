@@ -251,7 +251,7 @@ QString exportCommands(const Commands &commands)
         const auto m = re.match(line);
         if (m.hasMatch()) {
             int i = m.capturedLength();
-            commandData.append(line.leftRef(i));
+            commandData.append(line.left(i));
 
             const bool addQuotes = !commandData.endsWith('"');
             if (addQuotes)

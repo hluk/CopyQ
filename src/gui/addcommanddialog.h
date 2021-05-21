@@ -20,15 +20,16 @@
 #ifndef ADDCOMMANDDIALOG_H
 #define ADDCOMMANDDIALOG_H
 
+#include "common/command.h"
+
 #include <QDialog>
-#include <QVector>
+#include <QtContainerFwd>
 
 namespace Ui {
 class AddCommandDialog;
 }
 
 class QSortFilterProxyModel;
-struct Command;
 
 class AddCommandDialog final : public QDialog
 {

@@ -51,8 +51,8 @@ public:
     void insertTab(int index, const QString &path) override;
     void removeTab(int index) override;
 
-    void updateCollapsedTabs(QStringList *collapsedTabs) const override;
-    void setCollapsedTabs(const QStringList &collapsedTabs) override;
+    void updateCollapsedTabs(QList<QString> *collapsedTabs) const override;
+    void setCollapsedTabs(const QList<QString> &collapsedTabs) override;
 
     void updateTabIcons(const QHash<QString, QString> &tabIcons) override;
 

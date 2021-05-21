@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2021, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -47,84 +47,11 @@ enum CommandType {
  * * don't add new item to list.
  */
 struct Command {
-    Command()
-        : name()
-        , re()
-        , wndre()
-        , matchCmd()
-        , cmd()
-        , sep()
-        , input()
-        , output()
-        , wait(false)
-        , automatic(false)
-        , display(false)
-        , inMenu(false)
-        , isGlobalShortcut(false)
-        , isScript(false)
-        , transform(false)
-        , remove(false)
-        , hideWindow(false)
-        , enable(true)
-        , icon()
-        , shortcuts()
-        , globalShortcuts()
-        , tab()
-        , outputTab()
-        , internalId()
-        {}
+    bool operator==(const Command &other) const;
 
-    bool operator==(const Command &other) const {
-        return name == other.name
-            && re == other.re
-            && wndre == other.wndre
-            && matchCmd == other.matchCmd
-            && cmd == other.cmd
-            && sep == other.sep
-            && input == other.input
-            && output == other.output
-            && wait == other.wait
-            && automatic == other.automatic
-            && display == other.display
-            && inMenu == other.inMenu
-            && isGlobalShortcut == other.isGlobalShortcut
-            && isScript == other.isScript
-            && transform == other.transform
-            && remove == other.remove
-            && hideWindow == other.hideWindow
-            && enable == other.enable
-            && icon == other.icon
-            && shortcuts == other.shortcuts
-            && globalShortcuts == other.globalShortcuts
-            && tab == other.tab
-            && outputTab == other.outputTab
-            && internalId == other.internalId;
-    }
+    bool operator!=(const Command &other) const;
 
-    bool operator!=(const Command &other) const {
-        return !(*this == other);
-    }
-
-    int type() const
-    {
-        auto type =
-               (automatic ? CommandType::Automatic : 0)
-             | (display ? CommandType::Display : 0)
-             | (isGlobalShortcut ? CommandType::GlobalShortcut : 0)
-             | (inMenu && !name.isEmpty() ? CommandType::Menu : 0);
-
-        // Scripts cannot be used in other types of commands.
-        if (isScript)
-            type = CommandType::Script;
-
-        if (type == CommandType::None)
-            type = CommandType::Invalid;
-
-        if (!enable)
-            type |= CommandType::Disabled;
-
-        return type;
-    }
+    int type() const;
 
     /** Name or short description. Used for menu item. */
     QString name;
@@ -162,34 +89,34 @@ struct Command {
     QString output;
 
     /** Open action dialog before executing program. */
-    bool wait;
+    bool wait = false;
 
     /** If true run command automatically on new matched items. */
-    bool automatic;
+    bool automatic = false;
 
     /** If true, run command automatically when displaying matched items. */
-    bool display;
+    bool display = false;
 
     /** If true show command in context menu on matching items. */
-    bool inMenu;
+    bool inMenu = false;
 
     /** If true command can be triggered by global shortcut. */
-    bool isGlobalShortcut;
+    bool isGlobalShortcut = false;
 
     /** If true, overrides scripting functionality. */
-    bool isScript;
+    bool isScript = false;
 
     /** If true change item data, don't create any new items. */
-    bool transform;
+    bool transform = false;
 
     /** If true remove matched items. */
-    bool remove;
+    bool remove = false;
 
     /** If true close window after command is activated from menu. */
-    bool hideWindow;
+    bool hideWindow = false;
 
     /** If false command is disabled and should not be used. */
-    bool enable;
+    bool enable = true;
 
     /** Icon for menu item. */
     QString icon;
@@ -208,5 +135,22 @@ struct Command {
 
     QString internalId;
 };
+
+QDataStream &operator<<(QDataStream &out, const Command &command);
+
+QDataStream &operator>>(QDataStream &in, Command &command);
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+constexpr bool _testCommandMetaType()
+{
+    return QTypeTraits::has_stream_operator_v<QDataStream, Command>;
+}
+constexpr const bool _testCommandMetaTypeOk = _testCommandMetaType();
+static_assert(_testCommandMetaTypeOk, "");
+#endif
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+Q_DECLARE_METATYPE(Command)
+#endif
 
 #endif // COMMAND_H

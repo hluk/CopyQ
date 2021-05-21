@@ -70,6 +70,7 @@ QRegularExpression toRegularExpression(const QJSValue &value)
     const QVariant variant = value.toVariant();
     QRegularExpression regexp = variant.toRegularExpression();
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     // Support for Qt 5.12.z and below.
     if ( !variant.canConvert<QRegularExpression>() ) {
         const QRegExp reOld = variant.toRegExp();
@@ -79,6 +80,7 @@ QRegularExpression toRegularExpression(const QJSValue &value)
             : QRegularExpression::NoPatternOption;
         regexp = QRegularExpression(reOld.pattern(), caseSensitivity);
     }
+#endif
 
     return regexp;
 }

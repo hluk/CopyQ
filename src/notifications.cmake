@@ -1,6 +1,8 @@
 OPTION(WITH_NATIVE_NOTIFICATIONS "Build with native notification support" ON)
 
-if (WITH_NATIVE_NOTIFICATIONS)
+if (WITH_NATIVE_NOTIFICATIONS AND WITH_QT6)
+    message(WARNING "Native notifications are not supported with Qt 6")
+elseif (WITH_NATIVE_NOTIFICATIONS)
     set(KF5_MIN_VERSION "5.18.0")
 
     find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)

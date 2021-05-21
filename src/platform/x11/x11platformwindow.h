@@ -22,8 +22,6 @@
 
 #include "platform/platformwindow.h"
 
-#include <X11/Xlib.h>
-
 #include <memory>
 
 class AppConfig;
@@ -34,7 +32,7 @@ class X11PlatformWindow final : public PlatformWindow
 public:
     explicit X11PlatformWindow();
 
-    explicit X11PlatformWindow(Window winId);
+    explicit X11PlatformWindow(quintptr winId);
 
     QString getTitle() override;
 
@@ -51,7 +49,7 @@ private:
 
     void sendKeyPress(int modifier, int key, const AppConfig &config);
 
-    Window m_window;
+    quintptr m_window;
 };
 
 #endif // X11PLATFORMWINDOW_H

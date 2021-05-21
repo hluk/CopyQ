@@ -57,6 +57,12 @@ struct NotificationButton;
 Q_DECLARE_METATYPE(QPersistentModelIndex)
 Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+using NativeEventResult = qintptr;
+#else
+using NativeEventResult = long;
+#endif
+
 namespace Ui
 {
     class MainWindow;
@@ -448,7 +454,8 @@ protected:
 
     bool focusNextPrevChild(bool next) override;
 
-    bool nativeEvent(const QByteArray &eventType, void *message, long *result) override;
+    bool nativeEvent(
+        const QByteArray &eventType, void *message, NativeEventResult *result) override;
 
 private:
     ClipboardBrowserPlaceholder *getPlaceholderForMenu();

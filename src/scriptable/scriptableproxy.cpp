@@ -94,6 +94,7 @@ namespace {
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 void registerMetaTypes() {
     static bool registered = false;
     if (registered)
@@ -112,6 +113,7 @@ void registerMetaTypes() {
 
     registered = true;
 }
+#endif
 
 template<typename Predicate>
 void selectionRemoveIf(QList<QPersistentModelIndex> *indexes, Predicate predicate)
@@ -145,9 +147,30 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
     emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall); \
 } while(false)
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#   define CHECK_STREAM_OPERATORS(CALL) \
+        static constexpr auto metaType = QMetaType::fromType<Result>(); \
+        COPYQ_LOG_VERBOSE( \
+            QStringLiteral("%1 invoking: %2 " CALL)\
+                .arg(m_wnd ? "Server" : "Client") \
+                .arg(metaType.name())); \
+        Q_ASSERT(metaType.hasRegisteredDataStreamOperators())
+#else
+#   define CHECK_STREAM_OPERATORS(CALL) \
+        if ( hasLogLevel(LogTrace) ) { \
+            static const auto metaTypeName = QMetaType::typeName(qMetaTypeId<Result>()); \
+            COPYQ_LOG_VERBOSE( \
+                QStringLiteral("%1 invoking: %2 " CALL)\
+                    .arg(m_wnd ? "Server" : "Client") \
+                    .arg(metaTypeName) \
+            ); \
+        }
+#endif
+
 #define INVOKE(FUNCTION, ARGUMENTS) do { \
+    using Result = decltype(FUNCTION ARGUMENTS); \
+    CHECK_STREAM_OPERATORS(STR(#FUNCTION #ARGUMENTS)); \
     if (!m_wnd) { \
-        using Result = decltype(FUNCTION ARGUMENTS); \
         const auto functionCallId = ++m_lastFunctionCallId; \
         INVOKE_(FUNCTION, ARGUMENTS, functionCallId); \
         const auto result = waitForFunctionCallFinished(functionCallId); \
@@ -202,66 +225,6 @@ QDataStream &operator>>(QDataStream &in, NamedValueList &list)
         in >> item.name >> item.value;
         list.append(item);
     }
-    Q_ASSERT(in.status() == QDataStream::Ok);
-    return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const Command &command)
-{
-    out << command.name
-        << command.re
-        << command.wndre
-        << command.matchCmd
-        << command.cmd
-        << command.sep
-        << command.input
-        << command.output
-        << command.wait
-        << command.automatic
-        << command.display
-        << command.inMenu
-        << command.isGlobalShortcut
-        << command.isScript
-        << command.transform
-        << command.remove
-        << command.hideWindow
-        << command.enable
-        << command.icon
-        << command.shortcuts
-        << command.globalShortcuts
-        << command.tab
-        << command.outputTab
-        << command.internalId;
-    Q_ASSERT(out.status() == QDataStream::Ok);
-    return out;
-}
-
-QDataStream &operator>>(QDataStream &in, Command &command)
-{
-    in >> command.name
-       >> command.re
-       >> command.wndre
-       >> command.matchCmd
-       >> command.cmd
-       >> command.sep
-       >> command.input
-       >> command.output
-       >> command.wait
-       >> command.automatic
-       >> command.display
-       >> command.inMenu
-       >> command.isGlobalShortcut
-       >> command.isScript
-       >> command.transform
-       >> command.remove
-       >> command.hideWindow
-       >> command.enable
-       >> command.icon
-       >> command.shortcuts
-       >> command.globalShortcuts
-       >> command.tab
-       >> command.outputTab
-       >> command.internalId;
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
@@ -341,7 +304,11 @@ public:
     {
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+        stream.setVersion(QDataStream::Qt_6_0);
+#else
         stream.setVersion(QDataStream::Qt_5_0);
+#endif
         stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion
                << functionCallId << m_slotName << args;
         return bytes;
@@ -390,7 +357,7 @@ public:
         QLabel::paintEvent(ev);
         if (selectionRect.isValid()) {
             QPainter p(this);
-            const auto w = pointsToPixels(1);
+            const auto w = pointsToPixels(1, this);
 
             p.setPen(QPen(Qt::white, w));
             p.drawRect(selectionRect);
@@ -536,7 +503,7 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
     w->setCurrentIndex(items.indexOf(currentText));
     w->lineEdit()->setText(currentText);
     w->lineEdit()->selectAll();
-    w->setMaximumWidth( pointsToPixels(400) );
+    w->setMaximumWidth( pointsToPixels(400, w) );
     installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
     installShortcutToCloseDialog(parent, w, Qt::Key_Return);
 
@@ -637,8 +604,8 @@ void setGeometryWithoutSave(QWidget *window, QRect geometry)
             ? QCursor::pos()
             : geometry.topLeft();
 
-    const int w = pointsToPixels(geometry.width());
-    const int h = pointsToPixels(geometry.height());
+    const int w = pointsToPixels(geometry.width(), window);
+    const int h = pointsToPixels(geometry.height(), window);
     if (w > 0 && h > 0)
         window->resize(w, h);
 
@@ -865,7 +832,13 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
                  m_disconnected = true;
                  emit abortEvaluation();
              } );
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     registerMetaTypes();
+#else
+    Q_ASSERT(QMetaType::fromType<Command>().hasRegisteredDataStreamOperators());
+    Q_ASSERT(QMetaType::fromType<ClipboardMode>().hasRegisteredDataStreamOperators());
+#endif
 }
 
 void ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
@@ -974,7 +947,14 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         called = metaMethod.invoke(
                 this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
     } else {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+        const QMetaType metaType(typeId);
+        COPYQ_LOG_VERBOSE(QStringLiteral("Script function return type: %1").arg(metaType.name()));
+        Q_ASSERT(metaType.hasRegisteredDataStreamOperators());
+        returnValue = QVariant(metaType, nullptr);
+#else
         returnValue = QVariant(typeId, nullptr);
+#endif
         const auto genericReturnValue = returnValue.isValid()
                 ? QGenericReturnArgument(returnValue.typeName(), static_cast<void*>(returnValue.data()) )
                 : Q_RETURN_ARG(QVariant, returnValue);
@@ -994,6 +974,10 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
     {
         QDataStream stream(&bytes, QIODevice::WriteOnly);
         stream << functionCallId << returnValue;
+        if (stream.status() != QDataStream::Ok) {
+            log("Failed to write scriptable proxy slot call return value", LogError);
+            Q_ASSERT(false);
+        }
     }
 
     return bytes;

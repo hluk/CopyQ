@@ -22,6 +22,7 @@
 
 #include "app.h"
 #include "common/clipboardmode.h"
+#include "common/command.h"
 #include "common/server.h"
 #include "common/clientsocket.h"
 #include "gui/clipboardbrowsershared.h"
@@ -41,7 +42,6 @@ class Server;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
-struct Command;
 struct NotificationButton;
 
 /**

@@ -12,7 +12,6 @@ apt -y install \
     libqt5svg5 \
     libqt5svg5-dev \
     libqt5waylandclient5-dev \
-    libqt5x11extras5-dev \
     libwayland-dev \
     libxfixes-dev \
     libxtst-dev \

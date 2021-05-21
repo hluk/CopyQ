@@ -37,14 +37,16 @@
 class QKeySequence;
 class QxtGlobalShortcut;
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QAbstractNativeEventFilter>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+using NativeEventResult = qintptr;
+#else
+using NativeEventResult = long;
 #endif
 
 class QxtGlobalShortcutPrivate
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     : public QAbstractNativeEventFilter
-#endif
 {
 public:
     explicit QxtGlobalShortcutPrivate(QxtGlobalShortcut *q);
@@ -64,14 +66,8 @@ public:
     static int ref;
 #   endif // Q_OS_MAC
 
-#   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-#   ifndef Q_OS_MAC
-    static QAbstractEventDispatcher::EventFilter prevEventFilter;
-    static bool eventFilter(void* message);
-#   endif // Q_OS_MAC
-#   else
-    bool nativeEventFilter(const QByteArray &eventType, void *message, long *result) override;
-#   endif // QT_VERSION < QT_VERSION_CHECK(5,0,0)
+    bool nativeEventFilter(
+        const QByteArray &eventType, void *message, NativeEventResult *result) override;
 
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);
 

@@ -332,7 +332,7 @@ Dialog *openDialog(Ts... arguments)
 
 bool isItemActivationShortcut(const QKeySequence &shortcut)
 {
-    return (shortcut[0] == Qt::Key_Return || shortcut[0] == Qt::Key_Enter)
+    return (shortcut.matches(Qt::Key_Return) || shortcut.matches(Qt::Key_Enter))
             && shortcut[1] == 0
             && shortcut[2] == 0
             && shortcut[3] == 0;
@@ -2601,7 +2601,8 @@ bool MainWindow::event(QEvent *event)
     return QMainWindow::event(event);
 }
 
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool MainWindow::nativeEvent(
+    const QByteArray &eventType, void *message, NativeEventResult *result)
 {
     delayedUpdateForeignFocusWindows();
     return QMainWindow::nativeEvent(eventType, message, result);

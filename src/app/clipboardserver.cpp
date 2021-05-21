@@ -46,6 +46,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QApplicationStateChangeEvent>
+#include <QFile>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMessageBox>
@@ -181,7 +182,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
             QString::fromLatin1("CopyQ-%1").arg(sessionName));
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+#endif
 
     QApplication::setQuitOnLastWindowClosed(false);
 
@@ -206,7 +209,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     connect( qApp, &QGuiApplication::commitDataRequest, this, &ClipboardServer::onCommitData );
     connect( qApp, &QGuiApplication::saveStateRequest, this, &ClipboardServer::onSaveState );
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     qApp->setFallbackSessionManagementEnabled(false);
+#endif
 
     connect( m_wnd, &MainWindow::requestExit,
              this, &ClipboardServer::maybeQuit );
@@ -222,8 +227,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
-    AppConfig appConfig;
-    loadSettings(&appConfig);
+    {
+        AppConfig appConfig;
+        loadSettings(&appConfig);
+    }
 
     m_wnd->setCurrentTab(0);
     m_wnd->enterBrowseMode();

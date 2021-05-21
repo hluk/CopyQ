@@ -88,7 +88,12 @@ private:
 
 class MimeData final : public QMimeData {
 protected:
-    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QVariant retrieveData(const QString &mimeType, QMetaType preferredType) const override
+#else
+    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override
+#endif
+    {
         COPYQ_LOG_VERBOSE( QString("Providing \"%1\"").arg(mimeType) );
         return QMimeData::retrieveData(mimeType, preferredType);
     }

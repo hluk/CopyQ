@@ -48,7 +48,6 @@
 #include "item/itemwidget.h"
 #include "platform/platformnativeinterface.h"
 
-#include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>

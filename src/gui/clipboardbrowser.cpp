@@ -1215,7 +1215,11 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         temporaryImage->drop();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+void ClipboardBrowser::enterEvent(QEnterEvent *event)
+#else
 void ClipboardBrowser::enterEvent(QEvent *event)
+#endif
 {
     m_ignoreMouseMoveWithButtonPressed = true;
     QListView::enterEvent(event);

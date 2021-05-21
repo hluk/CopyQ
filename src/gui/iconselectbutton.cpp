@@ -27,7 +27,6 @@
 #include "gui/icons.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QIcon>
 
 #include <memory>

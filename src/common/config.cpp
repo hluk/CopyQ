@@ -197,7 +197,7 @@ QString getConfigurationFilePath(const char *suffix)
     const int i = path.lastIndexOf(QLatin1Char('.'));
     Q_ASSERT(i != -1);
     Q_ASSERT( path.endsWith(QLatin1String(".ini")) );
-    return path.leftRef(i) + QLatin1String(suffix);
+    return path.left(i) + QLatin1String(suffix);
 }
 
 const QString &settingsDirectoryPath()

@@ -145,7 +145,8 @@ int itemLabelPadding()
 QLabel *createLabel(const QString &objectName, QWidget *parent)
 {
     QLabel *label = new QLabel(parent);
-    label->setMargin(itemLabelPadding());
+    const int p = itemLabelPadding();
+    label->setContentsMargins({p,p,p,p});
     label->setObjectName(objectName);
 
     return label;
@@ -164,7 +165,7 @@ public:
         m_label->installEventFilter(this);
 
         m_layout->addWidget(m_label);
-        m_layout->setMargin(0);
+        m_layout->setContentsMargins({});
         m_layout->addStretch(1);
 
         updateFromItem(item);
@@ -420,7 +421,7 @@ void TabTree::removeTab(int index)
     updateSize();
 }
 
-void TabTree::updateCollapsedTabs(QStringList *tabs) const
+void TabTree::updateCollapsedTabs(QList<QString> *tabs) const
 {
     tabs->clear();
     for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
@@ -430,7 +431,7 @@ void TabTree::updateCollapsedTabs(QStringList *tabs) const
     }
 }
 
-void TabTree::setCollapsedTabs(const QStringList &collapsedPaths)
+void TabTree::setCollapsedTabs(const QList<QString> &collapsedPaths)
 {
     for (const auto &path : collapsedPaths) {
         QTreeWidgetItem *item = findTreeItem(path);

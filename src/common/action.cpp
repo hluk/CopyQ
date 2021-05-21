@@ -31,8 +31,6 @@
 #include <QProcessEnvironment>
 #include <QTimer>
 
-#include <cstring>
-
 namespace {
 
 void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
@@ -55,10 +53,20 @@ void appendAndClearNonEmpty(Entry &entry, Container &containter)
     }
 }
 
-bool getScriptFromLabel(const char *label, const QStringRef &cmd, QString *script)
+QStringView mid(const QString &str, qsizetype pos, qsizetype length = -1)
 {
-    if ( cmd.startsWith(label) ) {
-        *script = cmd.string()->mid( cmd.position() + static_cast<int>(strlen(label)) );
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    return str.midRef(pos, length);
+#else
+    return QStringView(str).mid(pos, length);
+#endif
+}
+
+bool getScriptFromLabel(const char *labelStr, const QString &cmd, int i, QString *script)
+{
+    const QLatin1String label(labelStr);
+    if ( mid(cmd, i, label.size()) == label ) {
+        *script = cmd.mid(i + label.size());
         return true;
     }
 
@@ -133,18 +141,17 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
         } else {
             if ( arg.isEmpty() && command.isEmpty() ) {
                 // Treat command as script if known label is present.
-                const QStringRef cmd1 = cmd.midRef(i);
-                if ( getScriptFromLabel("copyq:", cmd1, &script) )
+                if ( getScriptFromLabel("copyq:", cmd, i, &script) )
                     command << "copyq" << "eval" << "--" << script;
-                else if ( getScriptFromLabel("sh:", cmd1, &script) )
+                else if ( getScriptFromLabel("sh:", cmd, i, &script) )
                     command << "sh" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("bash:", cmd1, &script) )
+                else if ( getScriptFromLabel("bash:", cmd, i, &script) )
                     command << "bash" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("perl:", cmd1, &script) )
+                else if ( getScriptFromLabel("perl:", cmd, i, &script) )
                     command << "perl" << "-e" << script << "--";
-                else if ( getScriptFromLabel("python:", cmd1, &script) )
+                else if ( getScriptFromLabel("python:", cmd, i, &script) )
                     command << "python" << "-c" << script;
-                else if ( getScriptFromLabel("ruby:", cmd1, &script) )
+                else if ( getScriptFromLabel("ruby:", cmd, i, &script) )
                     command << "ruby" << "-e" << script << "--";
 
                 if ( !script.isEmpty() ) {

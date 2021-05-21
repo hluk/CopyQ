@@ -27,10 +27,10 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 #include <QListView>
+#include <QScreen>
 #include <QSettings>
 #include <QStyleFactory>
 
@@ -235,7 +235,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 
 int itemMargin()
 {
-    const int dpi = QApplication::desktop()->physicalDpiX();
+    const int dpi = QGuiApplication::primaryScreen()->physicalDotsPerInchX();
     return std::max(2, dpi / 72);
 }
 
@@ -611,17 +611,17 @@ QString Theme::parseStyleSheet(const QString &css, Values values, int maxRecursi
     for ( int i = 0; i < css.size(); ++i ) {
         const int a = css.indexOf(variableBegin, i);
         if (a == -1) {
-            output.append(css.midRef(i));
+            output.append(css.mid(i));
             break;
         }
 
         const int b = css.indexOf(variableEnd, a + variableBegin.size());
         if (b == -1) {
-            output.append(css.midRef(i));
+            output.append(css.mid(i));
             break;
         }
 
-        output.append(css.midRef(i, a - i));
+        output.append(css.mid(i, a - i));
         i = b + variableEnd.size() - 1;
 
         const QString name = css

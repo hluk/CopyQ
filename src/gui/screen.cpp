@@ -1,8 +1,11 @@
 #include "screen.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QScreen>
+
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
+#   include <QDesktopWidget>
+#endif
 
 namespace {
 

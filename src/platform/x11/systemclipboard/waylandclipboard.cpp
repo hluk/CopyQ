@@ -159,13 +159,21 @@ protected:
         m_receivedFormats << mime_type;
     }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     QVariant retrieveData(const QString &mimeType, QVariant::Type type) const override;
+#else
+    QVariant retrieveData(const QString &mimetype, QMetaType type) const override;
+#endif
 
 private:
     QStringList m_receivedFormats;
 };
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type type) const
+#else
+QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type) const
+#endif
 {
     Q_UNUSED(type);
 

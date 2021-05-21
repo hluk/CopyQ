@@ -29,6 +29,7 @@
 #include <QJSEngine>
 #include <QJSValue>
 #include <QJSValueIterator>
+#include <QStringList>
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 #include <QPlainTextEdit>
@@ -168,7 +169,7 @@ private:
 
     bool peek(const QString &text, int i, const QString &what)
     {
-        return text.midRef(i, what.size()) == what;
+        return text.mid(i, what.size()) == what;
     }
 
     void highlightBlocks(const QString &text)
@@ -253,7 +254,7 @@ bool isPublicName(const QString &name)
     return !name.startsWith('_');
 }
 
-QStringList getScriptableObjects()
+QList<QString> getScriptableObjects()
 {
     QJSEngine engine;
     Scriptable scriptable(&engine, nullptr);
@@ -261,7 +262,7 @@ QStringList getScriptableObjects()
     QJSValue globalObject = engine.globalObject();
     QJSValueIterator it(globalObject);
 
-    QStringList result;
+    QList<QString> result;
     while (it.hasNext()) {
         it.next();
         if ( isPublicName(it.name()) )
@@ -273,7 +274,7 @@ QStringList getScriptableObjects()
 
 } // namespace
 
-QStringList scriptableKeywords()
+QList<QString> scriptableKeywords()
 {
     return {
         QStringLiteral("arguments"),
@@ -309,9 +310,9 @@ QStringList scriptableKeywords()
     };
 }
 
-QStringList scriptableProperties()
+QList<QString> scriptableProperties()
 {
-    QStringList result;
+    QList<QString> result;
 
     QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
     for (int i = 0; i < scriptableMetaObject.propertyCount(); ++i) {
@@ -325,9 +326,9 @@ QStringList scriptableProperties()
     return result;
 }
 
-QStringList scriptableFunctions()
+QList<QString> scriptableFunctions()
 {
-    QStringList result;
+    QList<QString> result;
 
     QMetaObject scriptableMetaObject = Scriptable::staticMetaObject;
     for (int i = 0; i < scriptableMetaObject.methodCount(); ++i) {
@@ -345,9 +346,9 @@ QStringList scriptableFunctions()
     return result;
 }
 
-QStringList scriptableObjects()
+QList<QString> scriptableObjects()
 {
-    static const QStringList result = getScriptableObjects();
+    static const QList<QString> result = getScriptableObjects();
     return result;
 }
 

@@ -20,15 +20,16 @@
 #ifndef COMMANDSYNTAXHIGHLIGHTER_H
 #define COMMANDSYNTAXHIGHLIGHTER_H
 
+#include <QtContainerFwd>
+
 class QPlainTextEdit;
-class QStringList;
 class QTextEdit;
 
-QStringList scriptableKeywords();
-QStringList scriptableProperties();
-QStringList scriptableFunctions();
+QList<QString> scriptableKeywords();
+QList<QString> scriptableProperties();
+QList<QString> scriptableFunctions();
 /// Constructors and functions from ECMA specification supported by Qt plus ByteArray.
-QStringList scriptableObjects();
+QList<QString> scriptableObjects();
 
 void installCommandSyntaxHighlighter(QTextEdit *editor);
 void installCommandSyntaxHighlighter(QPlainTextEdit *editor);

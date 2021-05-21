@@ -240,7 +240,6 @@ sudo apt install \
   libqt5svg5 \
   libqt5svg5-dev \
   libqt5waylandclient5-dev \
-  libqt5x11extras5-dev \
   libwayland-dev \
   libxfixes-dev \
   libxtst-dev \
@@ -266,7 +265,6 @@ sudo yum install \
   qt5-qtsvg-devel \
   qt5-qttools-devel \
   qt5-qtwayland-devel \
-  qt5-qtx11extras-devel \
   wayland-devel \
   kf5-knotifications-devel
 ```

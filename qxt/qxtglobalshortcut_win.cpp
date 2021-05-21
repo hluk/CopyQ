@@ -32,16 +32,11 @@
 #include <qt_windows.h>
 
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-bool QxtGlobalShortcutPrivate::eventFilter(void* message)
-{
-#else
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
-    void * message, long * result)
+    void * message, NativeEventResult * result)
 {
     Q_UNUSED(eventType)
     Q_UNUSED(result)
-#endif
     MSG* msg = static_cast<MSG*>(message);
     if (msg->message == WM_HOTKEY)
     {

@@ -41,7 +41,6 @@ On **Ubuntu** you can install all build dependencies with:
       libqt5svg5 \
       libqt5svg5-dev \
       libqt5waylandclient5-dev \
-      libqt5x11extras5-dev \
       libwayland-dev \
       libxfixes-dev \
       libxtst-dev \
@@ -70,7 +69,6 @@ On **Fedora** and derivatives you can install all build dependencies with:
       qt5-qtsvg-devel \
       qt5-qttools-devel \
       qt5-qtwayland-devel \
-      qt5-qtx11extras-devel \
       wayland-devel
 
 Build and Install

@@ -74,7 +74,11 @@ QString decompressMime(QDataStream *out)
         return QString();
 
     bool ok;
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     const int id = mime.midRef(0, 1).toInt(&ok, 16);
+#else
+    const int id = QStringView(mime).mid(0, 1).toInt(&ok, 16);
+#endif
     if (!ok) {
         log("Corrupted data: Failed to parse MIME type ID", LogError);
         out->setStatus(QDataStream::ReadCorruptData);

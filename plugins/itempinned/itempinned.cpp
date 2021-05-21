@@ -88,7 +88,7 @@ void ItemPinned::paintEvent(QPaintEvent *paintEvent)
                 );
 
     QPainter painter(this);
-    const int border = pointsToPixels(6);
+    const int border = pointsToPixels(6, this);
     const QRect rect(width() - border, 0, width(), height());
     painter.setOpacity(0.15);
     painter.fillRect(rect, color);
@@ -100,7 +100,7 @@ void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
     setMaximumWidth(maximumSize.width());
-    const int border = pointsToPixels(12);
+    const int border = pointsToPixels(12, this);
     const int childItemWidth = idealWidth - border;
     const auto childItemMaximumSize = QSize(maximumSize.width() - border, maximumSize.height());
     ItemWidgetWrapper::updateSize(childItemMaximumSize, childItemWidth);

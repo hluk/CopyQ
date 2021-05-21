@@ -75,8 +75,6 @@ bool hasCommandsToPaste(const QString &text)
 
 } // namespace
 
-Q_DECLARE_METATYPE(Command)
-
 class CommandItem final : public ItemOrderList::Item {
 public:
     CommandItem(const Command &command, const QStringList &formats, CommandDialog *cmdDialog)

@@ -10,8 +10,6 @@ packages=(
     qttools5-dev
     qttools5-dev-tools
 
-    libqt5x11extras5-dev
-
     libqt5svg5-dev
     libqt5svg5
 

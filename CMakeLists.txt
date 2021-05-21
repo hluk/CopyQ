@@ -45,8 +45,35 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5Widgets 5.8.0 REQUIRED)
-list(APPEND copyq_LIBRARIES Qt5::Widgets)
+OPTION(WITH_QT6 "Enable Qt 6" OFF)
+if (WITH_QT6)
+    set(QT_DEFAULT_MAJOR_VERSION 6)
+    find_package(Qt6Widgets 6.1.0 REQUIRED)
+    set(copyq_qt Qt6)
+    find_package(Qt6Core5Compat REQUIRED)
+    list(APPEND copyq_LIBRARIES Qt::Core5Compat)
+    add_definitions( -DQT_DEPRECATED_WARNINGS_SINCE=0x051500 )
+else()
+    set(QT_DEFAULT_MAJOR_VERSION 5)
+    find_package(Qt5Widgets 5.8.0 REQUIRED)
+    set(copyq_qt Qt5)
+    if (Qt5Widgets_VERSION VERSION_LESS 5.15.0)
+        function(qt_wrap_ui outfiles)
+            qt5_wrap_ui("${outfiles}" ${ARGN})
+            set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
+        endfunction()
+        function(qt_add_resources outfiles)
+            qt5_add_resources("${outfiles}" ${ARGN})
+            set("${outfiles}" "${${outfiles}}" PARENT_SCOPE)
+        endfunction()
+        function(qt_add_translation _qm_files)
+            qt5_add_translation("${_qm_files}" ${ARGN})
+            set("${_qm_files}" "${${_qm_files}}" PARENT_SCOPE)
+        endfunction()
+    endif()
+endif()
+
+list(APPEND copyq_LIBRARIES ${copyq_qt}::Widgets)
 
 set(copyq_APP_ID          com.github.hluk.copyq)
 set(copyq_ICON_PREFIX     src/images/icon)
@@ -83,6 +110,7 @@ if (PEDANTIC)
             -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
             -Wno-disabled-macro-expansion
+            -Wno-double-promotion
             -Wno-exit-time-destructors
             -Wno-extra-semi-stmt
             -Wno-redundant-parens
@@ -130,8 +158,8 @@ if(WITH_TESTS)
 
     add_definitions( -DHAS_TESTS )
 
-    find_package(Qt5Test REQUIRED)
-    list(APPEND copyq_LIBRARIES Qt5::Test)
+    find_package(${copyq_qt}Test REQUIRED)
+    list(APPEND copyq_LIBRARIES ${copyq_qt}::Test)
 endif()
 
 include(src/version.cmake)

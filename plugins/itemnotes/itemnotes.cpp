@@ -117,7 +117,6 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
         layout = new QVBoxLayout(this);
 
     auto labelLayout = new QHBoxLayout;
-    labelLayout->setMargin(0);
     labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
 
     if (m_icon)
@@ -142,7 +141,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
         m_toolTipText = text;
     }
 
-    layout->setMargin(0);
+    layout->setContentsMargins({});
     layout->setSpacing(0);
 }
 

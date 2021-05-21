@@ -16,15 +16,15 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include "x11platformwindow.h"
+
+#include "x11info.h"
 
 #include "common/appconfig.h"
 #include "common/log.h"
 #include "common/sleeptimer.h"
 #include "gui/clipboardspy.h"
 #include "platform/platformcommon.h"
-#include "x11platformwindow.h"
-
-#include <QX11Info>
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -182,10 +182,10 @@ public:
 
 Window getCurrentWindow()
 {
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return 0L;
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
     XSync(display, False);
 
     static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
@@ -206,7 +206,7 @@ X11PlatformWindow::X11PlatformWindow()
 {
 }
 
-X11PlatformWindow::X11PlatformWindow(Window winId)
+X11PlatformWindow::X11PlatformWindow(quintptr winId)
     : m_window(winId)
 {
 }
@@ -215,10 +215,10 @@ QString X11PlatformWindow::getTitle()
 {
     Q_ASSERT( isValid() );
 
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return QString();
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
     static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
     static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
 
@@ -236,12 +236,12 @@ void X11PlatformWindow::raise()
 {
     Q_ASSERT( isValid() );
 
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return;
 
     COPYQ_LOG( QString("Raising window \"%1\"").arg(getTitle()) );
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
 
     XEvent e{};
     memset(&e, 0, sizeof(e));
@@ -322,10 +322,10 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key, const AppConfig &con
 
     waitMs(config.option<Config::window_wait_after_raised_ms>());
 
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return;
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
 
 #ifdef HAS_X11TEST
     simulateKeyPress(display, QList<int>() << modifier, static_cast<uint>(key), config);

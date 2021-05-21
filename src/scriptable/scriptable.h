@@ -72,7 +72,7 @@ class Scriptable final : public QObject
 
     Q_PROPERTY(QJSValue _copyqUncaughtException READ uncaughtException WRITE setUncaughtException)
     Q_PROPERTY(QJSValue _copyqHasUncaughtException READ hasUncaughtException)
-    Q_PROPERTY(QJSValue _initItemSelection WRITE initItemSelection)
+    Q_PROPERTY(QJSValue _initItemSelection READ getUndefined WRITE initItemSelection)
 
 public:
     explicit Scriptable(
@@ -464,6 +464,7 @@ private:
     NetworkReply *networkGetHelper();
     NetworkReply *networkPostHelper();
 
+    QJSValue getUndefined () { return {}; }
     QJSValue initItemSelection(const QJSValue &obj);
 
     ScriptableProxy *m_proxy;

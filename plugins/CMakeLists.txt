@@ -20,10 +20,10 @@ macro (copyq_add_plugin copyq_pkg)
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
-    include_directories(${Qt5Widgets_INCLUDES})
-    add_definitions(${Qt5Widgets_DEFINITIONS})
-    qt5_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
-    qt5_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
+    include_directories(${${copyq_qt}Widgets_INCLUDES})
+    add_definitions(${${copyq_qt}Widgets_DEFINITIONS})
+    qt_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
+    qt_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
 
     add_library(${copyq_pkg} MODULE
         ${copyq_plugin_SOURCES}

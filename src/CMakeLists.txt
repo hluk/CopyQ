@@ -18,8 +18,8 @@ set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
 include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
-include_directories(${Qt5Widgets_INCLUDES})
-add_definitions(${Qt5Widgets_DEFINITIONS})
+include_directories(${${copyq_qt}Widgets_INCLUDES})
+add_definitions(${${copyq_qt}Widgets_DEFINITIONS})
 
 include(notifications.cmake)
 include(platform/platform.cmake)
@@ -44,13 +44,13 @@ endif()
 # translations
 file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
 
-find_package(Qt5LinguistTools)
-if (Qt5LinguistTools_FOUND)
-    qt5_add_translation(copyq_QM ${copyq_TRANSLATIONS})
+find_package(${copyq_qt}LinguistTools)
+if (${copyq_qt}LinguistTools_FOUND)
+    qt_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 endif()
 
-qt5_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
-qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
+qt_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
+qt_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
@@ -124,8 +124,8 @@ target_sources(${COPYQ_EXECUTABLE_NAME} PRIVATE ${copyq_SOURCES})
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)
 foreach (copyq_qt_module ${copyq_qt_modules})
-    find_package(Qt5${copyq_qt_module} REQUIRED)
-    list(APPEND copyq_LIBRARIES Qt5::${copyq_qt_module})
+    find_package(${copyq_qt}${copyq_qt_module} REQUIRED)
+    list(APPEND copyq_LIBRARIES ${copyq_qt}::${copyq_qt_module})
 endforeach()
 
 # macros definitions for preprocessor and moc
@@ -160,7 +160,7 @@ else()
     set(plugin_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/PlugIns")
     set(qtconf_dest_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Resources")
 
-    macro(install_qt5_plugin _qt_plugin_name _qt_plugins_var)
+    macro(install_qt_plugin _qt_plugin_name _qt_plugins_var)
         get_target_property(_qt_plugin_path "${_qt_plugin_name}" LOCATION)
         if(EXISTS "${_qt_plugin_path}")
             get_filename_component(_qt_plugin_file "${_qt_plugin_path}" NAME)
@@ -177,9 +177,9 @@ else()
 
     # Install needed Qt plugins
     foreach(_copyq_qt_module ${copyq_qt_modules} "Gui" "Widgets")
-        set(_module_plugins "${Qt5${_copyq_qt_module}_PLUGINS}")
+        set(_module_plugins "${${copyq_qt}${_copyq_qt_module}_PLUGINS}")
         foreach(_plugin ${_module_plugins})
-            install_qt5_plugin("${_plugin}" FIXUP_BUNDLE_QT_PLUGINS)
+            install_qt_plugin("${_plugin}" FIXUP_BUNDLE_QT_PLUGINS)
         endforeach()
     endforeach()
 
@@ -196,7 +196,7 @@ else()
     get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
 
     # Directories to look for dependencies
-    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS};${Qt5Widgets_DIR}/../..")
+    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS};${${copyq_qt}Widgets_DIR}/../..")
 
     message(STATUS "Fixup app: ${FIXUP_BUNDLE_APPS}")
     message(STATUS "Fixup app plugins: ${_copyq_installed_plugins}")

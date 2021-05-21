@@ -27,6 +27,6 @@ int smallIconSize();
 
 QPoint toScreen(QPoint pos, QWidget *w);
 
-int pointsToPixels(int points);
+int pointsToPixels(int points, QWidget *w = nullptr);
 
 #endif // DISPLAY_H

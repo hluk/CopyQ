@@ -23,7 +23,6 @@
 #include <QtContainerFwd>
 
 class QString;
-class QStringList;
 
 class TabsWidgetInterface {
 public:
@@ -51,9 +50,9 @@ public:
     /** Remove tab with given @a index. */
     virtual void removeTab(int index) = 0;
 
-    virtual void updateCollapsedTabs(QStringList *collapsedTabs) const = 0;
+    virtual void updateCollapsedTabs(QList<QString> *collapsedTabs) const = 0;
 
-    virtual void setCollapsedTabs(const QStringList &collapsedTabs) = 0;
+    virtual void setCollapsedTabs(const QList<QString> &collapsedTabs) = 0;
 
     virtual void updateTabIcons(const QHash<QString, QString> &tabIcons) = 0;
 

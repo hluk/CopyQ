@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2021, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -16,29 +16,21 @@
     You should have received a copy of the GNU General Public License
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TABICONS_H
-#define TABICONS_H
 
-#include <QtContainerFwd>
+#include "x11info.h"
 
-class QIcon;
-class QComboBox;
-class QString;
-class QWidget;
+#include <QGuiApplication>
 
-/** Return list of saved tabs (ordered by "tabs" option if possible). */
-QList<QString> savedTabs();
+#include <X11/Xlib.h>
 
-QString getIconNameForTabName(const QString &tabName);
+bool X11Info::isPlatformX11()
+{
+    return QGuiApplication::platformName() == QStringLiteral("xcb");
+}
 
-void setIconNameForTabName(const QString &name, const QString &icon);
-
-QIcon getIconForTabName(const QString &tabName);
-
-void initTabComboBox(QComboBox *comboBox);
-
-void setDefaultTabItemCounterStyle(QWidget *widget);
-
-void setComboBoxItems(QComboBox *comboBox, const QList<QString> &items);
-
-#endif // TABICONS_H
+Display *X11Info::display()
+{
+    static const QByteArray displayName = qgetenv("DISPLAY");
+    static Display *display = XOpenDisplay(displayName.constData());
+    return display;
+}

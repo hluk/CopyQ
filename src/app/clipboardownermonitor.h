@@ -26,6 +26,12 @@
 
 #include "platform/platformnativeinterface.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+using NativeEventResult = qintptr;
+#else
+using NativeEventResult = long;
+#endif
+
 class ClipboardOwnerMonitor final : public QAbstractNativeEventFilter
 {
 public:
@@ -34,7 +40,8 @@ public:
 
     const QByteArray &clipboardOwner() const { return m_clipboardOwner; }
 
-    bool nativeEventFilter(const QByteArray &, void *message, long *result) override;
+    bool nativeEventFilter(
+        const QByteArray &, void *message, NativeEventResult *result) override;
 
 private:
     QByteArray m_clipboardOwner;

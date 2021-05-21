@@ -400,7 +400,11 @@ public:
         return taggedIcon(&pixmap);
     }
 
-    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
+    QList<QSize> availableSizes(QIcon::Mode, QIcon::State)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        const
+#endif
+        override
     {
         static const auto sizes = QList<QSize>()
                 << QSize(32, 32)

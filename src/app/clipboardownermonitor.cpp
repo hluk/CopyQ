@@ -48,7 +48,7 @@ ClipboardOwnerMonitor::~ClipboardOwnerMonitor()
     qApp->removeNativeEventFilter(this);
 }
 
-bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, long *)
+bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, NativeEventResult *)
 {
     if ( !m_timer.isActive() )
         m_timer.start();

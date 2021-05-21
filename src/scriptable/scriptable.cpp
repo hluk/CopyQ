@@ -211,8 +211,11 @@ struct ScriptValueListFactory {
 template <typename T>
 struct ScriptValueFactory< QList<T> > : ScriptValueListFactory< QList<T>, T > {};
 
+// QVector is alias for a QList in Qt 6.
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 template <typename T>
 struct ScriptValueFactory< QVector<T> > : ScriptValueListFactory< QVector<T>, T > {};
+#endif
 
 template <>
 struct ScriptValueFactory<QVariantMap> {
@@ -247,6 +250,7 @@ struct ScriptValueFactory<QByteArray> {
     }
 };
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 template <>
 struct ScriptValueFactory<QStringList> {
     static QJSValue toScriptValue(const QStringList &list, const Scriptable *scriptable)
@@ -259,6 +263,7 @@ struct ScriptValueFactory<QStringList> {
         return ScriptValueFactory< QList<QString> >::fromScriptValue(value, scriptable);
     }
 };
+#endif
 
 template <>
 struct ScriptValueFactory<QString> {
@@ -393,7 +398,6 @@ struct ScriptValueFactory<QVariant> {
         if (variant.type() == QVariant::Char)
             return ::toScriptValue(variant.toString(), scriptable);
 
-        Q_ASSERT(variant.type() != QVariant::RegExp);
         if (variant.type() == QVariant::RegularExpression)
             return ::toScriptValue(variant.toRegularExpression(), scriptable);
 
@@ -437,7 +441,7 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     if ( v.isError() ) {
         log( QStringLiteral("Exception during evaluate: %1").arg(v.toString()), LogError );
         log( QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script), LogError );
-        Q_ASSERT(false);
+        Q_ASSERT(v.toString() == QStringLiteral("Evaluation aborted"));
     }
     return v;
 }
@@ -2904,8 +2908,8 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     }
 
     if ( result.isCallable() && canContinue() && !hasUncaughtException() ) {
-        const QString label = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
-        result = call( label, &result, fnArgs.mid(skipArguments) );
+        const QString label2 = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
+        result = call( label2, &result, fnArgs.mid(skipArguments) );
     }
 
     int exitCode;
