@@ -1084,15 +1084,22 @@ unlike in GUI, where row numbers start from 1 by default.
        print('Amount: ' + result['Enter Amount'] + '\n')
        print('File: ' + result['Choose File'] + '\n')
 
-   Editable combo box can be created by passing array. Current value can be
-   provided using ``.defaultChoice`` (by default it's the first item).
+   A combo box with an editable custom text/value can be created by passing an
+   array argument. The default text can be provided using ``.defaultChoice``
+   (by default it's the first item).
 
    .. code-block:: js
 
        var text = dialog('.defaultChoice', '', 'Select', ['a', 'b', 'c'])
 
-   List can be created by prefixing name/label with ``.list:`` and passing
-   array.
+   A combo box with non-editable text can be created by prefixing the label
+   argument with ``.combo:``.
+
+   .. code-block:: js
+
+       var text = dialog('.combo:Select', ['a', 'b', 'c'])
+
+   An item list can be created by prefixing the label argument with ``.list:``.
 
    .. code-block:: js
 

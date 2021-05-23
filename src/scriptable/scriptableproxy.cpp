@@ -498,7 +498,7 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
             ? inputDialog->defaultChoice.toString()
             : items.value(0);
 
-    const QString listPrefix = ".list:";
+    const QLatin1String listPrefix(".list:");
     if ( name.startsWith(listPrefix) ) {
         QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), parent);
         w->addItems(items);
@@ -508,7 +508,7 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
         w->setAlternatingRowColors(true);
         installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
         installShortcutToCloseDialog(parent, w, Qt::Key_Return);
-        return label(Qt::Vertical, name.mid(listPrefix.length()), w);
+        return label(Qt::Vertical, name.mid(listPrefix.size()), w);
     }
 
     QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
@@ -520,6 +520,13 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
     w->setMaximumWidth( pointsToPixels(400) );
     installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
     installShortcutToCloseDialog(parent, w, Qt::Key_Return);
+
+    const QLatin1String comboPrefix(".combo:");
+    if ( name.startsWith(comboPrefix) ) {
+        w->setEditable(false);
+        return label(Qt::Horizontal, name.mid(comboPrefix.size()), w);
+    }
+
     return label(Qt::Horizontal, name, w);
 }
 
