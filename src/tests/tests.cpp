@@ -1264,6 +1264,24 @@ void Tests::commandDialog()
         [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'test', 'text')", ""); },
         [&]() { RUN(Args() << "keys" << "focus::QLineEdit in dialog_test:QDialog" << "ESCAPE", ""); }
     );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    const QByteArray script = R"(
+        dialog(
+            '.width', 100,
+            '.height', 100,
+            '.x', 10,
+            '.y', 10,
+            '.style', 'background: red',
+            '.icon', '',
+            '.label', 'TEST',
+            'text', 'DEFAULT',
+        )
+    )";
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT + script, "DEFAULT\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ENTER", ""); }
+    );
 }
 
 void Tests::commandDialogCloseOnDisconnect()
