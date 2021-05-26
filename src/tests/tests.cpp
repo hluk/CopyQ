@@ -1256,6 +1256,14 @@ void Tests::commandDialog()
         [&]() { RUN(Args() << "keys" << "focus::QCheckBox in :QDialog" << "ENTER", ""); }
     );
 #endif
+
+    // Verify that special argument ".title" changes dialog's object name
+    // so that geometry can be stored.
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'test', 'text')", ""); },
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in dialog_test:QDialog" << "ESCAPE", ""); }
+    );
 }
 
 void Tests::commandDialogCloseOnDisconnect()

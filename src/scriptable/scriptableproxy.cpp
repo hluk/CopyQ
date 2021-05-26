@@ -1760,6 +1760,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     inputDialog.dialog = new QDialog(m_wnd);
     QDialog &dialog = *inputDialog.dialog;
 
+    QString dialogTitle;
     QIcon icon;
     QVBoxLayout layout(&dialog);
     QWidgetList widgets;
@@ -1770,7 +1771,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     for (const auto &value : values) {
         if (value.name == ".title")
-            dialog.setWindowTitle( value.value.toString() );
+            dialogTitle = value.value.toString();
         else if (value.name == ".icon")
             icon = loadIcon(value.value.toString());
         else if (value.name == ".style")
@@ -1847,6 +1848,12 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     // Connecting this directly to QEventLoop::quit() doesn't seem to work always.
     connect(this, &ScriptableProxy::clientDisconnected, &dialog, &QDialog::reject);
+
+    if ( !dialogTitle.isNull() ) {
+        dialog.setWindowTitle(dialogTitle);
+        dialog.setObjectName(QLatin1String("dialog_") + dialogTitle);
+        WindowGeometryGuard::create(&dialog);
+    }
 
     dialog.show();
 
