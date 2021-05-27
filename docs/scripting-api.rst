@@ -1105,7 +1105,7 @@ unlike in GUI, where row numbers start from 1 by default.
 
        var items = ['a', 'b', 'c']
        var selected_index = dialog('.list:Select', items)
-       if (selected_index)
+       if (selected_index !== undefined)
            print('Selected item: ' + items[selected_index])
 
    Icon for custom dialog can be set from icon font, file path or theme.
