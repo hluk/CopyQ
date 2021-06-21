@@ -40,7 +40,7 @@ namespace {
         return nil;
     }
 
-    void sendShortcut(int modifier, int key) {
+    void sendShortcut(int modifier, int key, pid_t pid = -1) {
         CGEventSourceRef sourceRef = CGEventSourceCreate(
             kCGEventSourceStateCombinedSessionState);
 
@@ -55,10 +55,17 @@ namespace {
         CGEventSetFlags(VDown,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
         CGEventSetFlags(VUp,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
 
-        CGEventPost(kCGHIDEventTap, commandDown);
-        CGEventPost(kCGHIDEventTap, VDown);
-        CGEventPost(kCGHIDEventTap, VUp);
-        CGEventPost(kCGHIDEventTap, commandUp);
+        if (pid != -1) {
+            CGEventPostToPid(pid, commandDown);
+            CGEventPostToPid(pid, VDown);
+            CGEventPostToPid(pid, VUp);
+            CGEventPostToPid(pid, commandUp);
+        } else {
+            CGEventPost(kCGHIDEventTap, commandDown);
+            CGEventPost(kCGHIDEventTap, VDown);
+            CGEventPost(kCGHIDEventTap, VUp);
+            CGEventPost(kCGHIDEventTap, commandUp);
+        }
 
         CFRelease(commandDown);
         CFRelease(VDown);
@@ -273,14 +280,18 @@ void MacPlatformWindow::pasteClipboard()
 
     const AppConfig config;
 
-    // Window MUST be raised, otherwise we can't send events to it
-    waitMs(config.option<Config::window_wait_before_raise_ms>());
-    raise();
-    waitMs(config.option<Config::window_wait_after_raised_ms>());
+    if (m_window != nullptr) {
+        // Window MUST be raised, otherwise we can't send events to it
+        waitMs(config.option<Config::window_wait_before_raise_ms>());
+        raise();
+        waitMs(config.option<Config::window_wait_after_raised_ms>());
 
-    // Paste after after a delay, try 5 times
-    const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
-    delayedSendShortcut(kVK_Command, kVK_ANSI_V, keyPressTimeMs, 5, m_window);
+        // Paste after after a delay, try 5 times
+        const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
+        delayedSendShortcut(kVK_Command, kVK_ANSI_V, keyPressTimeMs, 5, m_window);
+    } else {
+        sendShortcut(kVK_Command, kVK_ANSI_V, m_runningApplication.processIdentifier);
+    }
 }
 
 void MacPlatformWindow::copy()
