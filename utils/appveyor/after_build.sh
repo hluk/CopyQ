@@ -110,6 +110,15 @@ for n in $(seq 9); do
     screenshot "Screenshot - Configuration Tab $n"
     "$Executable" keys "DOWN" "focus:ConfigurationManager"
 done
+"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
+
+"$Executable" keys "Shift+F1" "focus:AboutDialog"
+screenshot "Screenshot - About Dialog"
+"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
+
+"$Executable" keys "Alt+T" "focus:Menu"
+screenshot "Screenshot - Tab Menu"
+"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
 
 "$Executable" exit
 wait

@@ -42,7 +42,8 @@ QString helpLink(const QString &name, const QString &link, ushort icon)
 {
     return "<tr>"
            "<td class='info'>" + name + "</td>"
-           "<td valign='middle' align='center' class='help-icon icon'>" + QString(QChar(icon)) + "</td>"
+           "<td valign='middle' align='center' class='help-icon icon'>"
+           + QString("&#%1;").arg(icon) + "</td>"
            "<td>" + link + "</td>"
            "</tr>";
 }
@@ -92,7 +93,7 @@ QString AboutDialog::aboutPage()
         "#subtitle{font-size:16pt;color:#4f9a6b;white-space:pre;margin-bottom:0.2em}"
         "#version{font-size:12pt}"
         ".copyright{font-size:9pt;color:#666}"
-        ".icon{font-family:" + iconFontFamily() + "}"
+        ".icon{font-family: \"" + iconFontFamily() + "\"}"
         ".help-icon{color:#5faa7b;padding-left:1em;padding-right:1em}"
         ".library{font-size:12pt}"
         ".info{color:#666}"
