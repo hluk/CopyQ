@@ -11,12 +11,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="107"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Manajer Papan klip</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="114"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengarang</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Situs</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
@@ -44,17 +44,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>Perintah:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standar &amp;masukan:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Simpan keluaran standar:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -3276,39 +3276,40 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="752"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak bisa menyimpan ke berkas &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="757"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tak bisa mengimpor berkas &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="839"/>
         <location filename="../src/scriptable/scriptable.cpp" line="876"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Manajer Papan Klip CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
         <source>Command not found!</source>
-        <translation type="unfinished"></translation>
+        <translation>Perintah tidak ditemukan!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="987"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Mengakhiri server.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1502"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>Opsi &quot;%1&quot; tidak valid!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2948"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>Pengecualian</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2949"/>
@@ -3344,7 +3345,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="44"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Tambah pintasan</translation>
     </message>
 </context>
 <context>
@@ -3352,12 +3353,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Pintasan Baru</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt; &lt;head/&gt; &lt;body&gt; &lt;p&gt; Tekan kombinasi tombol apa pun. &lt;span style=&quot; font-weight:600;&quot;&gt; Escape&lt;/span&gt; untuk membatalkan. &lt;/p&gt; &lt;/body&gt; &lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -3375,7 +3376,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cari:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
@@ -3420,17 +3421,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab baru</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubah nama tab</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubah nama grup tab</translation>
     </message>
 </context>
 <context>
@@ -3448,7 +3449,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Simpan item</translation>
     </message>
 </context>
 <context>
@@ -3456,12 +3457,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekan &apos;/&apos; untuk mencari</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>Ketik untuk mencari</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="106"/>
@@ -3480,7 +3481,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="362"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Peka huruf</translation>
     </message>
 </context>
 </TS>
