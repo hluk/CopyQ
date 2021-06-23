@@ -91,10 +91,8 @@ bool verifyProcess(QProcess *p, int timeoutMs = 30000)
     return true;
 }
 
-
-    falsefalse
 QString getGpgVersionOutput(const QString &executable) {
-    false    QProcess p;
+    QProcess p;
     p.start(executable, QStringList("--version"), QIODevice::ReadWrite);
     p.closeReadChannel(QProcess::StandardError);
 
