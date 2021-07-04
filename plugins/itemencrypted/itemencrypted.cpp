@@ -141,8 +141,8 @@ struct KeyPairPaths {
 
 #ifdef Q_OS_WIN
         if (checkUnixGpg(gpgExecutable())) {
-            pub.replace('\\', '/').replace(":", "").insert(0, '/');
-            sec.replace('\\', '/').replace(":", "").insert(0, '/');
+            pub = QDir::fromNativeSeparators(pub).replace(":", "").insert(0, '/');
+            sec = QDir::fromNativeSeparators(sec).replace(":", "").insert(0, '/');
         }
 #endif
     }
