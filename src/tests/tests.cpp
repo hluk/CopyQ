@@ -2339,6 +2339,13 @@ void Tests::searchRowNumber()
     RUN("testSelected", QString(clipboardTabName) + " 2 1 2 3\n");
 }
 
+void Tests::searchAccented()
+{
+    RUN("add" << "a" << "väčšina" << "a", "");
+    RUN("filter" << "vacsina", "");
+    WAIT_ON_OUTPUT("testSelected", QByteArray(clipboardTabName) + " 1 1\n");
+}
+
 void Tests::copyItems()
 {
     const auto tab = QString(clipboardTabName);

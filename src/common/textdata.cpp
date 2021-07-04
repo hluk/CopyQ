@@ -119,3 +119,16 @@ QVariantMap createDataMap(const QString &format, const QString &value)
 {
     return createDataMap( format, value.toUtf8() );
 }
+
+QString normalized(const QString &text)
+{
+    const auto normalizedText = text.normalized(QString::NormalizationForm_D);
+    QString result;
+
+    for (QChar c : normalizedText) {
+        if (c.category() != QChar::Mark_NonSpacing)
+            result.append(c);
+    }
+
+    return result.normalized(QString::NormalizationForm_C);
+}

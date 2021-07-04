@@ -235,7 +235,7 @@ public:
     bool matches(const QModelIndex &index, const ItemFilter &filter) const override
     {
         const QString text = index.data(contentType::text).toString();
-        return filter.matches(text);
+        return filter.matches(text) || filter.matches(normalized(text));
     }
 };
 
