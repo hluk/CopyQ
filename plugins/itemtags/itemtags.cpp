@@ -728,7 +728,7 @@ bool ItemTagsLoader::matches(const QModelIndex &index, const ItemFilter &filter)
     const QByteArray tagsData =
             index.data(contentType::data).toMap().value(mimeTags).toByteArray();
     const auto tags = getTextData(tagsData);
-    return filter.matches(tags) || filter.matches(normalized(tags));
+    return filter.matches(tags) || filter.matches(accentsRemoved(tags));
 }
 
 QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const

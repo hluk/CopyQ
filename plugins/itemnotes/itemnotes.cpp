@@ -275,5 +275,5 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QVariantMap
 bool ItemNotesLoader::matches(const QModelIndex &index, const ItemFilter &filter) const
 {
     const QString text = index.data(contentType::notes).toString();
-    return filter.matches(text) || filter.matches(normalized(text));
+    return filter.matches(text) || filter.matches(accentsRemoved(text));
 }

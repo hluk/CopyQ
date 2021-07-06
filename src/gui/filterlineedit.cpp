@@ -74,7 +74,7 @@ public:
         if (selections.isEmpty()) {
             QTextDocument doc;
             const auto text = edit->document()->toPlainText();
-            doc.setPlainText(normalized(text));
+            doc.setPlainText(accentsRemoved(text));
             selections = this->selections(&doc, format);
             for (QTextEdit::ExtraSelection &selection : selections) {
                 const auto pos = selection.cursor.position();
