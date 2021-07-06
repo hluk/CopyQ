@@ -54,18 +54,6 @@ const QLatin1String dataFileHeaderV2("CopyQ_encrypted_tab v2");
 
 const int maxItemCount = 10000;
 
-struct KeyPairPaths {
-    KeyPairPaths()
-    {
-        const QString path = getConfigurationFilePath("");
-        sec = QDir::toNativeSeparators(path + ".sec");
-        pub = QDir::toNativeSeparators(path + ".pub");
-    }
-
-    QString sec;
-    QString pub;
-};
-
 bool waitOrTerminate(QProcess *p, int timeoutMs)
 {
     p->waitForStarted();
@@ -103,18 +91,30 @@ bool verifyProcess(QProcess *p, int timeoutMs = 30000)
     return true;
 }
 
-bool checkGpgExecutable(const QString &executable)
-{
+QString getGpgVersionOutput(const QString &executable) {
     QProcess p;
     p.start(executable, QStringList("--version"), QIODevice::ReadWrite);
     p.closeReadChannel(QProcess::StandardError);
 
     if ( !verifyProcess(&p, 5000) )
-        return false;
+        return QString();
 
-    const auto versionOutput = p.readAllStandardOutput();
+    return p.readAllStandardOutput();
+}
+
+bool checkGpgExecutable(const QString &executable)
+{
+    const auto versionOutput = getGpgVersionOutput(executable);
     return versionOutput.contains(" 2.");
 }
+
+#ifdef Q_OS_WIN
+bool checkUnixGpg(const QString &executable)
+{
+    static const auto unixGpg = getGpgVersionOutput(executable).contains("Home: /c/");
+    return unixGpg;
+}
+#endif
 
 QString findGpgExecutable()
 {
@@ -131,6 +131,25 @@ const QString &gpgExecutable()
     static const auto gpg = findGpgExecutable();
     return gpg;
 }
+
+struct KeyPairPaths {
+    KeyPairPaths()
+    {
+        const QString path = getConfigurationFilePath("");
+        sec = QDir::toNativeSeparators(path + ".sec");
+        pub = QDir::toNativeSeparators(path + ".pub");
+
+#ifdef Q_OS_WIN
+        if (checkUnixGpg(gpgExecutable())) {
+            pub = QDir::fromNativeSeparators(pub).replace(":", "").insert(0, '/');
+            sec = QDir::fromNativeSeparators(sec).replace(":", "").insert(0, '/');
+        }
+#endif
+    }
+
+    QString sec;
+    QString pub;
+};
 
 QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 {
