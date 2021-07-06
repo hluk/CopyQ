@@ -134,5 +134,5 @@ QString accentsRemoved(const QString &text)
         [](QChar c){ return c.category() == QChar::Mark_NonSpacing; });
     const auto newSize = std::distance(std::begin(result), newEnd);
     result.resize(newSize);
-    return result.normalized(QString::NormalizationForm_C);
+    return result;
 }
