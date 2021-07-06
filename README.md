@@ -251,7 +251,7 @@ sudo apt install \
   qtwayland5 \
   qtwayland5-dev-tools
 ```
-#### RHEL / CentOS
+#### RHEL / CentOS / Oracle Linux
 
 ```bash
 sudo yum install \
@@ -267,7 +267,8 @@ sudo yum install \
   qt5-qttools-devel \
   qt5-qtwayland-devel \
   qt5-qtx11extras-devel \
-  wayland-devel
+  wayland-devel \
+  kf5-knotifications-devel
 ```
 
 ### Build the App
