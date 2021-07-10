@@ -2632,6 +2632,27 @@ void Tests::renameTab()
     QVERIFY( !hasTab(tab2) );
 }
 
+void Tests::renameClipboardTab()
+{
+    const QString newClipboardTabName = clipboardTabName + QStringLiteral("2");
+    RUN("config" << "tray_tab" << clipboardTabName, clipboardTabName + QStringLiteral("\n"));
+    const QString icon = ":/images/icon";
+    RUN("tabicon" << clipboardTabName << icon, "");
+
+    RUN("renametab" << clipboardTabName << newClipboardTabName, "");
+    RUN("tab", newClipboardTabName + "\n");
+    RUN("config" << "clipboard_tab", newClipboardTabName + QStringLiteral("\n"));
+    RUN("config" << "tray_tab", newClipboardTabName + QStringLiteral("\n"));
+    RUN("tabicon" << newClipboardTabName, icon + QStringLiteral("\n"));
+
+    TEST( m_test->setClipboard("test1") );
+    WAIT_ON_OUTPUT("tab" << newClipboardTabName << "read" << "0", "test1");
+    RUN("tab", newClipboardTabName + "\n");
+
+    WAIT_ON_OUTPUT("read" << "0", "test1");
+    RUN("tab", newClipboardTabName + "\n");
+}
+
 void Tests::importExportTab()
 {
     const QString tab = testTab(1);

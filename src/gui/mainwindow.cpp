@@ -3876,10 +3876,23 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
 
     auto placeholder = getPlaceholder(tabIndex);
     if (placeholder) {
-        updateTabIcon(name, placeholder->tabName());
+        const QString oldName = placeholder->tabName();
         if ( placeholder->setTabName(name) ) {
+            updateTabIcon(name, oldName);
             ui->tabWidget->setTabName(tabIndex, name);
             saveTabPositions();
+
+            QStringList optionsAndValues;
+            if (oldName == m_options.clipboardTab) {
+                optionsAndValues.append(QStringLiteral("clipboard_tab"));
+                optionsAndValues.append(name);
+            }
+            if (oldName == m_options.trayTabName) {
+                optionsAndValues.append(QStringLiteral("tray_tab"));
+                optionsAndValues.append(name);
+            }
+            if ( !optionsAndValues.isEmpty() )
+                config(optionsAndValues);
         }
     }
 }

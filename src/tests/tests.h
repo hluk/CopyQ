@@ -189,6 +189,7 @@ private slots:
     void action();
     void insertRemoveItems();
     void renameTab();
+    void renameClipboardTab();
     void importExportTab();
 
     void removeAllFoundItems();
