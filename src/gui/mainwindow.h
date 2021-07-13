@@ -86,6 +86,7 @@ struct MainWindowOptions {
     bool trayCurrentTab = false;
     QString trayTabName;
     int trayItems = 5;
+    bool nativeTrayMenu = false;
     bool trayImages = true;
     bool trayMenuOpenOnLeftClick = false;
     int transparency = 0;

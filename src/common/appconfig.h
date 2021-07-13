@@ -373,6 +373,11 @@ struct native_menu_bar : Config<bool> {
 #endif
 };
 
+struct native_tray_menu : Config<bool> {
+    static QString name() { return "native_tray_menu"; }
+    static Value defaultValue() { return false; }
+};
+
 struct script_paste_delay_ms : Config<int> {
     static QString name() { return "script_paste_delay_ms"; }
     static Value defaultValue() { return 250; }

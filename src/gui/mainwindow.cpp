@@ -1595,14 +1595,16 @@ void MainWindow::setTrayEnabled(bool enable)
 
     if (enable) {
         m_tray = new QSystemTrayIcon(this);
-        connect( m_tray, &QSystemTrayIcon::activated,
-                 this, &MainWindow::trayActivated );
-        updateIcon();
-
-        // On macOS, avoid showing tray menu with the main window.
+        if (m_options.nativeTrayMenu) {
+            m_tray->setContextMenu(m_trayMenu);
+        } else {
 #ifndef Q_OS_MAC
-        m_tray->setContextMenu(m_trayMenu);
+            m_tray->setContextMenu(m_trayMenu);
 #endif
+            connect( m_tray, &QSystemTrayIcon::activated,
+                     this, &MainWindow::trayActivated );
+        }
+        updateIcon();
 
         m_tray->show();
 
@@ -2588,6 +2590,11 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     m_trayMenu->setStyleSheet(toolTipStyleSheet);
     m_menu->setStyleSheet(toolTipStyleSheet);
 
+    if (m_options.nativeTrayMenu != appConfig.option<Config::native_tray_menu>()) {
+        m_options.nativeTrayMenu = appConfig.option<Config::native_tray_menu>();
+        delete m_tray;
+        m_tray = nullptr;
+    }
     setTrayEnabled( !appConfig.option<Config::disable_tray>() );
     updateTrayMenuItems();
 
