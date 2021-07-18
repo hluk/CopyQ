@@ -162,7 +162,8 @@ public slots:
     bool importData(const QString &fileName);
     bool exportData(const QString &fileName);
 
-    QVariant config(const QStringList &nameValue);
+    QVariant config(const QVariantList &nameValue);
+    QString configDescription();
     QVariant toggleConfig(const QString &optionName);
 
     int browserLength(const QString &tabName);

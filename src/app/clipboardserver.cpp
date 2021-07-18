@@ -220,7 +220,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
-    loadSettings();
+    AppConfig appConfig;
+    loadSettings(&appConfig);
 
     m_wnd->setCurrentTab(0);
     m_wnd->enterBrowseMode();
@@ -237,7 +238,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         m_actionDataToSend.clear();
     });
 
-    initSingleShotTimer(&m_updateThemeTimer, 1000, this, &ClipboardServer::loadSettings);
+    initSingleShotTimer(&m_updateThemeTimer, 1000, this, [this](){
+        AppConfig appConfig;
+        loadSettings(&appConfig);
+    });
 
     startMonitoring();
 
@@ -691,7 +695,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
     return false;
 }
 
-void ClipboardServer::loadSettings()
+void ClipboardServer::loadSettings(AppConfig *appConfig)
 {
     if (!m_sharedData->itemFactory)
         return;
@@ -702,9 +706,7 @@ void ClipboardServer::loadSettings()
 
     m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 
-    AppConfig appConfig;
-
-    const QString styleName = appConfig.option<Config::style>();
+    const QString styleName = appConfig->option<Config::style>();
     if ( !styleName.isEmpty() ) {
         log( QString("Style: %1").arg(styleName) );
         QStyle *style = QStyleFactory::create(styleName);
@@ -720,26 +722,26 @@ void ClipboardServer::loadSettings()
     m_sharedData->theme.loadTheme(settings);
     settings.endGroup();
 
-    m_sharedData->editor = appConfig.option<Config::editor>();
-    m_sharedData->maxItems = appConfig.option<Config::maxitems>();
-    m_sharedData->textWrap = appConfig.option<Config::text_wrap>();
-    m_sharedData->viMode = appConfig.option<Config::vi>();
-    m_sharedData->saveOnReturnKey = !appConfig.option<Config::edit_ctrl_return>();
-    m_sharedData->moveItemOnReturnKey = appConfig.option<Config::move>();
-    m_sharedData->showSimpleItems = appConfig.option<Config::show_simple_items>();
-    m_sharedData->numberSearch = appConfig.option<Config::number_search>();
-    m_sharedData->minutesToExpire = appConfig.option<Config::expire_tab>();
-    m_sharedData->saveDelayMsOnItemAdded = appConfig.option<Config::save_delay_ms_on_item_added>();
-    m_sharedData->saveDelayMsOnItemModified = appConfig.option<Config::save_delay_ms_on_item_modified>();
-    m_sharedData->saveDelayMsOnItemRemoved = appConfig.option<Config::save_delay_ms_on_item_removed>();
-    m_sharedData->saveDelayMsOnItemMoved = appConfig.option<Config::save_delay_ms_on_item_moved>();
-    m_sharedData->saveDelayMsOnItemEdited = appConfig.option<Config::save_delay_ms_on_item_edited>();
-    m_sharedData->rowIndexFromOne = appConfig.option<Config::row_index_from_one>();
+    m_sharedData->editor = appConfig->option<Config::editor>();
+    m_sharedData->maxItems = appConfig->option<Config::maxitems>();
+    m_sharedData->textWrap = appConfig->option<Config::text_wrap>();
+    m_sharedData->viMode = appConfig->option<Config::vi>();
+    m_sharedData->saveOnReturnKey = !appConfig->option<Config::edit_ctrl_return>();
+    m_sharedData->moveItemOnReturnKey = appConfig->option<Config::move>();
+    m_sharedData->showSimpleItems = appConfig->option<Config::show_simple_items>();
+    m_sharedData->numberSearch = appConfig->option<Config::number_search>();
+    m_sharedData->minutesToExpire = appConfig->option<Config::expire_tab>();
+    m_sharedData->saveDelayMsOnItemAdded = appConfig->option<Config::save_delay_ms_on_item_added>();
+    m_sharedData->saveDelayMsOnItemModified = appConfig->option<Config::save_delay_ms_on_item_modified>();
+    m_sharedData->saveDelayMsOnItemRemoved = appConfig->option<Config::save_delay_ms_on_item_removed>();
+    m_sharedData->saveDelayMsOnItemMoved = appConfig->option<Config::save_delay_ms_on_item_moved>();
+    m_sharedData->saveDelayMsOnItemEdited = appConfig->option<Config::save_delay_ms_on_item_edited>();
+    m_sharedData->rowIndexFromOne = appConfig->option<Config::row_index_from_one>();
 
     m_wnd->loadSettings(settings, appConfig);
 
-    m_textTabSize = appConfig.option<Config::text_tab_width>();
-    m_saveOnDeactivate = appConfig.option<Config::save_on_app_deactivated>();
+    m_textTabSize = appConfig->option<Config::text_tab_width>();
+    m_saveOnDeactivate = appConfig->option<Config::save_on_app_deactivated>();
 
     if (m_monitor) {
         stopMonitoring();
@@ -747,13 +749,13 @@ void ClipboardServer::loadSettings()
     }
 
     m_sharedData->notifications->setNativeNotificationsEnabled(
-        appConfig.option<Config::native_notifications>() );
+        appConfig->option<Config::native_notifications>() );
     m_sharedData->notifications->setNotificationOpacity(
         m_sharedData->theme.color("notification_bg").alphaF() );
     m_sharedData->notifications->setNotificationStyleSheet(
         m_sharedData->theme.getNotificationStyleSheet() );
 
-    int id = appConfig.option<Config::notification_position>();
+    int id = appConfig->option<Config::notification_position>();
     NotificationDaemon::Position position;
     switch (id) {
     case 0: position = NotificationDaemon::Top; break;
@@ -765,12 +767,12 @@ void ClipboardServer::loadSettings()
     }
     m_sharedData->notifications->setPosition(position);
 
-    const int x = appConfig.option<Config::notification_horizontal_offset>();
-    const int y = appConfig.option<Config::notification_vertical_offset>();
+    const int x = appConfig->option<Config::notification_horizontal_offset>();
+    const int y = appConfig->option<Config::notification_vertical_offset>();
     m_sharedData->notifications->setOffset(x, y);
 
-    const int w = appConfig.option<Config::notification_maximum_width>();
-    const int h = appConfig.option<Config::notification_maximum_height>();
+    const int w = appConfig->option<Config::notification_maximum_width>();
+    const int h = appConfig->option<Config::notification_maximum_height>();
     m_sharedData->notifications->setMaximumSize(w, h);
 
     m_sharedData->notifications->updateNotificationWidgets();

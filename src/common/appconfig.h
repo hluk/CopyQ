@@ -442,8 +442,6 @@ struct native_notifications : Config<bool> {
 class AppConfig final
 {
 public:
-    explicit AppConfig();
-
     QVariant option(const QString &name) const;
 
     template <typename T>
@@ -463,6 +461,8 @@ public:
     void setOption(const QString &name, const QVariant &value);
 
     void removeOption(const QString &name);
+
+    Settings &settings() { return m_settings; }
 
 private:
     Settings m_settings;

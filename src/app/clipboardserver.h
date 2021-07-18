@@ -32,6 +32,7 @@
 
 class Action;
 class ActionHandler;
+class AppConfig;
 class ItemFactory;
 class MainWindow;
 class NotificationDaemon;
@@ -72,7 +73,7 @@ public:
     void createGlobalShortcut(const QKeySequence &shortcut, const Command &command);
 
     /** Load settings. */
-    void loadSettings();
+    void loadSettings(AppConfig *appConfig);
 
 signals:
     void closeClients();

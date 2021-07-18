@@ -54,7 +54,6 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QScrollArea>
-#include <QSettings>
 #include <QTranslator>
 
 namespace {
@@ -149,7 +148,8 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
     if (itemFactory)
         m_tabAppearance->createPreview(itemFactory);
 
-    loadSettings();
+    AppConfig appConfig;
+    loadSettings(&appConfig);
 
     if (itemFactory)
         m_tabShortcuts->addCommands( itemFactory->commands() );
@@ -244,10 +244,10 @@ void ConfigurationManager::updateAutostart()
     }
 }
 
-void ConfigurationManager::setAutostartEnable()
+void ConfigurationManager::setAutostartEnable(AppConfig *appConfig)
 {
     auto platform = platformNativeInterface();
-    platform->setAutostartEnabled( AppConfig().option<Config::autostart>() );
+    platform->setAutostartEnabled( appConfig->option<Config::autostart>() );
 }
 
 void ConfigurationManager::initOptions()
@@ -353,6 +353,8 @@ void ConfigurationManager::initOptions()
     bind<Config::style>();
 
     bind<Config::row_index_from_one>();
+
+    bind<Config::tabs>();
 }
 
 template <typename Config, typename Widget>
@@ -405,6 +407,8 @@ QStringList ConfigurationManager::options() const
         const auto &option = it.key();
         if ( it.value().value().canConvert(QVariant::String) )
             options.append(option);
+        else if ( it.value().value().canConvert(QVariant::StringList) )
+            options.append(option);
     }
 
     return options;
@@ -415,18 +419,20 @@ QVariant ConfigurationManager::optionValue(const QString &name) const
     return m_options.value(name).value();
 }
 
-bool ConfigurationManager::setOptionValue(const QString &name, const QString &value)
+bool ConfigurationManager::setOptionValue(const QString &name, const QVariant &value, AppConfig *appConfig)
 {
     if ( !m_options.contains(name) )
         return false;
 
     const QString oldValue = optionValue(name).toString();
-    m_options[name].setValue(value);
-    if ( optionValue(name) == oldValue )
+    Option &option = m_options[name];
+    option.setValue(value);
+    if ( option.value() == oldValue )
         return false;
 
-    AppConfig().setOption(name, m_options[name].value());
-    return true;
+    appConfig->setOption(name, option.value());
+    option.setValue(appConfig->option(name));
+    return option.value() != oldValue;
 }
 
 QString ConfigurationManager::optionToolTip(const QString &name) const
@@ -434,9 +440,9 @@ QString ConfigurationManager::optionToolTip(const QString &name) const
     return m_options[name].tooltip();
 }
 
-void ConfigurationManager::loadSettings()
+void ConfigurationManager::loadSettings(AppConfig *appConfig)
 {
-    QSettings settings;
+    Settings &settings = appConfig->settings();
 
     settings.beginGroup("Options");
     for (auto it = m_options.begin(); it != m_options.end(); ++it) {
@@ -453,14 +459,14 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     settings.beginGroup("Shortcuts");
-    m_tabShortcuts->loadShortcuts(settings);
+    m_tabShortcuts->loadShortcuts(settings.constSettingsData());
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    m_tabAppearance->loadTheme(settings);
+    m_tabAppearance->loadTheme(settings.constSettingsData());
     settings.endGroup();
 
-    m_tabAppearance->setEditor( AppConfig().option<Config::editor>() );
+    m_tabAppearance->setEditor( appConfig->option<Config::editor>() );
 
     onCheckBoxMenuTabIsCurrentStateChanged( m_tabTray->checkBoxMenuTabIsCurrent->checkState() );
 
@@ -474,10 +480,12 @@ void ConfigurationManager::onButtonBoxClicked(QAbstractButton* button)
     int answer;
 
     switch( ui->buttonBox->buttonRole(button) ) {
-    case QDialogButtonBox::ApplyRole:
-        apply();
-        emit configurationChanged();
+    case QDialogButtonBox::ApplyRole: {
+        AppConfig appConfig;
+        apply(&appConfig);
+        emit configurationChanged(&appConfig);
         break;
+    }
     case QDialogButtonBox::AcceptRole:
         accept();
         break;
@@ -522,9 +530,9 @@ void ConfigurationManager::connectSlots()
             this, &ConfigurationManager::onSpinBoxTrayItemsValueChanged);
 }
 
-void ConfigurationManager::apply()
+void ConfigurationManager::apply(AppConfig *appConfig)
 {
-    Settings settings;
+    Settings &settings = appConfig->settings();
 
     settings.beginGroup("Options");
     for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it)
@@ -577,9 +585,9 @@ void ConfigurationManager::apply()
     if (!pluginPriority.isEmpty())
         settings.setValue("plugin_priority", pluginPriority);
 
-    m_tabAppearance->setEditor( AppConfig().option<Config::editor>() );
+    m_tabAppearance->setEditor( appConfig->option<Config::editor>() );
 
-    setAutostartEnable();
+    setAutostartEnable(appConfig);
 
     // Language changes after restart.
     const int newLocaleIndex = m_tabGeneral->comboBoxLanguage->currentIndex();
@@ -600,8 +608,9 @@ void ConfigurationManager::apply()
 void ConfigurationManager::done(int result)
 {
     if (result == QDialog::Accepted) {
-        apply();
-        emit configurationChanged();
+        AppConfig appConfig;
+        apply(&appConfig);
+        emit configurationChanged(&appConfig);
     }
 
     QDialog::done(result);

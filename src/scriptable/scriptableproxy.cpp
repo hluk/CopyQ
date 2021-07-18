@@ -1460,17 +1460,24 @@ bool ScriptableProxy::exportData(const QString &fileName)
     return m_wnd->exportAllData(fileName);
 }
 
-QVariant ScriptableProxy::config(const QStringList &nameValue)
+QVariant ScriptableProxy::config(const QVariantList &nameValue)
 {
     INVOKE(config, (nameValue));
     return m_wnd->config(nameValue);
+}
+
+QString ScriptableProxy::configDescription()
+{
+    INVOKE(configDescription, ());
+    return m_wnd->configDescription();
 }
 
 QVariant ScriptableProxy::toggleConfig(const QString &optionName)
 {
     INVOKE(toggleConfig, (optionName));
 
-    QStringList nameValue(optionName);
+    QVariantList nameValue;
+    nameValue.append(optionName);
     const auto values = m_wnd->config(nameValue);
     if ( values.type() == QVariant::StringList )
         return values;
@@ -1480,7 +1487,7 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
         return QVariant();
 
     const auto newValue = !QVariant(oldValue).toBool();
-    nameValue.append( QVariant(newValue).toString() );
+    nameValue.append(newValue);
     return m_wnd->config(nameValue).toMap().constBegin().value();
 }
 

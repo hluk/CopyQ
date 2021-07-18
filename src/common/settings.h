@@ -62,6 +62,8 @@ public:
 
     bool isEmpty() const { return isEmpty(m_settings); }
 
+    bool contains(const QString &name) const { return m_settings.contains(name); }
+
     QVariant value(const QString &name) const { return m_settings.value(name); }
 
     void setValue(const QString &name, const QVariant &value) {
@@ -116,6 +118,8 @@ public:
         m_changed = true;
         return &m_settings;
     }
+
+    const QSettings &constSettingsData() { return m_settings; }
 
     Settings(const Settings &) = delete;
     Settings &operator=(const Settings &) = delete;

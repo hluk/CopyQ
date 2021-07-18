@@ -572,7 +572,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
-    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::doSaveTabPositions );
+    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::onSaveTabPositionsTimer );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
 
@@ -2006,7 +2006,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         for (auto it = settingsMap.constBegin(); it != settingsMap.constEnd(); ++it)
             settings.setValue( it.key(), it.value() );
 
-        emit configurationChanged();
+        AppConfig appConfig;
+        emit configurationChanged(&appConfig);
     }
 
     if (importCommands) {
@@ -2132,7 +2133,8 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         for (auto it = settingsMap.constBegin(); it != settingsMap.constEnd(); ++it)
             settings.setValue( it.key(), it.value() );
 
-        emit configurationChanged();
+        AppConfig appConfig;
+        emit configurationChanged(&appConfig);
     }
 
     if (importCommands) {
@@ -2480,7 +2482,7 @@ bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *r
     return QMainWindow::nativeEvent(eventType, message, result);
 }
 
-void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
+void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 {
     stopMenuCommandFilters(&m_itemMenuMatchCommands);
     stopMenuCommandFilters(&m_trayMenuMatchCommands);
@@ -2492,15 +2494,15 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 
     setUseSystemIcons( theme().useSystemIcons() );
 
-    m_options.confirmExit = appConfig.option<Config::confirm_exit>();
+    m_options.confirmExit = appConfig->option<Config::confirm_exit>();
 
     // always on top window hint
-    bool alwaysOnTop = appConfig.option<Config::always_on_top>();
+    bool alwaysOnTop = appConfig->option<Config::always_on_top>();
     setAlwaysOnTop(this, alwaysOnTop);
     setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
     // Vi mode
-    m_options.viMode = appConfig.option<Config::vi>();
+    m_options.viMode = appConfig->option<Config::vi>();
     m_trayMenu->setViModeEnabled(m_options.viMode);
     m_menu->setViModeEnabled(m_options.viMode);
 
@@ -2511,23 +2513,23 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     m_trayMenu->setRowIndexFromOne(m_sharedData->rowIndexFromOne);
     m_menu->setRowIndexFromOne(m_sharedData->rowIndexFromOne);
 
-    m_options.transparency = appConfig.option<Config::transparency>();
-    m_options.transparencyFocused = appConfig.option<Config::transparency_focused>();
+    m_options.transparency = appConfig->option<Config::transparency>();
+    m_options.transparencyFocused = appConfig->option<Config::transparency_focused>();
     updateWindowTransparency();
 
     // save unsaved tab data
     if ( ui->tabWidget->count() != 0 ) {
         if ( m_timerSaveTabPositions.isActive() )
-            doSaveTabPositions();
+            doSaveTabPositions(appConfig);
         ui->tabWidget->saveTabInfo();
     }
 
     const QStringList tabNames = savedTabs();
 
     // tab bar position
-    const bool tabTreeEnabled = appConfig.option<Config::tab_tree>();
+    const bool tabTreeEnabled = appConfig->option<Config::tab_tree>();
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
-    ui->tabWidget->setTabItemCountVisible(appConfig.option<Config::show_tab_item_count>());
+    ui->tabWidget->setTabItemCountVisible(appConfig->option<Config::show_tab_item_count>());
     for ( auto scrollArea : ui->tabWidget->toolBar()->findChildren<QAbstractScrollArea*>() )
         theme().decorateScrollArea(scrollArea);
 
@@ -2538,26 +2540,26 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 
     ui->tabWidget->setTabsOrder(tabNames);
 
-    m_options.hideTabs = appConfig.option<Config::hide_tabs>();
+    m_options.hideTabs = appConfig->option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
 
-    bool hideToolbar = appConfig.option<Config::hide_toolbar>();
+    bool hideToolbar = appConfig->option<Config::hide_toolbar>();
     clearActions(m_toolBar);
     m_toolBar->setHidden(hideToolbar);
-    bool hideToolBarLabels = appConfig.option<Config::hide_toolbar_labels>();
+    bool hideToolBarLabels = appConfig->option<Config::hide_toolbar_labels>();
     m_toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
-    m_options.hideMainWindow = appConfig.option<Config::hide_main_window>();
-    m_options.closeOnUnfocus = appConfig.option<Config::close_on_unfocus>();
+    m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
+    m_options.closeOnUnfocus = appConfig->option<Config::close_on_unfocus>();
 
-    const bool hideInTaskBar = appConfig.option<Config::hide_main_window_in_task_bar>();
+    const bool hideInTaskBar = appConfig->option<Config::hide_main_window_in_task_bar>();
     setHideInTaskBar(this, hideInTaskBar);
 
     Q_ASSERT( ui->tabWidget->count() > 0 );
 
     // Save any tabs loaded from new tab files.
-    appConfig.setOption("tabs", tabNames);
+    appConfig->setOption("tabs", tabNames);
 
     reloadBrowsers();
 
@@ -2569,34 +2571,34 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
     updateItemPreviewAfterMs(itemPreviewUpdateIntervalMsec);
 
     m_options.itemActivationCommands = ActivateNoCommand;
-    if ( appConfig.option<Config::activate_closes>() )
+    if ( appConfig->option<Config::activate_closes>() )
         m_options.itemActivationCommands |= ActivateCloses;
-    if ( appConfig.option<Config::activate_focuses>() )
+    if ( appConfig->option<Config::activate_focuses>() )
         m_options.itemActivationCommands |= ActivateFocuses;
-    if ( appConfig.option<Config::activate_pastes>() )
+    if ( appConfig->option<Config::activate_pastes>() )
         m_options.itemActivationCommands |= ActivatePastes;
 
-    m_options.trayItems = appConfig.option<Config::tray_items>();
-    m_options.trayItemPaste = appConfig.option<Config::tray_item_paste>();
-    m_options.trayCommands = appConfig.option<Config::tray_commands>();
-    m_options.trayCurrentTab = appConfig.option<Config::tray_tab_is_current>();
-    m_options.trayTabName = appConfig.option<Config::tray_tab>();
-    m_options.trayImages = appConfig.option<Config::tray_images>();
-    m_options.trayMenuOpenOnLeftClick = appConfig.option<Config::tray_menu_open_on_left_click>();
-    m_options.clipboardTab = appConfig.option<Config::clipboard_tab>();
+    m_options.trayItems = appConfig->option<Config::tray_items>();
+    m_options.trayItemPaste = appConfig->option<Config::tray_item_paste>();
+    m_options.trayCommands = appConfig->option<Config::tray_commands>();
+    m_options.trayCurrentTab = appConfig->option<Config::tray_tab_is_current>();
+    m_options.trayTabName = appConfig->option<Config::tray_tab>();
+    m_options.trayImages = appConfig->option<Config::tray_images>();
+    m_options.trayMenuOpenOnLeftClick = appConfig->option<Config::tray_menu_open_on_left_click>();
+    m_options.clipboardTab = appConfig->option<Config::clipboard_tab>();
 
-    m_singleClickActivate = appConfig.option<Config::activate_item_with_single_click>();
+    m_singleClickActivate = appConfig->option<Config::activate_item_with_single_click>();
 
     const auto toolTipStyleSheet = theme().getToolTipStyleSheet();
     m_trayMenu->setStyleSheet(toolTipStyleSheet);
     m_menu->setStyleSheet(toolTipStyleSheet);
 
-    setTrayEnabled( !appConfig.option<Config::disable_tray>() );
+    setTrayEnabled( !appConfig->option<Config::disable_tray>() );
     updateTrayMenuItems();
 
     updateIcon();
 
-    menuBar()->setNativeMenuBar( appConfig.option<Config::native_menu_bar>() );
+    menuBar()->setNativeMenuBar( appConfig->option<Config::native_menu_bar>() );
 
     ui->searchBar->loadSettings();
 
@@ -2625,7 +2627,8 @@ void MainWindow::loadTheme(const QSettings &themeSettings)
         settings.endGroup();
     }
 
-    emit configurationChanged();
+    AppConfig appConfig;
+    emit configurationChanged(&appConfig);
 }
 
 void MainWindow::openHelp()
@@ -2832,10 +2835,17 @@ void MainWindow::saveTabPositions()
     m_timerSaveTabPositions.start();
 }
 
-void MainWindow::doSaveTabPositions()
+void MainWindow::onSaveTabPositionsTimer()
 {
+    AppConfig appConfig;
+    doSaveTabPositions(&appConfig);
+}
+
+void MainWindow::doSaveTabPositions(AppConfig *appConfig)
+{
+    m_timerSaveTabPositions.stop();
     const QStringList tabs = ui->tabWidget->tabs();
-    AppConfig().setOption("tabs", tabs);
+    appConfig->setOption("tabs", tabs);
 }
 
 void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
@@ -2884,54 +2894,58 @@ void MainWindow::tabCloseRequested(int tab)
     removeTab(true, tab);
 }
 
-QVariant MainWindow::config(const QStringList &nameValue)
+QVariant MainWindow::config(const QVariantList &nameValue)
 {
+    AppConfig appConfig;
+
     if ( m_timerSaveTabPositions.isActive() )
-        doSaveTabPositions();
+        doSaveTabPositions(&appConfig);
 
     ConfigurationManager configurationManager;
-
-    if ( nameValue.isEmpty() ) {
-        QStringList options = configurationManager.options();
-        options.sort();
-        QString opts;
-        for (const auto &option : options)
-            opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
-        return opts;
-    }
 
     QStringList unknownOptions;
     const auto validOptions = configurationManager.options();
 
     // Check if option names are valid.
     for (int i = 0; i < nameValue.size(); i += 2) {
-        const auto &name = nameValue[i];
+        const QString name = nameValue[i].toString();
         if ( !validOptions.contains(name) )
-            unknownOptions.append( nameValue[i] );
+            unknownOptions.append(name);
     }
 
     if ( !unknownOptions.isEmpty() )
         return unknownOptions;
 
-    configurationManager.loadSettings();
+    configurationManager.loadSettings(&appConfig);
 
     QVariantMap result;
     bool emitConfigurationChanged = false;
     for (int i = 0; i < nameValue.size(); i += 2) {
-        const auto &name = nameValue[i];
-        const auto value = nameValue.value(i + 1);
-        if ( !value.isNull() && configurationManager.setOptionValue(name, value) )
+        const QString name = nameValue[i].toString();
+        const QVariant value = nameValue.value(i + 1);
+        if ( i + 1 < nameValue.size() && configurationManager.setOptionValue(name, value, &appConfig) )
             emitConfigurationChanged = true;
 
-        result.insert( nameValue[i], configurationManager.optionValue(name) );
+        result.insert( name, configurationManager.optionValue(name) );
     }
 
     if (emitConfigurationChanged) {
-        configurationManager.setAutostartEnable();
-        emit configurationChanged();
+        configurationManager.setAutostartEnable(&appConfig);
+        emit configurationChanged(&appConfig);
     }
 
     return result;
+}
+
+QString MainWindow::configDescription()
+{
+    ConfigurationManager configurationManager;
+    QStringList options = configurationManager.options();
+    options.sort();
+    QString opts;
+    for (const auto &option : options)
+        opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
+    return opts;
 }
 
 QVariantMap MainWindow::actionData(int id) const
@@ -3888,7 +3902,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
             ui->tabWidget->setTabName(tabIndex, name);
             saveTabPositions();
 
-            QStringList optionsAndValues;
+            QVariantList optionsAndValues;
             if (oldName == m_options.clipboardTab) {
                 optionsAndValues.append(QStringLiteral("clipboard_tab"));
                 optionsAndValues.append(name);

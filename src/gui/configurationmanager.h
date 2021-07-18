@@ -36,6 +36,7 @@ namespace Ui {
     class ConfigurationManager;
 }
 
+class AppConfig;
 class ConfigTabAppearance;
 class ConfigTabTabs;
 class ItemFactory;
@@ -71,7 +72,7 @@ public:
     QVariant optionValue(const QString &name) const;
 
     /** Set value of an option and returns true only if the value changes. */
-    bool setOptionValue(const QString &name, const QString &value);
+    bool setOptionValue(const QString &name, const QVariant &value, AppConfig *appConfig);
 
     /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
@@ -79,23 +80,23 @@ public:
     void setVisible(bool visible) override;
 
     /** Load settings from default file. */
-    void loadSettings();
+    void loadSettings(AppConfig *appConfig);
 
     /** Enable/disable autostarting the application. */
-    void setAutostartEnable();
+    void setAutostartEnable(AppConfig *appConfig);
 
     void done(int result) override;
 
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
-    void configurationChanged();
+    void configurationChanged(AppConfig *appConfig);
 
     void error(const QString &error);
 
 private:
     void connectSlots();
 
-    void apply();
+    void apply(AppConfig *appConfig);
     void onButtonBoxClicked(QAbstractButton* button);
 
     void onCheckBoxMenuTabIsCurrentStateChanged(int);
