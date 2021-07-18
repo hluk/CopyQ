@@ -49,6 +49,10 @@ ItemOrderList::ItemOrderList(QWidget *parent)
             this, &ItemOrderList::onPushButtonUpClicked);
     connect(ui->pushButtonDown, &QToolButton::clicked,
             this, &ItemOrderList::onPushButtonDownClicked);
+    connect(ui->pushButtonTop, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonTopClicked);
+    connect(ui->pushButtonBottom, &QToolButton::clicked,
+            this, &ItemOrderList::onPushButtonBottomClicked);
     connect(ui->pushButtonRemove, &QToolButton::clicked,
             this, &ItemOrderList::onPushButtonRemoveClicked);
     connect(ui->pushButtonAdd, &QToolButton::clicked,
@@ -90,6 +94,8 @@ void ItemOrderList::setItemsMovable(bool movable)
 {
     ui->pushButtonUp->setVisible(movable);
     ui->pushButtonDown->setVisible(movable);
+    ui->pushButtonTop->setVisible(movable);
+    ui->pushButtonBottom->setVisible(movable);
     ui->listWidgetItems->setDragEnabled(movable);
 }
 
@@ -285,6 +291,8 @@ void ItemOrderList::showEvent(QShowEvent *event)
         ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
         ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
         ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
+        ui->pushButtonTop->setIcon( getIcon("go-top", IconAngleDoubleUp) );
+        ui->pushButtonBottom->setIcon( getIcon("go-bottom", IconAngleDoubleDown) );
     }
 
     // Resize list to minimal size.
@@ -311,28 +319,32 @@ void ItemOrderList::nextPreviousItem(int d)
 
 void ItemOrderList::onPushButtonUpClicked()
 {
-    QListWidget *list = ui->listWidgetItems;
-    const int row = list->currentRow();
-    if (row < 1)
-        return;
-
-    list->blockSignals(true);
-    list->insertItem(row - 1, list->takeItem(row));
-    list->setCurrentRow(row - 1);
-    list->blockSignals(false);
+    const int row = ui->listWidgetItems->currentRow();
+    if (row >= 1)
+        moveTab(row, row - 1);
 }
 
 void ItemOrderList::onPushButtonDownClicked()
 {
     QListWidget *list = ui->listWidgetItems;
     const int row = list->currentRow();
-    if (row < 0 || row == list->count() - 1)
-        return;
+    if (row >= 0 && row + 1 < list->count())
+        moveTab(row, row + 1);
+}
 
-    list->blockSignals(true);
-    list->insertItem(row + 1, list->takeItem(row));
-    list->setCurrentRow(row + 1);
-    list->blockSignals(false);
+void ItemOrderList::onPushButtonTopClicked()
+{
+    const int row = ui->listWidgetItems->currentRow();
+    if (row >= 1)
+        moveTab(row, 0);
+}
+
+void ItemOrderList::onPushButtonBottomClicked()
+{
+    QListWidget *list = ui->listWidgetItems;
+    const int row = ui->listWidgetItems->currentRow();
+    if (row >= 0 && row + 1 < list->count())
+        moveTab(row, list->count() - 1);
 }
 
 void ItemOrderList::onPushButtonRemoveClicked()
@@ -367,6 +379,15 @@ void ItemOrderList::onListWidgetItemsItemChanged(QListWidgetItem *item)
         m_items[item].lastCheckedState = checked;
         emit itemCheckStateChanged(row, checked);
     }
+}
+
+void ItemOrderList::moveTab(int row, int targetRow)
+{
+    QListWidget *list = ui->listWidgetItems;
+    list->blockSignals(true);
+    list->insertItem(targetRow, list->takeItem(row));
+    list->setCurrentRow(targetRow);
+    list->blockSignals(false);
 }
 
 QListWidgetItem *ItemOrderList::listItem(int row) const
