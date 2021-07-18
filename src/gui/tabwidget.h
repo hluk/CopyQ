@@ -77,8 +77,6 @@ public:
     /** Return tab names. */
     QStringList tabs() const;
 
-    void moveTab(int from, int to);
-
     void addToolBars(QMainWindow *mainWindow);
 
     void saveTabInfo();
@@ -95,6 +93,8 @@ public:
     void setTabBarHidden(bool hidden);
     void setTreeModeEnabled(bool enabled);
     void setTabItemCount(const QString &tabName, int itemCount);
+
+    void setTabsOrder(const QStringList &tabs);
 
 signals:
     /// Tabs moved in tab bar.
@@ -122,6 +122,8 @@ private:
     void updateToolBar();
     void updateTabItemCount(const QString &name);
     QString itemCountLabel(const QString &name);
+
+    void setTreeModeEnabled(bool enabled, const QStringList &tabs);
 
     QToolBar *m_toolBar;
     QToolBar *m_toolBarTree;

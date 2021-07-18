@@ -49,7 +49,6 @@ public:
 
     void insertTab(int index, const QString &path) override;
     void removeTab(int index) override;
-    void moveTab(int from, int to) override;
 
     void updateCollapsedTabs(QStringList *collapsedTabs) const override;
     void setCollapsedTabs(const QStringList &collapsedTabs) override;

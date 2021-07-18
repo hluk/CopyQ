@@ -2522,12 +2522,21 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
         ui->tabWidget->saveTabInfo();
     }
 
+    const QStringList tabNames = savedTabs();
+
     // tab bar position
     const bool tabTreeEnabled = appConfig.option<Config::tab_tree>();
     ui->tabWidget->setTreeModeEnabled(tabTreeEnabled);
     ui->tabWidget->setTabItemCountVisible(appConfig.option<Config::show_tab_item_count>());
     for ( auto scrollArea : ui->tabWidget->toolBar()->findChildren<QAbstractScrollArea*>() )
         theme().decorateScrollArea(scrollArea);
+
+    // create tabs
+    const Tabs tabs;
+    for (const auto &name : tabNames)
+        createTab(name, MatchExactTabName, tabs);
+
+    ui->tabWidget->setTabsOrder(tabNames);
 
     m_options.hideTabs = appConfig.option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
@@ -2544,12 +2553,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig &appConfig)
 
     const bool hideInTaskBar = appConfig.option<Config::hide_main_window_in_task_bar>();
     setHideInTaskBar(this, hideInTaskBar);
-
-    // create tabs
-    const Tabs tabs;
-    const QStringList tabNames = savedTabs();
-    for (const auto &name : tabNames)
-        createTab(name, MatchExactTabName, tabs);
 
     Q_ASSERT( ui->tabWidget->count() > 0 );
 
@@ -2883,6 +2886,9 @@ void MainWindow::tabCloseRequested(int tab)
 
 QVariant MainWindow::config(const QStringList &nameValue)
 {
+    if ( m_timerSaveTabPositions.isActive() )
+        doSaveTabPositions();
+
     ConfigurationManager configurationManager;
 
     if ( nameValue.isEmpty() ) {

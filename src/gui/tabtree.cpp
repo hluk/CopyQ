@@ -418,19 +418,6 @@ void TabTree::removeTab(int index)
     updateSize();
 }
 
-void TabTree::moveTab(int from, int to)
-{
-    if (from == to)
-        return;
-
-    QTreeWidgetItem *item = findTreeItem(from);
-    if (item == nullptr)
-        return;
-
-    m_tabs.removeOne(item);
-    m_tabs.insert(to, item);
-}
-
 void TabTree::updateCollapsedTabs(QStringList *tabs) const
 {
     tabs->clear();
