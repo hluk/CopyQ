@@ -159,6 +159,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         Settings::canModifySettings = true;
         restoreConfiguration();
         App::installTranslator();
+        qApp->setLayoutDirection(QLocale().textDirection());
         COPYQ_LOG("Server \"" + serverName + "\" started.");
     } else {
         App::installTranslator();
