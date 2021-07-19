@@ -85,7 +85,7 @@ ConfigTabTabs::ConfigTabTabs(QWidget *parent)
     : QWidget(parent)
     , m_list(new ItemOrderList(this))
 {
-    m_list->setItemsMovable(false);
+    m_list->setItemsMovable(true);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

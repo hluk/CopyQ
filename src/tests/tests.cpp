@@ -3121,6 +3121,25 @@ void Tests::configPathEnvVariable()
     QCOMPARE( out.left(expectedOut.size()), expectedOut );
 }
 
+void Tests::configTabs()
+{
+    const QString sep = QStringLiteral("\n");
+    RUN("config" << "tabs", clipboardTabName + sep);
+
+    const QString tab1 = testTab(1);
+    RUN("tab" << tab1 << "add" << "test", "");
+    RUN("config" << "tabs", clipboardTabName + sep + tab1 + sep);
+
+    const QString tab2 = testTab(2);
+    RUN(QString("config('tabs', ['%1', '%2'])").arg(clipboardTabName, tab2), clipboardTabName + sep + tab2 + sep);
+    RUN("config" << "tabs", clipboardTabName + sep + tab2 + sep + tab1 + sep);
+    RUN("tab", clipboardTabName + sep + tab2 + sep + tab1 + sep);
+
+    RUN(QString("config('tabs', ['%1', '%2'])").arg(tab1, tab2), tab1 + sep + tab2 + sep);
+    RUN("config" << "tabs", tab1 + sep + tab2 + sep + clipboardTabName + sep);
+    RUN("tab", tab1 + sep + tab2 + sep + clipboardTabName + sep);
+}
+
 void Tests::shortcutCommand()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");
@@ -3185,10 +3204,12 @@ void Tests::shortcutCommandMatchCmd()
         )";
     RUN(script, "");
 
-    RUN("write" << "application/x-copyq-test1" << "1", "");
+    RUN("show" << tab, "");
+
+    RUN(args << "write" << "application/x-copyq-test1" << "1", "");
     WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test1");
 
-    RUN("write" << "application/x-copyq-test2" << "2", "");
+    RUN(args << "write" << "application/x-copyq-test2" << "2", "");
     WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test2");
 }
 

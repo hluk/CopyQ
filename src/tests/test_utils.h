@@ -66,7 +66,7 @@
 #define SKIP(MESSAGE) QSKIP(MESSAGE, SkipAll)
 
 #define WAIT_ON_OUTPUT(ARGUMENTS, OUTPUT) \
-    TEST( m_test->waitOnOutput((Args() << ARGUMENTS), (OUTPUT)) )
+    TEST( m_test->waitOnOutput((Args() << ARGUMENTS), toByteArray(OUTPUT)) )
 
 #define SKIP_ON_ENV(ENV) \
     if ( qgetenv(ENV) == "1" ) \

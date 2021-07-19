@@ -255,7 +255,8 @@ public:
     QStringList tabs() const;
 
     /// Used by config() command.
-    QVariant config(const QStringList &nameValue);
+    QVariant config(const QVariantList &nameValue);
+    QString configDescription();
 
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);
@@ -288,7 +289,7 @@ public:
     void exit();
 
     /** Load settings. */
-    void loadSettings(QSettings &settings, AppConfig &appConfig);
+    void loadSettings(QSettings &settings, AppConfig *appConfig);
 
     void loadTheme(const QSettings &themeSettings);
 
@@ -429,7 +430,7 @@ signals:
 
     void commandsSaved(const QVector<Command> &commands);
 
-    void configurationChanged();
+    void configurationChanged(AppConfig *appConfig);
 
     void disableClipboardStoringRequest(bool disable);
 
@@ -458,7 +459,8 @@ private:
     void findNextOrPrevious();
     void tabChanged(int current, int previous);
     void saveTabPositions();
-    void doSaveTabPositions();
+    void onSaveTabPositionsTimer();
+    void doSaveTabPositions(AppConfig *appConfig);
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
     void tabBarMenuRequested(QPoint pos, int tab);
     void tabTreeMenuRequested(QPoint pos, const QString &groupPath);

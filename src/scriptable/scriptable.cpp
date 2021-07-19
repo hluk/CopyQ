@@ -1495,7 +1495,10 @@ QJSValue Scriptable::config()
 {
     m_skipArguments = -1;
 
-    const auto nameValueInput = arguments();
+    const QVariantList nameValueInput = argumentsAsVariants();
+    if (nameValueInput.isEmpty())
+        return m_proxy->configDescription();
+
     const auto result = m_proxy->config(nameValueInput);
     if ( result.type() == QVariant::String )
         return result.toString();
@@ -1513,14 +1516,22 @@ QJSValue Scriptable::config()
     }
 
     const auto nameValue = result.toMap();
-    if ( nameValue.size() == 1 )
-        return nameValue.constBegin().value().toString();
+    if ( nameValue.size() == 1 ) {
+        const auto value = nameValue.constBegin().value();
+        return value.type() == QVariant::StringList || value.type() == QVariant::List
+            ? toScriptValue(value, this)
+            : toScriptValue(value.toString(), this);
+    }
 
     QStringList output;
     for (auto it = nameValue.constBegin(); it != nameValue.constEnd(); ++it) {
         const auto name = it.key();
         const auto value = it.value();
-        output.append( name + "=" + value.toString() );
+        const auto textValue =
+            value.type() == QVariant::StringList || value.type() == QVariant::List
+            ? value.toStringList().join(',')
+            : value.toString();
+        output.append( name + "=" + textValue );
     }
 
     return toScriptValue(output, this);
@@ -3423,6 +3434,17 @@ QStringList Scriptable::arguments()
 
     for (int i = 0; i < argumentCount(); ++i)
         args.append( arg(i) );
+
+    return args;
+}
+
+QVariantList Scriptable::argumentsAsVariants()
+{
+    QVariantList args;
+    args.reserve( argumentCount() );
+
+    for (int i = 0; i < argumentCount(); ++i)
+        args.append( toVariant(argument(i)) );
 
     return args;
 }

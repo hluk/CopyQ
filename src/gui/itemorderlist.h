@@ -126,12 +126,16 @@ private:
 
     void onPushButtonUpClicked();
     void onPushButtonDownClicked();
+    void onPushButtonTopClicked();
+    void onPushButtonBottomClicked();
     void onPushButtonRemoveClicked();
     void onPushButtonAddClicked();
 
     void onListWidgetItemsCurrentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void onListWidgetItemsItemSelectionChanged();
     void onListWidgetItemsItemChanged(QListWidgetItem *item);
+
+    void moveTab(int row, int targetRow);
 
     struct ItemWidgetPair {
         ItemWidgetPair() {}

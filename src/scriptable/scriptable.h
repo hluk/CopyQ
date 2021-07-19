@@ -437,6 +437,7 @@ private:
     void insert(int row, int argumentsBegin, int argumentsEnd);
 
     QStringList arguments();
+    QVariantList argumentsAsVariants();
 
     void print(const QByteArray &message);
     void printError(const QByteArray &message);

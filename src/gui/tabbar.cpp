@@ -134,11 +134,6 @@ void TabBar::removeTab(int index)
     QTabBar::removeTab(index);
 }
 
-void TabBar::moveTab(int from, int to)
-{
-    QTabBar::moveTab(from, to);
-}
-
 void TabBar::updateTabIcons()
 {
     for (int i = 0; i < count(); ++i)

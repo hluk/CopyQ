@@ -49,9 +49,6 @@ public:
     /** Remove tab with given @a index. */
     virtual void removeTab(int index) = 0;
 
-    /** Change tab index of tab. */
-    virtual void moveTab(int from, int to) = 0;
-
     virtual void updateCollapsedTabs(QStringList *collapsedTabs) const = 0;
 
     virtual void setCollapsedTabs(const QStringList &collapsedTabs) = 0;

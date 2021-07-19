@@ -42,21 +42,16 @@ QString defaultClipboardTabName()
 
 QVariant AppConfig::option(const QString &name) const
 {
-    return m_settings.value(name);
-}
-
-AppConfig::AppConfig()
-{
-    m_settings.beginGroup("Options");
+    return m_settings.value(QStringLiteral("Options/") + name);
 }
 
 void AppConfig::setOption(const QString &name, const QVariant &value)
 {
     if ( option(name) != value )
-        m_settings.setValue(name, value);
+        m_settings.setValue(QStringLiteral("Options/") + name, value);
 }
 
 void AppConfig::removeOption(const QString &name)
 {
-    m_settings.remove(name);
+    m_settings.remove(QStringLiteral("Options/") + name);
 }
