@@ -698,7 +698,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="444"/>
@@ -884,7 +884,7 @@ Nota: se questo è applicato automaticamente, nessun altro comando automatico ve
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Suggerimenti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -1451,7 +1451,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Utilizza notifiche native</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1651,7 +1651,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferenze</translation>
     </message>
 </context>
 <context>
