@@ -43,7 +43,7 @@
         <number>1</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QToolButton" name="pushButtonAdd">
            <property name="toolTip">
@@ -71,6 +71,46 @@
           </widget>
          </item>
          <item>
+          <widget class="QToolButton" name="pushButtonUp">
+           <property name="toolTip">
+            <string extracomment="Button moves current item one row up">Move up</string>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonIconOnly</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="pushButtonDown">
+           <property name="toolTip">
+            <string extracomment="Button moves current item one row down">Move down</string>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonIconOnly</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="pushButtonTop">
+           <property name="toolTip">
+            <string extracomment="Button moves current item to the top">Move to the top</string>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonIconOnly</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="pushButtonBottom">
+           <property name="toolTip">
+            <string extracomment="Button moves current item to the bottom">Move to the bottom</string>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonIconOnly</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -78,64 +118,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QToolButton" name="pushButtonUp">
-           <property name="text">
-            <string>&amp;Up</string>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="pushButtonDown">
-           <property name="text">
-            <string>&amp;Down</string>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="pushButtonTop">
-           <property name="text">
-            <string>Top</string>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="pushButtonBottom">
-           <property name="text">
-            <string>Bottom</string>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextBesideIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -185,10 +168,6 @@
   <tabstop>widgetParent</tabstop>
   <tabstop>pushButtonAdd</tabstop>
   <tabstop>pushButtonRemove</tabstop>
-  <tabstop>pushButtonUp</tabstop>
-  <tabstop>pushButtonDown</tabstop>
-  <tabstop>pushButtonTop</tabstop>
-  <tabstop>pushButtonBottom</tabstop>
  </tabstops>
  <resources/>
  <connections/>
