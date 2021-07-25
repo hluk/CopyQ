@@ -28,11 +28,12 @@
 
 #include <qpa/qplatformnativeinterface.h>
 
+#include <errno.h>
+#include <poll.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "qwayland-wlr-data-control-unstable-v1.h"
-
-#include <sys/select.h>
 
 class DataControlDeviceManager : public QWaylandClientExtensionTemplate<DataControlDeviceManager>
         , public QtWayland::zwlr_data_control_manager_v1
@@ -132,18 +133,17 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
 // true if data is read successfully
 bool DataControlOffer::readData(int fd, QByteArray &data)
 {
-    fd_set readset;
-    FD_ZERO(&readset);
-    FD_SET(fd, &readset);
-    struct timeval timeout;
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 0;
+    pollfd pfds[1];
+    pfds[0].fd = fd;
+    pfds[0].events = POLLIN;
 
-    Q_FOREVER {
-        int ready = select(FD_SETSIZE, &readset, nullptr, nullptr, &timeout);
+    while (true) {
+        const int ready = poll(pfds, 1, 1000);
         if (ready < 0) {
-            qWarning() << "DataControlOffer: select() failed";
-            return false;
+            if (errno != EINTR) {
+                qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
+                return false;
+            }
         } else if (ready == 0) {
             qWarning("DataControlOffer: timeout reading from pipe");
             return false;
@@ -152,7 +152,7 @@ bool DataControlOffer::readData(int fd, QByteArray &data)
             int n = read(fd, buf, sizeof buf);
 
             if (n < 0) {
-                qWarning("DataControlOffer: read() failed");
+                qWarning("DataControlOffer: read() failed: %s", strerror(errno));
                 return false;
             } else if (n == 0) {
                 return true;
