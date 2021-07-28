@@ -1233,6 +1233,11 @@ unlike in GUI, where row numbers start from 1 by default.
    :returns: Serialized commands.
    :rtype: string
 
+.. js:function:: addCommands(Command[])
+
+   Opens Command dialog, adds commands and waits for user to confirm the
+   dialog.
+
 .. js:function:: NetworkReply networkGet(url)
 
    Sends HTTP GET request.
