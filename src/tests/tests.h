@@ -123,6 +123,8 @@ private slots:
     void commandsImportExportCommands();
     void commandsImportExportCommandsFixIndentation();
 
+    void commandsAddCommandsRegExp();
+
     void commandScreenshot();
 
     void commandNotification();

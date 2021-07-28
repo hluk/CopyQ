@@ -64,7 +64,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("separator", "separator() -> string", "Returns item separator (used when concatenating item data).");
     addDocumentation("separator", "separator(separator)", "Sets item separator for concatenating item data.");
     addDocumentation("action", "action()", "Opens action dialog.");
-    addDocumentation("action", "action(row, ..., command, outputItemSeparator)", "Runs command for items in current tab.");
+    addDocumentation("action", "action([rows, ...], command, [outputItemSeparator])", "Runs command for items in current tab.");
     addDocumentation("popup", "popup(title, message, [time=8000])", "Shows popup message for given time in milliseconds.");
     addDocumentation("notification", "notification(...)", "Shows popup message with icon and buttons.");
     addDocumentation("exportTab", "exportTab(fileName)", "Exports current tab into file.");
@@ -129,6 +129,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("setCommands", "setCommands(Command[])", "Clear previous commands and set new ones.");
     addDocumentation("importCommands", "Command[] importCommands(String) -> array of `Command`", "Return list of commands from exported commands text.");
     addDocumentation("exportCommands", "String exportCommands(Command[]) -> string", "Return exported command text.");
+    addDocumentation("addCommands", "addCommands(Command[])", "Opens Command dialog, adds commands and waits for user to confirm the dialog.");
     addDocumentation("networkGet", "NetworkReply networkGet(url) -> `NetworkReply`", "Sends HTTP GET request.");
     addDocumentation("networkPost", "NetworkReply networkPost(url, postData) -> `NetworkReply`", "Sends HTTP POST request.");
     addDocumentation("networkGetAsync", "NetworkReply networkGetAsync(url) -> `NetworkReply`", "Same as `networkGet()` but the request is asynchronous.");
