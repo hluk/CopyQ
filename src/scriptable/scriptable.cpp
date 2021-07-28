@@ -289,11 +289,27 @@ template <>
 struct ScriptValueFactory<QRegularExpression> {
     static QJSValue toScriptValue(const QRegularExpression &re, const Scriptable *scriptable)
     {
-        return scriptable->engine()->toScriptValue(QVariant(re));
+#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
+        return scriptable->engine()->toScriptValue(re);
+#else
+        const auto caseSensitivity =
+            re.patternOptions().testFlag(QRegularExpression::CaseInsensitiveOption)
+            ? Qt::CaseInsensitive
+            : Qt::CaseSensitive;
+        const QRegExp re2(re.pattern(), caseSensitivity);
+        return scriptable->engine()->toScriptValue(re2);
+#endif
     }
 
     static QRegularExpression fromScriptValue(const QJSValue &value, const Scriptable *)
     {
+        if (value.isRegExp()) {
+            const QString pattern = toString(value.property("source"));
+            return pattern == QStringLiteral("(?:)")
+                ? QRegularExpression()
+                : QRegularExpression(pattern);
+        }
+
         if (value.isVariant()) {
             const auto variant = value.toVariant();
             return variant.toRegularExpression();
