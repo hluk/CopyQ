@@ -693,7 +693,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="444"/>
@@ -884,7 +884,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Підказки</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -942,8 +942,7 @@ Note: If this is applied automatically, no other automatic commands are executed
         <source>Select an item and
 press F2 to edit.</source>
         <translation>Виділіть елемент
-і натисніть F2
-для редагування.</translation>
+і натисніть F2 для редагування.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="498"/>
@@ -1452,7 +1451,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати власні сповіщення</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1652,7 +1651,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування</translation>
     </message>
 </context>
 <context>
@@ -1946,7 +1945,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
         <source>Encrypt items and tabs.</source>
-        <translation>Шифрування елементів і вкладок</translation>
+        <translation>Шифрування елементів і вкладок.</translation>
     </message>
 </context>
 <context>
@@ -2015,7 +2014,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="83"/>
         <source>Display images.</source>
-        <translation>Показ зображень</translation>
+        <translation>Показ зображень.</translation>
     </message>
 </context>
 <context>
@@ -2071,7 +2070,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="81"/>
         <source>Display notes for items.</source>
-        <translation>Показ приміток для елементів</translation>
+        <translation>Показ приміток для елементів.</translation>
     </message>
 </context>
 <context>
@@ -2277,12 +2276,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається видалити елементи із заблокованим тегом</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щоб видалити елементи, зніміть спочатку з них мітки.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2303,7 +2302,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Display tags for items.</source>
-        <translation>Показ міток для елементів</translation>
+        <translation>Показ міток для елементів.</translation>
     </message>
 </context>
 <context>
@@ -2346,12 +2345,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>Замок</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>Запобігає видаленню елемента</translation>
     </message>
 </context>
 <context>
@@ -2364,7 +2363,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="75"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation>Показ звичайного тексту та простих HTML-елементів</translation>
+        <translation>Показ звичайного тексту та простих HTML-елементів.</translation>
     </message>
 </context>
 <context>
@@ -2980,23 +2979,23 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Текст скопійовано (%n рядок)</numerusform>
+            <numerusform>Текст скопійовано (%n рядки)</numerusform>
+            <numerusform>Текст скопійовано (%n рядків)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Текст скопійовано</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Дані скопійовано</translation>
     </message>
 </context>
 <context>
@@ -3190,7 +3189,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустити сервер у фоновому режимі перед виконанням команди.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
@@ -3363,9 +3362,8 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - Використовуйте подвійне тире (--) в якості аргументу для зчитування
-    наступних аргументів без розширення послідовностей екранування
-    (наприклад \n, \t тощо).</translation>
+        <translation>  - Використовуйте подвійне тире (--) в якості аргументу для зчитування наступних
+аргументів без розширення послідовностей екранування (наприклад \n, \t тощо).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="128"/>
@@ -3381,7 +3379,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="839"/>
         <location filename="../src/scriptable/scriptable.cpp" line="876"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Менеджер буфера обміну CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="888"/>
