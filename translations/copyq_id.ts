@@ -109,7 +109,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Gatal: %1</translation>
+        <translation>Galat: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
@@ -587,7 +587,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="82"/>
         <source>In M&amp;enu</source>
         <extracomment>Type of command; triggered by a custom application shortcut</extracomment>
-        <translation type="unfinished">Dlm M&amp;enu</translation>
+        <translation>Dlm M&amp;enu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="95"/>
@@ -940,7 +940,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="498"/>
         <source>Example item %1</source>
-        <translation type="unfinished">Contoh butir %1</translation>
+        <translation>Contoh item %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="503"/>
@@ -2438,27 +2438,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3608"/>
         <source>Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Galat Ekspor</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3609"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagal mengekspor berkas %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3701"/>
         <source>Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Galat Impor</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3702"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagal mengimpor berkas %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3874"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>Hapus Semua Tab di Grup?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3875"/>
@@ -2481,7 +2481,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="531"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informasi</translation>
     </message>
 </context>
 <context>
@@ -2490,7 +2490,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;papan klip</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="544"/>
@@ -2534,23 +2534,23 @@ Set to 0 to disable.</source>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation>Backspace</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="51"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hapus</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Item Baru</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Impor...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2660,17 +2660,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tempel item</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="95"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Salin Item yang Dipilih</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="97"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cari</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -2726,7 +2726,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aksi...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
@@ -2776,7 +2776,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tab baru</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -2786,7 +2786,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>U&amp;bah nama Tab</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
@@ -2838,12 +2838,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="141"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bantuan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tampilkan Log</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -2853,7 +2853,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="145"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tentang</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2895,7 +2895,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Data disalin</translation>
     </message>
 </context>
 <context>
@@ -2981,7 +2981,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEKS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
@@ -3013,7 +3013,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation>BARIS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
@@ -3088,7 +3088,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
@@ -3103,7 +3103,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation>PESAN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
@@ -3128,17 +3128,17 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
         <location filename="../src/scriptable/scriptable.cpp" line="117"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>PERINTAH</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hapus tab.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubah nama tab.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
@@ -3148,7 +3148,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekspor item ke berkas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
@@ -3159,12 +3159,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impor item dari berkas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Daftar semua opsi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
@@ -3200,7 +3200,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="190"/>
         <source>ARGUMENTS</source>
-        <translation type="unfinished"></translation>
+        <translation>ARGUMEN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
@@ -3271,7 +3271,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="133"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>Jumlah argumen tidak valid!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="752"/>
@@ -3319,7 +3319,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="3053"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>Gagal menyalin ke papan klip!</translation>
     </message>
 </context>
 <context>
@@ -3327,17 +3327,17 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="624"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab dengan nama yang diberikan tidak ada!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="629"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama tab harus diisi!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1137"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama tab sudah ada!</translation>
     </message>
 </context>
 <context>
@@ -3368,7 +3368,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Hapus Pintasan</translation>
     </message>
 </context>
 <context>
@@ -3416,7 +3416,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nama:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
@@ -3439,12 +3439,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Maksimum jumlah item:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>bawaan</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
