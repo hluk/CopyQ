@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Donate</source>
-        <translation>Sumbang</translation>
+        <translation>Donasi</translation>
     </message>
 </context>
 <context>
