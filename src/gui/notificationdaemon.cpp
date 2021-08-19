@@ -208,12 +208,10 @@ Notification *NotificationDaemon::createNotification(const QString &id)
 
     if (notification == nullptr) {
 #ifdef WITH_NATIVE_NOTIFICATIONS
-        if (m_nativeNotificationsEnabled && hasNativeNotifications()) {
+        if (m_nativeNotificationsEnabled && hasNativeNotifications())
             notification = createNotificationNative(m_iconColor, this);
-            QTimer::singleShot(0, notification, &Notification::show);
-        } else {
+        else
             notification = createNotificationBasic(this);
-        }
 #else
         notification = createNotificationBasic(this);
 #endif
@@ -229,6 +227,8 @@ Notification *NotificationDaemon::createNotification(const QString &id)
 
     if (notification->widget() != nullptr)
         updateNotificationWidgets();
+    else
+        QTimer::singleShot(0, notification, &Notification::show);
 
     return notification;
 }
