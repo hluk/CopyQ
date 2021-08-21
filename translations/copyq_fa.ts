@@ -64,23 +64,24 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>ایجاد موارد از خروجی استاندارد برنامه (برای خاموش کردن آن را خالی بگذارید)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp; جداکننده موارد جدید:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; عبارت منظم (Regex) برای تقسیم خروجی به چند مورد. &lt;\ p&gt;
+&lt;p&gt; از &lt;b&gt; \ n &lt;/b&gt; برای ذخیره هر خط در مورد جداگانه استفاده کنید. &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -90,18 +91,19 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>موارد را در برگه با نام مشخص ذخیره کنید (برای ذخیره در برگه کنونی خالی بگذارید)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command saved</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمان ذخیره شد</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="220"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمان ذخیره شد و می توان از منوی مورد به آن دسترسی داشت.
+می توانید فرمان را در تنظیمات برگزیده تنظیم کنید.</translation>
     </message>
 </context>
 <context>
@@ -109,17 +111,17 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>خطا:٪ 1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>کد خروج:%1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="175"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمان%1</translation>
     </message>
 </context>
 <context>
@@ -127,12 +129,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>مدیر فرآیند</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>فیلتر</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -145,175 +147,175 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش/پنهان کردن پنجره اصلی</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش منوی سینی (tray)</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش پنجره اصلی زیر نشاندهنده‌ی ماوس</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ویرایش کلیپ بورد</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>ویرایش اولین مورد</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>کپی مورد دوم</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش پنجره عملکرد</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>ایجاد مورد جدید</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>کپی مورد بعدی</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>کپی مورد قبلی</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>کلیپ بورد را به صورت یک متن ساده جایگذاری کنید</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>غیرفعال کردن ذخیره سازی کلیپ بورد</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>فعال کردن ذخیره سازی کلیپ بورد</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>بچسبان و بعدی را کپی کن</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>بچسبان و قبلی را کپی کن</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>عکسبرداری از صفحه مانیتور</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>تاریخ و زمان فعلی را بچسبان</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمان جدید</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>نادیده گرفتن موارد بدون کاراکتر یا تک کاراکتر</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>بازکردن در &amp;مرورگر</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>چسباندن به عنوان متن ساده</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>پخش خودکار فیلم ها</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>URL (آدرس وب) را به برگه دیگر کپی کنید</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>ایجاد تصویر بندانگشتی (نیاز به ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>ایجاد کد QR از URL (نیاز به qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">وظایف</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>افزودن به برگه %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="131"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>انتقال به برگه %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="140"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>نادیده گرفتن فایل های کپی شده</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>نادیده گرفتن پنجره *&quot;رمز عبور&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>رمز عبور</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>انتقال به سطل زباله</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(سطل زباله)</translation>
     </message>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>افزودن فرمان ها</translation>
     </message>
 </context>
 <context>
@@ -321,7 +323,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1609"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>موارد جدید را نمی توان به برگه %1 اضافه کرد. لطفاً موارد را به صورت دستی حذف کنید تا فضا خالی شود.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1896"/>
