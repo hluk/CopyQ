@@ -328,7 +328,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1896"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>لغو تغییرات؟</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
@@ -341,7 +341,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="122"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>اتصال از دست رفت!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="129"/>
@@ -354,7 +354,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>محتویات کلیپ‌بورد</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -369,12 +369,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>حذف فرمت</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>محتویات مورد</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
