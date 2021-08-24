@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">پیام ها و خطا ها</translation>
+        <translation>گفتگوی اکشن</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -75,7 +75,7 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt; عبارت منظم (Regex) برای تقسیم خروجی به چند مورد. &lt;\ p&gt;
+        <translation>&lt;p&gt; عبارت منظم برای تقسیم خروجی به چند مورد. &lt;\ p&gt;
 &lt;p&gt; از &lt;b&gt; \ n &lt;/b&gt; برای ذخیره هر خط در مورد جداگانه استفاده کنید. &lt;/p&gt;</translation>
     </message>
     <message>
