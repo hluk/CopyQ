@@ -155,7 +155,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_server = new Server(serverName, this);
 
     if ( m_server->isListening() ) {
-        ::createSessionMutex();
         Settings::canModifySettings = true;
         restoreConfiguration();
         App::installTranslator();
