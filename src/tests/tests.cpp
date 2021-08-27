@@ -155,7 +155,7 @@ void runMultiple(Fn1 f1, Fn2 f2)
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    static const QRegularExpression reFailure(".*(Warning:|ERROR:|ASSERT|ScriptError:).*", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression reFailure("(Warning:|ERROR:|ASSERT|ScriptError:).*", QRegularExpression::CaseInsensitiveOption);
     const QLatin1String scriptError("ScriptError:");
 
     const auto plain = [](const char *str){
