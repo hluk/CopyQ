@@ -26,12 +26,80 @@
 #include <AppKit/NSGraphics.h>
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
+#include <CoreFoundation/CoreFoundation.h>
 #include <dispatch/dispatch.h>
 
 #include <QApplication>
 #include <QSet>
 
 namespace {
+    // Original from: https://stackoverflow.com/a/33584460/454171
+    NSString* keyCodeToString(CGKeyCode keyCode, const UCKeyboardLayout *keyboardLayout)
+    {
+        UInt32 deadKeyState = 0;
+        UniCharCount maxStringLength = 255;
+        UniCharCount actualStringLength = 0;
+        UniChar unicodeString[maxStringLength];
+
+        OSStatus status = UCKeyTranslate(
+            keyboardLayout,
+            keyCode, kUCKeyActionDown, 0,
+            LMGetKbdType(), 0,
+            &deadKeyState,
+            maxStringLength,
+            &actualStringLength, unicodeString);
+
+        if (actualStringLength == 0 && deadKeyState) {
+            status = UCKeyTranslate(
+                keyboardLayout,
+                kVK_Space, kUCKeyActionDown, 0,
+                LMGetKbdType(), 0,
+                &deadKeyState,
+                maxStringLength,
+                &actualStringLength, unicodeString);
+        }
+
+        if (actualStringLength > 0 && status == noErr) {
+            return [[NSString stringWithCharacters:unicodeString
+                    length:(NSUInteger)actualStringLength] lowercaseString];
+        }
+
+        return nil;
+    }
+
+    NSNumber* charToKeyCode(const char c)
+    {
+        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+        CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(
+            currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+        const UCKeyboardLayout *keyboardLayout =
+            (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
+
+        if (keyboardLayout != nil) {
+            COPYQ_LOG( QStringLiteral("Searching key code for '%1'").arg(c) );
+            NSString *keyChar = [NSString stringWithFormat:@"%c" , c];
+            for (size_t i = 0; i < 128; ++i) {
+                NSString* str = keyCodeToString((CGKeyCode)i, keyboardLayout);
+                if (str != nil && [str isEqualToString:keyChar]) {
+                    COPYQ_LOG( QStringLiteral("KeyCode for '%1' is %2").arg(c).arg(i) );
+                    CFRelease(currentKeyboard);
+                    return [NSNumber numberWithInt:i];
+                }
+            }
+        }
+
+        CFRelease(currentKeyboard);
+        return nil;
+    }
+
+    CGKeyCode keyCodeFromChar(const char c, CGKeyCode fallback)
+    {
+        const auto keyCode = charToKeyCode(c);
+        return keyCode == nil
+            ? fallback
+            : (CGKeyCode)[keyCode intValue];
+    }
+
     template<typename T> inline T* objc_cast(id from)
     {
         if (from && [from isKindOfClass:[T class]]) {
@@ -41,6 +109,10 @@ namespace {
     }
 
     void sendShortcut(int modifier, int key, pid_t pid = -1) {
+        COPYQ_LOG( QStringLiteral("Sending key codes %1 and %2")
+                   .arg(modifier)
+                   .arg(key) );
+
         CGEventSourceRef sourceRef = CGEventSourceCreate(
             kCGEventSourceStateCombinedSessionState);
 
@@ -82,6 +154,12 @@ namespace {
      * to the "run loop", so we can't block and check it.
      */
     void delayedSendShortcut(int modifier, int key, int64_t delayInMS, uint tries, NSWindow *window) {
+        COPYQ_LOG( QStringLiteral("Sending key codes %1 and %2 with delay %3ms (%4 retries to go)")
+                   .arg(modifier)
+                   .arg(key)
+                   .arg(delayInMS)
+                   .arg(tries) );
+
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInMS * NSEC_PER_MSEC), dispatch_get_main_queue(), ^(void){
             if (window && ![window isKeyWindow]) {
                 if (tries > 0) {
@@ -280,6 +358,7 @@ void MacPlatformWindow::pasteClipboard()
 
     const AppConfig config;
 
+    const auto keyCodeV = keyCodeFromChar('v', kVK_ANSI_V);
     if (m_window != nullptr) {
         // Window MUST be raised, otherwise we can't send events to it
         waitMs(config.option<Config::window_wait_before_raise_ms>());
@@ -288,9 +367,9 @@ void MacPlatformWindow::pasteClipboard()
 
         // Paste after after a delay, try 5 times
         const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
-        delayedSendShortcut(kVK_Command, kVK_ANSI_V, keyPressTimeMs, 5, m_window);
+        delayedSendShortcut(kVK_Command, keyCodeV, keyPressTimeMs, 5, m_window);
     } else {
-        sendShortcut(kVK_Command, kVK_ANSI_V, m_runningApplication.processIdentifier);
+        sendShortcut(kVK_Command, keyCodeV, m_runningApplication.processIdentifier);
     }
 }
 
@@ -310,5 +389,6 @@ void MacPlatformWindow::copy()
 
     // Copy after after a delay, try 5 times
     const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
-    delayedSendShortcut(kVK_Command, kVK_ANSI_C, keyPressTimeMs, 5, m_window);
+    const auto keyCodeC = keyCodeFromChar('c', kVK_ANSI_C);
+    delayedSendShortcut(kVK_Command, keyCodeC, keyPressTimeMs, 5, m_window);
 }
