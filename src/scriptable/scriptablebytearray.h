@@ -71,4 +71,10 @@ private:
     QByteArray m_self;
 };
 
+const QByteArray *getByteArray(const QJSValue &value);
+
+QByteArray toByteArray(const QJSValue &value);
+
+QString toString(const QJSValue &value);
+
 #endif // SCRIPTABLEBYTEARRAY_H

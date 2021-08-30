@@ -167,6 +167,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
     static const std::vector<QRegularExpression> ignoreList{
+        plain("[EXPECTED-IN-TEST]"),
+
         regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
 
         // X11 (Linux)
@@ -526,7 +528,9 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            const QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            if ( !m_ignoreError.isEmpty() )
+                output.replace(m_ignoreError, "[EXPECTED-IN-TEST] " + m_ignoreError);
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
@@ -650,8 +654,14 @@ public:
 
     QByteArray cleanup() override
     {
+        m_ignoreError.clear();
         addFailedTest();
         return QByteArray();
+    }
+
+    void setIgnoreError(const QByteArray &ignoreError) override
+    {
+        m_ignoreError = ignoreError;
     }
 
     QString shortcutToRemove() override
@@ -770,6 +780,8 @@ private:
     QStringList m_failed;
 
     PlatformClipboardPtr m_clipboard;
+
+    QByteArray m_ignoreError;
 };
 
 QString keyNameFor(QKeySequence::StandardKey standardKey)
@@ -2163,6 +2175,113 @@ void Tests::classTemporaryFile()
 
     RUN("TemporaryFile().autoRemove()", "true\n");
     RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath("copyq.test.XXXXXX") + "\n");
+}
+
+void Tests::classItemSelection()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    const QString outRows("ItemSelection(tab=\"" + tab1 + "\", rows=[%1])\n");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ItemSelection().length", "0\n");
+    RUN("ItemSelection('" + tab1 + "').length", "0\n");
+    RUN(args << "ItemSelection().selectAll().length", "3\n");
+    RUN("ItemSelection('" + tab1 + "').selectAll().length", "3\n");
+
+    RUN(args << "a = ItemSelection(); b = a; a === b", "true\n");
+    RUN(args << "a = ItemSelection(); b = a.selectAll(); a === b", "true\n");
+
+    RUN(args << "ItemSelection().selectAll().str()", outRows.arg("0..2"));
+    RUN(args << "ItemSelection().selectRemovable().str()", outRows.arg("0..2"));
+    RUN(args << "ItemSelection().selectRemovable().removeAll().str()", outRows.arg(""));
+    RUN(args << "read(0,1,2)", ",,");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ItemSelection().select(/A|C/).str()", outRows.arg("0,2"));
+    RUN(args << "ItemSelection().select(/a|c/i).str()", outRows.arg("0,2"));
+    RUN(args << "ItemSelection().select(/A/).select(/C/).str()", outRows.arg("0,2"));
+    RUN(args << "ItemSelection().select(/C/).select(/A/).str()", outRows.arg("2,0"));
+    RUN(args << "ItemSelection().select(/A|C/).invert().str()", outRows.arg("1"));
+
+    RUN(args << "ItemSelection().select(/A|C/).deselectIndexes([0]).str()", outRows.arg("2"));
+    RUN(args << "ItemSelection().select(/A|C/).deselectIndexes([1]).str()", outRows.arg("0"));
+    RUN(args << "ItemSelection().select(/A|C/).deselectIndexes([0,1]).str()", outRows.arg(""));
+    RUN(args << "ItemSelection().select(/A|C/).deselectSelection(ItemSelection().select(/A/)).str()", outRows.arg("2"));
+    RUN(args << "ItemSelection().select(/A|C/).deselectSelection(ItemSelection().select(/C/)).str()", outRows.arg("0"));
+    RUN(args << "ItemSelection().select(/A|C/).deselectSelection(ItemSelection().selectAll()).str()", outRows.arg(""));
+
+    RUN(args << "a = ItemSelection().select(/a/i); b = a.copy(); a !== b", "true\n");
+    RUN(args << "a = ItemSelection().select(/a/i); b = a.copy(); a.str() == b.str()", "true\n");
+    RUN(args << "a = ItemSelection().select(/a|b/i); b = a.copy(); b.select(/C/); [a.rows(), '', b.rows()]", "0\n1\n\n0\n1\n2\n");
+
+    RUN(args << "s = ItemSelection().selectAll(); insert(1, 'X'); insert(3, 'Y'); s.invert().str()", outRows.arg("1,3"));
+
+    RUN(args << "ItemSelection().select(/a/i).invert().removeAll().str()", outRows.arg(""));
+    RUN(args << "read(0,1,2)", "A,,");
+
+    RUN(args << "ItemSelection().selectAll().removeAll().str()", outRows.arg(""));
+    RUN(args << "read(0,1,2)", ",,");
+
+    RUN(args << "write('application/x-tst', 'ghi')", "");
+    RUN(args << "write('application/x-tst', 'def')", "");
+    RUN(args << "write('application/x-tst', 'abc')", "");
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,def,ghi");
+    RUN(args << "ItemSelection().select(/e/, 'application/x-tst').str()", outRows.arg("1"));
+    RUN(args << "ItemSelection().select(/e/, 'application/x-tst').removeAll().str()", outRows.arg(""));
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,ghi,");
+
+    RUN(args << "ItemSelection().selectAll().itemAtIndex(0)['application/x-tst']", "abc\n");
+    RUN(args << "ItemSelection().selectAll().itemAtIndex(1)['application/x-tst']", "ghi\n");
+    RUN(args << "ItemSelection().select(/h/, 'application/x-tst').itemAtIndex(0)['application/x-tst']", "ghi\n");
+    RUN(args << "ItemSelection().select(/h/, 'application/x-tst').itemAtIndex(1)['application/x-tst'] == undefined", "true\n");
+
+    RUN(args << "ItemSelection().select(/ghi/, 'application/x-tst').setItemAtIndex(0, {'application/x-tst': 'def'}).str()",
+        outRows.arg("1"));
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
+
+    RUN(args << "d = ItemSelection().selectAll().items(); [d.length, d[0]['application/x-tst'], d[1]['application/x-tst']]", "2\nabc\ndef\n");
+    RUN(args << "ItemSelection().selectAll().setItems([{'application/x-tst': 'xyz'}]).str()", outRows.arg("0,1"));
+    RUN(args << "read('application/x-tst',0,1,2)", "xyz,def,");
+
+    RUN(args << "ItemSelection().selectAll().setItemsFormat(mimeItemNotes, 'test1').str()", outRows.arg("0,1"));
+    RUN(args << "read(mimeItemNotes,0,1,2)", "test1,test1,");
+    RUN(args << "read('application/x-tst',0,1,2)", "xyz,def,");
+
+    RUN(args << "ItemSelection().selectAll().setItems([{'application/x-tst': ByteArray('abc')}]).str()", outRows.arg("0,1"));
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
+
+    RUN(args << "ItemSelection().selectAll().setItemsFormat(mimeItemNotes, ByteArray('test2')).str()", outRows.arg("0,1"));
+    RUN(args << "read(mimeItemNotes,0,1,2)", "test2,test2,");
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
+
+    RUN(args << "ItemSelection().selectAll().itemsFormat(mimeItemNotes)", "test2\ntest2\n");
+    RUN(args << "ItemSelection().selectAll().itemsFormat('application/x-tst')", "abc\ndef\n");
+    RUN(args << "ItemSelection().selectAll().itemsFormat(ByteArray('application/x-tst'))", "abc\ndef\n");
+
+    RUN(args << "ItemSelection().selectAll().setItemsFormat(mimeItemNotes, undefined).str()", outRows.arg("0,1"));
+    RUN(args << "read(mimeItemNotes,0,1,2)", ",,");
+    RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
+
+    RUN(args << "ItemSelection().selectAll().removeAll().str()", outRows.arg(""));
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ItemSelection().select(/C/).move(1).str()", outRows.arg("1"));
+    RUN(args << "read(0,1,2)", "A,C,B");
+    RUN(args << "ItemSelection().select(/B/).select(/C/).move(1).str()", outRows.arg("2,1"));
+    RUN(args << "read(0,1,2)", "A,C,B");
+    RUN(args << "ItemSelection().select(/A/).move(2).str()", outRows.arg("1"));
+    RUN(args << "read(0,1,2)", "C,A,B");
+    RUN(args << "ItemSelection().select(/C/).select(/B/).move(2).str()", outRows.arg("1,2"));
+    RUN(args << "read(0,1,2)", "A,C,B");
+
+    RUN(args << "change(1, mimeItemNotes, 'NOTE'); read(mimeItemNotes,0,1,2)", ",NOTE,");
+    RUN(args << "ItemSelection().select(/.*/, mimeItemNotes).str()", outRows.arg("1"));
+    RUN(args << "ItemSelection().select(undefined, mimeItemNotes).str()", outRows.arg("0,2"));
+
+    // Match nothing if select() argument is not a regular expression.
+    m_test->setIgnoreError("QtWarning: QString::contains: invalid QRegularExpression object");
+    RUN(args << "ItemSelection().select('A').str()", outRows.arg(""));
+    m_test->setIgnoreError(QByteArray());
 }
 
 void Tests::calledWithInstance()

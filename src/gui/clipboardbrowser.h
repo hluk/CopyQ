@@ -119,6 +119,8 @@ class ClipboardBrowser final : public QListView
         /** Remove items and return smallest row number (new current item if selection was removed). */
         int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
+        bool canRemoveItems(const QModelIndexList &indexes) const;
+
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 

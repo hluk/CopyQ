@@ -22,11 +22,13 @@
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
+#include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
 
 #include <QList>
 #include <QMetaObject>
 #include <QObject>
+#include <QPersistentModelIndex>
 #include <QPoint>
 #include <QRect>
 #include <QVariant>
@@ -52,6 +54,11 @@ using NamedValueList = QVector<NamedValue>;
 
 struct ScriptablePath {
     QString path;
+};
+
+struct ItemSelection {
+    QPointer<ClipboardBrowser> browser;
+    QList<QPersistentModelIndex> indexes;
 };
 
 Q_DECLARE_METATYPE(NamedValueList)
@@ -190,6 +197,27 @@ public slots:
     QVector<QVariantMap> selectedItemsData();
     void setSelectedItemsData(const QVector<QVariantMap> &dataList);
 
+    int createSelection(const QString &tabName);
+    int selectionCopy(int id);
+    void destroySelection(int id);
+    void selectionRemoveAll(int id);
+    void selectionSelectRemovable(int id);
+    void selectionInvert(int id);
+    void selectionSelectAll(int id);
+    void selectionSelect(int id, const QVariant &maybeRe, const QString &mimeFormat);
+    void selectionDeselectIndexes(int id, const QVector<int> &indexes);
+    void selectionDeselectSelection(int id, int toDeselectId);
+    int selectionGetSize(int id);
+    QString selectionGetTabName(int id);
+    QVector<int> selectionGetRows(int id);
+    QVariantMap selectionGetItemIndex(int id, int index);
+    void selectionSetItemIndex(int id, int index, const QVariantMap &item);
+    QVariantList selectionGetItemsData(int id);
+    void selectionSetItemsData(int id, const QVariantList &dataList);
+    QVariantList selectionGetItemsFormat(int id, const QString &format);
+    void selectionSetItemsFormat(int id, const QString &mime, const QVariant &value);
+    void selectionMove(int id, int row);
+
 #ifdef HAS_TESTS
     void sendKeys(const QString &expectedWidgetName, const QString &keys, int delay);
     bool sendKeysSucceeded();
@@ -261,6 +289,7 @@ signals:
     void inputDialogFinished(int dialogId, const NamedValueList &result);
     void sendMessage(const QByteArray &message, int messageCode);
     void clientDisconnected();
+    void abortEvaluation();
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
@@ -289,6 +318,11 @@ private:
 
     int m_functionCallStack = 0;
     bool m_shouldBeDeleted = false;
+
+    int m_lastSelectionId = -1;
+    QMap<int, ItemSelection> m_selections;
+
+    bool m_disconnected = false;
 };
 
 QString pluginsPath();

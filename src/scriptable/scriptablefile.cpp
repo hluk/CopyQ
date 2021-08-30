@@ -197,9 +197,3 @@ QJSValue ScriptableFile::newByteArray(const QByteArray &bytes)
 {
     return engine()->newQObject( new ScriptableByteArray(bytes) );
 }
-
-QByteArray ScriptableFile::toByteArray(const QJSValue &value)
-{
-    const auto byteArray = qobject_cast<ScriptableByteArray*>(value.toQObject());
-    return byteArray ? *byteArray->data() : value.toString().toUtf8();
-}

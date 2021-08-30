@@ -75,7 +75,6 @@ protected:
 
 private:
     QJSValue newByteArray(const QByteArray &bytes);
-    QByteArray toByteArray(const QJSValue &value);
 
     QFile *m_self = nullptr;
     QString m_path;

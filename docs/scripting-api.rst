@@ -1681,31 +1681,224 @@ Types
        item[mimeHtml] = '<p>Hello, World!</p>'
        write(mimeItems, pack(item))
 
+.. js:class:: ItemSelection
+
+   List of items from given tab.
+
+   An item in the list represents the same item in tab even if it is moved to a
+   different row.
+
+   New items in the tab are not added automatically into the selection.
+
+   To create new empty selection use ``ItemSelection()`` then add items with
+   ``select*()`` methods.
+
+   Example - move matching items to the top of the tab:
+
+   .. code-block:: js
+
+       ItemSelection().select(/^prefix/).move(0)
+
+   Example - remove all items from given tab but keep pinned items:
+
+   .. code-block:: js
+
+       ItemSelection(tabName).selectRemovable().removeAll();
+
+   Example - modify items containing "needle" text:
+
+   .. code-block:: js
+
+       var sel = ItemSelection().select(/needle/, mimeText);
+       for (var index = 0; index < sel.length; ++index) {
+           var item = sel.itemAtIndex(index);
+           item[mimeItemNotes] = 'Contains needle';
+           sel.setItemAtIndex(item);
+       }
+
+   Example - selection with new items only:
+
+   .. code-block:: js
+
+       var sel = ItemSelection().selectAll()
+       add("New Item 1")
+       add("New Item 2")
+       sel.invert()
+       sel.items();
+
+   .. js:attribute:: tab
+
+       Tab name
+
+   .. js:attribute:: length
+
+       Number of filtered items in the selection
+
+   .. js:method:: selectAll()
+
+       Select all items in the tab.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: select(regexp, [mimeType])
+
+       Select additional items matching the regular expression.
+
+       If regexp is a valid regular expression and ``mimeType`` is not set,
+       this selects items with matching text.
+
+       If regexp matches empty strings and ``mimeType`` is set, this selects
+       items containing the MIME type.
+
+       If regexp is ``undefined`` and ``mimeType`` is set, this select items
+       not containing the MIME type.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: selectRemovable()
+
+       Select only items that can be removed.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: invert()
+
+       Select only items not in the selection.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: deselectIndexes(int[])
+
+       Deselect items at given indexes in the selection.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: deselectSelection(ItemSelection)
+
+       Deselect items in other selection.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: removeAll()
+
+       Delete all items in the selection (if possible).
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: move(row)
+
+       Move all items in the selection to the target row.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: copy()
+
+       Clone the selection object.
+
+       :returns: cloned object
+       :rtype: ItemSelection
+
+   .. js:method:: rows()
+
+       Returns selected rows.
+
+       :returns: Selected rows
+       :rtype: array of ints
+
+   .. js:method:: itemAtIndex(index)
+
+       Returns item data at given index in the selection.
+
+       :returns: Item data
+       :rtype: :js:class:`Item`
+
+   .. js:method:: setItemAtIndex(index, Item)
+
+       Sets data to the item at given index in the selection.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: items()
+
+       Return list of data from selected items.
+
+       :returns: Selected item data
+       :rtype: array of :js:class:`Item`
+
+   .. js:method:: setItems(Item[])
+
+       Set data for selected items.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: itemsFormat(mimeType)
+
+       Return list of data from selected items containing specified MIME type.
+
+       :returns: Selected item data containing only the format
+       :rtype: array of :js:class:`Item`
+
+   .. js:method:: setItemsFormat(mimeType, data)
+
+       Set data for given MIME type for the selected items.
+
+       :returns: self
+       :rtype: ItemSelection
+
 .. js:class:: FinishedCommand
 
    Properties of finished command.
 
-   Properties are:
+   .. js:attribute:: stdout
 
-   -  ``stdout`` - standard output
-   -  ``stderr`` - standard error output
-   -  ``exit_code`` - exit code
+       Standard output
+
+   .. js:attribute:: stderr
+
+       Standard error output
+
+   .. js:attribute:: exit_code
+
+       Exit code
 
 .. js:class:: NetworkReply
 
    Received network reply object.
 
-   Properties are:
+   .. js:attribute:: data
 
-   -  ``data`` - reply data
-   -  ``status`` - HTTP status
-   -  ``error`` - error string (set only if an error occurred)
-   -  ``redirect`` - URL for redirection (set only if redirection is
-      needed)
-   -  ``headers`` - reply headers (array of pairs with header name and
-      header content)
-   -  ``finished`` - true only if request has been completed, false only for
-      unfinished asynchronous requests
+       Reply data
+
+   .. js:attribute:: status
+
+       HTTP status
+
+   .. js:attribute:: error``
+
+       Error string (set only if an error occurred)
+
+   .. js:attribute:: redirect
+
+       URL for redirection (set only if redirection is needed)
+
+   .. js:attribute:: headers
+
+       Reply headers (array of pairs with header name and header content)
+
+   .. js:attribute:: finished
+
+       True only if request has been completed, false only for unfinished
+       asynchronous requests
 
 .. js:class:: Command
 

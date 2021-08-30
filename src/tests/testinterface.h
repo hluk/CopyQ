@@ -102,6 +102,9 @@ public:
     /// Clean up tabs and items. Return error string on error.
     virtual QByteArray cleanup() = 0;
 
+    /// Ignore given text in logs for current unit test.
+    virtual void setIgnoreError(const QByteArray &ignoreError) = 0;
+
     /// Platform specific key to remove (usually Delete, Backspace on OS X).
     virtual QString shortcutToRemove() = 0;
 

@@ -38,6 +38,7 @@
 #include "scriptable/scriptablebytearray.h"
 #include "scriptable/scriptabledir.h"
 #include "scriptable/scriptablefile.h"
+#include "scriptable/scriptableitemselection.h"
 #include "scriptable/scriptableproxy.h"
 #include "scriptable/scriptabletemporaryfile.h"
 
@@ -133,23 +134,10 @@ QString argumentError()
     return Scriptable::tr("Invalid number of arguments!");
 }
 
-const QByteArray *getByteArray(const QJSValue &value)
-{
-    const auto obj1 = value.toQObject();
-    const auto obj = qobject_cast<ScriptableByteArray*>(obj1);
-    return obj ? obj->data() : nullptr;
-}
-
 QFile *getFile(const QJSValue &value, const Scriptable *scriptable)
 {
     auto obj = scriptable->engine()->fromScriptValue<ScriptableFile*>(value);
     return obj ? obj->self() : nullptr;
-}
-
-QString toString(const QJSValue &value)
-{
-    const QByteArray *bytes = getByteArray(value);
-    return (bytes == nullptr) ? value.toString() : getTextData(*bytes);
 }
 
 QVariant toVariant(const QJSValue &value)
@@ -452,7 +440,7 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     return v;
 }
 
-void addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSEngine *engine)
+void addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSEngine *engine, const QString &initFunction = QString())
 {
     auto cls = engine->newQMetaObject(metaObject);
     const QString privateName(QStringLiteral("_copyq_") + name);
@@ -460,9 +448,9 @@ void addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSE
     // Only single argument constructors are supported.
     // It's possible to use "...args" but it's not supported in Qt 5.9.
     evaluateStrict(engine, QStringLiteral(
-        "function %1(arg) {return arg === undefined ? new %2() : new %2(arg);}"
+        "function %1(arg) {return %3(arg === undefined ? new %2() : new %2(arg));}"
         "%1.prototype = %2;"
-    ).arg(name, privateName));
+    ).arg(name, privateName, initFunction));
 }
 
 QByteArray serializeScriptValue(const QJSValue &value, Scriptable *scriptable)
@@ -631,6 +619,8 @@ Scriptable::Scriptable(
     addScriptableClass(&ScriptableFile::staticMetaObject, QStringLiteral("File"), m_engine);
     addScriptableClass(&ScriptableTemporaryFile::staticMetaObject, QStringLiteral("TemporaryFile"), m_engine);
     addScriptableClass(&ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
+    addScriptableClass(&ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine,
+                       QStringLiteral("global._initItemSelection = "));
 }
 
 QJSValue Scriptable::argumentsArray() const
@@ -3103,6 +3093,12 @@ void Scriptable::abortEvaluation(Abort abort)
 {
     m_abort = abort;
     throwError("Evaluation aborted");
+
+    if (m_abort == Abort::AllEvaluations)
+        m_proxy->clientDisconnected();
+    else
+        m_proxy->abortEvaluation();
+
     emit finished();
 }
 
@@ -3672,6 +3668,22 @@ NetworkReply *Scriptable::networkPostHelper()
     const QString url = arg(0);
     const QByteArray postData = makeByteArray(argument(1));
     return NetworkReply::post(url, postData, this);
+}
+
+QJSValue Scriptable::initItemSelection(const QJSValue &obj)
+{
+    QObject *qobj = obj.toQObject();
+    Q_ASSERT(qobj);
+    if (!qobj)
+        return {};
+
+    auto sel = qobject_cast<ScriptableItemSelection*>(qobj);
+    Q_ASSERT(sel);
+    if (!sel)
+        return {};
+
+    sel->init(obj, m_proxy, m_tabName);
+    return obj;
 }
 
 void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject)

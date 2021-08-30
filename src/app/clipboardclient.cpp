@@ -158,9 +158,6 @@ void ClipboardClient::start(const QStringList &arguments)
     connect( &socket, &ClientSocket::disconnected,
              &scriptableProxy, &ScriptableProxy::clientDisconnected );
 
-    connect( &scriptable, &Scriptable::finished,
-             &scriptableProxy, &ScriptableProxy::clientDisconnected );
-
     connect( this, &ClipboardClient::dataReceived,
              &scriptable, &Scriptable::dataReceived, Qt::QueuedConnection );
     connect( &scriptable, &Scriptable::receiveData,
