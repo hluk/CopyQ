@@ -1235,7 +1235,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後</translation>
+        <translation>(按兩下或按 Enter) 項目被啟用後，即複製到系統剪貼簿，然後 …</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
@@ -1260,7 +1260,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
-        <translation>項目被啟用後，移焦至啟用前的視窗</translation>
+        <translation>項目啟用後，移焦至啟用前的視窗</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
@@ -1451,7 +1451,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>使用作業系統的通知(&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -2818,7 +2818,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>複製到剪貼簿(&amp;C)</translation>
+        <translation>複製到剪貼簿，並移成剪貼史首項(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3353,7 +3353,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>以指定的工作狀態(session)名稱，啟動或連接到應用程式實例。</translation>
+        <translation>以指定的工作狀況(session)名稱，啟動或連接到應用程式實例。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
