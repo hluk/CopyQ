@@ -22,63 +22,57 @@
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDir>
+#include <QLockFile>
 #include <QFile>
 #include <QString>
-#include <QSystemSemaphore>
 #include <QtGlobal>
 #include <QVariant>
 
 #include <QStandardPaths>
 
-#include <cstring>
-#include <cmath>
-#include <memory>
+namespace {
 
 /// System-wide mutex
 class SystemMutex final {
 public:
-    /**
-     * Open system mutex if exists, otherwise create one.
-     * Name of mutex is same as current session of application.
-     */
-    SystemMutex(const QString &name, QSystemSemaphore::AccessMode mode)
-        : m_semaphore(name, 1, mode)
+    SystemMutex()
+        : m_lockFile(logFileName() + ".lock")
     {
     }
 
     /// Lock mutex (blocking).
     bool lock()
     {
-        return m_semaphore.acquire();
+        ++m_selfLocked;
+        return m_selfLocked > 1 || m_lockFile.lock();
     }
 
     /// Unlock mutex.
-    bool unlock()
+    void unlock()
     {
-        return m_semaphore.release();
+        --m_selfLocked;
+        if (m_selfLocked == 0)
+            m_lockFile.unlock();
     }
 
     QString error() const
     {
-        return m_semaphore.error() == QSystemSemaphore::NoError
-                ? QString()
-                : m_semaphore.errorString();
+        if (m_lockFile.error() == QLockFile::NoError)
+            return {};
+
+        if (m_lockFile.error() == QLockFile::PermissionError)
+            return QStringLiteral("Insufficient permissions to create lock file");
+
+        return QStringLiteral("Unknown error");
     }
 
 private:
-    QSystemSemaphore m_semaphore;
+    int m_selfLocked = 0;
+    QLockFile m_lockFile;
 };
-
-class SystemMutex;
-using SystemMutexPtr = std::shared_ptr<SystemMutex>;
-Q_DECLARE_METATYPE(SystemMutexPtr)
-
-namespace {
 
 const int logFileSize = 512 * 1024;
 const int logFileCount = 10;
-
-const char propertySessionMutex[] = "CopyQ_Session_Mutex";
 
 int getLogLevel()
 {
@@ -108,79 +102,72 @@ QString envString(const char *varName)
     return QString::fromUtf8( bytes.constData(), bytes.size() );
 }
 
+QString logFileName(int i)
+{
+    if (i <= 0)
+        return ::logFileName();
+    return ::logFileName() + "." + QString::number(i);
+}
+
+void rotateLogFiles()
+{
+    for (int i = logFileCount - 1; i > 0; --i) {
+        const QString sourceFileName = logFileName(i - 1);
+        const QString targetFileName = logFileName(i);
+        QFile::remove(targetFileName);
+        QFile::rename(sourceFileName, targetFileName);
+    }
+}
+
+bool writeLogFileNoLock(const QByteArray &message)
+{
+    QFile f( ::logFileName() );
+    if ( !f.open(QIODevice::Append) )
+        return false;
+
+    if ( f.write(message) <= 0 )
+        return false;
+
+    f.close();
+    if ( f.size() > logFileSize )
+        rotateLogFiles();
+
+    return true;
+}
+
 /// Lock guard for SystemMutex.
 class SystemMutexLocker final {
 public:
     /// Locks mutex (it's possible that the mutex won't be locked because of errors).
-    explicit SystemMutexLocker(const SystemMutexPtr &mutex)
+    explicit SystemMutexLocker(SystemMutex &mutex)
         : m_mutex(mutex)
-        , m_locked( m_mutex != nullptr && m_mutex->lock() )
+        , m_locked( m_mutex.lock() )
     {
+        if (!m_locked) {
+            writeLogFileNoLock(
+                "Failed to lock logs: " + m_mutex.error().toUtf8());
+        }
     }
 
     /// Unlocks mutex.
     ~SystemMutexLocker()
     {
-        if (isLocked())
-            m_mutex->unlock();
+        if (m_locked)
+            m_mutex.unlock();
     }
-
-    bool isLocked() const { return m_locked; }
 
     SystemMutexLocker(const SystemMutexLocker &) = delete;
     SystemMutexLocker &operator=(const SystemMutexLocker &) = delete;
 
 private:
-    SystemMutexPtr m_mutex;
+    SystemMutex &m_mutex;
     bool m_locked;
 };
 
-SystemMutexPtr initSessionMutexHelper(QSystemSemaphore::AccessMode accessMode)
+SystemMutex &getSessionMutex()
 {
-    const QString mutexName = QCoreApplication::applicationName() + "_mutex";
-    const auto sessionMutex = std::make_shared<SystemMutex>(mutexName, accessMode);
-
-    const QString error = sessionMutex->error();
-    const bool create = accessMode == QSystemSemaphore::Create;
-    if ( !error.isEmpty() ) {
-        const QString action = create ? "create" : "open";
-        log("Failed to " + action + " session mutex: " + error, LogError);
-    } else {
-        COPYQ_LOG_VERBOSE(
-                    QString("%1 session mutex: %2")
-                    .arg(create ? "Created" : "Opened", mutexName) );
-    }
-
-    if (qApp)
-        qApp->setProperty( propertySessionMutex, QVariant::fromValue(sessionMutex) );
-
-    return sessionMutex;
-}
-
-SystemMutexPtr initSessionMutex(QSystemSemaphore::AccessMode accessMode)
-{
-    static bool initializing = false;
-    if (initializing)
-        return nullptr;
-
-    initializing = true;
-    const auto sessionMutex = initSessionMutexHelper(accessMode);
-    initializing = false;
-
-    return sessionMutex;
-}
-
-SystemMutexPtr getSessionMutex()
-{
-    if (qApp) {
-        const auto sessionMutex =
-                qApp->property(propertySessionMutex).value<SystemMutexPtr>();
-
-        if (sessionMutex)
-            return sessionMutex;
-    }
-
-    return initSessionMutex(QSystemSemaphore::Open);
+    static SystemMutex mutex;
+    return mutex;
 }
 
 QString getDefaultLogFilePath()
@@ -206,39 +193,10 @@ QString readLogFile(const QString &fileName, int maxReadSize)
     return QString::fromUtf8(content);
 }
 
-QString logFileName(int i)
-{
-    if (i <= 0)
-        return ::logFileName();
-    return ::logFileName() + "." + QString::number(i);
-}
-
-void rotateLogFiles()
-{
-    for (int i = logFileCount - 1; i > 0; --i) {
-        const QString sourceFileName = logFileName(i - 1);
-        const QString targetFileName = logFileName(i);
-        QFile::remove(targetFileName);
-        QFile::rename(sourceFileName, targetFileName);
-    }
-}
-
 bool writeLogFile(const QByteArray &message)
 {
     SystemMutexLocker lock(getSessionMutex());
-
-    QFile f( ::logFileName() );
-    if ( !f.open(QIODevice::Append) )
-        return false;
-
-    if ( f.write(message) <= 0 )
-        return false;
-
-    f.close();
-    if ( f.size() > logFileSize )
-        rotateLogFiles();
-
-    return true;
+    return writeLogFileNoLock(message);
 }
 
 QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
@@ -301,11 +259,6 @@ bool removeLogFiles()
     }
 
     return true;
-}
-
-void createSessionMutex()
-{
-    initSessionMutex(QSystemSemaphore::Create);
 }
 
 bool hasLogLevel(LogLevel level)

@@ -20,15 +20,15 @@
 #include "server.h"
 
 #include "common/common.h"
+#include "common/config.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/log.h"
 
+#include <QDir>
 #include <QEventLoop>
 #include <QLocalServer>
 #include <QLocalSocket>
-#include <QSharedMemory>
-#include <QSystemSemaphore>
 
 namespace {
 
@@ -39,58 +39,16 @@ bool serverIsRunning(const QString &serverName)
     return socket.waitForConnected(-1);
 }
 
-bool tryAttach(QSharedMemory *shmem)
+QString lockFilePath()
 {
-    if (shmem->attach()) {
-        shmem->detach();
-        return true;
-    }
+    const QString lockFilePath = getConfigurationFilePath(".lock");
 
-    return false;
-}
+    // Ensure parent dir exists.
+    const QString path = QDir::cleanPath( lockFilePath + QLatin1String("/..") );
+    QDir dir(path);
+    dir.mkpath(".");
 
-/**
- * Creates and locks system-wide mutex.
- *
- * If mutex cannot be locked, null pointer is returned.
- *
- * Destroying the object unlocks the mutex.
- *
- * Uses existence shared memory resource to check if the mutex is locked.
- * If shared memory (with same name as mutex is created) exists (another
- * process is attached to it), locking fails. Otherwise shared memory is
- * created (and mutex attaches to it).
- *
- * Note: Simple QSystemSemaphore cannot be used because acquiring
- * the semaphore is blocking operation.
- */
-QObject *createSystemMutex(const QString &name, QObject *parent)
-{
-    auto shmem = new QSharedMemory(name, parent);
-
-    QSystemSemaphore createSharedMemoryGuard("shmem_create_" + name, 1);
-    if (createSharedMemoryGuard.acquire()) {
-        /* Dummy attach and dettach operations can invoke shared memory
-         * destruction if the last process attached to shared memory has
-         * crashed and memory was not destroyed.
-         */
-        if (!tryAttach(shmem) || !tryAttach(shmem)) {
-            if (!shmem->create(1)) {
-                log("Failed to create shared memory: "
-                    + shmem->errorString(), LogError);
-            }
-        }
-        createSharedMemoryGuard.release();
-    } else {
-        log("Failed to acquire shared memory lock: "
-            + createSharedMemoryGuard.errorString(), LogError);
-    }
-
-    if (shmem->isAttached())
-        return shmem;
-
-    delete shmem;
-    return nullptr;
+    return lockFilePath;
 }
 
 } // namespace
@@ -98,16 +56,25 @@ QObject *createSystemMutex(const QString &name, QObject *parent)
 Server::Server(const QString &name, QObject *parent)
     : QObject(parent)
     , m_server(new QLocalServer)
-    , m_systemMutex(createSystemMutex(name, this))
+    , m_lockFile(lockFilePath())
     , m_socketCount(0)
 {
-    if ( m_systemMutex && !serverIsRunning(name) ) {
+    if ( m_lockFile.tryLock() && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
         if ( !m_server->listen(name) ) {
             log( QString("Failed to create server \"%1\": %2")
                  .arg(m_server->fullServerName(), m_server->errorString()),
                  LogError);
         }
+    } else if (m_lockFile.error() == QLockFile::LockFailedError) {
+        COPYQ_LOG( QStringLiteral("Another process holds lock file: %1")
+                   .arg(lockFilePath()) );
+    } else if (m_lockFile.error() == QLockFile::PermissionError) {
+        log( QStringLiteral("Insufficient permissions to create lock file: %1")
+             .arg(lockFilePath()), LogError );
+    } else if (m_lockFile.error() == QLockFile::UnknownError) {
+        log( QStringLiteral("Failed to lock file: %1")
+             .arg(lockFilePath()), LogError );
     }
 }
 
@@ -144,8 +111,7 @@ void Server::close()
         m_loop = nullptr;
     }
 
-    delete m_systemMutex;
-    m_systemMutex = nullptr;
+    m_lockFile.unlock();
 }
 
 void Server::onNewConnection()

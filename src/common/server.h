@@ -20,6 +20,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <QLockFile>
 #include <QMetaType>
 #include <QObject>
 
@@ -54,7 +55,7 @@ private:
     void onSocketDestroyed();
 
     QLocalServer *m_server;
-    QObject *m_systemMutex;
+    QLockFile m_lockFile;
     int m_socketCount;
     QEventLoop *m_loop = nullptr;
 };
