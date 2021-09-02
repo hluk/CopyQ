@@ -161,6 +161,13 @@ QVector<Command> predefinedCommands()
     c->tab  = AddCommandDialog::tr("(trash)");
     c->remove = true;
 
+    c = newCommand(&commands);
+    c->name = AddCommandDialog::tr("Clear Current Tab");
+    c->icon = QString(QChar(IconBroom));
+    c->inMenu = true;
+    c->cmd = "copyq: ItemSelection(selectedTab()).selectRemovable().removeAll()";
+    c->matchCmd = "copyq: tab(selectedTab()); if (size() == 0) fail()";
+
     return commands;
 }
 
