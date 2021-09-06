@@ -139,7 +139,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;中止所选</translation>
+        <translation>中止所选(&amp;T)</translation>
     </message>
 </context>
 <context>
@@ -147,7 +147,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation>添加 命令</translation>
+        <translation>添加命令</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -453,12 +453,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation>&amp;加载命令…</translation>
+        <translation>加载命令(&amp;L)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation>保存所选…</translation>
+        <translation>保存所选(&amp;V)…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
@@ -986,7 +986,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation>&amp;语言:</translation>
+        <translation>语言(&amp;L):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1046,7 +1046,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation>&amp;自动启动</translation>
+        <translation>自动启动(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
@@ -1255,7 +1255,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
         <source>&amp;Close main window</source>
-        <translation>&amp;关闭主窗口</translation>
+        <translation>关闭主窗口(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1265,7 +1265,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
         <source>&amp;Focus last window</source>
-        <translation>&amp;聚焦上一窗口</translation>
+        <translation>聚焦上一窗口(&amp;F)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
@@ -1275,7 +1275,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
         <source>&amp;Paste to current window</source>
-        <translation>&amp;粘贴到当前窗口</translation>
+        <translation>粘贴到当前窗口(&amp;P)</translation>
     </message>
 </context>
 <context>
@@ -1293,7 +1293,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation>隐藏标签页</translation>
+        <translation>隐藏标签页(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
@@ -1308,7 +1308,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>隐藏工具栏标签</translation>
+        <translation>隐藏工具栏标签(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
@@ -1318,7 +1318,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation>隐藏 &amp;主窗口</translation>
+        <translation>隐藏主窗口(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
@@ -1333,12 +1333,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation>标签树</translation>
+        <translation>标签树(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation>&amp;焦点标签透明度：</translation>
+        <translation>焦点标签透明度(&amp;F)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -1371,7 +1371,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>显示条目计数</translation>
+        <translation>显示条目计数(&amp;W)</translation>
     </message>
 </context>
 <context>
@@ -1379,7 +1379,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation>&amp;通知位置：</translation>
+        <translation>通知位置(&amp;N)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
@@ -1419,7 +1419,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>显示通知的间隔（单位：秒）：</translation>
+        <translation>显示通知的间隔（单位:秒）(&amp;E)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1437,7 +1437,7 @@ Set to -1 to keep visible until clicked.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>剪贴板通知行数:</translation>
+        <translation>剪贴板通知行数(&amp;B):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
@@ -1451,7 +1451,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation>&amp;使用原生通知</translation>
+        <translation>使用原生通知(&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1461,7 +1461,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="227"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation>水平偏移：</translation>
+        <translation>水平偏移(&amp;Z)：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
@@ -1471,7 +1471,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
         <source>&amp;Vertical offset:</source>
-        <translation>&amp;垂直偏移:</translation>
+        <translation>垂直偏移(&amp;V):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
@@ -1481,7 +1481,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
         <source>Maximum &amp;width:</source>
-        <translation>最大宽度:</translation>
+        <translation>最大宽度(&amp;W):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
@@ -1491,7 +1491,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
         <source>Ma&amp;ximum height:</source>
-        <translation>最大高度:</translation>
+        <translation>最大高度(&amp;X):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
@@ -1509,7 +1509,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>禁用托盘图标</translation>
+        <translation>禁用托盘图标(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1519,12 +1519,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>显示剪贴板内容命令</translation>
+        <translation>显示剪贴板内容命令(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>托盘菜单中剪贴板条目数:</translation>
+        <translation>托盘菜单中剪贴板条目数(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
@@ -1559,7 +1559,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>&amp;粘贴激活条目到当前窗口</translation>
+        <translation>粘贴激活条目到当前窗口(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
@@ -1569,7 +1569,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>将图像预览显示为菜单项图标</translation>
+        <translation>将图像预览显示为菜单项图标(&amp;O)</translation>
     </message>
 </context>
 <context>
@@ -2026,7 +2026,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>图片最大宽度:</translation>
+        <translation>图片最大宽度(&amp;W):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
@@ -2036,7 +2036,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation>图片最大高度:</translation>
+        <translation>图片最大高度(&amp;H):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
@@ -2046,7 +2046,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>图片编辑器命令:</translation>
+        <translation>图片编辑器命令(&amp;I):</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
@@ -2056,7 +2056,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>SVG 编辑器命令:</translation>
+        <translation>&amp;SVG 编辑器命令:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -2087,17 +2087,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>上方条目</translation>
+        <translation>上方条目(&amp;V)</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>下方条目</translation>
+        <translation>下方条目(&amp;M)</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>旁边条目</translation>
+        <translation>旁边条目(&amp;M)</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2801,7 +2801,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>&amp;Show Preview</source>
-        <translation>&amp;显示预览</translation>
+        <translation>显示预览(&amp;S)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
@@ -2812,7 +2812,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>移动到 &amp;剪贴板</translation>
+        <translation>移动到剪贴板(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -2975,7 +2975,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
-        <translation>&amp;显示日志</translation>
+        <translation>显示日志(&amp;S)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -3570,7 +3570,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation>全局</translation>
+        <translation>全局(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
@@ -3580,7 +3580,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation>程序</translation>
+        <translation>程序(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
@@ -3634,7 +3634,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>&amp;最大条目数：</translation>
+        <translation>最大条目数(&amp;M)：</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -3644,7 +3644,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation>&amp;保存条目</translation>
+        <translation>保存条目(&amp;S)</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
