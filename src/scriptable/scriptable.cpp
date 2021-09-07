@@ -3531,8 +3531,10 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         // with a keyboard shortcut.
         SleepTimer t(5000);
         while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
-            if ( !t.sleep() && !canContinue() )
+            if ( !t.sleep() && !canContinue() ) {
+                COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
                 return;
+            }
         }
 
         const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
@@ -3543,8 +3545,10 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
 
         // Stop if the clipboard/selection text already changed again.
         const auto sourceData = mimeData(sourceMode);
-        if (!sourceData)
+        if (!sourceData) {
+            COPYQ_SYNC_LOG("Failed to fetch source data");
             return;
+        }
         const QString sourceText = cloneText(*sourceData);
         if (sourceText != getTextData(m_data)) {
             COPYQ_SYNC_LOG("Cancelled (source text changed)");
@@ -3552,8 +3556,10 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
         }
 
         const auto targetData = mimeData(targetMode);
-        if (!targetData)
+        if (!targetData) {
+            COPYQ_SYNC_LOG("Failed to fetch target data");
             return;
+        }
         const QString targetText = cloneText(*targetData);
         if ( targetData->data(mimeOwner).isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
