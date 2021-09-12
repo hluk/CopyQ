@@ -10,7 +10,8 @@ Configuration
 .. note::
 
     On Windows, to enable this feature you need to install "Synchronize"
-    plugin.
+    plugin. All plugins are installed by default and also included in the
+    portable zip version of the app.
 
 Set path synchronization directory for a tab.
 
