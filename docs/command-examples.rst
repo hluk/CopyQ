@@ -566,3 +566,27 @@ Change Upper/Lower Case of Selected Text
     Icon=\xf034
     Name=Toggle Upper/Lower Case
 
+
+
+Change Copied Text to Title Case
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: ini
+
+    [Command]
+    Command="
+      copyq: 
+        function toTitleCase(str) {
+          return str.replace(
+            /\w\S*/g,
+            function(txt) {
+              return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+          );
+        }
+        copy(toTitleCase(str(input())))
+        paste()"
+    GlobalShortcut=meta+ctrl+e
+    Icon=\xf034
+    Name=Title Case
+
