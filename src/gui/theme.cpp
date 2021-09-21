@@ -326,8 +326,11 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
     mainWindow->setStyleSheet(QString());
     mainWindow->setPalette(palette);
 
-    if ( !isMainWindowThemeEnabled() )
+    if ( !isMainWindowThemeEnabled() ) {
+        const QString cssTemplate = QStringLiteral("main_window_simple");
+        mainWindow->setStyleSheet(getStyleSheet(cssTemplate));
         return;
+    }
 
     const auto bg = color("bg");
     const auto fg = color("fg");

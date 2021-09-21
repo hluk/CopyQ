@@ -71,7 +71,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_currentCommandIndex(-1)
 {
     ui->setupUi(this);
-    ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
 
     auto shortcut = new QShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_P), this);
     connect(shortcut, &QShortcut::activated, this, &ActionDialog::previousCommand);

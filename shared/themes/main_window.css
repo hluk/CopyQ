@@ -40,6 +40,8 @@
 #MainWindow>QToolBar QToolButton:hover{${tool_button_selected_css}}
 #MainWindow>QToolBar QToolButton:pressed{${tool_button_pressed_css}}
 
+${css:main_window_simple}
+
 ${css:menu}
 
 ${css}

@@ -39,7 +39,6 @@ CommandEdit::CommandEdit(QWidget *parent)
             this, &CommandEdit::onPlainTextEditCommandTextChanged);
 
     ui->labelErrors->hide();
-    ui->plainTextEditCommand->document()->setDefaultFont(commandFont());
 
     auto document = ui->plainTextEditCommand->document();
     QTextCursor tc(document);
@@ -74,14 +73,6 @@ QString CommandEdit::command() const
 bool CommandEdit::isEmpty() const
 {
     return ui->plainTextEditCommand->document()->characterCount() == 0;
-}
-
-QFont CommandEdit::commandFont() const
-{
-    QFont font("Monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    font.setPointSize(10);
-    return font;
 }
 
 void CommandEdit::onPlainTextEditCommandTextChanged()
