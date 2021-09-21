@@ -1851,7 +1851,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
 
             QVariantMap commandMap;
             for ( const auto &key : settings.allKeys() )
-                commandMap[key] = serializableValue(*settings.settingsData(), key);
+                commandMap[key] = serializableValue(settings.constSettingsData(), key);
 
             commandsList.append(commandMap);
         }

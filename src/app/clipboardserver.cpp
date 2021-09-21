@@ -101,7 +101,7 @@ void setTabWidth(QTextEdit *editor, int spaces)
 void migrateCommands(const QString &commandConfigPath)
 {
     Settings oldSettings;
-    const auto oldCommands = loadCommands(oldSettings.settingsData());
+    const auto oldCommands = loadCommands(&oldSettings.constSettingsData());
 
     const QString commandConfigPathNew = commandConfigPath + ".new";
     {
@@ -702,7 +702,7 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
 
     COPYQ_LOG("Loading configuration");
 
-    QSettings settings;
+    QSettings &settings = appConfig->settings().constSettingsData();
 
     m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 
