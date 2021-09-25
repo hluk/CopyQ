@@ -320,7 +320,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçerli Sekmeyi Temizle</translation>
     </message>
 </context>
 <context>
@@ -520,7 +520,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 program argümanı, öge metniyle değiştirilecektir.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -694,12 +694,21 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Girdi metni bu düzenli ifadeyle eşleşmiyorsa komutu atlar (her şeyi eşleştirmek için boş bırakın).
+
+Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecektir.
+
+Örnekler:
+
+- URL eşleştir: ^(https?|ftp)://
+- PDF dosya adlarını eşleştir: \.pdf$
+- Tek karakteri eşleştir: ^.$
+- Uzak çoklu ortamı eşleştir: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre komutu sıfır olmayan çıkış koduyla başarısız olursa komutu atlar.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -2147,25 +2156,25 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Yukarı taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Aşağı taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>En üste taşı</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>En alta taşı</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -3010,7 +3019,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ögeleri &amp;Etkinleştir</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
