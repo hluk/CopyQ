@@ -320,7 +320,7 @@ U kunt de opdracht instellen in het voorkeurenvenster.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Huidig tabblad leegmaken</translation>
     </message>
 </context>
 <context>
@@ -520,7 +520,7 @@ U kunt de opdracht instellen in het voorkeurenvenster.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>De optie ‘%1’ wordt vervangen door de itemtekst.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -682,12 +682,21 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeert de opdracht als de invoertekst niet overeenkomt met deze reguliere uitdrukking (laat leeg om alles overeen te laten komen).
+
+%2 tot %9 bij de opdracht en het filter worden vervangen door de vastgelegde teksten.
+
+Voorbeelden:
+
+- URL-overeenkomst: ^(https?|ftp)://
+- PDF-bestandsnaamovereenkomst: \.pdf$
+- Eénteken-overeenkomst: ^.$
+- Externe multimedia-overeenkomst: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeert de opdracht als de filteropdracht mislukt met een afsluitcode hoger dan nul.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -2147,25 +2156,25 @@ Stel in op 0 om uit te schakelen.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Omhoog verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Omlaag verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Naar bovenkant verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Naar onderkant verplaatsen</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -2834,7 +2843,7 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Items a&amp;ctiveren</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
