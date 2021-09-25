@@ -9,27 +9,27 @@
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="107"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="108"/>
         <source>Clipboard Manager</source>
         <translation>Zwischenablageverwaltung</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="114"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="115"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>E-mail</source>
         <translation>E-Mail</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="118"/>
         <source>Donate</source>
         <translation>Spenden</translation>
     </message>
@@ -94,12 +94,12 @@
         <translation>Elemente in Reiter mit folgendem Namen speichern (leerlassen, um in den aktuellen Reiter zu speichern)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="219"/>
+        <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command saved</source>
         <translation>Befehl gespeichert</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="220"/>
+        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden.
@@ -317,6 +317,11 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <source>(trash)</source>
         <translation>(Papierkorb)</translation>
     </message>
+    <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="165"/>
+        <source>Clear Current Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ClipboardBrowser</name>
@@ -329,17 +334,17 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation type="vanished">Reiter ist voll. Es konnten keine Elemente entfernt werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1609"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1616"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Kann keine neuen Einträge zu Tab %1 hinzufügen. Bitte entferne diese manuell, um Platz zu schaffen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1896"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1903"/>
         <source>Discard Changes?</source>
         <translation>Änderungen verwerfen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Wollen Sie wirklich die &lt;strong&gt;Änderungen verwerfen&lt;/strong&gt;?</translation>
     </message>
@@ -347,12 +352,12 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="129"/>
+        <location filename="../src/app/clipboardclient.cpp" line="128"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Es kann keine Verbindung zum Server hergestellt werden! Bitte zuerst den CopyQ-Server starten.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="122"/>
+        <location filename="../src/app/clipboardclient.cpp" line="121"/>
         <source>Connection lost!</source>
         <translation>Verbindung verloren!</translation>
     </message>
@@ -399,27 +404,27 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="121"/>
+        <location filename="../src/app/clipboardserver.cpp" line="167"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ-Server ist bereits gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="368"/>
+        <location filename="../src/app/clipboardserver.cpp" line="418"/>
         <source>Cancel Active Commands</source>
         <translation>Aktive Befehle abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="369"/>
+        <location filename="../src/app/clipboardserver.cpp" line="419"/>
         <source>Cancel active commands and exit?</source>
         <translation>Aktive Befehle abbrechen und beenden?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="372"/>
+        <location filename="../src/app/clipboardserver.cpp" line="422"/>
         <source>Cancel Exiting</source>
         <translation>Doch nicht beenden</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="373"/>
+        <location filename="../src/app/clipboardserver.cpp" line="423"/>
         <source>Exit Anyway</source>
         <translation>Trotzdem beenden</translation>
     </message>
@@ -427,7 +432,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
 <context>
     <name>CommandCompleter</name>
     <message>
-        <location filename="../src/gui/commandcompleter.cpp" line="227"/>
+        <location filename="../src/gui/commandcompleter.cpp" line="238"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translation>Strg+Leertaste</translation>
@@ -514,9 +519,13 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation>Der Befehl enthält die Liste der Programme mit Argumenten, die ausgeführt werden. Zum Beispiel:</translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation>Programmargument %1 wird durch den Text des Elements ersetzt. %2 bis %9 werden durch die Ergebnisgruppen des regulären Ausdruck ersetzt.</translation>
+        <translation type="vanished">Programmargument %1 wird durch den Text des Elements ersetzt. %2 bis %9 werden durch die Ergebnisgruppen des regulären Ausdruck ersetzt.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
+        <source>Program argument %1 will be substituted for item text.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -548,7 +557,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
 <context>
     <name>CommandWidget</name>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="477"/>
+        <location filename="../src/ui/commandwidget.ui" line="480"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Name des Reiters, in den die Elemente kopiert werden sollen (leerlassen, um nicht zu kopieren)</translation>
     </message>
@@ -570,9 +579,8 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation>Globale Tastenkombination</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Befehle nur auf Elemente anwenden, die mit dem regulären Ausdruck übereinstimmen (leerlassen, um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  auf „.pdf“ endende Dateinamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation type="vanished">&lt;p&gt;Befehle nur auf Elemente anwenden, die mit dem regulären Ausdruck übereinstimmen (leerlassen, um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  auf „.pdf“ endende Dateinamen    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="243"/>
@@ -580,7 +588,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation>Befehl</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="567"/>
+        <location filename="../src/ui/commandwidget.ui" line="570"/>
         <source>O&amp;utput:</source>
         <translation>A&amp;usgabe:</translation>
     </message>
@@ -595,39 +603,39 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation>&amp;Inhalt:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="363"/>
+        <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Window:</source>
         <translation>&amp;Fenster:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="396"/>
+        <location filename="../src/ui/commandwidget.ui" line="405"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Die Daten dieses MIME-Typs werden zur Standardeingabe des Befehls gesendet.
 Zum Deaktivieren leerlassen.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="407"/>
+        <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>&amp;Filter:</source>
         <translation>&amp;Filter:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="373"/>
+        <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Verwenden Sie den Befehl nur für Elemente, die aus dem Fenster, mit einem Titeltext, der mit diesem regulären Ausdruck übereinstimmt in die Zwischenablage kopiert wurden (leer lassen, um mit einem beliebigen Fenster übereinzustimmen). Unter macOS enthält dies den Anwendungsnamen, gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Fenstertitel. Z.B. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="444"/>
+        <location filename="../src/ui/commandwidget.ui" line="447"/>
         <source>Action</source>
         <translation>Aktion</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="538"/>
+        <location filename="../src/ui/commandwidget.ui" line="541"/>
         <source>Command options</source>
         <translation>Befehlsoptionen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="634"/>
+        <location filename="../src/ui/commandwidget.ui" line="637"/>
         <source>Show action dialog before executing the command</source>
         <translation>Ausführungsdialog anzeigen bevor Befehl ausgeführt wird</translation>
     </message>
@@ -637,17 +645,16 @@ Zum Deaktivieren leerlassen.</translation>
         <translation>Befehl automatisch ausführen, wenn Zwischenablage neuen Inhalt bekommt</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="597"/>
+        <location filename="../src/ui/commandwidget.ui" line="600"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Trennzeichen für die Aufteilung der Ausgabe in mehrere Elemente</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="637"/>
+        <location filename="../src/ui/commandwidget.ui" line="640"/>
         <source>&amp;Wait</source>
         <translation>&amp;Warten</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="426"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -655,7 +662,7 @@ Zum Deaktivieren leerlassen.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Der Befehl wird nur angewendet, wenn dieser Filterbefehl erfolgreich ausgeführt werden kann.&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Der Befehl wird nur angewendet, wenn dieser Filterbefehl erfolgreich ausgeführt werden kann.&lt;/p&gt;
 
 &lt;p&gt;Der Text des Elements wird per &lt;b&gt;Standardeingabe&lt;/b&gt; an den Filterbefehl weitergereicht. Nur wenn &lt;b&gt;der Filterbefehl 0 als Exitcode zurückliefert&lt;/b&gt; wird der Befehl angewendet.&lt;/p&gt;
 
@@ -690,7 +697,26 @@ Zum Deaktivieren leerlassen.</translation>
         <translation>&amp;Globale Tastenkombination:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="489"/>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the catured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="435"/>
+        <source>Skips the command if the filter command fails with non-zero exit code.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="492"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -699,37 +725,37 @@ Note: If this is applied automatically, no other automatic commands are executed
 Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren automatischen Befehle ausgeführt.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="494"/>
+        <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>&amp;Remove Item</source>
         <translation>Element entfe&amp;rnen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="504"/>
+        <location filename="../src/ui/commandwidget.ui" line="507"/>
         <source>Menu Action</source>
         <translation>Menüaktion</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="525"/>
+        <location filename="../src/ui/commandwidget.ui" line="528"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Fenster ausblenden, nachdem der Befehl per Kontextmenü aktiviert wird</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="528"/>
+        <location filename="../src/ui/commandwidget.ui" line="531"/>
         <source>&amp;Hide main window after activation</source>
         <translation>&amp;Hauptfenster nach der Aktivierung ausblenden</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="644"/>
+        <location filename="../src/ui/commandwidget.ui" line="647"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Element anpassen, keine neuen Elemente anlegen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="647"/>
+        <location filename="../src/ui/commandwidget.ui" line="650"/>
         <source>Tr&amp;ansform</source>
         <translation>Tr&amp;ansformieren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="577"/>
+        <location filename="../src/ui/commandwidget.ui" line="580"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Elemente aus der Standardausgabe eines Programms erstellen (zum Deaktivieren leerlassen)</translation>
     </message>
@@ -756,37 +782,37 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine weiteren 
         <translation>Anzeige</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="380"/>
+        <location filename="../src/ui/commandwidget.ui" line="389"/>
         <source>For&amp;mat:</source>
         <translation>F&amp;ormat:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="467"/>
+        <location filename="../src/ui/commandwidget.ui" line="470"/>
         <source>Cop&amp;y to tab:</source>
         <translation>In folgenden Reiter ko&amp;pieren:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="587"/>
+        <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>&amp;Separator:</source>
         <translation>Trenn&amp;zeichen:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="600"/>
+        <location filename="../src/ui/commandwidget.ui" line="603"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="617"/>
+        <location filename="../src/ui/commandwidget.ui" line="620"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Elemente in den Reiter mit folgendem Namen speichern (leerlassen, um in den ersten Reiter zu speichern)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="719"/>
+        <location filename="../src/ui/commandwidget.ui" line="722"/>
         <source>Show Advanced</source>
         <translation>Erweiterte Eigenschaften anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="607"/>
+        <location filename="../src/ui/commandwidget.ui" line="610"/>
         <source>Output &amp;tab:</source>
         <translation>Reiter der &amp;Ausgabe:</translation>
     </message>
@@ -1585,7 +1611,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>Benachrichtigung</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="448"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="454"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ungültiger Wert für die Option „%1“</translation>
     </message>
@@ -1630,22 +1656,22 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>Erscheinungsbild</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="595"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="603"/>
         <source>Restart Required</source>
         <translation>Neustart erforderlich</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="596"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="604"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Zum Ändern der Spracheinstellung ist ein Neustart der Anwendung nötig.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="491"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="499"/>
         <source>Reset preferences?</source>
         <translation>Einstellungen zurücksetzen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="492"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Diese Aktion wird alle Einstellungen auf die Standardwerte zurücksetzen. &lt;br /&gt;&lt;br /&gt;Möchten Sie wirklich &lt;strong&gt;alle Einstellungen zurücksetzen&lt;/strong&gt;?</translation>
     </message>
@@ -1841,104 +1867,104 @@ Zum Deaktivieren auf 0 setzen.</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="625"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Um verschlüsselte Elemente für andere Computer oder Sitzungen freizugeben, benötigen Sie öffentliche und geheimen Schlüsseldateien:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewahren Sie diesen geheimen Schlüssel an einem sicheren Ort auf.) &lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="692"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuPG muss installiert sein, um verschlüsselte Reiter anzuzeigen.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="777"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="796"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Verschlüsseln (benötigt GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="783"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="793"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="812"/>
         <source>Ctrl+L</source>
         <translation>Strg+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="787"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
         <source>Decrypt</source>
         <translation>Entschlüsseln</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="797"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="816"/>
         <source>Decrypt and Copy</source>
         <translation>Entschlüsseln und kopieren</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
         <source>Ctrl+Shift+L</source>
         <translation>Strg+Umschalt+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="825"/>
         <source>Decrypt and Paste</source>
         <translation>Entschlüsseln und einfügen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="811"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="830"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="899"/>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="868"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="887"/>
         <source>Failed to generate keys.</source>
         <translation>Schlüsselerstellung fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
         <source>Done</source>
         <translation>Erledigt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="901"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="920"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Neue Schlüssel werden erzeugt (dies kann einige Minuten dauern) …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="902"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="905"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="921"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="924"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="904"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="923"/>
         <source>Setting new password...</source>
         <translation>Neues Passwort festlegen …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="926"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Die Verschlüsselungsschlüssel &lt;strong&gt;müssen erzeugt werden&lt;/strong&gt;, bevor die Verschlüsselung von Elementen genutzt werden kann.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="910"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="929"/>
         <source>Generate New Keys...</source>
         <translation>Neue Schlüssel erzeugen …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="912"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="931"/>
         <source>Change Password...</source>
         <translation>Passwort ändern …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="335"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="354"/>
         <source>Encryption failed!</source>
         <translation>Verschlüsselung fehlgeschlagen!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="918"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="937"/>
         <source>Decryption failed!</source>
         <translation>Entschlüsselung fehlgeschlagen!</translation>
     </message>
@@ -2109,55 +2135,77 @@ Zum Deaktivieren auf 0 setzen.</translation>
 <context>
     <name>ItemOrderList</name>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="50"/>
+        <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>&amp;Add</source>
         <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="63"/>
+        <location filename="../src/ui/itemorderlist.ui" line="66"/>
         <source>&amp;Remove</source>
         <translation>Entfe&amp;rnen</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="73"/>
-        <source>&amp;Up</source>
-        <translation>&amp;Hoch</translation>
+        <location filename="../src/ui/itemorderlist.ui" line="76"/>
+        <source>Move up</source>
+        <extracomment>Button moves current item one row up</extracomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="83"/>
+        <location filename="../src/ui/itemorderlist.ui" line="86"/>
+        <source>Move down</source>
+        <extracomment>Button moves current item one row down</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/itemorderlist.ui" line="96"/>
+        <source>Move to the top</source>
+        <extracomment>Button moves current item to the top</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/itemorderlist.ui" line="106"/>
+        <source>Move to the bottom</source>
+        <extracomment>Button moves current item to the bottom</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation type="vanished">&amp;Hoch</translation>
+    </message>
+    <message>
         <source>&amp;Down</source>
-        <translation>&amp;Runter</translation>
+        <translation type="vanished">&amp;Runter</translation>
     </message>
 </context>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="195"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>Angeheftete Elemente können nicht entfernt werden</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="196"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
         <source>Unpin items first to remove them.</source>
         <translation>Bevor Elemente entfernt werden können, müssen diese losgelöst werden.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="369"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="374"/>
         <source>Pin</source>
         <translation>Anheften</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="376"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="381"/>
         <source>Unpin</source>
         <translation>Loslösen</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="95"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="99"/>
         <source>Pinned Items</source>
         <translation>Angeheftete Elemente</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.h" line="98"/>
+        <location filename="../plugins/itempinned/itempinned.h" line="102"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Elemente anheften, um sie in der aktuellen Zeile zu sperren und ein Löschen zu verhindern (es sei denn, sie sind losgelöst).&lt;/p&gt;&lt;p&gt;Bietet Verknüpfungen und Skriptfunktionen.&lt;/p&gt;</translation>
     </message>
@@ -2444,7 +2492,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1947"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2068"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2069"/>
         <source>Options for Import</source>
         <translation>Importoptionen</translation>
     </message>
@@ -2469,7 +2517,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2305"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2307"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-Fehler</translation>
@@ -2505,27 +2553,27 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Reitersymbol ändern</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3587"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3624"/>
         <source>Options for Export</source>
         <translation>Importoptionen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3608"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3645"/>
         <source>Export Error</source>
         <translation>Exportfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3609"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3646"/>
         <source>Failed to export file %1!</source>
         <translation>Die Datei %1 konnte nicht exportiert werden!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3701"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3738"/>
         <source>Import Error</source>
         <translation>Importfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3702"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3739"/>
         <source>Failed to import file %1!</source>
         <translation>Die Datei %1 konnte nicht importiert werden!</translation>
     </message>
@@ -2556,22 +2604,22 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>CopyQ-Elemente (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3874"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3924"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle Reiter in der Gruppe entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3875"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3925"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen Sie wirklich &lt;strong&gt;alle Reiter&lt;/strong&gt; in der Gruppe &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3922"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3972"/>
         <source>Remove Tab?</source>
         <translation>Reiter entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3923"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3973"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen Sie den Reiter &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
@@ -2642,7 +2690,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>Entf</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="237"/>
+        <location filename="../src/main.cpp" line="238"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sitzungsname darf höchstens 16 Zeichen enthalten,
@@ -2812,10 +2860,9 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Move to &amp;Clipboard</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>In die Zwis&amp;chenablage verschieben</translation>
+        <translation type="vanished">In die Zwis&amp;chenablage verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -2976,6 +3023,12 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <translation>&amp;Vorheriger Reiter</translation>
     </message>
     <message>
+        <location filename="../src/gui/menuitems.cpp" line="101"/>
+        <source>A&amp;ctivate Items</source>
+        <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>&amp;Show Log</source>
         <translation>Log anzeigen</translation>
@@ -3001,7 +3054,7 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <translation>Der Inhalt des Reiters %1 ist beschädigt oder benötigte CopyQ-Plugins sind nicht vorhanden!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2139"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2449"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
@@ -3010,13 +3063,13 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2142"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2452"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translation>Text kopiert</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2158"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2468"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translation>Daten kopiert</translation>
@@ -3295,7 +3348,7 @@ Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="117"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
@@ -3382,7 +3435,7 @@ Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
         <translation>Starte Server im Hintergrund vor Start eines Kommandos.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1502"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1518"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ungültige Option „%1“!</translation>
     </message>
@@ -3420,87 +3473,87 @@ Print version of program and libraries.</source>
 Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="117"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
         <source>Usage: copyq [%1]</source>
         <translation>Verwendung: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>Starts server if no command is specified.</source>
         <translation>Startet Server, sofern kein Befehl angegeben wurde.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  COMMANDs:</source>
         <translation>  BEFEHLe:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>NOTES:</source>
         <translation>NOTIZEN:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Bindestrichargument (-) verwenden, um von der Standardeingabe zu lesen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="839"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="876"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="850"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="887"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ Clipboard-Manager</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2948"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2972"/>
         <source>Exception</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2949"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2973"/>
         <source>Exception in %1</source>
         <translation>Fehler in %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3053"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3077"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Das Kopieren in die Zwischenablage ist fehlgeschlagen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
-    zu lesen ohne die Escapesequenzen zu erweitern (z. B. \n, \t und weitere).</translation>
+    zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="129"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - ? verwenden, um alle verfügbaren MIME-Typen auszugeben (Standard ist „text/plain“).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="134"/>
         <source>Invalid number of arguments!</source>
         <translation>Ungültige Anzahl an Argumenten!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="888"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="899"/>
         <source>Command not found!</source>
         <translation>Befehl wurde nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="987"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="998"/>
         <source>Terminating server.
 </source>
         <translation>Server wird beendet.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="752"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="763"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Datei „%1“ kann nicht gespeichert werden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="757"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="768"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Datei „%1“ kann nicht importiert werden!</translation>
     </message>
@@ -3508,17 +3561,17 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="624"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="648"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Es existiert kein Reiter mit dem angegebenen Namen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="629"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="653"/>
         <source>Tab name cannot be empty!</source>
         <translation>Der Name eines Reiters darf nicht leer sein!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1137"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1166"/>
         <source>Tab with given name already exists!</source>
         <translation>Es existiert bereits ein Reiter mit dem angegebenen Namen!</translation>
     </message>
@@ -3677,12 +3730,12 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="359"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="375"/>
         <source>Regular Expression</source>
         <translation>Regulärer Ausdruck</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="362"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="378"/>
         <source>Case Insensitive</source>
         <translation>Groß-/Kleinschreibung ignorieren</translation>
     </message>
