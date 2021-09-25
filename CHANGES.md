@@ -1,3 +1,83 @@
+# v5.0.0
+
+## Added
+
+- Search matches similar accented characters (#1318). For example, searching
+  for "vacsina" would also show items containing "väčšina".
+
+- If the clipboard tab is renamed, clipboard will be still stored in the
+  renamed tab. Similarly if a specific tab is set for tray menu. This basically
+  modifies `clipboard_tab`, `tray_tab` options when renaming tabs.
+
+- New predefined command to clear the current tab.
+
+- Tabs can be reordered in Preferences (in addition to tab bar/tree).
+
+- Tabs can be reordered from command line or a script. For example:
+
+      copyq 'config("tabs", ["&clipboard", "work", "study"])'
+
+- New buttons can move commands, tabs and plugins in configuration to top and
+  bottom with a single click. This previously required dragging item to the
+  top/bottom or multiple clicks on the move up/down buttons.
+
+- Script function `dialog()` supports non-editable combo box. For example:
+
+      var choice = dialog('.combo:Select', ['a', 'b', 'c'])
+
+- Script function `dialog()` restores last position and size of dialog
+  windows with matching title (set with `.title`).
+
+- Syntax highlighting for more script keywords.
+
+- New script class `ItemSelection` allows more powerful, consistent, safe and
+  fast handling of multiple items. Examples:
+
+      // move matching items to the top of the tab
+      ItemSelection().select(/^prefix/).move(0)
+
+      // remove all items from given tab but keep pinned items
+      ItemSelection(tabName).selectRemovable().removeAll();
+
+## Changed
+
+- Simpler lock file mechanism is used instead of a system semaphore and shared
+  memory lock (#1737). This allows to support more platforms.
+
+- Editor font from Appearance settings is used for the edit widget in Command
+  and Action dialogs (#1757).
+
+- Theme does not modify the scrollbar in item list by default (#1751).
+
+## Removed
+
+- Windows: Migrating old configuration from registry to file format is no
+  longer supported.
+
+## Fixed
+
+- Icons are rendered properly in About dialog. This uses correct icon font
+  from the app instead the one installed on the system.
+
+- Correct UI layout direction is used depending on the selected language
+  (#1696).
+
+- Automatic commands that use regular expressions for matching
+  window title or clipboard content are imported properly
+  (hluk/copyq-commands#45).
+
+- Native notifications are updated correctly when using existing notification
+  ID.
+
+- Bash completion script is installed to a correct path.
+
+- macOS: Fixes pasting/copying when using different keyboard layouts (#1733).
+
+- macOS: Avoids focusing own window before paste operation (#1601).
+
+- macOS: Tries to paste directly to the process ID if the window ID is not
+  available (#1395) (#1686).
+
 # v4.1.0
 
 - Old notification system can now be used instead of native/system
