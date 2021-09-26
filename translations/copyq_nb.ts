@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Om</translation>
+        <translation>Om</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished">Handlingsdialog</translation>
+        <translation>Handlingsdialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -111,7 +111,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Feil: %1</translation>
+        <translation>Feil: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
@@ -129,7 +129,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished">Prosessmanager</translation>
+        <translation>Prosessbehandler</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -147,7 +147,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished">Legg til Kommandoer</translation>
+        <translation>Legg til kommandoer</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
@@ -393,7 +393,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 bytes</translation>
+        <translation>&lt;strong&gt;Størrelse:&lt;/strong&gt; %1 byte</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -458,7 +458,7 @@ Du kan sette opp kommandoen i innstillinger.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished">&amp;Last inn kommandoer…</translation>
+        <translation>&amp;Last inn kommandoer …</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
@@ -795,7 +795,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Hopper over kommandoen hvis inndatatekst ikke stemmer med dette regulære uttrykket (la stå tomt for å overensstemme med alt).
+
+%2 tilogmed %9 i kommando vil bli erstattet av innhentede tekster.
+
+Eksempler:
+
+- Jamfør nettadresse: ^(https?|ftp)://
+- Jamfør PDF-filnavn: \.pdf$
+- Jamfør enkelt tegn: ^.$
+- Jamfør mot multimedia annensteds hen: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -1034,7 +1043,7 @@ trykk F2 for å redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished">Språk:</translation>
+        <translation>&amp;Språk:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1054,7 +1063,7 @@ trykk F2 for å redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished">Alltid Øverst</translation>
+        <translation>Alltid &amp;øverst</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1084,7 +1093,7 @@ trykk F2 for å redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished">Bekreft Avslutning</translation>
+        <translation>Bekreft &amp;avslutning av programmet</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
@@ -1114,7 +1123,7 @@ trykk F2 for å redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished">Lagre Filterhistorikk</translation>
+        <translation>Lagre filterhistorikk</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
@@ -1129,7 +1138,7 @@ trykk F2 for å redigere.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished">Manipulasjon av Utklippstavle</translation>
+        <translation>Manipulasjon av utklippstavle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
@@ -1264,7 +1273,7 @@ Bruk Forhåndsvisning av Element for å vise hele elementer.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished">Vis enkle elementer</translation>
+        <translation>Vis e&amp;nkle elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
@@ -1420,7 +1429,7 @@ Merk: Dette støttes ikke på alle systemer.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">Vis Antall Elementer</translation>
+        <translation>Vis antall &amp;elementer</translation>
     </message>
 </context>
 <context>
@@ -1448,22 +1457,22 @@ Merk: Dette støttes ikke på alle systemer.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished">Høyre Topp</translation>
+        <translation>Oppe til høyre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished">Høyre Bunn</translation>
+        <translation>Nede til høyre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished">Venstre Bunn</translation>
+        <translation>Nede til venstre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished">Venstre Topp</translation>
+        <translation>Oppe til venstre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
@@ -1521,7 +1530,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished">&amp;Vertikal forskyvning:</translation>
+        <translation>&amp;Loddrett forskyvning:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
@@ -1740,7 +1749,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Velg Ikon</translation>
+        <translation>Velg ikon</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -2267,7 +2276,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="445"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished">Kunne ikke synkronisere fanen &quot;%1&quot; med katalogen &quot;%2&quot;!</translation>
+        <translation>Kunne ikke synkronisere fanen «%1» med mappen «%2».</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="480"/>
@@ -3622,7 +3631,7 @@ Skriv ut programversjon og biblioteker.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Ny Snarvei</translation>
+        <translation>Ny snarvei</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3696,17 +3705,17 @@ Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</trans
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Ny Fane</translation>
+        <translation>Ny fane</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Gi Fane Nytt Navn</translation>
+        <translation>Gi fane nytt navn</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Gi Fanegruppe Nytt Navn</translation>
+        <translation>Gi fanegruppe nytt navn</translation>
     </message>
 </context>
 <context>
