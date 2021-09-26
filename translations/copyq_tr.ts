@@ -790,7 +790,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Girdi metni bu düzenli ifadeyle eşleşmiyorsa komutu atlar (her şeyi eşleştirmek için boş bırakın).
+
+Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecektir.
+
+Örnekler:
+
+- URL eşleştir: ^(https?|ftp)://
+- PDF dosya adlarını eşleştir: \.pdf$
+- Tek karakteri eşleştir: ^.$
+- Uzak çoklu ortamı eşleştir: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
