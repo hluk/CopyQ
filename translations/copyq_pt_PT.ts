@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
         <source>Clipboard Manager</source>
-        <translation>Gestor da Área de Transferência</translation>
+        <translation>Gestor da área de transferência</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -795,7 +795,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora o comando se o texto entrado não corresponder a esta expressão regular (deixar em branco para comparar tudo).
+
+%2 a %9 em Comando e filtro serão substituídos pelos textos capturados.
+
+Exemplos:
+
+- Comparar URL: ^(https?|ftp)://
+- Comparar nomes de ficheiros PDF: \.pdf$
+- Comparar carácter único: ^.$
+- Comparar multimédia remota: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
