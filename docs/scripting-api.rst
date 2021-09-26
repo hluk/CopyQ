@@ -1785,6 +1785,16 @@ Types
        :returns: self
        :rtype: ItemSelection
 
+   .. js:method:: current()
+
+       Deselects all and selects only the items which were selected when the
+       command was triggered.
+
+       See `Selected Items`_.
+
+       :returns: self
+       :rtype: ItemSelection
+
    .. js:method:: removeAll()
 
        Delete all items in the selection (if possible).

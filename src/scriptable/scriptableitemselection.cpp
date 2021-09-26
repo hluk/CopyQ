@@ -182,6 +182,12 @@ QJSValue ScriptableItemSelection::deselectSelection(const QJSValue &selection)
     return m_self;
 }
 
+QJSValue ScriptableItemSelection::current()
+{
+    m_proxy->selectionGetCurrent(m_id);
+    return m_self;
+}
+
 QJSValue ScriptableItemSelection::removeAll()
 {
     m_proxy->selectionRemoveAll(m_id);

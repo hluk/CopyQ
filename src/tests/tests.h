@@ -154,6 +154,7 @@ private slots:
     void classDir();
     void classTemporaryFile();
     void classItemSelection();
+    void classItemSelectionGetCurrent();
     void calledWithInstance();
 
     void pipingCommands();

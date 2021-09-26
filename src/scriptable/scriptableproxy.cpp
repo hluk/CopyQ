@@ -1864,6 +1864,23 @@ void ScriptableProxy::selectionDeselectSelection(int id, int toDeselectId)
     m_selections[id] = selection;
 }
 
+void ScriptableProxy::selectionGetCurrent(int id)
+{
+    INVOKE2(selectionGetCurrent, (id));
+    auto selection = m_selections.take(id);
+    if (!selection.browser)
+        return;
+
+    auto selected = selectedIndexes();
+    selectionRemoveInvalid(&selected);
+    if ( selected.isEmpty() ) {
+        m_selections[id] = {nullptr, {}};
+    } else {
+        ClipboardBrowser *c = m_wnd->browserForItem(selected.first());
+        m_selections[id] = {c, selected};
+    }
+}
+
 int ScriptableProxy::selectionGetSize(int id)
 {
     INVOKE(selectionGetSize, (id));

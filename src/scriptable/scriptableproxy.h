@@ -207,6 +207,7 @@ public slots:
     void selectionSelect(int id, const QVariant &maybeRe, const QString &mimeFormat);
     void selectionDeselectIndexes(int id, const QVector<int> &indexes);
     void selectionDeselectSelection(int id, int toDeselectId);
+    void selectionGetCurrent(int id);
     int selectionGetSize(int id);
     QString selectionGetTabName(int id);
     QVector<int> selectionGetRows(int id);

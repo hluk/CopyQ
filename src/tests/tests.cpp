@@ -2284,6 +2284,22 @@ void Tests::classItemSelection()
     m_test->setIgnoreError(QByteArray());
 }
 
+void Tests::classItemSelectionGetCurrent()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"\", rows=[])\n");
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq: add(ItemSelection().current().str())'}])", "");
+    RUN("keys" << "CTRL+F1", "");
+    RUN(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[0])");
+    RUN("keys" << "END" << "SHIFT+UP" << "CTRL+F1", "");
+    RUN(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[2,3])");
+}
+
 void Tests::calledWithInstance()
 {
     // These would fail with the old deprecated Qt Script module.
