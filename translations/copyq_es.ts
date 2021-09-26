@@ -613,6 +613,20 @@ Dejar en blanco para desactivarlo.</translation>
         <translation>Or%den</translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="528"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Ocultar la ventana después de activar una orden desde el menú contextual de un elemento</translation>
@@ -731,20 +745,6 @@ Dejar en blanco para desactivarlo.</translation>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation>Visualización</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
-        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
-
-%2 through %9 in Command and Filter will be replaced with the catured texts.
-
-Examples:
-
-- Match URL: ^(https?|ftp)://
-- Match PDF filenames: \.pdf$
-- Match single character: ^.$
-- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>

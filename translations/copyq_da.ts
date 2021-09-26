@@ -609,6 +609,20 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation type="unfinished">Matche elementer</translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
@@ -765,20 +779,6 @@ Bemærk: Hvis dette anvendes automatisk, udføres ingen andre automatiske komman
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation>Visning</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
-        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
-
-%2 through %9 in Command and Filter will be replaced with the catured texts.
-
-Examples:
-
-- Match URL: ^(https?|ftp)://
-- Match PDF filenames: \.pdf$
-- Match single character: ^.$
-- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>

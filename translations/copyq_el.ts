@@ -683,7 +683,7 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
-%2 through %9 in Command and Filter will be replaced with the catured texts.
+%2 through %9 in Command and Filter will be replaced with the captured texts.
 
 Examples:
 

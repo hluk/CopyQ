@@ -626,7 +626,6 @@ You can set up the command in preferences.</source>
         <translation>匹配项</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
 %2 through %9 in Command and Filter will be replaced with the catured texts.
@@ -637,7 +636,7 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation>如果输入文本与此正则表达式不匹配，则跳过该命令（留空以匹配所有内容）。
+        <translation type="vanished">如果输入文本与此正则表达式不匹配，则跳过该命令（留空以匹配所有内容）。
 
 命令和筛选器中的 %2 到 %9 将被替换为捕获的文本。
 
@@ -768,6 +767,20 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/ui/commandwidget.ui" line="159"/>
         <source>&amp;Shortcut:</source>
         <translation>快捷键(&amp;S):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>

@@ -626,20 +626,6 @@ You can set up the command in preferences.</source>
         <translation>一致するアイテム</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
-        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
-
-%2 through %9 in Command and Filter will be replaced with the catured texts.
-
-Examples:
-
-- Match URL: ^(https?|ftp)://
-- Match PDF filenames: \.pdf$
-- Match single character: ^.$
-- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
         <source>For&amp;mat:</source>
         <translation>フォーマット(&amp;M):</translation>
@@ -759,6 +745,20 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/ui/commandwidget.ui" line="159"/>
         <source>&amp;Shortcut:</source>
         <translation>ショートカット(&amp;S):</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>

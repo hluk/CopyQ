@@ -671,7 +671,6 @@ Leave empty to disable this.</source>
         <translation>Type:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
 %2 through %9 in Command and Filter will be replaced with the catured texts.
@@ -682,7 +681,7 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation>Hopper over kommando hvis inndatatekst ikke samsvarer dette regulære uttrykket (la stå tomt for å samsvare med alt).
+        <translation type="vanished">Hopper over kommando hvis inndatatekst ikke samsvarer dette regulære uttrykket (la stå tomt for å samsvare med alt).
 
 %2 tilogmed %9 i kommando og filter vil erstattes med fangede tekster.
 
@@ -783,6 +782,20 @@ Merk: Hvis dette påføres automatisk, vil ingen andre automatiske kommandoer ek
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation type="unfinished">Vis</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>

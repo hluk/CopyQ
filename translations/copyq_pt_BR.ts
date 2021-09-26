@@ -603,6 +603,20 @@ Você pode configurar o comando nas preferências.</translation>
         <translation>Igualar Itens</translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
@@ -703,7 +717,6 @@ Deixe em branco para desabilitar esta.</translation>
         <translation>Tipo:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
 %2 through %9 in Command and Filter will be replaced with the catured texts.
@@ -714,7 +727,7 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation>Ignora o comando se o texto de entrada não corresponder a esta expressão regular (deixe em branco para corresponder a tudo).
+        <translation type="vanished">Ignora o comando se o texto de entrada não corresponder a esta expressão regular (deixe em branco para corresponder a tudo).
 
 %2 através %9 em Comando e Filtrar será substituído pelos textos capturados.
 

@@ -656,6 +656,20 @@ Leave empty to disable this.</source>
         <translation>命令</translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
         <source>Action</source>
         <translation>動作</translation>
@@ -760,20 +774,6 @@ Note: If this is applied automatically, no other automatic commands are executed
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
         <translation>顯示</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
-        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
-
-%2 through %9 in Command and Filter will be replaced with the catured texts.
-
-Examples:
-
-- Match URL: ^(https?|ftp)://
-- Match PDF filenames: \.pdf$
-- Match single character: ^.$
-- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>

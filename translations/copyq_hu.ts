@@ -634,20 +634,6 @@ Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
-        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
-
-%2 through %9 in Command and Filter will be replaced with the catured texts.
-
-Examples:
-
-- Match URL: ^(https?|ftp)://
-- Match PDF filenames: \.pdf$
-- Match single character: ^.$
-- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
         <translation type="unfinished"></translation>
@@ -727,6 +713,20 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="570"/>
         <source>O&amp;utput:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
+
+%2 through %9 in Command and Filter will be replaced with the captured texts.
+
+Examples:
+
+- Match URL: ^(https?|ftp)://
+- Match PDF filenames: \.pdf$
+- Match single character: ^.$
+- Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
