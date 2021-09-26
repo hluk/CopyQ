@@ -795,7 +795,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Negeert de opdracht als de invoertekst niet overeenkomt met deze reguliere uitdrukking (laat leeg om alles overeen te laten komen).
+
+%2 tot %9 bij de opdracht en het filter worden vervangen door de vastgelegde teksten.
+
+Voorbeelden:
+
+- URL-overeenkomst: ^(https?|ftp)://
+- PDF-bestandsnaamovereenkomst: \.pdf$
+- Eénteken-overeenkomst: ^.$
+- Externe multimedia-overeenkomst: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
