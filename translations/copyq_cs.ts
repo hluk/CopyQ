@@ -801,7 +801,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeskočí příkaz, pokud vstupní text neodpovídá tomuto regulárnímu výrazu (ponechte prázdné, aby vyhovovalo vše).
+
+%2 až %9 v příkazu a filtru budou nahrazeny zachycenými texty.
+
+Příklady:
+
+- Shoda URL: Příklad: ^(https?|ftp)://
+- Shoda s názvy souborů PDF: \.pdf$
+- Shoda s jedním znakem: ^.$
+- Shoda se vzdálenými multimédii: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
