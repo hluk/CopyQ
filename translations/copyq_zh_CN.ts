@@ -780,7 +780,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>如果输入文本与此正则表达式不匹配，则跳过该命令（留空以匹配所有内容）。
+
+命令和过滤器中的 %2 到 %9 将替换为捕获的文本。
+
+示例：
+
+- 匹配 URL：^(https?|ftp)://
+- 匹配 PDF 文件名： \.pdf$
+- 匹配单个字符：^.$
+- 匹配远程多媒体： ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
