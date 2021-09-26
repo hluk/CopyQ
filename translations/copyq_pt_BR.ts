@@ -614,7 +614,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora o comando se o texto de entrada não corresponder a esta expressão regular (deixe em branco para corresponder a tudo).
+
+%2 a %9 em Comando e Filtro serão substituídos pelos textos capturados.
+
+Exemplos:
+
+- URL de correspondência: ^(https?|ftp)://
+- Corresponder nomes de arquivos PDF: \.pdf$
+- Corresponde a um único caractere: ^.$
+- Corresponder multimídia remota: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
