@@ -320,7 +320,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpar separador actual</translation>
     </message>
 </context>
 <context>
@@ -520,7 +520,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>O argumento de programa %1 será substituído pelo item de texto.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -682,12 +682,21 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora o comando se o texto entrado não corresponder a esta expressão regular (deixar em branco para aceitar tudo).
+
+%2 a %9 em Comandos e filtros serão substituídos pelos textos capturados.
+
+Exemplos:
+
+- Comparar URL: ^(https?|ftp)://
+- Comparar nomes de ficheiros PDF: \.pdf$
+- Comparar carácter único: ^.$
+- Comparar multimédia remota: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorar o comando se o filtro tiver código de saída não-zero.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -2147,25 +2156,25 @@ Defina como 0 para desativar.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Mover acima</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Mover abaixo</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Mover para o topo</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Mover para o fundo</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -3025,7 +3034,7 @@ que podem ser letras, dígitos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;ctivar itens</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
