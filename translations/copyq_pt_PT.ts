@@ -6,12 +6,12 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Acerca</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
         <source>Clipboard Manager</source>
-        <translation>Gestor da área de transferência</translation>
+        <translation>Gestor de memória</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -21,12 +21,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>E-mail</source>
-        <translation>E-mail</translation>
+        <translation>Endereço</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Web</source>
-        <translation>Web</translation>
+        <translation>Página web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="118"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation>Janela de Ação</translation>
+        <translation>Diálogo de acção</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -54,17 +54,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>G&amp;uardar saída padrão:</translation>
+        <translation>Gra&amp;var saída padrão:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Envie dados do tipo de multimédia fornecido para a entrada de comando padrão (deixe em branco para desativar)</translation>
+        <translation>Enviar dados do suporte fornecido para a entrada padrão de comandos (deixar vazio para desactivar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Crie itens a partir da saída padrão do programa (deixe em branco para desativar)</translation>
+        <translation>Criar itens a partir da saída padrão do programa (deixar vazio para desactivar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -75,8 +75,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Expressão regular para dividir saída em múltiplos itens.&lt;\p&gt;
-&lt;p&gt;Utilize &lt;b&gt;\n&lt;/b&gt; para guardar cada linha num item separado.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Expressão regular para dividir a saída em múltiplos itens.&lt;\p&gt;
+&lt;p&gt;Utilize &lt;b&gt;\n&lt;/b&gt; para gravar cada linha num item separado.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -91,19 +91,19 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Guardar itens no separador com o nome indicado (deixar em branco para guardar no separador atual)</translation>
+        <translation>Gravar itens no separador indicado (deixar vazio para gravar no separador actual)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command saved</source>
-        <translation>Comando guardado</translation>
+        <translation>Comando gravado</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>O comando foi guardado e pode ser acedido no menu de itens.
-Pode definir o comando nas preferências.</translation>
+        <translation>O comando foi gravado e pode ser acedido no menu de itens.
+Pode configurar o comando nas preferências.</translation>
     </message>
 </context>
 <context>
@@ -129,7 +129,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation>Gestor de Processos</translation>
+        <translation>Gestor de processos</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -139,7 +139,7 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;Terminar Selecionados</translation>
+        <translation>&amp;Terminar seleccionados</translation>
     </message>
 </context>
 <context>
@@ -147,12 +147,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation>Adicionar Comandos</translation>
+        <translation>Adicionar comandos</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Show/hide main window</source>
-        <translation>Mostrar/ocultar a janela principal</translation>
+        <translation>Mostrar/Ocultar a janela principal</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
@@ -162,27 +162,27 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Show main window under mouse cursor</source>
-        <translation>Mostrar a janela principal sob o cursor do rato</translation>
+        <translation>Mostrar a janela principal sob o rato</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Edit clipboard</source>
-        <translation>Editar área de transferência</translation>
+        <translation>Editar a memória</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
         <source>Edit first item</source>
-        <translation>Editar 1º item</translation>
+        <translation>Editar o 1º item</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation>Copiar 2º item</translation>
+        <translation>Copiar o 2º item</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Show action dialog</source>
-        <translation>Mostrar janela de ação</translation>
+        <translation>Mostrar diálogo de acção</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
@@ -202,17 +202,17 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="88"/>
         <source>Paste clipboard as plain text</source>
-        <translation>Colar área de transferência como texto simples</translation>
+        <translation>Colar da memória como texto simples</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="89"/>
         <source>Disable clipboard storing</source>
-        <translation>Desativar armazenamento na área de transferência</translation>
+        <translation>Desactivar armazenamento na memória</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Enable clipboard storing</source>
-        <translation>Ativar armazenamento na área de transferência</translation>
+        <translation>Activar armazenamento na memória</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
@@ -227,12 +227,12 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Take screenshot</source>
-        <translation>Capturar ecrã</translation>
+        <translation>Capturar o ecrã</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
         <source>Paste current date and time</source>
-        <translation>Colar data e hora atual</translation>
+        <translation>Colar data e hora actual</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -242,17 +242,17 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="64"/>
         <source>Ignore items with no or single character</source>
-        <translation>Ignorar itens vazios ou com caractere único</translation>
+        <translation>Ignorar itens vazios ou com carácter único</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="72"/>
         <source>Open in &amp;Browser</source>
-        <translation>A&amp;brir no Navegador</translation>
+        <translation>A&amp;brir no navegador</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation>Colar como Texto Simples</translation>
+        <translation>Colar como texto simples</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
@@ -262,17 +262,17 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>Copiar URL (endereço da Web) para outro separador</translation>
+        <translation>Copiar URL (endereço web) para outro separador</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation>Criar miniatura (necessário o ImageMagick)</translation>
+        <translation>Criar miniatura (ImageMagick requerido)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>Criar Código QR do URL (necessário o qrencode)</translation>
+        <translation>Criar código QR do URL (qrencode requerido)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
@@ -300,17 +300,17 @@ Pode definir o comando nas preferências.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignorar janela *&quot;Palavra-passe&quot;*</translation>
+        <translation>Ignorar janela *&quot;Senha&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation>Palavra-passe</translation>
+        <translation>Senha</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation>Mover para Lixo</translation>
+        <translation>Mover para o lixo</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
