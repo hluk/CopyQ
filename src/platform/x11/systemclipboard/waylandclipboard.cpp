@@ -373,7 +373,7 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
     if (!m_device) {
         return;
     }
-    auto source = std::make_unique<DataControlSource>(m_manager->create_data_source(), mime);
+    std::unique_ptr<DataControlSource> source(new DataControlSource(m_manager->create_data_source(), mime));
     if (mode == QClipboard::Clipboard) {
         m_device->setSelection(std::move(source));
     } else if (mode == QClipboard::Selection) {
