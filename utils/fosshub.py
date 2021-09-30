@@ -2,6 +2,8 @@
 """
 Create new release and upload files to FossHUB.
 
+Get the API key from: https://devzone.fosshub.com/dashboard/profile
+
 USAGE: ./fosshub.py <VERSION> <API_KEY>
 """
 import requests
