@@ -3262,7 +3262,7 @@ Definir conteúdo da área de transferência.</translation>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Editar itens ou editar novo.
-Valor -1 é do texto na área de transferência.</translation>
+Valor -1 é do texto em memória.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
@@ -3278,7 +3278,7 @@ Valor -1 é do texto na área de transferência.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>Imprimir dados brutos da área de transferência ou item na linha.</translation>
+        <translation>Imprimir dados brutos da memória ou item na linha.</translation>
     </message>
     <message>
         <source>
@@ -3289,7 +3289,7 @@ Escrever dados brutos na linha indicada.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="142"/>
         <source>Show action dialog.</source>
-        <translation>Mostrar diálogo de ação.</translation>
+        <translation>Mostrar diálogo de acção.</translation>
     </message>
     <message>
         <source>
@@ -3313,24 +3313,24 @@ Mostrar balão com TEMPO mili-segundos.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation>Definir conteúdo da área de transferência.</translation>
+        <translation>Definir conteúdo da memória.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>Write raw data to given row.</source>
-        <translation>Escrever dados em bruto para linha dada.</translation>
+        <translation>Escrever dados em bruto na linha indicada.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation>Correr PROGRAMA ao ter item de texto nas linhas.
-Use %1 em PROGRAMA para passar texto como argumento.</translation>
+        <translation>Executar PROGRAMA ao ter item de texto nas linhas.
+Usar %1 em PROGRAMA para passar texto como argumento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>Mostrar mensagem popup no tray durante TEMPO em milissegundos.</translation>
+        <translation>Mostrar dica na bandeja durante TEMPO mili-segundos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
@@ -3414,7 +3414,7 @@ A predefinição é o primeiro.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>OPTION</source>
-        <translation>OPÇÂO</translation>
+        <translation>OPÇÃO</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
@@ -3429,27 +3429,27 @@ A predefinição é o primeiro.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation>Avaliar script.</translation>
+        <translation>Avaliar programa.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="192"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>Inicia ou conecta à instância da aplicação com o nome da sessão dada.</translation>
+        <translation>Inicia ou liga à instância da aplicação com o nome de sessão indicado.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation>Mostra ajuda para COMANDO ou todos os comandos.</translation>
+        <translation>Mostrar ajuda para COMANDO ou todos os comandos.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation>Mostra versão do programa e das bibliotecas.</translation>
+        <translation>Mostrar versão do programa e das bibliotecas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation>Iniciar o gestor em segundo plano antes de executar um comando.</translation>
+        <translation>Iniciar o gestor em 2º plano antes de executar um comando.</translation>
     </message>
     <message>
         <source>
@@ -3462,7 +3462,7 @@ Os argumentos estão acessíveis ao utilizar com &quot;arguments[0..N]&quot;.</t
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
         <source>SCRIPT</source>
-        <translation>SCRIPT</translation>
+        <translation>PROGRAMA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="190"/>
@@ -3495,7 +3495,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Executar testes da aplicação (usar -help para mais informação).</translation>
+        <translation>Executar testes da aplicação (usar --help para mais informação).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="118"/>
@@ -3520,14 +3520,14 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation>  - Utilize argumento travessão (-) para ler dados da entrada padrão.</translation>
+        <translation>  - Utilizar argumento travessão (-) para ler dados da entrada padrão.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - Utilize argumento travessão duplo (--) para ler todos os argumentos seguintes sem
-   expandir sequências de escape (i.e. \n, \t e outras).</translation>
+        <translation>  - Utilizar argumento travessão duplo (--) para ler todos os argumentos seguintes
+     sem expandir sequências de escape (i.e. \n, \t e outras).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="129"/>
@@ -3543,7 +3543,7 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="850"/>
         <location filename="../src/scriptable/scriptable.cpp" line="887"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation>CopyQ Gestor da Área de Transferência</translation>
+        <translation>CopyQ Gestor da memória</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="899"/>
@@ -3560,7 +3560,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="763"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Não é possível guardar no ficheiro &quot;%1&quot;!</translation>
+        <translation>Impossível gravar em &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="768"/>
@@ -3575,17 +3575,17 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2972"/>
         <source>Exception</source>
-        <translation>Exceção</translation>
+        <translation>Excepção</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2973"/>
         <source>Exception in %1</source>
-        <translation>Exceção em %1</translation>
+        <translation>Excepção em %1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="3077"/>
         <source>Failed to copy to clipboard!</source>
-        <translation>Não foi possível copiar para a área de transferência!</translation>
+        <translation>Impossível copiar para a memória!</translation>
     </message>
 </context>
 <context>
@@ -3629,22 +3629,22 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation>Novo Atalho</translation>
+        <translation>Novo atalho</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pressione qualquer combinação de teclas. &lt;span style=&quot; font-weight:600;&quot;&gt;Esc&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prima qualquer combinação de teclas. &lt;span style=&quot; font-weight:600;&quot;&gt;Esc&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation>Clique aqui e pressione qualquer combinação de teclas</translation>
+        <translation>Clique aqui e prima qualquer combinação de teclas</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation>Remover Atalho</translation>
+        <translation>Remover atalho</translation>
     </message>
 </context>
 <context>
@@ -3662,7 +3662,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>Os atalhos globais podem ser acionados a partir de qualquer aplicação.</translation>
+        <translation>Os atalhos globais podem ser accionados a partir de qualquer aplicação.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3672,7 +3672,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation>Atalhos da aplicação apenas podem ser despoletados a partir da janela principal.</translation>
+        <translation>Atalhos da aplicação só podem ser accionados a partir da janela principal.</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
@@ -3692,7 +3692,7 @@ Imprimir versão do programa e bibliotecas.</translation>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>O nome do separador tem de ser único e não pode estar vazio.&lt;br /&gt;
-As &lt;b&gt;No&amp;amp;tas&lt;/b&gt; do separador podem ser abertas usando &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+As &lt;b&gt;No&amp;amp;tas&lt;/b&gt; do separador podem ser abertas usando &lt;b&gt;Alt + t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvore.</translation>
     </message>
     <message>
@@ -3703,17 +3703,17 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation>Novo Separador</translation>
+        <translation>Novo separador</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation>Renomear Separador</translation>
+        <translation>Renomear separador</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation>Renomear Grupo de Separadores</translation>
+        <translation>Renomear grupo de separadores</translation>
     </message>
 </context>
 <context>
@@ -3731,7 +3731,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation>&amp;Salvar Itens</translation>
+        <translation>&amp;Gravar itens</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
@@ -3743,12 +3743,12 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>Pressione &quot;/&quot; para procurar</translation>
+        <translation>Prima &quot;/&quot; para procurar</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Type to search</source>
-        <translation>Digite para procurar</translation>
+        <translation>Escreva para procurar</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="106"/>
@@ -3762,12 +3762,12 @@ Use &lt;b&gt;/&lt;/b&gt; como separador de caminho no esquema de vista em árvor
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="375"/>
         <source>Regular Expression</source>
-        <translation>Expressão Regular</translation>
+        <translation>Expressão regular</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>
         <source>Case Insensitive</source>
-        <translation>Não diferencia maiúsculas de minúsculas</translation>
+        <translation>Ignorar maiúsculas e minúsculas</translation>
     </message>
 </context>
 </TS>
