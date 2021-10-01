@@ -320,7 +320,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Azzera scheda attuale</translation>
     </message>
 </context>
 <context>
@@ -525,7 +525,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;argomento %1 del programma verrà sostituito dal testo dell&apos;elemento.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -710,7 +710,7 @@ Lascialo vuoto per disabilitarlo.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Salta il comando se il comando filtro fallisce con codice di uscita diverso da zero.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -793,7 +793,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Salta il comando se il testo di input non corrisponde a questa espressione regolare (lascia vuoto per far corrispondere tutto).
+
+Da %2 a %9 in &apos;Comando&apos; e &apos;Filtro&apos; verranno sostituiti con i testi acquisiti.
+
+Esempi:
+
+- Corrispodnenza URL: ^(https?|ftp)://
+- Corrispndenza nomi file PDF: \.pdf$
+- Corrispondenza singolo carattere: ^.$
+- Corrisponenza file multimediali remoti: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
@@ -1160,12 +1169,12 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>&amp;Numero max elementi nella cronologia:</translation>
+        <translation>&amp;Numero massimo elementi cronologia:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation>Numero max di elementi in ogni scheda</translation>
+        <translation>Numero massimo elementi in ogni scheda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
@@ -1266,12 +1275,12 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Sposta elemento in cima all&apos;elenco dopo che è stato attivato</translation>
+        <translation>Sposta elemento in alto nell&apos;elenco dopo che è stato attivato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
         <source>Move item to the t&amp;op</source>
-        <translation>Sp&amp;osta elemento in cima</translation>
+        <translation>Sp&amp;osta elemento in alto</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
@@ -1309,7 +1318,7 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation>Visualizza/nascondi</translation>
+        <translation>Visualizza/nascondi finestra programma</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1622,7 +1631,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation>Tray</translation>
+        <translation>Barra applicazioni</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
@@ -1657,7 +1666,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="499"/>
         <source>Reset preferences?</source>
-        <translation>Vuoi ripristinare le impostazioni?</translation>
+        <translation>Ripristino impostazioni</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
@@ -2082,7 +2091,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>Editor comando &amp;SVG:</translation>
+        <translation>Comando editor &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -2147,25 +2156,25 @@ Imposta a 0 per disabilitare.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Sposta su</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Sposta giù</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Sposta in alto</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Sposta in basso</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -2318,12 +2327,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Add a Tag</source>
-        <translation>Aggiungi un tag</translation>
+        <translation>Aggiungi una etichetta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="167"/>
         <source>Remove a Tag</source>
-        <translation>Rimuovi un tag</translation>
+        <translation>Rimuovi una etichetta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
@@ -2333,7 +2342,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="192"/>
         <source>Remove tag %1</source>
-        <translation>Rimuovi tag %1</translation>
+        <translation>Rimuovi etichetta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
@@ -2354,17 +2363,17 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="788"/>
         <source>Clear all tags</source>
-        <translation>Azzera tutti tag</translation>
+        <translation>Azzera tutte le etichette</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="128"/>
         <source>Tags</source>
-        <translation>Tag</translation>
+        <translation>Etichetta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Display tags for items.</source>
-        <translation>Visualizza tag degli elementi.</translation>
+        <translation>Visualizza etichetta elementi.</translation>
     </message>
 </context>
 <context>
@@ -2372,7 +2381,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>Gli elementi menu per aggiungere/rimuovere tag personalizzati possonoe ssere aggiunti/personalizzati nella finestra &apos;Comandi&apos;.</translation>
+        <translation>Gli elementi menu per aggiungere/rimuovere etichette personalizzate possono essere aggiunti/personalizzati nella finestra &apos;Comandi&apos;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
@@ -2382,7 +2391,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation>Nome tag</translation>
+        <translation>Nome etichetta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
@@ -2412,7 +2421,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation>Scongiura la rimozione di oggetti</translation>
+        <translation>Impedisci rimozione oggetti</translation>
     </message>
 </context>
 <context>
@@ -3025,7 +3034,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Elementi a&amp;ttivati</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
@@ -3341,7 +3350,7 @@ Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>Mostra il messaggio nella barra di sistema per TIME millisecondi.</translation>
+        <translation>Visualizza messaggio nella barra sistema per TIME millisecondi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3431,12 +3440,12 @@ Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation>Mostra aiuto per COMMAND o tutti i comandi.</translation>
+        <translation>Visualizza aiuto per COMMAND o tutti i comandi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation>Mostra la versione del programma e delle sue librerie.</translation>
+        <translation>Visualizza versione del programma e delle sue librerie.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
@@ -3690,7 +3699,7 @@ Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</transl
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>&amp;Numero massimo di articoli:</translation>
+        <translation>&amp;Numero massimo elementi:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
