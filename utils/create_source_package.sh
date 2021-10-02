@@ -13,7 +13,7 @@ die () {
 grep -q '^# v'"$version"'$' "CHANGES.md" ||
     die "CHANGES file doesn't contain changes for given version!"
 
-grep -q '"v'"$version"'"' "$version_header" ||
+grep -q '"'"$version"'"' "$version_header" ||
     die "String for given version is missing in \"$version_header\" file!"
 
 git archive --format=tar.gz --prefix="copyq-$version/" --output="$out" "v$version" ||
