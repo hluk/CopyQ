@@ -106,7 +106,7 @@ QString AboutDialog::aboutPage()
         "<td>"
         "<div id='title'>CopyQ</div>"
         "<div id='subtitle'>" + escapeHtml(tr("Clipboard Manager")) + "</div>"
-        "<div id='version'>" + COPYQ_VERSION "</div>"
+        "<div id='version'>" + versionString + "</div>"
         "</td>"
         "</tr></table>"
 

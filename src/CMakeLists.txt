@@ -54,12 +54,27 @@ qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
+# Generate version.h from current git commit if available.
+set(copyq_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/common/version.cpp")
+add_custom_target(
+    generate_version_file
+    ALL
+    COMMAND ${CMAKE_COMMAND}
+        -D INPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/common/version.cpp.in
+        -D OUTPUT_FILE=${copyq_VERSION_FILE}
+        -P ${CMAKE_CURRENT_SOURCE_DIR}/version_file.cmake
+    BYPRODUCTS ${copyq_VERSION_FILE}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+set_source_files_properties(${copyq_VERSION_FILE} PROPERTIES GENERATED TRUE)
+
 set(copyq_COMPILE
     ${copyq_COMPILE}
     ${copyq_SOURCES}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
     ${copyq_QM}
+    ${copyq_VERSION_FILE}
     )
 
 if (NOT copyq_version)
@@ -103,8 +118,6 @@ else()
 
     add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
 endif()
-
-add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_header)
 
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)

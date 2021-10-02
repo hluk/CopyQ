@@ -847,7 +847,7 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
 QJSValue Scriptable::version()
 {
     m_skipArguments = 0;
-    return tr("CopyQ Clipboard Manager") + " " COPYQ_VERSION "\n"
+    return tr("CopyQ Clipboard Manager") + " " + versionString + "\n"
             + "Qt: " QT_VERSION_STR "\n"
 #ifdef WITH_NATIVE_NOTIFICATIONS
             + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
@@ -885,7 +885,7 @@ QJSValue Scriptable::help()
             helpString.append(hlp.toString());
 
         helpString.append("\n" + helpTail() + "\n\n" + tr("CopyQ Clipboard Manager")
-            + " " + COPYQ_VERSION + "\n");
+            + " " + versionString + "\n");
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
             const QString &cmd = toString(argument(i));

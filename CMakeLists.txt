@@ -134,24 +134,8 @@ if(WITH_TESTS)
     list(APPEND copyq_LIBRARIES Qt5::Test)
 endif()
 
-include(version.cmake)
+include(src/version.cmake)
 message(STATUS "Building CopyQ version ${copyq_version}.")
-
-# Generate version.h from current git commit if available.
-add_custom_target(
-    generate_version_header
-    ALL
-    COMMAND ${CMAKE_COMMAND}
-        -D INPUT_FILE=${CMAKE_CURRENT_SOURCE_DIR}/src/common/version.h.in
-        -D OUTPUT_FILE=${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
-        -P ${CMAKE_CURRENT_SOURCE_DIR}/version_header.cmake
-    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
-    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-)
-set_source_files_properties(
-    ${CMAKE_CURRENT_BINARY_DIR}/src/common/version.h
-    PROPERTIES GENERATED TRUE
-)
 
 if (UNIX AND NOT APPLE)
     install(FILES ${copyq_ICON_NORMAL}     DESTINATION ${ICON_INSTALL_PREFIX} RENAME ${ICON_NAME}.svg)
