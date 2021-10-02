@@ -1213,7 +1213,7 @@ Se impostato a 0 non viene rimossa la scheda dalla memoria.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>Scheda per salvata&amp;ggio Appunti:</translation>
+        <translation>Scheda salvata&amp;ggio Appunti:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -1368,7 +1368,7 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation>Scheda st&amp;ruttura</translation>
+        <translation>Visualizza scheda st&amp;ruttura</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -2495,7 +2495,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="614"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation>Vuoi &lt;strong&gt;uscire&lt;/strong&gt;da CopyQ?</translation>
+        <translation>Vuoi &lt;strong&gt;uscire&lt;/strong&gt; da CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="664"/>
