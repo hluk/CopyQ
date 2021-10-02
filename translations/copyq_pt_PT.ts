@@ -435,7 +435,7 @@ Pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/commandcompleter.cpp" line="238"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation>Ctrl+Espaço</translation>
+        <translation>Ctrl + Espaço</translation>
     </message>
 </context>
 <context>
@@ -1009,7 +1009,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="503"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Algumas notas aleatórias (Shift+F2 para editar)</translation>
+        <translation>Algumas notas aleatórias (Shift + F2 para editar)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="181"/>
@@ -1153,7 +1153,7 @@ prima F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>Permitir colar selecções do rato utilizando o atalho (normalmente Ctrl+V ou Shift+Insert)</translation>
+        <translation>Permitir colar selecções do rato utilizando o atalho (normalmente Ctrl + V ou Shift + Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
@@ -1251,14 +1251,14 @@ Deixar em branco para desactivar a gravação automática.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Deixar desmarcado para gravar o item editado com a tecla &quot;Enter&quot; e criar a nova linha com Ctrl+Enter.
+        <translation>Deixar desmarcado para gravar o item editado com a tecla &quot;Enter&quot; e criar a nova linha com Ctrl + Enter.
 
 Nota: os itens editados podem ser gravados com F2, ignorando esta opção.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Gra&amp;var item editado com Ctrl+Enter e criar nova linha com a tecla &quot;Enter&quot;</translation>
+        <translation>Gra&amp;var item editado com Ctrl + Enter e criar nova linha com a tecla &quot;Enter&quot;</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1292,7 +1292,7 @@ Utilize &quot;Antever&quot; para mostrar os itens completos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Depois de activar o item (duplo clique ou &quot;Enter&quot;), copiá-lo para a área de transferência e...</translation>
+        <translation>Depois de activar o item (duplo clique ou &quot;Enter&quot;), copiá-lo para a memória e...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
@@ -1693,7 +1693,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Esta acção vai repor todas as preferências (em todos os separadores) nos valores predefinidos. &lt;br/&gt;&lt;br/&gt;Quer realmente &lt;strong&gt;repor todas as preferências&lt;/strong&gt;?</translation>
+        <translation>Esta acção vai repor todas as preferências (em todos os separadores) nos valores predefinidos. &lt;br/&gt;&lt;br/&gt;Deseja realmente &lt;strong&gt;repor todas as preferências&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="603"/>
@@ -1725,7 +1725,7 @@ Definir como 0 para desactivar.</translation>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation>Alt+Abaixo</translation>
+        <translation>Alt + ↓</translation>
     </message>
 </context>
 <context>
@@ -1915,7 +1915,7 @@ Definir como 0 para desactivar.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="802"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="812"/>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation>Ctrl + L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="806"/>
@@ -1930,7 +1930,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="821"/>
         <source>Ctrl+Shift+L</source>
-        <translation>Ctrl+Shift+L</translation>
+        <translation>Ctrl + Shift + L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="825"/>
@@ -2753,7 +2753,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation>Ctrl + I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2773,7 +2773,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation>Ctrl + P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="70"/>
@@ -2798,7 +2798,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="77"/>
         <source>Ctrl+Shift+C</source>
-        <translation>Ctrl+Shift+C</translation>
+        <translation>Ctrl + Shift + C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2808,7 +2808,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Ctrl+Shift+X</source>
-        <translation>Ctrl+Shift+X</translation>
+        <translation>Ctrl + Shift + X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -2818,7 +2818,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>Ctrl+Shift+Z</source>
-        <translation>Ctrl+Shift+Z</translation>
+        <translation>Ctrl + Shift + Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
@@ -2828,7 +2828,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation>Ctrl + Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
@@ -2838,7 +2838,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation>Ctrl + Shift + S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
@@ -2848,7 +2848,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Ctrl+Shift+R</translation>
+        <translation>Ctrl + Shift + R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="93"/>
@@ -2917,7 +2917,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Shift+F2</source>
-        <translation>Shift+F2</translation>
+        <translation>Shift + F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="112"/>
@@ -2927,7 +2927,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Ctrl+E</source>
-        <translation>Ctrl+E</translation>
+        <translation>Ctrl + E</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="114"/>
