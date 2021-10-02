@@ -131,7 +131,7 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
 
 void ensureWindowOnScreen(QWidget *widget, QPoint pos)
 {
-    const QSize size = widget->size();
+    const QSize size = widget->frameSize();
     const QRect availableGeometry = screenAvailableGeometry(pos);
 
     int x = pos.x();
@@ -139,8 +139,8 @@ void ensureWindowOnScreen(QWidget *widget, QPoint pos)
     int w = size.width();
     int h = size.height();
 
-    // Ensure that the window fits the screen, otherwise it may be moved
-    // to a neighboring screen.
+    // Ensure that the window fits the screen, otherwise it would be moved
+    // to a neighboring screen automatically.
     w = qMin(w, availableGeometry.width());
     h = qMin(h, availableGeometry.height());
 
