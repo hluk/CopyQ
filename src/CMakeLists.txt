@@ -76,7 +76,7 @@ else()
         COCOA_LIBRARY)
     list(APPEND copyq_LIBRARIES "${CARBON_LIBRARY}" "${COCOA_LIBRARY}")
 
-    set(COPYQ_VERSION_REGEX "^v([0-9]+)\.([0-9]+)\.(.*)$")
+    set(COPYQ_VERSION_REGEX "^([0-9]+)\.([0-9]+)\.(.*)$")
     string(REGEX REPLACE "${COPYQ_VERSION_REGEX}"
         "\\1" CPACK_PACKAGE_VERSION_MAJOR
         "${copyq_version}"

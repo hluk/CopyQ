@@ -51,7 +51,7 @@ fix_file() {
 }
 
 fix_version_file() {
-    fix_file "$version_file" 'set(copyq_version "v%s")'
+    fix_file "$version_file" 'set(copyq_version "%s")'
 }
 
 fix_itemwidget() {
