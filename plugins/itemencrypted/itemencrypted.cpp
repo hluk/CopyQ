@@ -793,6 +793,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     QVector<Command> commands;
 
     Command c;
+    c.internalId = QStringLiteral("copyq_encrypted_encrypt");
     c.name = ItemEncryptedLoader::tr("Encrypt (needs GnuPG)");
     c.icon = QString(QChar(IconLock));
     c.input = "!OUTPUT";
@@ -803,6 +804,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt");
     c.name = ItemEncryptedLoader::tr("Decrypt");
     c.icon = QString(QChar(IconUnlock));
     c.input = mimeEncryptedData;
@@ -813,6 +815,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_copy");
     c.name = ItemEncryptedLoader::tr("Decrypt and Copy");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;
@@ -822,6 +825,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_paste");
     c.name = ItemEncryptedLoader::tr("Decrypt and Paste");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;

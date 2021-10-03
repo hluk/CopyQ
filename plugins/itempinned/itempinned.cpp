@@ -371,6 +371,7 @@ QVector<Command> ItemPinnedLoader::commands() const
     Command c;
 
     c = dummyPinCommand();
+    c.internalId = QStringLiteral("copyq_pinned_pin");
     c.name = tr("Pin");
     c.input = "!OUTPUT";
     c.output = mimePinned;
@@ -378,6 +379,7 @@ QVector<Command> ItemPinnedLoader::commands() const
     commands.append(c);
 
     c = dummyPinCommand();
+    c.internalId = QStringLiteral("copyq_pinned_unpin");
     c.name = tr("Unpin");
     c.input = mimePinned;
     c.cmd = "copyq: plugins.itempinned.unpin()";

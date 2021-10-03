@@ -29,6 +29,7 @@
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/display.h"
+#include "common/globalshortcutcommands.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
@@ -426,6 +427,40 @@ bool hasCommandFuzzy(const QVector<Command> &commands, const Command &command)
     return std::any_of(std::begin(commands), std::end(commands), [&command](const Command &cmd){
         return command.name == cmd.name || command.cmd == cmd.cmd;
     });
+}
+
+bool syncInternalCommandChanges(const Command &command, QVector<Command> *allCommands)
+{
+    Q_ASSERT( !command.internalId.isEmpty() );
+    if ( command.internalId.isEmpty() )
+        return false;
+
+    const auto found = std::find_if(std::begin(*allCommands), std::end(*allCommands), [&command](const Command &cmd){
+        return command.internalId == cmd.internalId;
+    });
+    if ( found == std::end(*allCommands) )
+        return false;
+
+    // Synchronize internal/plugin commands attributes
+    // except the ones user can change.
+    Command command2 = *found;
+    command2.icon = command.icon;
+    command2.enable = command.enable;
+    command2.shortcuts = command.shortcuts;
+    command2.globalShortcuts = command.globalShortcuts;
+    if (command2 == command)
+        return false;
+
+    const auto icon = found->icon;
+    const auto enable = found->enable;
+    const auto shortcuts = found->shortcuts;
+    const auto globalShortcuts = found->globalShortcuts;
+    *found = command;
+    found->icon = icon;
+    found->enable = enable;
+    found->shortcuts = shortcuts;
+    found->globalShortcuts = globalShortcuts;
+    return true;
 }
 
 } // namespace
@@ -2186,7 +2221,7 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 
     QVector<Command> displayCommands;
 
-    if ( addPluginCommands(&allCommands) || forceSave )
+    if ( syncInternalCommands(&allCommands) || forceSave )
         saveCommands(allCommands);
 
     const auto disabledPluginCommands = m_sharedData->itemFactory->commands(false);
@@ -2226,16 +2261,25 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
     emit commandsSaved(commands);
 }
 
-bool MainWindow::addPluginCommands(QVector<Command> *allCommands)
+bool MainWindow::syncInternalCommands(QVector<Command> *allCommands)
 {
-    const auto oldSize = allCommands->size();
+    bool changed = false;
 
-    for ( const auto &command : m_sharedData->itemFactory->commands() ) {
-        if ( !hasCommandFuzzy(*allCommands, command) )
-            allCommands->append(command);
+    for ( const Command &command : globalShortcutCommands() ) {
+        if ( syncInternalCommandChanges(command, allCommands) )
+            changed = true;
     }
 
-    return oldSize != allCommands->size();
+    for ( const Command &command : m_sharedData->itemFactory->commands(true) ) {
+        if ( syncInternalCommandChanges(command, allCommands) ) {
+            changed = true;
+        } else if ( !hasCommandFuzzy(*allCommands, command) ) {
+            allCommands->append(command);
+            changed = true;
+        }
+    }
+
+    return changed;
 }
 
 void MainWindow::disableHideWindowOnUnfocus()

@@ -336,6 +336,7 @@ struct ScriptValueFactory<Command> {
         value.setProperty(QStringLiteral("globalShortcuts"), ::toScriptValue(command.globalShortcuts, scriptable));
         value.setProperty(QStringLiteral("tab"), command.tab);
         value.setProperty(QStringLiteral("outputTab"), command.outputTab);
+        value.setProperty(QStringLiteral("internalId"), command.internalId);
 
         return value;
     }
@@ -367,6 +368,7 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("globalShortcuts"), scriptable, &command.globalShortcuts );
         ::fromScriptValueIfValid( value.property("tab"), scriptable, &command.tab );
         ::fromScriptValueIfValid( value.property("outputTab"), scriptable, &command.outputTab );
+        ::fromScriptValueIfValid( value.property("internalId"), scriptable, &command.internalId );
 
         return command;
     }

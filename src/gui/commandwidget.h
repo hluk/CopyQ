@@ -80,6 +80,8 @@ private:
 
     Ui::CommandWidget *ui;
     bool m_showAdvanced = true;
+    QString m_internalId;
+    bool m_isEditable = true;
 };
 
 #endif // COMMANDWIDGET_H

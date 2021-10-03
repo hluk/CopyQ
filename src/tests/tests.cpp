@@ -3822,6 +3822,33 @@ void Tests::displayCommand()
                 .toUtf8() );
 }
 
+void Tests::synchronizeInternalCommands()
+{
+    // Keep internal commands synced with the latest version
+    // but allow user to change some attributes.
+    const auto script = R"(
+        setCommands([
+            {
+                internalId: 'copyq_global_toggle',
+                enable: false,
+                icon: 'icon.png',
+                shortcuts: ['Ctrl+F1'],
+                globalShortcuts: ['Ctrl+F2'],
+                name: 'Old name',
+                cmd: 'Old command',
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("commands()[0].internalId", "copyq_global_toggle\n");
+    RUN("commands()[0].enable", "false\n");
+    RUN("commands()[0].icon", "icon.png\n");
+    RUN("commands()[0].shortcuts", "Ctrl+F1\n");
+    RUN("commands()[0].globalShortcuts", "Ctrl+F2\n");
+    RUN("commands()[0].name", "Show/hide main window\n");
+    RUN("commands()[0].cmd", "copyq: toggle()\n");
+}
+
 void Tests::queryKeyboardModifiersCommand()
 {
     RUN("queryKeyboardModifiers()", "");

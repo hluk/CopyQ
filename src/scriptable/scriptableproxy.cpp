@@ -230,7 +230,8 @@ QDataStream &operator<<(QDataStream &out, const Command &command)
         << command.shortcuts
         << command.globalShortcuts
         << command.tab
-        << command.outputTab;
+        << command.outputTab
+        << command.internalId;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
@@ -259,7 +260,8 @@ QDataStream &operator>>(QDataStream &in, Command &command)
        >> command.shortcuts
        >> command.globalShortcuts
        >> command.tab
-       >> command.outputTab;
+       >> command.outputTab
+       >> command.internalId;
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }

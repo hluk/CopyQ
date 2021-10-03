@@ -71,6 +71,7 @@ struct Command {
         , globalShortcuts()
         , tab()
         , outputTab()
+        , internalId()
         {}
 
     bool operator==(const Command &other) const {
@@ -96,7 +97,8 @@ struct Command {
             && shortcuts == other.shortcuts
             && globalShortcuts == other.globalShortcuts
             && tab == other.tab
-            && outputTab == other.outputTab;
+            && outputTab == other.outputTab
+            && internalId == other.internalId;
     }
 
     bool operator!=(const Command &other) const {
@@ -203,6 +205,8 @@ struct Command {
 
     /** Tab for output items. */
     QString outputTab;
+
+    QString internalId;
 };
 
 #endif // COMMAND_H

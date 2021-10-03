@@ -181,15 +181,18 @@ void addTagCommands(const QString &tagName, const QString &match, QVector<Comman
 
     const QString name = !tagName.isEmpty() ? tagName : match;
     const QString tagString = toScriptString(name);
+    const QString quotedTag = quoteString(name);
 
     c = dummyTagCommand();
-    c.name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(name));
+    c.internalId = QStringLiteral("copyq_tags_tag:") + name;
+    c.name = ItemTagsLoader::tr("Tag as %1").arg(quotedTag);
     c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") && fail()";
     c.cmd = "copyq: plugins.itemtags.tag(" + tagString + ")";
     commands->append(c);
 
     c = dummyTagCommand();
-    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(name));
+    c.internalId = QStringLiteral("copyq_tags_untag:") + name;
+    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quotedTag);
     c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") || fail()";
     c.cmd = "copyq: plugins.itemtags.untag(" + tagString + ")";
     commands->append(c);
@@ -773,17 +776,20 @@ QVector<Command> ItemTagsLoader::commands() const
     Command c;
 
     c = dummyTagCommand();
+    c.internalId = QStringLiteral("copyq_tags_tag");
     c.name = addTagText();
     c.cmd = "copyq: plugins.itemtags.tag()";
     commands.append(c);
 
     c = dummyTagCommand();
+    c.internalId = QStringLiteral("copyq_tags_untag");
     c.input = mimeTags;
     c.name = removeTagText();
     c.cmd = "copyq: plugins.itemtags.untag()";
     commands.append(c);
 
     c = dummyTagCommand();
+    c.internalId = QStringLiteral("copyq_tags_clear");
     c.input = mimeTags;
     c.name = tr("Clear all tags");
     c.cmd = "copyq: plugins.itemtags.clearTags()";

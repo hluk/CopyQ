@@ -261,6 +261,8 @@ private slots:
     void scriptCommandWithError();
     void displayCommand();
 
+    void synchronizeInternalCommands();
+
     void queryKeyboardModifiersCommand();
     void pointerPositionCommand();
     void setPointerPositionCommand();
