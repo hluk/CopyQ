@@ -653,7 +653,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="243"/>
         <source>Comman&amp;d</source>
-        <translation>命令</translation>
+        <translation>命令(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="356"/>
@@ -1348,7 +1348,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation>關閉時隱藏主窗(&amp;L)</translation>
+        <translation>關閉時隱藏主窗</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
@@ -2156,13 +2156,13 @@ Set to 0 to disable.</source>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation>上移</translation>
+        <translation>移上</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation>下移</translation>
+        <translation>移下</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
@@ -3004,7 +3004,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>下一分頁</translation>
+        <translation>下一分頁(&amp;X)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
@@ -3032,7 +3032,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Previous Tab</source>
-        <translation>上一分頁</translation>
+        <translation>上一分頁(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>

@@ -367,7 +367,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation>Contenuto degli Appunti</translation>
+        <translation>Contenuto Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -573,7 +573,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="63"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation>Esegui automaticamente il comando se ci sono nuovi contenuti degli Appunti</translation>
+        <translation>Esegui automaticamente comando se ci sono nuovi contenuti negli Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="66"/>
@@ -1141,12 +1141,12 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation>Salva gli Appunti nella cronologia</translation>
+        <translation>Salva Appunti nella cronologia</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Salva gli Appunti</translation>
+        <translation>(&amp;1) Salva Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1479,7 +1479,7 @@ Imposta a -1 se vuoi mantenere visibile fino al clic.</translation>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>Numero di linee da visualizzare per il nuovo contenuto degli Appunti.
+        <translation>Numero linee da visualizzare nuovo contenuto Appunti.
 
 Imposta a 0 per disabilitare.</translation>
     </message>
@@ -2531,7 +2531,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="582"/>
         <source>&amp;Show/Hide</source>
-        <translation>Vi&amp;sualizza/nascondi</translation>
+        <translation>Vi&amp;sualizza/nascondi finestra programma</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3624"/>
@@ -3328,7 +3328,7 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="100"/>
         <source>Set clipboard content.</source>
-        <translation>Imposta il contenuto degli Appunti.</translation>
+        <translation>Imposta contenuto Appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
