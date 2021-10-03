@@ -387,7 +387,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>Item Content</source>
-        <translation>Contenuto dell&apos;elemento</translation>
+        <translation>Contenuto elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="168"/>
@@ -1554,7 +1554,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>&amp;Visualizza comandi per contenuto Appunti</translation>
+        <translation>&amp;Visualizza comandi contenuto Appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
