@@ -7,7 +7,10 @@ CopyQ provides scripting capabilities to automatically handle clipboard
 changes, organize items, change settings and much more.
 
 Supported language features and base function can be found at `ECMAScript
-Reference <http://doc.qt.io/qt-5/ecmascript.html>`__.
+Reference <http://doc.qt.io/qt-5/ecmascript.html>`__. The language is mostly
+equivalent to modern JavaScript. Some features may be missing but feel free to
+use for example `JavaScript reference on MDN
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/>`__.
 
 CopyQ-specific features described in this document:
 
