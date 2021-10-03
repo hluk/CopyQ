@@ -109,7 +109,7 @@ MenuItems menuItems()
                   "accessories-text-editor", IconEdit );
     addMenuItem( items, Actions::Item_EditNotes, QObject::tr("Edit &Notes"),
                   "edit_notes", QObject::tr("Shift+F2"), "accessories-text-editor", IconPenSquare );
-    addMenuItem( items, Actions::Item_EditWithEditor, QObject::tr("E&dit with editor"),
+    addMenuItem( items, Actions::Item_EditWithEditor, QObject::tr("E&dit with Editor"),
                   "editor", QObject::tr("Ctrl+E"), "accessories-text-editor", IconPencilAlt );
     addMenuItem( items, Actions::Item_Action, QObject::tr("&Action..."), "system-run", QObject::tr("F5"),
                   "action", IconBolt );
