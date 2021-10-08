@@ -2217,7 +2217,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="201"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Desafixar itens primeiro para removê-los.</translation>
+        <translation>Primeiro desafixar itens para removê-los.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="374"/>
