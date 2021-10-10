@@ -621,6 +621,13 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
+
+    // Initialize tray menu even if it's not visible to ensure
+    // the initial size is correct in native tray menus.
+    QTimer::singleShot(0, this, [this](){
+        if (m_trayMenuDirty)
+            initTrayMenuItems();
+    });
 }
 
 bool MainWindow::browseMode() const
@@ -3415,15 +3422,16 @@ void MainWindow::updateTrayMenuItemsTimeout()
         return;
     }
 
-    m_trayMenuDirty = false;
-
     COPYQ_LOG("Updating tray menu");
-
     WidgetSizeGuard sizeGuard(m_trayMenu);
+    initTrayMenuItems();
+}
 
+void MainWindow::initTrayMenuItems()
+{
+    m_trayMenuDirty = false;
     interruptMenuCommandFilters(&m_trayMenuMatchCommands);
     m_trayMenu->clearClipboardItems();
-
     filterTrayMenuItems(QString());
 }
 

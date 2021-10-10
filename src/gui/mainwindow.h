@@ -478,6 +478,7 @@ private:
     void updateContextMenuTimeout();
 
     void updateTrayMenuItemsTimeout();
+    void initTrayMenuItems();
 
     void updateItemPreviewAfterMs(int ms);
 
