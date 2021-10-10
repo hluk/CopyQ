@@ -141,9 +141,14 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         QCoreApplication::processEvents();
         DummyClipboard::setData(mode, dataMap);
     } else {
+        const auto data = createMimeData(dataMap);
+        const auto qmode = modeToQClipboardMode(mode);
         auto clipboard = SystemClipboard::instance();
         if (clipboard != nullptr)
-            clipboard->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
+            clipboard->setMimeData(data, qmode);
+
+        // This makes pasting the clipboard work in own widgets.
+        QGuiApplication::clipboard()->setMimeData(data, qmode);
     }
 }
 
@@ -151,15 +156,6 @@ const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
 {
     if ( QX11Info::isPlatformX11() )
         return DummyClipboard::mimeData(mode);
-
-    // Avoid deadlock by providing own clipboard using Qt
-    // and not using pipes in WaylandClipboard.
-    if ( mode == ClipboardMode::Clipboard
-         ? QGuiApplication::clipboard()->ownsClipboard()
-         : QGuiApplication::clipboard()->ownsSelection() )
-    {
-        return DummyClipboard::mimeData(mode);
-    }
 
     auto clipboard = SystemClipboard::instance();
     if (clipboard == nullptr)

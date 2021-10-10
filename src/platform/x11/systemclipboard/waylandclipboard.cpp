@@ -10,6 +10,7 @@
 #include <QFile>
 #include <QFutureWatcher>
 #include <QGuiApplication>
+#include <QThread>
 
 #include <QtWaylandClient/QWaylandClientExtension>
 
@@ -21,6 +22,84 @@
 #include <unistd.h>
 
 #include "qwayland-wlr-data-control-unstable-v1.h"
+
+namespace {
+
+class SendThread : public QThread {
+public:
+    SendThread(int fd, const QByteArray &data)
+        : m_fd(fd)
+        , m_data(data)
+    {}
+
+protected:
+    void run() override {
+        QFile c;
+        if (c.open(m_fd, QFile::WriteOnly, QFile::AutoCloseHandle)) {
+            c.write(m_data);
+            c.close();
+        }
+    }
+
+private:
+    int m_fd;
+    QByteArray m_data;
+};
+
+class ReceiveThread : public QThread {
+public:
+    ReceiveThread(int fd)
+        : m_fd(fd)
+    {}
+
+    QByteArray data() const { return m_data; }
+
+protected:
+    void run() override {
+        QFile readPipe;
+        if (readPipe.open(m_fd, QIODevice::ReadOnly, QFile::AutoCloseHandle)) {
+            readData();
+            close(m_fd);
+        }
+    }
+
+private:
+    void readData() {
+        pollfd pfds[1];
+        pfds[0].fd = m_fd;
+        pfds[0].events = POLLIN;
+
+        while (true) {
+            const int ready = poll(pfds, 1, 10000);
+            if (ready < 0) {
+                if (errno != EINTR) {
+                    qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
+                    return;
+                }
+            } else if (ready == 0) {
+                qWarning("DataControlOffer: timeout reading from pipe");
+                return;
+            } else {
+                char buf[4096];
+                int n = read(m_fd, buf, sizeof buf);
+
+                if (n < 0) {
+                    qWarning("DataControlOffer: read() failed: %s", strerror(errno));
+                    return;
+                } else if (n == 0) {
+                    return;
+                } else if (n > 0) {
+                    m_data.append(buf, n);
+                }
+            }
+        }
+    }
+
+    int m_fd;
+    QByteArray m_data;
+};
+
+} // namespace
 
 class DataControlDeviceManager : public QWaylandClientExtensionTemplate<DataControlDeviceManager>
         , public QtWayland::zwlr_data_control_manager_v1
@@ -73,7 +152,6 @@ protected:
     QVariant retrieveData(const QString &mimeType, QVariant::Type type) const override;
 
 private:
-    static bool readData(int fd, QByteArray &data);
     QStringList m_receivedFormats;
 };
 
@@ -105,49 +183,11 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
     wl_display_flush(display);
 
-    QFile readPipe;
-    if (readPipe.open(pipeFds[0], QIODevice::ReadOnly, QFile::AutoCloseHandle)) {
-        QByteArray data;
-        if (readData(pipeFds[0], data)) {
-            return data;
-        }
-        close(pipeFds[0]);
-    }
-    return QVariant();
-}
-
-// reads data from a file descriptor with a timeout of 1 second
-// true if data is read successfully
-bool DataControlOffer::readData(int fd, QByteArray &data)
-{
-    pollfd pfds[1];
-    pfds[0].fd = fd;
-    pfds[0].events = POLLIN;
-
-    while (true) {
-        const int ready = poll(pfds, 1, 1000);
-        if (ready < 0) {
-            if (errno != EINTR) {
-                qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
-                return false;
-            }
-        } else if (ready == 0) {
-            qWarning("DataControlOffer: timeout reading from pipe");
-            return false;
-        } else {
-            char buf[4096];
-            int n = read(fd, buf, sizeof buf);
-
-            if (n < 0) {
-                qWarning("DataControlOffer: read() failed: %s", strerror(errno));
-                return false;
-            } else if (n == 0) {
-                return true;
-            } else if (n > 0) {
-                data.append(buf, n);
-            }
-        }
-    }
+    ReceiveThread thread(pipeFds[0]);
+    thread.start();
+    while (thread.isRunning())
+        QCoreApplication::processEvents();
+    return thread.data();
 }
 
 class DataControlSource : public QObject, public QtWayland::zwlr_data_control_source_v1
@@ -196,7 +236,6 @@ DataControlSource::DataControlSource(struct ::zwlr_data_control_source_v1 *id, Q
 
 void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_type, int32_t fd)
 {
-    QFile c;
     QString send_mime_type = mime_type;
     if( send_mime_type == QStringLiteral("text/plain;charset=utf-8")
         && !m_mimeData->hasFormat(QStringLiteral("text/plain;charset=utf-8")) )
@@ -204,10 +243,9 @@ void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_typ
         // if we get a request on the fallback mime, send the data from the original mime type
         send_mime_type = QStringLiteral("text/plain");
     }
-    if (c.open(fd, QFile::WriteOnly, QFile::AutoCloseHandle)) {
-        c.write(m_mimeData->data(send_mime_type));
-        c.close();
-    }
+    auto thread = new SendThread(fd, m_mimeData->data(send_mime_type));
+    connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+    thread->start();
 }
 
 void DataControlSource::zwlr_data_control_source_v1_cancelled()
