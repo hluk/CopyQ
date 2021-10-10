@@ -23,6 +23,11 @@
 
 #include "qwayland-wlr-data-control-unstable-v1.h"
 
+static QString utf8Text()
+{
+    return QStringLiteral("text/plain;charset=utf-8");
+}
+
 namespace {
 
 class SendThread : public QThread {
@@ -138,9 +143,12 @@ public:
         return m_receivedFormats;
     }
 
-    bool hasFormat(const QString &format) const override
+    bool hasFormat(const QString &mimeType) const override
     {
-        return m_receivedFormats.contains(format);
+        if (mimeType == QStringLiteral("text/plain") && m_receivedFormats.contains(utf8Text())) {
+            return true;
+        }
+        return m_receivedFormats.contains(mimeType);
     }
 
 protected:
@@ -157,10 +165,16 @@ private:
 
 QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type type) const
 {
-    if (!hasFormat(mimeType)) {
-        return QVariant();
+    Q_UNUSED(type);
+
+    QString mime = mimeType;
+    if (!m_receivedFormats.contains(mimeType)) {
+        if (mimeType == QStringLiteral("text/plain") && m_receivedFormats.contains(utf8Text())) {
+            mime = utf8Text();
+        } else {
+            return QVariant();
+        }
     }
-    Q_UNUSED(type)
 
     int pipeFds[2];
     if (pipe(pipeFds) != 0) {
@@ -168,7 +182,7 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     }
 
     auto t = const_cast<DataControlOffer *>(this);
-    t->receive(mimeType, pipeFds[1]);
+    t->receive(mime, pipeFds[1]);
 
     close(pipeFds[1]);
 
@@ -441,9 +455,23 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
 
     // return our locally set selection if it's not cancelled to avoid copying data to ourselves
     if (mode == QClipboard::Clipboard) {
-        return m_device->selection() ? m_device->selection() : m_device->receivedSelection();
+        if (m_device->selection()) {
+            return m_device->selection();
+        }
+        // This application owns the clipboard via the regular data_device, use it so we don't block ourselves
+        if (QGuiApplication::clipboard()->ownsClipboard()) {
+            return QGuiApplication::clipboard()->mimeData(mode);
+        }
+        return m_device->receivedSelection();
     } else if (mode == QClipboard::Selection) {
-        return m_device->primarySelection() ? m_device->primarySelection() : m_device->receivedPrimarySelection();
+        if (m_device->primarySelection()) {
+            return m_device->primarySelection();
+        }
+        // This application owns the primary selection via the regular primary_selection_device, use it so we don't block ourselves
+        if (QGuiApplication::clipboard()->ownsSelection()) {
+            return QGuiApplication::clipboard()->mimeData(mode);
+        }
+        return m_device->receivedPrimarySelection();
     }
     return nullptr;
 }
