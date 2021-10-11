@@ -2349,32 +2349,32 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Add a Tag</source>
-        <translation>添加一个标签</translation>
+        <translation>添加一个标记</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="167"/>
         <source>Remove a Tag</source>
-        <translation>移除标签</translation>
+        <translation>移除一个标记</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="186"/>
         <source>Tag as %1</source>
-        <translation>标签作为 %1</translation>
+        <translation>标记为 %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="192"/>
         <source>Remove tag %1</source>
-        <translation>移除标签 %1</translation>
+        <translation>移除标记 %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="622"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation>无法移除带有锁定标签的项目</translation>
+        <translation>无法移除带已锁定标记的项目</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="623"/>
         <source>Untag items first to remove them.</source>
-        <translation>要删除项目，先取消它们的标签。</translation>
+        <translation>删除条目前先取消标记。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="767"/>
@@ -2385,17 +2385,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="788"/>
         <source>Clear all tags</source>
-        <translation>清理所有标签</translation>
+        <translation>清理所有标记</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="128"/>
         <source>Tags</source>
-        <translation>标签</translation>
+        <translation>标记</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="130"/>
         <source>Display tags for items.</source>
-        <translation>为条目显示标签。</translation>
+        <translation>为条目显示标记。</translation>
     </message>
 </context>
 <context>
@@ -2403,7 +2403,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>可在命令对话框中添加和自定义用于添加和删除自定义标签的菜单项.</translation>
+        <translation>可在命令对话框中添加和自定义用于添加和删除自定义标记的菜单项.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
@@ -2413,7 +2413,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation>标签页名称</translation>
+        <translation>标记名称</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
@@ -3026,13 +3026,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation>Right</translation>
+        <translation>→</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation>左</translation>
+        <translation>←</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -3740,7 +3740,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>按『/』以进行搜索</translation>
+        <translation>按 &apos;/&apos; 以进行搜索</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="92"/>
