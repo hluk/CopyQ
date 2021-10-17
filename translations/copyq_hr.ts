@@ -157,7 +157,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Show the tray menu</source>
-        <translation>Prikaži izbornik sustavske trake</translation>
+        <translation>Prikaži izbornik programske trake</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
@@ -320,7 +320,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Izbriši trenutačnu karticu</translation>
     </message>
 </context>
 <context>
@@ -507,7 +507,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Programski argument %1 zamijenit će se za tekst elementa.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -691,12 +691,21 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Preskače naredbu ako tekst unosa ne odgovara ovom regularnom izrazu (ostavi prazno da odgovara svemu).
+
+%2 do %9 u naredbi i filtru zamijenit će se snimljenim tekstovima.
+
+Primjeri:
+
+- Uskladi URL: ^(https?|ftp)://
+- Uskladi imena PDF datoteka: \.pdf$
+- Uskladi jedan znak: ^.$
+- Uskladi udaljene multimedije: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Preskače naredbu ako naredba filtra završi kodom koji nije nula.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -1517,17 +1526,17 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>Ne prikazuj ikonu sustavske trake; sklopi prozor kad se zatvori</translation>
+        <translation>Ne prikazuj ikonu programske trake; sklopi prozor kad se zatvori</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>D&amp;eaktiviraj sustavsku traku</translation>
+        <translation>D&amp;eaktiviraj programsku traku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>Prikaži naredbe za trenutačni sadržaj međuspremnika u sustavskom izborniku</translation>
+        <translation>Prikaži naredbe za trenutačni sadržaj međuspremnika u izborniku programske trake</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
@@ -1537,17 +1546,17 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Broj elemenata &amp;u izborniku sustavske trake:</translation>
+        <translation>Broj elemenata &amp;u izborniku programske trake:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation>Broj elemenata u sustavskoj traci</translation>
+        <translation>Broj elemenata u izborniku programske trake</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Prikaži elemente trenutačne kartice u izborniku sustavske trake</translation>
+        <translation>Prikaži elemente trenutačne kartice u izborniku programske trake</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
@@ -1562,7 +1571,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>Ime kartice za prikaz u izborniku sustavske trake (prazno za prvu karticu)</translation>
+        <translation>Ime kartice za prikaz u izborniku programske trake (prazno za prvu karticu)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
@@ -1609,7 +1618,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Tray</source>
-        <translation>Sustavska traka</translation>
+        <translation>Programska traka</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
@@ -2134,25 +2143,25 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Pomakni gore</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Pomakni dolje</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Pomakni skroz gore</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Pomakni skroz dolje</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -2807,7 +2816,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;ktivitaj elemente</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="104"/>
@@ -3245,7 +3254,7 @@ Koristi „%1” u PROGRAMU za proslijeđivanje teksta kao argument.</translatio
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>Prikaži skočnu poruku trake sustava za milisekunde za VRIJEME.</translation>
+        <translation>Prikaži skočnu poruku programske trake za VRIJEME u milisekundama.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
