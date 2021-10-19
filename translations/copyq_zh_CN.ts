@@ -1365,7 +1365,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>隐藏工具栏标签(&amp;B)</translation>
+        <translation>隐藏工具栏文本标签(&amp;B)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
@@ -3054,7 +3054,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>激活项目 (&amp;c)</translation>
+        <translation>激活项目 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
