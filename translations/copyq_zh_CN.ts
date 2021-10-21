@@ -1053,7 +1053,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation>换行长文本</translation>
+        <translation>长文本自动换行(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
@@ -1253,7 +1253,7 @@ Leave empty to disable automatic storing.</source>
 Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation>未选中的状态下，按 Return 保存，按 Ctrl+Return 换行.
 
-注: 编辑的条目可无视本选项用 F2 保存。</translation>
+注：编辑的条目可无视本选项用 F2 保存。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
@@ -3688,9 +3688,9 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>标签页名称必须非空且不重复.&lt;br /&gt;
-标签页&lt;b&gt;笔&amp;amp;记&lt;/b&gt; 可以打开，用快捷键&lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
-使用 &lt;b&gt;/&lt;/b&gt; 作为标签页树视图布局中的路径分隔符。</translation>
+        <translation>标签页名称必须非空且不重复。&lt;br /&gt;
+标签页&lt;b&gt;No&amp;amp;tes&lt;/b&gt; 可以使用快捷键 &lt;b&gt;Alt+t&lt;/b&gt; 打开。&lt;br /&gt;
+标签树布局中可使用 &lt;b&gt;/&lt;/b&gt; 路径分隔符。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
