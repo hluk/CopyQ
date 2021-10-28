@@ -63,7 +63,7 @@ void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, con
         log( format.arg(category, message, QLatin1String("QtInfo")), LogDebug);
         break;
     case QtWarningMsg:
-        log( format.arg(category, message, QLatin1String("QtWarning")), LogDebug);
+        log( format.arg(category, message, QLatin1String("QtWarning")), LogWarning);
         break;
     case QtCriticalMsg:
         log( format.arg(category, message, QLatin1String("QtCritical")), LogError);
