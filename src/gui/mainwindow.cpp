@@ -71,6 +71,10 @@
 #  include "platform/mac/foregroundbackgroundfilter.h"
 #endif
 
+#ifdef WITH_NATIVE_NOTIFICATIONS
+#include <KStatusNotifierItem>
+#endif
+
 #include <QAction>
 #include <QCloseEvent>
 #include <QDesktopServices>
@@ -464,6 +468,52 @@ bool syncInternalCommandChanges(const Command &command, QVector<Command> *allCom
 }
 
 } // namespace
+
+#ifdef WITH_NATIVE_NOTIFICATIONS
+class SystemTrayIcon final : public KStatusNotifierItem {
+    Q_OBJECT
+public:
+    explicit SystemTrayIcon(QWidget *parent = nullptr)
+        : KStatusNotifierItem(QCoreApplication::applicationName(), parent)
+    {
+        setIcon(appIcon());
+        setStandardActionsEnabled(false);
+        setTitle(QGuiApplication::applicationDisplayName());
+        setToolTipTitle(QGuiApplication::applicationDisplayName());
+        setCategory(KStatusNotifierItem::ApplicationStatus);
+        setAssociatedWidget(parent);
+    }
+
+    void setIcon(const QIcon &icon) { setIconByPixmap(icon); }
+
+    void setToolTip(const QString &text)
+    {
+        KStatusNotifierItem::setToolTipSubTitle(text);
+    }
+
+    bool isVisible() const
+    {
+        return status() != KStatusNotifierItem::Passive;
+    }
+    void show() { setStatus(KStatusNotifierItem::Active); }
+    void hide() { setStatus(KStatusNotifierItem::Passive); }
+
+    void activate(const QPoint &) override
+    {
+        emit activated(QSystemTrayIcon::Trigger);
+    }
+
+signals:
+    void activated(QSystemTrayIcon::ActivationReason reason);
+};
+#else
+class SystemTrayIcon final : public QSystemTrayIcon {
+public:
+    explicit SystemTrayIcon(QWidget *parent = nullptr)
+        : QSystemTrayIcon(parent)
+    {}
+};
+#endif
 
 class ToolBar final : public QToolBar {
 public:
@@ -1372,7 +1422,7 @@ void MainWindow::setHideTabs(bool hide)
 bool MainWindow::closeMinimizes() const
 {
     return !m_options.hideMainWindow
-        && (!m_tray || !QSystemTrayIcon::isSystemTrayAvailable());
+        && (!m_tray || !m_tray->isVisible() || !QSystemTrayIcon::isSystemTrayAvailable());
 }
 
 ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameMatching nameMatch, const Tabs &tabs)
@@ -1631,21 +1681,22 @@ void MainWindow::updateToolBar()
 
 void MainWindow::setTrayEnabled(bool enable)
 {
-    const bool trayAlreadyEnabled = m_tray != nullptr;
-    if (enable == trayAlreadyEnabled)
-        return;
-
     if (enable) {
-        m_tray = new QSystemTrayIcon(this);
+        if (m_tray == nullptr)
+            m_tray = new SystemTrayIcon(this);
+
         if (m_options.nativeTrayMenu) {
             m_tray->setContextMenu(m_trayMenu);
+            disconnect( m_tray, &SystemTrayIcon::activated,
+                        this, &MainWindow::trayActivated );
         } else {
 #ifndef Q_OS_MAC
             m_tray->setContextMenu(m_trayMenu);
 #endif
-            connect( m_tray, &QSystemTrayIcon::activated,
+            connect( m_tray, &SystemTrayIcon::activated,
                      this, &MainWindow::trayActivated );
         }
+
         updateIcon();
 
         m_tray->show();
@@ -1653,11 +1704,8 @@ void MainWindow::setTrayEnabled(bool enable)
         if ( isMinimized() )
             hideWindow();
     } else {
-        // Hide tray on Ubuntu (buggy sni-qt) before disabling.
-        m_tray->hide();
-
-        delete m_tray;
-        m_tray = nullptr;
+        if (m_tray != nullptr)
+            m_tray->hide();
 
         if ( isHidden() && !isMinimized() )
             minimizeWindow();
@@ -2646,11 +2694,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_trayMenu->setStyleSheet(toolTipStyleSheet);
     m_menu->setStyleSheet(toolTipStyleSheet);
 
-    if (m_options.nativeTrayMenu != appConfig->option<Config::native_tray_menu>()) {
+    if (m_options.nativeTrayMenu != appConfig->option<Config::native_tray_menu>())
         m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();
-        delete m_tray;
-        m_tray = nullptr;
-    }
     setTrayEnabled( !appConfig->option<Config::disable_tray>() );
     updateTrayMenuItems();
 
@@ -4088,3 +4133,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+#include "mainwindow.moc"

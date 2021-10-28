@@ -46,6 +46,7 @@ class ConfigurationManager;
 class Notification;
 class QAction;
 class QMimeData;
+class SystemTrayIcon;
 class Tabs;
 class Theme;
 class TrayMenu;
@@ -651,7 +652,7 @@ private:
     QMenu *m_menuItem;
     TrayMenu *m_trayMenu;
 
-    QSystemTrayIcon *m_tray;
+    SystemTrayIcon *m_tray;
 
     ToolBar *m_toolBar;
 
