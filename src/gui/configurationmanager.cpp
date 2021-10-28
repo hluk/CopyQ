@@ -340,6 +340,7 @@ void ConfigurationManager::initOptions()
     bind<Config::filter_case_insensitive>();
 
     bind<Config::native_menu_bar>();
+    bind<Config::native_tray_menu>();
 
     bind<Config::script_paste_delay_ms>();
 
