@@ -119,6 +119,8 @@ else()
     add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
 endif()
 
+target_sources(${COPYQ_EXECUTABLE_NAME} PRIVATE ${copyq_SOURCES})
+
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)
 foreach (copyq_qt_module ${copyq_qt_modules})
