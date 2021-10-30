@@ -103,7 +103,7 @@ void migrateCommands(const QString &commandConfigPath)
     Settings oldSettings;
     const auto oldCommands = loadCommands(&oldSettings.constSettingsData());
 
-    const QString commandConfigPathNew = commandConfigPath + ".new";
+    const QString commandConfigPathNew = commandConfigPath + QStringLiteral(".new");
     {
         Settings newSettings(commandConfigPathNew);
         saveCommands(oldCommands, newSettings.settingsData());
@@ -134,10 +134,14 @@ void restoreConfiguration()
     Settings().restore();
 
     const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
-    if ( QFile::exists(commandConfigPath) )
+    if ( QFile::exists(commandConfigPath) ) {
+        const QString staleCommandConfigPathBakup =
+            commandConfigPath + QStringLiteral(".new.bak");
+        QFile::remove(staleCommandConfigPathBakup);
         Settings(commandConfigPath).restore();
-    else
+    } else {
         migrateCommands(commandConfigPath);
+    }
 }
 
 } // namespace
