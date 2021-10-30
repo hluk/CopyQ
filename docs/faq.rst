@@ -204,11 +204,11 @@ On Windows (in PowerShell):
 
 .. code-block:: powershell
 
-    & 'C:\Program Files (X86)\CopyQ\copyq.exe' exit
+    & 'C:\Program Files\CopyQ\copyq.exe' exit
     $env:COPYQ_LOG_LEVEL = 'DEBUG'
     $env:COPYQ_LOG_FILE = [Environment]::GetFolderPath("MyDocuments") + '\copyq.log'
     echo "Logs will be written to $env:COPYQ_LOG_FILE"
-    & 'C:\Program Files (X86)\CopyQ\copyq.exe'
+    & 'C:\Program Files\CopyQ\copyq.exe'
 
 How to preserve the order of copied items when copying or pasting multiple items?
 ---------------------------------------------------------------------------------
