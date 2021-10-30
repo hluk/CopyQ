@@ -135,18 +135,18 @@ appveyor PushArtifact "$installer" -DeploymentName "CopyQ Setup"
 
 # Test installer
 cmd " /c $installer /VERYSILENT /SUPPRESSMSGBOXES"
-"C:/Program Files (x86)/CopyQ/copyq.exe" --version
+"C:/Program Files/CopyQ/copyq.exe" --version
 
 # Test installer can close the app safely
 (
     # Wait for CopyQ to start
-    "C:/Program Files (x86)/CopyQ/copyq.exe" ""
+    "C:/Program Files/CopyQ/copyq.exe" ""
     cmd " /c $installer /VERYSILENT /SUPPRESSMSGBOXES"
     echo "Installation finished"
 ) &
 installer_pid=$!
 export COPYQ_LOG_LEVEL=DEBUG
-"C:/Program Files (x86)/CopyQ/copyq.exe"
+"C:/Program Files/CopyQ/copyq.exe"
 wait "$installer_pid"
 
 gpgconf --kill all

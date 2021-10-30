@@ -35,7 +35,7 @@ console/terminal application (PowerShell or cmd).
 
   .. code-block:: powershell
 
-    & 'C:\Program Files (x86)\CopyQ\copyq.exe' help | Write-Output
+    & 'C:\Program Files\CopyQ\copyq.exe' help | Write-Output
 
 .. seealso::
 

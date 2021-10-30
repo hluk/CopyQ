@@ -35,6 +35,10 @@ UsePreviousLanguage=no
 
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
+
+ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64
+
 AllowNoIcons=yes
 LicenseFile={#Source}\LICENSE
 OutputDir={#Output}
