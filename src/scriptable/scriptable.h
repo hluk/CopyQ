@@ -450,7 +450,7 @@ private:
     QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
     bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
-    void synchronizeSelection(ClipboardMode targetMode);
+    bool canSynchronizeSelection(ClipboardMode targetMode);
 
     void saveData(const QString &tab);
 

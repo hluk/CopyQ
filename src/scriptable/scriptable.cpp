@@ -2499,12 +2499,18 @@ void Scriptable::onClipboardUnchanged()
 
 void Scriptable::synchronizeToSelection()
 {
-    synchronizeSelection(ClipboardMode::Selection);
+    if ( canSynchronizeSelection(ClipboardMode::Selection) ) {
+        COPYQ_LOG( QStringLiteral("Synchronizing to selection: Calling provideSelection()") );
+        provideSelection();
+    }
 }
 
 void Scriptable::synchronizeFromSelection()
 {
-    synchronizeSelection(ClipboardMode::Clipboard);
+    if( canSynchronizeSelection(ClipboardMode::Clipboard) ) {
+        COPYQ_LOG( QStringLiteral("Synchronizing to clipboard: Calling provideClipboard()") );
+        provideClipboard();
+    }
 }
 
 void Scriptable::setClipboardData()
@@ -3516,7 +3522,7 @@ bool Scriptable::hasClipboardFormat(const QString &mime, ClipboardMode mode)
     return m_proxy->hasClipboardFormat(mime, mode);
 }
 
-void Scriptable::synchronizeSelection(ClipboardMode targetMode)
+bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
 {
 #ifdef HAS_MOUSE_SELECTIONS
 #   define COPYQ_SYNC_LOG(MESSAGE) \
@@ -3524,70 +3530,65 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
                    .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") )
 
     if (!verifyClipboardAccess())
-        return;
+        return false;
 
-    {
-        SleepTimer tMin(50);
+    SleepTimer tMin(50);
 
-        // Avoid changing clipboard after a text is selected just before it's copied
-        // with a keyboard shortcut.
-        SleepTimer t(5000);
-        while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
-            if ( !t.sleep() && !canContinue() ) {
-                COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
-                return;
-            }
+    // Avoid changing clipboard after a text is selected just before it's copied
+    // with a keyboard shortcut.
+    SleepTimer t(5000);
+    while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
+        if ( !t.sleep() && !canContinue() ) {
+            COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
+            return false;
         }
+    }
 
-        const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
+    const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
 
-        // Wait at least few milliseconds before synchronization
-        // to avoid overriding just changed clipboard/selection.
-        while ( tMin.sleep() ) {}
+    // Wait at least few milliseconds before synchronization
+    // to avoid overriding just changed clipboard/selection.
+    while ( tMin.sleep() ) {}
 
-        // Stop if the clipboard/selection text already changed again.
-        const auto sourceData = mimeData(sourceMode);
-        if (!sourceData) {
-            COPYQ_SYNC_LOG("Failed to fetch source data");
-            return;
-        }
-        const QString sourceText = cloneText(*sourceData);
+    // Stop if the clipboard/selection text already changed again.
+    const auto sourceData = mimeData(sourceMode);
+    QString sourceText;
+    if (sourceData) {
+        sourceText = cloneText(*sourceData);
         if (sourceText != getTextData(m_data)) {
             COPYQ_SYNC_LOG("Cancelled (source text changed)");
-            return;
+            return false;
         }
+    } else {
+        COPYQ_SYNC_LOG("Failed to fetch source data");
+    }
 
-        const auto targetData = mimeData(targetMode);
-        if (!targetData) {
-            COPYQ_SYNC_LOG("Failed to fetch target data");
-            return;
-        }
+    const auto targetData = mimeData(targetMode);
+    if (targetData) {
         const QString targetText = cloneText(*targetData);
         if ( targetData->data(mimeOwner).isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
             if (targetTextHash != qHash(targetText)) {
                 COPYQ_SYNC_LOG("Cancelled (target text changed)");
-                return;
+                return false;
             }
         }
 
         // Stop if the clipboard and selection text is already synchronized
         // or user selected text and copied it to clipboard.
-        if (sourceText == targetText) {
+        if (sourceData && sourceText == targetText) {
             COPYQ_SYNC_LOG("Cancelled (target is same as source)");
-            return;
+            return false;
         }
+    } else {
+        COPYQ_SYNC_LOG("Failed to fetch target data");
     }
 
-    COPYQ_SYNC_LOG("Calling provideClipboard()/provideSelection()");
-
-    if (targetMode == ClipboardMode::Clipboard)
-        provideClipboard();
-    else
-        provideSelection();
+    return true;
 #   undef COPYQ_SYNC_LOG
 #else
     Q_UNUSED(targetMode)
+    return false;
 #endif
 }
 
