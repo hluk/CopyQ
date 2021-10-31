@@ -127,3 +127,16 @@ export PATH=$OldPath
 
 choco install -y InnoSetup
 cmd " /c C:/ProgramData/chocolatey/bin/ISCC.exe /O$APPVEYOR_BUILD_FOLDER /DAppVersion=$APP_VERSION /DRoot=$Destination /DSource=$Source $Source/Shared/copyq.iss"
+
+# Test installer
+cmd " /c $APPVEYOR_BUILD_FOLDER/copyq-$APP_VERSION-setup.exe /VERYSILENT"
+"C:/Program Files (x86)/CopyQ/copyq.exe" --version
+
+# Test installer can close the app safely
+(
+    sleep 5
+    cmd " /c $APPVEYOR_BUILD_FOLDER/copyq-$APP_VERSION-setup.exe /VERYSILENT"
+) &
+export COPYQ_LOG_LEVEL=DEBUG
+"C:/Program Files (x86)/CopyQ/copyq.exe"
+wait
