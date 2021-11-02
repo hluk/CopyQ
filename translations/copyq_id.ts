@@ -85,7 +85,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Keluaran &amp;tab:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -3212,7 +3212,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>Evaluasi skrip.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="189"/>
@@ -3232,17 +3232,17 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>SESI</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="195"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cetak bantuan untuk PERINTAH atau semua perintah.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="198"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Versi cetak program dan pustaka.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="201"/>
@@ -3267,7 +3267,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>  PERINTAH:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="125"/>
@@ -3385,7 +3385,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Klik di sini dan tekan tombol apapun</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
@@ -3408,7 +3408,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pintasan global dapat dipicu dari aplikasi apa pun.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3418,7 +3418,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pintasan aplikasi hanya dapat dipicu dari jendela utama.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="246"/>
@@ -3498,7 +3498,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="375"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekspresi Reguler</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>
