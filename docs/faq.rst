@@ -420,6 +420,26 @@ To get the command to launch for a shortcut:
 
       copyq -e "toggle()"
 
+.. _faq-force-hide-main-window:
+
+Why doesn't the main window close on tiling window managers?
+------------------------------------------------------------
+
+The main window remains open if it cannot minimize to task bar and tray icon is
+not available. This is a safety feature to allow users to see that the
+application is running and make any initial setup when the app is started for
+the first time.
+
+To force hiding main window:
+
+1. Open "Preferences" (``Ctrl+P`` shortcut).
+2. Go to "Layout" tab.
+3. Enable "Hide main window" option.
+
+Alternatively, run the following command::
+
+    copyq config hide_main_window true
+
 Why does encryption ask for password so often?
 ----------------------------------------------
 
