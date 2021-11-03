@@ -356,6 +356,8 @@ void ConfigurationManager::initOptions()
     bind<Config::row_index_from_one>();
 
     bind<Config::tabs>();
+
+    bind<Config::restore_geometry>();
 }
 
 template <typename Config, typename Widget>

@@ -38,11 +38,18 @@ bool openOnCurrentScreen()
     return AppConfig().option<Config::open_windows_on_current_screen>();
 }
 
+bool isRestoreGeometryEnabled()
+{
+    return AppConfig().option<Config::restore_geometry>();
+}
+
 } // namespace
 
 void WindowGeometryGuard::create(QWidget *window)
 {
-    new WindowGeometryGuard(window);
+    static const bool enabled = isRestoreGeometryEnabled();
+    if (enabled)
+        new WindowGeometryGuard(window);
 }
 
 bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)

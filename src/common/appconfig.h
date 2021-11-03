@@ -160,6 +160,11 @@ struct open_windows_on_current_screen : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct restore_geometry : Config<bool> {
+    static QString name() { return "restore_geometry"; }
+    static Value defaultValue() { return true; }
+};
+
 struct transparency_focused : Config<int> {
     static QString name() { return "transparency_focused"; }
     static Value value(Value v) { return qBound(0, v, 100); }
