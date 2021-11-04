@@ -209,7 +209,7 @@ class DataControlSource : public QObject, public QtWayland::zwlr_data_control_so
     Q_OBJECT
 public:
     DataControlSource(struct ::zwlr_data_control_source_v1 *id, QMimeData *mimeData);
-    DataControlSource();
+
     ~DataControlSource()
     {
         if ( isInitialized() )
