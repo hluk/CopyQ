@@ -1682,13 +1682,15 @@ void MainWindow::updateToolBar()
 void MainWindow::setTrayEnabled(bool enable)
 {
     if (enable) {
-        if (m_tray == nullptr)
+        if (m_tray == nullptr) {
             m_tray = new SystemTrayIcon(this);
+        } else {
+            disconnect( m_tray, &SystemTrayIcon::activated,
+                        this, &MainWindow::trayActivated );
+        }
 
         if (m_options.nativeTrayMenu) {
             m_tray->setContextMenu(m_trayMenu);
-            disconnect( m_tray, &SystemTrayIcon::activated,
-                        this, &MainWindow::trayActivated );
         } else {
 #ifndef Q_OS_MAC
             m_tray->setContextMenu(m_trayMenu);
