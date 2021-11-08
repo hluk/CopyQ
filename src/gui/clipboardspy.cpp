@@ -44,6 +44,9 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
 
 void ClipboardSpy::wait(int ms, int checkIntervalMs)
 {
+    if (m_mode == ClipboardMode::Selection && !m_clipboard->isSelectionSupported())
+        return;
+
     QEventLoop loop;
     connect( this, &ClipboardSpy::changed, &loop, &QEventLoop::quit );
     connect( this, &ClipboardSpy::stopped, &loop, &QEventLoop::quit );

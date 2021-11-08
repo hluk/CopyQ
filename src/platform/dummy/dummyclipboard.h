@@ -43,6 +43,8 @@ public:
 
     const QMimeData *mimeData(ClipboardMode mode) const override;
 
+    bool isSelectionSupported() const override { return false; }
+
 protected:
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);

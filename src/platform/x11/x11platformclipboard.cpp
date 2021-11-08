@@ -68,8 +68,10 @@ X11PlatformClipboard::X11PlatformClipboard()
     m_selectionData.mode = ClipboardMode::Selection;
 
     // Create Wayland clipboard instance so it can start receiving new data.
-    if ( !QX11Info::isPlatformX11() )
-        SystemClipboard::instance();
+    if ( !QX11Info::isPlatformX11() ) {
+        auto c = SystemClipboard::instance();
+        m_selectionSupported = c->isSelectionSupported();
+    }
 }
 
 void X11PlatformClipboard::startMonitoring(const QStringList &formats)

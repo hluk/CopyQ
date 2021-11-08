@@ -468,4 +468,10 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
     return nullptr;
 }
 
+bool WaylandClipboard::isSelectionSupported() const
+{
+    return m_device && zwlr_data_control_device_v1_get_version(m_device->object())
+            >= ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION;
+}
+
 #include "waylandclipboard.moc"

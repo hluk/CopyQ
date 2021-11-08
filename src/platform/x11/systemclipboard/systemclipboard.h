@@ -39,6 +39,8 @@ public:
      * Returns the current mime data received by the clipboard
      */
     virtual const QMimeData *mimeData(QClipboard::Mode mode) const = 0;
+
+    virtual bool isSelectionSupported() const = 0;
 Q_SIGNALS:
     void changed(QClipboard::Mode mode);
 

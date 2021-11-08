@@ -43,6 +43,8 @@ public:
 
     const QMimeData *mimeData(ClipboardMode mode) const override;
 
+    bool isSelectionSupported() const override { return m_selectionSupported; }
+
 protected:
     void onChanged(int mode) override;
 
@@ -73,6 +75,7 @@ private:
     ClipboardData m_selectionData;
 
     bool m_monitoring = false;
+    bool m_selectionSupported = true;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H

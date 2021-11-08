@@ -19,6 +19,7 @@ public:
     void clear(QClipboard::Mode mode) override;
     const QMimeData *mimeData(QClipboard::Mode mode) const override;
     bool isActive() const { return m_device != nullptr; }
+    bool isSelectionSupported() const;
 private:
     std::unique_ptr<DataControlDeviceManager> m_manager;
     std::unique_ptr<DataControlDevice> m_device;
