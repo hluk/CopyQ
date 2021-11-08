@@ -55,6 +55,8 @@ void createFirstWindow()
 
         // Tool tips won't show in taskbar.
         w = new QWidget(nullptr, Qt::ToolTip);
+        w->setWindowTitle(QStringLiteral("Dummy"));
+        w->setWindowRole(QStringLiteral("dummy"));
 
         // Move out of screen (if it's not possible to show the window minimized).
         w->resize(1, 1);

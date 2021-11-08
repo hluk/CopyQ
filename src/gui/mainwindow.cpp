@@ -583,6 +583,8 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     setWindowFlag(Qt::Sheet);
 #endif
 
+    setWindowRole(QStringLiteral("main"));
+
     menuBar()->setObjectName("menu_bar");
     createMenu();
 
