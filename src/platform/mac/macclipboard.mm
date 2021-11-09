@@ -56,8 +56,18 @@ void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
         Q_ASSERT(codec != nullptr);
         if (codec) {
             auto encoder = codec->makeEncoder(QTextCodec::IgnoreHeader);
-            dataMapForMac["public.utf16-plain-text"] = encoder->fromUnicode(text);
+            dataMapForMac[QStringLiteral("public.utf16-plain-text")] = encoder->fromUnicode(text);
         }
+
+        // See: https://codereview.qt-project.org/c/qt/qtbase/+/261944
+        auto codecBe = QTextCodec::codecForName("UTF-16BE");
+        Q_ASSERT(codecBe != nullptr);
+        if (codecBe) {
+            auto encoder = codecBe->makeEncoder(QTextCodec::IgnoreHeader);
+            dataMapForMac[QStringLiteral("public.utf16-external-plain-text")] = encoder->fromUnicode(text);
+        }
+
+        dataMapForMac[QStringLiteral("public.utf8-plain-text")] = text.toUtf8();
     }
 
     return DummyClipboard::setData(mode, dataMapForMac);
