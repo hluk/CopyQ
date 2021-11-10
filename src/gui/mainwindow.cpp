@@ -2880,6 +2880,13 @@ void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+#ifdef Q_OS_MAC
+    if (!m_options.nativeTrayMenu && reason == QSystemTrayIcon::Context) {
+        toggleMenu();
+        return;
+    }
+#endif
+
     if ( reason == QSystemTrayIcon::MiddleClick
          || (m_options.trayMenuOpenOnLeftClick && reason == QSystemTrayIcon::Trigger) )
     {
