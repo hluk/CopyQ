@@ -7,9 +7,11 @@
 #include "waylandclipboard.h"
 
 #include <QDebug>
+#include <QElapsedTimer>
 #include <QFile>
 #include <QFutureWatcher>
 #include <QGuiApplication>
+#include <QMimeData>
 #include <QThread>
 
 #include <QtWaylandClient/QWaylandClientExtension>
@@ -384,7 +386,7 @@ void DataControlDevice::setPrimarySelection(std::unique_ptr<DataControlSource> s
 }
 
 WaylandClipboard::WaylandClipboard(QObject *parent)
-    : SystemClipboard(parent)
+    : QObject(parent)
     , m_manager(new DataControlDeviceManager)
 {
     connect(m_manager.get(), &DataControlDeviceManager::activeChanged, this, [this]() {
@@ -418,6 +420,25 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
             m_device.reset();
         }
     });
+}
+
+WaylandClipboard *WaylandClipboard::createInstance()
+{
+    qInfo() << "Using Wayland clipboard access";
+    auto clipboard = new WaylandClipboard(qApp);
+
+    QElapsedTimer timer;
+    timer.start();
+    while ( !clipboard->isActive() && timer.elapsed() < 5000 ) {
+        QCoreApplication::processEvents();
+    }
+    if ( timer.elapsed() > 100 ) {
+        qWarning() << "Activating Wayland clipboard took" << timer.elapsed() << "ms";
+    }
+    if ( !clipboard->isActive() ) {
+        qCritical() << "Failed to activate Wayland clipboard";
+    }
+    return clipboard;
 }
 
 void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
@@ -473,5 +494,13 @@ bool WaylandClipboard::isSelectionSupported() const
     return m_device && zwlr_data_control_device_v1_get_version(m_device->object())
             >= ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION;
 }
+
+WaylandClipboard *WaylandClipboard::instance()
+{
+    static WaylandClipboard *clipboard = createInstance();
+    return clipboard;
+}
+
+WaylandClipboard::~WaylandClipboard() = default;
 
 #include "waylandclipboard.moc"

@@ -26,7 +26,7 @@
 #include "common/log.h"
 #include "common/timer.h"
 
-#include "systemclipboard/systemclipboard.h"
+#include "systemclipboard/waylandclipboard.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
@@ -69,8 +69,7 @@ X11PlatformClipboard::X11PlatformClipboard()
 
     // Create Wayland clipboard instance so it can start receiving new data.
     if ( !QX11Info::isPlatformX11() ) {
-        auto c = SystemClipboard::instance();
-        m_selectionSupported = c->isSelectionSupported();
+        m_selectionSupported = WaylandClipboard::instance()->isSelectionSupported();
     }
 }
 
@@ -88,11 +87,8 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     }
 
     if ( !QX11Info::isPlatformX11() ) {
-        auto clipboard = SystemClipboard::instance();
-        if (clipboard != nullptr) {
-            connect(clipboard, &SystemClipboard::changed,
-                    this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
-        }
+        connect(WaylandClipboard::instance(), &WaylandClipboard::changed,
+                this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
     }
 
     for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
@@ -145,9 +141,7 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
     } else {
         const auto data = createMimeData(dataMap);
         const auto qmode = modeToQClipboardMode(mode);
-        auto clipboard = SystemClipboard::instance();
-        if (clipboard != nullptr)
-            clipboard->setMimeData(data, qmode);
+        WaylandClipboard::instance()->setMimeData(data, qmode);
 
         // This makes pasting the clipboard work in own widgets.
         QGuiApplication::clipboard()->setMimeData(data, qmode);
@@ -159,11 +153,7 @@ const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
     if ( QX11Info::isPlatformX11() )
         return DummyClipboard::mimeData(mode);
 
-    auto clipboard = SystemClipboard::instance();
-    if (clipboard == nullptr)
-        return nullptr;
-
-    return clipboard->mimeData( modeToQClipboardMode(mode) );
+    return WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
 }
 
 void X11PlatformClipboard::onChanged(int mode)

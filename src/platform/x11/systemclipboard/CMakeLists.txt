@@ -4,7 +4,6 @@ find_package(Wayland 1.15 COMPONENTS Client)
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
 
 set(systemclipboard_SRCS
-    systemclipboard.cpp
     waylandclipboard.cpp
 )
 
