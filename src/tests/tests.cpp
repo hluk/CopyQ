@@ -4316,6 +4316,7 @@ int runTests(int argc, char *argv[])
     if (onlyPlugins.pattern().isEmpty()) {
         test->setupTest("CORE", QVariant());
         exitCode = test->runTests(&tc, argc, argv);
+        test->stopServer();
     }
 
     if (runPluginTests) {
