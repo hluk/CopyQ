@@ -1168,6 +1168,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     QVariantMap data = copyIndexes(selected);
 
+    m_dragStartPosition = QPoint();
     auto drag = new QDrag(this);
     drag->setMimeData( createMimeData(data) );
     drag->setPixmap( renderItemPreview(selected, 150, 150) );
