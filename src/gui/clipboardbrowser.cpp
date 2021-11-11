@@ -341,6 +341,7 @@ void ClipboardBrowser::emitItemCount()
 
 bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
 {
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     // WORKAROUND: Update drag'n'drop when modifiers are pressed/released (QTBUG-57168).
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         const auto kev = static_cast<QKeyEvent*>(event);
@@ -354,6 +355,7 @@ bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
             QCoreApplication::sendEvent(this, &mouseMove);
         }
     }
+#endif
 
     return QListView::eventFilter(obj, event);
 }
@@ -1028,8 +1030,10 @@ void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
 {
     dragMoveEvent(event);
 
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     // WORKAROUND: Update drag'n'drop when modifiers are pressed/released (QTBUG-57168).
     qApp->installEventFilter(this);
+#endif
 }
 
 void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
@@ -1178,7 +1182,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     // Default action is "copy" which works for most apps,
     // "move" action is used only in item list by default.
     Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     qApp->removeEventFilter(this);
+#endif
 
     if (dropAction == Qt::MoveAction) {
         selected.clear();
