@@ -1769,10 +1769,12 @@ void ScriptableProxy::selectionSelectRemovable(int id)
     if (!selection.browser)
         return;
 
+    // Use error argument for canRemoveItems() to ensure that a message dialog is not shown.
+    QString error;
     QList<QPersistentModelIndex> indexes;
     for (int row = 0; row < selection.browser->length(); ++row) {
         const auto index = selection.browser->index(row);
-        if ( !selection.indexes.contains(index) && selection.browser->canRemoveItems({index}) )
+        if ( !selection.indexes.contains(index) && selection.browser->canRemoveItems({index}, &error) )
             indexes.append(index);
     }
     selection.indexes.append(indexes);

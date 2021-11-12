@@ -815,11 +815,11 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
     return dropIndexes(indexes);
 }
 
-bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes) const
+bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes, QString *error) const
 {
     Q_ASSERT(m_itemSaver);
 
-    return m_itemSaver->canRemoveItems(indexes, nullptr);
+    return m_itemSaver->canRemoveItems(indexes, error);
 }
 
 QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight)
