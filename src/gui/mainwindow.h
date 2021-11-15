@@ -604,7 +604,7 @@ private:
 
     QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName, const QVector<Command> &allCommands);
     void addCommandsToItemMenu(ClipboardBrowser *c);
-    void addCommandsToTrayMenu(const QVariantMap &clipboardData);
+    void addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<QAction*> *actions);
     void addMenuMatchCommand(MenuMatchCommands *menuMatchCommands, const QString &matchCommand, QAction *act);
     void runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, QVariantMap &data);
     void interruptMenuCommandFilters(MenuMatchCommands *menuMatchCommands);

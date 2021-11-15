@@ -941,15 +941,12 @@ void MainWindow::updateTrayMenuCommands()
     QAction *clipboardAction = m_trayMenu->addAction( iconClipboard(), clipboardLabel );
     connect(clipboardAction, &QAction::triggered,
             this, &MainWindow::showClipboardContent);
-    m_trayMenu->addCustomAction(clipboardAction);
-
     m_trayMenu->markItemInClipboard(m_clipboardData);
 
-    int i = m_trayMenu->actions().size();
-    addCommandsToTrayMenu(m_clipboardData);
-    QList<QAction *> actions = m_trayMenu->actions();
-    for ( ; i < actions.size(); ++i )
-        m_trayMenu->addCustomAction(actions[i]);
+    QList<QAction*> customActions;
+    customActions.append(clipboardAction);
+    addCommandsToTrayMenu(m_clipboardData, &customActions);
+    m_trayMenu->setCustomActions(customActions);
 }
 
 void MainWindow::updateIcon()
@@ -1539,7 +1536,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     runMenuCommandFilters(&m_itemMenuMatchCommands, data);
 }
 
-void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
+void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<QAction*> *actions)
 {
     if ( m_trayMenuCommands.isEmpty() ) {
         interruptMenuCommandFilters(&m_trayMenuMatchCommands);
@@ -1561,6 +1558,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
+        actions->append(act);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
 
