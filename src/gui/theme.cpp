@@ -21,6 +21,7 @@
 
 #include "ui_configtabappearance.h"
 
+#include "common/config.h"
 #include "common/log.h"
 #include "gui/iconfont.h"
 #include "platform/platformnativeinterface.h"
@@ -749,10 +750,7 @@ QColor evalColor(const QString &expression, const Theme &theme, const Values &va
 
 QString defaultUserThemePath()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    return QDir::cleanPath(settings.fileName() + "/../themes");
+    return QDir::cleanPath(settingsDirectoryPath() + "/themes");
 }
 
 QStringList themePaths()

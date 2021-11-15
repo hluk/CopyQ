@@ -26,6 +26,8 @@ class QString;
 class QVariant;
 class QWidget;
 
+QString getConfigurationFilePath();
+
 QString getConfigurationFilePath(const char *suffix);
 
 QString settingsDirectoryPath();
