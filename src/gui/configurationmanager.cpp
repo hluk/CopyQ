@@ -572,9 +572,7 @@ void ConfigurationManager::apply(AppConfig *appConfig)
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
-            const QVariantMap s = loader->applySettings();
-            for (auto it = s.constBegin(); it != s.constEnd(); ++it)
-                settings.setValue( it.key(), it.value() );
+            loader->applySettings(*settings.settingsData());
         }
 
         const bool isPluginEnabled = m_tabItems->isItemChecked(i);

@@ -637,12 +637,8 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 {
     settings->beginGroup(loader->id());
 
-    QVariantMap s;
-    for (const auto &name : settings->allKeys()) {
-        s[name] = settings->value(name);
-    }
     const auto enabled = settings->value("enabled", true).toBool();
-    loader->loadSettings(s);
+    loader->loadSettings(*settings);
 
     settings->endGroup();
 

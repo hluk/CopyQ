@@ -33,6 +33,7 @@
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QSettings>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextEdit>
@@ -48,6 +49,10 @@ namespace {
 const int defaultMaxBytes = 10*1024;
 
 const int notesIndent = 16;
+
+QLatin1String configNotesAtBottom("notes_at_bottom");
+QLatin1String configNotesBeside("notes_beside");
+QLatin1String configShowTooltip("show_tooltip");
 
 QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 {
@@ -228,12 +233,18 @@ QStringList ItemNotesLoader::formatsToSave() const
     return QStringList() << mimeItemNotes << mimeIcon;
 }
 
-QVariantMap ItemNotesLoader::applySettings()
+void ItemNotesLoader::applySettings(QSettings &settings)
 {
-    m_settings["notes_at_bottom"] = ui->radioButtonBottom->isChecked();
-    m_settings["notes_beside"] =  ui->radioButtonBeside->isChecked();
-    m_settings["show_tooltip"] = ui->checkBoxShowToolTip->isChecked();
-    return m_settings;
+    settings.setValue(configNotesAtBottom, ui->radioButtonBottom->isChecked());
+    settings.setValue(configNotesBeside,  ui->radioButtonBeside->isChecked());
+    settings.setValue(configShowTooltip, ui->checkBoxShowToolTip->isChecked());
+}
+
+void ItemNotesLoader::loadSettings(const QSettings &settings)
+{
+    m_notesAtBottom = settings.value(configNotesAtBottom, false).toBool();
+    m_notesBeside = settings.value(configNotesBeside, false).toBool();
+    m_showTooltip = settings.value(configShowTooltip, false).toBool();
 }
 
 QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
@@ -242,14 +253,14 @@ QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    if ( m_settings["notes_at_bottom"].toBool() )
+    if (m_notesAtBottom)
         ui->radioButtonBottom->setChecked(true);
-    else if ( m_settings["notes_beside"].toBool() )
+    else if (m_notesBeside)
         ui->radioButtonBeside->setChecked(true);
     else
         ui->radioButtonTop->setChecked(true);
 
-    ui->checkBoxShowToolTip->setChecked( m_settings["show_tooltip"].toBool() );
+    ui->checkBoxShowToolTip->setChecked(m_showTooltip);
 
     return w;
 }
@@ -262,14 +273,13 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QVariantMap
         return nullptr;
 
     const NotesPosition notesPosition =
-            m_settings["notes_at_bottom"].toBool() ? NotesBelow
-          : m_settings["notes_beside"].toBool() ? NotesBeside
+            m_notesAtBottom ? NotesBelow
+          : m_notesBeside ? NotesBeside
           : NotesAbove;
 
     itemWidget->setTagged(true);
     return new ItemNotes(
-        itemWidget, text, icon, notesPosition,
-        m_settings["show_tooltip"].toBool() );
+        itemWidget, text, icon, notesPosition, m_showTooltip );
 }
 
 bool ItemNotesLoader::matches(const QModelIndex &index, const ItemFilter &filter) const

@@ -168,10 +168,9 @@ QString ItemPinnedScriptable::getMimePinned() const
     return ::mimePinned;
 }
 
-ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver)
+ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, const ItemSaverPtr &saver)
     : ItemSaverWrapper(saver)
     , m_model(model)
-    , m_settings(settings)
 {
     connect( model, &QAbstractItemModel::rowsInserted,
              this, &ItemPinnedSaver::onRowsInserted );
@@ -328,16 +327,6 @@ QStringList ItemPinnedLoader::formatsToSave() const
     return QStringList() << mimePinned;
 }
 
-QVariantMap ItemPinnedLoader::applySettings()
-{
-    return m_settings;
-}
-
-QWidget *ItemPinnedLoader::createSettingsWidget(QWidget *parent)
-{
-    return new QWidget(parent);
-}
-
 ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
     return data.contains(mimePinned) ? new ItemPinned(itemWidget) : nullptr;
@@ -345,7 +334,7 @@ ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMa
 
 ItemSaverPtr ItemPinnedLoader::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model)
 {
-    return std::make_shared<ItemPinnedSaver>(model, m_settings, saver);
+    return std::make_shared<ItemPinnedSaver>(model, saver);
 }
 
 QObject *ItemPinnedLoader::tests(const TestInterfacePtr &test) const

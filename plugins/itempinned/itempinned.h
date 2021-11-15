@@ -61,7 +61,7 @@ class ItemPinnedSaver final : public QObject, public ItemSaverWrapper
     Q_OBJECT
 
 public:
-    ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver);
+    ItemPinnedSaver(QAbstractItemModel *model, const ItemSaverPtr &saver);
 
     bool canRemoveItems(const QList<QModelIndex> &indexList, QString *error) override;
 
@@ -79,7 +79,6 @@ private:
     void updateLastPinned(int from, int to);
 
     QPointer<QAbstractItemModel> m_model;
-    QVariantMap m_settings;
 
     // Last pinned row in list (improves performace of updates).
     int m_lastPinned = -1;
@@ -108,12 +107,6 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
-
-    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
-
-    QWidget *createSettingsWidget(QWidget *parent) override;
-
     ItemWidget *transform(ItemWidget *itemWidget, const QVariantMap &data) override;
 
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model) override;
@@ -127,7 +120,6 @@ public:
     QVector<Command> commands() const override;
 
 private:
-    QVariantMap m_settings;
     ItemLoaderPtr m_transformedLoader;
 };
 

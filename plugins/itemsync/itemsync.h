@@ -141,9 +141,9 @@ public:
     QString description() const override { return tr("Synchronize items and notes with a directory on disk."); }
     QVariant icon() const override { return QVariant(IconUpload); }
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override;
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
@@ -175,8 +175,8 @@ private:
     ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files, int maxItems);
 
     std::unique_ptr<Ui::ItemSyncSettings> ui;
-    QVariantMap m_settings;
     ItemSyncTabPaths m_tabPaths;
+    QStringList m_tabPathsSaved;
     QList<FileFormat> m_formatSettings;
 };
 

@@ -32,9 +32,10 @@
 
 class ItemFilter;
 class QAbstractItemModel;
-class QTextEdit;
 class QIODevice;
 class QModelIndex;
+class QSettings;
+class QTextEdit;
 struct Command;
 
 class ItemLoaderInterface;
@@ -306,14 +307,14 @@ public:
     /**
      * Save and return configuration values to save from current settings widget.
      */
-    virtual QVariantMap applySettings() { return QVariantMap(); }
+    virtual void applySettings(QSettings &) {}
 
     virtual void setEnabled(bool) {}
 
     /**
      * Load stored configuration values.
      */
-    virtual void loadSettings(const QVariantMap &) {}
+    virtual void loadSettings(const QSettings &) {}
 
     /**
      * Create settings widget.
