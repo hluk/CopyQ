@@ -2668,7 +2668,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     reloadBrowsers();
 
-    ui->tabWidget->updateTabs();
+    ui->tabWidget->updateTabs(settings);
 
     m_timerSaveTabPositions.stop();
 
@@ -4112,7 +4112,7 @@ void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 {
     if ( tabs().contains(tabName) || ui->tabWidget->isTabGroup(tabName) ) {
         setIconNameForTabName(tabName, icon);
-        ui->tabWidget->updateTabIcon(tabName);
+        ui->tabWidget->setTabIcon(tabName, icon);
     }
 }
 

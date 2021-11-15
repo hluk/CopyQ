@@ -45,7 +45,8 @@ public:
 
     void setTabItemCount(const QString &tabName, const QString &itemCount) override;
 
-    void updateTabIcon(const QString &tabName) override;
+    void setTabIcon(QTreeWidgetItem *item, const QString &icon);
+    void setTabIcon(const QString &tabName, const QString &icon) override;
 
     void insertTab(int index, const QString &path) override;
     void removeTab(int index) override;
@@ -53,7 +54,7 @@ public:
     void updateCollapsedTabs(QStringList *collapsedTabs) const override;
     void setCollapsedTabs(const QStringList &collapsedTabs) override;
 
-    void updateTabIcons() override;
+    void updateTabIcons(const QHash<QString, QString> &tabIcons) override;
 
     void nextTab() override;
     void previousTab() override;
