@@ -1465,7 +1465,7 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 }
 
 template <typename SlotReturnType>
-QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
+QAction *MainWindow::createAction(Actions::Id id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
 {
     QAction *act = parent
         ? actionForMenuItem(id, parent, Qt::WidgetWithChildrenShortcut)
@@ -1476,7 +1476,7 @@ QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> s
     return act;
 }
 
-QAction *MainWindow::addTrayAction(int id)
+QAction *MainWindow::addTrayAction(Actions::Id id)
 {
     QAction *act = actionForMenuItem(id, m_trayMenu, Qt::WindowShortcut);
     m_trayMenu->addAction(act);
@@ -1491,7 +1491,7 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 }
 
 template <typename Receiver, typename ReturnType>
-QAction *MainWindow::addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)())
+QAction *MainWindow::addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
     QAction *act = actionForMenuItem(id, getPlaceholder(), Qt::WidgetWithChildrenShortcut);
     connect( act, &QAction::triggered, receiver, slot, Qt::UniqueConnection );
@@ -1780,7 +1780,7 @@ void MainWindow::updateActionShortcuts()
     }
 }
 
-QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
+QAction *MainWindow::actionForMenuItem(Actions::Id id, QWidget *parent, Qt::ShortcutContext context)
 {
     Q_ASSERT(id < m_menuItems.size());
 

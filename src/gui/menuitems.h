@@ -22,8 +22,9 @@
 #include <QList>
 #include <QKeySequence>
 #include <QString>
-#include <QtContainerFwd>
 #include <QSettings>
+
+#include <array>
 
 namespace Actions {
 
@@ -69,7 +70,9 @@ enum Id {
     Help_ShowLog,
     Help_About,
 
-    ItemMenu
+    ItemMenu,
+
+    Count
 };
 
 } // Actions
@@ -83,7 +86,7 @@ struct MenuItem {
     QList<QKeySequence> shortcuts;
 };
 
-using MenuItems = QVector<MenuItem>;
+using MenuItems = std::array<MenuItem, Actions::Count>;
 
 MenuItems menuItems();
 

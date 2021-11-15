@@ -593,14 +593,14 @@ private:
     bool closeMinimizes() const;
 
     template <typename SlotReturnType>
-    QAction *createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent = nullptr);
+    QAction *createAction(Actions::Id id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent = nullptr);
 
-    QAction *addTrayAction(int id);
+    QAction *addTrayAction(Actions::Id id);
 
     void updateTabIcon(const QString &newName, const QString &oldName);
 
     template <typename Receiver, typename ReturnType>
-    QAction *addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)());
+    QAction *addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)());
 
     QVector<Command> commandsForMenu(const QVariantMap &data, const QString &tabName, const QVector<Command> &allCommands);
     void addCommandsToItemMenu(ClipboardBrowser *c);
@@ -626,7 +626,7 @@ private:
 
     void updateActionShortcuts();
 
-    QAction *actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context);
+    QAction *actionForMenuItem(Actions::Id id, QWidget *parent, Qt::ShortcutContext context);
 
     void addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *placeholder, int maxItemCount, const QString &searchText);
     void activateMenuItem(ClipboardBrowserPlaceholder *placeholder, const QVariantMap &data, bool omitPaste);
