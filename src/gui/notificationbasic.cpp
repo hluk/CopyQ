@@ -355,9 +355,6 @@ void NotificationBasicWidget::paintEvent(QPaintEvent *event)
 void NotificationBasicWidget::showEvent(QShowEvent *event)
 {
     m_timer.start();
-
-    // QTBUG-33078: Window opacity must be set after show event.
-    setWindowOpacity(m_opacity);
     QWidget::showEvent(event);
 }
 

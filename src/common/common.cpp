@@ -670,8 +670,13 @@ void acceptDrag(QDropEvent *event)
     // Default drop action in item list and tab bar/tree should be "move."
     if ( event->possibleActions().testFlag(Qt::MoveAction)
          && event->mimeData()->hasFormat(mimeOwner)
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
          // WORKAROUND: Test currently pressed modifiers instead of the ones in event (QTBUG-57168).
-         && !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier) )
+         && !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier)
+#else
+         && !event->keyboardModifiers().testFlag(Qt::ControlModifier)
+#endif
+        )
     {
         event->setDropAction(Qt::MoveAction);
         event->accept();

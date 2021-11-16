@@ -309,10 +309,7 @@ bool setWindowFlag(QWidget *window, Qt::WindowType flag, bool enable)
 
 void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
 {
-    if ( setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop) ) {
-        // Workaround for QTBUG-28601.
-        window->setAcceptDrops(true);
-    }
+    setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop);
 }
 
 void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
@@ -3584,8 +3581,10 @@ void MainWindow::openPreferences()
     connect( &configurationManager, &ConfigurationManager::error,
              this, &MainWindow::showError );
 
+#if QT_VERSION < QT_VERSION_CHECK(5,9,3)
     // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
     configurationManager.setWindowModality(Qt::WindowModal);
+#endif
 
     cm = &configurationManager;
     configurationManager.exec();
