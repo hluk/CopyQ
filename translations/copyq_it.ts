@@ -2401,7 +2401,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation>Stile foglio</translation>
+        <translation>Foglio di stile</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
@@ -2452,7 +2452,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Aletzza max in pixel (0 per nessun limite):</translation>
+        <translation>Altezza max in pixel (0 per nessun limite):</translation>
     </message>
 </context>
 <context>
@@ -3505,7 +3505,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="129"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  -Usa ? per MIME per visualizzare i tipi MIME disponibili (predefinito è &quot;testo/semplice&quot;).</translation>
+        <translation>  -Usa ? per MIME per visualizzare i tipi MIME disponibili (predefinito è &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="134"/>
@@ -3745,7 +3745,7 @@ Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</transl
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>
         <source>Case Insensitive</source>
-        <translation>Ignora maisucole/minuscole</translation>
+        <translation>Ignora maiuscole/minuscole</translation>
     </message>
 </context>
 </TS>
