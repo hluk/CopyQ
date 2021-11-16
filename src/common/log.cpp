@@ -172,11 +172,7 @@ SystemMutex &getSessionMutex()
 
 QString getDefaultLogFilePath()
 {
-#if QT_VERSION < 0x050400
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-#else
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-#endif
 }
 
 QString readLogFile(const QString &fileName, int maxReadSize)

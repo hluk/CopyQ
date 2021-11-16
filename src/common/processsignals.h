@@ -25,12 +25,7 @@ void connectProcessFinished(QProcess *process, Receiver *receiver, void (Receive
 template <typename Receiver, typename Slot>
 void connectProcessError(QProcess *process, Receiver receiver, Slot slot)
 {
-#if QT_VERSION < 0x050600
-        QObject::connect( process, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error),
-                          receiver, slot);
-#else
-        QObject::connect( process, &QProcess::errorOccurred, receiver, slot );
-#endif
+    QObject::connect( process, &QProcess::errorOccurred, receiver, slot );
 }
 
 #endif // PROCESSSIGNALS_H
