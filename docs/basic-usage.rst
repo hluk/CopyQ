@@ -56,6 +56,11 @@ To quickly copy item to clipboard, you can select the item from tray
 menu. To display the menu either right-click on tray icon, run command
 ``copyq menu`` or use a custom system shortcut.
 
+.. image:: images/copyq-menu.png
+  :width: 400
+  :alt: copyq menu
+
+
 After selecting an item in tray menu and pressing enter (pressing a
 number key works as well), the item is copied to the clipboard.
 
