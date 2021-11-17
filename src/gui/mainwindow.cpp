@@ -87,6 +87,7 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
+#include <QShortcut>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
@@ -737,6 +738,17 @@ bool MainWindow::focusNextPrevChild(bool next)
         }
     }
 
+    // Focus floating preview dock.
+    if ( next && m_showItemPreview && ui->dockWidgetItemPreview->isFloating() ) {
+        QWidget *w = ui->scrollAreaItemPreview->widget();
+        if (w && c->isActiveWindow() && c->hasFocus()) {
+            ui->dockWidgetItemPreview->raise();
+            ui->dockWidgetItemPreview->activateWindow();
+            w->setFocus(Qt::TabFocusReason);
+            return true;
+        }
+    }
+
     return QMainWindow::focusNextPrevChild(next);
 }
 
@@ -1008,6 +1020,19 @@ void MainWindow::updateItemPreviewTimeout()
         if (w) {
             ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
             w->show();
+
+            // Focus from floating preview dock back to the main window on Esc/Tab.
+            if ( ui->dockWidgetItemPreview->isFloating() ) {
+                const auto keys = {
+                    Qt::Key_Backtab,
+                    Qt::Key_Escape,
+                    Qt::Key_Tab,
+                };
+                for (auto key : keys) {
+                    const auto shortcut = new QShortcut(key, w);
+                    connect(shortcut, &QShortcut::activated, this, &MainWindow::showWindow);
+                }
+            }
         }
     } else {
         ui->dockWidgetItemPreview->hide();
