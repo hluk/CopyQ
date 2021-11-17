@@ -31,10 +31,16 @@
 #include <QMovie>
 #include <QPainter>
 #include <QPixmap>
+#include <QSettings>
 #include <QtPlugin>
 #include <QVariant>
 
 namespace {
+
+const QLatin1String configMaxImageWidth("max_image_width");
+const QLatin1String configMaxImageHeight("max_image_height");
+const QLatin1String configImageEditor("image_editor");
+const QLatin1String configSvgEditor("svg_editor");
 
 QString findImageFormat(const QList<QString> &formats)
 {
@@ -206,8 +212,8 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
     pix.setDevicePixelRatio( pixelRatio(parent) );
 
     // scale pixmap
-    const int w = preview ? 0 : m_settings.value("max_image_width", 320).toInt();
-    const int h = preview ? 0 : m_settings.value("max_image_height", 240).toInt();
+    const int w = preview ? 0 : m_maxImageWidth;
+    const int h = preview ? 0 : m_maxImageHeight;
     if ( w > 0 && pix.width() > w && (h <= 0 || 1.0 * pix.width()/w > 1.0 * pix.height()/h) ) {
         pix = pix.scaledToWidth(w, Qt::SmoothTransformation);
     } else if (h > 0 && pix.height() > h) {
@@ -230,13 +236,20 @@ QStringList ItemImageLoader::formatsToSave() const
     };
 }
 
-QVariantMap ItemImageLoader::applySettings()
+void ItemImageLoader::applySettings(QSettings &settings)
 {
-    m_settings["max_image_width"] = ui->spinBoxImageWidth->value();
-    m_settings["max_image_height"] = ui->spinBoxImageHeight->value();
-    m_settings["image_editor"] = ui->lineEditImageEditor->text();
-    m_settings["svg_editor"] = ui->lineEditSvgEditor->text();
-    return m_settings;
+    settings.setValue(configMaxImageWidth, ui->spinBoxImageWidth->value());
+    settings.setValue(configMaxImageHeight, ui->spinBoxImageHeight->value());
+    settings.setValue(configImageEditor, ui->lineEditImageEditor->text());
+    settings.setValue(configSvgEditor, ui->lineEditSvgEditor->text());
+}
+
+void ItemImageLoader::loadSettings(const QSettings &settings)
+{
+    m_maxImageWidth = settings.value(configMaxImageWidth, 320).toInt();
+    m_maxImageHeight = settings.value(configMaxImageHeight, 240).toInt();
+    m_imageEditor = settings.value(configImageEditor).toString();
+    m_svgEditor = settings.value(configSvgEditor).toString();
 }
 
 QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
@@ -244,25 +257,22 @@ QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
     ui.reset(new Ui::ItemImageSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
-    ui->spinBoxImageWidth->setValue( m_settings.value("max_image_width", 320).toInt() );
-    ui->spinBoxImageHeight->setValue( m_settings.value("max_image_height", 240).toInt() );
-    ui->lineEditImageEditor->setText( m_settings.value("image_editor", "").toString() );
-    ui->lineEditSvgEditor->setText( m_settings.value("svg_editor", "").toString() );
+    ui->spinBoxImageWidth->setValue(m_maxImageWidth);
+    ui->spinBoxImageHeight->setValue(m_maxImageHeight);
+    ui->lineEditImageEditor->setText(m_imageEditor);
+    ui->lineEditSvgEditor->setText(m_svgEditor);
     return w;
 }
 
 QObject *ItemImageLoader::createExternalEditor(const QModelIndex &, const QVariantMap &data, QWidget *parent) const
 {
-    const QString imageCmd = m_settings.value("image_editor").toString();
-    const QString svgCmd = m_settings.value("svg_editor").toString();
-
     QString mime;
     QByteArray imageData;
-    if ( !imageCmd.isEmpty() && getImageData(data, &imageData, &mime) )
-        return new ItemEditor(imageData, mime, imageCmd, parent);
+    if ( !m_imageEditor.isEmpty() && getImageData(data, &imageData, &mime) )
+        return new ItemEditor(imageData, mime, m_imageEditor, parent);
 
-    if ( !svgCmd.isEmpty() && getSvgData(data, &imageData, &mime) )
-        return new ItemEditor(imageData, mime, svgCmd, parent);
+    if ( !m_svgEditor.isEmpty() && getSvgData(data, &imageData, &mime) )
+        return new ItemEditor(imageData, mime, m_svgEditor, parent);
 
     return nullptr;
 }

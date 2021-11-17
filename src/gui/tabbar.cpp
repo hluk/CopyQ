@@ -47,12 +47,6 @@ int tabIndex(const QString &tabName, const TabBar &parent)
     return -1;
 }
 
-void updateTabIcon(int i, TabBar *parent)
-{
-    const QIcon icon = getIconForTabName(parent->tabName(i));
-    parent->setTabIcon(i, icon);
-}
-
 } // namespace
 
 TabBar::TabBar(QWidget *parent)
@@ -114,13 +108,16 @@ void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
     updateTabStyle(i);
 }
 
-void TabBar::updateTabIcon(const QString &tabName)
+void TabBar::setTabIcon(int index, const QString &icon)
+{
+    QTabBar::setTabIcon(index, icon.isEmpty() ? QIcon() : iconFromFile(icon));
+}
+
+void TabBar::setTabIcon(const QString &tabName, const QString &icon)
 {
     const int i = tabIndex(tabName, *this);
-    if (i == -1)
-        return;
-
-    ::updateTabIcon(i, this);
+    if (i != -1)
+        setTabIcon(i, icon);
 }
 
 void TabBar::insertTab(int index, const QString &tabName)
@@ -134,10 +131,13 @@ void TabBar::removeTab(int index)
     QTabBar::removeTab(index);
 }
 
-void TabBar::updateTabIcons()
+void TabBar::updateTabIcons(const QHash<QString, QString> &tabIcons)
 {
-    for (int i = 0; i < count(); ++i)
-        ::updateTabIcon(i, this);
+    for (int i = 0; i < count(); ++i) {
+        const QString name = tabName(i);
+        const QString icon = tabIcons.value(name);
+        setTabIcon(i, icon);
+    }
 }
 
 void TabBar::nextTab()
@@ -209,7 +209,6 @@ void TabBar::dropEvent(QDropEvent *event)
 void TabBar::tabInserted(int index)
 {
     QTabBar::tabInserted(index);
-    ::updateTabIcon(index, this);
     updateTabStyle(index);
 }
 

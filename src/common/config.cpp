@@ -173,15 +173,26 @@ void ensureWindowOnScreen(QWidget *w)
     ensureWindowOnScreen(w, pos);
 }
 
-} // namespace
-
-QString getConfigurationFilePath(const char *suffix)
+QString getConfigurationFilePathHelper()
 {
     const QSettings settings(
                 QSettings::IniFormat, QSettings::UserScope,
                 QCoreApplication::organizationName(),
                 QCoreApplication::applicationName() );
-    QString path = settings.fileName();
+    return settings.fileName();
+}
+
+} // namespace
+
+const QString &getConfigurationFilePath()
+{
+    static const QString path = getConfigurationFilePathHelper();
+    return path;
+}
+
+QString getConfigurationFilePath(const char *suffix)
+{
+    QString path = getConfigurationFilePath();
     // Replace suffix.
     const int i = path.lastIndexOf(QLatin1Char('.'));
     Q_ASSERT(i != -1);
@@ -189,10 +200,10 @@ QString getConfigurationFilePath(const char *suffix)
     return path.leftRef(i) + QLatin1String(suffix);
 }
 
-QString settingsDirectoryPath()
+const QString &settingsDirectoryPath()
 {
     static const QString path =
-        QDir::cleanPath( getConfigurationFilePath("") + QLatin1String("/..") );
+        QDir::cleanPath( getConfigurationFilePath() + QLatin1String("/..") );
     return path;
 }
 

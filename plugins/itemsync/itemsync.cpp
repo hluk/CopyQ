@@ -45,6 +45,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QPushButton>
+#include <QSettings>
 #include <QTextEdit>
 #include <QTimer>
 #include <QtPlugin>
@@ -586,7 +587,7 @@ ItemSyncLoader::ItemSyncLoader()
 
 ItemSyncLoader::~ItemSyncLoader() = default;
 
-QVariantMap ItemSyncLoader::applySettings()
+void ItemSyncLoader::applySettings(QSettings &settings)
 {
     // Apply settings from tab sync path table.
     QTableWidget *t = ui->tableWidgetSyncTabs;
@@ -600,7 +601,6 @@ QVariantMap ItemSyncLoader::applySettings()
             m_tabPaths.insert(tabName, tabPath);
         }
     }
-    m_settings.insert(configSyncTabs, tabPaths);
 
     // Apply settings from file format table.
     t = ui->tableWidgetFormatSettings;
@@ -626,22 +626,26 @@ QVariantMap ItemSyncLoader::applySettings()
         fixUserMimeType(&fileFormat.itemMime);
         m_formatSettings.append(fileFormat);
     }
-    m_settings.insert(configFormatSettings, formatSettings);
 
-    return m_settings;
+    settings.setValue(configSyncTabs, tabPaths);
+    settings.setValue(configFormatSettings, formatSettings);
 }
 
-void ItemSyncLoader::loadSettings(const QVariantMap &settings)
+void ItemSyncLoader::loadSettings(const QSettings &settings)
 {
-    m_settings = settings;
-
     m_tabPaths.clear();
-    const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
-    for (int i = 0; i < tabPaths.size(); i += 2)
-        m_tabPaths.insert( tabPaths[i], tabPaths.value(i + 1) );
+    m_tabPathsSaved.clear();
+    const QStringList tabPaths = settings.value(configSyncTabs).toStringList();
+    for (int i = 0; i < tabPaths.size(); i += 2) {
+        const QString &name = tabPaths[i];
+        const QString &path = tabPaths.value(i + 1);
+        m_tabPaths.insert(name, path);
+        m_tabPathsSaved.append(name);
+        m_tabPathsSaved.append(path);
+    }
 
     m_formatSettings.clear();
-    const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
+    const QVariantList formatSettings = settings.value(configFormatSettings).toList();
     for (const auto &formatSetting : formatSettings) {
         QVariantMap format = formatSetting.toMap();
         FileFormat fileFormat;
@@ -661,12 +665,11 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     ui->setupUi(w);
 
     // Init tab sync path table.
-    const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
     QTableWidget *t = ui->tableWidgetSyncTabs;
-    for (int row = 0, i = 0; i < tabPaths.size() + 20; ++row, i += 2) {
+    for (int row = 0, i = 0; i < m_tabPathsSaved.size() + 20; ++row, i += 2) {
         t->insertRow(row);
-        t->setItem( row, syncTabsTableColumns::tabName, new QTableWidgetItem(tabPaths.value(i)) );
-        t->setItem( row, syncTabsTableColumns::path, new QTableWidgetItem(tabPaths.value(i + 1)) );
+        t->setItem( row, syncTabsTableColumns::tabName, new QTableWidgetItem(m_tabPathsSaved.value(i)) );
+        t->setItem( row, syncTabsTableColumns::path, new QTableWidgetItem(m_tabPathsSaved.value(i + 1)) );
 
         QPushButton *button = createBrowseButton();
         t->setCellWidget(row, syncTabsTableColumns::browse, button);
@@ -677,17 +680,16 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
                                  syncTabsTableColumns::browse);
 
     // Init file format table.
-    const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
     t = ui->tableWidgetFormatSettings;
-    for (int row = 0; row < formatSettings.size() + 10; ++row) {
-        const QVariantMap format = formatSettings.value(row).toMap();
-        const QString formats = format.value("formats").toStringList().join(", ");
+    for (int row = 0; row < m_formatSettings.size() + 10; ++row) {
+        const FileFormat format = m_formatSettings.value(row);
+        const QString formats = format.extensions.join(", ");
         t->insertRow(row);
         t->setItem( row, formatSettingsTableColumns::formats, new QTableWidgetItem(formats) );
-        t->setItem( row, formatSettingsTableColumns::itemMime, new QTableWidgetItem(format.value("itemMime").toString()) );
+        t->setItem( row, formatSettingsTableColumns::itemMime, new QTableWidgetItem(format.itemMime) );
 
         auto button = new IconSelectButton();
-        button->setCurrentIcon( format.value("icon").toString() );
+        button->setCurrentIcon(format.icon);
         t->setCellWidget(row, formatSettingsTableColumns::icon, button);
     }
     setNormalStretchFixedColumns(t, formatSettingsTableColumns::formats,

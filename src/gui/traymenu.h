@@ -45,7 +45,7 @@ public:
     void clearCustomActions();
 
     /** Add custom action. */
-    void addCustomAction(QAction *action);
+    void setCustomActions(QList<QAction*> actions);
 
     /** Clear clipboard item actions and curstom actions. */
     void clearAllActions();
@@ -83,11 +83,10 @@ protected:
     void inputMethodEvent(QInputMethodEvent *event) override;
 
 private:
-    void clearActionsWithProperty(const char *property);
-
     void onClipboardItemActionTriggered();
 
-    void updateActiveAction();
+    void delayedUpdateActiveAction();
+    void doUpdateActiveAction();
 
     void setSearchMenuItem(const QString &text);
 
@@ -105,6 +104,9 @@ private:
     QTimer m_timerUpdateActiveAction;
 
     bool m_rowIndexFromOne = true;
+
+    QList<QAction*> m_clipboardActions;
+    QList<QAction*> m_customActions;
 };
 
 #endif // TRAYMENU_H

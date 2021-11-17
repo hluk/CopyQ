@@ -132,9 +132,9 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override;
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
@@ -171,7 +171,6 @@ private:
 
     Tag tagFromTable(int row);
 
-    QVariantMap m_settings;
     Tags m_tags;
     std::unique_ptr<Ui::ItemTagsSettings> ui;
 

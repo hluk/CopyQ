@@ -87,6 +87,7 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
+#include <QShortcut>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
@@ -309,10 +310,7 @@ bool setWindowFlag(QWidget *window, Qt::WindowType flag, bool enable)
 
 void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
 {
-    if ( setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop) ) {
-        // Workaround for QTBUG-28601.
-        window->setAcceptDrops(true);
-    }
+    setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop);
 }
 
 void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
@@ -740,6 +738,17 @@ bool MainWindow::focusNextPrevChild(bool next)
         }
     }
 
+    // Focus floating preview dock.
+    if ( next && m_showItemPreview && ui->dockWidgetItemPreview->isFloating() ) {
+        QWidget *w = ui->scrollAreaItemPreview->widget();
+        if (w && c->isActiveWindow() && c->hasFocus()) {
+            ui->dockWidgetItemPreview->raise();
+            ui->dockWidgetItemPreview->activateWindow();
+            w->setFocus(Qt::TabFocusReason);
+            return true;
+        }
+    }
+
     return QMainWindow::focusNextPrevChild(next);
 }
 
@@ -941,15 +950,12 @@ void MainWindow::updateTrayMenuCommands()
     QAction *clipboardAction = m_trayMenu->addAction( iconClipboard(), clipboardLabel );
     connect(clipboardAction, &QAction::triggered,
             this, &MainWindow::showClipboardContent);
-    m_trayMenu->addCustomAction(clipboardAction);
-
     m_trayMenu->markItemInClipboard(m_clipboardData);
 
-    int i = m_trayMenu->actions().size();
-    addCommandsToTrayMenu(m_clipboardData);
-    QList<QAction *> actions = m_trayMenu->actions();
-    for ( ; i < actions.size(); ++i )
-        m_trayMenu->addCustomAction(actions[i]);
+    QList<QAction*> customActions;
+    customActions.append(clipboardAction);
+    addCommandsToTrayMenu(m_clipboardData, &customActions);
+    m_trayMenu->setCustomActions(customActions);
 }
 
 void MainWindow::updateIcon()
@@ -1014,6 +1020,19 @@ void MainWindow::updateItemPreviewTimeout()
         if (w) {
             ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
             w->show();
+
+            // Focus from floating preview dock back to the main window on Esc/Tab.
+            if ( ui->dockWidgetItemPreview->isFloating() ) {
+                const auto keys = {
+                    Qt::Key_Backtab,
+                    Qt::Key_Escape,
+                    Qt::Key_Tab,
+                };
+                for (auto key : keys) {
+                    const auto shortcut = new QShortcut(key, w);
+                    connect(shortcut, &QShortcut::activated, this, &MainWindow::showWindow);
+                }
+            }
         }
     } else {
         ui->dockWidgetItemPreview->hide();
@@ -1465,7 +1484,7 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 }
 
 template <typename SlotReturnType>
-QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
+QAction *MainWindow::createAction(Actions::Id id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
 {
     QAction *act = parent
         ? actionForMenuItem(id, parent, Qt::WidgetWithChildrenShortcut)
@@ -1476,7 +1495,7 @@ QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> s
     return act;
 }
 
-QAction *MainWindow::addTrayAction(int id)
+QAction *MainWindow::addTrayAction(Actions::Id id)
 {
     QAction *act = actionForMenuItem(id, m_trayMenu, Qt::WindowShortcut);
     m_trayMenu->addAction(act);
@@ -1491,7 +1510,7 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 }
 
 template <typename Receiver, typename ReturnType>
-QAction *MainWindow::addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)())
+QAction *MainWindow::addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
     QAction *act = actionForMenuItem(id, getPlaceholder(), Qt::WidgetWithChildrenShortcut);
     connect( act, &QAction::triggered, receiver, slot, Qt::UniqueConnection );
@@ -1539,7 +1558,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     runMenuCommandFilters(&m_itemMenuMatchCommands, data);
 }
 
-void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
+void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<QAction*> *actions)
 {
     if ( m_trayMenuCommands.isEmpty() ) {
         interruptMenuCommandFilters(&m_trayMenuMatchCommands);
@@ -1561,6 +1580,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
+        actions->append(act);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
 
@@ -1780,7 +1800,7 @@ void MainWindow::updateActionShortcuts()
     }
 }
 
-QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
+QAction *MainWindow::actionForMenuItem(Actions::Id id, QWidget *parent, Qt::ShortcutContext context)
 {
     Q_ASSERT(id < m_menuItems.size());
 
@@ -2668,7 +2688,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     reloadBrowsers();
 
-    ui->tabWidget->updateTabs();
+    ui->tabWidget->updateTabs(settings);
 
     m_timerSaveTabPositions.stop();
 
@@ -3586,8 +3606,10 @@ void MainWindow::openPreferences()
     connect( &configurationManager, &ConfigurationManager::error,
              this, &MainWindow::showError );
 
+#if QT_VERSION < QT_VERSION_CHECK(5,9,3)
     // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
     configurationManager.setWindowModality(Qt::WindowModal);
+#endif
 
     cm = &configurationManager;
     configurationManager.exec();
@@ -4112,7 +4134,7 @@ void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 {
     if ( tabs().contains(tabName) || ui->tabWidget->isTabGroup(tabName) ) {
         setIconNameForTabName(tabName, icon);
-        ui->tabWidget->updateTabIcon(tabName);
+        ui->tabWidget->setTabIcon(tabName, icon);
     }
 }
 

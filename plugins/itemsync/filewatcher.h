@@ -105,9 +105,8 @@ private:
         QString baseName;
         QMap<QString, Hash> formatHash;
 
-        IndexData() {}
-        explicit IndexData(const QModelIndex &index) : index(index) {}
-        bool operator==(const QModelIndex &otherIndex) const { return otherIndex == index; }
+        IndexData() = default;
+        explicit IndexData(const QModelIndex &ind) : index(ind) {}
     };
 
     using IndexDataList = QVector<IndexData>;

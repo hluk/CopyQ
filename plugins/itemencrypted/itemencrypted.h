@@ -102,9 +102,9 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
@@ -153,7 +153,7 @@ private:
     GpgProcessStatus status() const;
 
     std::unique_ptr<Ui::ItemEncryptedSettings> ui;
-    QVariantMap m_settings;
+    QStringList m_encryptTabs;
 
     mutable GpgProcessStatus m_gpgProcessStatus;
     QProcess *m_gpgProcess;

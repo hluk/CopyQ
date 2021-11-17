@@ -83,9 +83,9 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
@@ -94,7 +94,9 @@ public:
     bool matches(const QModelIndex &index, const ItemFilter &filter) const override;
 
 private:
-    QVariantMap m_settings;
+    bool m_notesAtBottom = false;
+    bool m_notesBeside = false;
+    bool m_showTooltip = false;
     std::unique_ptr<Ui::ItemNotesSettings> ui;
 };
 

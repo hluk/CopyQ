@@ -31,17 +31,16 @@ void addMenuItem(
         MenuItems &items, Actions::Id id, const QString &text, const QString &settingsKey,
         const QKeySequence &shortcut, const QString &iconName, ushort iconId = 0)
 {
-    Q_ASSERT(items.size() == id && "Menu item index must be same as its ID.");
+    Q_ASSERT(items[id].text.isEmpty() && "Menu item index must be same as its ID.");
     Q_UNUSED(id)
 
-    MenuItem item;
+    MenuItem &item = items[id];
     item.text = text;
     item.settingsKey = settingsKey;
     item.defaultShortcut = shortcut;
     item.shortcuts = QList<QKeySequence>() << shortcut;
     item.iconName = iconName;
     item.iconId = iconId;
-    items.append(item);
 }
 
 void addMenuItem(

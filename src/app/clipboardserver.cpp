@@ -206,9 +206,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     connect( qApp, &QGuiApplication::commitDataRequest, this, &ClipboardServer::onCommitData );
     connect( qApp, &QGuiApplication::saveStateRequest, this, &ClipboardServer::onSaveState );
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
     qApp->setFallbackSessionManagementEnabled(false);
-#endif
 
     connect( m_wnd, &MainWindow::requestExit,
              this, &ClipboardServer::maybeQuit );

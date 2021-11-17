@@ -650,31 +650,23 @@ QStringList ItemTagsLoader::formatsToSave() const
     return QStringList(mimeTags);
 }
 
-QVariantMap ItemTagsLoader::applySettings()
+void ItemTagsLoader::applySettings(QSettings &settings)
 {
-    m_tags.clear();
-
     QStringList tags;
 
     for (int row = 0; row < ui->tableWidget->rowCount(); ++row) {
         const Tag tag = tagFromTable(row);
-        if (isTagValid(tag)) {
+        if (isTagValid(tag))
             tags.append(serializeTag(tag));
-            m_tags.append(tag);
-        }
     }
 
-    m_settings.insert(configTags, tags);
-
-    return m_settings;
+    settings.setValue(configTags, tags);
 }
 
-void ItemTagsLoader::loadSettings(const QVariantMap &settings)
+void ItemTagsLoader::loadSettings(const QSettings &settings)
 {
-    m_settings = settings;
-
     m_tags.clear();
-    for (const auto &tagField : m_settings.value(configTags).toStringList()) {
+    for (const auto &tagField : settings.value(configTags).toStringList()) {
         Tag tag = deserializeTag(tagField);
         if (isTagValid(tag))
             m_tags.append(tag);

@@ -867,10 +867,8 @@ QJSValue Scriptable::version()
             "???"
 #endif
             + "\n"
-#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
             + "Arch: " + QSysInfo::buildAbi() + "\n"
             + "OS: " + QSysInfo::prettyProductName() + "\n"
-#endif
             ;
 }
 
