@@ -499,7 +499,13 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     if (m_watcher)
         m_watcher->updateItemsIfNeeded();
 
-    QVariantMap copiedItemData = itemData;
+    QVariantMap copiedItemData;
+    for (auto it = itemData.begin(); it != itemData.constEnd(); ++it) {
+        const auto &format = it.key();
+        if ( !format.startsWith(mimePrivatePrefix) )
+            copiedItemData[format] = it.value();
+    }
+
     copiedItemData.insert(mimeSyncPath, m_tabPath);
 
     // Add text/uri-list if no data are present.

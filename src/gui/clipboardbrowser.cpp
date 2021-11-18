@@ -1695,7 +1695,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
     // Also update previous item if the same selected text is copied to clipboard afterwards.
     if ( data.contains(mimeText) ) {
         const auto firstIndex = firstUnpinnedIndex();
-        const QVariantMap previousData = copyIndex(firstIndex);
+        const QVariantMap previousData = firstIndex.data(contentType::data).toMap();
 
         if ( firstIndex.isValid()
              && previousData.contains(mimeText)

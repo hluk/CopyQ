@@ -41,6 +41,9 @@ const QLatin1String mimeNoSave(COPYQ_MIME_PREFIX_ITEMSYNC "no-save");
 const QLatin1String mimeSyncPath(COPYQ_MIME_PREFIX_ITEMSYNC "sync-path");
 const QLatin1String mimeNoFormat(COPYQ_MIME_PREFIX_ITEMSYNC "no-format");
 const QLatin1String mimeUnknownFormats(COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats");
+const QLatin1String mimePrivatePrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE);
+const QLatin1String mimeOldBaseName(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "old-basename");
+const QLatin1String mimeHashPrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "hash");
 
 struct Ext {
     Ext() : extension(), format() {}
@@ -440,7 +443,6 @@ FileWatcher::FileWatcher(
     , m_formatSettings(formatSettings)
     , m_path(path)
     , m_valid(true)
-    , m_indexData()
     , m_maxItems(maxItems)
 {
     m_updateTimer.setSingleShot(true);
@@ -487,7 +489,9 @@ QVariantMap FileWatcher::itemDataFromFiles(const QDir &dir, const BaseNameExtens
     updateDataAndWatchFile(dir, baseNameWithExts, &dataMap, &mimeToExtension);
 
     if ( !mimeToExtension.isEmpty() ) {
-        dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
+        const QString baseName = QFileInfo(baseNameWithExts.baseName).fileName();
+        dataMap.insert(mimeBaseName, baseName);
+        dataMap.insert(mimeOldBaseName, baseName);
         dataMap.insert(mimeExtensionMap, mimeToExtension);
     }
 
@@ -520,8 +524,6 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
         if ( !item.isEmpty() )
             items.append(item);
     }
-
-    items.reserve(fileList.size());
 
     int row = 0;
     int i = 0;
@@ -574,14 +576,12 @@ void FileWatcher::updateItems()
     if ( m_batchIndexData.isEmpty() ) {
         const QStringList files = listFiles(dir);
         m_fileList = listFiles(files, m_formatSettings, m_maxItems);
-        m_batchIndexData = m_indexData;
-
-        // Sort so that top rows get updated first.
-        std::sort(
-            std::begin(m_batchIndexData), std::end(m_batchIndexData),
-            [](const IndexData &lhs, const IndexData &rhs){
-                return lhs.index.row() < rhs.index.row();
-            });
+        m_batchIndexData.reserve(m_model->rowCount());
+        for (int row = 0; row < m_model->rowCount(); ++row) {
+            const QModelIndex index = m_model->index(row, 0);
+            if ( !oldBaseName(index).isEmpty() )
+                m_batchIndexData.append(index);
+        }
 
         m_lastBatchIndex = -1;
         if ( t.elapsed() > 100 )
@@ -589,11 +589,10 @@ void FileWatcher::updateItems()
     }
 
     for ( int i = m_lastBatchIndex + 1; i < m_batchIndexData.size(); ++i ) {
-        const IndexData &indexData = m_batchIndexData[i];
-        const QPersistentModelIndex &index = indexData.index;
+        const QPersistentModelIndex &index = m_batchIndexData[i];
         if ( !index.isValid() )
             continue;
-        const QString baseName = indexData.baseName;
+        const QString baseName = oldBaseName(index);
         if ( baseName.isEmpty() )
             continue;
 
@@ -616,7 +615,7 @@ void FileWatcher::updateItems()
         } else {
             dataMap.insert(mimeBaseName, baseName);
             dataMap.insert(mimeExtensionMap, mimeToExtension);
-            updateIndexData(index, dataMap);
+            updateIndexData(index, &dataMap);
         }
 
         if ( t.elapsed() > 20 ) {
@@ -683,13 +682,9 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
         if ( !index.isValid() )
             continue;
 
-        IndexDataList::iterator it = findIndexData(index);
-        if ( it == m_indexData.end() )
-            continue;
-
-        if ( isOwnBaseName(it->baseName) )
+        const QString baseName = oldBaseName(index);
+        if ( isOwnBaseName(baseName) )
             removeFilesForRemovedIndex(m_path, index);
-        m_indexData.erase(it);
     }
 
     // If the tab is no longer full, try to add new files.
@@ -697,20 +692,9 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
         m_updateTimer.start(0);
 }
 
-FileWatcher::IndexDataList::iterator FileWatcher::findIndexData(const QModelIndex &index)
+QString FileWatcher::oldBaseName(const QModelIndex &index) const
 {
-    return std::find_if(
-        m_indexData.begin(), m_indexData.end(), [index](const IndexData &data) {
-            return index == data.index;
-        });
-}
-
-FileWatcher::IndexData &FileWatcher::indexData(const QModelIndex &index)
-{
-    IndexDataList::iterator it = findIndexData(index);
-    if ( it == m_indexData.end() )
-        return *m_indexData.insert( m_indexData.end(), IndexData(index) );
-    return *it;
+    return index.data(contentType::data).toMap().value(mimeOldBaseName).toString();
 }
 
 void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
@@ -729,7 +713,8 @@ void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
         const int row2 = (row + i) % rows;
         auto index = m_model->index(row2, 0);
         if ( getBaseName(index).isEmpty() ) {
-            updateIndexData(index, *it);
+            QVariantMap data = *it;
+            updateIndexData(index, &data);
             ++it;
             if (it == std::end(items))
                 break;
@@ -737,28 +722,26 @@ void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
     }
 }
 
-void FileWatcher::updateIndexData(const QModelIndex &index, const QVariantMap &itemData)
+void FileWatcher::updateIndexData(const QModelIndex &index, QVariantMap *itemData)
 {
-    m_model->setData(index, itemData, contentType::data);
-
-    // Item base name is non-empty.
-    const QString baseName = getBaseName(index);
-    if ( baseName.isEmpty() )
+    const QString baseName = getBaseName(*itemData);
+    if ( baseName.isEmpty() ) {
+        m_model->setData(index, *itemData, contentType::data);
         return;
-
-    const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
-
-    IndexData &data = indexData(index);
-
-    data.baseName = baseName;
-
-    QMap<QString, Hash> &formatData = data.formatHash;
-    formatData.clear();
-
-    for ( auto format = mimeToExtension.keyBegin(); format != mimeToExtension.keyEnd(); ++format ) {
-        if ( !format->startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
-            formatData.insert(*format, calculateHash(itemData.value(*format).toByteArray()) );
     }
+
+    itemData->insert(mimeOldBaseName, baseName);
+
+    const QVariantMap mimeToExtension = itemData->value(mimeExtensionMap).toMap();
+    for ( auto it = mimeToExtension.begin(); it != mimeToExtension.end(); ++it ) {
+        if ( !it.key().startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) ) {
+            const QString ext = it.value().toString();
+            const Hash hash = calculateHash(itemData->value(it.key()).toByteArray());
+            const QString mime = mimeHashPrefix + ext;
+            itemData->insert(mime, hash);
+        }
+    }
+    m_model->setData(index, *itemData, contentType::data);
 }
 
 QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
@@ -825,7 +808,7 @@ void FileWatcher::saveItems(int first, int last)
                 dataMapUnknown.insert(format, bytes);
             } else {
                 mimeToExtension.insert(format, ext);
-                const Hash oldHash = indexData(index).formatHash.value(format);
+                const Hash oldHash = index.data(contentType::data).toMap().value(mimeHashPrefix + ext).toByteArray();
                 if ( !saveItemFile(filePath + ext, bytes, &existingFiles, hash != oldHash) )
                     return;
             }
@@ -852,7 +835,7 @@ void FileWatcher::saveItems(int first, int last)
                 oldMimeToExtension.remove(*format);
 
             itemData.insert(mimeExtensionMap, mimeToExtension);
-            updateIndexData(index, itemData);
+            updateIndexData(index, &itemData);
 
             // Remove files of removed formats.
             removeFormatFiles(filePath, oldMimeToExtension);
@@ -870,8 +853,7 @@ bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIn
         if ( !index.isValid() )
             continue;
 
-        IndexDataList::iterator it = findIndexData(index);
-        const QString olderBaseName = (it != m_indexData.end()) ? it->baseName : QString();
+        const QString olderBaseName = oldBaseName(index);
         const QString oldBaseName = getBaseName(index);
         QString baseName = oldBaseName;
 
@@ -902,7 +884,7 @@ bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIn
 
             itemData.remove(mimeSyncPath);
             itemData.insert(mimeBaseName, baseName);
-            updateIndexData(index, itemData);
+            updateIndexData(index, &itemData);
 
             if ( oldBaseName.isEmpty() && itemData.contains(mimeUriList) ) {
                 if ( copyFilesFromUriList(itemData[mimeUriList].toByteArray(), index.row(), baseNames) )
