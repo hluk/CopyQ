@@ -4235,11 +4235,6 @@ void Tests::startServerAndRunCommand()
 {
     RUN("--start-server" << "tab" << testTab(1) << "write('TEST');read(0)", "TEST");
 
-#ifdef Q_OS_MAC
-    SKIP("FIXME: For some reason the server is not started again on macOS");
-#elif defined(Q_OS_WIN)
-    SKIP("FIXME: For some reason the server is not stopped reliably on Windows");
-#endif
     TEST( m_test->stopServer() );
 
     QByteArray stdoutActual;
@@ -4257,6 +4252,10 @@ void Tests::startServerAndRunCommand()
     // client connection.
     QCOMPARE( run(Args("--start-server") << "exit();sleep(10000)", &stdoutActual, &stderrActual), 0 );
     QCOMPARE(stdoutActual, "Terminating server.\n");
+
+    // Try to start new client.
+    SleepTimer t(10000);
+    while ( run(Args("exit();sleep(10000)")) == 0 && t.sleep() ) {}
 }
 
 int Tests::run(
