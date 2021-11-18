@@ -25,6 +25,7 @@
 
 #include <QAbstractItemModel>
 #include <QCryptographicHash>
+#include <QDataStream>
 #include <QDateTime>
 #include <QDir>
 #include <QElapsedTimer>
@@ -912,7 +913,8 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
             continue;
 
         if ( ext.extension == dataFileSuffix ) {
-            if ( deserializeData(dataMap, f.readAll()) )
+            QDataStream stream(&f);
+            if ( deserializeData(&stream, dataMap) )
                 mimeToExtension->insert(mimeUnknownFormats, dataFileSuffix);
         } else if ( f.size() > sizeLimit || ext.format.startsWith(mimeNoFormat)
                     || dataMap->contains(ext.format) )
