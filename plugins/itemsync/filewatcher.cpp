@@ -201,7 +201,7 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
 
 bool canUseFile(const QFileInfo &info)
 {
-    return !info.isHidden() && !info.fileName().startsWith(QLatin1Char('.')) && info.isReadable();
+    return !info.fileName().startsWith(QLatin1Char('.'));
 }
 
 bool getBaseNameExtension(const QString &filePath, const QList<FileFormat> &formatSettings,
