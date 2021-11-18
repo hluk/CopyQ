@@ -32,6 +32,8 @@
 
 namespace {
 
+QString logFileName_;
+
 /// System-wide mutex
 class SystemMutex final {
 public:
@@ -106,7 +108,7 @@ QString logFileName(int i)
 {
     if (i <= 0)
         return ::logFileName();
-    return ::logFileName() + "." + QString::number(i);
+    return ::logFileName() + QStringLiteral(".") + QString::number(i);
 }
 
 void rotateLogFiles()
@@ -209,14 +211,12 @@ QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
 QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
-            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ").toUtf8();
+        QDateTime::currentDateTime().toString(QStringLiteral(" [yyyy-MM-dd hh:mm:ss.zzz] ")).toUtf8();
     const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + logLabel() + ": ";
     return createLogMessage(label, text);
 }
 
-} // namespace
-
-QString logFileName()
+QString getLogFileName()
 {
     const QString fileName = envString("COPYQ_LOG_FILE");
     if (!fileName.isEmpty())
@@ -224,9 +224,23 @@ QString logFileName()
 
     const QString path = getDefaultLogFilePath();
     QDir dir(path);
-    dir.mkpath(".");
+    dir.mkpath(QStringLiteral("."));
 
-    return path + "/copyq.log";
+    return path + QStringLiteral("/copyq.log");
+}
+
+} // namespace
+
+void initLogging()
+{
+    logFileName_ = getLogFileName();
+}
+
+const QString &logFileName()
+{
+    if ( logFileName_.isEmpty() )
+        logFileName_ = getLogFileName();
+    return logFileName_;
 }
 
 QString readLogFile(int maxReadSize)

@@ -166,6 +166,8 @@ App::App(QCoreApplication *application,
 #ifdef HAS_TESTS
     initTests();
 #endif
+
+    initLogging();
 }
 
 App::~App()
