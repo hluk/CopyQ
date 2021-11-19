@@ -385,8 +385,6 @@ class ClipboardBrowser final : public QListView
 
         void dragDropScroll();
 
-        void setCurrentIndex(const QModelIndex &index);
-
         ItemSaverPtr m_itemSaver;
 
         QString m_tabName;

@@ -733,13 +733,6 @@ void ClipboardBrowser::dragDropScroll()
     }
 }
 
-void ClipboardBrowser::setCurrentIndex(const QModelIndex &index)
-{
-    // WORKAROUND: QAbstractItemView::setCurrentIndex() seems to depend on
-    //             currently pressed keyboard modifiers, which is unexpected.
-    selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
-}
-
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
 {
     auto data = index.data(contentType::data).toMap();
