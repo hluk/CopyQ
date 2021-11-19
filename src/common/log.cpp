@@ -177,18 +177,17 @@ QString getDefaultLogFilePath()
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 }
 
-QString readLogFile(const QString &fileName, int maxReadSize)
+QByteArray readLogFile(const QString &fileName, int maxReadSize)
 {
     QFile f(fileName);
     if ( !f.open(QIODevice::ReadOnly) )
-        return QString();
+        return {};
 
     const auto seek = f.size() - maxReadSize;
     if (seek > 0)
         f.seek(seek);
-    const QByteArray content = f.readAll();
 
-    return QString::fromUtf8(content);
+    return f.readAll();
 }
 
 bool writeLogFile(const QByteArray &message)
@@ -243,11 +242,11 @@ const QString &logFileName()
     return logFileName_;
 }
 
-QString readLogFile(int maxReadSize)
+QByteArray readLogFile(int maxReadSize)
 {
     SystemMutexLocker lock(getSessionMutex());
 
-    QString content;
+    QByteArray content;
     for (int i = 0; i < logFileCount; ++i) {
         const int toRead = maxReadSize - content.size();
         content.prepend( readLogFile(logFileName(i), toRead) );

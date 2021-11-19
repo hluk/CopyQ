@@ -530,7 +530,7 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            QByteArray output = readLogFile(maxReadLogSize);
             if ( !m_ignoreError.isEmpty() )
                 output.replace(m_ignoreError, "[EXPECTED-IN-TEST] " + m_ignoreError);
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
@@ -801,9 +801,9 @@ int count(const QStringList &items, const QString &pattern)
     return count;
 }
 
-QStringList splitLines(const QString &nativeText)
+QStringList splitLines(const QByteArray &nativeText)
 {
-    return nativeText.split(QRegularExpression("\r\n|\n|\r"));
+    return QString::fromUtf8(nativeText).split(QRegularExpression("\r\n|\n|\r"));
 }
 
 } // namespace
@@ -4269,7 +4269,7 @@ bool Tests::hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
-    return splitLines(QString::fromUtf8(out)).contains(tabName);
+    return splitLines(out).contains(tabName);
 }
 
 int runTests(int argc, char *argv[])

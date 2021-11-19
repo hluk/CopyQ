@@ -1888,7 +1888,7 @@ void Scriptable::serverLog()
 QJSValue Scriptable::logs()
 {
     m_skipArguments = 0;
-    return readLogFile(50 * 1024 * 1024);
+    return QString::fromUtf8(readLogFile(50 * 1024 * 1024));
 }
 
 void Scriptable::setCurrentTab()

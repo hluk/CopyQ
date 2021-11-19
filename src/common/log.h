@@ -36,7 +36,7 @@ void initLogging();
 
 const QString &logFileName();
 
-QString readLogFile(int maxReadSize);
+QByteArray readLogFile(int maxReadSize);
 
 bool removeLogFiles();
 
