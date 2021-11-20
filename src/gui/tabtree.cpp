@@ -393,9 +393,6 @@ void TabTree::insertTab(int index, const QString &path)
         item->setExpanded(true);
         item->setData(0, DataText, text);
 
-        const QIcon icon = getIconForTabName( getTabPath(item) );
-        item->setIcon(0, icon);
-
         labelItem(item);
     }
 
