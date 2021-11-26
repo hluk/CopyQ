@@ -320,7 +320,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar pestaña actual</translation>
     </message>
 </context>
 <context>
@@ -525,7 +525,7 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>El argumento %1 se sustituirá por el texto del elemento.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -624,7 +624,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Omite el comando si el texto de entrada no coincide con esta expresión regular (déjelo en blanco para que coincida con todo).
+
+%2 a %9 en Comando y Filtro se reemplazarán con los textos capturados.
+
+Ejemplos:
+
+- URL de coincidencia: ^(https?|ftp)://
+- Coincidir con nombres de archivos PDF: \.pdf$
+- Coincidir con un solo carácter: ^.$
+- Coincidir con multimedia remota: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="528"/>
@@ -732,7 +741,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
@@ -754,7 +763,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Omite el comando si el comando de filtro falla con un código de salida distinto de cero.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -905,7 +914,7 @@ Nota: si se aplica automáticamente, no se ejecutará ninguna otra orden automá
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Información sobre herramientas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
@@ -1204,7 +1213,7 @@ Definir como 0 para no quitar pestañas.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished">Pestaña para guardar el portapapeles (&amp;b):</translation>
+        <translation>Pestaña para guardar el portapapeles:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -1329,7 +1338,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished">Ocu&amp;ltar barra de herramientas</translation>
+        <translation>Ocultar barra de herramientas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
@@ -1359,7 +1368,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished">Á&amp;rbol de pestañas</translation>
+        <translation>Árbol de pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -1378,7 +1387,7 @@ Nota: esto no es posible en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished">Transparencia &amp;sin foco:</translation>
+        <translation>Transparencia desenfocada:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1392,12 +1401,12 @@ Nota: Esto no es posible en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished">Mostrar cantidad de elementos en las pestañas</translation>
+        <translation>Mostrar cantidad de elementos en las pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished">Mostrar &amp;cantidad de elementos</translation>
+        <translation>Mostrar cantidad de elementos</translation>
     </message>
 </context>
 <context>
@@ -1454,7 +1463,7 @@ Nota: Esto no es posible en todos los sistemas.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished">Intervalo en segundos para mostrar la notificación que indica que hay contenido nuevo en el portapapeles o que algo se ha copiado al portapapeles (sólo si la ventana principal está cerrada).
+        <translation>Intervalo en segundos para mostrar la notificación que indica que hay contenido nuevo en el portapapeles o que algo se ha copiado al portapapeles (sólo si la ventana principal está cerrada).
 
 Definir como 0 para deshabilitar esta opción.
 
@@ -1470,14 +1479,14 @@ Definir como -1 para mantenerla visible hasta que se pulse en ella.</translation
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished">Número de líneas para mostrar del contenido nuevo del portapapeles.
+        <translation>Número de líneas para mostrar del contenido nuevo del portapapeles.
 
-Definir como 0 para desactivar.</translation>
+Definir 0 para desactivar.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Usar notificaciones nativas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1492,7 +1501,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished">Distancia de la notificación al borde derecho o izquierdo de la pantalla en puntos de pantalla</translation>
+        <translation>Distancia de la notificación al borde derecho o izquierdo de la pantalla en puntos de pantalla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
@@ -1502,7 +1511,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished">Distancia de la notificación al borde superior o inferior de la pantalla en puntos de pantalla</translation>
+        <translation>Distancia de la notificación al borde superior o inferior de la pantalla en puntos de pantalla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
@@ -1512,17 +1521,17 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished">Ancho máximo de la notificación en puntos de pantalla</translation>
+        <translation>Ancho máximo de la notificación en puntos de pantalla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished">Altura má&amp;xima:</translation>
+        <translation>Altura máxima:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished">Altura máxima de la notificación en puntos de pantalla</translation>
+        <translation>Altura máxima de la notificación en puntos de pantalla</translation>
     </message>
 </context>
 <context>
@@ -1530,12 +1539,12 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished">No mostrar el ícono de la bandeja; minimizar la ventana cuando se cierre</translation>
+        <translation>No mostrar el ícono de la bandeja; minimizar la ventana cuando se cierre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished">D&amp;esactivar bandeja</translation>
+        <translation>Desactivar bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
