@@ -2513,6 +2513,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    // Allow browsing items in search mode without focusing item list.
+    if (c && !browseMode()) {
+        switch(key) {
+            case Qt::Key_Down:
+            case Qt::Key_Up:
+            case Qt::Key_PageDown:
+            case Qt::Key_PageUp:
+                QCoreApplication::sendEvent(c, event);
+                return;
+        }
+    }
+
     if (modifiers == Qt::ControlModifier) {
         switch(key) {
             case Qt::Key_Return:
@@ -2531,14 +2543,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
 
     switch(key) {
-        case Qt::Key_Down:
-        case Qt::Key_Up:
-        case Qt::Key_PageDown:
-        case Qt::Key_PageUp:
-            if ( c && !c->hasFocus() )
-                c->setFocus();
-            break;
-
         case Qt::Key_Return:
         case Qt::Key_Enter:
             if (c)

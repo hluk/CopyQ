@@ -2475,14 +2475,17 @@ void Tests::searchItems()
 
 void Tests::searchItemsAndSelect()
 {
-    RUN("add" << "xx2" << "a" << "xx" << "c", "");
+    RUN("add" << "xx1" << "a" << "xx2" << "c" << "xx3" << "d", "");
     RUN("keys" << ":xx" << filterEditId, "");
-
-    RUN("keys" << filterEditId << "DOWN" << clipboardBrowserId, "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
 
-    RUN("keys" << clipboardBrowserId << "DOWN" << clipboardBrowserId, "");
+    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
     RUN("testSelected", QString(clipboardTabName) + " 3 3\n");
+
+    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
+    RUN("testSelected", QString(clipboardTabName) + " 5 5\n");
+
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
 }
 
 void Tests::searchRowNumber()
