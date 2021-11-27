@@ -1,21 +1,22 @@
 /*
     SPDX-FileCopyrightText: 2020 David Edmundson <davidedmundson@kde.org>
+    SPDX-FileCopyrightText: 2021 Méven Car <meven.car@enioka.com>
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
 #include "waylandclipboard.h"
 
+#include <QBuffer>
 #include <QDebug>
 #include <QElapsedTimer>
 #include <QFile>
-#include <QFutureWatcher>
 #include <QGuiApplication>
+#include <QImageReader>
+#include <QImageWriter>
 #include <QMimeData>
 #include <QThread>
-
 #include <QtWaylandClient/QWaylandClientExtension>
-
 #include <qpa/qplatformnativeinterface.h>
 
 #include <errno.h>
@@ -25,18 +26,48 @@
 
 #include "qwayland-wlr-data-control-unstable-v1.h"
 
+static inline QString applicationQtXImageLiteral()
+{
+    return QStringLiteral("application/x-qt-image");
+}
+
+// copied from https://code.woboq.org/qt5/qtbase/src/gui/kernel/qinternalmimedata.cpp.html
 static QString utf8Text()
 {
     return QStringLiteral("text/plain;charset=utf-8");
 }
+
+static QStringList imageMimeFormats(const QList<QByteArray> &imageFormats)
+{
+    QStringList formats;
+    formats.reserve(imageFormats.size());
+    for (const auto &format : imageFormats)
+        formats.append(QLatin1String("image/") + QLatin1String(format.toLower()));
+    // put png at the front because it is best
+    int pngIndex = formats.indexOf(QLatin1String("image/png"));
+    if (pngIndex != -1 && pngIndex != 0)
+        formats.move(pngIndex, 0);
+    return formats;
+}
+
+static inline QStringList imageReadMimeFormats()
+{
+    return imageMimeFormats(QImageReader::supportedImageFormats());
+}
+
+static inline QStringList imageWriteMimeFormats()
+{
+    return imageMimeFormats(QImageWriter::supportedImageFormats());
+}
+// end copied
 
 namespace {
 
 class SendThread : public QThread {
 public:
     SendThread(int fd, const QByteArray &data)
-        : m_fd(fd)
-        , m_data(data)
+        : m_data(data)
+        , m_fd(fd)
     {}
 
 protected:
@@ -49,8 +80,8 @@ protected:
     }
 
 private:
-    int m_fd;
     QByteArray m_data;
+    int m_fd;
 };
 
 class ReceiveThread : public QThread {
@@ -102,8 +133,8 @@ private:
         }
     }
 
-    int m_fd;
     QByteArray m_data;
+    int m_fd;
 };
 
 } // namespace
@@ -118,10 +149,22 @@ public:
     {
     }
 
+    void instantiate()
+    {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        initialize();
+#else
+        // QWaylandClientExtensionTemplate invokes this with a QueuedConnection but we want shortcuts
+        // to be have access to data_control immediately.
+        QMetaObject::invokeMethod(this, "addRegistryListener");
+#endif
+    }
+
     ~DataControlDeviceManager()
     {
-        if ( isInitialized() )
+        if (isInitialized()) {
             destroy();
+        }
     }
 };
 
@@ -145,12 +188,44 @@ public:
         return m_receivedFormats;
     }
 
+    bool containsImageData() const
+    {
+        if (m_receivedFormats.contains(applicationQtXImageLiteral())) {
+            return true;
+        }
+        const auto formats = imageReadMimeFormats();
+        for (const auto &receivedFormat : m_receivedFormats) {
+            if (formats.contains(receivedFormat)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     bool hasFormat(const QString &mimeType) const override
     {
         if (mimeType == QStringLiteral("text/plain") && m_receivedFormats.contains(utf8Text())) {
             return true;
         }
-        return m_receivedFormats.contains(mimeType);
+        if (m_receivedFormats.contains(mimeType)) {
+            return true;
+        }
+
+        // If we have image data
+        if (containsImageData()) {
+            // is the requested output mimeType supported ?
+            const QStringList imageFormats = imageWriteMimeFormats();
+            for (const QString &imageFormat : imageFormats) {
+                if (imageFormat == mimeType) {
+                    return true;
+                }
+            }
+            if (mimeType == applicationQtXImageLiteral()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 protected:
@@ -177,13 +252,29 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type)
 {
     Q_UNUSED(type);
 
-    QString mime = mimeType;
+    QString mime;
     if (!m_receivedFormats.contains(mimeType)) {
         if (mimeType == QStringLiteral("text/plain") && m_receivedFormats.contains(utf8Text())) {
             mime = utf8Text();
-        } else {
+        } else if (mimeType == applicationQtXImageLiteral()) {
+            const auto writeFormats = imageWriteMimeFormats();
+            for (const auto &receivedFormat : m_receivedFormats) {
+                if (writeFormats.contains(receivedFormat)) {
+                    mime = receivedFormat;
+                    break;
+                }
+            }
+            if (mime.isEmpty()) {
+                // default exchange format
+                mime = QStringLiteral("image/png");
+            }
+        }
+
+        if (mime.isEmpty()) {
             return QVariant();
         }
+    } else {
+        mime = mimeType;
     }
 
     int pipeFds[2];
@@ -203,7 +294,7 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type)
      * However this isn't actually any worse than X.
      */
 
-    QPlatformNativeInterface *native = qApp->platformNativeInterface();
+    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
     auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
     wl_display_flush(display);
 
@@ -211,7 +302,16 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type)
     thread.start();
     while (thread.isRunning())
         QCoreApplication::processEvents();
-    return thread.data();
+    const auto data = thread.data();
+
+    if (!data.isEmpty() && mimeType == applicationQtXImageLiteral()) {
+        QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
+        if (!img.isNull()) {
+            return img;
+        }
+    }
+
+    return data;
 }
 
 class DataControlSource : public QObject, public QtWayland::zwlr_data_control_source_v1
@@ -249,12 +349,22 @@ DataControlSource::DataControlSource(struct ::zwlr_data_control_source_v1 *id, Q
     : QtWayland::zwlr_data_control_source_v1(id)
     , m_mimeData(mimeData)
 {
-    for (const QString &format : mimeData->formats()) {
+    const auto formats = mimeData->formats();
+    for (const QString &format : formats) {
         offer(format);
     }
     if (mimeData->hasText()) {
         // ensure GTK applications get this mimetype to avoid them discarding the offer
         offer(QStringLiteral("text/plain;charset=utf-8"));
+    }
+
+    if (mimeData->hasImage()) {
+        const QStringList imageFormats = imageWriteMimeFormats();
+        for (const QString &imageFormat : imageFormats) {
+            if (!formats.contains(imageFormat)) {
+                offer(imageFormat);
+            }
+        }
     }
 }
 
@@ -267,6 +377,28 @@ void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_typ
         // if we get a request on the fallback mime, send the data from the original mime type
         send_mime_type = QStringLiteral("text/plain");
     }
+
+    QByteArray ba;
+    if (m_mimeData->hasImage()) {
+        // adapted from QInternalMimeData::renderDataHelper
+        if (mime_type == applicationQtXImageLiteral()) {
+            QImage image = qvariant_cast<QImage>(m_mimeData->imageData());
+            QBuffer buf(&ba);
+            buf.open(QBuffer::WriteOnly);
+            // would there not be PNG ??
+            image.save(&buf, "PNG");
+
+        } else if (mime_type.startsWith(QLatin1String("image/"))) {
+            QImage image = qvariant_cast<QImage>(m_mimeData->imageData());
+            QBuffer buf(&ba);
+            buf.open(QBuffer::WriteOnly);
+            image.save(&buf, mime_type.mid(mime_type.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
+        }
+        // end adapted
+    } else {
+        ba = m_mimeData->data(send_mime_type);
+    }
+
     auto thread = new SendThread(fd, m_mimeData->data(send_mime_type));
     connect(thread, &QThread::finished, thread, &QObject::deleteLater);
     thread->start();
@@ -323,9 +455,9 @@ Q_SIGNALS:
 protected:
     void zwlr_data_control_device_v1_data_offer(struct ::zwlr_data_control_offer_v1 *id) override
     {
-        new DataControlOffer(id);
         // this will become memory managed when we retrieve the selection event
         // a compositor calling data_offer without doing that would be a bug
+        new DataControlOffer(id);
     }
 
     void zwlr_data_control_device_v1_selection(struct ::zwlr_data_control_offer_v1 *id) override
@@ -334,14 +466,14 @@ protected:
             m_receivedSelection.reset();
         } else {
 #if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
-            auto deriv = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
+            auto derivated = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
 #else
-            auto deriv = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
+            auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
 #endif
-            auto offer = dynamic_cast<DataControlOffer *>(deriv); // dynamic because of the dual inheritance
+            auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
             m_receivedSelection.reset(offer);
         }
-        emit receivedSelectionChanged();
+        Q_EMIT receivedSelectionChanged();
     }
 
     void zwlr_data_control_device_v1_primary_selection(struct ::zwlr_data_control_offer_v1 *id) override
@@ -350,14 +482,14 @@ protected:
             m_receivedPrimarySelection.reset();
         } else {
 #if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
-            auto deriv = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
+            auto derivated = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
 #else
-            auto deriv = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
+            auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
 #endif
-            auto offer = dynamic_cast<DataControlOffer *>(deriv); // dynamic because of the dual inheritance
+            auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
             m_receivedPrimarySelection.reset(offer);
         }
-        emit receivedPrimarySelectionChanged();
+        Q_EMIT receivedPrimarySelectionChanged();
     }
 
 private:
@@ -411,23 +543,25 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
             m_device.reset(new DataControlDevice(m_manager->get_data_device(seat)));
 
             connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this]() {
-                emit changed(QClipboard::Clipboard);
+                Q_EMIT changed(QClipboard::Clipboard);
             });
             connect(m_device.get(), &DataControlDevice::selectionChanged, this, [this]() {
-                emit changed(QClipboard::Clipboard);
+                Q_EMIT changed(QClipboard::Clipboard);
             });
 
             connect(m_device.get(), &DataControlDevice::receivedPrimarySelectionChanged, this, [this]() {
-                emit changed(QClipboard::Selection);
+                Q_EMIT changed(QClipboard::Selection);
             });
             connect(m_device.get(), &DataControlDevice::primarySelectionChanged, this, [this]() {
-                emit changed(QClipboard::Selection);
+                Q_EMIT changed(QClipboard::Selection);
             });
 
         } else {
             m_device.reset();
         }
     });
+
+    m_manager->instantiate();
 }
 
 WaylandClipboard *WaylandClipboard::createInstance()
