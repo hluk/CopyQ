@@ -40,7 +40,7 @@ QRect screenGeometry(int i)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     auto screen = screenFromNumber(i);
-    return screen ? screen->geometry() : QRect();
+    return screen ? screen->availableGeometry() : QRect();
 #else
     return QApplication::desktop()->screenGeometry(i);
 #endif
