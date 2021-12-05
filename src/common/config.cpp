@@ -135,29 +135,30 @@ QString resolutionTag(const QWidget &widget, GeometryAction geometryAction, bool
 void ensureWindowOnScreen(QWidget *widget, QPoint pos)
 {
     const QSize size = widget->frameSize();
-    const QRect availableGeometry = screenAvailableGeometry(pos);
-
     int x = pos.x();
     int y = pos.y();
     int w = qMax(windowMinWidth, size.width());
     int h = qMax(windowMinHeight, size.height());
 
-    // Ensure that the window fits the screen, otherwise it would be moved
-    // to a neighboring screen automatically.
-    w = qMin(w, availableGeometry.width());
-    h = qMin(h, availableGeometry.height());
+    const QRect availableGeometry = screenAvailableGeometry(pos);
+    if ( availableGeometry.isValid() ) {
+        // Ensure that the window fits the screen, otherwise it would be moved
+        // to a neighboring screen automatically.
+        w = qMin(w, availableGeometry.width());
+        h = qMin(h, availableGeometry.height());
 
-    if ( x + w > availableGeometry.right() )
-        x = availableGeometry.right() - w;
+        if ( x + w > availableGeometry.right() )
+            x = availableGeometry.right() - w;
 
-    if ( x < availableGeometry.left() )
-        x = availableGeometry.left();
+        if ( x < availableGeometry.left() )
+            x = availableGeometry.left();
 
-    if ( y + h > availableGeometry.bottom() )
-        y = availableGeometry.bottom() - h;
+        if ( y + h > availableGeometry.bottom() )
+            y = availableGeometry.bottom() - h;
 
-    if ( y < availableGeometry.top())
-        y = availableGeometry.top();
+        if ( y < availableGeometry.top())
+            y = availableGeometry.top();
+    }
 
     if ( size != QSize(w, h) ) {
         GEOMETRY_LOG( widget, QString::fromLatin1("Resize window: %1x%2").arg(w).arg(h) );
@@ -236,8 +237,10 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
         // If geometry for the screen doesn't exist, move window to the middle of the screen.
         if (geometry.isEmpty()) {
             const QRect availableGeometry = screenAvailableGeometry(w->pos());
-            const QPoint position = availableGeometry.center() - w->rect().center();
-            w->move(position);
+            if ( availableGeometry.isValid() ) {
+                const QPoint position = availableGeometry.center() - w->rect().center();
+                w->move(position);
+            }
         }
     }
 
@@ -251,8 +254,10 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
                 windowHandle->setScreen(screen);
 
             const QRect availableGeometry = screen->availableGeometry();
-            const QPoint position = availableGeometry.center() - w->rect().center();
-            w->move(position);
+            if ( availableGeometry.isValid() ) {
+                const QPoint position = availableGeometry.center() - w->rect().center();
+                w->move(position);
+            }
         }
     }
 

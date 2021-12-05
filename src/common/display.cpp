@@ -61,6 +61,9 @@ QPoint toScreen(QPoint pos, QWidget *w)
         window->setPosition(pos);
 
     const QRect availableGeometry = screenAvailableGeometry(pos);
+    if ( !availableGeometry.isValid() )
+        return pos;
+
     const QSize size = window ? window->size() : w->size();
     return QPoint(
                 qMax(availableGeometry.left(), qMin(pos.x(), availableGeometry.right() - size.width())),
