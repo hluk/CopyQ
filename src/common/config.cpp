@@ -39,6 +39,9 @@ namespace {
 
 const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide";
 
+constexpr int windowMinWidth = 50;
+constexpr int windowMinHeight = 50;
+
 enum class GeometryAction {
     Save,
     Restore
@@ -136,8 +139,8 @@ void ensureWindowOnScreen(QWidget *widget, QPoint pos)
 
     int x = pos.x();
     int y = pos.y();
-    int w = size.width();
-    int h = size.height();
+    int w = qMax(windowMinWidth, size.width());
+    int h = qMax(windowMinHeight, size.height());
 
     // Ensure that the window fits the screen, otherwise it would be moved
     // to a neighboring screen automatically.
