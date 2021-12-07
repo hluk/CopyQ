@@ -155,6 +155,11 @@ struct close_on_unfocus : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct close_on_unfocus_delay_ms : Config<int> {
+    static QString name() { return "close_on_unfocus_delay_ms"; }
+    static Value defaultValue() { return 500; }
+};
+
 struct open_windows_on_current_screen : Config<bool> {
     static QString name() { return "open_windows_on_current_screen"; }
     static Value defaultValue() { return true; }

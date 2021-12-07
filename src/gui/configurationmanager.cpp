@@ -357,6 +357,8 @@ void ConfigurationManager::initOptions()
     bind<Config::tabs>();
 
     bind<Config::restore_geometry>();
+
+    bind<Config::close_on_unfocus_delay_ms>();
 }
 
 template <typename Config, typename Widget>

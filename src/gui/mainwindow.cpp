@@ -2370,7 +2370,9 @@ void MainWindow::disableHideWindowOnUnfocus()
 
 void MainWindow::enableHideWindowOnUnfocus()
 {
-    initSingleShotTimer( &m_timerHideWindowIfNotActive, 100, this, &MainWindow::hideWindowIfNotActive );
+    initSingleShotTimer(
+        &m_timerHideWindowIfNotActive, m_timerHideWindowIfNotActive.interval(),
+        this, &MainWindow::hideWindowIfNotActive );
 }
 
 void MainWindow::hideWindowIfNotActive()
@@ -2682,6 +2684,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
     m_options.closeOnUnfocus = appConfig->option<Config::close_on_unfocus>();
+    m_timerHideWindowIfNotActive.setInterval(
+        appConfig->option<Config::close_on_unfocus_delay_ms>());
 
     const bool hideInTaskBar = appConfig->option<Config::hide_main_window_in_task_bar>();
     setHideInTaskBar(this, hideInTaskBar);
