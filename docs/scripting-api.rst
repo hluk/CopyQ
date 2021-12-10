@@ -1185,9 +1185,9 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns text representation of current date and time.
 
-   See
-   `QDateTime::toString() <http://doc.qt.io/qt-5/qdatetime.html#toString>`__
-   for details on formatting date and time.
+   See `Date QML Type
+   <https://doc.qt.io/qt-5/qml-qtqml-date.html#format-strings>`__ for details
+   on formatting date and time.
 
    :returns: Current date and time as string.
    :rtype: string
