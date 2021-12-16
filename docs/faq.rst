@@ -154,7 +154,9 @@ Add and modify automatic command to ignore text copied from the window:
    Button.
 4. Select "Show Advanced"
 5. Change "Window" text box to match the title (or part of it) of the
-   Window to ignore (e.g. ``KeePass``).
+   Window to ignore (e.g. ``KeePass``). But for **KeePassXC** (and possible
+   other apps), it is better to set "Format" to ``x-kde-passwordManagerHint``
+   instead.
 6. Click "OK" button to save the changes.
 
 .. note::
