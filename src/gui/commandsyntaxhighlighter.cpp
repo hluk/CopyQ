@@ -136,6 +136,7 @@ private:
         Code,
         SingleQuote,
         DoubleQuote,
+        BackTick,
         RegExp,
         Comment
     };
@@ -152,13 +153,13 @@ private:
     void format(int a, int b)
     {
         QTextCharFormat format;
-
-        if (currentBlockState() == SingleQuote || currentBlockState() == DoubleQuote) {
+        const int state = currentBlockState();
+        if (state == SingleQuote || state == DoubleQuote || state == BackTick) {
             format.setForeground(mixColor(m_bgColor, -40, 40, -40));
-        } else if (currentBlockState() == Comment) {
+        } else if (state == Comment) {
             const int x = m_bgColor.lightness() > 100 ? -40 : 40;
             format.setForeground( mixColor(m_bgColor, x, x, x) );
-        } else if (currentBlockState() == RegExp) {
+        } else if (state == RegExp) {
             format.setForeground(mixColor(m_bgColor, 40, -40, -40));
         } else {
             return;
@@ -196,6 +197,11 @@ private:
                     format(a, i);
                     setCurrentBlockState(Code);
                 }
+            } else if (currentBlockState() == BackTick) {
+                if (c == '`') {
+                    format(a, i);
+                    setCurrentBlockState(Code);
+                }
             } else if (currentBlockState() == Comment) {
                 if ( peek(text, i, "*/") ) {
                     ++i;
@@ -230,6 +236,9 @@ private:
             } else if (c == '"') {
                 a = i;
                 setCurrentBlockState(DoubleQuote);
+            } else if (c == '`') {
+                a = i;
+                setCurrentBlockState(BackTick);
             } else if (c == '/') {
                 a = i;
                 setCurrentBlockState(RegExp);
