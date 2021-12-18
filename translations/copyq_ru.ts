@@ -1236,7 +1236,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Со&amp;хранять изменённый элемент клавишами Ctrl+Enter и создавать новую строку клавишей Enter</translation>
+        <translation>Со&amp;хранять изменённый элемент сочетанием Ctrl+Enter, создавать новую строку клавишей Enter</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
@@ -1270,7 +1270,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>После активации элемента (двойной щелчок или кнопка Enter) скопировать его в буфер обмена и...</translation>
+        <translation>После активации элемента (двойным щелчком или клавишей Enter) копировать его в буфер обмена и...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
@@ -3508,8 +3508,8 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  -Используйте аргумент двойной тире (-) для чтения все следующие аргументы без расширения escape
--последовательности (например, \n, \t и другие).</translation>
+        <translation>  - Используйте аргумент двойного тире (--) для чтения всех следующих аргументов
+без расширения экранированной последовательности (например, \n, \t и другие).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="129"/>
