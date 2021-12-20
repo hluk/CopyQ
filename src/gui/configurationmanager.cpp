@@ -316,12 +316,6 @@ void ConfigurationManager::initOptions()
     m_tabGeneral->checkBoxRunSel->hide();
 #endif
 
-    // values of last submitted action
-    bind<Config::action_has_input>();
-    bind<Config::action_has_output>();
-    bind<Config::action_separator>();
-    bind<Config::action_output_tab>();
-
     bind<Config::hide_main_window_in_task_bar>();
     bind<Config::max_process_manager_rows>();
     bind<Config::show_advanced_command_settings>();
@@ -372,7 +366,7 @@ void ConfigurationManager::bind(Widget *obj)
 template <typename Config>
 void ConfigurationManager::bind()
 {
-    bind(Config::name(), QVariant::fromValue(Config::defaultValue()));
+    bind(Config::name(), QVariant::fromValue(Config::defaultValue()), Config::description());
 }
 
 void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue)
@@ -395,9 +389,9 @@ void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, int de
     m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
 }
 
-void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue, const char *description)
 {
-    m_options[optionKey] = Option(defaultValue);
+    m_options[optionKey] = Option(defaultValue, description);
 }
 
 void ConfigurationManager::updateTabComboBoxes()
