@@ -350,6 +350,8 @@ void ConfigurationManager::initOptions()
     bind<Config::window_key_press_time_ms>();
     bind<Config::window_wait_for_modifier_released_ms>();
 
+    bind<Config::change_clipboard_owner_delay_ms>();
+
     bind<Config::style>();
 
     bind<Config::row_index_from_one>();

@@ -438,6 +438,11 @@ struct window_wait_for_modifier_released_ms : Config<int> {
     static Value defaultValue() { return 2000; }
 };
 
+struct change_clipboard_owner_delay_ms : Config<int> {
+    static QString name() { return "change_clipboard_owner_delay_ms"; }
+    static Value defaultValue() { return 150; }
+};
+
 struct row_index_from_one : Config<bool> {
     static QString name() { return "row_index_from_one"; }
     static Value defaultValue() { return true; }
