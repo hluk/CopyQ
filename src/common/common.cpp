@@ -38,9 +38,16 @@
 #include <QObject>
 #include <QProcess>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <QThread>
 #include <QUrl>
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#   include <QTextCodec>
+using Encoding = QTextCodec*;
+#else
+#   include <QStringDecoder>
+using Encoding = std::optional<QStringConverter::Encoding>;
+#endif
 
 #ifdef COPYQ_WS_X11
 # include "platform/x11/x11platform.h"
@@ -297,25 +304,34 @@ bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeD
     return true;
 }
 
-QTextCodec *codecForText(const QByteArray &bytes)
+Encoding encodingForName(const char *name)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    return QTextCodec::codecForName(name);
+#else
+    return QStringConverter::encodingForName(name);
+#endif
+}
+
+Encoding encodingForText(const QByteArray &bytes)
 {
     // Guess unicode codec for text if BOM is missing.
     if (bytes.size() >= 2 && bytes.size() % 2 == 0) {
         if (bytes.size() >= 4 && bytes.size() % 4 == 0) {
             if (bytes.at(0) == 0 && bytes.at(1) == 0)
-                return QTextCodec::codecForName("utf-32be");
+                return encodingForName("utf-32be");
             if (bytes.at(2) == 0 && bytes.at(3) == 0)
-                return QTextCodec::codecForName("utf-32le");
+                return encodingForName("utf-32le");
         }
 
         if (bytes.at(0) == 0)
-            return QTextCodec::codecForName("utf-16be");
+            return encodingForName("utf-16be");
 
         if (bytes.at(1) == 0)
-            return QTextCodec::codecForName("utf-16le");
+            return encodingForName("utf-16le");
     }
 
-    return QTextCodec::codecForName("utf-8");
+    return encodingForName("utf-8");
 }
 
 bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariantMap &data)
@@ -597,14 +613,25 @@ void renameToUnique(QString *name, const QStringList &names)
 
 QString dataToText(const QByteArray &bytes, const QString &mime)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     auto codec = (mime == mimeHtml)
             ? QTextCodec::codecForHtml(bytes, nullptr)
             : QTextCodec::codecForUtfText(bytes, nullptr);
 
     if (!codec)
-        codec = codecForText(bytes);
+        codec = encodingForText(bytes);
 
     return codec->toUnicode(bytes);
+#else
+    auto encoding = (mime == mimeHtml)
+            ? QStringConverter::encodingForHtml(bytes)
+            : QStringConverter::encodingForData(bytes);
+
+    if (!encoding)
+        encoding = encodingForText(bytes);
+
+    return QStringDecoder(*encoding).decode(bytes);
+#endif
 }
 
 bool isClipboardData(const QVariantMap &data)

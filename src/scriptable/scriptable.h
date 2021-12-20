@@ -43,7 +43,6 @@ class QMimeData;
 class QNetworkReply;
 class QNetworkAccessManager;
 class QJSEngine;
-class QTextCodec;
 
 enum class ClipboardOwnership;
 
@@ -425,7 +424,6 @@ private:
     QJSValue screenshot(bool select);
     QByteArray serialize(const QJSValue &value);
     QJSValue eval(const QString &script);
-    QTextCodec *codecFromNameOrThrow(const QJSValue &codecName);
     bool runAction(Action *action);
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);

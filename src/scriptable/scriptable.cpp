@@ -62,9 +62,15 @@
 #include <QSysInfo>
 #include <QUrl>
 #include <QVector>
-#include <QTextCodec>
 #include <QThread>
 #include <QTimer>
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#   include <QTextCodec>
+#else
+#   include <QStringDecoder>
+#   include <QStringEncoder>
+#endif
 
 #ifdef WITH_NATIVE_NOTIFICATIONS
 #   include <knotifications_version.h>
@@ -552,6 +558,81 @@ QString scriptToLabel(const QString &script)
         return script.left(maxScriptSize).simplified() + QLatin1String("...");
     return script;
 }
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+QTextCodec *codecFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = QTextCodec::codecForName( scriptable->makeByteArray(codecName) );
+    if (!codec) {
+        QString codecs;
+        for (const auto &availableCodecName : QTextCodec::availableCodecs())
+            codecs.append( "\n" + QLatin1String(availableCodecName) );
+        scriptable->throwError("Available codecs are:" + codecs);
+    }
+    return codec;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = codecFromNameOrThrow(codecName, scriptable);
+    if (!codec)
+        return QJSValue();
+
+    return codec->toUnicode(bytes);
+}
+
+QJSValue toUnicode(const QByteArray &bytes, Scriptable *scriptable)
+{
+    const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
+    if (!codec)
+        return scriptable->throwError("Failed to detect encoding");
+    return codec->toUnicode(bytes);
+}
+
+QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = codecFromNameOrThrow(codecName, scriptable);
+    if (!codec)
+        return QJSValue();
+
+    return scriptable->newByteArray( codec->fromUnicode(text) );
+}
+#else
+std::optional<QStringConverter::Encoding> encodingFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = QStringConverter::encodingForName( scriptable->makeByteArray(codecName) );
+    if (!encoding)
+        scriptable->throwError("Unknown encoding name");
+    return encoding;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = encodingFromNameOrThrow(codecName, scriptable);
+    if (!encoding)
+        return QJSValue();
+    const QString text = QStringDecoder(*encoding).decode(bytes);
+    return text;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, Scriptable *scriptable)
+{
+    const auto encoding = QStringConverter::encodingForData(bytes);
+    if (!encoding)
+        return scriptable->throwError("Failed to detect encoding");
+    const QString text = QStringDecoder(*encoding).decode(bytes);
+    return text;
+}
+
+QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = encodingFromNameOrThrow(codecName, scriptable);
+    if (!encoding)
+        return QJSValue();
+    return scriptable->newByteArray(
+        QStringEncoder(*encoding).encode(text) );
+}
+#endif
 
 } // namespace
 
@@ -1724,20 +1805,11 @@ QJSValue Scriptable::toUnicode()
 
     const auto bytes = makeByteArray(argument(0));
 
-    if (argumentCount() >= 2) {
-        const auto codec = codecFromNameOrThrow(argument(1));
-        if (!codec)
-            return QJSValue();
+    if (argumentCount() >= 2)
+        return ::toUnicode(bytes, argument(1), this);
 
-        return codec->toUnicode(bytes);
-    }
-
-    if (argumentCount() >= 1) {
-        const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
-        if (!codec)
-            return throwError("Failed to detect encoding");
-        return codec->toUnicode(bytes);
-    }
+    if (argumentCount() >= 1)
+        return ::toUnicode(bytes, this);
 
     return throwError(argumentError());
 }
@@ -1749,12 +1821,9 @@ QJSValue Scriptable::fromUnicode()
     if (argumentCount() < 2)
         return throwError(argumentError());
 
-    const auto codec = codecFromNameOrThrow(argument(1));
-    if (!codec)
-        return QJSValue();
-
-    const auto text = arg(0);
-    return newByteArray( codec->fromUnicode(text) );
+    const QJSValue codecName = argument(1);
+    const QString text = arg(0);
+    return ::fromUnicode(text, codecName, this);
 }
 
 QJSValue Scriptable::dataFormats()
@@ -3211,18 +3280,6 @@ void Scriptable::setActionName(const QString &actionName)
 QJSValue Scriptable::eval(const QString &script)
 {
     return eval(script, scriptToLabel(script));
-}
-
-QTextCodec *Scriptable::codecFromNameOrThrow(const QJSValue &codecName)
-{
-    const auto codec = QTextCodec::codecForName( makeByteArray(codecName) );
-    if (!codec) {
-        QString codecs;
-        for (const auto &availableCodecName : QTextCodec::availableCodecs())
-            codecs.append( "\n" + QLatin1String(availableCodecName) );
-        throwError("Available codecs are:" + codecs);
-    }
-    return codec;
 }
 
 bool Scriptable::runAction(Action *action)
