@@ -1245,17 +1245,17 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampil/Sembunyi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sebunyikan tab (tekan Alt untuk menampilkan)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Semb&amp;unyikan tab</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
@@ -1285,7 +1285,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Tata letak dan Transparansi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1347,32 +1347,32 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Atas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Bawah</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanan Atas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanan Bawah</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiri Bawah</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiri Atas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
@@ -1433,17 +1433,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lebar &amp;maksimum:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>Lebar maksimum notifikasi di layar points</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tinggi Ma&amp;ksimum:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
@@ -1529,17 +1529,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Umum</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Tata letak</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="179"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>Riwayat</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
@@ -1549,27 +1549,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Notifikasi</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Tab</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Item</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="184"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Pintasan</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="185"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Tampilan</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="454"/>
@@ -3288,7 +3288,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="129"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - Gunakan? untuk MIME untuk mencetak jenis MIME yang tersedia (default adalah &quot;teks/polos&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="134"/>
@@ -3433,7 +3433,9 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nama tab harus tidak kosong dan unik. &lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; dapat dibuka menggunakan &lt;b&gt;Alt+t&lt;/b&gt;. &lt;br /&gt;
+Gunakan &lt;b&gt;/&lt;/b&gt; sebagai path separator dalam tata letak tab tree view.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
