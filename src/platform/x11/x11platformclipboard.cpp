@@ -78,9 +78,13 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
 {
     m_clipboardData.formats = formats;
 
-    // Always assume that only plain text can be in primary selection buffer.
-    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
+    // Avoid asking apps for bigger data when mouse selection changes.
+    // This could make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
+    for (auto &format : formats) {
+        if (!format.startsWith(QLatin1String("image/")) && !format.startsWith(QLatin1String("text/")))
+            m_selectionData.formats.append(format);
+    }
 
     if ( m_selectionData.enabled && !QGuiApplication::clipboard()->supportsSelection() ) {
         log("X11 selection is not supported, disabling.");
