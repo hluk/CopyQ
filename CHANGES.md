@@ -1,3 +1,88 @@
+# 6.0.0
+
+## Added
+
+- Native notifications now have lower urgency if the display interval is less
+  than 10 seconds. This makes clipboard change notification less intrusive.
+
+- Preview dock can be focused with Tab key (#1826). Escape, Tab or Shift+Tab
+  returns focus back to the item list.
+
+- All options are now documented/described when using command `copyq config`.
+
+- Command editor now supports highlighting multi-line strings enclosed by
+  backticks (#1845).
+
+- New option to disable restoring window/dialog geometry (app needs to be
+  restarted after changing the option):
+
+      copyq config restore_geometry false
+
+- macOS: New option to enable native tray menu (#1652):
+
+      copyq config native_tray_menu true
+
+- Support for building the source code with Qt 6 framework.
+
+## Changed
+
+- While search bar is focused, pressing Down or PageDown key now selects next
+  item without focusing the item list (#1834).
+
+- Internal commands (like ""Show/hide main window", Pin/Unpin, Encrypt/Decrypt)
+  will now be automatically updated in following application releases or
+  whenever the language changes. The side-effect is that only icon, shortcuts,
+  enabled state and list order can be changed for these commands. Old internal
+  commands added in previous versions (5.0.0 and lower) of the app need to be
+  removed manually.
+
+- Increases the default delay for storing changed clipboard owner. This can
+  help save correct window title for new clipboard content when the window is
+  closed right after the copy operation. The delay can be changed using:
+
+      copyq config change_clipboard_owner_delay_ms 500
+
+- The application version now excludes the "v" prefix in UI and CLI.
+
+- Log Qt warnings by default (at Warning log level messages).
+
+- Linux: Other data formats are now stored for primary selection so as to
+  support some automatic commands properly (for example, ignore selection when
+  it contains a special format). Images and non-plain text formats are still
+  ignored for performance reasons.
+
+## Fixed
+
+- Drag'n'drop operations are now properly ended (#1809).
+
+- Main window will now open only inside the visible screen area (#1768).
+
+- "Clear Current Tab" command will no longer show a message dialog if there are
+  pinned items (#1823).
+
+- Improves initial size for native tray menu.
+
+- Fixes removing backup file for old commands configuration.
+
+- Fixes broken item selection state (#1828).
+
+- Fixes hiding main window immediately when shown. This can be caused by long
+  animations in window manager.
+
+- Further performance improvements for logging, application startup and file
+  synchronization.
+
+- Linux: Native status icon (using D-Bus) is used by default instead of the
+  legacy tray icon. Application start delay/sleep hacks should no longer be
+  needed (#1526).
+
+- Wayland: Improved clipboard access.
+
+- Wayland: Fixes selection/clipboard synchronization.
+
+- Windows: Any application instance is now closed automatically before
+  installation.
+
 # v5.0.0
 
 ## Added
