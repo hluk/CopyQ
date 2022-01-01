@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Informazioni sul programma</translation>
+        <translation>Info programma</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
