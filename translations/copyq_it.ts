@@ -1666,7 +1666,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="499"/>
         <source>Reset preferences?</source>
-        <translation>Ripristino impostazioni</translation>
+        <translation>Ripristinare le preferenze?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
