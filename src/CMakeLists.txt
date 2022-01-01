@@ -67,6 +67,7 @@ add_custom_target(
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 set_source_files_properties(${copyq_VERSION_FILE} PROPERTIES GENERATED TRUE)
+set_property(SOURCE ${copyq_VERSION_FILE} PROPERTY SKIP_AUTOMOC ON)
 
 set(copyq_COMPILE
     ${copyq_COMPILE}
@@ -120,6 +121,7 @@ else()
 endif()
 
 target_sources(${COPYQ_EXECUTABLE_NAME} PRIVATE ${copyq_SOURCES})
+add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_file)
 
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)
