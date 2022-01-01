@@ -53,19 +53,15 @@ void appendAndClearNonEmpty(Entry &entry, Container &containter)
     }
 }
 
-QStringView mid(const QString &str, qsizetype pos, qsizetype length = -1)
-{
-#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    return str.midRef(pos, length);
-#else
-    return QStringView(str).mid(pos, length);
-#endif
-}
-
 bool getScriptFromLabel(const char *labelStr, const QString &cmd, int i, QString *script)
 {
     const QLatin1String label(labelStr);
-    if ( mid(cmd, i, label.size()) == label ) {
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    const auto mid = cmd.midRef(i, label.size());
+#else
+    const auto mid = QStringView(cmd).mid(i, label.size());
+#endif
+    if (mid == label) {
         *script = cmd.mid(i + label.size());
         return true;
     }
