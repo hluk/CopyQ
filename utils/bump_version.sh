@@ -29,7 +29,7 @@ check_version_format() {
 
 check_changes() {
     last_changes_version=$(head -1 "$changes_file")
-    if [[ "$last_changes_version" != "# v$version" ]]; then
+    if [[ "$last_changes_version" != "# $version" ]]; then
         echo "Update $changes_file first"
         exit 1
     fi
