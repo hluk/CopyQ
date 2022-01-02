@@ -1,3 +1,9 @@
+# 6.0.1
+
+## Fixed
+
+- X11: Fixes global/system-wide shortcuts (#1860).
+
 # 6.0.0
 
 ## Added
