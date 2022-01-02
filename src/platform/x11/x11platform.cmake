@@ -27,6 +27,12 @@ set(USE_QXT TRUE)
 
 set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
+if(WITH_QT6)
+    list(APPEND copyq_LIBRARIES Qt::GuiPrivate)
+else()
+    list(APPEND copyq_qt_modules X11Extras)
+endif()
+
 # Wayland clipboard
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
