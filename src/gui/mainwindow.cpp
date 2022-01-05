@@ -486,7 +486,12 @@ public:
 
     void setToolTip(const QString &text)
     {
+#if defined(Q_OS_WIN)
+        // Only the tooltip title seems to be supported on Windows.
+        KStatusNotifierItem::setToolTipTitle(text);
+#else
         KStatusNotifierItem::setToolTipSubTitle(text);
+#endif
     }
 
     bool isVisible() const
