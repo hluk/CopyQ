@@ -63,9 +63,12 @@ On **Fedora** and derivatives you can install all build dependencies with:
       extra-cmake-modules \
       gcc-c++ \
       git \
+      kf5-knotifications-devel \
+      libSM-devel \
       libXfixes-devel \
       libXtst-devel \
       qt5-qtbase-devel \
+      qt5-qtbase-private-devel \
       qt5-qtdeclarative-devel \
       qt5-qtsvg-devel \
       qt5-qttools-devel \
