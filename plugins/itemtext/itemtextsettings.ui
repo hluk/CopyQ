@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>403</width>
     <height>300</height>
    </rect>
   </property>
@@ -87,6 +87,23 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Default style sheet:</string>
+     </property>
+     <property name="buddy">
+      <cstring>textEditDefaultStyleSheet</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="textEditDefaultStyleSheet">
+     <property name="placeholderText">
+      <string notr="true">a { color: blue }</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -101,6 +118,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>checkBoxUseRichText</tabstop>
+  <tabstop>spinBoxMaxLines</tabstop>
+  <tabstop>spinBoxMaxHeight</tabstop>
+  <tabstop>textEditDefaultStyleSheet</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
