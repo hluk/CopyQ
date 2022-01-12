@@ -2841,7 +2841,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>反选条目(&amp;R)</translation>
+        <translation>反转所选条目(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="91"/>
