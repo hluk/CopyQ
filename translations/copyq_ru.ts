@@ -1575,7 +1575,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>Показать &amp;текущую вкладку в меню,</translation>
+        <translation>Показать &amp;текущую вкладку в меню</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
