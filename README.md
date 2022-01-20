@@ -24,7 +24,7 @@ Saved clipboard can be later copied and pasted directly into any application.
 
 ## Features
 
-* Support for Linux, Windows and [OS X 10.13+](https://doc.qt.io/qt-5/macos.html#supported-versions)
+* Support for Linux, Windows and [OS X 10.15+](https://doc.qt.io/qt-5/macos.html#supported-versions)
 * Store text, HTML, images or any other custom formats
 * Quickly browse and filter items in clipboard history
 * Sort, create, edit, remove, copy/paste, drag'n'drop items in tabs

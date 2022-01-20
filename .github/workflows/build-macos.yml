@@ -12,11 +12,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-latest
-            buildname: macOS
+          - os: macos-10.15
+            buildname: macOS 10.15
             build_type: Release
             compiler: clang_64
             create_bundle: true
+            env:
+              MACOSX_DEPLOYMENT_TARGET: '10.15'
 
     steps:
       - name: Checkout source code
