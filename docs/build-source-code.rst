@@ -124,7 +124,12 @@ On OS X, required Qt 5 libraries and utilities can be easily installed with `Hom
 
 ::
 
-    brew install qt5
+    cd CopyQ
+    git -C "utils/github/homebrew" init .
+    git -C "utils/github/homebrew" add .
+    git -C "utils/github/homebrew" commit -m "Initial"
+    brew tap copyq/kde utils/github/homebrew/
+    brew install qt5 copyq/kde/kf5-knotifications
 
 Build with the following commands:
 
