@@ -29,6 +29,7 @@
 #include <QEventLoop>
 #include <QPointer>
 #include <QProcessEnvironment>
+#include <QRegularExpression>
 #include <QTimer>
 
 namespace {
@@ -81,6 +82,10 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     bool escape = false;
     bool percent = false;
 
+    // Ignore escape sequences if command starts with an unescaped Windows path.
+    const QRegularExpression reUnescapedWindowsPath(R"(^[a-zA-Z]:\\[^\\])");
+    const bool allowEscape = !cmd.contains(reUnescapedWindowsPath);
+
     for (int i = 0; i < cmd.size(); ++i) {
         const QChar &c = cmd[i];
 
@@ -93,7 +98,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
         }
         percent = !escape && c == '%';
 
-        if (escape) {
+        if (allowEscape && escape) {
             escape = false;
             if (c == 'n') {
                 arg.append('\n');
@@ -104,7 +109,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
             } else {
                 arg.append(c);
             }
-        } else if (c == '\\') {
+        } else if (allowEscape && c == '\\') {
             escape = true;
         } else if (!quote.isNull()) {
             if (quote == c) {
