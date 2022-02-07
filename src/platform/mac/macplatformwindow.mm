@@ -69,13 +69,14 @@ namespace {
 
     NSNumber* charToKeyCode(const char c)
     {
-        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-        CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(
+        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardLayoutInputSource();
+        CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(
             currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-        const UCKeyboardLayout *keyboardLayout =
-            (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
 
-        if (keyboardLayout != nil) {
+        if (layoutData != nil) {
+            const UCKeyboardLayout *keyboardLayout =
+                (const UCKeyboardLayout*)CFDataGetBytePtr(layoutData);
+
             COPYQ_LOG( QStringLiteral("Searching key code for '%1'").arg(c) );
             NSString *keyChar = [NSString stringWithFormat:@"%c" , c];
             for (size_t i = 0; i < 128; ++i) {
