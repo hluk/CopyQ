@@ -105,6 +105,8 @@ private:
 
     void onRowsRemoved(const QModelIndex &, int first, int last);
 
+    void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
+
     QString oldBaseName(const QModelIndex &index) const;
 
     void createItems(const QVector<QVariantMap> &dataMaps, int targetRow);

@@ -459,6 +459,8 @@ FileWatcher::FileWatcher(
              this, &FileWatcher::onRowsInserted );
     connect( m_model, &QAbstractItemModel::rowsAboutToBeRemoved,
              this, &FileWatcher::onRowsRemoved );
+    connect( model, &QAbstractItemModel::rowsMoved,
+             this, &FileWatcher::onRowsMoved );
     connect( m_model, &QAbstractItemModel::dataChanged,
              this, &FileWatcher::onDataChanged );
 
@@ -694,6 +696,42 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
         m_updateTimer.start(0);
 }
 
+void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow)
+{
+    /* If own items were moved, change their base names in data to trigger
+     * updating/renaming file names so they are also moved in other app instances.
+     *
+     * The implementation works in common cases but will fail if:
+     * - Items are moved after the last own item.
+     * - Items move repeatedly to some not-top position.
+     */
+    const int count = end - start + 1;
+
+    const int baseRow = destinationRow < start
+        ? destinationRow + count
+        : destinationRow;
+    QString baseName;
+    if (destinationRow > 0) {
+        const QModelIndex baseIndex = m_model->index(baseRow, 0);
+        baseName = FileWatcher::getBaseName(baseIndex);
+
+        if ( !isOwnBaseName(baseName) )
+            return;
+
+        if ( !baseName.isEmpty() && !baseName.contains(QLatin1Char('-')) )
+            baseName.append(QLatin1String("-0000"));
+    }
+
+    for (int row = baseRow - 1; row >= baseRow - count; --row) {
+        const auto index = m_model->index(row, 0);
+        const QString currentBaseName = FileWatcher::getBaseName(index);
+        if ( currentBaseName.isEmpty() || isOwnBaseName(currentBaseName) ) {
+            const QVariantMap data = {{mimeBaseName, baseName}};
+            m_model->setData(index, data, contentType::updateData);
+        }
+    }
+}
+
 QString FileWatcher::oldBaseName(const QModelIndex &index) const
 {
     return index.data(contentType::data).toMap().value(mimeOldBaseName).toString();
@@ -759,6 +797,11 @@ void FileWatcher::saveItems(int first, int last)
 {
     if ( !lock() )
         return;
+
+    if ( !m_batchIndexData.isEmpty() ) {
+        COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Batch updates interrupted") );
+        m_batchIndexData.clear();
+    }
 
     const auto indexList = this->indexList(first, last);
 
