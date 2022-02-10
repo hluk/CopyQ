@@ -506,7 +506,8 @@ void FileWatcher::prependItemsFromFiles(const QDir &dir, const BaseNameExtension
 
     for (auto it = fileList.rbegin(); it != fileList.rend(); ++it) {
         const QVariantMap item = itemDataFromFiles(dir, *it);
-        items.append(item);
+        if ( !item.isEmpty() )
+            items.append(item);
     }
 
     createItems(items, 0);
