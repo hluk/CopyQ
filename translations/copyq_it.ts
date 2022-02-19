@@ -2440,7 +2440,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Foglio stile predefinito:</translation>
     </message>
 </context>
 <context>
@@ -3020,79 +3020,79 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="99"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla modifica</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Esc</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation type="unfinished">Annulla azione</translation>
+        <translation>Annulla azione</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation type="unfinished">Ripeti azione</translation>
+        <translation>Ripeti azione</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation type="unfinished">Font</translation>
+        <translation>Font</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Bold</source>
-        <translation type="unfinished">Grassetto</translation>
+        <translation>Grassetto</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Italic</source>
-        <translation type="unfinished">Corsivo</translation>
+        <translation>Corsivo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation type="unfinished">Sottolineato</translation>
+        <translation>Sottolineato</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Ribattuto</translation>
+        <translation>Ribattuto</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Primo piano</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation type="unfinished">Sfondo</translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Elimina stile</translation>
+        <translation>Elimina stile</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Search</source>
-        <translation type="unfinished">Cerca</translation>
+        <translation>Cerca</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -3103,7 +3103,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo&amp;difica con editor</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
