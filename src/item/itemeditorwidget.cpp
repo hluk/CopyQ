@@ -42,25 +42,6 @@
 
 namespace {
 
-const QIcon iconSave() { return getIcon("document-save", IconSave); }
-const QIcon iconCancel() { return getIcon("document-revert", IconTrash); }
-
-const QIcon iconUndo() { return getIcon("edit-undo", IconUndo); }
-const QIcon iconRedo() { return getIcon("edit-redo", IconRedo); }
-
-const QIcon iconFont() { return getIcon("preferences-desktop-font", IconFont); }
-const QIcon iconBold() { return getIcon("format-text-bold", IconBold); }
-const QIcon iconItalic() { return getIcon("format-text-italic", IconItalic); }
-const QIcon iconUnderline() { return getIcon("format-text-underline", IconUnderline); }
-const QIcon iconStrikethrough() { return getIcon("format-text-strikethrough", IconStrikethrough); }
-
-const QIcon iconForeground() { return getIcon(IconPaintBrush); }
-const QIcon iconBackground() { return getIcon(IconSquare); }
-
-const QIcon iconEraseStyle() { return getIcon(IconEraser); }
-
-const QIcon iconSearch() { return getIcon("edit-find", IconSearch); }
-
 bool containsRichText(const QTextDocument &document)
 {
     return document.allFormats().size() > 3;
@@ -75,6 +56,14 @@ QString findImageFormat(const QMimeData &data)
     }
 
     return QString();
+}
+
+QAction *addMenuItem(const MenuItem &menuItem, QToolBar *toolBar, ItemEditorWidget *parent)
+{
+    QAction *act = new QAction( getIcon(menuItem.iconName, menuItem.iconId), menuItem.text, parent );
+    act->setShortcuts(menuItem.shortcuts);
+    toolBar->addAction(act);
+    return act;
 }
 
 } // namespace
@@ -275,22 +264,16 @@ void ItemEditorWidget::eraseStyle()
     textCursor().setCharFormat( QTextCharFormat() );
 }
 
-QWidget *ItemEditorWidget::createToolbar(QWidget *parent)
+QWidget *ItemEditorWidget::createToolbar(QWidget *parent, const MenuItems &menuItems)
 {
     auto toolBar = new QToolBar(parent);
 
     QAction *act;
-    act = new QAction( iconSave(), tr("Save"), this );
-    toolBar->addAction(act);
-    act->setToolTip( tr("Save Item (<strong>F2</strong>)") );
-    act->setShortcut( QKeySequence(tr("F2", "Shortcut to save item editor changes")) );
+    act = addMenuItem(menuItems[Actions::Editor_Save], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::saveAndExit );
 
-    act = new QAction( iconCancel(), tr("Cancel"), this );
-    toolBar->addAction(act);
-    act->setToolTip( tr("Cancel Editing and Revert Changes") );
-    act->setShortcut( QKeySequence(tr("Escape", "Shortcut to revert item editor changes")) );
+    act = addMenuItem(menuItems[Actions::Editor_Cancel], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::cancel );
 
@@ -298,74 +281,57 @@ QWidget *ItemEditorWidget::createToolbar(QWidget *parent)
 
     toolBar->addSeparator();
 
-    act = new QAction( iconUndo(), tr("Undo"), this );
-    toolBar->addAction(act);
-    act->setShortcut(QKeySequence::Undo);
+    act = addMenuItem(menuItems[Actions::Editor_Undo], toolBar, this);
     act->setEnabled(false);
     connect( act, &QAction::triggered, doc, static_cast<void (QTextDocument::*)()>(&QTextDocument::undo) );
     connect( doc, &QTextDocument::undoAvailable, act, &QAction::setEnabled );
 
-    act = new QAction( iconRedo(), tr("Redo"), this );
-    toolBar->addAction(act);
-    act->setShortcut(QKeySequence::Redo);
+    act = addMenuItem(menuItems[Actions::Editor_Redo], toolBar, this);
     act->setEnabled(false);
     connect( act, &QAction::triggered, doc, static_cast<void (QTextDocument::*)()>(&QTextDocument::redo) );
     connect( doc, &QTextDocument::redoAvailable, act, &QAction::setEnabled );
 
     toolBar->addSeparator();
 
-    act = new QAction( iconFont(), tr("Font"), this );
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_Font], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::changeSelectionFont );
 
-    act = new QAction( iconBold(), tr("Bold"), this );
-    toolBar->addAction(act);
-    act->setShortcut( QKeySequence::Bold );
+    act = addMenuItem(menuItems[Actions::Editor_Bold], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::toggleBoldText );
 
-    act = new QAction( iconItalic(), tr("Italic"), this );
-    toolBar->addAction(act);
-    act->setShortcut( QKeySequence::Italic );
+    act = addMenuItem(menuItems[Actions::Editor_Italic], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::toggleItalicText );
 
-    act = new QAction( iconUnderline(), tr("Underline"), this );
-    toolBar->addAction(act);
-    act->setShortcut( QKeySequence::Underline );
+    act = addMenuItem(menuItems[Actions::Editor_Underline], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::toggleUnderlineText );
 
-    act = new QAction( iconStrikethrough(), tr("Strikethrough"), this );
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_Strikethrough], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::toggleStrikethroughText );
 
     toolBar->addSeparator();
 
-    act = new QAction( iconForeground(), tr("Foreground"), this );
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_Foreground], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::setForeground );
 
-    act = new QAction( iconBackground(), tr("Background"), this );
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_Background], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::setBackground );
 
     toolBar->addSeparator();
 
-    act = new QAction( iconEraseStyle(), tr("Erase Style"), this );
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_EraseStyle], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::eraseStyle );
 
     toolBar->addSeparator();
 
-    act = new QAction( iconSearch(), tr("Search"), this );
-    act->setShortcuts(QKeySequence::Find);
-    toolBar->addAction(act);
+    act = addMenuItem(menuItems[Actions::Editor_Search], toolBar, this);
     connect( act, &QAction::triggered,
              this, &ItemEditorWidget::searchRequest );
 

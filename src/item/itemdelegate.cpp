@@ -275,7 +275,7 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
 
     editor->selectAll();
 
-    auto toolBar = editor->createToolbar(editorParent);
+    auto toolBar = editor->createToolbar(editorParent, m_sharedData->menuItems);
     auto palette = m_sharedData->theme.editorPalette();
     editorParent->setBackgroundRole(QPalette::Base);
     editorParent->setAutoFillBackground(true);

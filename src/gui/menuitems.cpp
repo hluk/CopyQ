@@ -96,6 +96,33 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Edit_FindItems, QObject::tr("&Find"),
                   "find_items", QKeySequence::FindNext, "edit-find", IconSearch );
 
+    addMenuItem(items, Actions::Editor_Save, QObject::tr("Save Item"),
+                "editor_save", QObject::tr("F2", "Shortcut to save item editor changes"), "document-save", IconSave);
+    addMenuItem(items, Actions::Editor_Cancel, QObject::tr("Cancel Editing"),
+                "editor_cancel", QObject::tr("Escape", "Shortcut to revert item editor changes"), "document-revert", IconTrash);
+    addMenuItem(items, Actions::Editor_Undo, QObject::tr("Undo"),
+                "editor_undo", QKeySequence::Undo, "edit-undo", IconUndo);
+    addMenuItem(items, Actions::Editor_Redo, QObject::tr("Redo"),
+                "editor_redo", QKeySequence::Redo, "edit-redo", IconRedo);
+    addMenuItem(items, Actions::Editor_Font, QObject::tr("Font"),
+                "editor_font", QKeySequence(), "preferences-desktop-font", IconFont);
+    addMenuItem(items, Actions::Editor_Bold, QObject::tr("Bold"),
+                "editor_bold", QKeySequence::Bold, "format-text-bold", IconBold);
+    addMenuItem(items, Actions::Editor_Italic, QObject::tr("Italic"),
+                "editor_italic", QKeySequence::Italic, "format-text-italic", IconItalic);
+    addMenuItem(items, Actions::Editor_Underline, QObject::tr("Underline"),
+                "editor_underline", QKeySequence::Underline, "format-text-underline", IconUnderline);
+    addMenuItem(items, Actions::Editor_Strikethrough, QObject::tr("Strikethrough"),
+                "editor_strikethrough", QKeySequence(), "format-text-strikethrough", IconStrikethrough);
+    addMenuItem(items, Actions::Editor_Foreground, QObject::tr("Foreground"),
+                "editor_foreground", QKeySequence(), "", IconPaintBrush);
+    addMenuItem(items, Actions::Editor_Background, QObject::tr("Background"),
+                "editor_background", QKeySequence(), "", IconSquare);
+    addMenuItem(items, Actions::Editor_EraseStyle, QObject::tr("Erase Style"),
+                "editor_erase_style", QKeySequence(), "", IconEraser);
+    addMenuItem(items, Actions::Editor_Search, QObject::tr("Search"),
+                "editor_search", QKeySequence::Find, "edit-find", IconSearch);
+
     addMenuItem( items, Actions::Item_MoveToClipboard,
                   QObject::tr("A&ctivate Items",
                               "copies selected items to clipboard and moves them to top (depending on settings)"),

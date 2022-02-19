@@ -702,7 +702,6 @@ private:
     bool m_activatingItem = false;
 
     QVector< QPointer<QAction> > m_actions;
-    MenuItems m_menuItems;
 
     QList<PersistentDisplayItem> m_displayItemList;
     PersistentDisplayItem m_currentDisplayItem;

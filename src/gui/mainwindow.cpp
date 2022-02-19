@@ -575,10 +575,11 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
-    , m_menuItems(menuItems())
     , m_clipboard(platformNativeInterface()->clipboard())
 {
     ui->setupUi(this);
+
+    m_sharedData->menuItems = menuItems();
 
 #ifdef Q_OS_MAC
     // Open above fullscreen windows on OS X.
@@ -1797,7 +1798,7 @@ void MainWindow::updateActionShortcuts()
         if (!action)
             continue;
 
-        QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
+        QList<QKeySequence> shortcuts = m_sharedData->menuItems[id].shortcuts;
         for (const auto &shortcut : usedShortcuts)
             shortcuts.removeAll(shortcut);
 
@@ -1807,9 +1808,9 @@ void MainWindow::updateActionShortcuts()
 
 QAction *MainWindow::actionForMenuItem(Actions::Id id, QWidget *parent, Qt::ShortcutContext context)
 {
-    Q_ASSERT(id < m_menuItems.size());
+    Q_ASSERT(id < m_sharedData->menuItems.size());
 
-    m_actions.resize(m_menuItems.size());
+    m_actions.resize(m_sharedData->menuItems.size());
 
     QPointer<QAction> &action = m_actions[id];
     if (action && !action->isEnabled() && !action->isVisible()) {
@@ -1817,7 +1818,7 @@ QAction *MainWindow::actionForMenuItem(Actions::Id id, QWidget *parent, Qt::Shor
         action = nullptr;
     }
 
-    const MenuItem &item = m_menuItems[id];
+    const MenuItem &item = m_sharedData->menuItems[id];
 
     if (!action) {
         action = new QAction(item.text, parent);
@@ -2744,7 +2745,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     ui->searchBar->loadSettings();
 
     settings.beginGroup("Shortcuts");
-    loadShortcuts(&m_menuItems, settings);
+    loadShortcuts(&m_sharedData->menuItems, settings);
     updateActionShortcuts();
     settings.endGroup();
 
