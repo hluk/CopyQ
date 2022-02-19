@@ -497,10 +497,7 @@ public:
             return QByteArray();
 
         waitFor(waitMsSetClipboard);
-
         clipboard()->setData( mode, createDataMap(mime, bytes) );
-
-        waitFor(waitMsSetClipboard);
         return verifyClipboard(bytes, mime);
     }
 
@@ -508,9 +505,11 @@ public:
     {
         PerformanceTimer perf;
 
-        SleepTimer t(waitMsSetClipboard * 5);
+        SleepTimer t(5000);
+        QByteArray actualBytes;
         do {
-            if ( exact ? getClipboard(mime) == data : getClipboard(mime).contains(data) ) {
+            actualBytes = getClipboard(mime);
+            if ( exact ? actualBytes == data : actualBytes.contains(data) ) {
                 perf.printPerformance("verifyClipboard", QStringList() << QString::fromUtf8(data) << mime);
                 waitFor(waitMsSetClipboard);
                 RETURN_ON_ERROR( readServerErrors(), "Failed to set or test clipboard content" );
@@ -518,7 +517,6 @@ public:
             }
         } while (t.sleep());
 
-        const QByteArray actualBytes = getClipboard(mime);
         return QString::fromLatin1("Unexpected clipboard data for MIME \"%1\":")
                 .arg(mime).toUtf8()
                 + decorateOutput("Unexpected content", actualBytes)
@@ -2883,6 +2881,7 @@ void Tests::nextPrevious()
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
     RUN(args << "add" << "C" << "B" << "A", "");
+    RUN("setCurrentTab" << tab, "");
 
     RUN(args << "next", "");
     WAIT_FOR_CLIPBOARD("B");

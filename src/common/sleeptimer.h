@@ -23,32 +23,29 @@
 #include <QCoreApplication>
 #include <QElapsedTimer>
 
-#include <cmath>
-
 class SleepTimer final
 {
 public:
-    explicit SleepTimer(int timeoutMs)
+    explicit SleepTimer(int timeoutMs, int minSleepCount = 2)
         : m_timeoutMs(timeoutMs)
+        , m_minSleepCount(minSleepCount)
     {
         m_timer.start();
     }
 
     bool sleep()
     {
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 5);
-        return m_timer.elapsed() < m_timeoutMs;
-    }
+        if (--m_minSleepCount < 0 && m_timer.elapsed() >= m_timeoutMs)
+            return false;
 
-    int remaining() const
-    {
-        const auto remaining = static_cast<int>(m_timeoutMs - m_timer.elapsed());
-        return std::max(0, remaining);
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 5);
+        return true;
     }
 
 private:
     QElapsedTimer m_timer;
     int m_timeoutMs;
+    int m_minSleepCount = 2;
 };
 
 inline void waitFor(int ms)

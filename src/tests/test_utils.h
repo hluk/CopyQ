@@ -73,7 +73,7 @@
         SKIP("Unset " ENV " to run the tests")
 
 /// Interval to wait (in ms) before and after setting clipboard.
-const int waitMsSetClipboard = 1000;
+const int waitMsSetClipboard = 250;
 
 /// Interval to wait (in ms) for pasting clipboard.
 const int waitMsPasteClipboard = 1000;
