@@ -676,7 +676,8 @@ private:
     QVector<Command> m_trayMenuCommands;
     QVector<Command> m_scriptCommands;
 
-    PlatformWindowPtr m_lastWindow;
+    PlatformWindowPtr m_windowForMenuPaste;
+    PlatformWindowPtr m_windowForMainPaste;
 
     QTimer m_timerUpdateFocusWindows;
     QTimer m_timerUpdateContextMenu;

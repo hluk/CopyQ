@@ -571,7 +571,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_toolBar(new ToolBar(this))
     , m_actionToggleClipboardStoring()
     , m_sharedData(sharedData)
-    , m_lastWindow()
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -1577,8 +1576,8 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
 
     // Pass current window title to commands in tray menu.
     auto data = clipboardData;
-    if (m_lastWindow)
-        data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
+    if (m_windowForMenuPaste)
+        data.insert( mimeWindowTitle, m_windowForMenuPaste->getTitle() );
 
     const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
 
@@ -1876,10 +1875,10 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
     else
         setClipboard(data);
 
-    if (!m_lastWindow)
+    if (!m_windowForMenuPaste)
         updateFocusWindows();
 
-    PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr lastWindow = m_windowForMenuPaste;
 
     if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() ) {
         COPYQ_LOG( QString("Pasting item from tray menu to \"%1\".")
@@ -2865,10 +2864,10 @@ bool MainWindow::setCurrentTab(int index)
 
 bool MainWindow::focusPrevious()
 {
-    if ( !m_lastWindow )
+    if ( !m_windowForMainPaste )
         return false;
 
-    m_lastWindow->raise();
+    m_windowForMainPaste->raise();
     return true;
 }
 
@@ -3293,7 +3292,7 @@ void MainWindow::activateCurrentItemHelper()
         return;
 
     // Perform custom actions on item activation.
-    PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr lastWindow = m_windowForMainPaste;
     const bool paste = lastWindow && m_options.activatePastes() && canPaste();
     const bool activateWindow = paste || (lastWindow && m_options.activateFocuses());
 
@@ -3399,8 +3398,8 @@ void MainWindow::onFilterChanged()
 
 void MainWindow::raiseLastWindowAfterMenuClosed()
 {
-    if ( m_lastWindow && !isAnyApplicationWindowActive() )
-        m_lastWindow->raise();
+    if ( m_windowForMenuPaste && !isAnyApplicationWindowActive() )
+        m_windowForMenuPaste->raise();
 }
 
 void MainWindow::updateFocusWindows()
@@ -3413,22 +3412,28 @@ void MainWindow::updateFocusWindows()
     auto platform = platformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow) {
-        const QString title = lastWindow->getTitle();
         const QWidget *activeWindow = qApp->activeWindow();
         if (activeWindow) {
             if (activeWindow == m_trayMenu || activeWindow == m_menu) {
-                COPYQ_LOG(QString("Focus window is \"%1\" - tray menu - ignoring").arg(title) );
+                COPYQ_LOG(
+                    QStringLiteral("Focus window is \"%1\" - tray menu")
+                    .arg(lastWindow->getTitle()) );
+            } else if (activeWindow == this) {
+                COPYQ_LOG(QStringLiteral("Focus window is the main window"));
+                m_windowForMenuPaste = lastWindow;
             } else {
-                COPYQ_LOG(QString("Focus window is \"%1\": [%2] %3").arg(
-                    title,
+                COPYQ_LOG(QStringLiteral("Focus window is \"%1\": [%2] %3").arg(
+                    lastWindow->getTitle(),
                     QLatin1String(activeWindow->metaObject()->className()),
                     activeWindow->windowTitle()
                 ));
-                m_lastWindow = lastWindow;
+                m_windowForMainPaste = lastWindow;
+                m_windowForMenuPaste = lastWindow;
             }
         } else {
-            COPYQ_LOG( QString("Focus window is \"%1\"").arg(title) );
-            m_lastWindow = lastWindow;
+            COPYQ_LOG( QStringLiteral("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
+            m_windowForMainPaste = lastWindow;
+            m_windowForMenuPaste = lastWindow;
         }
     }
 
