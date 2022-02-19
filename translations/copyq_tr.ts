@@ -857,7 +857,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation>Arkaplan</translation>
+        <translation>Arka plan</translation>
     </message>
     <message>
         <source>Notes</source>
@@ -896,7 +896,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Font</translation>
+        <translation>Yazı tipi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
@@ -1693,7 +1693,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Bu işlem, tüm tercihlerinizi (tüm sekmelerde) varsayılan değerlere sıfırlar.&lt;br/&gt;&lt;br/&gt;Gerçekten &lt;strong&gt;tüm tercihleri sıfırlamak&lt;/strong&gt; istiyor musunuz?</translation>
+        <translation>Bu işlem, tüm tercihlerinizi (tüm sekmelerde) öntanımlı değerlere sıfırlayacaktır.&lt;br /&gt;&lt;br /&gt;Gerçekten &lt;strong&gt;tüm tercihleri sıfırlamak&lt;/strong&gt; istiyor musunuz?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="601"/>
@@ -2468,7 +2468,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Öntanımlı stil sayfası:</translation>
     </message>
 </context>
 <context>
@@ -2679,6 +2679,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1 (%n satır)</numerusform>
             <numerusform>%1 (%n satır)</numerusform>
         </translation>
     </message>
@@ -3027,79 +3028,79 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="99"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Ögeyi Kaydet</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenlemeyi İptal Et</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Escape</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation type="unfinished">Geri Al</translation>
+        <translation>Geri Al</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation type="unfinished">Yeniden Yap</translation>
+        <translation>Yeniden Yap</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation type="unfinished">Font</translation>
+        <translation>Yazı tipi</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Bold</source>
-        <translation type="unfinished">Kalın</translation>
+        <translation>Kalın</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Italic</source>
-        <translation type="unfinished">İtalik</translation>
+        <translation>İtalik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation type="unfinished">Altı çizili</translation>
+        <translation>Altı çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Çizili</translation>
+        <translation>Üzeri çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Ön plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation type="unfinished">Arkaplan</translation>
+        <translation>Arka plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Stili Temizle</translation>
+        <translation>Stili Sil</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Search</source>
-        <translation type="unfinished">Ara</translation>
+        <translation>Ara</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -3110,7 +3111,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Düzenleyici ile _Düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
@@ -3161,6 +3162,7 @@ en fazla 16 karakter içermelidir!</translation>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>Metin Kopyalandı (%n satır)</numerusform>
             <numerusform>Metin Kopyalandı (%n satır)</numerusform>
         </translation>
     </message>
@@ -3429,9 +3431,9 @@ Metni argüman olarak iletmek için PROGRAM içerisinde %1 kullanın.</translati
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation>Komutu sekmede verilen adla çalıştır.
-Eğer yoksa sekme oluşturulur.
-Varsayılan ayar ilk sekmedir.</translation>
+        <translation>Komutu adı verilen sekmede çalıştır.
+Sekme yoksa oluşturulur.
+Öntanımlı ilk sekmedir.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
@@ -3604,7 +3606,7 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="135"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - MIME&apos;nin kullanılabilir MIME türlerini yazdırması için ? kullan (varsayılan &quot;text/plain&quot;).</translation>
+        <translation>  - MIME&apos;nin kullanılabilir MIME türlerini yazdırması için ? kullan (öntanımlı &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="140"/>
@@ -3706,7 +3708,7 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Herhangi bir tuş bileşimine basın. &lt;span style=&quot; font-weight:600;&quot;&gt;Kaçışı&lt;/span&gt; iptal için.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Herhangi bir tuş bileşimine basın. İptal etmek için &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -3798,7 +3800,7 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation>varsayılan</translation>
+        <translation>öntanımlı</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
