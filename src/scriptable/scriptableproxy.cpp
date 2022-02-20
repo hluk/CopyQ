@@ -2640,7 +2640,7 @@ QVariant ScriptableProxy::waitForFunctionCallFinished(int functionCallId)
             });
     connect(this, &ScriptableProxy::abortEvaluation, &loop, &QEventLoop::quit);
 
-    connect(qApp, &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
+    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
     loop.exec();
 
     return result;
