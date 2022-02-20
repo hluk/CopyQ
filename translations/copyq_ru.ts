@@ -640,7 +640,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="528"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation>Скрыть окно после активации команды из контекстного меню элемента</translation>
+        <translation>Скрыть окно по активации команды из контекстного меню элемента</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="647"/>
@@ -767,7 +767,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="531"/>
         <source>&amp;Hide main window after activation</source>
-        <translation>&amp;Скрыть главное окно после активации</translation>
+        <translation>&amp;Скрыть главное окно по активации</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
@@ -1121,7 +1121,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation>Разрешить вставить скопированное содержимое таким же образом, как выбор мыши (как правило, нажав среднюю кнопку мыши)</translation>
+        <translation>Разрешить вставку скопированного таким же образом, как и выделение мышью (обычно по нажатии средней кнопки мыши)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
@@ -1270,12 +1270,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>После активации элемента (двойным щелчком или клавишей Enter) копировать его в буфер обмена и...</translation>
+        <translation>По активации элемента (двойным щелчком или клавишей Enter) копировать его в буфер обмена и...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Переместить элемент в верхнюю часть списка после его активации</translation>
+        <translation>Переместить элемент в верхнюю часть списка по его активации</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
@@ -1285,7 +1285,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>Close main window after item is activated</source>
-        <translation>Закрыть основное окно после активации элемента</translation>
+        <translation>Закрыть основное окно по активации элемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
@@ -1295,7 +1295,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>Focus last window after item is activated</source>
-        <translation>Фокус на последнем окне после активации элемента</translation>
+        <translation>Фокус на последнем окне по активации элемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="269"/>
@@ -1305,7 +1305,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>Paste to current window after item is activated</source>
-        <translation>Вставить в текущее окно после активации элемента</translation>
+        <translation>Вставить в текущее окно по активации элемента</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="279"/>
@@ -1922,7 +1922,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="928"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>Создание новых клавиш (это может занять несколько минут) ...</translation>
+        <translation>Создание новых клавиш (может занять несколько минут)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="929"/>
