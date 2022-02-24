@@ -18,6 +18,7 @@
 #include <QThread>
 #include <QtWaylandClient/QWaylandClientExtension>
 #include <qpa/qplatformnativeinterface.h>
+#include <qtwaylandclientversion.h>
 
 #include <errno.h>
 #include <poll.h>
@@ -151,7 +152,7 @@ public:
 
     void instantiate()
     {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+#if QTWAYLANDCLIENT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
         initialize();
 #else
         // QWaylandClientExtensionTemplate invokes this with a QueuedConnection but we want shortcuts
@@ -234,20 +235,20 @@ protected:
         m_receivedFormats << mime_type;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    QVariant retrieveData(const QString &mimeType, QVariant::Type type) const override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QVariant retrieveData(const QString &mimeType, QMetaType type) const override;
 #else
-    QVariant retrieveData(const QString &mimetype, QMetaType type) const override;
+    QVariant retrieveData(const QString &mimeType, QVariant::Type type) const override;
 #endif
 
 private:
     QStringList m_receivedFormats;
 };
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type type) const
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type) const
+#else
+QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type type) const
 #endif
 {
     Q_UNUSED(type);
@@ -543,14 +544,20 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
             m_device.reset(new DataControlDevice(m_manager->get_data_device(seat)));
 
             connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this]() {
-                Q_EMIT changed(QClipboard::Clipboard);
+                // When our source is still valid, so the offer is for setting it or we emit changed when it is cancelled
+                if (!m_device->selection()) {
+                    Q_EMIT changed(QClipboard::Clipboard);
+                }
             });
             connect(m_device.get(), &DataControlDevice::selectionChanged, this, [this]() {
                 Q_EMIT changed(QClipboard::Clipboard);
             });
 
             connect(m_device.get(), &DataControlDevice::receivedPrimarySelectionChanged, this, [this]() {
-                Q_EMIT changed(QClipboard::Selection);
+                // When our source is still valid, so the offer is for setting it or we emit changed when it is cancelled
+                if (!m_device->primarySelection()) {
+                    Q_EMIT changed(QClipboard::Selection);
+                }
             });
             connect(m_device.get(), &DataControlDevice::primarySelectionChanged, this, [this]() {
                 Q_EMIT changed(QClipboard::Selection);
