@@ -81,6 +81,7 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     // Avoid asking apps for bigger data when mouse selection changes.
     // This could make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
+    m_selectionData.formats.append(mimeTextUtf8);
     for (auto &format : formats) {
         if (!format.startsWith(QLatin1String("image/")) && !format.startsWith(QLatin1String("text/")))
             m_selectionData.formats.append(format);
