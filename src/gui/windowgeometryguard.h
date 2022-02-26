@@ -41,6 +41,8 @@ private:
     void restoreWindowGeometry();
     void unlockWindowGeometry();
 
+    void onScreenChanged();
+
     QWidget *m_window;
 
     QTimer m_timerSaveGeometry;

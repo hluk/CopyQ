@@ -2,6 +2,8 @@
 
 #include <QApplication>
 #include <QScreen>
+#include <QWidget>
+#include <QWindow>
 
 #if QT_VERSION < QT_VERSION_CHECK(5,11,0)
 #   include <QDesktopWidget>
@@ -46,10 +48,13 @@ QRect screenGeometry(int i)
 #endif
 }
 
-QRect screenAvailableGeometry(const QPoint &pos)
+QRect screenAvailableGeometry(const QWidget &w)
 {
+    if ( w.windowHandle() && w.windowHandle()->screen() )
+        return w.windowHandle()->screen()->availableGeometry();
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
-    auto screen = QGuiApplication::screenAt(pos);
+    auto screen = QGuiApplication::screenAt(w.pos());
     return screen ? screen->availableGeometry() : screenGeometry(0);
 #else
     return QApplication::desktop()->availableGeometry(pos);

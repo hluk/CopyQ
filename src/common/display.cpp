@@ -59,8 +59,10 @@ QPoint toScreen(QPoint pos, QWidget *w)
     QWindow *window = w->windowHandle();
     if (window)
         window->setPosition(pos);
+    else
+        w->move(pos);
 
-    const QRect availableGeometry = screenAvailableGeometry(pos);
+    const QRect availableGeometry = screenAvailableGeometry(*w);
     if ( !availableGeometry.isValid() )
         return pos;
 
