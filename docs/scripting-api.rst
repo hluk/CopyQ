@@ -1972,48 +1972,48 @@ These MIME types values are assigned to global variables prefixed with
 
    Content for following types is UTF-8 encoded.
 
-.. js:data:: mimeText (text/plain)
+.. js:data:: mimeText
 
-   Data contains plain text content.
+   Data contains plain text content. Value: 'text/plain'.
 
-.. js:data:: mimeHtml (text/html)
+.. js:data:: mimeHtml
 
-   Data contains HTML content.
+   Data contains HTML content. Value: 'text/html'.
 
-.. js:data:: mimeUriList (text/uri-list)
+.. js:data:: mimeUriList
 
-   Data contains list of links to files, web pages etc.
+   Data contains list of links to files, web pages etc. Value: 'text/uri-list'.
 
-.. js:data:: mimeWindowTitle (application/x-copyq-owner-window-title)
+.. js:data:: mimeWindowTitle
 
-   Current window title for copied clipboard.
+   Current window title for copied clipboard. Value: 'application/x-copyq-owner-window-title'.
 
-.. js:data:: mimeItems (application/x-copyq-item)
+.. js:data:: mimeItems
 
-   Serialized items.
+   Serialized items. Value: 'application/x-copyq-item'.
 
-.. js:data:: mimeItemNotes (application/x-copyq-item-notes)
+.. js:data:: mimeItemNotes
 
-   Data contains notes for item.
+   Data contains notes for item. Value: 'application/x-copyq-item-notes'.
 
-.. js:data:: mimeIcon (application/x-copyq-item-icon)
+.. js:data:: mimeIcon
 
-   Data contains icon for item.
+   Data contains icon for item. Value: 'application/x-copyq-item-icon'.
 
-.. js:data:: mimeOwner (application/x-copyq-owner)
+.. js:data:: mimeOwner
 
-   If available, the clipboard was set from CopyQ (from script or copied items).
+   If available, the clipboard was set from CopyQ (from script or copied items). Value: 'application/x-copyq-owner'.
 
    Such clipboard is ignored in CopyQ, i.e. it won't be stored in clipboard
    tab and automatic commands won't be executed on it.
 
-.. js:data:: mimeClipboardMode (application/x-copyq-clipboard-mode)
+.. js:data:: mimeClipboardMode
 
-   Contains ``selection`` if data is from `Linux mouse selection`_.
+   Contains ``selection`` if data is from `Linux mouse selection`_. Value: 'application/x-copyq-clipboard-mode'.
 
-.. js:data:: mimeCurrentTab (application/x-copyq-current-tab)
+.. js:data:: mimeCurrentTab
 
-   Current tab name when invoking command from main window.
+   Current tab name when invoking command from main window. Value: 'application/x-copyq-current-tab'.
 
    Following command print the tab name when invoked from main window:
 
@@ -2022,17 +2022,17 @@ These MIME types values are assigned to global variables prefixed with
        copyq data application/x-copyq-current-tab
        copyq selectedTab
 
-.. js:data:: mimeSelectedItems (application/x-copyq-selected-items)
+.. js:data:: mimeSelectedItems
 
-   Selected items when invoking command from main window.
+   Selected items when invoking command from main window. Value: 'application/x-copyq-selected-items'.
 
-.. js:data:: mimeCurrentItem (application/x-copyq-current-item)
+.. js:data:: mimeCurrentItem
 
-   Current item when invoking command from main window.
+   Current item when invoking command from main window. Value: 'application/x-copyq-current-item'.
 
-.. js:data:: mimeHidden (application/x-copyq-hidden)
+.. js:data:: mimeHidden
 
-   If set to ``1``, the clipboard or item content will be hidden in GUI.
+   If set to ``1``, the clipboard or item content will be hidden in GUI. Value: 'application/x-copyq-hidden'.
 
    This won't hide notes and tags.
 
@@ -2042,9 +2042,9 @@ These MIME types values are assigned to global variables prefixed with
 
        copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
 
-.. js:data:: mimeShortcut (application/x-copyq-shortcut)
+.. js:data:: mimeShortcut
 
-   Application or global shortcut which activated the command.
+   Application or global shortcut which activated the command. Value: 'application/x-copyq-shortcut'.
 
    ::
 
@@ -2052,9 +2052,9 @@ These MIME types values are assigned to global variables prefixed with
        var shortcut = data(mimeShortcut)
        popup("Shortcut Pressed", shortcut)
 
-.. js:data:: mimeColor (application/x-copyq-color)
+.. js:data:: mimeColor
 
-   Item color (same as the one used by themes).
+   Item color (same as the one used by themes). Value: 'application/x-copyq-color'.
 
    Examples::
 
@@ -2062,9 +2062,9 @@ These MIME types values are assigned to global variables prefixed with
        rgba(255,255,0,0.5)
        bg - #000099
 
-.. js:data:: mimeOutputTab (application/x-copyq-output-tab)
+.. js:data:: mimeOutputTab
 
-   Name of the tab where to store new item.
+   Name of the tab where to store new item. Value: 'application/x-copyq-output-tab'.
 
    The clipboard data will be stored in tab with this name after all
    automatic commands are run.

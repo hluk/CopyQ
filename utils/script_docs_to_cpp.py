@@ -34,9 +34,6 @@ re_title = re.compile(r'''
     ^\.\.\s*js:data::\s*
     # variable name
     (?P<variable_name>[\w.]+)
-    \s*
-    # followed by opening parenthesis
-    (?P<variable_api>\(.*)?
 
     |
 
@@ -79,7 +76,7 @@ def main():
                     if name:
                         write_api(output_file, name, api, description, rtype)
                     name = match.group('function_name') or match.group('variable_name') or match.group('type_name')
-                    api = match.group('function_api') or match.group('variable_api') or name
+                    api = match.group('function_api') or name
                     description = None
                     rtype = None
                 elif not description or not description.endswith("."):
