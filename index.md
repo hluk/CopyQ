@@ -30,7 +30,7 @@ Saved clipboard can be later copied and pasted directly into any application.
 
 ## Features
 
-* Support for Linux, Windows and OS X 10.9+
+* Support for Linux, Windows and [OS X 10.15+](https://doc.qt.io/qt-5/macos.html#supported-versions)
 * Store text, HTML, images or any other custom formats
 * Quickly browse and filter items in clipboard history
 * Sort, create, edit, remove, copy/paste, drag'n'drop items in tabs
@@ -253,7 +253,7 @@ sudo apt install \
   qtwayland5 \
   qtwayland5-dev-tools
 ```
-#### RHEL / CentOS
+#### RHEL / CentOS / Oracle Linux
 
 ```bash
 sudo yum install \
@@ -269,7 +269,8 @@ sudo yum install \
   qt5-qttools-devel \
   qt5-qtwayland-devel \
   qt5-qtx11extras-devel \
-  wayland-devel
+  wayland-devel \
+  kf5-knotifications-devel
 ```
 
 ### Build the App
