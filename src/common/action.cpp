@@ -83,7 +83,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     bool percent = false;
 
     // Ignore escape sequences if command starts with an unescaped Windows path.
-    const QRegularExpression reUnescapedWindowsPath(R"(^[a-zA-Z]:\\[^\\])");
+    const QRegularExpression reUnescapedWindowsPath(R"(^\s*['"]?[a-zA-Z]:\\[^\\])");
     const bool allowEscape = !cmd.contains(reUnescapedWindowsPath);
 
     for (int i = 0; i < cmd.size(); ++i) {
