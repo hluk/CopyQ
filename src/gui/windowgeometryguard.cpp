@@ -191,7 +191,7 @@ void WindowGeometryGuard::onScreenChanged()
     }
 
     setGeometryGuardBlockedUntilHidden(m_window, true);
-    if (isMousePositionSupported) {
+    if (isMousePositionSupported || m_window->isModal()) {
         ::restoreWindowGeometry(m_window, true);
     } else {
         // WORKAROUND: Center window position on Sway window compositor which
