@@ -57,6 +57,6 @@ QRect screenAvailableGeometry(const QWidget &w)
     auto screen = QGuiApplication::screenAt(w.pos());
     return screen ? screen->availableGeometry() : screenGeometry(0);
 #else
-    return QApplication::desktop()->availableGeometry(pos);
+    return QApplication::desktop()->availableGeometry(w.pos());
 #endif
 }
