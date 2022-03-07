@@ -2469,7 +2469,7 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation>Původní styl:</translation>
+        <translation>Výchozí styl:</translation>
     </message>
 </context>
 <context>
