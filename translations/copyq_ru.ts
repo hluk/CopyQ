@@ -1046,12 +1046,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation>Закрыть главное окно когда фокус на другом приложении</translation>
+        <translation>Закрывать главное окно, когда фокус на другом приложении</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation>Закрыть, когда неактивно</translation>
+        <translation>Закрывать, когда неактивно</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1086,7 +1086,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>Поддержка навигационных клавиш Vi (H, J, K, L и другие), слэш (/) клавиша для поиска</translation>
+        <translation>Поддержка навигационных клавиш Vi (H, J, K, L и другие), поиск клавишей косой черты (/)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
@@ -1318,12 +1318,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation>Показать/Скрыть</translation>
+        <translation>Показать/скрыть</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>Скрыть вкладки (нажмите клавишу Alt, чтобы показать)</translation>
+        <translation>Скрыть вкладки (нажмите клавишу Alt для показа)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
@@ -2753,7 +2753,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>К&amp;оманды/глобальные сочетания клавиш...</translation>
+        <translation>&amp;Команды/глобальные клавиши...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="71"/>
