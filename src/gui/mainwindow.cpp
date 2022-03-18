@@ -1081,13 +1081,6 @@ void MainWindow::onAboutToQuit()
     terminateAction(&m_displayActionId);
 }
 
-void MainWindow::onSaveCommand(const Command &command)
-{
-    auto commands = loadAllCommands();
-    commands.append(command);
-    setCommands(commands);
-}
-
 void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
     COPYQ_LOG( QString("Trigger: %1").arg(commandAction->text()) );
@@ -3587,9 +3580,6 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
 
     connect( actionDialog, &ActionDialog::commandAccepted,
              this, &MainWindow::onActionDialogAccepted );
-
-    connect( actionDialog, &ActionDialog::saveCommand,
-             this, &MainWindow::onSaveCommand );
 
     stealFocus(*actionDialog);
 

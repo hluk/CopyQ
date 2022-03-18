@@ -497,8 +497,6 @@ private:
 
     void onAboutToQuit();
 
-    void onSaveCommand(const Command &command);
-
     void onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
     void onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
 

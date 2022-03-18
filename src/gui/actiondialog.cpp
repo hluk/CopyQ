@@ -212,14 +212,6 @@ void ActionDialog::onButtonBoxClicked(QAbstractButton* button)
         saveCurrentCommandToHistory();
         break;
 
-    case QDialogButtonBox::Save:
-        emit saveCommand(command());
-        QMessageBox::information(
-                    this, tr("Command saved"),
-                    tr("Command was saved and can be accessed from item menu.\n"
-                       "You can set up the command in preferences.") );
-        break;
-
     case QDialogButtonBox::Cancel:
         close();
         break;
