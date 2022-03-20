@@ -36,6 +36,7 @@
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
+#include <QMessageBox>
 #include <QMetaObject>
 #include <QModelIndex>
 #include <QSettings>
@@ -83,6 +84,19 @@ void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
     }
 }
 
+bool askToKeepCorruptedTab(const QString &tabName)
+{
+    const int answer = QMessageBox::question(
+        nullptr,
+        ItemFactory::tr("Corrupted Tab"),
+        ItemFactory::tr(
+            "Not all items in the tab <strong>%1</strong> were loaded successfully. "
+            "Do you still want to load the tab and potentially lose some items?")
+            .arg(quoteString(tabName)),
+        QMessageBox::Yes | QMessageBox::No,
+        QMessageBox::Yes);
+    return answer == QMessageBox::Yes;
+}
 
 /** Sort plugins by prioritized list of names. */
 class PluginSorter final {
@@ -215,11 +229,21 @@ public:
 
     bool canSaveItems(const QString &) const override { return true; }
 
-    ItemSaverPtr loadItems(const QString &, QAbstractItemModel *model, QIODevice *file, int maxItems) override
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file, maxItems) ) {
-                model->removeRows(0, model->rowCount());
+                const int itemsLoadedCount = model->rowCount();
+                if ( itemsLoadedCount > 0 && askToKeepCorruptedTab(tabName) ) {
+                    log(QStringLiteral("Keeping corrupted tab on user request"));
+                    file->close();
+                    file->open(QIODevice::WriteOnly);
+                    auto saver = std::make_shared<DummySaver>();
+                    saver->saveItems(tabName, *model, file);
+                    return saver;
+                }
+
+                model->removeRows(0, itemsLoadedCount);
                 return nullptr;
             }
         }
