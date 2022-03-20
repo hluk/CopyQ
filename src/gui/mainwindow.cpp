@@ -1992,7 +1992,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
         const bool wasLoaded = placeholder->isDataLoaded();
         auto c = placeholder->createBrowserAgain();
         if (!c) {
-            log(QString("Failed to open tab \"%s\" for export").arg(tab), LogError);
+            log(QString("Failed to open tab \"%1\" for export").arg(tab), LogError);
             return false;
         }
 
@@ -2010,7 +2010,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
             placeholder->expire();
 
         if (!saved) {
-            log(QString("Failed to export tab \"%s\"").arg(tab), LogError);
+            log(QString("Failed to export tab \"%1\"").arg(tab), LogError);
             return false;
         }
 
@@ -2088,7 +2088,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
-            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
+            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
             return false;
         }
 
@@ -2099,7 +2099,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         // Don't read items based on current value of "maxitems" option since
         // the option can be later also imported.
         if ( !deserializeData( c->model(), &tabIn, Config::maxItems ) ) {
-            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
+            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
 
@@ -2214,7 +2214,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
 
         auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
-            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
+            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
             return false;
         }
 
@@ -2226,7 +2226,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         // the option can be later also imported.
         const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
         if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
-            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
+            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
 
