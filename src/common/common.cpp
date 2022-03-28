@@ -344,6 +344,13 @@ bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariant
     return !hasPrefix;
 }
 
+bool isBinaryImageFormat(const QString &format)
+{
+    return format.startsWith(QStringLiteral("image/"))
+           && !format.contains(QStringLiteral("xml"))
+           && !format.contains(QStringLiteral("svg"));
+}
+
 } // namespace
 
 bool isMainThread()
@@ -369,24 +376,22 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
      so these doesn't have to be ignored.
      */
     if ( formats.contains(mimeText) && data.hasText() ) {
-        const QString mimeImagePrefix = "image/";
         const auto first = std::remove_if(
-                    std::begin(formats), std::end(formats),
-                    [&mimeImagePrefix](const QString &format) {
-                        return format.startsWith(mimeImagePrefix)
-                            && !format.contains("xml")
-                            && !format.contains("svg");
-                    });
+            std::begin(formats), std::end(formats), isBinaryImageFormat);
         formats.erase(first, std::end(formats));
     }
 
     QStringList imageFormats;
     for (const auto &mime : formats) {
-        const QByteArray bytes = data.getUtf8Data(mime);
-        if ( bytes.isEmpty() )
+        if (isBinaryImageFormat(mime)) {
             imageFormats.append(mime);
-        else
-            newdata.insert(mime, bytes);
+        } else {
+            const QByteArray bytes = data.getUtf8Data(mime);
+            if ( bytes.isEmpty() )
+                imageFormats.append(mime);
+            else
+                newdata.insert(mime, bytes);
+        }
     }
 
     for (const auto &internalMime : internalMimeTypes) {
