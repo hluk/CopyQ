@@ -15,13 +15,13 @@
 #include <QImageReader>
 #include <QImageWriter>
 #include <QMimeData>
+#include <QThread>
 #include <QtWaylandClient/QWaylandClientExtension>
 #include <qpa/qplatformnativeinterface.h>
 #include <qtwaylandclientversion.h>
 
 #include <errno.h>
 #include <poll.h>
-#include <signal.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -61,6 +61,84 @@ static inline QStringList imageWriteMimeFormats()
     return imageMimeFormats(QImageWriter::supportedImageFormats());
 }
 // end copied
+
+namespace {
+
+class SendThread : public QThread {
+public:
+    SendThread(int fd, const QByteArray &data)
+        : m_data(data)
+        , m_fd(fd)
+    {}
+
+protected:
+    void run() override {
+        QFile c;
+        if (c.open(m_fd, QFile::WriteOnly, QFile::AutoCloseHandle)) {
+            c.write(m_data);
+            c.close();
+        }
+    }
+
+private:
+    QByteArray m_data;
+    int m_fd;
+};
+
+class ReceiveThread : public QThread {
+public:
+    ReceiveThread(int fd)
+        : m_fd(fd)
+    {}
+
+    QByteArray data() const { return m_data; }
+
+protected:
+    void run() override {
+        QFile readPipe;
+        if (readPipe.open(m_fd, QIODevice::ReadOnly, QFile::AutoCloseHandle)) {
+            readData();
+            close(m_fd);
+        }
+    }
+
+private:
+    void readData() {
+        pollfd pfds[1];
+        pfds[0].fd = m_fd;
+        pfds[0].events = POLLIN;
+
+        while (true) {
+            const int ready = poll(pfds, 1, 1000);
+            if (ready < 0) {
+                if (errno != EINTR) {
+                    qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
+                    return;
+                }
+            } else if (ready == 0) {
+                qWarning("DataControlOffer: timeout reading from pipe");
+                return;
+            } else {
+                char buf[4096];
+                int n = read(m_fd, buf, sizeof buf);
+
+                if (n < 0) {
+                    qWarning("DataControlOffer: read() failed: %s", strerror(errno));
+                    return;
+                } else if (n == 0) {
+                    return;
+                } else if (n > 0) {
+                    m_data.append(buf, n);
+                }
+            }
+        }
+    }
+
+    QByteArray m_data;
+    int m_fd;
+};
+
+} // namespace
 
 class DataControlDeviceManager : public QWaylandClientExtensionTemplate<DataControlDeviceManager>
         , public QtWayland::zwlr_data_control_manager_v1
@@ -164,10 +242,6 @@ protected:
 #endif
 
 private:
-    /** reads data from a file descriptor with a timeout of 1 second
-     *  true if data is read successfully
-     */
-    static bool readData(int fd, QByteArray &data);
     QStringList m_receivedFormats;
 };
 
@@ -225,55 +299,20 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
     wl_display_flush(display);
 
-    QFile readPipe;
-    if (readPipe.open(pipeFds[0], QIODevice::ReadOnly)) {
-        QByteArray data;
-        if (readData(pipeFds[0], data)) {
-            close(pipeFds[0]);
+    ReceiveThread thread(pipeFds[0]);
+    thread.start();
+    while (thread.isRunning())
+        QCoreApplication::processEvents();
+    const auto data = thread.data();
 
-            if (mimeType == applicationQtXImageLiteral()) {
-                QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
-                if (!img.isNull()) {
-                    return img;
-                }
-            }
-            return data;
-        }
-        close(pipeFds[0]);
-    }
-    return QVariant();
-}
-
-bool DataControlOffer::readData(int fd, QByteArray &data)
-{
-    pollfd pfds[1];
-    pfds[0].fd = fd;
-    pfds[0].events = POLLIN;
-
-    while (true) {
-        const int ready = poll(pfds, 1, 1000);
-        if (ready < 0) {
-            if (errno != EINTR) {
-                qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
-                return false;
-            }
-        } else if (ready == 0) {
-            qWarning("DataControlOffer: timeout reading from pipe");
-            return false;
-        } else {
-            char buf[4096];
-            int n = read(fd, buf, sizeof buf);
-
-            if (n < 0) {
-                qWarning("DataControlOffer: read() failed: %s", strerror(errno));
-                return false;
-            } else if (n == 0) {
-                return true;
-            } else if (n > 0) {
-                data.append(buf, n);
-            }
+    if (!data.isEmpty() && mimeType == applicationQtXImageLiteral()) {
+        QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
+        if (!img.isNull()) {
+            return img;
         }
     }
+
+    return data;
 }
 
 class DataControlSource : public QObject, public QtWayland::zwlr_data_control_source_v1
@@ -293,6 +332,8 @@ public:
         return m_mimeData;
     }
 
+    bool isCancelled() const { return m_cancelled; }
+
 Q_SIGNALS:
     void cancelled();
 
@@ -302,6 +343,7 @@ protected:
 
 private:
     QMimeData *m_mimeData = nullptr;
+    bool m_cancelled = false;
 };
 
 DataControlSource::DataControlSource(struct ::zwlr_data_control_source_v1 *id, QMimeData *mimeData)
@@ -358,20 +400,14 @@ void DataControlSource::zwlr_data_control_source_v1_send(const QString &mime_typ
         ba = m_mimeData->data(send_mime_type);
     }
 
-    // Create a sigpipe handler that does nothing, or clients may be forced to terminate
-    // if the pipe is closed in the other end.
-    struct sigaction action, oldAction;
-    action.sa_handler = SIG_IGN;
-    sigemptyset(&action.sa_mask);
-    action.sa_flags = 0;
-    sigaction(SIGPIPE, &action, &oldAction);
-    write(fd, ba.constData(), ba.size());
-    sigaction(SIGPIPE, &oldAction, nullptr);
-    close(fd);
+    auto thread = new SendThread(fd, m_mimeData->data(send_mime_type));
+    connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+    thread->start();
 }
 
 void DataControlSource::zwlr_data_control_source_v1_cancelled()
 {
+    m_cancelled = true;
     Q_EMIT cancelled();
 }
 
@@ -592,18 +628,10 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
         if (m_device->selection()) {
             return m_device->selection();
         }
-        // This application owns the clipboard via the regular data_device, use it so we don't block ourselves
-        if (QGuiApplication::clipboard()->ownsClipboard()) {
-            return QGuiApplication::clipboard()->mimeData(mode);
-        }
         return m_device->receivedSelection();
     } else if (mode == QClipboard::Selection) {
         if (m_device->primarySelection()) {
             return m_device->primarySelection();
-        }
-        // This application owns the primary selection via the regular primary_selection_device, use it so we don't block ourselves
-        if (QGuiApplication::clipboard()->ownsSelection()) {
-            return QGuiApplication::clipboard()->mimeData(mode);
         }
         return m_device->receivedPrimarySelection();
     }
