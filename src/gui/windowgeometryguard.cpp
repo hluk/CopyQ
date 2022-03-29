@@ -168,10 +168,10 @@ void WindowGeometryGuard::unlockWindowGeometry()
 
 void WindowGeometryGuard::onScreenChanged()
 {
-    if ( isGeometryGuardBlockedUntilHidden(m_window) )
+    if (!openOnCurrentScreen())
         return;
 
-    if (!openOnCurrentScreen())
+    if ( !lockWindowGeometry() )
         return;
 
     QWindow *window = m_window->windowHandle();
@@ -190,8 +190,6 @@ void WindowGeometryGuard::onScreenChanged()
         return;
     }
 
-    setGeometryGuardBlockedUntilHidden(m_window, true);
-    m_timerUnlockGeometry.start();
     if (isMousePositionSupported || m_window->isModal()) {
         ::restoreWindowGeometry(m_window, true);
     } else {
@@ -201,5 +199,4 @@ void WindowGeometryGuard::onScreenChanged()
         ::restoreWindowGeometry(m_window, true);
         m_window->show();
     }
-    setGeometryGuardBlockedUntilHidden(m_window, false);
 }
