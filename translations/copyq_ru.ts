@@ -468,7 +468,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Скопировать выделенное</translation>
+        <translation>Копировать выбранное</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
@@ -1647,7 +1647,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
         <source>Items</source>
-        <translation>Элементы</translation>
+        <translation>Объекты</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="183"/>
@@ -2106,17 +2106,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Элемент &amp;выше</translation>
+        <translation>&amp;Над объектом</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>Элемент &amp;ниже</translation>
+        <translation>&amp;Под объектом</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>Элемент &amp;рядом</translation>
+        <translation>&amp;Возле объекта</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2505,7 +2505,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="844"/>
         <source>&amp;Item</source>
-        <translation>&amp;Элемент</translation>
+        <translation>&amp;Объект</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="848"/>
@@ -2598,7 +2598,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="343"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation>Элементы CopyQ (*.cpq)</translation>
+        <translation>Объекты CopyQ (*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3895"/>
@@ -2667,7 +2667,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="583"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation>&lt;Элементы&gt;</translation>
+        <translation>&lt;ОБЪЕКТЫ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="585"/>
@@ -2808,7 +2808,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>&amp;Сортировка выбранных объектов</translation>
+        <translation>&amp;Сортировать выбранные объекты</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="87"/>
@@ -2818,7 +2818,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>&amp;Обратить выбор объектов</translation>
+        <translation>&amp;Перевернуть выбранные объекты</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
