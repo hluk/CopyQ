@@ -191,7 +191,7 @@ void WindowGeometryGuard::onScreenChanged()
     }
 
     setGeometryGuardBlockedUntilHidden(m_window, true);
-    lockWindowGeometry();
+    m_timerUnlockGeometry.start();
     if (isMousePositionSupported || m_window->isModal()) {
         ::restoreWindowGeometry(m_window, true);
     } else {
