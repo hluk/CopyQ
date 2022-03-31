@@ -403,7 +403,7 @@ struct save_on_app_deactivated : Config<bool> {
     static QString name() { return "save_on_app_deactivated"; }
     static Value defaultValue() { return true; }
     static const char *description() {
-        return "Save unsaved tabs immediatelly after the app is deactivated (main window loses focus)";
+        return "Save unsaved tabs immediately after the app is deactivated (main window loses focus)";
     }
 };
 
