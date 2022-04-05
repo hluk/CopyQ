@@ -14,9 +14,9 @@ skip_branch_with_pr: true
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
-  KF5_VERSION: 5.87
+  KF5_VERSION: 5.92
   KF5_PATCH: 0
-  SNORETOAST_VERSION: 0.7.0
+  SNORETOAST_VERSION: 0.8.0
 
   matrix:
     - QTDIR: /c/Qt/5.15/msvc2019_64

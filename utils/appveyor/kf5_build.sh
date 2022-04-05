@@ -58,6 +58,7 @@ fi
         -G "$CMAKE_GENERATOR" -A "$CMAKE_GENERATOR_ARCH" \
         -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
         -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" \
+        -DBUILD_TESTING=OFF \
         "${extra_cmake_args[@]}"
 
     cmake --build "$DEPENDENCY_BUILD_PATH/$name" --config Release --target install
