@@ -135,9 +135,18 @@ Build with the following commands:
 
 ::
 
-    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" .
+	mkdir -p build && cd build
+    cmake -DCMAKE_PREFIX_PATH=(brew --prefix qt5) -DCMAKE_LISTS_TXT_PATH="$PWD/../CMakeLists.txt" -DCMAKE_LISTS_OR_SETTINGS_JSON=CMakeListsTxtAdvanced -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR=Ninja -DWITH_TESTS=TRUE ../
     cmake --build .
-    cpack
+    cpack && codesign --force --deep --sign - $PWD/_CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app
+	mv _CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app .
+	_dir=CopyQ.app/Contents/MacOS/CopyQ
+	mv "$_dir/CopyQ" "$_dir/CopyQ.main"
+	printf '%s\n' '#!/bin/bash' \
+		"COPYQ_SETTINGS_PATH=$HOME/.config exec /Applications/$_dir/CopyQ.main \"\$@\"" \
+		> $_dir/CopyQ
+	chmod +x $_dir/CopyQ
+
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
