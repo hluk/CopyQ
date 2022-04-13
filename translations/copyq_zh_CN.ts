@@ -2729,7 +2729,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation>&amp;Clipboard</translation>
+        <translation>剪贴板(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
@@ -3118,12 +3118,12 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>激活项目 (&amp;C)</translation>
+        <translation>激活项目(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation>用编辑器编辑(&amp;d)</translation>
+        <translation>用编辑器编辑(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
