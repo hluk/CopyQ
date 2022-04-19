@@ -321,7 +321,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Effacer l&apos;onglet actuel</translation>
     </message>
 </context>
 <context>
@@ -356,7 +356,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="128"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="121"/>
@@ -495,7 +495,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="273"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation>Commandes (*.ini)&#x202f;;; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
+        <translation>Commandes (*.ini) ;; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="284"/>
@@ -2134,25 +2134,25 @@ Mettre à 0 pour désactiver.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Monter</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descendre</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Déplacer en haut de la liste</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Déplacer en bas de la liste</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -3016,18 +3016,18 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="99"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarder l’élément</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler la modification</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3038,27 +3038,27 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation type="unfinished">Annuler</translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation type="unfinished">Rétablir</translation>
+        <translation>Rétablir</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation type="unfinished">Fonte</translation>
+        <translation>Police</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Bold</source>
-        <translation type="unfinished">Gras</translation>
+        <translation>Gras</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Italic</source>
-        <translation type="unfinished">Italique</translation>
+        <translation>Italique</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
@@ -3068,38 +3068,38 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Barré</translation>
+        <translation>Barré</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation type="unfinished">Premier plan</translation>
+        <translation>Premier plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation type="unfinished">Arrière-plan</translation>
+        <translation>Arrière-plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Effacer le style</translation>
+        <translation>Effacer le style</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Search</source>
-        <translation type="unfinished">Rechercher</translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Activer les éléments</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Éditer avec l&apos;éditeur</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
@@ -3762,7 +3762,7 @@ Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescen
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>Nombre maximum d&apos;éléments&#x202f;:</translation>
+        <translation>Nombre maximum d&apos;éléments :</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
