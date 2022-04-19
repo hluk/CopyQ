@@ -1669,6 +1669,50 @@ Types
 
    To open file in different modes, use same open methods as for `File`.
 
+.. js:class:: Settings
+
+   Reads and writes INI configuration files. Wrapper for QSettings Qt class.
+
+   See `QSettings <https://doc.qt.io/qt-5/qsettings.html>`__.
+
+   .. code-block:: js
+
+       // Open INI file
+       var configPath = Dir().homePath() + '/copyq.ini'
+       var settings = new Settings(configPath)
+
+       // Save an option
+       settings.setValue('option1', 'test')
+
+       // Store changes to the config file now instead of at the end of
+       // executing the script
+       settings.sync()
+
+       // Read the option value
+       var value = settings.value('option1')
+
+   Working with arrays:
+
+   .. code-block:: js
+
+       // Write array
+       var settings = new Settings(configPath)
+       settings.beginWriteArray('array1')
+       settings.setArrayIndex(0)
+       settings.setValue('some_option', 1)
+       settings.setArrayIndex(1)
+       settings.setValue('some_option', 2)
+       settings.endArray()
+       settings.sync()
+
+       // Read array
+       var settings = new Settings(configPath)
+       const arraySize = settings.beginReadArray('array1')
+       for (var i = 0; i < arraySize; i++) {
+           settings.setArrayIndex(i);
+           print('Index ' + i + ': ' + settings.value('some_option') + '\n')
+       }
+
 .. js:class:: Item
 
    Object with MIME types of an item.

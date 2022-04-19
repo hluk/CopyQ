@@ -175,6 +175,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
     addDocumentation("TemporaryFile", "TemporaryFile", "Wrapper for QTemporaryFile Qt class.");
+    addDocumentation("Settings", "Settings", "Reads and writes INI configuration files. Wrapper for QSettings Qt class.");
     addDocumentation("Item", "Item", "Object with MIME types of an item.");
     addDocumentation("ItemSelection", "ItemSelection", "List of items from given tab.");
     addDocumentation("FinishedCommand", "FinishedCommand", "Properties of finished command.");

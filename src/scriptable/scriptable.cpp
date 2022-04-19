@@ -40,6 +40,7 @@
 #include "scriptable/scriptablefile.h"
 #include "scriptable/scriptableitemselection.h"
 #include "scriptable/scriptableproxy.h"
+#include "scriptable/scriptablesettings.h"
 #include "scriptable/scriptabletemporaryfile.h"
 
 #include <QApplication>
@@ -708,6 +709,7 @@ Scriptable::Scriptable(
     addScriptableClass(&ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
     addScriptableClass(&ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine,
                        QStringLiteral("global._initItemSelection = "));
+    addScriptableClass(&ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
 }
 
 QJSValue Scriptable::argumentsArray() const
