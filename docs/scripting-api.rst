@@ -1583,7 +1583,7 @@ unlike in GUI, where row numbers start from 1 by default.
    :returns: Style identifiers.
    :rtype: array of strings
 
-   To change or update style use::
+   To change or update style use:
 
    .. code-block:: js
 
