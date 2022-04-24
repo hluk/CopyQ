@@ -2300,6 +2300,19 @@ void Tests::classItemSelectionGetCurrent()
     WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[2,3])");
 }
 
+void Tests::classItemSelectionByteArray()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ByteArray(ItemSelection().selectAll().itemAtIndex(0)[mimeText])", "A");
+    RUN(args << "str(ItemSelection().selectAll().itemAtIndex(0)[mimeText])", "A\n");
+    RUN(args << "write(0, [ItemSelection().selectAll().itemAtIndex(2)])"
+             << "read(mimeText, 0)", "C");
+}
+
 void Tests::classSettings()
 {
     TemporaryFile configFile;

@@ -433,10 +433,13 @@ struct ScriptValueFactory<QVariant> {
         if (value.isArray())
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
 
+        const auto variant = toVariant(value);
+        if (variant.type() == QVariant::ByteArray)
+            return variant;
+
         if (value.isObject())
             return ScriptValueFactory<QVariantMap>::fromScriptValue(value, scriptable);
 
-        const auto variant = toVariant(value);
         Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
         return variant;
     }
