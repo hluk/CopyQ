@@ -266,6 +266,9 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
     const QFont font = smallerFont(layout->parentWidget()->font());
 
     for (const auto &tag : tags) {
+        if ( tag.name.isEmpty() && tag.icon.isEmpty() )
+            continue;
+
         QWidget *tagWidget = new QWidget(layout->parentWidget());
         initTagWidget(tagWidget, tag, font);
         layout->addWidget(tagWidget);
