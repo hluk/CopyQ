@@ -320,7 +320,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuellen Tab leeren</translation>
     </message>
 </context>
 <context>
@@ -525,7 +525,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Elementtext wird durch das Programmargument %1 ersetzt.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -699,7 +699,7 @@ Zum Deaktivieren leerlassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringt den Befehl, wenn der Filterbefehl mit einem Exit-Code ungleich Null fehlschlägt.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="492"/>
@@ -779,7 +779,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringt den Befehl, wenn der Eingabetext nicht mit diesem regulären Ausdruck übereinstimmt (leer lassen, um alles zu finden).
+
+%2 bis %9 in Befehl und Filter werden durch die erfassten Texte ersetzt.
+
+Beispiele:
+
+- Übereinstimmung URL: ^(https?|ftp)://
+- Übereinstimmung PDF-Dateinamen: \.pdf$
+- Übereinstimmung mit einzelnem Zeichen: ^.$
+- Übereinstimmung Multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -2131,25 +2140,25 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nach oben</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nach unten</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Ganz nach oben</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Ganz nach unten</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -2432,7 +2441,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard-Stylesheet:</translation>
     </message>
 </context>
 <context>
@@ -3012,90 +3021,90 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="99"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag speichern</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeitung abbrechen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Esc</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation type="unfinished">Rückgängig</translation>
+        <translation>Rückgängig</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation type="unfinished">Wiederherstellen</translation>
+        <translation>Wiederherstellen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation type="unfinished">Schriftart</translation>
+        <translation>Schriftart</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Bold</source>
-        <translation type="unfinished">Fett</translation>
+        <translation>Fett</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Italic</source>
-        <translation type="unfinished">Kursiv</translation>
+        <translation>Kursiv</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation type="unfinished">Unterstrichen</translation>
+        <translation>Unterstrichen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Durchgestrichen</translation>
+        <translation>Durchgestrichen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation type="unfinished">Vordergrund</translation>
+        <translation>Vordergrund</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation type="unfinished">Hintergrund</translation>
+        <translation>Hintergrund</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Formatierung entfernen</translation>
+        <translation>Stil löschen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Search</source>
-        <translation type="unfinished">Suche</translation>
+        <translation>Suche</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Einträge a&amp;ktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit E&amp;ditor bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
