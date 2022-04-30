@@ -321,7 +321,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished">Effacer l&apos;onglet actuel</translation>
+        <translation>Effacer l&apos;onglet actuel</translation>
     </message>
 </context>
 <context>
