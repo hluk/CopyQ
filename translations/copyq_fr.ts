@@ -527,7 +527,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">L&apos;argument de programme %1 sera remplacé par le texte de l&apos;élément.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -737,7 +737,7 @@ Laisser vide pour désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ignore la commande si la commande de filtrage échoue avec un code de sortie différent de zéro.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -2436,7 +2436,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Feuille de style par défaut :</translation>
     </message>
 </context>
 <context>
@@ -3033,7 +3033,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Échap</translation>
+        <translation>Échap</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
