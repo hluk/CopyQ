@@ -20,7 +20,7 @@ CopyQ is an advanced clipboard manager with powerful editing and scripting featu
 ## Overview
 
 * CopyQ monitors the system clipboard and saves its content in customized tabs.  
-* Saved clipboard entires can later be copied and pasted directly into any application.
+* Saved clipboard entries can later be copied and pasted directly into any application.
 
 ## Features
 
@@ -140,7 +140,7 @@ Selected items can be:
 
 All items will be restored when CopyQ is next started.
 
-To exit CopyQ, select Exit from yhr tray menu or press `Ctrl-Q` in the
+To exit CopyQ, select Exit from the tray menu or press `Ctrl-Q` in the
 CopyQ window.
 
 Read more:
