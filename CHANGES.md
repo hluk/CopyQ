@@ -1,3 +1,31 @@
+# 6.2.0
+
+## Added
+
+- Tabs can now load at least some items from a partially corrupted data file
+  dropping the rest of the items.
+
+- Simpler and safer data saving uses Qt framework (`QSaveFile`).
+
+- New `Settings` class in scripts can be used to manage INI configuration
+  files (#1964).
+
+## Changed
+
+- Obscure untested Save button has been removed from Action dialog.
+
+## Fixed
+
+- Fixes restoring window geometry in a loop (#1946).
+
+- Fixes converting internal byte array representation in scripts in some rare
+  cases.
+
+- Windows: Fixes exiting the app on logout (#1249).
+
+- Windows: Workaround to treat native path separators properly and not as
+  special escape characters.
+
 # 6.1.0
 
 ## Added
