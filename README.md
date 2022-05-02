@@ -83,9 +83,7 @@ brew install --cask copyq
 
 ### Debian 10+, Ubuntu 18.04+, and their derivatives
 
-Install `copyq` package:
-
-`copyq-plugins` is highly recommended. `copyq-doc` available.
+Install `copyq` and `copyq-plugins` packages.
 
 #### Ubuntu PPA
 
