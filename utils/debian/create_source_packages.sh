@@ -6,6 +6,7 @@ distros=(
     focal
     hirsute
     impish
+    jammy
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
