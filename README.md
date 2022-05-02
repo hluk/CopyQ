@@ -19,7 +19,7 @@ CopyQ is an advanced clipboard manager with powerful editing and scripting featu
 
 ## Overview
 
-* CopyQ monitors the system clipboard and saves its content in customized tabs.  
+* CopyQ monitors the system clipboard and saves its content in customized tabs.
 * Saved clipboard entries can later be copied and pasted directly into any application.
 
 ## Features
