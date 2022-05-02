@@ -551,7 +551,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation>Zwis&amp;chenablage</translation>
+        <translation>Zwischenablage</translation>
     </message>
 </context>
 <context>
@@ -1647,7 +1647,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Tabs</source>
-        <translation>Ta&amp;bs</translation>
+        <translation>Tabs</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
@@ -3779,7 +3779,7 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation>&amp;Speichere Elemente</translation>
+        <translation>Elemente &amp;speichern</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
