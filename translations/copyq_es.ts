@@ -2330,12 +2330,12 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="625"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>No Se Pueden Eliminar Elementos Marcados Con La Etiqueta &quot;Bloqueado&quot;</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="626"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para elimininar elementos, primero quiteles las etiquetas.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="762"/>
@@ -2440,7 +2440,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoja de estilo por defecto:</translation>
     </message>
 </context>
 <context>
@@ -3098,7 +3098,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;ctivar Elementos</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
