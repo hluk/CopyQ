@@ -63,22 +63,25 @@ installed or updated.
 
 .. _known-issue-wayland:
 
-On Linux, global shortcuts and pasting doesn't work
----------------------------------------------------
+On Linux, global shortcuts, pasting or clipboard monitoring does not work
+-------------------------------------------------------------------------
 
-This can be caused by running Wayland instead of the old X11.
+This can be caused by running CopyQ under a **Wayland** window manager instead
+of the X11 server.
 
-Wayland doesn't support:
+Depending on the desktop environment, these features may not be supported:
 
 - global shortcuts
-- clipboard access from window that is not active
-- mouse selection copy/pasting
-- pasting from CopyQ (i.e. passing shortcuts to application)
+- clipboard monitoring
+- pasting from CopyQ and issuing copy command to other apps (that is passing
+  shortcuts to application)
+- screenshot functionality
+- querying keyboard modifiers and mouse position
 
 **Workaround** for most problems is to set ``QT_QPA_PLATFORM`` environment variable
 and use Xwayland (e.g. ``xorg-x11-server-Xwayland`` Fedora package).
 
-E.g. launch CopyQ with::
+For example, launch CopyQ with::
 
     env QT_QPA_PLATFORM=xcb copyq
 
@@ -93,5 +96,11 @@ If CopyQ autostarts, you can change ``Exec=...`` line in
     supports it.
 
 .. seealso::
+
+    `Wayland Support
+    <https://github.com/hluk/copyq-commands/tree/master/Scripts#wayland-support>`__
+    command reimplements some features on Wayland through external tools (see
+    `README <https://github.com/hluk/copyq-commands/blob/master/README.md>`__
+    for details on how to add the command.
 
     `Issue #27 <https://github.com/hluk/CopyQ/issues/27>`__
