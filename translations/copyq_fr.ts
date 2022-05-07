@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
         <source>Clipboard Manager</source>
-        <translation>Gestionnaire de presse-papier</translation>
+        <translation>Gestionnaire de presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Envoyer les données d&apos;un type de support donné à l&apos;entrée de commande standard (laisser vide pour éteindre)</translation>
+        <translation>Envoyer les données d&apos;un type de support donné à l&apos;entrée standard de commande (laisser vide pour désactiver)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
@@ -158,7 +158,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Show the tray menu</source>
-        <translation>Afficher le menu de la zone de notifications</translation>
+        <translation>Afficher le menu dans la barre d&apos;état</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
@@ -168,7 +168,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="83"/>
         <source>Edit clipboard</source>
-        <translation>Modifier le presse-papier</translation>
+        <translation>Modifier le presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
@@ -203,17 +203,17 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Paste clipboard as plain text</source>
-        <translation>Coller le presse-papier en texte brut</translation>
+        <translation>Coller le presse-papiers en texte brut</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
         <source>Disable clipboard storing</source>
-        <translation>Désactiver le stockage du presse-papier</translation>
+        <translation>Désactiver le stockage du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="92"/>
         <source>Enable clipboard storing</source>
-        <translation>Activer le stockage du presse-papier</translation>
+        <translation>Activer le stockage du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
@@ -233,7 +233,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="96"/>
         <source>Paste current date and time</source>
-        <translation>Coller date et heure courantes</translation>
+        <translation>Coller la date et l&apos;heure actuelle</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="57"/>
@@ -450,7 +450,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation>Définir de nouvelles commandes qui pourront être appelées sur un nouveau contenu dans le presse-papier, ou par l&apos;utilisateur via un menu, ou par des raccourcis globaux.</translation>
+        <translation>Définir de nouvelles commandes qui pourront être appelées sur un nouveau contenu dans le presse-papiers, ou par l&apos;utilisateur via un menu, ou par des raccourcis globaux.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
@@ -553,7 +553,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <location filename="../src/gui/commandhelpbutton.cpp" line="98"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation>&amp;presse-papier</translation>
+        <translation>&amp;presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -658,7 +658,7 @@ Laisser vide pour désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="63"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation>Exécuter la commande automatiquement si le presse-papier a un nouveau contenu</translation>
+        <translation>Exécuter la commande automatiquement si le presse-papiers a un nouveau contenu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
@@ -834,7 +834,7 @@ Remarque : si cette option est automatiquement appliquée, aucune autre commande
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Fonte</translation>
+        <translation>Police</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
@@ -1120,7 +1120,7 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation>(&amp;3) Coller le presse-papier avec la souris</translation>
+        <translation>(&amp;3) Coller le presse-papiers avec la souris</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1135,12 +1135,12 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation>Enregistrer le presse-papier dans l&apos;historique</translation>
+        <translation>Enregistrer le presse-papiers dans l&apos;historique</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Mémoriser le presse-papier</translation>
+        <translation>(&amp;1) Enregistrer le presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1150,7 +1150,7 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation>(&amp;2) Stocker le texte sélectionné en utilisant la souris</translation>
+        <translation>(&amp;2) Enregistrer le texte sélectionné avec la souris</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1207,14 +1207,14 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>Onglet pour stoc&amp;ker le presse-papier :</translation>
+        <translation>Onglet pour stoc&amp;ker le presse-papiers :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation>Nom de l&apos;onglet qui va automatiquement stocker le nouveau contenu du presse-papier.↵
+        <translation>Nom de l&apos;onglet qui va automatiquement stocker le nouveau contenu du presse-papiers.↵
 ↵
 Laisser vide pour désactiver le stockage automatique.</translation>
     </message>
@@ -1264,7 +1264,7 @@ Aperçu de l’élément permet d’afficher des éléments en entiers.</transla
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Après que l&apos;élément est activé (double-clic ou la touche Entrée), le copier dans le presse-papier et...</translation>
+        <translation>Après que l&apos;élément est activé (double-clic ou la touche Entrée), le copier dans le presse-papiers et...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
@@ -1337,17 +1337,17 @@ Aperçu de l’élément permet d’afficher des éléments en entiers.</transla
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation>Cacher les textes de la &amp;barre d&apos;outils</translation>
+        <translation>Masquer les textes de la &amp;barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation>Cacher la fenêtre principale lorsque fermé</translation>
+        <translation>Masquer la fenêtre principale lorsque fermé</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation>Cac&amp;her la fenêtre principale</translation>
+        <translation>Masquer la &amp;fenêtre principale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
@@ -1457,7 +1457,7 @@ Remarque&#xa0;: ceci n&apos;est pas pris en charge par tous les systèmes.</tran
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Intervalle en secondes pour notifier d&apos;un nouveau contenu dans le presse-papier (seulement lorsque la fenêtre principale est fermée).
+        <translation>Intervalle en secondes pour notifier d&apos;un nouveau contenu dans le presse-papiers (seulement lorsque la fenêtre principale est fermée).
 ↵
 Mettre à 0 pour désactiver.
 ↵
@@ -1466,14 +1466,14 @@ Mettre à -1 pour garder visible jusqu&apos;à ce qu&apos;elle soit cliquée.</t
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>Nom&amp;bre de lignes pour la notification du presse-papier :</translation>
+        <translation>Nom&amp;bre de lignes pour la notification du presse-papiers :</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>Nombre de lignes à afficher pour le nouveau contenu du presse-papier.
+        <translation>Nombre de lignes à afficher pour le nouveau contenu du presse-papiers.
 
 Mettre à 0 pour désactiver.</translation>
     </message>
@@ -1543,12 +1543,12 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>Afficher la commande pour le contenu actuel du presse-papier dans le menu de la zone de notification</translation>
+        <translation>Afficher la commande pour le contenu actuel du presse-papiers dans le menu de la zone de notification</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>&amp;Afficher les commandes pour le contenu du presse-papier</translation>
+        <translation>&amp;Afficher les commandes pour le contenu du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
@@ -2520,12 +2520,12 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1411"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>&amp;Autoriser le stockage du presse-papier</translation>
+        <translation>&amp;Autoriser le stockage du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1412"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>&amp;Désactiver le stockage du presse-papier</translation>
+        <translation>&amp;Désactiver le stockage du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="951"/>
@@ -2705,7 +2705,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
         <location filename="../src/common/appconfig.cpp" line="39"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation>&amp;presse-papier</translation>
+        <translation>&amp;presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
@@ -2755,7 +2755,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="75"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation>Montrer le contenu du &amp;presse-papier</translation>
+        <translation>Montrer le contenu du &amp;presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="76"/>
@@ -2765,7 +2765,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>Commuter le stoc&amp;kage du presse-papier</translation>
+        <translation>Commuter le stoc&amp;kage du presse-papiers</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2785,7 +2785,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>E&amp;xit</source>
-        <translation>&amp;Sortie</translation>
+        <translation>&amp;Quitter</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
@@ -3173,7 +3173,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Print clipboard content.</source>
-        <translation>Afficher le contenu du presse-papier.</translation>
+        <translation>Afficher le contenu du presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
@@ -3203,7 +3203,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
         <source>Add text into clipboard.</source>
-        <translation>Ajouter le texte dans le presse-papier.</translation>
+        <translation>Ajouter le texte dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
@@ -3234,12 +3234,12 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Modifier des éléments ou créer un nouveau.
-La valeur -1 est pour le texte actuellement dans le presse-papier.</translation>
+La valeur -1 est pour le texte actuellement dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>Afficher les données brutes du presse-papier ou de l&apos;élément dans la ligne.</translation>
+        <translation>Afficher les données brutes du presse-papiers ou de l&apos;élément dans la ligne.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="102"/>
@@ -3257,19 +3257,19 @@ La valeur -1 est pour le texte actuellement dans le presse-papier.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation>Activer ou désactiver l&apos;enregistrement du contenu du presse-papier.</translation>
+        <translation>Activer ou désactiver l&apos;enregistrement du contenu du presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation>Coller le contenu du presse-papier dans la fenêtre active
+        <translation>Coller le contenu du presse-papiers dans la fenêtre active
 (peut ne pas fonctionner avec certaines applications).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Set clipboard text.</source>
-        <translation>Définir le texte du presse-papier.</translation>
+        <translation>Définir le texte du presse-papiers.</translation>
     </message>
     <message>
         <source>
@@ -3285,17 +3285,17 @@ Définir le contenu du presse-papier.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation>Copier l&apos;élément de la ligne dans le presse-papier.</translation>
+        <translation>Copier l&apos;élément de la ligne dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation>Copier l&apos;élément suivant de l&apos;onglet actuel dans le presse-papier.</translation>
+        <translation>Copier l&apos;élément suivant de l&apos;onglet actuel dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation>Copier l&apos;élément précédent de l&apos;onglet actuel dans le presse-papier.</translation>
+        <translation>Copier l&apos;élément précédent de l&apos;onglet actuel dans le presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
@@ -3576,7 +3576,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="937"/>
         <location filename="../src/scriptable/scriptable.cpp" line="972"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation>CopyQ Gestionnaire de presse-papiers</translation>
+        <translation>CopyQ Gestionnaire de presse-papierss</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="3051"/>
@@ -3591,7 +3591,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="3156"/>
         <source>Failed to copy to clipboard!</source>
-        <translation>Impossible de copier dans le presse-papier !</translation>
+        <translation>Impossible de copier dans le presse-papiers !</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="133"/>
