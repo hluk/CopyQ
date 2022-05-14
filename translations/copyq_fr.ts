@@ -527,7 +527,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished">L&apos;argument de programme %1 sera remplacé par le texte de l&apos;élément.</translation>
+        <translation>L&apos;argument de programmation %1 sera remplacé par le texte de l&apos;élément.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -626,7 +626,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignore la commande si la saisie ne correspond pas à cette expression régulière (laissez vide pour tout correspondre).
+
+%2 à %9 dans Commande et Filtre seront remplacés par les textes récupérés.
+
+Exemples :
+
+- Rechercher une URL : ^(https?|ftp)://
+- Rechercher des fichiers PDF : \.pdf$
+- Rechercher un seul caractère : ^.$
+- Rechercher un fichier multimédia distant : ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
@@ -737,7 +746,7 @@ Laisser vide pour désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished">Ignore la commande si la commande de filtrage échoue avec un code de sortie différent de zéro.</translation>
+        <translation>Ignore la commande si la commande de filtrage échoue avec un résultat différent de zéro.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -2134,25 +2143,25 @@ Mettre à 0 pour désactiver.</translation>
         <location filename="../src/ui/itemorderlist.ui" line="76"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished">Monter</translation>
+        <translation>Déplacer vers le haut</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="86"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished">Descendre</translation>
+        <translation>Déplacer vers le bas</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="96"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished">Déplacer en haut de la liste</translation>
+        <translation>Déplacer en haut</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="106"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished">Déplacer en bas de la liste</translation>
+        <translation>Déplacer en bas</translation>
     </message>
     <message>
         <source>&amp;Up</source>
@@ -3063,7 +3072,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation type="unfinished">Souligné</translation>
+        <translation>Souligner</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
