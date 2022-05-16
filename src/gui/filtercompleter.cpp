@@ -22,6 +22,7 @@
 #include <QAbstractListModel>
 #include <QApplication>
 #include <QAction>
+#include <QEvent>
 #include <QLineEdit>
 #include <QMoveEvent>
 
@@ -133,6 +134,19 @@ void FilterCompleter::setHistory(const QStringList &history)
     model()->removeRows( 0, model()->rowCount() );
     for (int i = history.size() - 1; i >= 0; --i)
         prependItem(history[i]);
+}
+
+bool FilterCompleter::eventFilter(QObject *obj, QEvent *event)
+{
+    // Close popup menu if mouse wheel scrolls and mouse pointer is outside the menu.
+    if (event->type() == QEvent::Wheel) {
+        auto popup = qobject_cast<QWidget*>(obj);
+        if (popup && !popup->underMouse())
+            popup->hide();
+        return true;
+    }
+
+    return QCompleter::eventFilter(obj, event);
 }
 
 void FilterCompleter::onTextEdited(const QString &text)

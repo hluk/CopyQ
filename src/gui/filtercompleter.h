@@ -36,6 +36,9 @@ public:
     QStringList history() const;
     void setHistory(const QStringList &history);
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     void onTextEdited(const QString &text);
     void onEditingFinished();
