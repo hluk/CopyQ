@@ -16,12 +16,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="115"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekijä</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Sähköposti</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="118"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Lahjoita</translation>
     </message>
 </context>
 <context>
@@ -109,7 +109,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Virhe: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
