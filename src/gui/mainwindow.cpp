@@ -2721,9 +2721,9 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_singleClickActivate = appConfig->option<Config::activate_item_with_single_click>();
 
-    const auto toolTipStyleSheet = theme().getToolTipStyleSheet();
-    m_trayMenu->setStyleSheet(toolTipStyleSheet);
-    m_menu->setStyleSheet(toolTipStyleSheet);
+    const auto menuStyleSheet = theme().getMenuStyleSheet();
+    m_trayMenu->setStyleSheet(menuStyleSheet);
+    m_menu->setStyleSheet(menuStyleSheet);
 
     if (m_options.nativeTrayMenu != appConfig->option<Config::native_tray_menu>())
         m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();

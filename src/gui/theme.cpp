@@ -362,9 +362,9 @@ void Theme::decorateItemPreview(QAbstractScrollArea *itemPreview) const
     decorateBrowser(itemPreview);
 }
 
-QString Theme::getToolTipStyleSheet() const
+QString Theme::getMenuStyleSheet() const
 {
-    const QString cssTemplate = value("css_template_tooltip").toString();
+    const QString cssTemplate = value("css_template_menu").toString();
     return getStyleSheet(cssTemplate);
 }
 
@@ -540,7 +540,7 @@ void Theme::resetTheme()
     m_theme["css_template_items"] = Option("items");
     m_theme["css_template_main_window"] = Option("main_window");
     m_theme["css_template_notification"] = Option("notification");
-    m_theme["css_template_tooltip"] = Option("tooltip");
+    m_theme["css_template_menu"] = Option("menu");
 }
 
 void Theme::updateTheme()

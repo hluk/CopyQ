@@ -76,8 +76,8 @@ public:
     /** Decorate item preview. */
     void decorateItemPreview(QAbstractScrollArea *itemPreview) const;
 
-    /** Return stylesheet for tooltips. */
-    QString getToolTipStyleSheet() const;
+    /** Return stylesheet for menus. */
+    QString getMenuStyleSheet() const;
 
     QString getNotificationStyleSheet() const;
 
