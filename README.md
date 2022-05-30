@@ -87,7 +87,8 @@ Install `copyq` and `copyq-plugins` packages.
 
 #### Ubuntu PPA
 
-Install and keep CopyQ always up to date by running the following three commands from the terminal:
+Install and keep CopyQ always up to date by running the following commands from
+the terminal (the package from PPA contains all plugins and documentation):
 
 ```bash
 sudo add-apt-repository ppa:hluk/copyq

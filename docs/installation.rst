@@ -28,6 +28,7 @@ On **Ubuntu** set up the official PPA repository and install the app from termin
     sudo add-apt-repository ppa:hluk/copyq
     sudo apt update
     sudo apt install copyq
+    # this package contains all plugins and documentation
 
 On **Fedora**, install "copyq" package:
 
