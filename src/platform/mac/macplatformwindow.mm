@@ -128,17 +128,10 @@ namespace {
         CGEventSetFlags(VDown,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
         CGEventSetFlags(VUp,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
 
-        if (pid != -1) {
-            CGEventPostToPid(pid, commandDown);
-            CGEventPostToPid(pid, VDown);
-            CGEventPostToPid(pid, VUp);
-            CGEventPostToPid(pid, commandUp);
-        } else {
-            CGEventPost(kCGHIDEventTap, commandDown);
-            CGEventPost(kCGHIDEventTap, VDown);
-            CGEventPost(kCGHIDEventTap, VUp);
-            CGEventPost(kCGHIDEventTap, commandUp);
-        }
+        CGEventPost(kCGHIDEventTap, commandDown);
+        CGEventPost(kCGHIDEventTap, VDown);
+        CGEventPost(kCGHIDEventTap, VUp);
+        CGEventPost(kCGHIDEventTap, commandUp);
 
         CFRelease(commandDown);
         CFRelease(VDown);
