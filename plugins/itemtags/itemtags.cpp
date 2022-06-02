@@ -911,6 +911,8 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
 
     auto lock = new QTableWidgetItem();
     lock->setCheckState(tag.lock ? Qt::Checked : Qt::Unchecked);
+    const QString toolTip = t->horizontalHeaderItem(tagsTableColumns::lock)->toolTip();
+    lock->setToolTip(toolTip);
     t->setItem( row, tagsTableColumns::lock, lock );
 
     auto colorButton = new QPushButton(t);
