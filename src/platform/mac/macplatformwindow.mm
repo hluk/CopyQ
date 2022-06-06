@@ -109,7 +109,7 @@ namespace {
         return nil;
     }
 
-    void sendShortcut(int modifier, int key, pid_t pid = -1) {
+    void sendShortcut(int modifier, int key) {
         COPYQ_LOG( QStringLiteral("Sending key codes %1 and %2")
                    .arg(modifier)
                    .arg(key) );
@@ -363,7 +363,7 @@ void MacPlatformWindow::pasteClipboard()
         const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
         delayedSendShortcut(kVK_Command, keyCodeV, keyPressTimeMs, 5, m_window);
     } else {
-        sendShortcut(kVK_Command, keyCodeV, m_runningApplication.processIdentifier);
+        sendShortcut(kVK_Command, keyCodeV);
     }
 }
 
