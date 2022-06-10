@@ -23,4 +23,7 @@ rm -rf \
 
 brew tap copyq/kde utils/github/homebrew/
 
-brew install qt@5 copyq/kde/kf5-knotifications
+brew install qt@6
+brew install --verbose \
+    copyq/kde/kf6-knotifications \
+    copyq/kde/kf6-kstatusnotifieritem

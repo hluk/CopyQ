@@ -8,6 +8,7 @@
 
 #ifdef Q_OS_MAC
 #   include <QFontDatabase>
+#   include <algorithm>
 #endif
 
 namespace {
@@ -52,9 +53,12 @@ void sanitizeTextDocument(QTextDocument *document)
 
 #ifdef Q_OS_MAC
             // Prevent showing font download dialog on macOS.
-            const QString fontFamily = charFormat.fontFamily();
-            if ( !fontDatabase.hasFamily(fontFamily) ) {
-                charFormat.setFontFamily(QString());
+            const QStringList fontFamilies = charFormat.fontFamilies().toStringList();
+            if ( !fontFamilies.isEmpty() &&
+                 !std::any_of(fontFamilies.constBegin(), fontFamilies.constEnd(),
+                     [&](const QString &fontFamily){ return fontDatabase.hasFamily(fontFamily); }) )
+            {
+                charFormat.setFontFamilies({});
                 sanitized = true;
             }
 #endif

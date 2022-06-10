@@ -158,7 +158,7 @@ On OS X, required Qt 5 libraries and utilities can be easily installed with `Hom
     #     brew untap --force copyq/kde
     # and re-run the above "brew tap" command
 
-    brew install qt5 copyq/kde/kf5-knotifications
+    brew install qt6 copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem
 
 Build with the following commands:
 
@@ -166,15 +166,7 @@ Build with the following commands:
 
     cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" .
     cmake --build .
-    cmake --install .
-    macdeployqt CopyQ.app -dmg -verbose=2 -always-overwrite \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemfakevim.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemimage.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemnotes.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitempinned.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemsync.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemtags.so \
-        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemtext.so
+    cpack
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.

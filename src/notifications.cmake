@@ -20,12 +20,4 @@ if (WITH_NATIVE_NOTIFICATIONS)
         gui/notificationnative/notificationdaemonnative.cpp)
 
     list(APPEND copyq_DEFINITIONS WITH_NATIVE_NOTIFICATIONS)
- 
-    include(KDEInstallDirs)
-    if (KDE_INSTALL_KNOTIFYRCDIR)
-        install(FILES knotifications5/copyq.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-    else()
-        install(FILES knotifications5/copyq.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFY5RCDIR})
-    endif()
-
 endif()

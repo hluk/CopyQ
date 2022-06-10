@@ -14,7 +14,13 @@ jobs:
         include:
           - os: macos-12
             buildname: macOS 10.15
-            create_bundle: true
+            bundle_suffix: '-macos-10'
+            cmake_preset: macOS-10
+
+          - os: macos-14
+            buildname: macOS 12 M1
+            bundle_suffix: '-macos-12-m1'
+            cmake_preset: macOS-12-m1
 
     steps:
       - name: Checkout source code
@@ -42,20 +48,18 @@ jobs:
       - name: Build with CMake
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: macOS
-          buildPreset: macOS
+          configurePreset: '${{ matrix.cmake_preset }}'
+          buildPreset: '${{ matrix.cmake_preset }}'
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Create macOS bundle
-        if: matrix.create_bundle
         working-directory: '${{runner.workspace}}/build'
         run: '${{github.workspace}}/utils/github/bundle-macos.sh'
 
       - name: Upload macOS bundle
-        if: matrix.create_bundle
         uses: actions/upload-artifact@v4
         with:
-          name: CopyQ.dmg
+          name: 'CopyQ${{ matrix.bundle_suffix }}.dmg'
           path: '${{runner.workspace}}/build/CopyQ.dmg'
