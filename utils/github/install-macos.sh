@@ -2,6 +2,8 @@
 # Installs build dependencies.
 set -xeuo pipefail
 
+qt_package=$1
+
 # Create repository for Homebrew.
 (
     cd utils/github/homebrew/
@@ -16,6 +18,9 @@ rm -rf /usr/local/bin/2to3
 # Install Homebrew: https://brew.sh/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-brew tap copyq/kde utils/github/homebrew/
-
-brew install qt5 copyq/kde/kf5-knotifications
+if [[ $qt_package == qt ]]; then
+    brew install qt
+else
+    brew tap copyq/kde utils/github/homebrew/
+    brew install "$qt_package" copyq/kde/kf5-knotifications
+fi

@@ -12,13 +12,32 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-10.15
-            buildname: macOS 10.15
+          #- os: macos-10.15
+            #buildname: macOS 10.15
+            #build_type: Release
+            #compiler: clang_64
+            #create_bundle: true
+            #bundle_suffix: ''
+            #qt_package: qt5
+            #cmake_args: >-
+              #-DCMAKE_PREFIX_PATH="/usr/local/opt/qt6/lib/cmake"
+            #env:
+              #MACOSX_DEPLOYMENT_TARGET: '10.15'
+
+          - os: macos-12
+            buildname: macOS 12 M1
             build_type: Release
             compiler: clang_64
             create_bundle: true
+            bundle_suffix: '-macos-12-m1'
+            qt_package: qt
+            cmake_args: >-
+              -DWITH_QT6=1
+              -DQT_MAJOR_VERSION=6
+              -DCMAKE_PREFIX_PATH="/usr/local/opt/qt6/lib/cmake"
             env:
-              MACOSX_DEPLOYMENT_TARGET: '10.15'
+              CMAKE_OSX_ARCHITECTURES: 'x86_64;arm64'
+              MACOSX_DEPLOYMENT_TARGET: '12'
 
     steps:
       - name: Checkout source code
@@ -28,7 +47,9 @@ jobs:
           fetch-depth: 1
 
       - name: Install dependencies
-        run: '${{github.workspace}}/utils/github/install-macos.sh'
+        run: >-
+          '${{github.workspace}}/utils/github/install-macos.sh'
+          '${{matrix.qt_package}}'
 
       - name: Build with CMake
         uses: lukka/run-cmake@v3
@@ -41,7 +62,7 @@ jobs:
           cmakeAppendedArgs: >-
             -DWITH_TESTS=TRUE
             -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
-            -DCMAKE_PREFIX_PATH="/usr/local/opt/qt@5/lib/cmake"
+            ${{matrix.cmake_args}}
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg
@@ -55,5 +76,5 @@ jobs:
         if: matrix.create_bundle
         uses: actions/upload-artifact@v2
         with:
-          name: CopyQ.dmg
+          name: 'CopyQ${{matrix.bundle_suffix}}.dmg'
           path: '${{runner.workspace}}/build/CopyQ.dmg'
