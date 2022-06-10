@@ -1,5 +1,4 @@
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
-    platform/mac/*.cpp
     platform/mac/*.mm
     platform/dummy/dummyclipboard.cpp
     platform/platformcommon.cpp
@@ -8,4 +7,6 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 
 set(USE_QXT TRUE)
 
-list(APPEND copyq_qt_modules MacExtras)
+if (NOT WITH_QT6)
+    list(APPEND copyq_qt_modules MacExtras)
+endif()

@@ -624,18 +624,6 @@ QString tabNameEmptyError()
     return ScriptableProxy::tr("Tab name cannot be empty!");
 }
 
-void raiseWindow(QPointer<QWidget> window)
-{
-    window->raise();
-    window->activateWindow();
-    QApplication::setActiveWindow(window);
-    QApplication::processEvents();
-    const auto wid = window->winId();
-    const auto platformWindow = platformNativeInterface()->getWindow(wid);
-    if (platformWindow)
-        platformWindow->raise();
-}
-
 } // namespace
 
 #ifdef HAS_TESTS
@@ -665,6 +653,7 @@ public:
         const auto currentWindow = platformNativeInterface()->getCurrentWindow();
         const auto currentWindowTitle = currentWindow ? currentWindow->getTitle() : QString();
         log( QString("Failed to send key press to target widget")
+            + QLatin1String(qApp->applicationState() == Qt::ApplicationActive ? "" : "\nApp is INACTIVE!")
             + "\nExpected: " + (expectedWidgetName.isEmpty() ? "Any" : expectedWidgetName)
             + "\nActual:   " + keyClicksTargetDescription(actual)
             + "\nPopup:    " + keyClicksTargetDescription(popup)
@@ -681,6 +670,16 @@ public:
     {
         auto widget = keyClicksTarget();
         if (!widget) {
+            keyClicksRetry(expectedWidgetName, keys, delay, retry);
+            return;
+        }
+
+        if (qApp->applicationState() != Qt::ApplicationActive) {
+#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+            // WORKAROUND for focusing back to main window on macOS.
+            if (m_wnd->isVisible())
+                m_wnd->activateWindow();
+#endif
             keyClicksRetry(expectedWidgetName, keys, delay, retry);
             return;
         }
@@ -2109,6 +2108,10 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             widgets.append( createWidget(value.name, value.value, &inputDialog) );
     }
 
+    // WORKAROUND for broken initial focus in Qt 6.6 (QTBUG-121514)
+    if (!widgets.isEmpty())
+        widgets.first()->setFocus();
+
     dialog.adjustSize();
 
     if (geometry.height() == 0)
@@ -2174,9 +2177,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     dialog.show();
 
-    // Skip raising dialog in tests.
-    if ( !qApp->property("CopyQ_test_id").isValid() )
-        raiseWindow(&dialog);
+    raiseWindow(&dialog);
 
     return dialogId;
 }

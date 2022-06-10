@@ -3,17 +3,19 @@
 #include "windowgeometryguard.h"
 
 #include "common/appconfig.h"
-#include "common/common.h"
 #include "common/config.h"
 #include "common/log.h"
 #include "common/timer.h"
 #include "gui/screen.h"
+#include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <QApplication>
 #include <QEvent>
 #include <QMoveEvent>
 #include <QScreen>
 #include <QVariant>
+#include <QWidget>
 #include <QWindow>
 
 namespace {
@@ -50,6 +52,22 @@ QScreen *currentScreen()
 }
 
 } // namespace
+
+void raiseWindow(QWidget *window)
+{
+    window->raise();
+    if (qApp->applicationState() == Qt::ApplicationActive)
+        return;
+
+    window->activateWindow();
+    QApplication::setActiveWindow(window);
+    QTimer::singleShot(0, window, [window]{
+        const auto wid = window->winId();
+        const auto platformWindow = platformNativeInterface()->getWindow(wid);
+        if (platformWindow)
+            platformWindow->raise();
+    });
+}
 
 void WindowGeometryGuard::create(QWidget *window)
 {

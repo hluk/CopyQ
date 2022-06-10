@@ -1,5 +1,5 @@
 {
-    "version": 3,
+    "version": 6,
     "configurePresets": [
         {
             "name": "Debug",
@@ -14,14 +14,31 @@
             }
         },
         {
-            "name": "macOS",
+            "name": "macOS-10",
             "generator": "Ninja",
             "binaryDir": "${sourceParentDir}/build",
             "installDir": "${sourceParentDir}/build",
             "cacheVariables": {
+                "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
-                "CMAKE_PREFIX_PATH": "/usr/local/opt/qt@5/lib/cmake",
+                "CMAKE_PREFIX_PATH": "/usr/local/opt/qt/lib/cmake",
                 "CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_FLAGS": "-Wno-deprecated-declarations"
+            }
+        },
+        {
+            "name": "macOS-12-m1",
+            "generator": "Ninja",
+            "binaryDir": "${sourceParentDir}/build",
+            "installDir": "${sourceParentDir}/build",
+            "cacheVariables": {
+                "WITH_QT6": "TRUE",
+                "WITH_TESTS": "TRUE",
+                "CMAKE_PREFIX_PATH": "/usr/local/opt/qt/lib/cmake",
+                "CMAKE_OSX_DEPLOYMENT_TARGET": "12",
+                "CMAKE_OSX_ARCHITECTURES": "arm64",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_FLAGS": "-Wno-deprecated-declarations"
@@ -36,8 +53,14 @@
             "targets": "install"
         },
         {
-            "name": "macOS",
-            "configurePreset": "macOS",
+            "name": "macOS-10",
+            "configurePreset": "macOS-10",
+            "configuration": "Release",
+            "targets": "install"
+        },
+        {
+            "name": "macOS-12-m1",
+            "configurePreset": "macOS-12-m1",
             "configuration": "Release",
             "targets": "install"
         }

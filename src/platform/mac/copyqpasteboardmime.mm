@@ -7,6 +7,7 @@
 
 #include <QClipboard>
 #include <QEvent>
+#include <QVariant>
 
 #import <CoreServices/CoreServices.h>
 
@@ -55,12 +56,18 @@ namespace {
 
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 QString CopyQPasteboardMime::convertorName()
 {
     return QLatin1String("CopyQ");
 }
+#endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QString CopyQPasteboardMime::utiForMime(const QString &mime) const
+#else
 QString CopyQPasteboardMime::flavorFor(const QString &mime)
+#endif
 {
     if (shouldIgnoreMime(mime)) {
         return QString();
@@ -78,7 +85,11 @@ QString CopyQPasteboardMime::flavorFor(const QString &mime)
     return QString();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QString CopyQPasteboardMime::mimeForUti(const QString &uti) const
+#else
 QString CopyQPasteboardMime::mimeFor(QString uti)
+#endif
 {
     if (shouldIgnoreUTI(uti)) {
         return QString();
@@ -97,6 +108,7 @@ QString CopyQPasteboardMime::mimeFor(QString uti)
     return COPYQ_MIME_PREFIX + uti;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 bool CopyQPasteboardMime::canConvert(const QString &mime, QString uti)
 {
     if (uti.isEmpty() || mime.isEmpty())
@@ -120,9 +132,13 @@ bool CopyQPasteboardMime::canConvert(const QString &mime, QString uti)
 
     return (convMime == mime);
 }
+#endif
 
-
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QVariant CopyQPasteboardMime::convertToMime(const QString &mime, const QList<QByteArray> &data, const QString &uti) const
+#else
 QVariant CopyQPasteboardMime::convertToMime(const QString &mime, QList<QByteArray> data, QString uti)
+#endif
 {
     if (!canConvert(mime, uti)) {
         return QVariant();
@@ -139,20 +155,23 @@ QVariant CopyQPasteboardMime::convertToMime(const QString &mime, QList<QByteArra
     }
 }
 
-QList<QByteArray> CopyQPasteboardMime::convertFromMime(const QString &mime, QVariant variant,
-                                                          QString uti)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QList<QByteArray> CopyQPasteboardMime::convertFromMime(const QString &mime, const QVariant &data, const QString &uti) const
+#else
+QList<QByteArray> CopyQPasteboardMime::convertFromMime(const QString &mime, QVariant data, QString uti)
+#endif
 {
     if (!canConvert(mime, uti)) {
         return QList<QByteArray>();
     }
 
     QList<QByteArray> ret;
-    if (variant.userType() == QMetaType::QByteArray) {
+    if (data.userType() == QMetaType::QByteArray) {
         // Was a single item
-        ret << variant.toByteArray();
+        ret << data.toByteArray();
     } else {
         // Was a list or null
-        QVariantList inp = variant.toList();
+        QVariantList inp = data.toList();
         foreach(const QVariant &item, inp) {
             ret << item.toByteArray();
         }

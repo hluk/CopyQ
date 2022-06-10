@@ -55,6 +55,9 @@ ActionDialog::ActionDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // WORKAROUND for broken initial focus in Qt 6.6 (QTBUG-121514)
+    ui->comboBoxCommands->setFocus();
+
     auto shortcut = new QShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_P), this);
     connect(shortcut, &QShortcut::activated, this, &ActionDialog::previousCommand);
     shortcut = new QShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_N), this);

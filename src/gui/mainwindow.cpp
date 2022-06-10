@@ -174,14 +174,6 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
     return true;
 }
 
-void stealFocus(const QWidget &window)
-{
-    WId wid = window.winId();
-    PlatformWindowPtr platformWindow = platformNativeInterface()->getWindow(wid);
-    if (platformWindow)
-        platformWindow->raise();
-}
-
 template <typename WidgetOrAction>
 void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *window)
 {
@@ -274,38 +266,34 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
 
 // WORKAROUND: setWindowFlags() hides the window.
 // See: https://doc.qt.io/qt-5/qwidget.html#windowFlags-prop
-bool setWindowFlag(QWidget *window, Qt::WindowType flag, bool enable)
+void setWindowFlag(QPointer<QWidget> window, Qt::WindowType flag, bool enable)
 {
     if (!window)
-        return false;
+        return;
 
     const Qt::WindowFlags flags = window->windowFlags();
     const bool wasEnabled = flags.testFlag(flag);
     if (wasEnabled == enable)
-        return false;
+        return;
 
     const bool wasVisible = window->isVisible();
     const bool wasActive = window->isActiveWindow();
+
     window->setWindowFlags(flags ^ flag);
+
     if (wasVisible) {
         if (wasActive) {
             window->show();
+            window->activateWindow();
+            QApplication::setActiveWindow(window);
+            raiseWindow(window);
         } else {
             const bool showWithoutActivating = window->testAttribute(Qt::WA_ShowWithoutActivating);
             window->setAttribute(Qt::WA_ShowWithoutActivating);
             window->show();
             window->setAttribute(Qt::WA_ShowWithoutActivating, showWithoutActivating);
         }
-
-        if (wasActive) {
-            window->raise();
-            window->activateWindow();
-            QApplication::setActiveWindow(window);
-            stealFocus(*window);
-        }
     }
-
-    return true;
 }
 
 void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
@@ -598,8 +586,8 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
     m_sharedData->menuItems = menuItems();
 
-#ifdef Q_OS_MAC
-    // Open above fullscreen windows on OS X.
+#if defined(Q_OS_MAC) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    // Open above fullscreen windows on macOS and Qt 5.
     setWindowModality(Qt::WindowModal);
     setWindowFlag(Qt::Sheet);
 #endif
@@ -1954,13 +1942,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
     }
 
     menu->popup( toScreen(pos, menu) );
-
-    menu->raise();
-    menu->activateWindow();
-    QApplication::setActiveWindow(menu);
-    QApplication::processEvents();
-    stealFocus(*menu);
-
+    raiseWindow(menu);
     return true;
 }
 
@@ -2899,8 +2881,6 @@ void MainWindow::showWindow()
         showMaximized();
     else
         showNormal();
-    raise();
-    activateWindow();
 
     auto c = browser();
     if (c) {
@@ -2909,9 +2889,7 @@ void MainWindow::showWindow()
         c->setFocus();
     }
 
-    QApplication::setActiveWindow(this);
-
-    stealFocus(*this);
+    raiseWindow(this);
 }
 
 void MainWindow::hideWindow()
@@ -3707,7 +3685,7 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog, &ActionDialog::commandAccepted,
              this, &MainWindow::onActionDialogAccepted );
 
-    stealFocus(*actionDialog);
+    raiseWindow(actionDialog);
 
     return actionDialog;
 }

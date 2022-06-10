@@ -3,8 +3,11 @@
 #define WINDOWGEOMETRYGUARD_H
 
 #include <QObject>
-#include <QWidget>
 #include <QTimer>
+
+class QWidget;
+
+void raiseWindow(QWidget *window);
 
 class WindowGeometryGuard final : public QObject
 {

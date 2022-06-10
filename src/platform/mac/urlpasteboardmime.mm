@@ -8,24 +8,35 @@
 #import <Cocoa/Cocoa.h>
 
 #import <QUrl>
+#import <QVariant>
 
 /*
  * Much of this code is based on the Qt code here:
  *  https://www.qt.gitorious.org/qt/qt/source/src/gui/kernel/qmime_mac.cpp#L765
  */
 
-UrlPasteboardMime::UrlPasteboardMime(const QString &urlUti):
-    QMacPasteboardMime(MIME_ALL)
+UrlPasteboardMime::UrlPasteboardMime(const QString &urlUti)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    : UrlPasteboardMimeBase()
+#else
+    : UrlPasteboardMimeBase(MIME_ALL)
+#endif
     , m_urlUti(urlUti)
 {
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 QString UrlPasteboardMime::convertorName()
 {
-    return "CopyQ-URL-" + m_urlUti;;
+    return QLatin1String("CopyQ-URL-") + m_urlUti;
 }
+#endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QString UrlPasteboardMime::utiForMime(const QString &mime) const
+#else
 QString UrlPasteboardMime::flavorFor(const QString &mime)
+#endif
 {
     if (mime.startsWith(QLatin1String(mimeUriList))) {
         return m_urlUti;
@@ -33,21 +44,29 @@ QString UrlPasteboardMime::flavorFor(const QString &mime)
     return QString();
 }
 
-QString UrlPasteboardMime::mimeFor(QString flav)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QString UrlPasteboardMime::mimeForUti(const QString &uti) const
+#else
+QString UrlPasteboardMime::mimeFor(QString uti)
+#endif
 {
-    if (flav == m_urlUti) {
-        return mimeUriList;
-    }
-    return QString();
-}
-bool UrlPasteboardMime::canConvert(const QString &mime, QString flav)
-{
-    return (mime == QLatin1String(mimeUriList) && flav == m_urlUti);;
+    return (uti == m_urlUti) ? mimeUriList : QString();
 }
 
-QVariant UrlPasteboardMime::convertToMime(const QString &mime, QList<QByteArray> data, QString flav)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+bool UrlPasteboardMime::canConvert(const QString &mime, QString uti)
 {
-    if (!canConvert(mime, flav))
+    return mime == QLatin1String(mimeUriList) && uti == m_urlUti;
+}
+#endif
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QVariant UrlPasteboardMime::convertToMime(const QString &mime, const QList<QByteArray> &data, const QString &uti) const
+#else
+QVariant UrlPasteboardMime::convertToMime(const QString &mime, QList<QByteArray> data, QString uti)
+#endif
+{
+    if (!canConvert(mime, uti))
         return QVariant();
 
     QList<QVariant> ret;
@@ -70,10 +89,14 @@ QVariant UrlPasteboardMime::convertToMime(const QString &mime, QList<QByteArray>
     return QVariant(ret);
 }
 
-QList<QByteArray> UrlPasteboardMime::convertFromMime(const QString &mime, QVariant data, QString flav)
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+QList<QByteArray> UrlPasteboardMime::convertFromMime(const QString &mime, const QVariant &data, const QString &uti) const
+#else
+QList<QByteArray> UrlPasteboardMime::convertFromMime(const QString &mime, QVariant data, QString uti)
+#endif
 {
     QList<QByteArray> ret;
-    if (!canConvert(mime, flav))
+    if (!canConvert(mime, uti))
         return ret;
 
     QVariantList dataList = data.toList();
