@@ -320,7 +320,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść Aktualną Kartę</translation>
     </message>
 </context>
 <context>
@@ -525,7 +525,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="77"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Argument programu %1 zostanie zastąpiony tekstem elementu.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -614,7 +614,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomija polecenie, jeśli tekst wejściowy nie pasuje do tego wyrażenia regularnego (pozostaw puste, aby pasował do wszystkiego).
+
+%2 do %9 w Poleceniu i Filtrze zostaną zastąpione przechwyconymi tekstami.
+
+Przykłady:
+
+- Dopasuj URL: ^(https?|ftp)://
+- Dopasuj nazwy plików PDF: \.pdf$
+- Dopasuj pojedynczy znak: ^.$
+- Dopasuj zdalne multimedia: ^http://.*.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
@@ -698,7 +707,7 @@ Pozostaw puste, aby wyłączyć.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
