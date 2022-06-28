@@ -21,19 +21,20 @@
 
 #include "x11platformclipboard.h"
 
+#include "x11info.h"
+
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/log.h"
 #include "common/timer.h"
 
-#include "systemclipboard/systemclipboard.h"
+#include "systemclipboard/waylandclipboard.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 
 #include <QClipboard>
 #include <QMimeData>
-#include <QX11Info>
 
 namespace {
 
@@ -44,10 +45,10 @@ constexpr auto maxRetryCount = 3;
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
 bool isSelectionIncomplete()
 {
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return false;
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
 
     // If mouse button or shift is pressed then assume that user is selecting text.
     XEvent event{};
@@ -68,29 +69,32 @@ X11PlatformClipboard::X11PlatformClipboard()
     m_selectionData.mode = ClipboardMode::Selection;
 
     // Create Wayland clipboard instance so it can start receiving new data.
-    if ( !QX11Info::isPlatformX11() )
-        SystemClipboard::instance();
+    if ( !X11Info::isPlatformX11() ) {
+        m_selectionSupported = WaylandClipboard::instance()->isSelectionSupported();
+    }
 }
 
 void X11PlatformClipboard::startMonitoring(const QStringList &formats)
 {
     m_clipboardData.formats = formats;
 
-    // Always assume that only plain text can be in primary selection buffer.
-    // Asking a app for bigger data when mouse selection changes can make the app hang for a moment.
+    // Avoid asking apps for bigger data when mouse selection changes.
+    // This could make the app hang for a moment.
     m_selectionData.formats.append(mimeText);
+    m_selectionData.formats.append(mimeTextUtf8);
+    for (auto &format : formats) {
+        if (!format.startsWith(QLatin1String("image/")) && !format.startsWith(QLatin1String("text/")))
+            m_selectionData.formats.append(format);
+    }
 
     if ( m_selectionData.enabled && !QGuiApplication::clipboard()->supportsSelection() ) {
         log("X11 selection is not supported, disabling.");
         m_selectionData.enabled = false;
     }
 
-    if ( !QX11Info::isPlatformX11() ) {
-        auto clipboard = SystemClipboard::instance();
-        if (clipboard != nullptr) {
-            connect(clipboard, &SystemClipboard::changed,
-                    this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
-        }
+    if ( !X11Info::isPlatformX11() ) {
+        connect(WaylandClipboard::instance(), &WaylandClipboard::changed,
+                this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
     }
 
     for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
@@ -136,36 +140,26 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &fo
 
 void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
-    if ( QX11Info::isPlatformX11() ) {
+    if ( X11Info::isPlatformX11() ) {
         // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
         QCoreApplication::processEvents();
         DummyClipboard::setData(mode, dataMap);
     } else {
-        auto clipboard = SystemClipboard::instance();
-        if (clipboard != nullptr)
-            clipboard->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
+        const auto data = createMimeData(dataMap);
+        const auto qmode = modeToQClipboardMode(mode);
+        WaylandClipboard::instance()->setMimeData(data, qmode);
+
+        // This makes pasting the clipboard work in own widgets.
+        QGuiApplication::clipboard()->setMimeData(data, qmode);
     }
 }
 
 const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
 {
-    if ( QX11Info::isPlatformX11() )
+    if ( X11Info::isPlatformX11() )
         return DummyClipboard::mimeData(mode);
 
-    // Avoid deadlock by providing own clipboard using Qt
-    // and not using pipes in WaylandClipboard.
-    if ( mode == ClipboardMode::Clipboard
-         ? QGuiApplication::clipboard()->ownsClipboard()
-         : QGuiApplication::clipboard()->ownsSelection() )
-    {
-        return DummyClipboard::mimeData(mode);
-    }
-
-    auto clipboard = SystemClipboard::instance();
-    if (clipboard == nullptr)
-        return nullptr;
-
-    return clipboard->mimeData( modeToQClipboardMode(mode) );
+    return WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
 }
 
 void X11PlatformClipboard::onChanged(int mode)
@@ -258,7 +252,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
 
     // Retry to retrieve clipboard data few times.
     if (!data) {
-        if ( !QX11Info::isPlatformX11() )
+        if ( !X11Info::isPlatformX11() )
             return;
 
         if (clipboardData->retry < maxRetryCount) {

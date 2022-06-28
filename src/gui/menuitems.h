@@ -22,8 +22,9 @@
 #include <QList>
 #include <QKeySequence>
 #include <QString>
-#include <QtContainerFwd>
 #include <QSettings>
+
+#include <array>
 
 namespace Actions {
 
@@ -44,6 +45,20 @@ enum Id {
     Edit_PasteItems,
     Edit_CopySelectedItems,
     Edit_FindItems,
+
+    Editor_Save,
+    Editor_Cancel,
+    Editor_Undo,
+    Editor_Redo,
+    Editor_Font,
+    Editor_Bold,
+    Editor_Italic,
+    Editor_Underline,
+    Editor_Strikethrough,
+    Editor_Foreground,
+    Editor_Background,
+    Editor_EraseStyle,
+    Editor_Search,
 
     Item_MoveToClipboard,
     Item_ShowContent,
@@ -69,7 +84,9 @@ enum Id {
     Help_ShowLog,
     Help_About,
 
-    ItemMenu
+    ItemMenu,
+
+    Count
 };
 
 } // Actions
@@ -83,7 +100,7 @@ struct MenuItem {
     QList<QKeySequence> shortcuts;
 };
 
-using MenuItems = QVector<MenuItem>;
+using MenuItems = std::array<MenuItem, Actions::Count>;
 
 MenuItems menuItems();
 

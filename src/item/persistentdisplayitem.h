@@ -48,7 +48,7 @@ public:
      *
      * This method is thread-safe.
      */
-    const QVariantMap &data() const { return m_data; }
+    const QVariantMap &data() const noexcept { return m_data; }
 
     /**
      * Returns true only if display item widget is still available.

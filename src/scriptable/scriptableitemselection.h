@@ -52,6 +52,8 @@ public slots:
     QJSValue deselectIndexes(const QJSValue &indexes);
     QJSValue deselectSelection(const QJSValue &selection);
 
+    QJSValue current();
+
     QJSValue removeAll();
 
     QJSValue copy();

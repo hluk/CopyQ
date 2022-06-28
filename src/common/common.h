@@ -21,6 +21,7 @@
 #define COMMON_H
 
 #include <QtGlobal> // Q_WS_*
+#include <QStringList>
 #include <QVariantMap>
 
 class QByteArray;
@@ -30,7 +31,6 @@ class QKeyEvent;
 class QMimeData;
 class QProcess;
 class QString;
-class QStringList;
 
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
 #   define NO_GLOBAL_SHORTCUTS

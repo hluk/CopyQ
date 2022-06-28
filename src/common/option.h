@@ -36,11 +36,15 @@ public:
      * Current value is taken from object's property.
      */
     explicit Option(
-            const QVariant &default_value, //!< Default value.
-            const char *property_name = nullptr,
-            //!< Property name of @obj with value for option.
-            QObject *obj = nullptr
-            );
+        const QVariant &default_value,
+        const char *property_name,
+        QObject *obj
+        );
+
+    explicit Option(
+        const QVariant &default_value,
+        const char *description = nullptr
+        );
 
     /** Return current value. */
     QVariant value() const;
@@ -61,8 +65,9 @@ public:
 private:
     QVariant m_default_value;
     QVariant m_value;
-    const char *m_property_name;
-    QObject *m_obj;
+    const char *m_property_name = nullptr;
+    const char *m_description = nullptr;
+    QObject *m_obj = nullptr;
 };
 
 #endif // OPTION_H

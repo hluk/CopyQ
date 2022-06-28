@@ -145,9 +145,9 @@ void TabWidget::setTabItemCountVisible(bool visible)
     m_tabs->adjustSize();
 }
 
-void TabWidget::updateTabIcon(const QString &tabName)
+void TabWidget::setTabIcon(const QString &tabName, const QString &icon)
 {
-    m_tabs->updateTabIcon(tabName);
+    m_tabs->setTabIcon(tabName, icon);
 }
 
 void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabName)
@@ -234,10 +234,20 @@ void TabWidget::loadTabInfo()
         m_tabItemCounters[it.key()] = it.value().toInt();
 }
 
-void TabWidget::updateTabs()
+void TabWidget::updateTabs(QSettings &settings)
 {
     m_tabs->setCollapsedTabs(m_collapsedTabs);
-    m_tabs->updateTabIcons();
+
+    QHash<QString, QString> tabIcons;
+    const int size = settings.beginReadArray(QStringLiteral("Tabs"));
+    for(int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        const QString name = settings.value(QStringLiteral("name")).toString();
+        const QString icon = settings.value(QStringLiteral("icon")).toString();
+        tabIcons[name] = icon;
+    }
+    settings.endArray();
+    m_tabs->updateTabIcons(tabIcons);
 }
 
 void TabWidget::setCurrentIndex(int tabIndex)

@@ -29,6 +29,7 @@
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/display.h"
+#include "common/globalshortcutcommands.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
@@ -70,6 +71,10 @@
 #  include "platform/mac/foregroundbackgroundfilter.h"
 #endif
 
+#ifdef WITH_NATIVE_NOTIFICATIONS
+#include <KStatusNotifierItem>
+#endif
+
 #include <QAction>
 #include <QCloseEvent>
 #include <QDesktopServices>
@@ -82,6 +87,7 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
+#include <QShortcut>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
@@ -304,10 +310,7 @@ bool setWindowFlag(QWidget *window, Qt::WindowType flag, bool enable)
 
 void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
 {
-    if ( setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop) ) {
-        // Workaround for QTBUG-28601.
-        window->setAcceptDrops(true);
-    }
+    setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop);
 }
 
 void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
@@ -329,7 +332,7 @@ Dialog *openDialog(Ts... arguments)
 
 bool isItemActivationShortcut(const QKeySequence &shortcut)
 {
-    return (shortcut[0] == Qt::Key_Return || shortcut[0] == Qt::Key_Enter)
+    return (shortcut.matches(Qt::Key_Return) || shortcut.matches(Qt::Key_Enter))
             && shortcut[1] == 0
             && shortcut[2] == 0
             && shortcut[3] == 0;
@@ -428,7 +431,92 @@ bool hasCommandFuzzy(const QVector<Command> &commands, const Command &command)
     });
 }
 
+bool syncInternalCommandChanges(const Command &command, QVector<Command> *allCommands)
+{
+    Q_ASSERT( !command.internalId.isEmpty() );
+    if ( command.internalId.isEmpty() )
+        return false;
+
+    const auto found = std::find_if(std::begin(*allCommands), std::end(*allCommands), [&command](const Command &cmd){
+        return command.internalId == cmd.internalId;
+    });
+    if ( found == std::end(*allCommands) )
+        return false;
+
+    // Synchronize internal/plugin commands attributes
+    // except the ones user can change.
+    Command command2 = *found;
+    command2.icon = command.icon;
+    command2.enable = command.enable;
+    command2.shortcuts = command.shortcuts;
+    command2.globalShortcuts = command.globalShortcuts;
+    if (command2 == command)
+        return false;
+
+    const auto icon = found->icon;
+    const auto enable = found->enable;
+    const auto shortcuts = found->shortcuts;
+    const auto globalShortcuts = found->globalShortcuts;
+    *found = command;
+    found->icon = icon;
+    found->enable = enable;
+    found->shortcuts = shortcuts;
+    found->globalShortcuts = globalShortcuts;
+    return true;
+}
+
 } // namespace
+
+#ifdef WITH_NATIVE_NOTIFICATIONS
+class SystemTrayIcon final : public KStatusNotifierItem {
+    Q_OBJECT
+public:
+    explicit SystemTrayIcon(QWidget *parent = nullptr)
+        : KStatusNotifierItem(QCoreApplication::applicationName(), parent)
+    {
+        setIcon(appIcon());
+        setStandardActionsEnabled(false);
+        setTitle(QGuiApplication::applicationDisplayName());
+        setToolTipTitle(QGuiApplication::applicationDisplayName());
+        setCategory(KStatusNotifierItem::ApplicationStatus);
+        setAssociatedWidget(parent);
+    }
+
+    void setIcon(const QIcon &icon) { setIconByPixmap(icon); }
+
+    void setToolTip(const QString &text)
+    {
+#if defined(Q_OS_WIN)
+        // Only the tooltip title seems to be supported on Windows.
+        KStatusNotifierItem::setToolTipTitle(text);
+#else
+        KStatusNotifierItem::setToolTipSubTitle(text);
+#endif
+    }
+
+    bool isVisible() const
+    {
+        return status() != KStatusNotifierItem::Passive;
+    }
+    void show() { setStatus(KStatusNotifierItem::Active); }
+    void hide() { setStatus(KStatusNotifierItem::Passive); }
+
+    void activate(const QPoint &) override
+    {
+        emit activated(QSystemTrayIcon::Trigger);
+    }
+
+signals:
+    void activated(QSystemTrayIcon::ActivationReason reason);
+};
+#else
+class SystemTrayIcon final : public QSystemTrayIcon {
+public:
+    explicit SystemTrayIcon(QWidget *parent = nullptr)
+        : QSystemTrayIcon(parent)
+    {}
+};
+#endif
 
 class ToolBar final : public QToolBar {
 public:
@@ -483,20 +571,22 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_toolBar(new ToolBar(this))
     , m_actionToggleClipboardStoring()
     , m_sharedData(sharedData)
-    , m_lastWindow()
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
-    , m_menuItems(menuItems())
     , m_clipboard(platformNativeInterface()->clipboard())
 {
     ui->setupUi(this);
+
+    m_sharedData->menuItems = menuItems();
 
 #ifdef Q_OS_MAC
     // Open above fullscreen windows on OS X.
     setWindowModality(Qt::WindowModal);
     setWindowFlag(Qt::Sheet);
 #endif
+
+    setWindowRole(QStringLiteral("main"));
 
     menuBar()->setObjectName("menu_bar");
     createMenu();
@@ -586,6 +676,13 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     addTrayAction(Actions::File_ToggleClipboardStoring);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
+
+    // Initialize tray menu even if it's not visible to ensure
+    // the initial size is correct in native tray menus.
+    QTimer::singleShot(0, this, [this](){
+        if (m_trayMenuDirty)
+            initTrayMenuItems();
+    });
 }
 
 bool MainWindow::browseMode() const
@@ -642,6 +739,17 @@ bool MainWindow::focusNextPrevChild(bool next)
 
         if ( !next && c->hasFocus() ) {
             ui->searchBar->setFocus();
+            return true;
+        }
+    }
+
+    // Focus floating preview dock.
+    if ( next && m_showItemPreview && ui->dockWidgetItemPreview->isFloating() ) {
+        QWidget *w = ui->scrollAreaItemPreview->widget();
+        if (w && c->isActiveWindow() && c->hasFocus()) {
+            ui->dockWidgetItemPreview->raise();
+            ui->dockWidgetItemPreview->activateWindow();
+            w->setFocus(Qt::TabFocusReason);
             return true;
         }
     }
@@ -847,15 +955,12 @@ void MainWindow::updateTrayMenuCommands()
     QAction *clipboardAction = m_trayMenu->addAction( iconClipboard(), clipboardLabel );
     connect(clipboardAction, &QAction::triggered,
             this, &MainWindow::showClipboardContent);
-    m_trayMenu->addCustomAction(clipboardAction);
-
     m_trayMenu->markItemInClipboard(m_clipboardData);
 
-    int i = m_trayMenu->actions().size();
-    addCommandsToTrayMenu(m_clipboardData);
-    QList<QAction *> actions = m_trayMenu->actions();
-    for ( ; i < actions.size(); ++i )
-        m_trayMenu->addCustomAction(actions[i]);
+    QList<QAction*> customActions;
+    customActions.append(clipboardAction);
+    addCommandsToTrayMenu(m_clipboardData, &customActions);
+    m_trayMenu->setCustomActions(customActions);
 }
 
 void MainWindow::updateIcon()
@@ -920,6 +1025,19 @@ void MainWindow::updateItemPreviewTimeout()
         if (w) {
             ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
             w->show();
+
+            // Focus from floating preview dock back to the main window on Esc/Tab.
+            if ( ui->dockWidgetItemPreview->isFloating() ) {
+                const auto keys = {
+                    Qt::Key_Backtab,
+                    Qt::Key_Escape,
+                    Qt::Key_Tab,
+                };
+                for (auto key : keys) {
+                    const auto shortcut = new QShortcut(key, w);
+                    connect(shortcut, &QShortcut::activated, this, &MainWindow::showWindow);
+                }
+            }
         }
     } else {
         ui->dockWidgetItemPreview->hide();
@@ -961,13 +1079,6 @@ void MainWindow::onAboutToQuit()
     stopMenuCommandFilters(&m_itemMenuMatchCommands);
     stopMenuCommandFilters(&m_trayMenuMatchCommands);
     terminateAction(&m_displayActionId);
-}
-
-void MainWindow::onSaveCommand(const Command &command)
-{
-    auto commands = loadAllCommands();
-    commands.append(command);
-    setCommands(commands);
 }
 
 void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
@@ -1330,7 +1441,7 @@ void MainWindow::setHideTabs(bool hide)
 bool MainWindow::closeMinimizes() const
 {
     return !m_options.hideMainWindow
-        && (!m_tray || !QSystemTrayIcon::isSystemTrayAvailable());
+        && (!m_tray || !m_tray->isVisible() || !QSystemTrayIcon::isSystemTrayAvailable());
 }
 
 ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameMatching nameMatch, const Tabs &tabs)
@@ -1371,7 +1482,7 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 }
 
 template <typename SlotReturnType>
-QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
+QAction *MainWindow::createAction(Actions::Id id, MainWindowActionSlot<SlotReturnType> slot, QMenu *menu, QWidget *parent)
 {
     QAction *act = parent
         ? actionForMenuItem(id, parent, Qt::WidgetWithChildrenShortcut)
@@ -1382,7 +1493,7 @@ QAction *MainWindow::createAction(int id, MainWindowActionSlot<SlotReturnType> s
     return act;
 }
 
-QAction *MainWindow::addTrayAction(int id)
+QAction *MainWindow::addTrayAction(Actions::Id id)
 {
     QAction *act = actionForMenuItem(id, m_trayMenu, Qt::WindowShortcut);
     m_trayMenu->addAction(act);
@@ -1397,7 +1508,7 @@ void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 }
 
 template <typename Receiver, typename ReturnType>
-QAction *MainWindow::addItemAction(int id, Receiver *receiver, ReturnType (Receiver::* slot)())
+QAction *MainWindow::addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
     QAction *act = actionForMenuItem(id, getPlaceholder(), Qt::WidgetWithChildrenShortcut);
     connect( act, &QAction::triggered, receiver, slot, Qt::UniqueConnection );
@@ -1445,7 +1556,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     runMenuCommandFilters(&m_itemMenuMatchCommands, data);
 }
 
-void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
+void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<QAction*> *actions)
 {
     if ( m_trayMenuCommands.isEmpty() ) {
         interruptMenuCommandFilters(&m_trayMenuMatchCommands);
@@ -1458,8 +1569,8 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
 
     // Pass current window title to commands in tray menu.
     auto data = clipboardData;
-    if (m_lastWindow)
-        data.insert( mimeWindowTitle, m_lastWindow->getTitle() );
+    if (m_windowForMenuPaste)
+        data.insert( mimeWindowTitle, m_windowForMenuPaste->getTitle() );
 
     const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
 
@@ -1467,6 +1578,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData)
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
+        actions->append(act);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
 
@@ -1589,31 +1701,33 @@ void MainWindow::updateToolBar()
 
 void MainWindow::setTrayEnabled(bool enable)
 {
-    const bool trayAlreadyEnabled = m_tray != nullptr;
-    if (enable == trayAlreadyEnabled)
-        return;
-
     if (enable) {
-        m_tray = new QSystemTrayIcon(this);
-        connect( m_tray, &QSystemTrayIcon::activated,
-                 this, &MainWindow::trayActivated );
-        updateIcon();
+        if (m_tray == nullptr) {
+            m_tray = new SystemTrayIcon(this);
+        } else {
+            disconnect( m_tray, &SystemTrayIcon::activated,
+                        this, &MainWindow::trayActivated );
+        }
 
-        // On macOS, avoid showing tray menu with the main window.
+        if (m_options.nativeTrayMenu) {
+            m_tray->setContextMenu(m_trayMenu);
+        } else {
 #ifndef Q_OS_MAC
-        m_tray->setContextMenu(m_trayMenu);
+            m_tray->setContextMenu(m_trayMenu);
 #endif
+            connect( m_tray, &SystemTrayIcon::activated,
+                     this, &MainWindow::trayActivated );
+        }
+
+        updateIcon();
 
         m_tray->show();
 
         if ( isMinimized() )
             hideWindow();
     } else {
-        // Hide tray on Ubuntu (buggy sni-qt) before disabling.
-        m_tray->hide();
-
-        delete m_tray;
-        m_tray = nullptr;
+        if (m_tray != nullptr)
+            m_tray->hide();
 
         if ( isHidden() && !isMinimized() )
             minimizeWindow();
@@ -1676,7 +1790,7 @@ void MainWindow::updateActionShortcuts()
         if (!action)
             continue;
 
-        QList<QKeySequence> shortcuts = m_menuItems[id].shortcuts;
+        QList<QKeySequence> shortcuts = m_sharedData->menuItems[id].shortcuts;
         for (const auto &shortcut : usedShortcuts)
             shortcuts.removeAll(shortcut);
 
@@ -1684,11 +1798,11 @@ void MainWindow::updateActionShortcuts()
     }
 }
 
-QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutContext context)
+QAction *MainWindow::actionForMenuItem(Actions::Id id, QWidget *parent, Qt::ShortcutContext context)
 {
-    Q_ASSERT(id < m_menuItems.size());
+    Q_ASSERT(id < m_sharedData->menuItems.size());
 
-    m_actions.resize(m_menuItems.size());
+    m_actions.resize(m_sharedData->menuItems.size());
 
     QPointer<QAction> &action = m_actions[id];
     if (action && !action->isEnabled() && !action->isVisible()) {
@@ -1696,7 +1810,7 @@ QAction *MainWindow::actionForMenuItem(int id, QWidget *parent, Qt::ShortcutCont
         action = nullptr;
     }
 
-    const MenuItem &item = m_menuItems[id];
+    const MenuItem &item = m_sharedData->menuItems[id];
 
     if (!action) {
         action = new QAction(item.text, parent);
@@ -1754,10 +1868,10 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
     else
         setClipboard(data);
 
-    if (!m_lastWindow)
+    if (!m_windowForMenuPaste)
         updateFocusWindows();
 
-    PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr lastWindow = m_windowForMenuPaste;
 
     if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() ) {
         COPYQ_LOG( QString("Pasting item from tray menu to \"%1\".")
@@ -1851,7 +1965,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
 
             QVariantMap commandMap;
             for ( const auto &key : settings.allKeys() )
-                commandMap[key] = serializableValue(*settings.settingsData(), key);
+                commandMap[key] = serializableValue(settings.constSettingsData(), key);
 
             commandsList.append(commandMap);
         }
@@ -1878,7 +1992,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
         const bool wasLoaded = placeholder->isDataLoaded();
         auto c = placeholder->createBrowserAgain();
         if (!c) {
-            log(QString("Failed to open tab \"%s\" for export").arg(tab), LogError);
+            log(QString("Failed to open tab \"%1\" for export").arg(tab), LogError);
             return false;
         }
 
@@ -1896,7 +2010,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
             placeholder->expire();
 
         if (!saved) {
-            log(QString("Failed to export tab \"%s\"").arg(tab), LogError);
+            log(QString("Failed to export tab \"%1\"").arg(tab), LogError);
             return false;
         }
 
@@ -1974,7 +2088,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 
         auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
-            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
+            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
             return false;
         }
 
@@ -1985,7 +2099,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         // Don't read items based on current value of "maxitems" option since
         // the option can be later also imported.
         if ( !deserializeData( c->model(), &tabIn, Config::maxItems ) ) {
-            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
+            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
 
@@ -2100,7 +2214,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
 
         auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
         if (!c) {
-            log(QString("Failed to create tab \"%s\" for import").arg(tabName), LogError);
+            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
             return false;
         }
 
@@ -2112,7 +2226,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         // the option can be later also imported.
         const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
         if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
-            log(QString("Failed to import tab \"%s\"").arg(tabName), LogError);
+            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
 
@@ -2186,7 +2300,7 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 
     QVector<Command> displayCommands;
 
-    if ( addPluginCommands(&allCommands) || forceSave )
+    if ( syncInternalCommands(&allCommands) || forceSave )
         saveCommands(allCommands);
 
     const auto disabledPluginCommands = m_sharedData->itemFactory->commands(false);
@@ -2226,16 +2340,25 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
     emit commandsSaved(commands);
 }
 
-bool MainWindow::addPluginCommands(QVector<Command> *allCommands)
+bool MainWindow::syncInternalCommands(QVector<Command> *allCommands)
 {
-    const auto oldSize = allCommands->size();
+    bool changed = false;
 
-    for ( const auto &command : m_sharedData->itemFactory->commands() ) {
-        if ( !hasCommandFuzzy(*allCommands, command) )
-            allCommands->append(command);
+    for ( const Command &command : globalShortcutCommands() ) {
+        if ( syncInternalCommandChanges(command, allCommands) )
+            changed = true;
     }
 
-    return oldSize != allCommands->size();
+    for ( const Command &command : m_sharedData->itemFactory->commands(true) ) {
+        if ( syncInternalCommandChanges(command, allCommands) ) {
+            changed = true;
+        } else if ( !hasCommandFuzzy(*allCommands, command) ) {
+            allCommands->append(command);
+            changed = true;
+        }
+    }
+
+    return changed;
 }
 
 void MainWindow::disableHideWindowOnUnfocus()
@@ -2245,7 +2368,9 @@ void MainWindow::disableHideWindowOnUnfocus()
 
 void MainWindow::enableHideWindowOnUnfocus()
 {
-    initSingleShotTimer( &m_timerHideWindowIfNotActive, 100, this, &MainWindow::hideWindowIfNotActive );
+    initSingleShotTimer(
+        &m_timerHideWindowIfNotActive, m_timerHideWindowIfNotActive.interval(),
+        this, &MainWindow::hideWindowIfNotActive );
 }
 
 void MainWindow::hideWindowIfNotActive()
@@ -2388,6 +2513,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    // Allow browsing items in search mode without focusing item list.
+    if (c && !browseMode()) {
+        switch(key) {
+            case Qt::Key_Down:
+            case Qt::Key_Up:
+            case Qt::Key_PageDown:
+            case Qt::Key_PageUp:
+                QCoreApplication::sendEvent(c, event);
+                return;
+        }
+    }
+
     if (modifiers == Qt::ControlModifier) {
         switch(key) {
             case Qt::Key_Return:
@@ -2406,14 +2543,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
 
     switch(key) {
-        case Qt::Key_Down:
-        case Qt::Key_Up:
-        case Qt::Key_PageDown:
-        case Qt::Key_PageUp:
-            if ( c && !c->hasFocus() )
-                c->setFocus();
-            break;
-
         case Qt::Key_Return:
         case Qt::Key_Enter:
             if (c)
@@ -2476,7 +2605,8 @@ bool MainWindow::event(QEvent *event)
     return QMainWindow::event(event);
 }
 
-bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+bool MainWindow::nativeEvent(
+    const QByteArray &eventType, void *message, NativeEventResult *result)
 {
     delayedUpdateForeignFocusWindows();
     return QMainWindow::nativeEvent(eventType, message, result);
@@ -2552,6 +2682,8 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
     m_options.closeOnUnfocus = appConfig->option<Config::close_on_unfocus>();
+    m_timerHideWindowIfNotActive.setInterval(
+        appConfig->option<Config::close_on_unfocus_delay_ms>());
 
     const bool hideInTaskBar = appConfig->option<Config::hide_main_window_in_task_bar>();
     setHideInTaskBar(this, hideInTaskBar);
@@ -2563,7 +2695,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     reloadBrowsers();
 
-    ui->tabWidget->updateTabs();
+    ui->tabWidget->updateTabs(settings);
 
     m_timerSaveTabPositions.stop();
 
@@ -2589,10 +2721,12 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_singleClickActivate = appConfig->option<Config::activate_item_with_single_click>();
 
-    const auto toolTipStyleSheet = theme().getToolTipStyleSheet();
-    m_trayMenu->setStyleSheet(toolTipStyleSheet);
-    m_menu->setStyleSheet(toolTipStyleSheet);
+    const auto menuStyleSheet = theme().getMenuStyleSheet();
+    m_trayMenu->setStyleSheet(menuStyleSheet);
+    m_menu->setStyleSheet(menuStyleSheet);
 
+    if (m_options.nativeTrayMenu != appConfig->option<Config::native_tray_menu>())
+        m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();
     setTrayEnabled( !appConfig->option<Config::disable_tray>() );
     updateTrayMenuItems();
 
@@ -2603,7 +2737,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     ui->searchBar->loadSettings();
 
     settings.beginGroup("Shortcuts");
-    loadShortcuts(&m_menuItems, settings);
+    loadShortcuts(&m_sharedData->menuItems, settings);
     updateActionShortcuts();
     settings.endGroup();
 
@@ -2723,10 +2857,10 @@ bool MainWindow::setCurrentTab(int index)
 
 bool MainWindow::focusPrevious()
 {
-    if ( !m_lastWindow )
+    if ( !m_windowForMainPaste )
         return false;
 
-    m_lastWindow->raise();
+    m_windowForMainPaste->raise();
     return true;
 }
 
@@ -2744,6 +2878,13 @@ void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+#ifdef Q_OS_MAC
+    if (!m_options.nativeTrayMenu && reason == QSystemTrayIcon::Context) {
+        toggleMenu();
+        return;
+    }
+#endif
+
     if ( reason == QSystemTrayIcon::MiddleClick
          || (m_options.trayMenuOpenOnLeftClick && reason == QSystemTrayIcon::Trigger) )
     {
@@ -3144,7 +3285,7 @@ void MainWindow::activateCurrentItemHelper()
         return;
 
     // Perform custom actions on item activation.
-    PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr lastWindow = m_windowForMainPaste;
     const bool paste = lastWindow && m_options.activatePastes() && canPaste();
     const bool activateWindow = paste || (lastWindow && m_options.activateFocuses());
 
@@ -3250,8 +3391,8 @@ void MainWindow::onFilterChanged()
 
 void MainWindow::raiseLastWindowAfterMenuClosed()
 {
-    if ( m_lastWindow && !isAnyApplicationWindowActive() )
-        m_lastWindow->raise();
+    if ( m_windowForMenuPaste && !isAnyApplicationWindowActive() )
+        m_windowForMenuPaste->raise();
 }
 
 void MainWindow::updateFocusWindows()
@@ -3264,22 +3405,28 @@ void MainWindow::updateFocusWindows()
     auto platform = platformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
     if (lastWindow) {
-        const QString title = lastWindow->getTitle();
         const QWidget *activeWindow = qApp->activeWindow();
         if (activeWindow) {
             if (activeWindow == m_trayMenu || activeWindow == m_menu) {
-                COPYQ_LOG(QString("Focus window is \"%1\" - tray menu - ignoring").arg(title) );
+                COPYQ_LOG(
+                    QStringLiteral("Focus window is \"%1\" - tray menu")
+                    .arg(lastWindow->getTitle()) );
+            } else if (activeWindow == this) {
+                COPYQ_LOG(QStringLiteral("Focus window is the main window"));
+                m_windowForMenuPaste = lastWindow;
             } else {
-                COPYQ_LOG(QString("Focus window is \"%1\": [%2] %3").arg(
-                    title,
+                COPYQ_LOG(QStringLiteral("Focus window is \"%1\": [%2] %3").arg(
+                    lastWindow->getTitle(),
                     QLatin1String(activeWindow->metaObject()->className()),
                     activeWindow->windowTitle()
                 ));
-                m_lastWindow = lastWindow;
+                m_windowForMainPaste = lastWindow;
+                m_windowForMenuPaste = lastWindow;
             }
         } else {
-            COPYQ_LOG( QString("Focus window is \"%1\"").arg(title) );
-            m_lastWindow = lastWindow;
+            COPYQ_LOG( QStringLiteral("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
+            m_windowForMainPaste = lastWindow;
+            m_windowForMenuPaste = lastWindow;
         }
     }
 
@@ -3371,15 +3518,16 @@ void MainWindow::updateTrayMenuItemsTimeout()
         return;
     }
 
-    m_trayMenuDirty = false;
-
     COPYQ_LOG("Updating tray menu");
-
     WidgetSizeGuard sizeGuard(m_trayMenu);
+    initTrayMenuItems();
+}
 
+void MainWindow::initTrayMenuItems()
+{
+    m_trayMenuDirty = false;
     interruptMenuCommandFilters(&m_trayMenuMatchCommands);
     m_trayMenu->clearClipboardItems();
-
     filterTrayMenuItems(QString());
 }
 
@@ -3433,9 +3581,6 @@ ActionDialog *MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog, &ActionDialog::commandAccepted,
              this, &MainWindow::onActionDialogAccepted );
 
-    connect( actionDialog, &ActionDialog::saveCommand,
-             this, &MainWindow::onSaveCommand );
-
     stealFocus(*actionDialog);
 
     return actionDialog;
@@ -3478,8 +3623,10 @@ void MainWindow::openPreferences()
     connect( &configurationManager, &ConfigurationManager::error,
              this, &MainWindow::showError );
 
+#if QT_VERSION < QT_VERSION_CHECK(5,9,3)
     // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
     configurationManager.setWindowModality(Qt::WindowModal);
+#endif
 
     cm = &configurationManager;
     configurationManager.exec();
@@ -4004,7 +4151,7 @@ void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 {
     if ( tabs().contains(tabName) || ui->tabWidget->isTabGroup(tabName) ) {
         setIconNameForTabName(tabName, icon);
-        ui->tabWidget->updateTabIcon(tabName);
+        ui->tabWidget->setTabIcon(tabName, icon);
     }
 }
 
@@ -4029,3 +4176,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+#include "mainwindow.moc"

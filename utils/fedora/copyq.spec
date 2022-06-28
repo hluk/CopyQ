@@ -28,8 +28,8 @@ support for image formats, command line control and more.
 %prep
 chmod 644 %{SOURCE0}
 %setup -qn %{project}-%{revision}
-sed -i 's/^set(copyq_version .*)$/set(copyq_version "v%{version}-%{snapinfo}")/' version.cmake
-grep -Fq '"v%{version}-%{snapinfo}"' version.cmake
+sed -i 's/^set(copyq_version .*)$/set(copyq_version "%{version}-%{snapinfo}")/' src/version.cmake
+grep -Fq '"v%{version}-%{snapinfo}"' src/version.cmake
 
 %build
 %cmake_kf5 \

@@ -54,14 +54,15 @@ QByteArray tabNameFromFileSuffix(QByteArray base64Suffix)
 
 } // namespace
 
-QStringList savedTabs()
+QList<QString> savedTabs()
 {
-    QStringList tabs = AppConfig().option<Config::tabs>();
+    QList<QString> tabs = AppConfig().option<Config::tabs>();
 
     const QString configPath = settingsDirectoryPath();
 
-    QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
-    files.append( QDir(configPath).entryList(QStringList("*_tab_*.dat.tmp")) );
+    QDir configDir(configPath);
+    QList<QString> files = configDir.entryList({QStringLiteral("*_tab_*.dat")});
+    files.append(configDir.entryList({QStringLiteral("*_tab_*.dat.tmp")}));
 
     QRegularExpression re("_tab_([^.]*)");
 
@@ -148,7 +149,7 @@ void setDefaultTabItemCounterStyle(QWidget *widget)
     widget->setPalette(pal);
 }
 
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
+void setComboBoxItems(QComboBox *comboBox, const QList<QString> &items)
 {
     const QString text = comboBox->currentText();
     comboBox->clear();

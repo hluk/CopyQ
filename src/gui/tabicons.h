@@ -19,14 +19,15 @@
 #ifndef TABICONS_H
 #define TABICONS_H
 
+#include <QtContainerFwd>
+
 class QIcon;
 class QComboBox;
 class QString;
-class QStringList;
 class QWidget;
 
 /** Return list of saved tabs (ordered by "tabs" option if possible). */
-QStringList savedTabs();
+QList<QString> savedTabs();
 
 QString getIconNameForTabName(const QString &tabName);
 
@@ -38,6 +39,6 @@ void initTabComboBox(QComboBox *comboBox);
 
 void setDefaultTabItemCounterStyle(QWidget *widget);
 
-void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
+void setComboBoxItems(QComboBox *comboBox, const QList<QString> &items);
 
 #endif // TABICONS_H

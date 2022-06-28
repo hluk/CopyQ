@@ -20,12 +20,12 @@
 #ifndef ITEMFACTORY_H
 #define ITEMFACTORY_H
 
+#include "common/command.h"
 #include "item/itemwidget.h"
 
 #include <QMap>
 #include <QObject>
-#include <QSet>
-#include <QVector>
+#include <QtContainerFwd>
 
 #include <memory>
 

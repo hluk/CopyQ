@@ -73,6 +73,7 @@ void loadCommand(const QSettings &settings, Commands *commands)
     c.globalShortcuts = settings.value("GlobalShortcut").toStringList();
     c.tab = settings.value("Tab").toString();
     c.outputTab = settings.value("OutputTab").toString();
+    c.internalId = settings.value("InternalId").toString();
     c.inMenu = settings.value("InMenu").toBool();
     c.isScript = settings.value("IsScript").toBool();
 
@@ -142,6 +143,7 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("GlobalShortcut", c, &Command::globalShortcuts, settings);
     saveNewValue("Tab", c, &Command::tab, settings);
     saveNewValue("OutputTab", c, &Command::outputTab, settings);
+    saveNewValue("InternalId", c, &Command::internalId, settings);
 }
 
 Commands importCommands(QSettings *settings)
@@ -249,7 +251,7 @@ QString exportCommands(const Commands &commands)
         const auto m = re.match(line);
         if (m.hasMatch()) {
             int i = m.capturedLength();
-            commandData.append(line.leftRef(i));
+            commandData.append(line.left(i));
 
             const bool addQuotes = !commandData.endsWith('"');
             if (addQuotes)

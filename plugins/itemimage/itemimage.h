@@ -85,16 +85,19 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
     QObject *createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const override;
 
 private:
-    QVariantMap m_settings;
+    int m_maxImageWidth = 320;
+    int m_maxImageHeight = 240;
+    QString m_imageEditor;
+    QString m_svgEditor;
     std::unique_ptr<Ui::ItemImageSettings> ui;
 };
 

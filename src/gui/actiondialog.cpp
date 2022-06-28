@@ -71,7 +71,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_currentCommandIndex(-1)
 {
     ui->setupUi(this);
-    ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
 
     auto shortcut = new QShortcut(QKeySequence(Qt::ControlModifier | Qt::Key_P), this);
     connect(shortcut, &QShortcut::activated, this, &ActionDialog::previousCommand);
@@ -211,14 +210,6 @@ void ActionDialog::onButtonBoxClicked(QAbstractButton* button)
     case QDialogButtonBox::Apply:
         acceptCommand();
         saveCurrentCommandToHistory();
-        break;
-
-    case QDialogButtonBox::Save:
-        emit saveCommand(command());
-        QMessageBox::information(
-                    this, tr("Command saved"),
-                    tr("Command was saved and can be accessed from item menu.\n"
-                       "You can set up the command in preferences.") );
         break;
 
     case QDialogButtonBox::Cancel:

@@ -341,6 +341,7 @@ void ClipboardBrowser::emitItemCount()
 
 bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
 {
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     // WORKAROUND: Update drag'n'drop when modifiers are pressed/released (QTBUG-57168).
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         const auto kev = static_cast<QKeyEvent*>(event);
@@ -354,6 +355,7 @@ bool ClipboardBrowser::eventFilter(QObject *obj, QEvent *event)
             QCoreApplication::sendEvent(this, &mouseMove);
         }
     }
+#endif
 
     return QListView::eventFilter(obj, event);
 }
@@ -731,13 +733,6 @@ void ClipboardBrowser::dragDropScroll()
     }
 }
 
-void ClipboardBrowser::setCurrentIndex(const QModelIndex &index)
-{
-    // WORKAROUND: QAbstractItemView::setCurrentIndex() seems to depend on
-    //             currently pressed keyboard modifiers, which is unexpected.
-    selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
-}
-
 QVariantMap ClipboardBrowser::copyIndex(const QModelIndex &index) const
 {
     auto data = index.data(contentType::data).toMap();
@@ -813,11 +808,11 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *err
     return dropIndexes(indexes);
 }
 
-bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes) const
+bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes, QString *error) const
 {
     Q_ASSERT(m_itemSaver);
 
-    return m_itemSaver->canRemoveItems(indexes, nullptr);
+    return m_itemSaver->canRemoveItems(indexes, error);
 }
 
 QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight)
@@ -1028,8 +1023,10 @@ void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
 {
     dragMoveEvent(event);
 
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     // WORKAROUND: Update drag'n'drop when modifiers are pressed/released (QTBUG-57168).
     qApp->installEventFilter(this);
+#endif
 }
 
 void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
@@ -1164,6 +1161,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     QVariantMap data = copyIndexes(selected);
 
+    m_dragStartPosition = QPoint();
     auto drag = new QDrag(this);
     drag->setMimeData( createMimeData(data) );
     drag->setPixmap( renderItemPreview(selected, 150, 150) );
@@ -1178,7 +1176,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     // Default action is "copy" which works for most apps,
     // "move" action is used only in item list by default.
     Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
     qApp->removeEventFilter(this);
+#endif
 
     if (dropAction == Qt::MoveAction) {
         selected.clear();
@@ -1208,7 +1208,11 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         temporaryImage->drop();
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+void ClipboardBrowser::enterEvent(QEnterEvent *event)
+#else
 void ClipboardBrowser::enterEvent(QEvent *event)
+#endif
 {
     m_ignoreMouseMoveWithButtonPressed = true;
     QListView::enterEvent(event);
@@ -1684,7 +1688,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
     // Also update previous item if the same selected text is copied to clipboard afterwards.
     if ( data.contains(mimeText) ) {
         const auto firstIndex = firstUnpinnedIndex();
-        const QVariantMap previousData = copyIndex(firstIndex);
+        const QVariantMap previousData = firstIndex.data(contentType::data).toMap();
 
         if ( firstIndex.isValid()
              && previousData.contains(mimeText)

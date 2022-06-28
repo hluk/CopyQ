@@ -22,6 +22,7 @@
 
 #include "item/itemfilter.h"
 #include "item/itemwidget.h"
+#include "gui/menuitems.h"
 
 #include <QPersistentModelIndex>
 #include <QTextEdit>
@@ -62,7 +63,7 @@ public:
 
     void findPrevious();
 
-    QWidget *createToolbar(QWidget *parent);
+    QWidget *createToolbar(QWidget *parent, const MenuItems &menuItems);
 
 signals:
     void save();

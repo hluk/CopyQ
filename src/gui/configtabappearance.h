@@ -37,6 +37,7 @@ class QSettings;
 
 class ConfigTabAppearance final : public QWidget
 {
+    Q_OBJECT
 public:
     explicit ConfigTabAppearance(QWidget *parent = nullptr);
     ~ConfigTabAppearance();

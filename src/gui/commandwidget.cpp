@@ -159,12 +159,17 @@ Command CommandWidget::command() const
     c.globalShortcuts = serializeShortcuts( ui->shortcutButtonGlobalShortcut->shortcuts() );
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
+    c.internalId = m_internalId;
 
     return c;
 }
 
 void CommandWidget::setCommand(const Command &c)
 {
+    m_internalId = c.internalId;
+    m_isEditable = m_internalId.startsWith(QLatin1String("copyq_"));
+
+    ui->lineEditName->setReadOnly(m_isEditable);
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
@@ -261,7 +266,10 @@ void CommandWidget::updateWidgets()
 
 void CommandWidget::updateShowAdvanced()
 {
-    ui->tabWidget->setVisible(m_showAdvanced);
+    const bool canEditAdvanced = m_showAdvanced && !m_isEditable;
+    ui->widgetCommandType->setVisible(canEditAdvanced);
+    ui->tabWidget->setVisible(canEditAdvanced);
+
     ui->labelDescription->setVisible(m_showAdvanced);
 
     // Hide the Advanced tab if there are no visible widgets.

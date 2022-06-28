@@ -1,4 +1,4 @@
-set(copyq_version "v4.1.0")
+set(copyq_version "6.1.0")
 
 set(copyq_github_sha "$ENV{GITHUB_SHA}")
 if (copyq_github_sha)
@@ -16,6 +16,11 @@ else()
             OUTPUT_STRIP_TRAILING_WHITESPACE
         )
         if(copyq_git_describe_result EQUAL 0)
+            set(COPYQ_VERSION_TAG_REGEX "^v([0-9]+)")
+            string(REGEX REPLACE "${COPYQ_VERSION_TAG_REGEX}"
+                "\\1" copyq_git_describe_output
+                "${copyq_git_describe_output}"
+                )
             set(copyq_version "${copyq_git_describe_output}")
         endif()
     endif()

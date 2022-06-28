@@ -1,10 +1,9 @@
 find_package(QtWaylandScanner REQUIRED)
-include_directories(SYSTEM ${Qt5Gui_PRIVATE_INCLUDE_DIRS}) # for native interface to get wl_seat
+include_directories(SYSTEM ${${copyq_qt}Gui_PRIVATE_INCLUDE_DIRS}) # for native interface to get wl_seat
 find_package(Wayland 1.15 COMPONENTS Client)
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
+find_package(${copyq_qt} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
 
 set(systemclipboard_SRCS
-    systemclipboard.cpp
     waylandclipboard.cpp
 )
 
@@ -15,7 +14,7 @@ ecm_add_qtwayland_client_protocol(systemclipboard_SRCS
 
 add_library(systemclipboard STATIC ${systemclipboard_SRCS})
 target_link_libraries(systemclipboard
-                      Qt5::Gui
-                      Qt5::WaylandClient
+                      ${copyq_qt}::Gui
+                      ${copyq_qt}::WaylandClient
                       Wayland::Client
 )

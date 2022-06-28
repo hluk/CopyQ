@@ -7,7 +7,10 @@ CopyQ provides scripting capabilities to automatically handle clipboard
 changes, organize items, change settings and much more.
 
 Supported language features and base function can be found at `ECMAScript
-Reference <http://doc.qt.io/qt-5/ecmascript.html>`__.
+Reference <http://doc.qt.io/qt-5/ecmascript.html>`__. The language is mostly
+equivalent to modern JavaScript. Some features may be missing but feel free to
+use for example `JavaScript reference on MDN
+<https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/>`__.
 
 CopyQ-specific features described in this document:
 
@@ -1182,9 +1185,9 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns text representation of current date and time.
 
-   See
-   `QDateTime::toString() <http://doc.qt.io/qt-5/qdatetime.html#toString>`__
-   for details on formatting date and time.
+   See `Date QML Type
+   <https://doc.qt.io/qt-5/qml-qtqml-date.html#format-strings>`__ for details
+   on formatting date and time.
 
    :returns: Current date and time as string.
    :rtype: string
@@ -1580,7 +1583,7 @@ unlike in GUI, where row numbers start from 1 by default.
    :returns: Style identifiers.
    :rtype: array of strings
 
-   To change or update style use::
+   To change or update style use:
 
    .. code-block:: js
 
@@ -1665,6 +1668,50 @@ Types
        popup('New temporary file', f.fileName())
 
    To open file in different modes, use same open methods as for `File`.
+
+.. js:class:: Settings
+
+   Reads and writes INI configuration files. Wrapper for QSettings Qt class.
+
+   See `QSettings <https://doc.qt.io/qt-5/qsettings.html>`__.
+
+   .. code-block:: js
+
+       // Open INI file
+       var configPath = Dir().homePath() + '/copyq.ini'
+       var settings = new Settings(configPath)
+
+       // Save an option
+       settings.setValue('option1', 'test')
+
+       // Store changes to the config file now instead of at the end of
+       // executing the script
+       settings.sync()
+
+       // Read the option value
+       var value = settings.value('option1')
+
+   Working with arrays:
+
+   .. code-block:: js
+
+       // Write array
+       var settings = new Settings(configPath)
+       settings.beginWriteArray('array1')
+       settings.setArrayIndex(0)
+       settings.setValue('some_option', 1)
+       settings.setArrayIndex(1)
+       settings.setValue('some_option', 2)
+       settings.endArray()
+       settings.sync()
+
+       // Read array
+       var settings = new Settings(configPath)
+       const arraySize = settings.beginReadArray('array1')
+       for (var i = 0; i < arraySize; i++) {
+           settings.setArrayIndex(i);
+           print('Index ' + i + ': ' + settings.value('some_option') + '\n')
+       }
 
 .. js:class:: Item
 
@@ -1781,6 +1828,16 @@ Types
    .. js:method:: deselectSelection(ItemSelection)
 
        Deselect items in other selection.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: current()
+
+       Deselects all and selects only the items which were selected when the
+       command was triggered.
+
+       See `Selected Items`_.
 
        :returns: self
        :rtype: ItemSelection
@@ -1959,48 +2016,48 @@ These MIME types values are assigned to global variables prefixed with
 
    Content for following types is UTF-8 encoded.
 
-.. js:data:: mimeText (text/plain)
+.. js:data:: mimeText
 
-   Data contains plain text content.
+   Data contains plain text content. Value: 'text/plain'.
 
-.. js:data:: mimeHtml (text/html)
+.. js:data:: mimeHtml
 
-   Data contains HTML content.
+   Data contains HTML content. Value: 'text/html'.
 
-.. js:data:: mimeUriList (text/uri-list)
+.. js:data:: mimeUriList
 
-   Data contains list of links to files, web pages etc.
+   Data contains list of links to files, web pages etc. Value: 'text/uri-list'.
 
-.. js:data:: mimeWindowTitle (application/x-copyq-owner-window-title)
+.. js:data:: mimeWindowTitle
 
-   Current window title for copied clipboard.
+   Current window title for copied clipboard. Value: 'application/x-copyq-owner-window-title'.
 
-.. js:data:: mimeItems (application/x-copyq-item)
+.. js:data:: mimeItems
 
-   Serialized items.
+   Serialized items. Value: 'application/x-copyq-item'.
 
-.. js:data:: mimeItemNotes (application/x-copyq-item-notes)
+.. js:data:: mimeItemNotes
 
-   Data contains notes for item.
+   Data contains notes for item. Value: 'application/x-copyq-item-notes'.
 
-.. js:data:: mimeIcon (application/x-copyq-item-icon)
+.. js:data:: mimeIcon
 
-   Data contains icon for item.
+   Data contains icon for item. Value: 'application/x-copyq-item-icon'.
 
-.. js:data:: mimeOwner (application/x-copyq-owner)
+.. js:data:: mimeOwner
 
-   If available, the clipboard was set from CopyQ (from script or copied items).
+   If available, the clipboard was set from CopyQ (from script or copied items). Value: 'application/x-copyq-owner'.
 
    Such clipboard is ignored in CopyQ, i.e. it won't be stored in clipboard
    tab and automatic commands won't be executed on it.
 
-.. js:data:: mimeClipboardMode (application/x-copyq-clipboard-mode)
+.. js:data:: mimeClipboardMode
 
-   Contains ``selection`` if data is from `Linux mouse selection`_.
+   Contains ``selection`` if data is from `Linux mouse selection`_. Value: 'application/x-copyq-clipboard-mode'.
 
-.. js:data:: mimeCurrentTab (application/x-copyq-current-tab)
+.. js:data:: mimeCurrentTab
 
-   Current tab name when invoking command from main window.
+   Current tab name when invoking command from main window. Value: 'application/x-copyq-current-tab'.
 
    Following command print the tab name when invoked from main window:
 
@@ -2009,17 +2066,17 @@ These MIME types values are assigned to global variables prefixed with
        copyq data application/x-copyq-current-tab
        copyq selectedTab
 
-.. js:data:: mimeSelectedItems (application/x-copyq-selected-items)
+.. js:data:: mimeSelectedItems
 
-   Selected items when invoking command from main window.
+   Selected items when invoking command from main window. Value: 'application/x-copyq-selected-items'.
 
-.. js:data:: mimeCurrentItem (application/x-copyq-current-item)
+.. js:data:: mimeCurrentItem
 
-   Current item when invoking command from main window.
+   Current item when invoking command from main window. Value: 'application/x-copyq-current-item'.
 
-.. js:data:: mimeHidden (application/x-copyq-hidden)
+.. js:data:: mimeHidden
 
-   If set to ``1``, the clipboard or item content will be hidden in GUI.
+   If set to ``1``, the clipboard or item content will be hidden in GUI. Value: 'application/x-copyq-hidden'.
 
    This won't hide notes and tags.
 
@@ -2029,9 +2086,9 @@ These MIME types values are assigned to global variables prefixed with
 
        copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
 
-.. js:data:: mimeShortcut (application/x-copyq-shortcut)
+.. js:data:: mimeShortcut
 
-   Application or global shortcut which activated the command.
+   Application or global shortcut which activated the command. Value: 'application/x-copyq-shortcut'.
 
    ::
 
@@ -2039,9 +2096,9 @@ These MIME types values are assigned to global variables prefixed with
        var shortcut = data(mimeShortcut)
        popup("Shortcut Pressed", shortcut)
 
-.. js:data:: mimeColor (application/x-copyq-color)
+.. js:data:: mimeColor
 
-   Item color (same as the one used by themes).
+   Item color (same as the one used by themes). Value: 'application/x-copyq-color'.
 
    Examples::
 
@@ -2049,9 +2106,9 @@ These MIME types values are assigned to global variables prefixed with
        rgba(255,255,0,0.5)
        bg - #000099
 
-.. js:data:: mimeOutputTab (application/x-copyq-output-tab)
+.. js:data:: mimeOutputTab
 
-   Name of the tab where to store new item.
+   Name of the tab where to store new item. Value: 'application/x-copyq-output-tab'.
 
    The clipboard data will be stored in tab with this name after all
    automatic commands are run.

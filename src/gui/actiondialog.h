@@ -68,8 +68,6 @@ signals:
     /** Emitted if dialog was accepted. */
     void commandAccepted(const Command &command, const QStringList &arguments, const QVariantMap &data);
 
-    void saveCommand(const Command &command);
-
 private:
     void onButtonBoxClicked(QAbstractButton* button);
     void onComboBoxCommandsCurrentIndexChanged(int index);

@@ -20,7 +20,7 @@
 #ifndef TABWIDGET_H
 #define TABWIDGET_H
 
-#include <QMap>
+#include <QHash>
 #include <QTabBar>
 #include <QWidget>
 
@@ -29,6 +29,7 @@
 class QMainWindow;
 class QMimeData;
 class QPoint;
+class QSettings;
 class QStackedWidget;
 class QToolBar;
 class TabsWidgetInterface;
@@ -66,7 +67,7 @@ public:
 
     void setTabItemCountVisible(bool visible);
 
-    void updateTabIcon(const QString &tabName);
+    void setTabIcon(const QString &tabName, const QString &icon);
 
     void insertTab(int tabIndex, QWidget *widget, const QString &tabName);
 
@@ -83,7 +84,7 @@ public:
 
     void loadTabInfo();
 
-    void updateTabs();
+    void updateTabs(QSettings &settings);
 
     QToolBar *toolBar() const { return m_toolBarCurrent; }
 
@@ -134,7 +135,7 @@ private:
     bool m_hideTabBar;
 
     QStringList m_collapsedTabs;
-    QMap<QString, int> m_tabItemCounters;
+    QHash<QString, int> m_tabItemCounters;
 
     bool m_showTabItemCount;
 

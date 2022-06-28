@@ -374,7 +374,7 @@ void ConfigTabAppearance::updateFontButtons()
     if ( !isVisible() )
         return;
 
-    const int iconExtent = pointsToPixels(12);
+    const int iconExtent = pointsToPixels(12, this);
     const QSize iconSize(iconExtent * 2, iconExtent);
 
     const auto ratio = pixelRatio(ui->scrollAreaTheme);

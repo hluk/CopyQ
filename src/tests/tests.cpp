@@ -192,6 +192,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("ERROR: QtCritical: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
 
         plain("[kf.notifications] QtWarning: Received a response for an unknown notification."),
+        // KStatusNotifierItem
+        plain("[kf.windowsystem] QtWarning: Could not find any platform plugin"),
 
         regex("QtWarning: QTemporaryDir: Unable to remove .* most likely due to the presence of read-only files."),
 
@@ -495,10 +497,7 @@ public:
             return QByteArray();
 
         waitFor(waitMsSetClipboard);
-
         clipboard()->setData( mode, createDataMap(mime, bytes) );
-
-        waitFor(waitMsSetClipboard);
         return verifyClipboard(bytes, mime);
     }
 
@@ -506,9 +505,11 @@ public:
     {
         PerformanceTimer perf;
 
-        SleepTimer t(waitMsSetClipboard * 5);
+        SleepTimer t(5000);
+        QByteArray actualBytes;
         do {
-            if ( exact ? getClipboard(mime) == data : getClipboard(mime).contains(data) ) {
+            actualBytes = getClipboard(mime);
+            if ( exact ? actualBytes == data : actualBytes.contains(data) ) {
                 perf.printPerformance("verifyClipboard", QStringList() << QString::fromUtf8(data) << mime);
                 waitFor(waitMsSetClipboard);
                 RETURN_ON_ERROR( readServerErrors(), "Failed to set or test clipboard content" );
@@ -516,7 +517,6 @@ public:
             }
         } while (t.sleep());
 
-        const QByteArray actualBytes = getClipboard(mime);
         return QString::fromLatin1("Unexpected clipboard data for MIME \"%1\":")
                 .arg(mime).toUtf8()
                 + decorateOutput("Unexpected content", actualBytes)
@@ -528,7 +528,7 @@ public:
     {
         if (m_server) {
             QCoreApplication::processEvents();
-            QByteArray output = readLogFile(maxReadLogSize).toUtf8();
+            QByteArray output = readLogFile(maxReadLogSize);
             if ( !m_ignoreError.isEmpty() )
                 output.replace(m_ignoreError, "[EXPECTED-IN-TEST] " + m_ignoreError);
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
@@ -799,9 +799,9 @@ int count(const QStringList &items, const QString &pattern)
     return count;
 }
 
-QStringList splitLines(const QString &nativeText)
+QStringList splitLines(const QByteArray &nativeText)
 {
-    return nativeText.split(QRegularExpression("\r\n|\n|\r"));
+    return QString::fromUtf8(nativeText).split(QRegularExpression("\r\n|\n|\r"));
 }
 
 } // namespace
@@ -899,7 +899,7 @@ void Tests::commandVersion()
 
     const QString version = QString::fromUtf8(stdoutActual);
     // Version contains application name and version.
-    QVERIFY( version.contains(QRegularExpression("\\bCopyQ\\b.*" + QRegularExpression::escape(COPYQ_VERSION))) );
+    QVERIFY( version.contains(QRegularExpression("\\bCopyQ\\b.*" + QRegularExpression::escape(versionString))) );
     // Version contains Qt version.
     QVERIFY( version.contains(QRegularExpression("\\bQt:\\s+\\d")) );
 }
@@ -2284,6 +2284,90 @@ void Tests::classItemSelection()
     m_test->setIgnoreError(QByteArray());
 }
 
+void Tests::classItemSelectionGetCurrent()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"\", rows=[])\n");
+
+    RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq: add(ItemSelection().current().str())'}])", "");
+    RUN("keys" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[0])");
+    RUN("keys" << "END" << "SHIFT+UP" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[2,3])");
+}
+
+void Tests::classItemSelectionByteArray()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN(args << "add" << "C" << "B" << "A", "");
+    RUN(args << "ByteArray(ItemSelection().selectAll().itemAtIndex(0)[mimeText])", "A");
+    RUN(args << "str(ItemSelection().selectAll().itemAtIndex(0)[mimeText])", "A\n");
+    RUN(args << "write(0, [ItemSelection().selectAll().itemAtIndex(2)])"
+             << "read(mimeText, 0)", "C");
+}
+
+void Tests::classSettings()
+{
+    TemporaryFile configFile;
+    const QString fileName = configFile.fileName();
+
+    RUN("eval" << "s=Settings(str(arguments[1])); print(s.fileName())" << fileName, fileName);
+    RUN("eval" << "s=Settings(str(arguments[1])); s.isWritable() === true" << fileName, "true\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.contains('o1')" << fileName, "false\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o1', 1); s.sync(); s.contains('o1')" << fileName, "true\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('o1')" << fileName, "1\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o2', 2)" << fileName, "");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('o2')" << fileName, "2\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o2', [1,2,3])" << fileName, "");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('o2')[0]" << fileName, "1\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('o2')[1]" << fileName, "2\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('o2')[2]" << fileName, "3\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('g1/o3', true)" << fileName, "");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('g1/o3')" << fileName, "true\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.childKeys()" << fileName, "o1\no2\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.allKeys()" << fileName, "g1/o3\no1\no2\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginGroup('g1'); s.group()" << fileName, "g1\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginGroup('g1'); s.setValue('g1.2/o4', 'test')" << fileName, "");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginGroup('g1'); s.childGroups()" << fileName, "g1.2\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginGroup('g1'); s.endGroup(); s.childGroups()" << fileName, "g1\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.value('g1/g1.2/o4')" << fileName, "test\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.allKeys()" << fileName, "g1/g1.2/o4\ng1/o3\no1\no2\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.remove('g1/g1.2/o4'); s.allKeys()" << fileName, "g1/o3\no1\no2\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginWriteArray('a1', 3); s.setArrayIndex(1); s.setValue('o1', 'v1'); s.endArray()" << fileName, "");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginReadArray('a1')" << fileName, "3\n");
+    RUN("eval" << "s=Settings(str(arguments[1])); s.beginReadArray('a1'); s.setArrayIndex(1); s.value('o1');" << fileName, "v1\n");
+
+    RUN("eval" << "s=Settings(str(arguments[1])); s.clear(); s.allKeys()" << fileName, "");
+
+    QVERIFY(QFile::remove(fileName));
+    QVERIFY(!QFile::exists(fileName));
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o1', 1); s.sync(); File(str(arguments[1])).exists()" << fileName, "true\n");
+    QVERIFY(QFile::exists(fileName));
+
+    QVERIFY(QFile::remove(fileName));
+    QVERIFY(!QFile::exists(fileName));
+    RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o1', 1)" << fileName, "");
+    QVERIFY(QFile::exists(fileName));
+
+    const QString appConfigFileName = AppConfig().settings().fileName().remove(QStringLiteral("-bak"));
+    RUN("Settings().fileName()", QStringLiteral("%1\n").arg(appConfigFileName));
+    RUN("Settings().value('Options/tabs')", QStringLiteral("%1\n").arg(clipboardTabName));
+}
+
 void Tests::calledWithInstance()
 {
     // These would fail with the old deprecated Qt Script module.
@@ -2457,14 +2541,17 @@ void Tests::searchItems()
 
 void Tests::searchItemsAndSelect()
 {
-    RUN("add" << "xx2" << "a" << "xx" << "c", "");
+    RUN("add" << "xx1" << "a" << "xx2" << "c" << "xx3" << "d", "");
     RUN("keys" << ":xx" << filterEditId, "");
-
-    RUN("keys" << filterEditId << "DOWN" << clipboardBrowserId, "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
 
-    RUN("keys" << clipboardBrowserId << "DOWN" << clipboardBrowserId, "");
+    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
     RUN("testSelected", QString(clipboardTabName) + " 3 3\n");
+
+    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
+    RUN("testSelected", QString(clipboardTabName) + " 5 5\n");
+
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
 }
 
 void Tests::searchRowNumber()
@@ -2862,6 +2949,7 @@ void Tests::nextPrevious()
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
     RUN(args << "add" << "C" << "B" << "A", "");
+    RUN("setCurrentTab" << tab, "");
 
     RUN(args << "next", "");
     WAIT_FOR_CLIPBOARD("B");
@@ -3806,6 +3894,33 @@ void Tests::displayCommand()
                 .toUtf8() );
 }
 
+void Tests::synchronizeInternalCommands()
+{
+    // Keep internal commands synced with the latest version
+    // but allow user to change some attributes.
+    const auto script = R"(
+        setCommands([
+            {
+                internalId: 'copyq_global_toggle',
+                enable: false,
+                icon: 'icon.png',
+                shortcuts: ['Ctrl+F1'],
+                globalShortcuts: ['Ctrl+F2'],
+                name: 'Old name',
+                cmd: 'Old command',
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("commands()[0].internalId", "copyq_global_toggle\n");
+    RUN("commands()[0].enable", "false\n");
+    RUN("commands()[0].icon", "icon.png\n");
+    RUN("commands()[0].shortcuts", "Ctrl+F1\n");
+    RUN("commands()[0].globalShortcuts", "Ctrl+F2\n");
+    RUN("commands()[0].name", "Show/hide main window\n");
+    RUN("commands()[0].cmd", "copyq: toggle()\n");
+}
+
 void Tests::queryKeyboardModifiersCommand()
 {
     RUN("queryKeyboardModifiers()", "");
@@ -4190,11 +4305,6 @@ void Tests::startServerAndRunCommand()
 {
     RUN("--start-server" << "tab" << testTab(1) << "write('TEST');read(0)", "TEST");
 
-#ifdef Q_OS_MAC
-    SKIP("FIXME: For some reason the server is not started again on macOS");
-#elif defined(Q_OS_WIN)
-    SKIP("FIXME: For some reason the server is not stopped reliably on Windows");
-#endif
     TEST( m_test->stopServer() );
 
     QByteArray stdoutActual;
@@ -4212,6 +4322,10 @@ void Tests::startServerAndRunCommand()
     // client connection.
     QCOMPARE( run(Args("--start-server") << "exit();sleep(10000)", &stdoutActual, &stderrActual), 0 );
     QCOMPARE(stdoutActual, "Terminating server.\n");
+
+    // Try to start new client.
+    SleepTimer t(10000);
+    while ( run(Args("exit();sleep(10000)")) == 0 && t.sleep() ) {}
 }
 
 int Tests::run(
@@ -4225,7 +4339,7 @@ bool Tests::hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
-    return splitLines(QString::fromUtf8(out)).contains(tabName);
+    return splitLines(out).contains(tabName);
 }
 
 int runTests(int argc, char *argv[])
@@ -4255,6 +4369,7 @@ int runTests(int argc, char *argv[])
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
     Settings::canModifySettings = true;
+    initLogging();
 
     // Set higher default tests timeout.
     // The default value is 5 minutes (in Qt 5.15) which is not enough to run
@@ -4271,6 +4386,7 @@ int runTests(int argc, char *argv[])
     if (onlyPlugins.pattern().isEmpty()) {
         test->setupTest("CORE", QVariant());
         exitCode = test->runTests(&tc, argc, argv);
+        test->stopServer();
     }
 
     if (runPluginTests) {

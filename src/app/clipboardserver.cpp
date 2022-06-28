@@ -46,6 +46,7 @@
 #include <QAction>
 #include <QApplication>
 #include <QApplicationStateChangeEvent>
+#include <QFile>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMessageBox>
@@ -101,9 +102,9 @@ void setTabWidth(QTextEdit *editor, int spaces)
 void migrateCommands(const QString &commandConfigPath)
 {
     Settings oldSettings;
-    const auto oldCommands = loadCommands(oldSettings.settingsData());
+    const auto oldCommands = loadCommands(&oldSettings.constSettingsData());
 
-    const QString commandConfigPathNew = commandConfigPath + ".new";
+    const QString commandConfigPathNew = commandConfigPath + QStringLiteral(".new");
     {
         Settings newSettings(commandConfigPathNew);
         saveCommands(oldCommands, newSettings.settingsData());
@@ -134,10 +135,14 @@ void restoreConfiguration()
     Settings().restore();
 
     const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
-    if ( QFile::exists(commandConfigPath) )
+    if ( QFile::exists(commandConfigPath) ) {
+        const QString staleCommandConfigPathBakup =
+            commandConfigPath + QStringLiteral(".new.bak");
+        QFile::remove(staleCommandConfigPathBakup);
         Settings(commandConfigPath).restore();
-    else
+    } else {
         migrateCommands(commandConfigPath);
+    }
 }
 
 } // namespace
@@ -177,7 +182,11 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
             QString::fromLatin1("CopyQ-%1").arg(sessionName));
     }
 
+    QGuiApplication::setDesktopFileName(QStringLiteral("com.github.hluk.copyq"));
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+#endif
 
     QApplication::setQuitOnLastWindowClosed(false);
 
@@ -202,7 +211,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     connect( qApp, &QGuiApplication::commitDataRequest, this, &ClipboardServer::onCommitData );
     connect( qApp, &QGuiApplication::saveStateRequest, this, &ClipboardServer::onSaveState );
-#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     qApp->setFallbackSessionManagementEnabled(false);
 #endif
 
@@ -220,8 +229,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
-    AppConfig appConfig;
-    loadSettings(&appConfig);
+    {
+        AppConfig appConfig;
+        loadSettings(&appConfig);
+    }
 
     m_wnd->setCurrentTab(0);
     m_wnd->enterBrowseMode();
@@ -702,7 +713,7 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
 
     COPYQ_LOG("Loading configuration");
 
-    QSettings settings;
+    QSettings &settings = appConfig->settings().constSettingsData();
 
     m_sharedData->itemFactory->loadItemFactorySettings(&settings);
 

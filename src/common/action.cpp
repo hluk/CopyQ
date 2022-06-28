@@ -29,9 +29,8 @@
 #include <QEventLoop>
 #include <QPointer>
 #include <QProcessEnvironment>
+#include <QRegularExpression>
 #include <QTimer>
-
-#include <cstring>
 
 namespace {
 
@@ -55,10 +54,16 @@ void appendAndClearNonEmpty(Entry &entry, Container &containter)
     }
 }
 
-bool getScriptFromLabel(const char *label, const QStringRef &cmd, QString *script)
+bool getScriptFromLabel(const char *labelStr, const QString &cmd, int i, QString *script)
 {
-    if ( cmd.startsWith(label) ) {
-        *script = cmd.string()->mid( cmd.position() + static_cast<int>(strlen(label)) );
+    const QLatin1String label(labelStr);
+#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
+    const auto mid = cmd.midRef(i, label.size());
+#else
+    const auto mid = QStringView(cmd).mid(i, label.size());
+#endif
+    if (mid == label) {
+        *script = cmd.mid(i + label.size());
         return true;
     }
 
@@ -76,6 +81,10 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     QChar quote;
     bool escape = false;
     bool percent = false;
+
+    // Ignore escape sequences if command starts with an unescaped Windows path.
+    const QRegularExpression reUnescapedWindowsPath(R"(^\s*['"]?[a-zA-Z]:\\[^\\])");
+    const bool allowEscape = !cmd.contains(reUnescapedWindowsPath);
 
     for (int i = 0; i < cmd.size(); ++i) {
         const QChar &c = cmd[i];
@@ -100,7 +109,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
             } else {
                 arg.append(c);
             }
-        } else if (c == '\\') {
+        } else if (allowEscape && c == '\\') {
             escape = true;
         } else if (!quote.isNull()) {
             if (quote == c) {
@@ -133,18 +142,17 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
         } else {
             if ( arg.isEmpty() && command.isEmpty() ) {
                 // Treat command as script if known label is present.
-                const QStringRef cmd1 = cmd.midRef(i);
-                if ( getScriptFromLabel("copyq:", cmd1, &script) )
+                if ( getScriptFromLabel("copyq:", cmd, i, &script) )
                     command << "copyq" << "eval" << "--" << script;
-                else if ( getScriptFromLabel("sh:", cmd1, &script) )
+                else if ( getScriptFromLabel("sh:", cmd, i, &script) )
                     command << "sh" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("bash:", cmd1, &script) )
+                else if ( getScriptFromLabel("bash:", cmd, i, &script) )
                     command << "bash" << "-c" << "--" << script << "--";
-                else if ( getScriptFromLabel("perl:", cmd1, &script) )
+                else if ( getScriptFromLabel("perl:", cmd, i, &script) )
                     command << "perl" << "-e" << script << "--";
-                else if ( getScriptFromLabel("python:", cmd1, &script) )
+                else if ( getScriptFromLabel("python:", cmd, i, &script) )
                     command << "python" << "-c" << script;
-                else if ( getScriptFromLabel("ruby:", cmd1, &script) )
+                else if ( getScriptFromLabel("ruby:", cmd, i, &script) )
                     command << "ruby" << "-e" << script << "--";
 
                 if ( !script.isEmpty() ) {

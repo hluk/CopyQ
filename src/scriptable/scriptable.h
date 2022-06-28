@@ -43,7 +43,6 @@ class QMimeData;
 class QNetworkReply;
 class QNetworkAccessManager;
 class QJSEngine;
-class QTextCodec;
 
 enum class ClipboardOwnership;
 
@@ -72,7 +71,7 @@ class Scriptable final : public QObject
 
     Q_PROPERTY(QJSValue _copyqUncaughtException READ uncaughtException WRITE setUncaughtException)
     Q_PROPERTY(QJSValue _copyqHasUncaughtException READ hasUncaughtException)
-    Q_PROPERTY(QJSValue _initItemSelection WRITE initItemSelection)
+    Q_PROPERTY(QJSValue _initItemSelection READ getUndefined WRITE initItemSelection)
 
 public:
     explicit Scriptable(
@@ -425,7 +424,6 @@ private:
     QJSValue screenshot(bool select);
     QByteArray serialize(const QJSValue &value);
     QJSValue eval(const QString &script);
-    QTextCodec *codecFromNameOrThrow(const QJSValue &codecName);
     bool runAction(Action *action);
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);
@@ -450,7 +448,7 @@ private:
     QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
     bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
-    void synchronizeSelection(ClipboardMode targetMode);
+    bool canSynchronizeSelection(ClipboardMode targetMode);
 
     void saveData(const QString &tab);
 
@@ -464,6 +462,7 @@ private:
     NetworkReply *networkGetHelper();
     NetworkReply *networkPostHelper();
 
+    QJSValue getUndefined () { return {}; }
     QJSValue initItemSelection(const QJSValue &obj);
 
     ScriptableProxy *m_proxy;

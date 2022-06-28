@@ -46,6 +46,7 @@ int notificationMargin()
     return pointsToPixels(notificationMarginPoints);
 }
 
+#ifdef WITH_NATIVE_NOTIFICATIONS
 bool hasNativeNotifications()
 {
 #ifdef Q_OS_WIN
@@ -56,6 +57,7 @@ bool hasNativeNotifications()
     return true;
 #endif
 }
+#endif
 
 } // namespace
 

@@ -119,7 +119,7 @@ public:
         return &m_settings;
     }
 
-    const QSettings &constSettingsData() { return m_settings; }
+    QSettings &constSettingsData() { return m_settings; }
 
     Settings(const Settings &) = delete;
     Settings &operator=(const Settings &) = delete;

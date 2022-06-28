@@ -58,3 +58,7 @@ CMakeLists.txt.user*
 
 # Visual Studio Code
 /.vscode
+
+# Files for utils/launchpad/build.sh
+.gitconfig
+launchpad.key

@@ -44,6 +44,7 @@ using namespace FakeVim::Internal;
 #include <QPushButton>
 #include <QAbstractTextDocumentLayout>
 #include <QScrollBar>
+#include <QSettings>
 #include <QStyle>
 #include <QStyleHints>
 #include <QtPlugin>
@@ -53,6 +54,9 @@ using namespace FakeVim::Internal;
 namespace {
 
 const char propertyWrapped[] = "CopyQ_fakevim_wrapped";
+
+QLatin1String configReallyEnabled("really_enable");
+QLatin1String configSourceFile("source_file");
 
 // The same method for rendering document doesn't work for QPlainTextEdit.
 // This is simplified code from Qt source code.
@@ -771,19 +775,16 @@ void ItemFakeVimLoader::setEnabled(bool enabled)
     updateCurrentlyEnabledState();
 }
 
-QVariantMap ItemFakeVimLoader::applySettings()
+void ItemFakeVimLoader::applySettings(QSettings &settings)
 {
-    QVariantMap settings;
-    settings["really_enable"] = m_reallyEnabled = ui->checkBoxEnable->isChecked();
-    settings["source_file"] = m_sourceFileName = ui->lineEditSourceFileName->text();
-
-    return settings;
+    settings.setValue(configReallyEnabled, ui->checkBoxEnable->isChecked());
+    settings.setValue(configSourceFile, ui->lineEditSourceFileName->text());
 }
 
-void ItemFakeVimLoader::loadSettings(const QVariantMap &settings)
+void ItemFakeVimLoader::loadSettings(const QSettings &settings)
 {
-    m_reallyEnabled = settings.value("really_enable", false).toBool();
-    m_sourceFileName = settings.value("source_file").toString();
+    m_reallyEnabled = settings.value(configReallyEnabled, false).toBool();
+    m_sourceFileName = settings.value(configSourceFile).toString();
     updateCurrentlyEnabledState();
 }
 

@@ -45,15 +45,16 @@ public:
 
     void setTabItemCount(const QString &tabName, const QString &itemCount) override;
 
-    void updateTabIcon(const QString &tabName) override;
+    void setTabIcon(int index, const QString &icon);
+    void setTabIcon(const QString &tabName, const QString &icon) override;
 
     void insertTab(int index, const QString &tabName) override;
     void removeTab(int index) override;
 
-    void updateCollapsedTabs(QStringList *) const override {}
-    void setCollapsedTabs(const QStringList &) override {}
+    void updateCollapsedTabs(QList<QString> *) const override {}
+    void setCollapsedTabs(const QList<QString> &) override {}
 
-    void updateTabIcons() override;
+    void updateTabIcons(const QHash<QString, QString> &tabIcons) override;
 
     void nextTab() override;
     void previousTab() override;

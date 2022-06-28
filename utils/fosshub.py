@@ -2,6 +2,8 @@
 """
 Create new release and upload files to FossHUB.
 
+Get the API key from: https://devzone.fosshub.com/dashboard/profile
+
 USAGE: ./fosshub.py <VERSION> <API_KEY>
 """
 import requests
@@ -11,8 +13,8 @@ project_id = '5c1195728c9fe8186f80a14b'
 fosshub_new_release_url = 'https://api.fosshub.com/rest/projects/{project_id}/releases/'.format(project_id=project_id)
 github_release_url = 'https://github.com/hluk/CopyQ/releases/download/v{version}/{basename}'
 files = {
-    'copyq-v{version}-setup.exe': 'Windows Installer',
-    'copyq-v{version}.zip': 'Windows Portable',
+    'copyq-{version}-setup.exe': 'Windows Installer',
+    'copyq-{version}.zip': 'Windows Portable',
     'CopyQ.dmg.zip': 'macOS',
 }
 

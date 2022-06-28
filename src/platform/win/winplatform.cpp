@@ -31,6 +31,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QKeyEvent>
+#include <QMetaObject>
 #include <QSettings>
 #include <QStringList>
 #include <QWidget>
@@ -71,33 +72,43 @@ QString portableConfigFolder()
     return fullPath;
 }
 
+void uninstallControlHandler();
+
+BOOL appQuit()
+{
+    uninstallControlHandler();
+    const bool invoked = QMetaObject::invokeMethod(
+        QCoreApplication::instance(), "quit", Qt::BlockingQueuedConnection);
+    if (!invoked) {
+        log("Failed to request application exit", LogError);
+        return FALSE;
+    }
+    ExitProcess(EXIT_SUCCESS);
+    return TRUE;
+}
+
 BOOL ctrlHandler(DWORD fdwCtrlType)
 {
     switch (fdwCtrlType) {
     case CTRL_C_EVENT:
-        COPYQ_LOG("Terminating application on signal.");
-        QCoreApplication::exit();
-        return TRUE;
+        log("Terminating application on signal.");
+        return appQuit();
 
     case CTRL_CLOSE_EVENT:
-        COPYQ_LOG("Terminating application on close event.");
-        QCoreApplication::exit();
-        return TRUE;
+        log("Terminating application on close event.");
+        return appQuit();
 
     case CTRL_BREAK_EVENT:
-        COPYQ_LOG("Terminating application on break event.");
-        QCoreApplication::exit();
-        return TRUE;
+        log("Terminating application on break event.");
+        return appQuit();
 
     case CTRL_LOGOFF_EVENT:
-        COPYQ_LOG("Terminating application on log off.");
-        QCoreApplication::exit();
-        return TRUE;
+        log("Terminating application on log off.");
+        return appQuit();
 
     case CTRL_SHUTDOWN_EVENT:
-        COPYQ_LOG("Terminating application on shut down.");
-        QCoreApplication::exit();
-        return TRUE;
+        log("Terminating application on shut down.");
+        return appQuit();
 
     default:
         return FALSE;
@@ -108,6 +119,11 @@ void installControlHandler()
 {
     if ( !SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(ctrlHandler), TRUE) )
         log("Failed to set Windows control handler.", LogError);
+}
+
+void uninstallControlHandler()
+{
+    SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(ctrlHandler), FALSE);
 }
 
 template <typename Application>

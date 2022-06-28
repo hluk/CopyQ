@@ -88,7 +88,7 @@ void ItemPinned::paintEvent(QPaintEvent *paintEvent)
                 );
 
     QPainter painter(this);
-    const int border = pointsToPixels(6);
+    const int border = pointsToPixels(6, this);
     const QRect rect(width() - border, 0, width(), height());
     painter.setOpacity(0.15);
     painter.fillRect(rect, color);
@@ -100,7 +100,7 @@ void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
     setMaximumWidth(maximumSize.width());
-    const int border = pointsToPixels(12);
+    const int border = pointsToPixels(12, this);
     const int childItemWidth = idealWidth - border;
     const auto childItemMaximumSize = QSize(maximumSize.width() - border, maximumSize.height());
     ItemWidgetWrapper::updateSize(childItemMaximumSize, childItemWidth);
@@ -168,10 +168,9 @@ QString ItemPinnedScriptable::getMimePinned() const
     return ::mimePinned;
 }
 
-ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, QVariantMap &settings, const ItemSaverPtr &saver)
+ItemPinnedSaver::ItemPinnedSaver(QAbstractItemModel *model, const ItemSaverPtr &saver)
     : ItemSaverWrapper(saver)
     , m_model(model)
-    , m_settings(settings)
 {
     connect( model, &QAbstractItemModel::rowsInserted,
              this, &ItemPinnedSaver::onRowsInserted );
@@ -328,16 +327,6 @@ QStringList ItemPinnedLoader::formatsToSave() const
     return QStringList() << mimePinned;
 }
 
-QVariantMap ItemPinnedLoader::applySettings()
-{
-    return m_settings;
-}
-
-QWidget *ItemPinnedLoader::createSettingsWidget(QWidget *parent)
-{
-    return new QWidget(parent);
-}
-
 ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMap &data)
 {
     return data.contains(mimePinned) ? new ItemPinned(itemWidget) : nullptr;
@@ -345,7 +334,7 @@ ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMa
 
 ItemSaverPtr ItemPinnedLoader::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model)
 {
-    return std::make_shared<ItemPinnedSaver>(model, m_settings, saver);
+    return std::make_shared<ItemPinnedSaver>(model, saver);
 }
 
 QObject *ItemPinnedLoader::tests(const TestInterfacePtr &test) const
@@ -371,6 +360,7 @@ QVector<Command> ItemPinnedLoader::commands() const
     Command c;
 
     c = dummyPinCommand();
+    c.internalId = QStringLiteral("copyq_pinned_pin");
     c.name = tr("Pin");
     c.input = "!OUTPUT";
     c.output = mimePinned;
@@ -378,6 +368,7 @@ QVector<Command> ItemPinnedLoader::commands() const
     commands.append(c);
 
     c = dummyPinCommand();
+    c.internalId = QStringLiteral("copyq_pinned_unpin");
     c.name = tr("Unpin");
     c.input = mimePinned;
     c.cmd = "copyq: plugins.itempinned.unpin()";

@@ -35,12 +35,17 @@ struct Ext;
 struct BaseNameExtensions;
 
 #define COPYQ_MIME_PREFIX_ITEMSYNC COPYQ_MIME_PREFIX "itemsync-"
+#define COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE COPYQ_MIME_PREFIX "itemsync-private-"
 extern const QLatin1String mimeExtensionMap;
 extern const QLatin1String mimeBaseName;
 extern const QLatin1String mimeNoSave;
 extern const QLatin1String mimeSyncPath;
 extern const QLatin1String mimeNoFormat;
 extern const QLatin1String mimeUnknownFormats;
+
+extern const QLatin1String mimePrivatePrefix;
+extern const QLatin1String mimeOldBaseName;
+extern const QLatin1String mimeHashPrefix;
 
 struct FileFormat {
     bool isValid() const { return !extensions.isEmpty(); }
@@ -100,25 +105,13 @@ private:
 
     void onRowsRemoved(const QModelIndex &, int first, int last);
 
-    struct IndexData {
-        QPersistentModelIndex index;
-        QString baseName;
-        QMap<QString, Hash> formatHash;
+    void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
 
-        IndexData() {}
-        explicit IndexData(const QModelIndex &index) : index(index) {}
-        bool operator==(const QModelIndex &otherIndex) const { return otherIndex == index; }
-    };
-
-    using IndexDataList = QVector<IndexData>;
-
-    IndexDataList::iterator findIndexData(const QModelIndex &index);
-
-    IndexData &indexData(const QModelIndex &index);
+    QString oldBaseName(const QModelIndex &index) const;
 
     void createItems(const QVector<QVariantMap> &dataMaps, int targetRow);
 
-    void updateIndexData(const QModelIndex &index, const QVariantMap &itemData);
+    void updateIndexData(const QModelIndex &index, QVariantMap *itemData);
 
     QList<QPersistentModelIndex> indexList(int first, int last);
 
@@ -138,12 +131,11 @@ private:
     const QList<FileFormat> &m_formatSettings;
     QString m_path;
     bool m_valid;
-    IndexDataList m_indexData;
     int m_maxItems;
     bool m_updatesEnabled = false;
     qint64 m_lastUpdateTimeMs = 0;
 
-    IndexDataList m_batchIndexData;
+    QList<QPersistentModelIndex> m_batchIndexData;
     BaseNameExtensionsList m_fileList;
     int m_lastBatchIndex = -1;
 };

@@ -20,8 +20,9 @@
 #ifndef TABSWIDGETINTERFACE_H
 #define TABSWIDGETINTERFACE_H
 
+#include <QtContainerFwd>
+
 class QString;
-class QStringList;
 
 class TabsWidgetInterface {
 public:
@@ -42,18 +43,18 @@ public:
 
     virtual void setTabItemCount(const QString &tabName, const QString &itemCount) = 0;
 
-    virtual void updateTabIcon(const QString &tabName) = 0;
+    virtual void setTabIcon(const QString &tabName, const QString &icon) = 0;
 
     virtual void insertTab(int tabIndex, const QString &tabName) = 0;
 
     /** Remove tab with given @a index. */
     virtual void removeTab(int index) = 0;
 
-    virtual void updateCollapsedTabs(QStringList *collapsedTabs) const = 0;
+    virtual void updateCollapsedTabs(QList<QString> *collapsedTabs) const = 0;
 
-    virtual void setCollapsedTabs(const QStringList &collapsedTabs) = 0;
+    virtual void setCollapsedTabs(const QList<QString> &collapsedTabs) = 0;
 
-    virtual void updateTabIcons() = 0;
+    virtual void updateTabIcons(const QHash<QString, QString> &tabIcons) = 0;
 
     virtual void nextTab() = 0;
     virtual void previousTab() = 0;

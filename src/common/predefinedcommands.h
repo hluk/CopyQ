@@ -20,9 +20,9 @@
 #ifndef PREDEFINEDCOMMANDS_H
 #define PREDEFINEDCOMMANDS_H
 
-#include <QVector>
+#include "common/command.h"
 
-struct Command;
+#include <QtContainerFwd>
 
 QVector<Command> predefinedCommands();
 

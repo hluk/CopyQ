@@ -25,6 +25,14 @@ SolidCompression=yes
 SetupIconFile={#Source}\src\images\icon.ico
 WizardImageFile=logo.bmp
 WizardSmallImageFile=logo-small.bmp
+CloseApplications=force
+
+VersionInfoDescription=CopyQ installer
+VersionInfoProductName=CopyQ {#AppVersion}
+VersionInfoVersion={#AppVersion}
+UninstallDisplayName=CopyQ {#AppVersion}
+UninstallDisplayIcon={#Root}\copyq.exe
+AppCopyright=(c) Lukas Holecek
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
@@ -77,9 +85,9 @@ it.PluginWeb=Pagine web
 it.PluginNotes=Note
 it.PluginEncrypted=Criptazione
 it.PluginFakeVim=Editor FakeVim
-it.PluginSynchronize=Sincronizza elementi nel disco
-it.PluginTags=Tag elementi
-
+it.PluginSynchronize=Sincronizza elementi disco
+it.PluginTags=Etichette elementi
+it.PluginPinned=Elementi bloccati
 
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"

@@ -63,9 +63,12 @@ On **Fedora** and derivatives you can install all build dependencies with:
       extra-cmake-modules \
       gcc-c++ \
       git \
+      kf5-knotifications-devel \
+      libSM-devel \
       libXfixes-devel \
       libXtst-devel \
       qt5-qtbase-devel \
+      qt5-qtbase-private-devel \
       qt5-qtdeclarative-devel \
       qt5-qtsvg-devel \
       qt5-qttools-devel \
@@ -121,7 +124,12 @@ On OS X, required Qt 5 libraries and utilities can be easily installed with `Hom
 
 ::
 
-    brew install qt5
+    cd CopyQ
+    git -C "utils/github/homebrew" init .
+    git -C "utils/github/homebrew" add .
+    git -C "utils/github/homebrew" commit -m "Initial"
+    brew tap copyq/kde utils/github/homebrew/
+    brew install qt5 copyq/kde/kf5-knotifications
 
 Build with the following commands:
 

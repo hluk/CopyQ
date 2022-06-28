@@ -1,3 +1,250 @@
+# 6.2.0
+
+## Added
+
+- Tabs can now load at least some items from a partially corrupted data file
+  dropping the rest of the items.
+
+- Simpler and safer data saving uses Qt framework (`QSaveFile`).
+
+- New `Settings` class in scripts can be used to manage INI configuration
+  files (#1964).
+
+## Changed
+
+- Obscure untested Save button has been removed from Action dialog.
+
+## Fixed
+
+- Fixes restoring window geometry in a loop (#1946).
+
+- Fixes converting internal byte array representation in scripts in some rare
+  cases.
+
+- Windows: Fixes exiting the app on logout (#1249).
+
+- Windows: Workaround to treat native path separators properly and not as
+  special escape characters.
+
+# 6.1.0
+
+## Added
+
+- Users can now customize shortcuts for the built-in editor (#708).
+
+- Users can now set default style sheet for HTML items to override for example
+  color for hyperlinks with `a { color: lightblue }` (#1859). The new settings
+  can be found under Item configuration tab under Text sub-tab.
+
+## Changed
+
+- Window geometry (size and position) restoring is now simpler: The app sets
+  geometry only initially and when the current screen/monitor changes.
+
+  The mouse cursor position indicates the current screen. In case the app
+  cannot inspect the mouse pointer position (for example on some Wayland
+  compositors), it is left up to the window manager to decide to move the
+  window to another screen.
+
+  Users can still disable the automatic geometry by running the following
+  command (in Action dialog or terminal) and restarting the app:
+
+      copyq config restore_geometry false
+
+## Fixed
+
+- Fixes moving items in synchronized tabs after activating them from the
+  context menu (#1897).
+
+- Windows: Fixes tray icon tooltip (#1864).
+
+- Windows: External editor command now treats native path separators properly
+  (#1894, #1868).
+
+- macOS: Fixes crash when pasting from the main window or menu (#1847).
+
+- macOS: Older versions of macOS (down to 10.15) are now supported again
+  (#1866).
+
+- Wayland: Fixes using correct window title icon (#1910).
+
+- Wayland: Fixes retrieving UTF-8 encoded text from selection in environments
+  which supports it.
+
+- Wayland: Fixes restoring window size without breaking window position (window
+  position cannot be set in most or all Wayland compositors).
+
+# 6.0.1
+
+## Fixed
+
+- X11: Fixes global/system-wide shortcuts (#1860).
+
+# 6.0.0
+
+## Added
+
+- Native notifications now have lower urgency if the display interval is less
+  than 10 seconds. This makes clipboard change notification less intrusive.
+
+- Preview dock can be focused with Tab key (#1826). Escape, Tab or Shift+Tab
+  returns focus back to the item list.
+
+- All options are now documented/described when using command `copyq config`.
+
+- Command editor now supports highlighting multi-line strings enclosed by
+  backticks (#1845).
+
+- New option to disable restoring window/dialog geometry (app needs to be
+  restarted after changing the option):
+
+      copyq config restore_geometry false
+
+- macOS: New option to enable native tray menu (#1652):
+
+      copyq config native_tray_menu true
+
+- Support for building the source code with Qt 6 framework.
+
+## Changed
+
+- While search bar is focused, pressing Down or PageDown key now selects next
+  item without focusing the item list (#1834).
+
+- Internal commands (like ""Show/hide main window", Pin/Unpin, Encrypt/Decrypt)
+  will now be automatically updated in following application releases or
+  whenever the language changes. The side-effect is that only icon, shortcuts,
+  enabled state and list order can be changed for these commands. Old internal
+  commands added in previous versions (5.0.0 and lower) of the app need to be
+  removed manually.
+
+- Increases the default delay for storing changed clipboard owner. This can
+  help save correct window title for new clipboard content when the window is
+  closed right after the copy operation. The delay can be changed using:
+
+      copyq config change_clipboard_owner_delay_ms 500
+
+- The application version now excludes the "v" prefix in UI and CLI.
+
+- Log Qt warnings by default (at Warning log level messages).
+
+- Linux: Other data formats are now stored for primary selection so as to
+  support some automatic commands properly (for example, ignore selection when
+  it contains a special format). Images and non-plain text formats are still
+  ignored for performance reasons.
+
+## Fixed
+
+- Drag'n'drop operations are now properly ended (#1809).
+
+- Main window will now open only inside the visible screen area (#1768).
+
+- "Clear Current Tab" command will no longer show a message dialog if there are
+  pinned items (#1823).
+
+- Improves initial size for native tray menu.
+
+- Fixes removing backup file for old commands configuration.
+
+- Fixes broken item selection state (#1828).
+
+- Fixes hiding main window immediately when shown. This can be caused by long
+  animations in window manager.
+
+- Further performance improvements for logging, application startup and file
+  synchronization.
+
+- Linux: Native status icon (using D-Bus) is used by default instead of the
+  legacy tray icon. Application start delay/sleep hacks should no longer be
+  needed (#1526).
+
+- Wayland: Improved clipboard access.
+
+- Wayland: Fixes selection/clipboard synchronization.
+
+- Windows: Any application instance is now closed automatically before
+  installation.
+
+# v5.0.0
+
+## Added
+
+- Search matches similar accented characters (#1318). For example, searching
+  for "vacsina" would also show items containing "väčšina".
+
+- If the clipboard tab is renamed, clipboard will be still stored in the
+  renamed tab. Similarly if a specific tab is set for tray menu. This basically
+  modifies `clipboard_tab`, `tray_tab` options when renaming tabs.
+
+- New predefined command to clear the current tab.
+
+- Tabs can be reordered in Preferences (in addition to tab bar/tree).
+
+- Tabs can be reordered from command line or a script. For example:
+
+      copyq 'config("tabs", ["&clipboard", "work", "study"])'
+
+- New buttons can move commands, tabs and plugins in configuration to top and
+  bottom with a single click. This previously required dragging item to the
+  top/bottom or multiple clicks on the move up/down buttons.
+
+- Script function `dialog()` supports non-editable combo box. For example:
+
+      var choice = dialog('.combo:Select', ['a', 'b', 'c'])
+
+- Script function `dialog()` restores last position and size of dialog
+  windows with matching title (set with `.title`).
+
+- Syntax highlighting for more script keywords.
+
+- New script class `ItemSelection` allows more powerful, consistent, safe and
+  fast handling of multiple items. Examples:
+
+      // move matching items to the top of the tab
+      ItemSelection().select(/^prefix/).move(0)
+
+      // remove all items from given tab but keep pinned items
+      ItemSelection(tabName).selectRemovable().removeAll();
+
+## Changed
+
+- Simpler lock file mechanism is used instead of a system semaphore and shared
+  memory lock (#1737). This allows to support more platforms.
+
+- Editor font from Appearance settings is used for the edit widget in Command
+  and Action dialogs (#1757).
+
+- Theme does not modify the scrollbar in item list by default (#1751).
+
+## Removed
+
+- Windows: Migrating old configuration from registry to file format is no
+  longer supported.
+
+## Fixed
+
+- Icons are rendered properly in About dialog. This uses correct icon font
+  from the app instead the one installed on the system.
+
+- Correct UI layout direction is used depending on the selected language
+  (#1696).
+
+- Automatic commands that use regular expressions for matching
+  window title or clipboard content are imported properly
+  (hluk/copyq-commands#45).
+
+- Native notifications are updated correctly when using existing notification
+  ID.
+
+- Bash completion script is installed to a correct path.
+
+- macOS: Fixes pasting/copying when using different keyboard layouts (#1733).
+
+- macOS: Avoids focusing own window before paste operation (#1601).
+
+- macOS: Tries to paste directly to the process ID if the window ID is not
+  available (#1395) (#1686).
+
 # v4.1.0
 
 - Old notification system can now be used instead of native/system

@@ -21,7 +21,6 @@
 #define CLIPBOARDBROWSER_H
 
 #include "common/clipboardmode.h"
-#include "common/command.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/theme.h"
 #include "item/clipboardmodel.h"
@@ -119,7 +118,7 @@ class ClipboardBrowser final : public QListView
         /** Remove items and return smallest row number (new current item if selection was removed). */
         int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
-        bool canRemoveItems(const QModelIndexList &indexes) const;
+        bool canRemoveItems(const QModelIndexList &indexes, QString *error = nullptr) const;
 
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
@@ -288,7 +287,11 @@ class ClipboardBrowser final : public QListView
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+        void enterEvent(QEnterEvent *event) override;
+#else
         void enterEvent(QEvent *event) override;
+#endif
 
         void doItemsLayout() override;
 
@@ -381,8 +384,6 @@ class ClipboardBrowser final : public QListView
         QModelIndex firstUnpinnedIndex() const;
 
         void dragDropScroll();
-
-        void setCurrentIndex(const QModelIndex &index);
 
         ItemSaverPtr m_itemSaver;
 

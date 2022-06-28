@@ -117,6 +117,7 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 
 #ifdef HAS_MOUSE_SELECTIONS
     if ( (mode == ClipboardMode::Clipboard ? m_clipboardToSelection : m_selectionToClipboard)
+        && m_clipboard->isSelectionSupported()
         && !data.contains(mimeOwner) )
     {
         const auto text = getTextData(data);

@@ -20,11 +20,11 @@
 #ifndef GLOBALSHORTCUTCOMMANDS_H
 #define GLOBALSHORTCUTCOMMANDS_H
 
-#include <QVector>
+#include "common/command.h"
+
+#include <QtContainerFwd>
 
 class QString;
-
-struct Command;
 
 QVector<Command> globalShortcutCommands();
 

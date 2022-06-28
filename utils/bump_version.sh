@@ -15,7 +15,7 @@ set -euo pipefail
 
 version=$1
 
-version_file=version.cmake
+version_file=src/version.cmake
 appdata_file=shared/com.github.hluk.copyq.appdata.xml
 itemwidget_file=src/item/itemwidget.h
 changes_file=CHANGES.md
@@ -29,7 +29,7 @@ check_version_format() {
 
 check_changes() {
     last_changes_version=$(head -1 "$changes_file")
-    if [[ "$last_changes_version" != "# v$version" ]]; then
+    if [[ "$last_changes_version" != "# $version" ]]; then
         echo "Update $changes_file first"
         exit 1
     fi
@@ -51,7 +51,7 @@ fix_file() {
 }
 
 fix_version_file() {
-    fix_file "$version_file" 'set(copyq_version "v%s")'
+    fix_file "$version_file" 'set(copyq_version "%s")'
 }
 
 fix_itemwidget() {

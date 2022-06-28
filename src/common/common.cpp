@@ -38,9 +38,16 @@
 #include <QObject>
 #include <QProcess>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <QThread>
 #include <QUrl>
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#   include <QTextCodec>
+using Encoding = QTextCodec*;
+#else
+#   include <QStringDecoder>
+using Encoding = std::optional<QStringConverter::Encoding>;
+#endif
 
 #ifdef COPYQ_WS_X11
 # include "platform/x11/x11platform.h"
@@ -88,7 +95,12 @@ private:
 
 class MimeData final : public QMimeData {
 protected:
-    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QVariant retrieveData(const QString &mimeType, QMetaType preferredType) const override
+#else
+    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override
+#endif
+    {
         COPYQ_LOG_VERBOSE( QString("Providing \"%1\"").arg(mimeType) );
         return QMimeData::retrieveData(mimeType, preferredType);
     }
@@ -292,25 +304,34 @@ bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeD
     return true;
 }
 
-QTextCodec *codecForText(const QByteArray &bytes)
+Encoding encodingForName(const char *name)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    return QTextCodec::codecForName(name);
+#else
+    return QStringConverter::encodingForName(name);
+#endif
+}
+
+Encoding encodingForText(const QByteArray &bytes)
 {
     // Guess unicode codec for text if BOM is missing.
     if (bytes.size() >= 2 && bytes.size() % 2 == 0) {
         if (bytes.size() >= 4 && bytes.size() % 4 == 0) {
             if (bytes.at(0) == 0 && bytes.at(1) == 0)
-                return QTextCodec::codecForName("utf-32be");
+                return encodingForName("utf-32be");
             if (bytes.at(2) == 0 && bytes.at(3) == 0)
-                return QTextCodec::codecForName("utf-32le");
+                return encodingForName("utf-32le");
         }
 
         if (bytes.at(0) == 0)
-            return QTextCodec::codecForName("utf-16be");
+            return encodingForName("utf-16be");
 
         if (bytes.at(1) == 0)
-            return QTextCodec::codecForName("utf-16le");
+            return encodingForName("utf-16le");
     }
 
-    return QTextCodec::codecForName("utf-8");
+    return encodingForName("utf-8");
 }
 
 bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariantMap &data)
@@ -321,6 +342,13 @@ bool findFormatsWithPrefix(bool hasPrefix, const QString &prefix, const QVariant
     }
 
     return !hasPrefix;
+}
+
+bool isBinaryImageFormat(const QString &format)
+{
+    return format.startsWith(QStringLiteral("image/"))
+           && !format.contains(QStringLiteral("xml"))
+           && !format.contains(QStringLiteral("svg"));
 }
 
 } // namespace
@@ -348,24 +376,22 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
      so these doesn't have to be ignored.
      */
     if ( formats.contains(mimeText) && data.hasText() ) {
-        const QString mimeImagePrefix = "image/";
         const auto first = std::remove_if(
-                    std::begin(formats), std::end(formats),
-                    [&mimeImagePrefix](const QString &format) {
-                        return format.startsWith(mimeImagePrefix)
-                            && !format.contains("xml")
-                            && !format.contains("svg");
-                    });
+            std::begin(formats), std::end(formats), isBinaryImageFormat);
         formats.erase(first, std::end(formats));
     }
 
     QStringList imageFormats;
     for (const auto &mime : formats) {
-        const QByteArray bytes = data.getUtf8Data(mime);
-        if ( bytes.isEmpty() )
+        if (isBinaryImageFormat(mime)) {
             imageFormats.append(mime);
-        else
-            newdata.insert(mime, bytes);
+        } else {
+            const QByteArray bytes = data.getUtf8Data(mime);
+            if ( bytes.isEmpty() )
+                imageFormats.append(mime);
+            else
+                newdata.insert(mime, bytes);
+        }
     }
 
     for (const auto &internalMime : internalMimeTypes) {
@@ -592,14 +618,25 @@ void renameToUnique(QString *name, const QStringList &names)
 
 QString dataToText(const QByteArray &bytes, const QString &mime)
 {
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     auto codec = (mime == mimeHtml)
             ? QTextCodec::codecForHtml(bytes, nullptr)
             : QTextCodec::codecForUtfText(bytes, nullptr);
 
     if (!codec)
-        codec = codecForText(bytes);
+        codec = encodingForText(bytes);
 
     return codec->toUnicode(bytes);
+#else
+    auto encoding = (mime == mimeHtml)
+            ? QStringConverter::encodingForHtml(bytes)
+            : QStringConverter::encodingForData(bytes);
+
+    if (!encoding)
+        encoding = encodingForText(bytes);
+
+    return QStringDecoder(*encoding).decode(bytes);
+#endif
 }
 
 bool isClipboardData(const QVariantMap &data)
@@ -670,8 +707,13 @@ void acceptDrag(QDropEvent *event)
     // Default drop action in item list and tab bar/tree should be "move."
     if ( event->possibleActions().testFlag(Qt::MoveAction)
          && event->mimeData()->hasFormat(mimeOwner)
+#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
          // WORKAROUND: Test currently pressed modifiers instead of the ones in event (QTBUG-57168).
-         && !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier) )
+         && !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier)
+#else
+         && !event->keyboardModifiers().testFlag(Qt::ControlModifier)
+#endif
+        )
     {
         event->setDropAction(Qt::MoveAction);
         event->accept();

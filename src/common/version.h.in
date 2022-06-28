@@ -1,6 +1,0 @@
-#ifndef VERSION_H
-#define VERSION_H
-
-#define COPYQ_VERSION "${copyq_version}"
-
-#endif // VERSION_H

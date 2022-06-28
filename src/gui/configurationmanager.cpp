@@ -48,7 +48,6 @@
 #include "item/itemwidget.h"
 #include "platform/platformnativeinterface.h"
 
-#include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 #include <QMessageBox>
@@ -317,12 +316,6 @@ void ConfigurationManager::initOptions()
     m_tabGeneral->checkBoxRunSel->hide();
 #endif
 
-    // values of last submitted action
-    bind<Config::action_has_input>();
-    bind<Config::action_has_output>();
-    bind<Config::action_separator>();
-    bind<Config::action_output_tab>();
-
     bind<Config::hide_main_window_in_task_bar>();
     bind<Config::max_process_manager_rows>();
     bind<Config::show_advanced_command_settings>();
@@ -340,6 +333,7 @@ void ConfigurationManager::initOptions()
     bind<Config::filter_case_insensitive>();
 
     bind<Config::native_menu_bar>();
+    bind<Config::native_tray_menu>();
 
     bind<Config::script_paste_delay_ms>();
 
@@ -350,11 +344,17 @@ void ConfigurationManager::initOptions()
     bind<Config::window_key_press_time_ms>();
     bind<Config::window_wait_for_modifier_released_ms>();
 
+    bind<Config::change_clipboard_owner_delay_ms>();
+
     bind<Config::style>();
 
     bind<Config::row_index_from_one>();
 
     bind<Config::tabs>();
+
+    bind<Config::restore_geometry>();
+
+    bind<Config::close_on_unfocus_delay_ms>();
 }
 
 template <typename Config, typename Widget>
@@ -366,7 +366,7 @@ void ConfigurationManager::bind(Widget *obj)
 template <typename Config>
 void ConfigurationManager::bind()
 {
-    bind(Config::name(), QVariant::fromValue(Config::defaultValue()));
+    bind(Config::name(), QVariant::fromValue(Config::defaultValue()), Config::description());
 }
 
 void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue)
@@ -389,9 +389,9 @@ void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, int de
     m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
 }
 
-void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue, const char *description)
 {
-    m_options[optionKey] = Option(defaultValue);
+    m_options[optionKey] = Option(defaultValue, description);
 }
 
 void ConfigurationManager::updateTabComboBoxes()
@@ -569,9 +569,7 @@ void ConfigurationManager::apply(AppConfig *appConfig)
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
-            const QVariantMap s = loader->applySettings();
-            for (auto it = s.constBegin(); it != s.constEnd(); ++it)
-                settings.setValue( it.key(), it.value() );
+            loader->applySettings(*settings.settingsData());
         }
 
         const bool isPluginEnabled = m_tabItems->isItemChecked(i);

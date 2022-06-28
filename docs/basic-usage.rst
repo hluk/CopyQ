@@ -10,6 +10,10 @@ To start CopyQ, double-click the program icon or run command ``copyq``.
 This starts the graphical interface which can be accessed from the tray (NOTE: on OS X the tray defaults to the top-right of the screen and is not to be confused with Launchpad).
 Click the tray icon to show application window or right-click the tray icon and select "Show/Hide" or run ``copyq show`` command.
 
+.. image:: images/copyq-show.png
+  :width: 400
+  :alt: copyq show
+  
 The central element in the application window is **item list** containing
 **clipboard history**. By default, the application **stores any new clipboard
 content** in the list.
@@ -51,6 +55,11 @@ Tray
 To quickly copy item to clipboard, you can select the item from tray
 menu. To display the menu either right-click on tray icon, run command
 ``copyq menu`` or use a custom system shortcut.
+
+.. image:: images/copyq-menu.png
+  :width: 400
+  :alt: copyq menu
+
 
 After selecting an item in tray menu and pressing enter (pressing a
 number key works as well), the item is copied to the clipboard.

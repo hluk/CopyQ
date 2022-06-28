@@ -26,9 +26,11 @@ class QString;
 class QVariant;
 class QWidget;
 
+const QString &getConfigurationFilePath();
+
 QString getConfigurationFilePath(const char *suffix);
 
-QString settingsDirectoryPath();
+const QString &settingsDirectoryPath();
 
 QVariant geometryOptionValue(const QString &optionName);
 void setGeometryOptionValue(const QString &optionName, const QVariant &value);

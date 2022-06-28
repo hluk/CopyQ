@@ -21,15 +21,16 @@
 
 #include "ui_configtabappearance.h"
 
+#include "common/config.h"
 #include "common/log.h"
 #include "gui/iconfont.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
 #include <QListView>
+#include <QScreen>
 #include <QSettings>
 #include <QStyleFactory>
 
@@ -234,7 +235,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 
 int itemMargin()
 {
-    const int dpi = QApplication::desktop()->physicalDpiX();
+    const int dpi = QGuiApplication::primaryScreen()->physicalDotsPerInchX();
     return std::max(2, dpi / 72);
 }
 
@@ -326,8 +327,11 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
     mainWindow->setStyleSheet(QString());
     mainWindow->setPalette(palette);
 
-    if ( !isMainWindowThemeEnabled() )
+    if ( !isMainWindowThemeEnabled() ) {
+        const QString cssTemplate = QStringLiteral("main_window_simple");
+        mainWindow->setStyleSheet(getStyleSheet(cssTemplate));
         return;
+    }
 
     const auto bg = color("bg");
     const auto fg = color("fg");
@@ -358,9 +362,9 @@ void Theme::decorateItemPreview(QAbstractScrollArea *itemPreview) const
     decorateBrowser(itemPreview);
 }
 
-QString Theme::getToolTipStyleSheet() const
+QString Theme::getMenuStyleSheet() const
 {
-    const QString cssTemplate = value("css_template_tooltip").toString();
+    const QString cssTemplate = value("css_template_menu").toString();
     return getStyleSheet(cssTemplate);
 }
 
@@ -536,7 +540,7 @@ void Theme::resetTheme()
     m_theme["css_template_items"] = Option("items");
     m_theme["css_template_main_window"] = Option("main_window");
     m_theme["css_template_notification"] = Option("notification");
-    m_theme["css_template_tooltip"] = Option("tooltip");
+    m_theme["css_template_menu"] = Option("menu");
 }
 
 void Theme::updateTheme()
@@ -607,17 +611,17 @@ QString Theme::parseStyleSheet(const QString &css, Values values, int maxRecursi
     for ( int i = 0; i < css.size(); ++i ) {
         const int a = css.indexOf(variableBegin, i);
         if (a == -1) {
-            output.append(css.midRef(i));
+            output.append(css.mid(i));
             break;
         }
 
         const int b = css.indexOf(variableEnd, a + variableBegin.size());
         if (b == -1) {
-            output.append(css.midRef(i));
+            output.append(css.mid(i));
             break;
         }
 
-        output.append(css.midRef(i, a - i));
+        output.append(css.mid(i, a - i));
         i = b + variableEnd.size() - 1;
 
         const QString name = css
@@ -746,10 +750,7 @@ QColor evalColor(const QString &expression, const Theme &theme, const Values &va
 
 QString defaultUserThemePath()
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    return QDir::cleanPath(settings.fileName() + "/../themes");
+    return QDir::cleanPath(settingsDirectoryPath() + "/themes");
 }
 
 QStringList themePaths()

@@ -154,6 +154,9 @@ private slots:
     void classDir();
     void classTemporaryFile();
     void classItemSelection();
+    void classItemSelectionGetCurrent();
+    void classItemSelectionByteArray();
+    void classSettings();
     void calledWithInstance();
 
     void pipingCommands();
@@ -259,6 +262,8 @@ private slots:
     void scriptCommandEndingWithComment();
     void scriptCommandWithError();
     void displayCommand();
+
+    void synchronizeInternalCommands();
 
     void queryKeyboardModifiersCommand();
     void pointerPositionCommand();

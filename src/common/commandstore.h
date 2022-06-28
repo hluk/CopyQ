@@ -20,11 +20,11 @@
 #ifndef COMMANDSTORE_H
 #define COMMANDSTORE_H
 
+#include "common/command.h"
+
 #include <QVector>
 
 class QSettings;
-
-struct Command;
 
 using Commands = QVector<Command>;
 

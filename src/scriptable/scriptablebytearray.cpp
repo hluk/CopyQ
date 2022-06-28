@@ -128,7 +128,7 @@ QString ScriptableByteArray::toLatin1String() const
 
 QJSValue ScriptableByteArray::length() const
 {
-    return m_self.length();
+    return static_cast<int>(m_self.length());
 }
 
 void ScriptableByteArray::setLength(QJSValue size)

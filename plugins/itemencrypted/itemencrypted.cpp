@@ -41,6 +41,7 @@
 #include <QIODevice>
 #include <QLabel>
 #include <QModelIndex>
+#include <QSettings>
 #include <QTextEdit>
 #include <QtPlugin>
 #include <QVBoxLayout>
@@ -51,6 +52,8 @@ const QLatin1String mimeEncryptedData("application/x-copyq-encrypted");
 
 const QLatin1String dataFileHeader("CopyQ_encrypted_tab");
 const QLatin1String dataFileHeaderV2("CopyQ_encrypted_tab v2");
+
+const QLatin1String configEncryptTabs("encrypt_tabs");
 
 const int maxItemCount = 10000;
 
@@ -579,7 +582,6 @@ QByteArray ItemEncryptedScriptable::decrypt(const QByteArray &bytes)
 
 ItemEncryptedLoader::ItemEncryptedLoader()
     : ui()
-    , m_settings()
     , m_gpgProcessStatus(GpgCheckIfInstalled)
     , m_gpgProcess(nullptr)
 {
@@ -603,11 +605,15 @@ QStringList ItemEncryptedLoader::formatsToSave() const
     return QStringList(mimeEncryptedData);
 }
 
-QVariantMap ItemEncryptedLoader::applySettings()
+void ItemEncryptedLoader::applySettings(QSettings &settings)
 {
     Q_ASSERT(ui != nullptr);
-    m_settings.insert( "encrypt_tabs", ui->plainTextEditEncryptTabs->toPlainText().split('\n') );
-    return m_settings;
+    settings.setValue( configEncryptTabs, ui->plainTextEditEncryptTabs->toPlainText().split('\n') );
+}
+
+void ItemEncryptedLoader::loadSettings(const QSettings &settings)
+{
+    m_encryptTabs = settings.value(configEncryptTabs).toStringList();
 }
 
 QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
@@ -617,7 +623,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     ui->setupUi(w);
 
     ui->plainTextEditEncryptTabs->setPlainText(
-                m_settings.value("encrypt_tabs").toStringList().join("\n") );
+        m_encryptTabs.join('\n') );
 
     if (status() != GpgNotInstalled) {
         KeyPairPaths keys;
@@ -657,9 +663,7 @@ bool ItemEncryptedLoader::canLoadItems(QIODevice *file) const
 
 bool ItemEncryptedLoader::canSaveItems(const QString &tabName) const
 {
-    const auto encryptTabNames = m_settings.value("encrypt_tabs").toStringList();
-
-    for (const auto &encryptTabName : encryptTabNames) {
+    for (const auto &encryptTabName : m_encryptTabs) {
         if ( encryptTabName.isEmpty() )
             continue;
 
@@ -793,6 +797,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     QVector<Command> commands;
 
     Command c;
+    c.internalId = QStringLiteral("copyq_encrypted_encrypt");
     c.name = ItemEncryptedLoader::tr("Encrypt (needs GnuPG)");
     c.icon = QString(QChar(IconLock));
     c.input = "!OUTPUT";
@@ -803,6 +808,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt");
     c.name = ItemEncryptedLoader::tr("Decrypt");
     c.icon = QString(QChar(IconUnlock));
     c.input = mimeEncryptedData;
@@ -813,6 +819,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_copy");
     c.name = ItemEncryptedLoader::tr("Decrypt and Copy");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;
@@ -822,6 +829,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     commands.append(c);
 
     c = Command();
+    c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_paste");
     c.name = ItemEncryptedLoader::tr("Decrypt and Paste");
     c.icon = QString(QChar(IconUnlockAlt));
     c.input = mimeEncryptedData;

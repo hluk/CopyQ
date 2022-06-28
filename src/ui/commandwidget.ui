@@ -48,7 +48,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QWidget" name="widget_2" native="true">
+    <widget class="QWidget" name="widgetCommandType" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_9">
       <item>
        <widget class="QLabel" name="label_2">
@@ -355,7 +355,7 @@
                   <property name="toolTip">
                    <string>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
-%2 through %9 in Command and Filter will be replaced with the catured texts.
+%2 through %9 in Command and Filter will be replaced with the captured texts.
 
 Examples:
 

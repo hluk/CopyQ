@@ -19,6 +19,8 @@
 
 #include "x11platform.h"
 
+#include "x11info.h"
+
 #include "app/applicationexceptionhandler.h"
 #include "common/log.h"
 #include "common/textdata.h"
@@ -30,12 +32,12 @@
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
-#include <QX11Info>
 
 #include "x11platformwindow.h"
 #include "x11platformclipboard.h"
 
 #include <X11/Xatom.h>
+#include <X11/Xlib.h>
 
 #include <memory>
 
@@ -111,7 +113,7 @@ X11Platform::~X11Platform() = default;
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return PlatformWindowPtr();
 
     std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(winId));
@@ -120,7 +122,7 @@ PlatformWindowPtr X11Platform::getWindow(WId winId)
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
 {
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return PlatformWindowPtr();
 
     std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow());
@@ -242,7 +244,7 @@ QCoreApplication *X11Platform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
-    if (QX11Info::isPlatformX11())
+    if (X11Info::isPlatformX11())
         old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
@@ -322,10 +324,10 @@ QString X11Platform::translationPrefix()
 
 void sendDummyX11Event()
 {
-    if (!QX11Info::isPlatformX11())
+    if (!X11Info::isPlatformX11())
         return;
 
-    auto display = QX11Info::display();
+    auto display = X11Info::display();
     auto black = BlackPixel(display, 0);
     Window window = XCreateSimpleWindow(
         display, RootWindow(display, 0), -100000, -100000, 1, 1, 0, black, black);

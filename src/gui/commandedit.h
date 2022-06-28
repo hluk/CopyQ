@@ -39,8 +39,6 @@ public:
 
     bool isEmpty() const;
 
-    QFont commandFont() const;
-
 signals:
     void changed();
     void commandTextChanged(const QString &command);

@@ -20,22 +20,23 @@
 #ifndef ITEMWIDGET_H
 #define ITEMWIDGET_H
 
+#include "common/command.h"
 #include "tests/testinterface.h"
 
 #include <QStringList>
+#include <QtContainerFwd>
 #include <QtPlugin>
 #include <QVariantMap>
-#include <QVector>
 #include <QWidget>
 
 #include <memory>
 
 class ItemFilter;
 class QAbstractItemModel;
-class QTextEdit;
 class QIODevice;
 class QModelIndex;
-struct Command;
+class QSettings;
+class QTextEdit;
 
 class ItemLoaderInterface;
 using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
@@ -46,7 +47,7 @@ using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 class ItemScriptableFactoryInterface;
 using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
 
-#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/4.1.0"
+#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/6.1.0"
 
 /**
  * Handles item in list.
@@ -306,14 +307,14 @@ public:
     /**
      * Save and return configuration values to save from current settings widget.
      */
-    virtual QVariantMap applySettings() { return QVariantMap(); }
+    virtual void applySettings(QSettings &) {}
 
     virtual void setEnabled(bool) {}
 
     /**
      * Load stored configuration values.
      */
-    virtual void loadSettings(const QVariantMap &) {}
+    virtual void loadSettings(const QSettings &) {}
 
     /**
      * Create settings widget.

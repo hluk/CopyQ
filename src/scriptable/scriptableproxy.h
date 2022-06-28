@@ -66,15 +66,15 @@ Q_DECLARE_METATYPE(ScriptablePath)
 Q_DECLARE_METATYPE(NotificationButtons)
 Q_DECLARE_METATYPE(QVector<QVariantMap>)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
-Q_DECLARE_METATYPE(Command)
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 Q_DECLARE_METATYPE(ClipboardMode)
+#endif
 
 QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
 QDataStream &operator>>(QDataStream &in, NotificationButton &button);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
-QDataStream &operator<<(QDataStream &out, const Command &command);
-QDataStream &operator>>(QDataStream &in, Command &command);
 QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
 QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
 QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
@@ -207,6 +207,7 @@ public slots:
     void selectionSelect(int id, const QVariant &maybeRe, const QString &mimeFormat);
     void selectionDeselectIndexes(int id, const QVector<int> &indexes);
     void selectionDeselectSelection(int id, int toDeselectId);
+    void selectionGetCurrent(int id);
     int selectionGetSize(int id);
     QString selectionGetTabName(int id);
     QVector<int> selectionGetRows(int id);

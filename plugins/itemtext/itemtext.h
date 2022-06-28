@@ -38,7 +38,14 @@ class ItemText final : public QTextEdit, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemText(const QString &text, const QString &richText, int maxLines, int lineLength, int maximumHeight, QWidget *parent);
+    ItemText(
+        const QString &text,
+        const QString &richText,
+        const QString &defaultStyleSheet,
+        int maxLines,
+        int lineLength,
+        int maximumHeight,
+        QWidget *parent);
 
 protected:
     void updateSize(QSize maximumSize, int idealWidth) override;
@@ -77,14 +84,17 @@ public:
 
     QStringList formatsToSave() const override;
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override { m_settings = settings; }
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
 private:
-    QVariantMap m_settings;
+    bool m_useRichText = true;
+    int m_maxLines = 0;
+    int m_maxHeight = 0;
+    QString m_defaultStyleSheet;
     std::unique_ptr<Ui::ItemTextSettings> ui;
 };
 

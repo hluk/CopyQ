@@ -37,9 +37,6 @@
 
 namespace {
 
-const char propertyCustomAction[] = "CopyQ_tray_menu_custom_action";
-const char propertyClipboardItemAction[] = "CopyQ_tray_menu_clipboard_item";
-
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 
 bool canActivate(const QAction &action)
@@ -81,7 +78,7 @@ TrayMenu::TrayMenu(QWidget *parent)
 {
     m_clipboardItemActionsSeparator = addSeparator();
     m_customActionsSeparator = addSeparator();
-    initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::updateActiveAction );
+    initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::doUpdateActiveAction );
     setAttribute(Qt::WA_InputMethodEnabled);
 }
 
@@ -92,7 +89,7 @@ void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
         setSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
 
     QAction *act = addAction(QString());
-    act->setProperty(propertyClipboardItemAction, true);
+    m_clipboardActions.append(act);
 
     act->setData(data);
 
@@ -147,13 +144,16 @@ void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
     }
 
     connect(act, &QAction::triggered, this, &TrayMenu::onClipboardItemActionTriggered);
-
-    updateActiveAction();
 }
 
 void TrayMenu::clearClipboardItems()
 {
-    clearActionsWithProperty(propertyClipboardItemAction);
+    const auto actions = m_clipboardActions;
+    m_clipboardActions = {};
+    for (QAction *action : actions) {
+        removeAction(action);
+        delete action;
+    }
 
     m_clipboardItemActionCount = 0;
 
@@ -164,18 +164,25 @@ void TrayMenu::clearClipboardItems()
 
 void TrayMenu::clearCustomActions()
 {
-    clearActionsWithProperty(propertyCustomAction);
+    const auto actions = m_customActions;
+    m_customActions = {};
+    for (QAction *action : actions) {
+        removeAction(action);
+        delete action;
+    }
 }
 
-void TrayMenu::addCustomAction(QAction *action)
+void TrayMenu::setCustomActions(QList<QAction*> actions)
 {
-    action->setProperty(propertyCustomAction, true);
-    insertAction(m_customActionsSeparator, action);
-    updateActiveAction();
+    clearCustomActions();
+    m_customActions = actions;
+    insertActions(m_customActionsSeparator, actions);
 }
 
 void TrayMenu::clearAllActions()
 {
+    m_clipboardActions = {};
+    m_customActions = {};
     clear();
     m_clipboardItemActionCount = 0;
     m_searchText.clear();
@@ -273,6 +280,9 @@ void TrayMenu::showEvent(QShowEvent *event)
     if ( !m_searchAction.isNull() )
         m_searchAction->setVisible(true);
 
+    if ( m_timerUpdateActiveAction.isActive() )
+        doUpdateActiveAction();
+
     QMenu::showEvent(event);
 }
 
@@ -286,8 +296,8 @@ void TrayMenu::hideEvent(QHideEvent *event)
 
 void TrayMenu::actionEvent(QActionEvent *event)
 {
+    delayedUpdateActiveAction();
     QMenu::actionEvent(event);
-    m_timerUpdateActiveAction.start();
 }
 
 void TrayMenu::leaveEvent(QEvent *event)
@@ -303,16 +313,6 @@ void TrayMenu::inputMethodEvent(QInputMethodEvent *event)
     if (!event->commitString().isEmpty())
         search(m_searchText + event->commitString());
     event->ignore();
-}
-
-void TrayMenu::clearActionsWithProperty(const char *property)
-{
-    for ( auto action : actions() ) {
-        if ( action->property(property).toBool() ) {
-            removeAction(action);
-            delete action;
-        }
-    }
 }
 
 void TrayMenu::search(const QString &text)
@@ -364,11 +364,15 @@ void TrayMenu::onClipboardItemActionTriggered()
     close();
 }
 
-void TrayMenu::updateActiveAction()
+void TrayMenu::delayedUpdateActiveAction()
 {
-    if ( isVisible() && activeAction() != nullptr )
-        return;
+    if ( !isVisible() || activeAction() == nullptr )
+        m_timerUpdateActiveAction.start();
+}
 
+void TrayMenu::doUpdateActiveAction()
+{
+    m_timerUpdateActiveAction.stop();
     const auto action = firstEnabledAction(this);
     if (action != nullptr)
         setActiveAction(action);

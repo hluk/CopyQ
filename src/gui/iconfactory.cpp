@@ -49,8 +49,6 @@
 
 namespace {
 
-const QLatin1String imagesRecourcePath(":/images/");
-
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
 
@@ -73,11 +71,11 @@ bool hasNormalIconHelper()
 {
     // QIcon::hasThemeIcon() returns true even if icon "copyq-normal" is not available
     // but "copyq" is.
-    const QIcon normalIcon = fromTheme(COPYQ_ICON_NAME "-normal");
+    const QIcon normalIcon = fromTheme(QStringLiteral(COPYQ_ICON_NAME "-normal"));
     if ( normalIcon.isNull() )
         return false;
 
-    const QIcon defaultIcon = fromTheme(COPYQ_ICON_NAME);
+    const QIcon defaultIcon = fromTheme(QStringLiteral(COPYQ_ICON_NAME));
     return defaultIcon.pixmap(16).toImage() != normalIcon.pixmap(16).toImage();
 }
 
@@ -162,7 +160,7 @@ QPixmap pixmapFromBitmapFile(const QString &path, QSize size)
 
 QPixmap pixmapFromFile(const QString &path, QSize size)
 {
-    const auto cacheKey = QString::fromLatin1("path:%1|%2x%3")
+    const auto cacheKey = QStringLiteral("path:%1|%2x%3")
             .arg(path)
             .arg(size.width())
             .arg(size.height());
@@ -197,21 +195,22 @@ QPixmap pixmapFromFile(const QString &path, QSize size)
 QString iconPath(const QString &iconSuffix)
 {
 #ifdef COPYQ_ICON_PREFIX
-    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix + ".svg");
+    const QString fileName(
+        QStringLiteral(COPYQ_ICON_PREFIX) + iconSuffix + QStringLiteral(".svg"));
     if ( QFile::exists(fileName) )
         return fileName;
 #else
     Q_UNUSED(iconSuffix)
 #endif
-    return imagesRecourcePath + QLatin1String("icon") + iconSuffix;
+    return QStringLiteral(":/images/icon") + iconSuffix;
 }
 
 QPixmap appPixmap(const QString &iconSuffix, QSize size)
 {
     if ( iconSuffix.isEmpty() && hasNormalIcon() )
-        return appPixmap("-normal", size);
+        return appPixmap(QStringLiteral("-normal"), size);
 
-    const auto icon = fromTheme(COPYQ_ICON_NAME + iconSuffix);
+    const auto icon = fromTheme(QStringLiteral(COPYQ_ICON_NAME) + iconSuffix);
 
     QPixmap pix;
 
@@ -230,7 +229,7 @@ QPixmap appPixmap(const QString &iconSuffix, QSize size)
 
 void replaceColor(QPixmap *pix, const QColor &targetColor)
 {
-    auto pix2 = appPixmap("_mask", pix->size());
+    auto pix2 = appPixmap(QStringLiteral("_mask"), pix->size());
 
     {
         QPainter p1(&pix2);
@@ -257,7 +256,7 @@ void disableIcon(QPixmap *pix)
 
 QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
 {
-    const auto cacheKey = QString::fromLatin1("id:%1|%2x%3|%4")
+    const auto cacheKey = QStringLiteral("id:%1|%2x%3|%4")
             .arg(id)
             .arg(w)
             .arg(h)
@@ -401,7 +400,11 @@ public:
         return taggedIcon(&pixmap);
     }
 
-    QList<QSize> availableSizes(QIcon::Mode, QIcon::State) const override
+    QList<QSize> availableSizes(QIcon::Mode, QIcon::State)
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        const
+#endif
+        override
     {
         static const auto sizes = QList<QSize>()
                 << QSize(32, 32)
@@ -481,7 +484,7 @@ public:
             return FontIconEngine::doCreatePixmap(size, mode, state, painter);
 
         // Tint tab icons.
-        if ( m_iconName.startsWith(imagesRecourcePath + QLatin1String("tab_")) ) {
+        if ( m_iconName.startsWith(QLatin1String(":/images/tab_")) ) {
             const QPixmap pixmap = pixmapFromFile(m_iconName, size);
 
             QPixmap pixmap2(pixmap.size());
@@ -551,7 +554,7 @@ public:
         const bool useColoredIcon = !hasNormalIcon();
         const auto sessionColor = useColoredIcon ? sessionIconColor() : QColor();
 
-        const auto cacheKey = QString::fromLatin1("app:%1|%2x%3|%4")
+        const auto cacheKey = QStringLiteral("app:%1|%2x%3|%4")
                 .arg(sessionColor.name())
                 .arg(size.width())
                 .arg(size.height())
@@ -631,7 +634,7 @@ QIcon getIcon(const QVariant &iconOrIconId)
 
 QIcon getIconFromResources(const QString &iconName)
 {
-    return IconEngine::createIcon(0, imagesRecourcePath + iconName);
+    return IconEngine::createIcon(0, QStringLiteral(":/images/") + iconName);
 }
 
 QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &color)

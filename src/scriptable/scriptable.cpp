@@ -40,6 +40,7 @@
 #include "scriptable/scriptablefile.h"
 #include "scriptable/scriptableitemselection.h"
 #include "scriptable/scriptableproxy.h"
+#include "scriptable/scriptablesettings.h"
 #include "scriptable/scriptabletemporaryfile.h"
 
 #include <QApplication>
@@ -62,9 +63,15 @@
 #include <QSysInfo>
 #include <QUrl>
 #include <QVector>
-#include <QTextCodec>
 #include <QThread>
 #include <QTimer>
+
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#   include <QTextCodec>
+#else
+#   include <QStringDecoder>
+#   include <QStringEncoder>
+#endif
 
 #ifdef WITH_NATIVE_NOTIFICATIONS
 #   include <knotifications_version.h>
@@ -211,8 +218,11 @@ struct ScriptValueListFactory {
 template <typename T>
 struct ScriptValueFactory< QList<T> > : ScriptValueListFactory< QList<T>, T > {};
 
+// QVector is alias for a QList in Qt 6.
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 template <typename T>
 struct ScriptValueFactory< QVector<T> > : ScriptValueListFactory< QVector<T>, T > {};
+#endif
 
 template <>
 struct ScriptValueFactory<QVariantMap> {
@@ -247,6 +257,7 @@ struct ScriptValueFactory<QByteArray> {
     }
 };
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 template <>
 struct ScriptValueFactory<QStringList> {
     static QJSValue toScriptValue(const QStringList &list, const Scriptable *scriptable)
@@ -259,6 +270,7 @@ struct ScriptValueFactory<QStringList> {
         return ScriptValueFactory< QList<QString> >::fromScriptValue(value, scriptable);
     }
 };
+#endif
 
 template <>
 struct ScriptValueFactory<QString> {
@@ -336,6 +348,7 @@ struct ScriptValueFactory<Command> {
         value.setProperty(QStringLiteral("globalShortcuts"), ::toScriptValue(command.globalShortcuts, scriptable));
         value.setProperty(QStringLiteral("tab"), command.tab);
         value.setProperty(QStringLiteral("outputTab"), command.outputTab);
+        value.setProperty(QStringLiteral("internalId"), command.internalId);
 
         return value;
     }
@@ -367,6 +380,7 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("globalShortcuts"), scriptable, &command.globalShortcuts );
         ::fromScriptValueIfValid( value.property("tab"), scriptable, &command.tab );
         ::fromScriptValueIfValid( value.property("outputTab"), scriptable, &command.outputTab );
+        ::fromScriptValueIfValid( value.property("internalId"), scriptable, &command.internalId );
 
         return command;
     }
@@ -391,7 +405,6 @@ struct ScriptValueFactory<QVariant> {
         if (variant.type() == QVariant::Char)
             return ::toScriptValue(variant.toString(), scriptable);
 
-        Q_ASSERT(variant.type() != QVariant::RegExp);
         if (variant.type() == QVariant::RegularExpression)
             return ::toScriptValue(variant.toRegularExpression(), scriptable);
 
@@ -420,10 +433,13 @@ struct ScriptValueFactory<QVariant> {
         if (value.isArray())
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
 
+        const auto variant = toVariant(value);
+        if (variant.type() == QVariant::ByteArray)
+            return variant;
+
         if (value.isObject())
             return ScriptValueFactory<QVariantMap>::fromScriptValue(value, scriptable);
 
-        const auto variant = toVariant(value);
         Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
         return variant;
     }
@@ -435,7 +451,7 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     if ( v.isError() ) {
         log( QStringLiteral("Exception during evaluate: %1").arg(v.toString()), LogError );
         log( QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script), LogError );
-        Q_ASSERT(false);
+        Q_ASSERT(v.toString() == QStringLiteral("Evaluation aborted"));
     }
     return v;
 }
@@ -547,6 +563,81 @@ QString scriptToLabel(const QString &script)
     return script;
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+QTextCodec *codecFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = QTextCodec::codecForName( scriptable->makeByteArray(codecName) );
+    if (!codec) {
+        QString codecs;
+        for (const auto &availableCodecName : QTextCodec::availableCodecs())
+            codecs.append( "\n" + QLatin1String(availableCodecName) );
+        scriptable->throwError("Available codecs are:" + codecs);
+    }
+    return codec;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = codecFromNameOrThrow(codecName, scriptable);
+    if (!codec)
+        return QJSValue();
+
+    return codec->toUnicode(bytes);
+}
+
+QJSValue toUnicode(const QByteArray &bytes, Scriptable *scriptable)
+{
+    const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
+    if (!codec)
+        return scriptable->throwError("Failed to detect encoding");
+    return codec->toUnicode(bytes);
+}
+
+QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto codec = codecFromNameOrThrow(codecName, scriptable);
+    if (!codec)
+        return QJSValue();
+
+    return scriptable->newByteArray( codec->fromUnicode(text) );
+}
+#else
+std::optional<QStringConverter::Encoding> encodingFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = QStringConverter::encodingForName( scriptable->makeByteArray(codecName) );
+    if (!encoding)
+        scriptable->throwError("Unknown encoding name");
+    return encoding;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = encodingFromNameOrThrow(codecName, scriptable);
+    if (!encoding)
+        return QJSValue();
+    const QString text = QStringDecoder(*encoding).decode(bytes);
+    return text;
+}
+
+QJSValue toUnicode(const QByteArray &bytes, Scriptable *scriptable)
+{
+    const auto encoding = QStringConverter::encodingForData(bytes);
+    if (!encoding)
+        return scriptable->throwError("Failed to detect encoding");
+    const QString text = QStringDecoder(*encoding).decode(bytes);
+    return text;
+}
+
+QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable *scriptable)
+{
+    const auto encoding = encodingFromNameOrThrow(codecName, scriptable);
+    if (!encoding)
+        return QJSValue();
+    return scriptable->newByteArray(
+        QStringEncoder(*encoding).encode(text) );
+}
+#endif
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -621,6 +712,7 @@ Scriptable::Scriptable(
     addScriptableClass(&ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
     addScriptableClass(&ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine,
                        QStringLiteral("global._initItemSelection = "));
+    addScriptableClass(&ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
 }
 
 QJSValue Scriptable::argumentsArray() const
@@ -847,7 +939,7 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
 QJSValue Scriptable::version()
 {
     m_skipArguments = 0;
-    return tr("CopyQ Clipboard Manager") + " " COPYQ_VERSION "\n"
+    return tr("CopyQ Clipboard Manager") + " " + versionString + "\n"
             + "Qt: " QT_VERSION_STR "\n"
 #ifdef WITH_NATIVE_NOTIFICATIONS
             + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
@@ -865,10 +957,8 @@ QJSValue Scriptable::version()
             "???"
 #endif
             + "\n"
-#if QT_VERSION >= QT_VERSION_CHECK(5,4,0)
             + "Arch: " + QSysInfo::buildAbi() + "\n"
             + "OS: " + QSysInfo::prettyProductName() + "\n"
-#endif
             ;
 }
 
@@ -885,7 +975,7 @@ QJSValue Scriptable::help()
             helpString.append(hlp.toString());
 
         helpString.append("\n" + helpTail() + "\n\n" + tr("CopyQ Clipboard Manager")
-            + " " + COPYQ_VERSION + "\n");
+            + " " + versionString + "\n");
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
             const QString &cmd = toString(argument(i));
@@ -1720,20 +1810,11 @@ QJSValue Scriptable::toUnicode()
 
     const auto bytes = makeByteArray(argument(0));
 
-    if (argumentCount() >= 2) {
-        const auto codec = codecFromNameOrThrow(argument(1));
-        if (!codec)
-            return QJSValue();
+    if (argumentCount() >= 2)
+        return ::toUnicode(bytes, argument(1), this);
 
-        return codec->toUnicode(bytes);
-    }
-
-    if (argumentCount() >= 1) {
-        const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
-        if (!codec)
-            return throwError("Failed to detect encoding");
-        return codec->toUnicode(bytes);
-    }
+    if (argumentCount() >= 1)
+        return ::toUnicode(bytes, this);
 
     return throwError(argumentError());
 }
@@ -1745,12 +1826,9 @@ QJSValue Scriptable::fromUnicode()
     if (argumentCount() < 2)
         return throwError(argumentError());
 
-    const auto codec = codecFromNameOrThrow(argument(1));
-    if (!codec)
-        return QJSValue();
-
-    const auto text = arg(0);
-    return newByteArray( codec->fromUnicode(text) );
+    const QJSValue codecName = argument(1);
+    const QString text = arg(0);
+    return ::fromUnicode(text, codecName, this);
 }
 
 QJSValue Scriptable::dataFormats()
@@ -1884,7 +1962,7 @@ void Scriptable::serverLog()
 QJSValue Scriptable::logs()
 {
     m_skipArguments = 0;
-    return readLogFile(50 * 1024 * 1024);
+    return QString::fromUtf8(readLogFile(50 * 1024 * 1024));
 }
 
 void Scriptable::setCurrentTab()
@@ -2497,12 +2575,18 @@ void Scriptable::onClipboardUnchanged()
 
 void Scriptable::synchronizeToSelection()
 {
-    synchronizeSelection(ClipboardMode::Selection);
+    if ( canSynchronizeSelection(ClipboardMode::Selection) ) {
+        COPYQ_LOG( QStringLiteral("Synchronizing to selection: Calling provideSelection()") );
+        provideSelection();
+    }
 }
 
 void Scriptable::synchronizeFromSelection()
 {
-    synchronizeSelection(ClipboardMode::Clipboard);
+    if( canSynchronizeSelection(ClipboardMode::Clipboard) ) {
+        COPYQ_LOG( QStringLiteral("Synchronizing to clipboard: Calling provideClipboard()") );
+        provideClipboard();
+    }
 }
 
 void Scriptable::setClipboardData()
@@ -2898,8 +2982,8 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     }
 
     if ( result.isCallable() && canContinue() && !hasUncaughtException() ) {
-        const QString label = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
-        result = call( label, &result, fnArgs.mid(skipArguments) );
+        const QString label2 = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
+        result = call( label2, &result, fnArgs.mid(skipArguments) );
     }
 
     int exitCode;
@@ -3203,18 +3287,6 @@ QJSValue Scriptable::eval(const QString &script)
     return eval(script, scriptToLabel(script));
 }
 
-QTextCodec *Scriptable::codecFromNameOrThrow(const QJSValue &codecName)
-{
-    const auto codec = QTextCodec::codecForName( makeByteArray(codecName) );
-    if (!codec) {
-        QString codecs;
-        for (const auto &availableCodecName : QTextCodec::availableCodecs())
-            codecs.append( "\n" + QLatin1String(availableCodecName) );
-        throwError("Available codecs are:" + codecs);
-    }
-    return codec;
-}
-
 bool Scriptable::runAction(Action *action)
 {
     if (!canContinue())
@@ -3514,7 +3586,7 @@ bool Scriptable::hasClipboardFormat(const QString &mime, ClipboardMode mode)
     return m_proxy->hasClipboardFormat(mime, mode);
 }
 
-void Scriptable::synchronizeSelection(ClipboardMode targetMode)
+bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
 {
 #ifdef HAS_MOUSE_SELECTIONS
 #   define COPYQ_SYNC_LOG(MESSAGE) \
@@ -3522,70 +3594,65 @@ void Scriptable::synchronizeSelection(ClipboardMode targetMode)
                    .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") )
 
     if (!verifyClipboardAccess())
-        return;
+        return false;
 
-    {
-        SleepTimer tMin(50);
+    SleepTimer tMin(50);
 
-        // Avoid changing clipboard after a text is selected just before it's copied
-        // with a keyboard shortcut.
-        SleepTimer t(5000);
-        while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
-            if ( !t.sleep() && !canContinue() ) {
-                COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
-                return;
-            }
+    // Avoid changing clipboard after a text is selected just before it's copied
+    // with a keyboard shortcut.
+    SleepTimer t(5000);
+    while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
+        if ( !t.sleep() && !canContinue() ) {
+            COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
+            return false;
         }
+    }
 
-        const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
+    const auto sourceMode = targetMode == ClipboardMode::Selection ? ClipboardMode::Clipboard : ClipboardMode::Selection;
 
-        // Wait at least few milliseconds before synchronization
-        // to avoid overriding just changed clipboard/selection.
-        while ( tMin.sleep() ) {}
+    // Wait at least few milliseconds before synchronization
+    // to avoid overriding just changed clipboard/selection.
+    while ( tMin.sleep() ) {}
 
-        // Stop if the clipboard/selection text already changed again.
-        const auto sourceData = mimeData(sourceMode);
-        if (!sourceData) {
-            COPYQ_SYNC_LOG("Failed to fetch source data");
-            return;
-        }
-        const QString sourceText = cloneText(*sourceData);
+    // Stop if the clipboard/selection text already changed again.
+    const auto sourceData = mimeData(sourceMode);
+    QString sourceText;
+    if (sourceData) {
+        sourceText = cloneText(*sourceData);
         if (sourceText != getTextData(m_data)) {
             COPYQ_SYNC_LOG("Cancelled (source text changed)");
-            return;
+            return false;
         }
+    } else {
+        COPYQ_SYNC_LOG("Failed to fetch source data");
+    }
 
-        const auto targetData = mimeData(targetMode);
-        if (!targetData) {
-            COPYQ_SYNC_LOG("Failed to fetch target data");
-            return;
-        }
+    const auto targetData = mimeData(targetMode);
+    if (targetData) {
         const QString targetText = cloneText(*targetData);
         if ( targetData->data(mimeOwner).isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
             if (targetTextHash != qHash(targetText)) {
                 COPYQ_SYNC_LOG("Cancelled (target text changed)");
-                return;
+                return false;
             }
         }
 
         // Stop if the clipboard and selection text is already synchronized
         // or user selected text and copied it to clipboard.
-        if (sourceText == targetText) {
+        if (sourceData && sourceText == targetText) {
             COPYQ_SYNC_LOG("Cancelled (target is same as source)");
-            return;
+            return false;
         }
+    } else {
+        COPYQ_SYNC_LOG("Failed to fetch target data");
     }
 
-    COPYQ_SYNC_LOG("Calling provideClipboard()/provideSelection()");
-
-    if (targetMode == ClipboardMode::Clipboard)
-        provideClipboard();
-    else
-        provideSelection();
+    return true;
 #   undef COPYQ_SYNC_LOG
 #else
     Q_UNUSED(targetMode)
+    return false;
 #endif
 }
 

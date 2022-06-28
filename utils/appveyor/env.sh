@@ -28,6 +28,15 @@ if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
     mkdir -p "$DOWNLOADS_PATH"
 fi
 
-APP_VERSION=$(git describe --tags --always HEAD)
+# Format the version for Inno Setup.
+# See: https://jrsoftware.org/ishelp/index.php?topic=setup_versioninfoversion
+# Examples:
+#   v5.0.0 -> 5.0.0
+#   v5.0.0-12-g449639e9 -> 5.0.0.12
+APP_VERSION=$(
+    git describe --tags --always HEAD | sed -E \
+        -e 's/^v([0-9]+\.[0-9]+\.[0-9]+)/\1/' \
+        -e 's/-([0-9]+).*/.\1/'
+)
 export APP_VERSION
 export APP=copyq-$APP_VERSION

@@ -69,13 +69,14 @@ namespace {
 
     NSNumber* charToKeyCode(const char c)
     {
-        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
-        CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(
+        TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardLayoutInputSource();
+        CFDataRef layoutData = (CFDataRef)TISGetInputSourceProperty(
             currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-        const UCKeyboardLayout *keyboardLayout =
-            (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
 
-        if (keyboardLayout != nil) {
+        if (layoutData != nil) {
+            const UCKeyboardLayout *keyboardLayout =
+                (const UCKeyboardLayout*)CFDataGetBytePtr(layoutData);
+
             COPYQ_LOG( QStringLiteral("Searching key code for '%1'").arg(c) );
             NSString *keyChar = [NSString stringWithFormat:@"%c" , c];
             for (size_t i = 0; i < 128; ++i) {
@@ -108,7 +109,7 @@ namespace {
         return nil;
     }
 
-    void sendShortcut(int modifier, int key, pid_t pid = -1) {
+    void sendShortcut(int modifier, int key) {
         COPYQ_LOG( QStringLiteral("Sending key codes %1 and %2")
                    .arg(modifier)
                    .arg(key) );
@@ -127,17 +128,10 @@ namespace {
         CGEventSetFlags(VDown,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
         CGEventSetFlags(VUp,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
 
-        if (pid != -1) {
-            CGEventPostToPid(pid, commandDown);
-            CGEventPostToPid(pid, VDown);
-            CGEventPostToPid(pid, VUp);
-            CGEventPostToPid(pid, commandUp);
-        } else {
-            CGEventPost(kCGHIDEventTap, commandDown);
-            CGEventPost(kCGHIDEventTap, VDown);
-            CGEventPost(kCGHIDEventTap, VUp);
-            CGEventPost(kCGHIDEventTap, commandUp);
-        }
+        CGEventPost(kCGHIDEventTap, commandDown);
+        CGEventPost(kCGHIDEventTap, VDown);
+        CGEventPost(kCGHIDEventTap, VUp);
+        CGEventPost(kCGHIDEventTap, commandUp);
 
         CFRelease(commandDown);
         CFRelease(VDown);
@@ -369,7 +363,7 @@ void MacPlatformWindow::pasteClipboard()
         const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
         delayedSendShortcut(kVK_Command, keyCodeV, keyPressTimeMs, 5, m_window);
     } else {
-        sendShortcut(kVK_Command, keyCodeV, m_runningApplication.processIdentifier);
+        sendShortcut(kVK_Command, keyCodeV);
     }
 }
 

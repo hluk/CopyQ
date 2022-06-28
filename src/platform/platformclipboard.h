@@ -55,6 +55,8 @@ public:
 
     virtual const QMimeData *mimeData(ClipboardMode mode) const = 0;
 
+    virtual bool isSelectionSupported() const = 0;
+
 signals:
     /// Notifies about clipboard changes.
     void changed(ClipboardMode mode);

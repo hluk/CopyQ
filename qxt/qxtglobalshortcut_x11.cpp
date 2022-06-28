@@ -29,9 +29,10 @@
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
 
+#include "platform/x11/x11info.h"
+
 #include <QVector>
 #include <QWidget>
-#include <QX11Info>
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 
@@ -55,6 +56,8 @@ void createFirstWindow()
 
         // Tool tips won't show in taskbar.
         w = new QWidget(nullptr, Qt::ToolTip);
+        w->setWindowTitle(QStringLiteral("Dummy"));
+        w->setWindowRole(QStringLiteral("dummy"));
 
         // Move out of screen (if it's not possible to show the window minimized).
         w->resize(1, 1);
@@ -121,13 +124,13 @@ public:
         : m_display(nullptr)
     {
         createFirstWindow();
-        if ( QX11Info::isPlatformX11() )
-            m_display = QX11Info::display();
+        if ( X11Info::isPlatformX11() )
+            m_display = X11Info::display();
     }
 
     bool isValid()
     {
-        return QX11Info::isPlatformX11() && m_display != nullptr;
+        return X11Info::isPlatformX11() && m_display != nullptr;
     }
 
     Display *display()
@@ -214,18 +217,8 @@ KeySym qtKeyToXKeySym(Qt::Key key, Qt::KeyboardModifiers mods)
 
 } // namespace
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-bool QxtGlobalShortcutPrivate::eventFilter(void* message)
-{
-    XEvent *event = static_cast<XEvent *>(message);
-    if (event->type == KeyPress)
-    {
-        XKeyEvent* key = reinterpret_cast<XKeyEvent *>(event);
-        unsigned int keycode = key->keycode;
-        unsigned int keystate = key->state;
-#else
-bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
-    void * message, long * result)
+bool QxtGlobalShortcutPrivate::nativeEventFilter(
+    const QByteArray &eventType, void *message, NativeEventResult *result)
 {
     Q_UNUSED(result)
 
@@ -247,7 +240,6 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
             keystate |= Mod4Mask;
         if(kev->state & XCB_MOD_MASK_SHIFT)
             keystate |= ShiftMask;
-#endif
         activateShortcut(keycode,
             // Mod1Mask == Alt, Mod4Mask == Meta
             keystate & (ShiftMask | ControlMask | Mod1Mask | Mod4Mask));

@@ -19,6 +19,7 @@
 #ifndef CLIPBOARDBROWSERSHARED_H
 #define CLIPBOARDBROWSERSHARED_H
 
+#include "gui/menuitems.h"
 #include "gui/theme.h"
 
 #include <QString>
@@ -49,6 +50,7 @@ struct ClipboardBrowserShared {
     ActionHandler *actions = nullptr;
     NotificationDaemon *notifications = nullptr;
     Theme theme;
+    MenuItems menuItems;
 };
 
 using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;

@@ -35,8 +35,6 @@
 #include <QLocale>
 #include <QSortFilterProxyModel>
 
-Q_DECLARE_METATYPE(Command)
-
 namespace {
 
 class CommandModel final : public QAbstractListModel {

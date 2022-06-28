@@ -19,6 +19,7 @@
 
 #include "clipboardownermonitor.h"
 
+#include "common/appconfig.h"
 #include "platform/platformwindow.h"
 
 #include <QCoreApplication>
@@ -28,7 +29,8 @@ ClipboardOwnerMonitor::ClipboardOwnerMonitor()
     qApp->installNativeEventFilter(this);
 
     m_timer.setSingleShot(true);
-    m_timer.setInterval(50);
+    const int delay = AppConfig().option<Config::change_clipboard_owner_delay_ms>();
+    m_timer.setInterval(delay);
     QObject::connect( &m_timer, &QTimer::timeout, [this]() {
         m_clipboardOwner = m_newClipboardOwner;
 
@@ -48,7 +50,7 @@ ClipboardOwnerMonitor::~ClipboardOwnerMonitor()
     qApp->removeNativeEventFilter(this);
 }
 
-bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, long *)
+bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, NativeEventResult *)
 {
     if ( !m_timer.isActive() )
         m_timer.start();

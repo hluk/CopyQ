@@ -32,6 +32,8 @@
 
 namespace {
 
+QString logFileName_;
+
 /// System-wide mutex
 class SystemMutex final {
 public:
@@ -106,7 +108,7 @@ QString logFileName(int i)
 {
     if (i <= 0)
         return ::logFileName();
-    return ::logFileName() + "." + QString::number(i);
+    return ::logFileName() + QStringLiteral(".") + QString::number(i);
 }
 
 void rotateLogFiles()
@@ -172,25 +174,20 @@ SystemMutex &getSessionMutex()
 
 QString getDefaultLogFilePath()
 {
-#if QT_VERSION < 0x050400
-    return QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-#else
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-#endif
 }
 
-QString readLogFile(const QString &fileName, int maxReadSize)
+QByteArray readLogFile(const QString &fileName, int maxReadSize)
 {
     QFile f(fileName);
     if ( !f.open(QIODevice::ReadOnly) )
-        return QString();
+        return {};
 
     const auto seek = f.size() - maxReadSize;
     if (seek > 0)
         f.seek(seek);
-    const QByteArray content = f.readAll();
 
-    return QString::fromUtf8(content);
+    return f.readAll();
 }
 
 bool writeLogFile(const QByteArray &message)
@@ -213,14 +210,12 @@ QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
 QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
-            QDateTime::currentDateTime().toString(" [yyyy-MM-dd hh:mm:ss.zzz] ").toUtf8();
+        QDateTime::currentDateTime().toString(QStringLiteral(" [yyyy-MM-dd hh:mm:ss.zzz] ")).toUtf8();
     const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + logLabel() + ": ";
     return createLogMessage(label, text);
 }
 
-} // namespace
-
-QString logFileName()
+QString getLogFileName()
 {
     const QString fileName = envString("COPYQ_LOG_FILE");
     if (!fileName.isEmpty())
@@ -228,16 +223,30 @@ QString logFileName()
 
     const QString path = getDefaultLogFilePath();
     QDir dir(path);
-    dir.mkpath(".");
+    dir.mkpath(QStringLiteral("."));
 
-    return path + "/copyq.log";
+    return path + QStringLiteral("/copyq.log");
 }
 
-QString readLogFile(int maxReadSize)
+} // namespace
+
+void initLogging()
+{
+    logFileName_ = getLogFileName();
+}
+
+const QString &logFileName()
+{
+    if ( logFileName_.isEmpty() )
+        logFileName_ = getLogFileName();
+    return logFileName_;
+}
+
+QByteArray readLogFile(int maxReadSize)
 {
     SystemMutexLocker lock(getSessionMutex());
 
-    QString content;
+    QByteArray content;
     for (int i = 0; i < logFileCount; ++i) {
         const int toRead = maxReadSize - content.size();
         content.prepend( readLogFile(logFileName(i), toRead) );

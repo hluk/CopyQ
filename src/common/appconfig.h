@@ -37,6 +37,7 @@ struct Config {
     using Value = ValueType;
     static Value defaultValue() { return Value(); }
     static Value value(Value v) { return v; }
+    static const char *description() { return nullptr; }
 };
 
 struct autostart : Config<bool> {
@@ -139,11 +140,17 @@ struct save_filter_history : Config<bool> {
 struct filter_regular_expression : Config<bool> {
     static QString name() { return "filter_regular_expression"; }
     static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Use regular expressions to search items";
+    }
 };
 
 struct filter_case_insensitive : Config<bool> {
     static QString name() { return "filter_case_insensitive"; }
     static Value defaultValue() { return true; }
+    static const char *description() {
+        return "Use case-insensitive item search";
+    }
 };
 
 struct always_on_top : Config<bool> {
@@ -155,9 +162,25 @@ struct close_on_unfocus : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct close_on_unfocus_delay_ms : Config<int> {
+    static QString name() { return "close_on_unfocus_delay_ms"; }
+    static Value defaultValue() { return 500; }
+    static const char *description() {
+        return "Delay to close the main window when unfocused/deactivated";
+    }
+};
+
 struct open_windows_on_current_screen : Config<bool> {
     static QString name() { return "open_windows_on_current_screen"; }
     static Value defaultValue() { return true; }
+};
+
+struct restore_geometry : Config<bool> {
+    static QString name() { return "restore_geometry"; }
+    static Value defaultValue() { return true; }
+    static const char *description() {
+        return "Restore position and size for the main window and other dialogs";
+    }
 };
 
 struct transparency_focused : Config<int> {
@@ -194,6 +217,9 @@ struct hide_main_window : Config<bool> {
 struct hide_main_window_in_task_bar : Config<bool> {
     static QString name() { return "hide_main_window_in_task_bar"; }
     static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Avoid showing entry for the main window in the task bar";
+    }
 };
 
 struct tab_tree : Config<bool> {
@@ -212,6 +238,9 @@ struct text_wrap : Config<bool> {
 struct text_tab_width : Config<int> {
     static QString name() { return "text_tab_width"; }
     static Value defaultValue() { return 8; }
+    static const char *description() {
+        return "Width of Tab character in number of spaces";
+    }
 };
 
 struct activate_item_with_single_click : Config<bool> {
@@ -263,6 +292,9 @@ struct tray_images : Config<bool> {
 struct tray_menu_open_on_left_click : Config<bool> {
     static QString name() { return "tray_menu_open_on_left_click"; }
     static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Open tray menu on left mouse button";
+    }
 };
 
 struct tray_tab : Config<QString> {
@@ -272,6 +304,9 @@ struct tray_tab : Config<QString> {
 struct command_history_size : Config<int> {
     static QString name() { return "command_history_size"; }
     static Value defaultValue() { return 100; }
+    static const char *description() {
+        return "Number of commands to keep in action dialog history";
+    }
 };
 
 struct check_selection : Config<bool> {
@@ -291,23 +326,6 @@ struct run_selection : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
-struct action_has_input : Config<bool> {
-    static QString name() { return "action_has_input"; }
-};
-
-struct action_has_output : Config<bool> {
-    static QString name() { return "action_has_output"; }
-};
-
-struct action_separator : Config<QString> {
-    static QString name() { return "action_separator"; }
-    static Value defaultValue() { return "\\n"; }
-};
-
-struct action_output_tab : Config<QString> {
-    static QString name() { return "action_output_tab"; }
-};
-
 struct tabs : Config<QStringList> {
     static QString name() { return "tabs"; }
     static Value value(Value v) {
@@ -315,11 +333,17 @@ struct tabs : Config<QStringList> {
         v.removeDuplicates();
         return v;
     }
+    static const char *description() {
+        return "Ordered list of tabs";
+    }
 };
 
 struct show_advanced_command_settings : Config<bool> {
     static QString name() { return "show_advanced_command_settings"; }
     static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Show advanced command configuration in Command dialog";
+    }
 };
 
 struct autocompletion : Config<bool> {
@@ -330,36 +354,57 @@ struct autocompletion : Config<bool> {
 struct max_process_manager_rows : Config<uint> {
     static QString name() { return "max_process_manager_rows"; }
     static Value defaultValue() { return 1000; }
+    static const char *description() {
+        return "Maximum number of rows in process manager dialog";
+    }
 };
 
 struct save_delay_ms_on_item_added : Config<int> {
     static QString name() { return "save_delay_ms_on_item_added"; }
     static Value defaultValue() { return 5 * 60 * 1000; }
+    static const char *description() {
+        return "Tab save delay after an item is added to the tab";
+    }
 };
 
 struct save_delay_ms_on_item_modified : Config<int> {
     static QString name() { return "save_delay_ms_on_item_modified"; }
     static Value defaultValue() { return 5 * 60 * 1000; }
+    static const char *description() {
+        return "Tab save delay after an item is modified in the tab";
+    }
 };
 
 struct save_delay_ms_on_item_removed : Config<int> {
     static QString name() { return "save_delay_ms_on_item_removed"; }
     static Value defaultValue() { return 10 * 60 * 1000; }
+    static const char *description() {
+        return "Tab save delay after an item is removed from the tab";
+    }
 };
 
 struct save_delay_ms_on_item_moved : Config<int> {
     static QString name() { return "save_delay_ms_on_item_moved"; }
     static Value defaultValue() { return 30 * 60 * 1000; }
+    static const char *description() {
+        return "Tab save delay after an item is moved in the tab";
+    }
 };
 
 struct save_delay_ms_on_item_edited : Config<int> {
     static QString name() { return "save_delay_ms_on_item_edited"; }
     static Value defaultValue() { return 1000; }
+    static const char *description() {
+        return "Tab save delay after an item is edited in the tab";
+    }
 };
 
 struct save_on_app_deactivated : Config<bool> {
     static QString name() { return "save_on_app_deactivated"; }
     static Value defaultValue() { return true; }
+    static const char *description() {
+        return "Save unsaved tabs immediately after the app is deactivated (main window loses focus)";
+    }
 };
 
 struct native_menu_bar : Config<bool> {
@@ -371,15 +416,33 @@ struct native_menu_bar : Config<bool> {
 #else
     static Value defaultValue() { return true; }
 #endif
+    static const char *description() {
+        return "Use native menu bar, otherwise the menu bar shows in the main window";
+    }
+};
+
+struct native_tray_menu : Config<bool> {
+    static QString name() { return "native_tray_menu"; }
+    static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Use native tray menu (menu items search may not work)";
+    }
 };
 
 struct script_paste_delay_ms : Config<int> {
     static QString name() { return "script_paste_delay_ms"; }
     static Value defaultValue() { return 250; }
+    static const char *description() {
+        return "Delay after pasting from script (when using `paste()`)";
+    }
 };
 
 struct window_paste_with_ctrl_v_regex : Config<QString> {
     static QString name() { return "window_paste_with_ctrl_v_regex"; }
+    static const char *description() {
+        return "Regular expression matching window titles where Ctrl+V should be used for pasting"
+               " instead of the default Shift+Insert";
+    }
 };
 
 struct window_wait_before_raise_ms : Config<int> {
@@ -389,11 +452,17 @@ struct window_wait_before_raise_ms : Config<int> {
 #else
     static Value defaultValue() { return 20; }
 #endif
+    static const char *description() {
+        return "Delay before trying to raise target window for pasting";
+    }
 };
 
 struct window_wait_raised_ms : Config<int> {
     static QString name() { return "window_wait_raised_ms"; }
     static Value defaultValue() { return 150; }
+    static const char *description() {
+        return "Wait interval for raising target window for pasting";
+    }
 };
 
 struct window_wait_after_raised_ms : Config<int> {
@@ -405,6 +474,9 @@ struct window_wait_after_raised_ms : Config<int> {
 #else
     static Value defaultValue() { return 50; }
 #endif
+    static const char *description() {
+        return "Delay after raising target window for pasting";
+    }
 };
 
 struct window_key_press_time_ms : Config<int> {
@@ -416,20 +488,43 @@ struct window_key_press_time_ms : Config<int> {
 #else
     static Value defaultValue() { return 50; }
 #endif
+    static const char *description() {
+        return "Interval to keep simulated keys (Shift+Insert) pressed for pasting"
+               " (needed for some apps)";
+    }
 };
 
 struct window_wait_for_modifier_released_ms : Config<int> {
     static QString name() { return "window_wait_for_modifier_released_ms"; }
     static Value defaultValue() { return 2000; }
+    static const char *description() {
+        return "Wait for any keyboard modifiers to be released before simulating/sending"
+               " shortcut for pasting";
+    }
+};
+
+struct change_clipboard_owner_delay_ms : Config<int> {
+    static QString name() { return "change_clipboard_owner_delay_ms"; }
+    static Value defaultValue() { return 150; }
+    static const char *description() {
+        return "Delay to save new clipboard owner window title";
+    }
 };
 
 struct row_index_from_one : Config<bool> {
     static QString name() { return "row_index_from_one"; }
     static Value defaultValue() { return true; }
+    static const char *description() {
+        return "Index items/rows in UI starting from 1 instead of 0"
+               " (in scripts, rows are always indexed from 0)";
+    }
 };
 
 struct style : Config<QString> {
     static QString name() { return "style"; }
+    static const char *description() {
+        return "Current application style (available styles can be listed with `copyq styles` command)";
+    }
 };
 
 struct native_notifications : Config<bool> {

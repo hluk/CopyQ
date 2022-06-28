@@ -27,6 +27,7 @@
 #include <QAbstractItemModel>
 #include <QDir>
 #include <QFile>
+#include <QSaveFile>
 
 namespace {
 
@@ -53,7 +54,7 @@ bool createItemDirectory()
 }
 
 void printItemFileError(
-        const QString &action, const QString &id, const QFile &file)
+        const QString &action, const QString &id, const QFileDevice &file)
 {
     log( QString("Tab %1: Failed to %2, file %3: %4").arg(
              quoteString(id),
@@ -67,7 +68,7 @@ ItemSaverPtr loadItems(
         const QString &tabName, const QString &tabFileName,
         QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
 {
-    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
+    COPYQ_LOG( QString("Tab \"%1\": Loading items from: %2").arg(tabName, tabFileName) );
 
     QFile tabFile(tabFileName);
     if ( !tabFile.open(QIODevice::ReadOnly) ) {
@@ -103,35 +104,20 @@ ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFa
         return nullptr;
 
     const QString tabFileName = itemFileName(tabName);
+    if ( !QFile::exists(tabFileName) )
+        return createTab(tabName, model, itemFactory, maxItems);
 
-    ItemSaverPtr saver;
-
-    // If tab file doesn't exist, try to restore data from temporary file.
-    if ( !QFile::exists(tabFileName) ) {
-        QFile tmpFile(tabFileName + ".tmp");
-        if ( tmpFile.exists() ) {
-            log( QString("Tab \"%1\": Restoring items (previous save failed)").arg(tabName), LogWarning );
-
-            saver = loadItems(tabName, tmpFile.fileName(), model, itemFactory, maxItems);
-            if ( saver && !tmpFile.rename(tabFileName) )
-                printItemFileError("overwrite original file", tabName, tmpFile);
-        }
+    ItemSaverPtr saver = loadItems(tabName, tabFileName, model, itemFactory, maxItems);
+    if (saver) {
+        COPYQ_LOG( QStringLiteral("Tab \"%1\": %2 items loaded from: %3")
+                      .arg(tabName, QString::number(model.rowCount()), tabFileName) );
+        return saver;
     }
 
-    if (!saver) {
-        saver = QFile::exists(tabFileName)
-                ? loadItems(tabName, tabFileName, model, itemFactory, maxItems)
-                : createTab(tabName, model, itemFactory, maxItems);
-    }
-
-    if (!saver) {
-        model.removeRows(0, model.rowCount());
-        return nullptr;
-    }
-
-    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
-
-    return saver;
+    log( QStringLiteral("Tab \"%1\": Failed to load tab file: %2")
+            .arg(tabName, tabFileName), LogError );
+    model.removeRows(0, model.rowCount());
+    return nullptr;
 }
 
 bool saveItems(const QString &tabName, const QAbstractItemModel &model, const ItemSaverPtr &saver)
@@ -141,42 +127,35 @@ bool saveItems(const QString &tabName, const QAbstractItemModel &model, const It
     if ( !createItemDirectory() )
         return false;
 
-    // Save to temp file.
-    QFile tmpFile( tabFileName + ".tmp" );
-    if ( !tmpFile.open(QIODevice::WriteOnly) ) {
-        printItemFileError("save tab (open temporary file)", tabName, tmpFile);
+    // Save tab data to a new temporary file.
+    QSaveFile tabFile(tabFileName);
+    tabFile.setDirectWriteFallback(false);
+    if ( !tabFile.open(QIODevice::WriteOnly) ) {
+        printItemFileError("save tab (open temporary file)", tabName, tabFile);
         return false;
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
+    COPYQ_LOG( QStringLiteral("Tab \"%1\": Saving %2 items")
+                  .arg(tabName, QString::number(model.rowCount())) );
 
-    if ( !saver->saveItems(tabName, model, &tmpFile) ) {
-        printItemFileError("save tab (save items to temporary file)", tabName, tmpFile);
+    if ( !saver->saveItems(tabName, model, &tabFile) ) {
+        tabFile.cancelWriting();
+        printItemFileError("save tab (save items to temporary file)", tabName, tabFile);
         return false;
     }
 
-    // 1. Safely flush all data to temporary file.
-    if ( !tmpFile.flush() ) {
-        printItemFileError("save tab (flush temporary file)", tabName, tmpFile);
+    if ( !tabFile.flush() ) {
+        tabFile.cancelWriting();
+        printItemFileError("save tab (flush to temporary file)", tabName, tabFile);
         return false;
     }
 
-    // 2. Remove old tab file.
-    {
-        QFile oldTabFile(tabFileName);
-        if (oldTabFile.exists() && !oldTabFile.remove()) {
-            printItemFileError("save tab (remove file)", tabName, oldTabFile);
-            return false;
-        }
-    }
-
-    // 3. Overwrite previous file.
-    if ( !tmpFile.rename(tabFileName) ) {
-        printItemFileError("save tab (overwrite original file)", tabName, tmpFile);
+    if ( !tabFile.commit() ) {
+        printItemFileError("save tab (commit)", tabName, tabFile);
         return false;
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
+    COPYQ_LOG( QStringLiteral("Tab \"%1\": Items saved").arg(tabName) );
 
     return true;
 }
@@ -185,7 +164,6 @@ void removeItems(const QString &tabName)
 {
     const QString tabFileName = itemFileName(tabName);
     QFile::remove(tabFileName);
-    QFile::remove(tabFileName + ".tmp");
 }
 
 bool moveItems(const QString &oldId, const QString &newId)

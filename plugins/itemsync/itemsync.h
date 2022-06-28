@@ -60,7 +60,7 @@ class ItemSyncSaver final : public QObject, public ItemSaverInterface
     Q_OBJECT
 
 public:
-    ItemSyncSaver(QAbstractItemModel *model, const QString &tabPath, FileWatcher *watcher);
+    ItemSyncSaver(const QString &tabPath, FileWatcher *watcher);
 
     bool saveItems(const QString &tabName, const QAbstractItemModel &model, QIODevice *file) override;
 
@@ -75,9 +75,6 @@ public:
     void setFileWatcher(FileWatcher *watcher);
 
 private:
-    void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
-
-    QPointer<QAbstractItemModel> m_model;
     QString m_tabPath;
     FileWatcher *m_watcher;
 };
@@ -141,9 +138,9 @@ public:
     QString description() const override { return tr("Synchronize items and notes with a directory on disk."); }
     QVariant icon() const override { return QVariant(IconUpload); }
 
-    QVariantMap applySettings() override;
+    void applySettings(QSettings &settings) override;
 
-    void loadSettings(const QVariantMap &settings) override;
+    void loadSettings(const QSettings &settings) override;
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
@@ -175,8 +172,8 @@ private:
     ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files, int maxItems);
 
     std::unique_ptr<Ui::ItemSyncSettings> ui;
-    QVariantMap m_settings;
     ItemSyncTabPaths m_tabPaths;
+    QStringList m_tabPathsSaved;
     QList<FileFormat> m_formatSettings;
 };
 

@@ -302,10 +302,19 @@ void NotificationNative::update()
     if (m_intervalMsec < 0) {
         m_timer.stop();
         m_notification->setFlags(KNotification::Persistent);
+#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,58,0)
+        m_notification->setUrgency(KNotification::HighUrgency);
+#endif
     } else {
         // Specific timeout is not supported by KNotifications.
         m_timer.start(m_intervalMsec);
         m_notification->setFlags(KNotification::CloseOnTimeout);
+#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,58,0)
+        const KNotification::Urgency urgency = m_intervalMsec <= 10000
+            ? KNotification::LowUrgency
+            : KNotification::NormalUrgency;
+        m_notification->setUrgency(urgency);
+#endif
     }
 }
 
