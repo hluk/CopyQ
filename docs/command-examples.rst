@@ -574,19 +574,23 @@ Change Copied Text to Title Case
 .. code-block:: ini
 
     [Command]
+    Name=Paste as title case
     Command="
-      copyq: 
+        copyq: 
         function toTitleCase(str) {
           return str.replace(
-            /\w\S*/g,
+            /\\w\\S*/g,
             function(txt) {
               return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             }
           );
         }
         copy(toTitleCase(str(input())))
-        paste()"
-    GlobalShortcut=meta+ctrl+e
-    Icon=\xf034
-    Name=Title Case
+               paste()
+        "
+    Input=text/plain
+    IsGlobalShortcut=true
+    HideWindow=true
+    Icon=\xf15b
+    GlobalShortcut=meta+ctrl+t
 
