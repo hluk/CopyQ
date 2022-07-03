@@ -2020,12 +2020,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Bozuk Sekme</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;%1&lt;/strong&gt; sekmesindeki tüm ögeler başarıyla yüklenmedi. Yine de sekmeyi yüklemek ve muhtemel olarak bazı ögeleri kaybetmek istiyor musunuz?</translation>
     </message>
 </context>
 <context>
