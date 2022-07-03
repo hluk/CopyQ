@@ -2021,12 +2021,12 @@ Nastav na 0 pro vypnutí.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Poškozená záložka</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne všechny prvky v záložce &lt;strong&gt;%1&lt;/strong&gt; byly úspěšně načteny. Chcete ještě kartu načíst a případně přijít o některé prvky?</translation>
     </message>
 </context>
 <context>

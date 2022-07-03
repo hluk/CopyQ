@@ -2020,12 +2020,12 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Separador corrompido</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem todos os itens no separador &lt;strong&gt;%1&lt;/strong&gt; foram carregados. Deseja continuar a carregar o separador e eventualmente perder alguns itens?</translation>
     </message>
 </context>
 <context>

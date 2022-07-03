@@ -2020,12 +2020,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>损坏的标签页</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>不是所有 &lt;strong&gt;%1&lt;/strong&gt;标签页的项目均已成功加载。你是否仍然希望加载此选项卡并可能丢失一些项目？</translation>
     </message>
 </context>
 <context>

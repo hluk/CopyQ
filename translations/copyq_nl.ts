@@ -2020,12 +2020,12 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschadigd tabblad</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet alle items op het tabblad &lt;strong&gt;%1&lt;/strong&gt; kunnen worden geladen. Wil je het tabblad laden met het risico om enkele items kwijt te raken?</translation>
     </message>
 </context>
 <context>
