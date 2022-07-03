@@ -21,6 +21,13 @@
 - Fixes converting internal byte array representation in scripts in some rare
   cases.
 
+- Fixes tray menu appearance to follow the configuration (#1896).
+
+- The search history popup menu for will be closed if mouse wheel scrolls and
+  mouse pointer is outside the menu (#1980).
+
+- macOS: Fixes pasting (#2012).
+
 - Windows: Fixes exiting the app on logout (#1249).
 
 - Windows: Workaround to treat native path separators properly and not as
