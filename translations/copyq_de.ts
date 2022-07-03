@@ -94,15 +94,13 @@
         <translation>Elemente in Reiter mit folgendem Namen speichern (leerlassen, um in den aktuellen Reiter zu speichern)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command saved</source>
-        <translation>Befehl gespeichert</translation>
+        <translation type="vanished">Befehl gespeichert</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden.
+        <translation type="vanished">Befehl wurde gespeichert und kann über das Menü erreicht werden.
 Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     </message>
 </context>
@@ -1701,7 +1699,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
 <context>
     <name>FilterCompleter</name>
     <message>
-        <location filename="../src/gui/filtercompleter.cpp" line="175"/>
+        <location filename="../src/gui/filtercompleter.cpp" line="189"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
         <translation>Alt+Pfeil runter</translation>
@@ -1994,6 +1992,19 @@ Zum Deaktivieren auf 0 setzen.</translation>
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Legen Sie Namen der Reiter fest (einen pro Zeile). Diese werden automatische ver- und entschlüsselt.&lt;/p&gt;
 &lt;p&gt;Legen Sie ein Zeitlimit für Reiter fest, bevor verschlüsselte Elemente im Verlauf sicher aus dem Speicher entfernt werden.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ItemFactory</name>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="91"/>
+        <source>Corrupted Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="92"/>
+        <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2329,23 +2340,23 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>Tag %1 entfernen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="625"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="628"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Elemente mit einem gesperrten Tag können nicht entfernt werden</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="626"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="629"/>
         <source>Untag items first to remove them.</source>
         <translation>Zuerst Tags von Elementen entfernen um sie zu löschen.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="762"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="765"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Wichtig</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="786"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="789"/>
         <source>Clear all tags</source>
         <translation>Alle Tags entfernen</translation>
     </message>
@@ -2488,8 +2499,8 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2068"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2190"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2061"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2183"/>
         <source>Options for Import</source>
         <translation>Importoptionen</translation>
     </message>
@@ -2514,7 +2525,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2439"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2432"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-Fehler</translation>
@@ -2550,27 +2561,27 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Reitersymbol ändern</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3781"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3771"/>
         <source>Options for Export</source>
         <translation>Importoptionen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3802"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3792"/>
         <source>Export Error</source>
         <translation>Exportfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3803"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3793"/>
         <source>Failed to export file %1!</source>
         <translation>Die Datei %1 konnte nicht exportiert werden!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3895"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3885"/>
         <source>Import Error</source>
         <translation>Importfehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3896"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3886"/>
         <source>Failed to import file %1!</source>
         <translation>Die Datei %1 konnte nicht importiert werden!</translation>
     </message>
@@ -2580,12 +2591,12 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1411"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1404"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Speichern der Zwisch&amp;enablage aktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1412"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1405"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Speichern der Zwischenablage &amp;deaktivieren</translation>
     </message>
@@ -2601,22 +2612,22 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <translation>CopyQ-Elemente (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4081"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4071"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle Reiter in der Gruppe entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4082"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4072"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen Sie wirklich &lt;strong&gt;alle Reiter&lt;/strong&gt; in der Gruppe &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4129"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4119"/>
         <source>Remove Tab?</source>
         <translation>Reiter entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4130"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4120"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen Sie den Reiter &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
@@ -2636,13 +2647,13 @@ Zum Deaktivieren auf 0 setzen.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="565"/>
+        <location filename="../src/common/common.cpp" line="570"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;VERSTECKT&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="571"/>
+        <location filename="../src/common/common.cpp" line="576"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2651,25 +2662,25 @@ Zum Deaktivieren auf 0 setzen.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="581"/>
+        <location filename="../src/common/common.cpp" line="586"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILD&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="583"/>
+        <location filename="../src/common/common.cpp" line="588"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ELEMENTE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="585"/>
+        <location filename="../src/common/common.cpp" line="590"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;LEER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="587"/>
+        <location filename="../src/common/common.cpp" line="592"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATEN&gt;</translation>
@@ -3127,7 +3138,7 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="418"/>
+        <location filename="../src/item/itemfactory.cpp" line="442"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>Der Inhalt des Reiters %1 ist beschädigt oder benötigte CopyQ-Plugins sind nicht vorhanden!</translation>
     </message>
@@ -3426,7 +3437,7 @@ Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
@@ -3513,7 +3524,7 @@ Verwende %1 im PROGRAMM, um Text als Argument zu übernehmen.</translation>
         <translation>Starte Server im Hintergrund vor Start eines Kommandos.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1603"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1608"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ungültige Option „%1“!</translation>
     </message>
@@ -3551,87 +3562,87 @@ Print version of program and libraries.</source>
 Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>Usage: copyq [%1]</source>
         <translation>Verwendung: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>Starts server if no command is specified.</source>
         <translation>Startet Server, sofern kein Befehl angegeben wurde.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  COMMANDs:</source>
         <translation>  BEFEHLe:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
         <source>NOTES:</source>
         <translation>NOTIZEN:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Bindestrichargument (-) verwenden, um von der Standardeingabe zu lesen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="937"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="972"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="942"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="977"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ Clipboard-Manager</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3051"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3056"/>
         <source>Exception</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3052"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3057"/>
         <source>Exception in %1</source>
         <translation>Fehler in %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3156"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3161"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Das Kopieren in die Zwischenablage ist fehlgeschlagen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="134"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Doppelbindestrichargument (--) verwenden, um alle folgenden Argumente
     zu lesen ohne die Escapesequenzen zu erweitern (z.&#xa0;B. \n, \t und weitere).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="136"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - ? verwenden, um alle verfügbaren MIME-Typen auszugeben (Standard ist „text/plain“).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="141"/>
         <source>Invalid number of arguments!</source>
         <translation>Ungültige Anzahl an Argumenten!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="984"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="989"/>
         <source>Command not found!</source>
         <translation>Befehl wurde nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1083"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1088"/>
         <source>Terminating server.
 </source>
         <translation>Server wird beendet.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="850"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Datei „%1“ kann nicht gespeichert werden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="860"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Datei „%1“ kann nicht importiert werden!</translation>
     </message>

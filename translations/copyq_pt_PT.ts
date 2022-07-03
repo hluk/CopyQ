@@ -94,15 +94,13 @@
         <translation>Gravar itens no separador indicado (deixar vazio para gravar no separador actual)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command saved</source>
-        <translation>Comando gravado</translation>
+        <translation type="vanished">Comando gravado</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>O comando foi gravado e pode ser acedido no menu de itens.
+        <translation type="vanished">O comando foi gravado e pode ser acedido no menu de itens.
 Pode configurar o comando nas preferências.</translation>
     </message>
 </context>
@@ -1722,7 +1720,7 @@ Definir como 0 para desactivar.</translation>
 <context>
     <name>FilterCompleter</name>
     <message>
-        <location filename="../src/gui/filtercompleter.cpp" line="175"/>
+        <location filename="../src/gui/filtercompleter.cpp" line="189"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
         <translation>Alt + ↓</translation>
@@ -2015,6 +2013,19 @@ Definir como 0 para desactivar.</translation>
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Especifique nomes de separadores (um por linha) que serão automaticamente encriptados e desencriptados.&lt;/p&gt;
 &lt;p&gt;Defina o intervalo de descarga do separador no separador Histórico para descarregar com segurança itens desencriptados da memória.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ItemFactory</name>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="91"/>
+        <source>Corrupted Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="92"/>
+        <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2350,23 +2361,23 @@ Definir como 0 para desactivar.</translation>
         <translation>Remover etiqueta %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="625"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="628"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Impossível remover itens com uma etiqueta de bloqueio</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="626"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="629"/>
         <source>Untag items first to remove them.</source>
         <translation>Remover as etiquetas dos itens antes de os remover.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="762"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="765"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Importante</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="786"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="789"/>
         <source>Clear all tags</source>
         <translation>Limpar todas as etiquetas</translation>
     </message>
@@ -2563,23 +2574,23 @@ Definir como 0 para desactivar.</translation>
         <translation>Alterar í&amp;cone do separador</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1411"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1404"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Activar armaz&amp;enamento na memória</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1412"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1405"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Desactivar armazenamento na memória</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2068"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2190"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2061"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2183"/>
         <source>Options for Import</source>
         <translation>Opções para importação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2439"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2432"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Erro do CopyQ</translation>
@@ -2590,17 +2601,17 @@ Definir como 0 para desactivar.</translation>
         <translation>Mo&amp;strar/Ocultar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3781"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3771"/>
         <source>Options for Export</source>
         <translation>Opções para exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3802"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3792"/>
         <source>Export Error</source>
         <translation>Erro de exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3803"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3793"/>
         <source>Failed to export file %1!</source>
         <translation>Falha ao exportar %1!</translation>
     </message>
@@ -2616,32 +2627,32 @@ Definir como 0 para desactivar.</translation>
         <translation>Itens CopyQ (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3895"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3885"/>
         <source>Import Error</source>
         <translation>Erro de importação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3896"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3886"/>
         <source>Failed to import file %1!</source>
         <translation>Falha ao importar %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4081"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4071"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Remover todos os separadores no grupo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4082"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4072"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover &lt;strong&gt;todos os separadores&lt;/strong&gt; no grupo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4129"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4119"/>
         <source>Remove Tab?</source>
         <translation>Remover separador?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4130"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4120"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover o separador &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2657,13 +2668,13 @@ Definir como 0 para desactivar.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/common.cpp" line="565"/>
+        <location filename="../src/common/common.cpp" line="570"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;OCULTO&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="571"/>
+        <location filename="../src/common/common.cpp" line="576"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2672,25 +2683,25 @@ Definir como 0 para desactivar.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="581"/>
+        <location filename="../src/common/common.cpp" line="586"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;IMAGEM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="583"/>
+        <location filename="../src/common/common.cpp" line="588"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;ITEMS&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="585"/>
+        <location filename="../src/common/common.cpp" line="590"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;VAZIO&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="587"/>
+        <location filename="../src/common/common.cpp" line="592"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DADOS&gt;</translation>
@@ -3148,7 +3159,7 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
         <translation>A&amp;juda</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="418"/>
+        <location filename="../src/item/itemfactory.cpp" line="442"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>O separador %1 está corrompido ou faltam extensões do CopyQ!</translation>
     </message>
@@ -3434,7 +3445,7 @@ A predefinição é o primeiro.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>COMMAND</source>
         <translation>COMANDO</translation>
     </message>
@@ -3567,92 +3578,92 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation>Executar testes da aplicação (usar --help para mais informação).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>Usage: copyq [%1]</source>
         <translation>Utilização: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>Starts server if no command is specified.</source>
         <translation>Inicia o servidor se não for especificado um comando.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  COMMANDs:</source>
         <translation>  COMANDOs:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
         <source>NOTES:</source>
         <translation>NOTAS:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Utilizar argumento travessão (-) para ler dados da entrada padrão.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="134"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Utilizar argumento travessão duplo (--) para ler todos os argumentos seguintes
      sem expandir sequências de escape (i.e. \n, \t e outras).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="136"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Utilizar ? para MIME para imprimir todos os tipos MIME disponíveis (predefinição é &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="141"/>
         <source>Invalid number of arguments!</source>
         <translation>Número de argumentos inválido!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="937"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="972"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="942"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="977"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ Gestor da memória</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="984"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="989"/>
         <source>Command not found!</source>
         <translation>Comando não encontrado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1083"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1088"/>
         <source>Terminating server.
 </source>
         <translation>A terminar o servidor.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="850"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Impossível gravar em &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="860"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Impossível importar &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1603"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1608"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Opção &quot;%1&quot; inválida!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3051"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3056"/>
         <source>Exception</source>
         <translation>Excepção</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3052"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3057"/>
         <source>Exception in %1</source>
         <translation>Excepção em %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3156"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3161"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Impossível copiar para a memória!</translation>
     </message>
