@@ -1998,12 +1998,12 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Scheda corrotta</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Non tutti gli elementi nella scheda &lt;strong&gt;%1&lt;/strong&gt; sono stati caricati correttamente. Vuoi ancora caricare la scheda e potenzialmente perdere alcuni elementi?</translation>
     </message>
 </context>
 <context>
