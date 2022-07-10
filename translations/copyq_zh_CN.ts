@@ -3769,7 +3769,7 @@ Print version of program and libraries.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>标签页名称必须非空且不重复。&lt;br /&gt;
-标签页&lt;b&gt;No&amp;amp;tes&lt;/b&gt; 可以使用快捷键 &lt;b&gt;Alt+t&lt;/b&gt; 打开。&lt;br /&gt;
+&lt;b&gt;No&amp;amp;tes&lt;/b&gt; 标签页可以使用快捷键 &lt;b&gt;Alt+t&lt;/b&gt; 打开。&lt;br /&gt;
 标签树布局中可使用 &lt;b&gt;/&lt;/b&gt; 路径分隔符。</translation>
     </message>
     <message>

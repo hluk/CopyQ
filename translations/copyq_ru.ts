@@ -1999,12 +1999,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Повреждённая вкладка</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Не все элементы вкладки &lt;strong&gt;%1&lt;/strong&gt; были успешно загружены. Всё ещё хотите загрузить вкладку и возможно потерять некоторые элементы?</translation>
     </message>
 </context>
 <context>
