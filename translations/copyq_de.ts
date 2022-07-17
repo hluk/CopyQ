@@ -1999,12 +1999,12 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Beschädigter Reiter</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht alle Elemente im Reiter &lt;strong&gt;%1&lt;/strong&gt; wurden erfolgreich geladen. Möchten Sie den Reiter trotzdem laden (und möglicherweise manche Elemente verlieren)?</translation>
     </message>
 </context>
 <context>
