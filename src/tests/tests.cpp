@@ -547,7 +547,7 @@ public:
         if ( !testStderr(stderrActual) || exitCode != 0 )
             return printClienAndServerStderr(stderrActual, exitCode);
 
-        RETURN_ON_ERROR( readServerErrors(), "Failed gettting client output" );
+        RETURN_ON_ERROR( readServerErrors(), "Failed getting client output" );
 
         return "";
     }
@@ -909,7 +909,7 @@ void Tests::badCommand()
     RUN_EXPECT_ERROR_WITH_STDERR("xxx", CommandException, "xxx");
     RUN_EXPECT_ERROR_WITH_STDERR("tab" << testTab(1) << "yyy", CommandException, "yyy");
 
-    // Bad command shoudn't create new tab.
+    // Bad command shouldn't create new tab.
     QByteArray stdoutActual;
     QByteArray stderrActual;
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
@@ -1001,7 +1001,7 @@ void Tests::commandEvalEndingWithComment()
             throw e;
         }
 
-    (Unfortunatelly, it's still possible to escape the function with a script injection.)
+    (Unfortunately, it's still possible to escape the function with a script injection.)
     */
     RUN("eval" << "1 // TEST", "1\n");
 }
@@ -3821,7 +3821,7 @@ void Tests::scriptCommandEndingWithComment()
             %1
         }()
 
-    (Unfortunatelly, it's still possible to escape the new context with a script injection.)
+    (Unfortunately, it's still possible to escape the new context with a script injection.)
     */
 
     const auto script = R"(

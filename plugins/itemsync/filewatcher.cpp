@@ -559,7 +559,7 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
         createItems( items, m_model->rowCount() );
     }
 
-    // TODO: Remove excesive items, but not pinned.
+    // TODO: Remove excessive items, but not pinned.
     // This must be done elsewhere using QTimer 0.
 }
 

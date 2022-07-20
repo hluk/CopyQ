@@ -80,7 +80,7 @@ private:
 
     QPointer<QAbstractItemModel> m_model;
 
-    // Last pinned row in list (improves performace of updates).
+    // Last pinned row in list (improves performance of updates).
     int m_lastPinned = -1;
 };
 

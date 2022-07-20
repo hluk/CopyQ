@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 LABEL \
     name="CopyQ Launchpad Environment" \
-    description="Enviroment for submitting CopyQ to Launchpad" \
+    description="Environment for submitting CopyQ to Launchpad" \
     vendor="Lukas Holecek <hluk@email.cz>" \
     license="GPLv2+"
 

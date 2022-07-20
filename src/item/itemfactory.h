@@ -89,7 +89,7 @@ public:
      * Method createItem() tries to instantiate ItemWidget with loader in this order.
      *
      * If priority of a loader is not set here, it is sorted after using
-     * ItemLoaderInterface::priotity() after all loader explicitly sorted.
+     * ItemLoaderInterface::priority() after all loader explicitly sorted.
      */
     void setPluginPriority(const QStringList &pluginNames);
 

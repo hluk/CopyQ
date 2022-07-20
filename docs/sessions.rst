@@ -49,7 +49,7 @@ You need to use same session name for clients launched outside the application.
 Configuration Path
 ------------------
 
-Current configuration path can be overriden with ``COPYQ_SETTINGS_PATH``
+Current configuration path can be overridden with ``COPYQ_SETTINGS_PATH``
 environment variable.
 
 ::
@@ -60,7 +60,7 @@ environment variable.
     $ COPYQ_SETTINGS_PATH=$HOME/copyq-settings copyq info config
     /home/user/copyq-settings/copyq/copyq.conf
 
-You need to use same configuration path (and session name) for clients lauched
+You need to use same configuration path (and session name) for clients launched
 outside the application.
 
 ::

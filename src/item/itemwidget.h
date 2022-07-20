@@ -65,7 +65,7 @@ public:
     QWidget *widget() const { return m_widget; }
 
     /**
-     * Size of widget needs to be updated (because maximum size chaged).
+     * Size of widget needs to be updated (because maximum size changed).
      */
     virtual void updateSize(QSize maximumSize, int idealWidth);
 

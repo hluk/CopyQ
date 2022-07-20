@@ -122,7 +122,7 @@ public:
         {
             const auto t = m_elapsed.elapsed();
             if (t > 500)
-                log( QString("ELAPSED %1 ms acessing \"%2\"").arg(t).arg(m_format), LogWarning );
+                log( QString("ELAPSED %1 ms accessing \"%2\"").arg(t).arg(m_format), LogWarning );
         }
     private:
         QString m_format;
@@ -172,7 +172,7 @@ public:
         if (!refresh())
             return QImage();
 
-        // NOTE: Application hangs if using mulitple sessions and
+        // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
         COPYQ_LOG_VERBOSE("Fetching image data from clipboard");
         const QImage image = m_dataGuard->imageData().value<QImage>();
@@ -244,7 +244,7 @@ QString getImageFormatFromMime(const QString &mime)
 }
 
 /**
- * Sometimes only Qt internal image data are available in cliboard,
+ * Sometimes only Qt internal image data are available in clipboard,
  * so this tries to convert the image data (if available) to given format.
  */
 void cloneImageData(

@@ -345,7 +345,7 @@ void CommandDialog::onAddCommands(const QVector<Command> &commands)
 void CommandDialog::onCommandTextChanged(const QString &command)
 {
     // Paste commands (starting with [Command] or [Commands]) correctly
-    // even if mistakingly pasted into text edit widget.
+    // even if mistakenly pasted into text edit widget.
     if ( hasCommandsToPaste(command) ) {
         const int row = ui->itemOrderListCommands->currentRow();
         ui->itemOrderListCommands->removeRow(row);

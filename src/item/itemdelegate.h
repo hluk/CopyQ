@@ -91,7 +91,7 @@ class ItemDelegate final : public QItemDelegate
                                              bool editNotes);
 
         /**
-         * Highlight matched text with current serch expression, font and color.
+         * Highlight matched text with current search expression, font and color.
          */
         void highlightMatches(ItemWidget *itemWidget) const;
 

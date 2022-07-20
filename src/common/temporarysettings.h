@@ -33,7 +33,7 @@ public:
     /// Creates temporary settings file.
     explicit TemporarySettings(const QByteArray &content = QByteArray());
 
-    /// Destroys undelying settings and removes settings file.
+    /// Destroys underlying settings and removes settings file.
     ~TemporarySettings();
 
     /// Returns underlying settings.

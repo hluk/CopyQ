@@ -1166,7 +1166,7 @@
 - Fix navigating item list
 - Fix getting boolean from checkbox in dialog()
 - Fix default move action for drag'n'drop
-- Fix exitting on logout when tray is disabled
+- Fix exiting on logout when tray is disabled
 
 # v3.0.0
 - Pinned and protected items
