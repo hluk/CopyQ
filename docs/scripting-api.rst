@@ -258,14 +258,14 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns true only if clipboard contains MIME type.
 
-   :returns: ``true`` if clipboad contans the format, otherwise ``false``.
+   :returns: ``true`` if clipboad contains the format, otherwise ``false``.
    :rtype: bool
 
 .. js:function:: hasSelectionFormat(mimeType)
 
    Same as :js:func:`hasClipboardFormat` for `Linux mouse selection`_.
 
-   :returns: ``true`` if selection contans the format, otherwise ``false``.
+   :returns: ``true`` if selection contains the format, otherwise ``false``.
    :rtype: bool
 
 .. js:function:: isClipboard()
@@ -1530,7 +1530,7 @@ unlike in GUI, where row numbers start from 1 by default.
    :returns: Formats to get and save automatically from clipboard.
    :rtype: array of strings
 
-   Override the funtion, for example, to save only plain text:
+   Override the function, for example, to save only plain text:
 
    .. code-block:: js
 

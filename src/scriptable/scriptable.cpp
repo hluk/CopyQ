@@ -2482,7 +2482,7 @@ QJSValue Scriptable::setPointerPosition()
 
     m_proxy->setPointerPosition(x, y);
 
-    // Appearantly, on macOS the pointer position is set only after some time.
+    // Apparently, on macOS the pointer position is set only after some time.
     SleepTimer t(5000);
     while ( m_proxy->pointerPosition() != QPoint(x, y) ) {
         if ( !t.sleep() )

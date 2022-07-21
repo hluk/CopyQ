@@ -148,7 +148,7 @@ finish_tests() {
     assert_true stop_server
 }
 
-# Called befor each test is executed.
+# Called before each test is executed.
 init_test() {
     assert_true is_server_running
     has_tab "test" &&

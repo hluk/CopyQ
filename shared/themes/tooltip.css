@@ -2,7 +2,7 @@
     ;${notes_font}
     ;background: ${notes_bg}
     ;color: ${notes_fg}
-    /* Reseting border helps in some cases to set correct background color. */
+    /* Resetting border helps in some cases to set correct background color. */
     ;border: 1px solid ${notes_fg}
     ;${notes_css}
 }

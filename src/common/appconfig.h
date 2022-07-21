@@ -410,7 +410,7 @@ struct save_on_app_deactivated : Config<bool> {
 struct native_menu_bar : Config<bool> {
     static QString name() { return "native_menu_bar"; }
 #ifdef Q_OS_MAC
-    // Native menu bar does't show on macOS.
+    // Native menu bar doesn't show on macOS.
     // See: https://github.com/hluk/CopyQ/issues/1444
     static Value defaultValue() { return false; }
 #else

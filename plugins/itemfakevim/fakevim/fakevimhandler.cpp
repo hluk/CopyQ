@@ -882,7 +882,7 @@ static QString getProcessOutput(const QString &command, const QString &input)
     proc.write(toLocalEncoding(input));
     proc.closeWriteChannel();
 
-    // FIXME: Process should be interruptable by user.
+    // FIXME: Process should be interruptible by user.
     //        Solution is to create a QObject for each process and emit finished state.
     proc.waitForFinished();
 
@@ -8878,7 +8878,7 @@ void FakeVimHandler::Private::selectParagraphTextObject(bool inner)
 
     moveToParagraphStartOrEnd(d);
 
-    // If selection already changed, decreate count.
+    // If selection already changed, decrease count.
     if ((setupAnchor && g.submode != NoSubMode)
         || oldVisualMode != g.visualMode
         || m_cursor != oldCursor)
@@ -9140,7 +9140,7 @@ bool FakeVimHandler::Private::selectArgumentTextObject(bool inner)
             tcEnd.setPosition(tcEnd.position() + 1);
     }
 
-    // Never include the opening paranthesis
+    // Never include the opening parenthesis
     if (characterAt(tcStart.position()) == '(') {
         tcStart.setPosition(tcStart.position() + 1);
     } else if (inner) {

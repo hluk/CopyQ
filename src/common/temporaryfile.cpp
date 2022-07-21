@@ -38,7 +38,7 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
     }
 
     if ( !file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner) ) {
-        log( QString("Failed set permisssions to temporary file \"%1\"")
+        log( QString("Failed set permissions to temporary file \"%1\"")
              .arg(file->fileName()), LogError );
         return false;
     }
