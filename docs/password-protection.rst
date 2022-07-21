@@ -18,9 +18,9 @@ Configuration dialog) may prompt you to install
 `GnuPG <http://www.gnupg.org/>`__:
 
 -  For Windows you can use `Chocolatey <https://chocolatey.org/install>`__ to
-   install `Gpg4win Vanilla <https://chocolatey.org/packages/gpg4win-vanilla>`__::
+   install `Gpg4win <https://chocolatey.org/packages/gpg4win>`__::
 
-       choco install gpg4win-vanilla
+       choco install gpg4win
 
 -  For Linux install ``gpg`` command line utility. It's usually provided
    by ``gnupg`` package but the package name may differ on some
