@@ -128,7 +128,14 @@ On OS X, required Qt 5 libraries and utilities can be easily installed with `Hom
     git -C "utils/github/homebrew" init .
     git -C "utils/github/homebrew" add .
     git -C "utils/github/homebrew" commit -m "Initial"
+    
     brew tap copyq/kde utils/github/homebrew/
+    # if the above "brew tap" command produces an error like
+    #     "Error: Tap copyq/kde remote mismatch"
+    # then run
+    #     brew untap --force copyq/kde
+    # and re-run the above "brew tap" command
+
     brew install qt5 copyq/kde/kf5-knotifications
 
 Build with the following commands:
@@ -141,3 +148,17 @@ Build with the following commands:
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
+
+NOTE: If no Items are shown when you start CopyQ and open "File - Preferences - Items",
+then your CopyQ plugins were not installed. If you saw warning messages like this::
+
+     /<some_path>/install_name_tool: warning: changes being made to the file will invalidate the code signature in: /<some_path>/CopyQ/_CPack_Packages/Darwin/DragNDrop/copyq-6.2.0-Darwin/CopyQ.app/Contents/Plugins/<some_file>.dylib
+
+when you ran the above "cpack" command, then you have likely encountered
+`issue 1903 <https://github.com/hluk/CopyQ/issues/1903/>`__.
+
+In that case you may codesign the CopyQ app again using the following command,
+un-install the previous CopyQ app, and install the re-signed ``CopyQ.app``::
+
+    codesign --force --deep --sign - $PWD/_CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app
+
