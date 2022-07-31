@@ -3084,8 +3084,13 @@ QString MainWindow::configDescription()
     QStringList options = configurationManager.options();
     options.sort();
     QString opts;
-    for (const auto &option : options)
-        opts.append( option + "\n  " + configurationManager.optionToolTip(option).replace('\n', "\n  ") + '\n' );
+    AppConfig appConfig;
+    configurationManager.loadSettings(&appConfig);
+    for (const auto &option : options) {
+        const QString description = configurationManager.optionToolTip(option).replace('\n', "\n  ");
+        const QString value = configurationManager.optionValue(option).toString().replace('\n', "\\n");
+        opts.append( QStringLiteral("%1=%2\n  %3\n").arg(option, value, description) );
+    }
     return opts;
 }
 
