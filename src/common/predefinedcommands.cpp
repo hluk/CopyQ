@@ -62,11 +62,39 @@ QVector<Command> predefinedCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
-    c->input = mimeText;
-    c->re   = QRegularExpression("^\\s*\\S?\\s*$");
     c->icon = QString(QChar(IconExclamationCircle));
-    c->remove = true;
-    c->automatic = true;
+    c->cmd  = R"(function hasEmptyOrSingleCharText() {
+    if (hasData(mimeText)) {
+        var text = str(data(mimeText));
+        if (text.match(/^\s*.?\s*$/)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+var onClipboardChanged_ = onClipboardChanged;
+onClipboardChanged = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        onClipboardChanged_();
+    }
+}
+
+var synchronizeFromSelection_ = synchronizeFromSelection;
+synchronizeFromSelection = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        synchronizeFromSelection_();
+    }
+}
+
+var synchronizeToSelection_ = synchronizeToSelection;
+synchronizeToSelection = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        synchronizeToSelection_();
+    }
+}
+    )";
+    c->isScript = true;
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Open in &Browser");
