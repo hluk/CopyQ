@@ -3316,7 +3316,7 @@ void MainWindow::activateCurrentItemHelper()
 
 void MainWindow::onItemClicked()
 {
-    if (m_singleClickActivate)
+    if (m_singleClickActivate && QGuiApplication::keyboardModifiers() == Qt::NoModifier)
         activateCurrentItem();
 }
 
