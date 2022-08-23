@@ -1461,12 +1461,11 @@ Note: This is not supported on all systems.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Интервал отображения уведомления (в секундах) для нового содержимого буфера обмена
-или когда объект скопирован в буфер обмена (только если главное окно закрыто).
+        <translation>Интервал отображения уведомления (в секундах) о новом содержимом буфере обмена или когда элемент скопирован в буфер обмена (только если главное окно закрыто).
 
 Укажите 0, чтобы отключить.
 
-Укажите -1, чтобы отображать до момента щелчка мышью.</translation>
+Укажите -1, чтобы отображать до момента нажатия мыши.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
