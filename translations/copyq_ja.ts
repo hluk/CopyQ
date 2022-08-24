@@ -318,7 +318,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のタブをクリア</translation>
     </message>
 </context>
 <context>
@@ -682,7 +682,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>タイプ：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
