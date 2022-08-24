@@ -717,7 +717,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропускає команду, якщо команда фільтра не виконується з ненульовим кодом виходу.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
