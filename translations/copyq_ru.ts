@@ -780,7 +780,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Используйте команду только для объектов, скопированных в буфер обмена из окна с заголовком текста, совпадающим с обычным выражением (оставьте пустым, чтобы подходило к каждому окну). В macOS это включает в себя название приложения с последующими тире &amp;quot;-&amp;quot; и заголовком окна. Например &amp;quot;Safari - GitHub&amp;quot;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Используйте команду только для объектов, скопированных в буфер обмена из окна с заголовком текста, совпадающим с обычным выражением (оставьте пустым, чтобы подходило к каждому окну). В macOS это включает в себя название приложения с последующими тире &amp;quot;-&amp;quot; и заголовком окна. Например &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="541"/>
@@ -1263,17 +1263,17 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation>Активировать объект по одному щелчку</translation>
+        <translation>Активировать объект по одному нажатию</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="240"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>По активации объекта (двойным щелчком или клавишей Enter) копировать его в буфер обмена и...</translation>
+        <translation>После активации объекта (двойным нажатием или клавишей Enter) скопировать его в буфер обмена и...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation>Переместить объект в верхнюю часть списка по его активации</translation>
+        <translation>Переместить объект в верхнюю часть списка после его активации</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="249"/>
@@ -1669,7 +1669,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Это действие сбросит все ваши настройки (во всех вкладках) на значения по умолчанию.&lt;br /&gt;&lt;br /&gt; Вы действительно хотите &lt;strong&gt;сбросить все настройки &lt;/strong&gt;?</translation>
+        <translation>Это действие сбросит все ваши настройки (во всех вкладках) на значений по умолчанию.&lt;br /&gt;&lt;br /&gt;Вы действительно хотите &lt;strong&gt;сбросить все настройки&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="601"/>
@@ -2016,7 +2016,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="44"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation>Дополнение FakeVim это часть Qt Creator</translation>
+        <translation>Дополнение FakeVim — это часть Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
@@ -2386,7 +2386,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Дополнительная информация доступна на &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki странице&lt;/a&gt;.</translation>
+        <translation>Дополнительная информация доступна на &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;странице wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -2561,7 +2561,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1405"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation>&amp;Отключить хранение буфера обмена</translation>
+        <translation>&amp;Отключить сохранение буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2432"/>
@@ -2683,7 +2683,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="590"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation>&lt;Пусто&gt;</translation>
+        <translation>&lt;ПУСТО&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="592"/>
@@ -3256,7 +3256,7 @@ Set clipboard content.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation>Копировать объект из строки в буфер обмена.</translation>
+        <translation>Скопировать объект из строки в буфер обмена.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="109"/>
@@ -3452,12 +3452,12 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Remove tab.</source>
-        <translation>Вкладка удалить.</translation>
+        <translation>Удалить вкладку.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Rename tab.</source>
-        <translation>Переименуйте вкладку.</translation>
+        <translation>Переименовать вкладку.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
@@ -3577,7 +3577,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  COMMANDs:</source>
-        <translation>  Команды:</translation>
+        <translation>  КОМАНДЫ:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="132"/>
@@ -3758,7 +3758,7 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Имя вкладки должно быть не пустым и уникальным.&lt;br /&gt; 
+        <translation>Имя вкладки должно быть не пустым и уникальным.&lt;br /&gt;
 Вкладку &lt;b&gt;Заметки&lt;/b&gt; можно открыть с помощью &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Используйте &lt;b&gt;/&lt;/b&gt; в качестве разделителя пути в оформлении вкладок в виде дерева.</translation>
     </message>
