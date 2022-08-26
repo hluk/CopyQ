@@ -3749,10 +3749,10 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>分頁名稱不可留白，且必須是唯一。&lt;br /&gt;
-例如分頁 &lt;b&gt;筆記(&amp;amp;T)&lt;/b&gt;可用&lt;b&gt;Alt+t&lt;/b&gt;開啟。&lt;br /&gt;
+例如分頁 &lt;b&gt;筆記(&amp;amp;T)&lt;/b&gt;可用&lt;b&gt;Alt+T&lt;/b&gt;開啟。&lt;br /&gt;
 於樹狀檢視分頁版面，用 &lt;b&gt;/&lt;/b&gt; 作為路徑分隔號。</translation>
     </message>
     <message>

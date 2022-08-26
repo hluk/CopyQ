@@ -3765,7 +3765,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Název záložky musí být neprázdný a unikátní&lt;br /&gt;
 Záložka &lt;b&gt;Zá&amp;amp;pisky&lt;/b&gt; může být otevřena pomocí &lt;b&gt;Alt+p&lt;/b&gt;.&lt;br /&gt;

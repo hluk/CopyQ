@@ -3750,10 +3750,10 @@ Affiche la version du programme et de ses bibliothèques.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Le nom de l&apos;onglet doit être non vide et unique.&lt;br /&gt;
-Onglet &lt;b&gt;No&amp;amp;tes&lt;/b&gt; peut être ouvert avec &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Onglet &lt;b&gt;No&amp;amp;tes&lt;/b&gt; peut être ouvert avec &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescence de l&apos;onglet.</translation>
     </message>
     <message>

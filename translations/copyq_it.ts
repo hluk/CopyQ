@@ -3747,10 +3747,10 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Il nome scheda non può essere vuoto e deve essere univoco.&lt;br/&gt;
-La scheda &lt;b&gt;No&amp;amp;ta&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+La scheda &lt;b&gt;No&amp;amp;ta&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</translation>
     </message>
     <message>

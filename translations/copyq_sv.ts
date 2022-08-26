@@ -3738,10 +3738,10 @@ Skriv ut version på program och bibliotek.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Fliknamn måste vara unikt och inte tomt.&lt;br /&gt;
-Fliken &lt;b&gt;An&amp;amp;teckningar&lt;/b&gt; kan öppnas med &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Fliken &lt;b&gt;An&amp;amp;teckningar&lt;/b&gt; kan öppnas med &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</translation>
     </message>
     <message>

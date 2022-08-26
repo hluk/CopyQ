@@ -3769,7 +3769,7 @@ Imprimir versão do programa e bibliotecas.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>O nome do separador tem de ser único e não pode estar vazio.&lt;br /&gt;
 As &lt;b&gt;No&amp;amp;tas&lt;/b&gt; do separador podem ser abertas usando &lt;b&gt;Alt + t&lt;/b&gt;.&lt;br /&gt;

@@ -3490,10 +3490,10 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Nama tab harus tidak kosong dan unik. &lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; dapat dibuka menggunakan &lt;b&gt;Alt+t&lt;/b&gt;. &lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; dapat dibuka menggunakan &lt;b&gt;Alt+T&lt;/b&gt;. &lt;br /&gt;
 Gunakan &lt;b&gt;/&lt;/b&gt; sebagai path separator dalam tata letak tab tree view.</translation>
     </message>
     <message>

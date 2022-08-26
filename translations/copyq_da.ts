@@ -3723,10 +3723,10 @@ Udskriv programversion og biblioteker.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Fanenavn skal være unik og ikke-tom.&lt;br/&gt; 
-Fanen &lt;b&gt; No&amp;amp;ter&lt;/b&gt; kan åbnes ved hjælp &lt;b&gt; Alt+t&lt;/b&gt;&lt;br/&gt; 
+Fanen &lt;b&gt; No&amp;amp;ter&lt;/b&gt; kan åbnes ved hjælp &lt;b&gt; Alt+T&lt;/b&gt;&lt;br/&gt; 
 Brug &lt;b&gt;/&lt;/b&gt; som sti separator i trævisningen under fanen layout.</translation>
     </message>
     <message>

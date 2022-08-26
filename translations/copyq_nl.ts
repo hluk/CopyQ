@@ -3703,10 +3703,10 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>De tabbladnaam mag niet blanco en moet uniek zijn.&lt;br /&gt;
-Tabblad&lt;b&gt;aan&amp;amp;tekeningen&lt;/b&gt; kunnen worden geopend met &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tabblad&lt;b&gt;aan&amp;amp;tekeningen&lt;/b&gt; kunnen worden geopend met &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Gebruik &lt;b&gt;/&lt;/b&gt; als padscheiding in de boomweergave-indeling.</translation>
     </message>
     <message>

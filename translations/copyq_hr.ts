@@ -3653,10 +3653,10 @@ Standardno se koristi prva kartica.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Ime kartice ne smije biti prazno i mora biti jedinstveno. &lt;br /&gt;
-Kartica &lt;b&gt;Napomene&lt;/b&gt; može se otvoriti pomoću &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Kartica &lt;b&gt;Napomene&lt;/b&gt; može se otvoriti pomoću &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Koristi &lt;b&gt;/&lt;/b&gt; kao znak razdvajanja staza u stablastom prikazu kartica.</translation>
     </message>
     <message>

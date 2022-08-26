@@ -3748,7 +3748,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Der Name des Reiters muss eindeutig sein und darf nicht leer sein.&lt;br /&gt;
 Der Reiter &lt;b&gt;No&amp;amp;tizen&lt;/b&gt; kann mit &lt;b&gt;Alt+T&lt;/b&gt; geöffnet werden.&lt;br/&gt;
