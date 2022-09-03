@@ -2447,7 +2447,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Максимальное количество отображаемых строк (0 для отображения всех):</translation>
+        <translation>Максимум отображаемых строк (0 — все):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
