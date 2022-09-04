@@ -2189,12 +2189,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Открепите объекты перед тем, как удалить.</translation>
+        <translation>Открепите объекты перед удалением.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="364"/>
         <source>Pin</source>
-        <translation>Прикрепить</translation>
+        <translation>Закрепить</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="372"/>
