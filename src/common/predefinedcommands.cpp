@@ -64,9 +64,10 @@ QVector<Command> predefinedCommands()
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
     c->icon = QString(QChar(IconExclamationCircle));
     c->cmd  = R"(function hasEmptyOrSingleCharText() {
-    if (hasData(mimeText)) {
+    if (dataFormats().includes(mimeText)) {
         var text = str(data(mimeText));
         if (text.match(/^\s*.?\s*$/)) {
+            serverLog('Ignoring text with single or no character');
             return true;
         }
     }
