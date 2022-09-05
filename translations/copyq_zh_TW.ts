@@ -1998,7 +1998,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>損壞的分頁</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
@@ -2457,7 +2457,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>預設樣式表:</translation>
     </message>
 </context>
 <context>
@@ -3046,7 +3046,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>取消編輯</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3092,7 +3092,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation type="unfinished">前景</translation>
+        <translation>前景</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
@@ -3118,7 +3118,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>用編輯器編輯(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
