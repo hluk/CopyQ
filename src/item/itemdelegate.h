@@ -140,6 +140,8 @@ class ItemDelegate final : public QItemDelegate
 
         ItemWidget *updateCache(const QModelIndex &index, const QVariantMap &data);
 
+        void updateSize(ItemWidget *w, int row);
+
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
         ItemFilterPtr m_filter;

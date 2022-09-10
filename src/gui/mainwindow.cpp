@@ -2642,6 +2642,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_trayMenu->setRowIndexFromOne(m_sharedData->rowIndexFromOne);
     m_menu->setRowIndexFromOne(m_sharedData->rowIndexFromOne);
+    m_sharedData->theme.setRowIndexFromOne(m_sharedData->rowIndexFromOne);
 
     m_options.transparency = appConfig->option<Config::transparency>();
     m_options.transparencyFocused = appConfig->option<Config::transparency_focused>();

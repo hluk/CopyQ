@@ -23,6 +23,7 @@
 #include "common/option.h"
 
 #include <QFont>
+#include <QFontMetrics>
 #include <QHash>
 #include <QPalette>
 #include <QStringList>
@@ -93,10 +94,10 @@ public:
 
     void updateTheme();
 
+    QSize rowNumberSize(int n) const;
     bool showRowNumber() const { return m_showRowNumber; }
     const QFont &rowNumberFont() const { return m_rowNumberFont; }
     const QPalette &rowNumberPalette() const { return m_rowNumberPalette; }
-    QSize rowNumberSize() const { return m_rowNumberSize; }
 
     const QFont &editorFont() const { return m_editorFont; }
     const QPalette &editorPalette() const { return m_editorPalette; }
@@ -105,6 +106,8 @@ public:
     const QPalette &searchPalette() const { return m_searchPalette; }
 
     QSize margins() const { return m_margins; }
+
+    void setRowIndexFromOne(bool enabled) { m_rowIndexFromOne = enabled; }
 
 private:
     void decorateBrowser(QAbstractScrollArea *c) const;
@@ -125,7 +128,7 @@ private:
     Ui::ConfigTabAppearance *ui = nullptr;
 
     QFont m_rowNumberFont;
-    QSize m_rowNumberSize;
+    QFontMetrics m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
     QPalette m_rowNumberPalette;
     bool m_showRowNumber = false;
 
@@ -137,6 +140,8 @@ private:
 
     bool m_antialiasing = true;
     QSize m_margins;
+
+    bool m_rowIndexFromOne = true;
 };
 
 QString serializeColor(const QColor &color);

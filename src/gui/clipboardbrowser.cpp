@@ -646,11 +646,6 @@ void ClipboardBrowser::preload(int pixels, int direction, const QModelIndex &sta
     int y = 0;
 
     const auto margins = m_sharedData->theme.margins();
-    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const auto padding = QPoint(
-        rowNumberSize.width() + margins.width() - spacing(),
-        margins.height()
-    );
 
     int items = 0;
     bool anyShown = false;
@@ -659,7 +654,11 @@ void ClipboardBrowser::preload(int pixels, int direction, const QModelIndex &sta
             continue;
 
         const auto rect = visualRect(ind);
-        const auto pos = rect.topLeft() + padding;
+        const auto rowNumberWidth = m_sharedData->theme.rowNumberSize(row).width();
+        const auto pos = QPoint(
+            rect.left() + margins.width() - spacing() + rowNumberWidth,
+            rect.top() + margins.height()
+        );
 
         if ( d.showAt(ind, pos) )
             anyShown = true;

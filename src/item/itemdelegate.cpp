@@ -66,7 +66,7 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
         if (w != nullptr) {
             QWidget *ww = w->widget();
             const auto margins = m_sharedData->theme.margins();
-            const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
+            const auto rowNumberSize = m_sharedData->theme.rowNumberSize(row);
             const int width = ww->isVisible() ? ww->width() + 2 * margins.width() + rowNumberSize.width() : 0;
             return QSize( width, qMax(ww->height() + 2 * margins.height(), rowNumberSize.height()) );
         }
@@ -143,7 +143,7 @@ bool ItemDelegate::showAt(const QModelIndex &index, QPoint pos)
 
     if ( m_idealWidth > 0 && !ww->property(propertySizeUpdated).toBool() ) {
         ww->setProperty(propertySizeUpdated, true);
-        w->updateSize(m_maxSize, m_idealWidth);
+        updateSize(w, index.row());
     }
 
     return true;
@@ -228,17 +228,26 @@ ItemWidget *ItemDelegate::cacheOrNull(int row) const
 void ItemDelegate::setItemSizes(QSize size, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();
-    const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const int margin = 2 * margins.width() + rowNumberSize.width() + 2 * m_view->spacing();
+    const int margin = 2 * margins.width() + 2 * m_view->spacing();
     m_maxSize.setWidth(size.width() - margin);
     m_idealWidth = idealWidth - margin;
 
     if (m_idealWidth > 0) {
-        for (auto &w : m_cache) {
+        for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
+            ItemWidget *w = m_cache[row].get();
             if (w != nullptr)
-                w->updateSize(m_maxSize, m_idealWidth);
+                updateSize(w, row);
         }
     }
+}
+
+void ItemDelegate::updateSize(ItemWidget *w, int row)
+{
+    const int rowNumberWidth = m_sharedData->theme.rowNumberSize(row).width();
+    w->updateSize(
+        QSize(m_maxSize.width() - rowNumberWidth, m_maxSize.height()),
+        m_idealWidth - rowNumberWidth
+    );
 }
 
 ItemEditorWidget *ItemDelegate::createCustomEditor(
@@ -355,7 +364,7 @@ void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent
 
     w->setCurrent(isCurrent);
     if (m_idealWidth > 0)
-        w->updateSize(m_maxSize, m_idealWidth);
+        updateSize(w, index.row());
 }
 
 void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelected)
