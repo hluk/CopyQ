@@ -225,7 +225,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
 
     auto layout = new QHBoxLayout(tagWidget);
     const int x = QFontMetrics(font).height() / 6;
-    layout->setContentsMargins(x, x, x, x);
+    layout->setContentsMargins(x, 0, x, 0);
     layout->setSpacing(x * 2);
 
     if (tag.icon.size() > 1) {
