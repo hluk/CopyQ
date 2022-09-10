@@ -555,20 +555,17 @@ void Theme::updateTheme()
     m_showRowNumber = value("show_number").toBool();
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
-
-    if (m_showRowNumber) {
-        QFontMetrics fm(m_rowNumberFont);
-        QSize size = fm.boundingRect(QStringLiteral("0000")).size();
-        for (int i = 1; i < 10; ++i) {
-            const int n = i + i*10 + i*100 + i*1000;
-            size = size.expandedTo( fm.boundingRect(QString::number(n)).size() );
-        }
-        m_rowNumberSize = size + m_margins;
-    } else {
-        m_rowNumberSize = QSize(0, 0);
-    }
+    m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
 
     m_antialiasing = value("font_antialiasing").toBool();
+}
+
+QSize Theme::rowNumberSize(int n) const
+{
+    if (!m_showRowNumber)
+        return QSize(0, 0);
+
+    return m_rowNumberFontMetrics.boundingRect(QString::number(n + m_rowIndexFromOne)).size() + m_margins;
 }
 
 void Theme::decorateBrowser(QAbstractScrollArea *c) const
