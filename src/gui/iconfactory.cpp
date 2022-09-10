@@ -382,10 +382,9 @@ public:
 
     QPixmap createPixmap(QSize size, QIcon::Mode mode, QIcon::State state, QPainter *painter = nullptr)
     {
-        // WORKAROUND: Big icons can cause application to crash,
-        //             so limit icon size to 1024x1024.
-        if ( size.width() > 1024 || size.height() > 1024 )
-            size.scale(1024, 1024, Qt::KeepAspectRatio);
+        // WORKAROUND: Big icons can cause application to crash.
+        if ( size.width() > 256 || size.height() > 256 )
+            size.scale(256, 256, Qt::KeepAspectRatio);
 
         if (painter)
             size *= pixelRatio(painter->paintEngine()->paintDevice());

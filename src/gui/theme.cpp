@@ -233,12 +233,6 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
     return result;
 }
 
-int itemMargin()
-{
-    const int dpi = QGuiApplication::primaryScreen()->physicalDotsPerInchX();
-    return std::max(2, dpi / 72);
-}
-
 QString themePrefix()
 {
 #ifdef COPYQ_THEME_PREFIX
@@ -545,8 +539,7 @@ void Theme::resetTheme()
 
 void Theme::updateTheme()
 {
-    const auto margin = itemMargin();
-    m_margins = QSize(margin + 2, margin);
+    m_margins = QSize(2, 2);
 
     // search style
     m_searchPalette.setColor(QPalette::Base, color("find_bg"));
@@ -562,8 +555,18 @@ void Theme::updateTheme()
     m_showRowNumber = value("show_number").toBool();
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
-    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QLatin1String("0123") ).size()
-            + QSize(m_margins.width(), m_margins.height());
+
+    if (m_showRowNumber) {
+        QFontMetrics fm(m_rowNumberFont);
+        QSize size = fm.boundingRect(QStringLiteral("0000")).size();
+        for (int i = 1; i < 10; ++i) {
+            const int n = i + i*10 + i*100 + i*1000;
+            size = size.expandedTo( fm.boundingRect(QString::number(n)).size() );
+        }
+        m_rowNumberSize = size + m_margins;
+    } else {
+        m_rowNumberSize = QSize(0, 0);
+    }
 
     m_antialiasing = value("font_antialiasing").toBool();
 }

@@ -624,7 +624,7 @@ void ClipboardBrowser::preloadCurrentPage()
 {
     const int h = viewport()->contentsRect().height();
     const QModelIndex start = indexNear(0);
-    preload(h, false, start);
+    preload(h, 1, start);
 }
 
 void ClipboardBrowser::preloadCurrentPageLater()
@@ -633,7 +633,7 @@ void ClipboardBrowser::preloadCurrentPageLater()
         m_timerPreload.start();
 }
 
-void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
+void ClipboardBrowser::preload(int pixels, int direction, const QModelIndex &start)
 {
     QElapsedTimer t;
     t.start();
@@ -641,15 +641,16 @@ void ClipboardBrowser::preload(int pixels, bool above, const QModelIndex &start)
     if ( m_timerUpdateSizes.isActive() )
         updateSizes();
 
-    const int s = spacing();
-    const int direction = above ? -1 : 1;
     int row = start.row();
     QModelIndex ind = start;
     int y = 0;
 
     const auto margins = m_sharedData->theme.margins();
     const auto rowNumberSize = m_sharedData->theme.rowNumberSize();
-    const auto padding = QPoint(rowNumberSize.width() + margins.width() - s, margins.height());
+    const auto padding = QPoint(
+        rowNumberSize.width() + margins.width() - spacing(),
+        margins.height()
+    );
 
     int items = 0;
     bool anyShown = false;
@@ -1439,11 +1440,11 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         // Preload next and previous pages so that up/down and page up/down keys scroll correctly.
         if ( !m_timerPreload.isActive() ) {
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
-                preload(h, (key == Qt::Key_PageUp), current);
+                preload(h, (key == Qt::Key_PageUp) ? -1 : 1, current);
             else if (key == Qt::Key_Down || key == Qt::Key_Up)
-                preload(2 * spacing(), (key == Qt::Key_Up), current);
+                preload(2 * spacing(), (key == Qt::Key_Up) ? -1 : 1, current);
             else if (key == Qt::Key_End)
-                preload(h, true, index(length() - 1));
+                preload(h, -1, index(length() - 1));
             scheduleDelayedItemsLayout();
             executeDelayedItemsLayout();
         }

@@ -96,7 +96,7 @@ public:
     bool showRowNumber() const { return m_showRowNumber; }
     const QFont &rowNumberFont() const { return m_rowNumberFont; }
     const QPalette &rowNumberPalette() const { return m_rowNumberPalette; }
-    QSize rowNumberSize() const { return m_showRowNumber ? m_rowNumberSize : QSize(0, 0); }
+    QSize rowNumberSize() const { return m_rowNumberSize; }
 
     const QFont &editorFont() const { return m_editorFont; }
     const QPalette &editorPalette() const { return m_editorPalette; }

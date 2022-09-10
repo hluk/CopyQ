@@ -373,7 +373,7 @@ class ClipboardBrowser final : public QListView
 
         void preloadCurrentPage();
         void preloadCurrentPageLater();
-        void preload(int pixels, bool above, const QModelIndex &start);
+        void preload(int pixels, int direction, const QModelIndex &start);
 
         void updateCurrentIndex();
 
