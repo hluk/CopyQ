@@ -1109,7 +1109,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation>Автовыполнение команд</translation>
+        <translation>Автодополнение команд</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
@@ -1499,7 +1499,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Расстояние уведомлений от левого или правого края экрана (в пикселях)</translation>
+        <translation>Расстояние уведомлений от левого или правого края экрана в пикселях</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
@@ -1509,7 +1509,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>Расстояние уведомлений от верхнего или нижнего края экрана (в пикселях)</translation>
+        <translation>Расстояние уведомлений от верхнего или нижнего края экрана в пикселях</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
@@ -1519,7 +1519,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>Максимальная ширина для уведомлений (в пикселях)</translation>
+        <translation>Максимальная ширина для уведомлений в пикселях</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
@@ -1529,7 +1529,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Максимальная высота уведомлений (в пикселях)</translation>
+        <translation>Максимальная высота уведомлений в пикселях</translation>
     </message>
 </context>
 <context>
@@ -1919,7 +1919,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="928"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>Создание новых клавиш (может занять несколько минут)...</translation>
+        <translation>Создаются новые ключи (может занять несколько минут)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="929"/>
@@ -1940,7 +1940,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="937"/>
         <source>Generate New Keys...</source>
-        <translation>Генерация новых ключей...</translation>
+        <translation>Генерировать новые ключи...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="939"/>
@@ -2060,7 +2060,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>Максимальная ширина изображения, отображаемого в истории (устанавливается на ноль для исходного размера)</translation>
+        <translation>Максимальная ширина изображения, отображаемого в истории (укажите ноль для исходного размера)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2090,7 +2090,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>Редактор для формата изображений SVG.</translation>
+        <translation>Команда редактора для формата изображений SVG.</translation>
     </message>
 </context>
 <context>
@@ -2452,7 +2452,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Максимальная высота в пикселях (0 без ограничений):</translation>
+        <translation>Максимальная высота в пикселях (0 — неограниченно):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
@@ -2663,7 +2663,7 @@ Set to 0 to disable.</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
             <numerusform>%1 (%n строка)</numerusform>
-            <numerusform>%1 (%n строк)</numerusform>
+            <numerusform>%1 (%n строки)</numerusform>
             <numerusform>%1 (%n строк)</numerusform>
         </translation>
     </message>
@@ -2671,7 +2671,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="586"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation>&lt;Изображение&gt;</translation>
+        <translation>&lt;ИЗОБРАЖЕНИЕ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="588"/>
@@ -2721,8 +2721,8 @@ Set to 0 to disable.</source>
         <location filename="../src/main.cpp" line="238"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>Название сессии должно содержать не более 16 символов,
-которые могут быть буквами, цифрами, &apos;-&apos; или &apos;_&apos;!</translation>
+        <translation>Название сеанса должно содержать не более 16 символов,
+которые могут быть буквами, цифрами, «-» или «_»!</translation>
     </message>
     <message>
         <location filename="../src/common/appconfig.cpp" line="39"/>
@@ -2788,7 +2788,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>&amp;Переключение сохранения буфера обмена</translation>
+        <translation>П&amp;ереключить хранение буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2951,7 +2951,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>Ctrl+Home</source>
-        <translation>CTRL + HOME</translation>
+        <translation>Ctrl+Home</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
@@ -2961,7 +2961,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>Ctrl+End</source>
-        <translation>CTRL+END</translation>
+        <translation>Ctrl+End</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="152"/>
@@ -2981,7 +2981,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="155"/>
         <source>Ctrl+F2</source>
-        <translation>CTRL + F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
@@ -3023,7 +3023,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="174"/>
         <source>Open Item Context Menu</source>
-        <translation>Открыть в контекстном меню</translation>
+        <translation>Открыть контекстное меню объектов</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="175"/>
@@ -3202,7 +3202,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
         <source>Print clipboard content.</source>
-        <translation>Печать содержимого буфера обмена.</translation>
+        <translation>Вывести содержимое буфера обмена.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
@@ -3218,7 +3218,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print X11 selection content.</source>
-        <translation>Печать содержимого выделения X11.</translation>
+        <translation>Вывести содержимое выделения X11.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="93"/>
@@ -3315,12 +3315,12 @@ Value -1 is for current text in clipboard.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <source>SEPARATOR</source>
-        <translation>Разделитель</translation>
+        <translation>РАЗДЕЛИТЕЛЬ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>Печать необработанных данных буфера обмена или объекта в строке.</translation>
+        <translation>Вывести необработанные данные буфера обмена или объекта в строке.</translation>
     </message>
     <message>
         <source>
@@ -3422,7 +3422,7 @@ Arguments are accessible using with &quot;arguments[0..N]&quot;.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Печатать число объектов в текущей вкладке.</translation>
+        <translation>Вывести число объектов в текущей вкладке.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
@@ -3550,7 +3550,7 @@ Starts or connects to application instance with given session name.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="193"/>
         <source>SESSION</source>
-        <translation>СЕССИЯ</translation>
+        <translation>СЕАНС</translation>
     </message>
     <message>
         <source>
@@ -3594,7 +3594,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="136"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - Используйте для MIME символ ? для распечатки доступных MIME-типов (по умолчанию — «text/plain»).</translation>
+        <translation>  - Используйте для MIME символ ? для вывода доступных MIME-типов (по умолчанию — «text/plain»).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="141"/>
@@ -3616,7 +3616,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="1088"/>
         <source>Terminating server.
 </source>
-        <translation>Сервер завершает работу.
+        <translation>Прекращается работа сервера.
 </translation>
     </message>
     <message>
@@ -3642,7 +3642,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="133"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation>  -Используйте аргумент тире (-) для чтения данных из стандартного ввода.</translation>
+        <translation>  - Используйте аргумент тире (-) для чтения данных из стандартного ввода.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="860"/>
