@@ -200,6 +200,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         // Windows Qt 5.15.2
         plain("[qt.qpa.mime] QtWarning: Retrying to obtain clipboard."),
         plain("[qt.qpa.fonts] QtWarning: Unable to enumerate family ' \"Font Awesome 5 Free Solid (CopyQ)\" '"),
+        plain("[default] QtWarning: QSystemTrayIcon::setVisible: No Icon set"),
 
         // macOS
         plain("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)"),

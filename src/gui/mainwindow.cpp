@@ -474,11 +474,11 @@ public:
     explicit SystemTrayIcon(QWidget *parent = nullptr)
         : KStatusNotifierItem(QCoreApplication::applicationName())
     {
+        setIcon(appIcon());
         // Parent is not passed to the KStatusNotifierItem constructor because
         // it calls KStatusNotifierItem::setAssociatedWidget() which breaks
         // setting main window position.
         setParent(parent);
-        setIcon(appIcon());
         setStandardActionsEnabled(false);
         setTitle(QGuiApplication::applicationDisplayName());
         setToolTipTitle(QGuiApplication::applicationDisplayName());
@@ -517,7 +517,9 @@ class SystemTrayIcon final : public QSystemTrayIcon {
 public:
     explicit SystemTrayIcon(QWidget *parent = nullptr)
         : QSystemTrayIcon(parent)
-    {}
+    {
+        setIcon(appIcon());
+    }
 };
 #endif
 
@@ -1721,8 +1723,6 @@ void MainWindow::setTrayEnabled(bool enable)
             connect( m_tray, &SystemTrayIcon::activated,
                      this, &MainWindow::trayActivated );
         }
-
-        updateIcon();
 
         m_tray->show();
 
