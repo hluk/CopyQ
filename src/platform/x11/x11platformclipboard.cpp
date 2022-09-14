@@ -150,7 +150,8 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         WaylandClipboard::instance()->setMimeData(data, qmode);
 
         // This makes pasting the clipboard work in own widgets.
-        QGuiApplication::clipboard()->setMimeData(data, qmode);
+        const auto data2 = createMimeData(dataMap);
+        QGuiApplication::clipboard()->setMimeData(data2, qmode);
     }
 }
 

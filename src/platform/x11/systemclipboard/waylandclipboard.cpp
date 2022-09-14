@@ -337,6 +337,8 @@ public:
 
     ~DataControlSource()
     {
+        delete m_mimeData;
+        m_mimeData = nullptr;
         if ( isInitialized() )
             destroy();
     }
