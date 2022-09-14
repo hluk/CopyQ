@@ -1,3 +1,44 @@
+# 6.3.0
+
+## Changed
+
+- UI margins are decreased leaving more space space for item content.
+
+- Script function `config()` now lists current values for each option (#412).
+  Example of new `copyq config` output:
+
+      ...
+      clipboard_notification_lines=3
+        Number of lines to show for new clipboard content.
+
+        Set to 0 to disable.
+      clipboard_tab=&clipboard
+        Name of tab that will automatically store new clipboard content.
+
+        Leave empty to disable automatic storing.
+      close_on_unfocus=false
+        Close main window when other application has focus
+      ...
+
+- FakeVim plugin improvements from upstream:
+
+    * Ignores only full-line comments in configuration file
+    * Support backslashes in substitute command patterns
+    * Partial support for multi-repeat command (:g, :v)
+
+- Improves rendering item list speed.
+
+## Fixed
+
+- Fixes showing window under mouse cursor (#2088).
+
+- In single-click-activate mode, multiple items can be selected while holding
+  Shift or Ctrl (#2056).
+
+- The pre-defined command "Ignore items with no or single character" now also
+  avoids synchronizing selection and showing popup if less than two characters
+  where copied.
+
 # 6.2.0
 
 ## Added
