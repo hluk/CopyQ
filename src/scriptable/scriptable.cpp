@@ -3596,6 +3596,9 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     if (!verifyClipboardAccess())
         return false;
 
+    // Make sure a clipboard instance is created so as to monitor any changes;
+    clipboardInstance();
+
     SleepTimer tMin(50);
 
     // Avoid changing clipboard after a text is selected just before it's copied
@@ -3603,7 +3606,7 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     SleepTimer t(5000);
     while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
         if ( !t.sleep() && !canContinue() ) {
-            COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
+            COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being held)");
             return false;
         }
     }
@@ -3646,6 +3649,11 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         }
     } else {
         COPYQ_SYNC_LOG("Failed to fetch target data");
+    }
+
+    if (m_abort != Abort::None) {
+        COPYQ_SYNC_LOG("Aborting synchronization");
+        return false;
     }
 
     return true;
