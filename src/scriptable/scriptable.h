@@ -455,7 +455,6 @@ private:
     QJSValue readInput();
 
     PlatformClipboard *clipboardInstance();
-    const QMimeData *mimeData(ClipboardMode mode);
 
     void interruptibleSleep(int msec);
 
