@@ -821,7 +821,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c = Command();
     c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_copy");
     c.name = ItemEncryptedLoader::tr("Decrypt and Copy");
-    c.icon = QString(QChar(IconUnlockAlt));
+    c.icon = QString(QChar(IconUnlockKeyhole));
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.copyEncryptedItems()";
@@ -831,7 +831,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c = Command();
     c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_paste");
     c.name = ItemEncryptedLoader::tr("Decrypt and Paste");
-    c.icon = QString(QChar(IconUnlockAlt));
+    c.icon = QString(QChar(IconUnlockKeyhole));
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.pasteEncryptedItems()";

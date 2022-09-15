@@ -194,7 +194,7 @@ void ClipboardBrowserPlaceholder::createLoadButton()
     m_loadButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_loadButton->setFlat(true);
 
-    const QIcon icon( getIcon("", IconRedo) );
+    const QIcon icon( getIcon("", IconRotateRight) );
     m_loadButton->setIconSize( QSize(64, 64) );
     m_loadButton->setIcon(icon);
 

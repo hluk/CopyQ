@@ -62,7 +62,7 @@ QVector<Command> predefinedCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
-    c->icon = QString(QChar(IconExclamationCircle));
+    c->icon = QString(QChar(IconCircleExclamation));
     c->cmd  = R"(function hasEmptyOrSingleCharText() {
     if (dataFormats().includes(mimeText)) {
         var text = str(data(mimeText));
@@ -116,7 +116,7 @@ synchronizeToSelection = function() {
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Autoplay videos");
     c->re   = QRegularExpression("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
-    c->icon = QString(QChar(IconPlayCircle));
+    c->icon = QString(QChar(IconCirclePlay));
     c->cmd  = "copyq open %1";
     c->automatic = true;
     c->hideWindow = true;
@@ -168,7 +168,7 @@ synchronizeToSelection = function() {
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore copied files");
     c->re   = reNotURL;
-    c->icon = QString(QChar(IconExclamationCircle));
+    c->icon = QString(QChar(IconCircleExclamation));
     c->input = mimeUriList;
     c->remove = true;
     c->automatic = true;

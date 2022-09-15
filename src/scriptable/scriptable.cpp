@@ -3059,7 +3059,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     QtPrivate::QHashCombine hash;
     const auto id = hash(hash(0, title), message);
     const auto notificationId = QString::number(id);
-    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000, notificationId);
+    m_proxy->showMessage(title, message, QString(QChar(IconCircleExclamation)), 8000, notificationId);
 }
 
 QVector<int> Scriptable::getRows() const

@@ -2434,7 +2434,7 @@ void MainWindow::showError(const QString &msg)
     auto notification = createNotification( QString::number(notificationId) );
     notification->setTitle( tr("CopyQ Error", "Notification error message title") );
     notification->setMessage(msg);
-    notification->setIcon(IconTimesCircle);
+    notification->setIcon(IconCircleXmark);
 }
 
 Notification *MainWindow::createNotification(const QString &id)

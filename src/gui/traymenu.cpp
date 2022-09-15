@@ -343,7 +343,7 @@ void TrayMenu::markItemInClipboard(const QVariantMap &clipboardData)
 void TrayMenu::setSearchMenuItem(const QString &text)
 {
     if ( m_searchAction.isNull() ) {
-        const QIcon icon = getIcon("edit-find", IconSearch);
+        const QIcon icon = getIcon("edit-find", IconMagnifyingGlass);
         m_searchAction = new QAction(icon, text, this);
         m_searchAction->setEnabled(false);
         // Search menu item is hidden by default, see showEvent().

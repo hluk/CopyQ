@@ -133,7 +133,7 @@ void ActionHandler::closeAction(Action *action)
 
     if ( action->actionFailed() ) {
         const auto msg = tr("Error: %1").arg(action->errorString());
-        showActionErrors(action, msg, IconExclamationCircle);
+        showActionErrors(action, msg, IconCircleExclamation);
 #ifdef Q_OS_WIN
     // FIXME: Ignore specific exit code for clipboard monitor on Windows when logging out.
     } else if ( action->exitCode() == 1073807364 ) {
@@ -143,7 +143,7 @@ void ActionHandler::closeAction(Action *action)
 #endif
     } else if ( action->exitCode() != 0 ) {
         const auto msg = tr("Exit code: %1").arg(action->exitCode());
-        showActionErrors(action, msg, IconTimesCircle);
+        showActionErrors(action, msg, IconCircleXmark);
     }
 
     m_actionModel->actionFinished(action);

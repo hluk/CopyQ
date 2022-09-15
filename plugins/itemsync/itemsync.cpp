@@ -208,9 +208,9 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
         if ( hasImageExtension(ext) )
             return IconFileImage;
         if ( hasArchiveExtension(ext) )
-            return IconFileArchive;
+            return IconFileZipper;
         if ( hasTextExtension(ext) )
-            return IconFileAlt;
+            return IconFileLines;
     }
 
     return -1;
@@ -219,13 +219,13 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
 int iconFromMimeHelper(const QString &format)
 {
     if ( format.startsWith("video/") )
-        return IconPlayCircle;
+        return IconCirclePlay;
     if ( format.startsWith("audio/") )
-        return IconVolumeUp;
+        return IconVolumeHigh;
     if ( format.startsWith("image/") )
         return IconCamera;
     if ( format.startsWith("text/") )
-        return IconFileAlt;
+        return IconFileLines;
     return -1;
 }
 

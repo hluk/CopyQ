@@ -410,10 +410,10 @@ void FilterLineEdit::loadSettings()
     // falling back to a bundled resource.
     QIcon icon1 = QIcon::fromTheme(layoutDirection() == Qt::LeftToRight ?
                      "edit-clear-locationbar-rtl" : "edit-clear-locationbar-ltr",
-                     getIcon("edit-clear", IconTimes));
+                     getIcon("edit-clear", IconXmark));
     setButtonIcon(Right, icon1);
 
-    QIcon icon2 = getIcon("edit-find", IconSearch);
+    QIcon icon2 = getIcon("edit-find", IconMagnifyingGlass);
     setButtonIcon(Left, icon2);
 
     if ( appConfig.option<Config::save_filter_history>() ) {

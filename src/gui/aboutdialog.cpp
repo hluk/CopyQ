@@ -114,7 +114,7 @@ QString AboutDialog::aboutPage()
         "<table class='links'>"
             + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček"), IconUser )
             + helpLink( tr("E-mail"), helpMail("copyq@googlegroups.com"), IconEnvelope )
-            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/"), IconHome )
+            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/"), IconHouse )
             + helpLink( tr("Donate"), helpUrl("https://liberapay.com/CopyQ/"), IconGift )
             +
         "</table>"
