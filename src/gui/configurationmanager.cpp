@@ -174,12 +174,12 @@ void ConfigurationManager::initTabIcons()
     ItemOrderList *list = ui->itemOrderList;
     list->setItemsMovable(false);
     list->appendItem( tr("General"), getIcon("", IconWrench), makeTab(m_tabGeneral, this) );
-    list->appendItem( tr("Layout"), getIcon("", IconColumns), makeTab(m_tabLayout, this) );
-    list->appendItem( tr("History"), getIcon("", IconThList), makeTab(m_tabHistory, this) );
+    list->appendItem( tr("Layout"), getIcon("", IconTableColumns), makeTab(m_tabLayout, this) );
+    list->appendItem( tr("History"), getIcon("", IconList), makeTab(m_tabHistory, this) );
     list->appendItem( tr("Tray"), getIcon("", IconInbox), makeTab(m_tabTray, this) );
-    list->appendItem( tr("Notifications"), getIcon("", IconInfoCircle), makeTab(m_tabNotifications, this) );
+    list->appendItem( tr("Notifications"), getIcon("", IconCircleInfo), makeTab(m_tabNotifications, this) );
     list->appendItem( tr("Tabs"), getIconFromResources("tab_rename"), makeTab(&m_tabTabs, this) );
-    list->appendItem( tr("Items"), getIcon("", IconThList), makeTab(&m_tabItems, this) );
+    list->appendItem( tr("Items"), getIcon("", IconList), makeTab(&m_tabItems, this) );
     list->appendItem( tr("Shortcuts"), getIcon("", IconKeyboard), makeTab(&m_tabShortcuts, this) );
     list->appendItem( tr("Appearance"), getIcon("", IconImage), makeTab(&m_tabAppearance, this) );
 }

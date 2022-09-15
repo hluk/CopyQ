@@ -134,7 +134,7 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
 
     const int x = smallIconSize();
     m_button->setIconSize(QSize(x, x));
-    m_button->setIcon( getIcon("help-faq", IconInfoCircle) );
+    m_button->setIcon( getIcon("help-faq", IconCircleInfo) );
 
     connect( m_button, &QAbstractButton::clicked,
              this, &CommandHelpButton::showHelp );

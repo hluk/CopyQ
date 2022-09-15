@@ -242,7 +242,7 @@ void ShortcutsWidget::onShortcutRemoved(const QKeySequence &shortcut)
 
 void ShortcutsWidget::checkAmbiguousShortcuts()
 {
-    const auto iconAmbiguous = getIcon("", IconExclamationCircle);
+    const auto iconAmbiguous = getIcon("", IconCircleExclamation);
     const auto toolTipAmbiguous = tr("Shortcut already exists!");
 
     std::sort( m_shortcuts.begin(), m_shortcuts.end() );

@@ -291,8 +291,8 @@ void ItemOrderList::showEvent(QShowEvent *event)
         ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
         ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
         ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
-        ui->pushButtonTop->setIcon( getIcon("go-top", IconAngleDoubleUp) );
-        ui->pushButtonBottom->setIcon( getIcon("go-bottom", IconAngleDoubleDown) );
+        ui->pushButtonTop->setIcon( getIcon("go-top", IconAnglesUp) );
+        ui->pushButtonBottom->setIcon( getIcon("go-bottom", IconAnglesDown) );
     }
 
     // Resize list to minimal size.

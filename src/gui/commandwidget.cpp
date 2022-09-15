@@ -40,7 +40,7 @@ namespace {
 const QIcon iconClipboard() { return getIcon("", IconClipboard); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
-const QIcon iconScript() { return getIcon("", IconCog); }
+const QIcon iconScript() { return getIcon("", IconGear); }
 const QIcon iconDisplay() { return getIcon("", IconEye); }
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)

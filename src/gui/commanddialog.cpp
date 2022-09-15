@@ -43,7 +43,7 @@
 namespace {
 
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
-const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
+const QIcon iconSaveCommands() { return getIcon("document-save", IconFloppyDisk); }
 const QIcon iconCopyCommands() { return getIcon("edit-copy", IconCopy); }
 const QIcon iconPasteCommands() { return getIcon("edit-paste", IconPaste); }
 
@@ -52,10 +52,10 @@ QIcon getCommandIcon(const QString &iconString, int commandType)
     const auto icon =
             commandType & CommandType::Automatic ? IconClipboard
           : commandType & CommandType::GlobalShortcut ? IconKeyboard
-          : commandType & CommandType::Script ? IconCog
+          : commandType & CommandType::Script ? IconGear
           : commandType & CommandType::Display ? IconEye
           : commandType & CommandType::Menu ? IconBars
-          : IconExclamationTriangle;
+          : IconTriangleExclamation;
     const auto color =
             commandType & CommandType::Disabled ? QColor(Qt::lightGray)
           : commandType & CommandType::Automatic ? QColor(240,220,200)

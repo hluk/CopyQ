@@ -79,7 +79,7 @@ public:
     QString name() const override { return tr("Notes"); }
     QString author() const override { return QString(); }
     QString description() const override { return tr("Display notes for items."); }
-    QVariant icon() const override { return QVariant(IconPenSquare); }
+    QVariant icon() const override { return QVariant(IconPenToSquare); }
 
     QStringList formatsToSave() const override;
 

@@ -57,11 +57,11 @@ MenuItems menuItems()
 {
     MenuItems items;
     addMenuItem( items, Actions::File_New, QObject::tr("&New Item"), "new", QKeySequence::New,
-                  "document-new", IconFileAlt );
+                  "document-new", IconFileLines );
     addMenuItem( items, Actions::File_Import, QObject::tr("&Import..."), "import", QObject::tr("Ctrl+I"),
                   "document-open", IconFolderOpen );
     addMenuItem( items, Actions::File_Export, QObject::tr("&Export..."), "export", QKeySequence::Save,
-                  "document-save", IconSave );
+                  "document-save", IconFloppyDisk );
     addMenuItem( items, Actions::File_Preferences, QObject::tr("&Preferences..."), "preferences", QObject::tr("Ctrl+P"),
                   "preferences-other", IconWrench );
     addMenuItem( items, Actions::File_Commands,
@@ -70,7 +70,7 @@ MenuItems menuItems()
 #else
                   QObject::tr("C&ommands..."),
 #endif
-                  "commands", QObject::tr("F6"), "system-run", IconCog );
+                  "commands", QObject::tr("F6"), "system-run", IconGear );
 
     addMenuItem( items, Actions::File_ShowClipboardContent, QObject::tr("Show &Clipboard Content"),
                   "show_clipboard_content", QObject::tr("Ctrl+Shift+C"), "dialog-information", IconPaste );
@@ -79,31 +79,31 @@ MenuItems menuItems()
     addMenuItem( items, Actions::File_ToggleClipboardStoring, QObject::tr("&Toggle Clipboard Storing"),
                   "toggle_clipboard_storing", QObject::tr("Ctrl+Shift+X"), "" );
     addMenuItem( items, Actions::File_ProcessManager, QObject::tr("P&rocess Manager"),
-                  "process_manager", QObject::tr("Ctrl+Shift+Z"), "system-search", IconCogs );
+                  "process_manager", QObject::tr("Ctrl+Shift+Z"), "system-search", IconGears );
     addMenuItem( items, Actions::File_Exit, QObject::tr("E&xit"), "exit", QObject::tr("Ctrl+Q"),
                   "application-exit", IconPowerOff );
 
     addMenuItem( items, Actions::Edit_SortSelectedItems, QObject::tr("&Sort Selected Items"),
                   "sort_selected_items", QObject::tr("Ctrl+Shift+S"),
-                  "view-sort-ascending", IconSortAlphaDown );
+                  "view-sort-ascending", IconArrowDownAZ );
     addMenuItem( items, Actions::Edit_ReverseSelectedItems, QObject::tr("&Reverse Selected Items"),
                   "reverse_selected_items", QObject::tr("Ctrl+Shift+R"),
-                  "view-sort-descending", IconSortAlphaUp );
+                  "view-sort-descending", IconArrowUpAZ );
     addMenuItem( items, Actions::Edit_PasteItems, QObject::tr("&Paste Items"),
                   "paste_selected_items", QKeySequence::Paste, "edit-paste", IconPaste );
     addMenuItem( items, Actions::Edit_CopySelectedItems, QObject::tr("&Copy Selected Items"),
                   "copy_selected_items", QKeySequence::Copy, "edit-copy", IconCopy );
     addMenuItem( items, Actions::Edit_FindItems, QObject::tr("&Find"),
-                  "find_items", QKeySequence::FindNext, "edit-find", IconSearch );
+                  "find_items", QKeySequence::FindNext, "edit-find", IconMagnifyingGlass );
 
     addMenuItem(items, Actions::Editor_Save, QObject::tr("Save Item"),
-                "editor_save", QObject::tr("F2", "Shortcut to save item editor changes"), "document-save", IconSave);
+                "editor_save", QObject::tr("F2", "Shortcut to save item editor changes"), "document-save", IconFloppyDisk);
     addMenuItem(items, Actions::Editor_Cancel, QObject::tr("Cancel Editing"),
                 "editor_cancel", QObject::tr("Escape", "Shortcut to revert item editor changes"), "document-revert", IconTrash);
     addMenuItem(items, Actions::Editor_Undo, QObject::tr("Undo"),
-                "editor_undo", QKeySequence::Undo, "edit-undo", IconUndo);
+                "editor_undo", QKeySequence::Undo, "edit-undo", IconRotateLeft);
     addMenuItem(items, Actions::Editor_Redo, QObject::tr("Redo"),
-                "editor_redo", QKeySequence::Redo, "edit-redo", IconRedo);
+                "editor_redo", QKeySequence::Redo, "edit-redo", IconRotateRight);
     addMenuItem(items, Actions::Editor_Font, QObject::tr("Font"),
                 "editor_font", QKeySequence(), "preferences-desktop-font", IconFont);
     addMenuItem(items, Actions::Editor_Bold, QObject::tr("Bold"),
@@ -115,28 +115,28 @@ MenuItems menuItems()
     addMenuItem(items, Actions::Editor_Strikethrough, QObject::tr("Strikethrough"),
                 "editor_strikethrough", QKeySequence(), "format-text-strikethrough", IconStrikethrough);
     addMenuItem(items, Actions::Editor_Foreground, QObject::tr("Foreground"),
-                "editor_foreground", QKeySequence(), "", IconPaintBrush);
+                "editor_foreground", QKeySequence(), "", IconPaintbrush);
     addMenuItem(items, Actions::Editor_Background, QObject::tr("Background"),
                 "editor_background", QKeySequence(), "", IconSquare);
     addMenuItem(items, Actions::Editor_EraseStyle, QObject::tr("Erase Style"),
                 "editor_erase_style", QKeySequence(), "", IconEraser);
     addMenuItem(items, Actions::Editor_Search, QObject::tr("Search"),
-                "editor_search", QKeySequence::Find, "edit-find", IconSearch);
+                "editor_search", QKeySequence::Find, "edit-find", IconMagnifyingGlass);
 
     addMenuItem( items, Actions::Item_MoveToClipboard,
                   QObject::tr("A&ctivate Items",
                               "copies selected items to clipboard and moves them to top (depending on settings)"),
                   "move_to_clipboard", QKeySequence(), "clipboard", IconPaste );
     addMenuItem( items, Actions::Item_ShowContent, QObject::tr("&Show Content..."),
-                  "show_item_content", QObject::tr("F4"), "dialog-information", IconInfoCircle );
+                  "show_item_content", QObject::tr("F4"), "dialog-information", IconCircleInfo );
     addMenuItem( items, Actions::Item_Remove, QObject::tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconTrash );
     addMenuItem( items, Actions::Item_Edit, QObject::tr("&Edit"), "edit", QObject::tr("F2"),
-                  "accessories-text-editor", IconEdit );
+                  "accessories-text-editor", IconPenToSquare );
     addMenuItem( items, Actions::Item_EditNotes, QObject::tr("Edit &Notes"),
-                  "edit_notes", QObject::tr("Shift+F2"), "accessories-text-editor", IconPenSquare );
+                  "edit_notes", QObject::tr("Shift+F2"), "accessories-text-editor", IconPenToSquare );
     addMenuItem( items, Actions::Item_EditWithEditor, QObject::tr("E&dit with Editor"),
-                  "editor", QObject::tr("Ctrl+E"), "accessories-text-editor", IconPencilAlt );
+                  "editor", QObject::tr("Ctrl+E"), "accessories-text-editor", IconPencil );
     addMenuItem( items, Actions::Item_Action, QObject::tr("&Action..."), "system-run", QObject::tr("F5"),
                   "action", IconBolt );
 
@@ -145,9 +145,9 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Item_MoveDown, QObject::tr("Move Down"),
                   "move_down",  QObject::tr("Ctrl+Down"), "go-down", IconAngleDown );
     addMenuItem( items, Actions::Item_MoveToTop, QObject::tr("Move to Top"),
-                  "move_to_top",  QObject::tr("Ctrl+Home"), "go-top", IconAngleDoubleUp );
+                  "move_to_top",  QObject::tr("Ctrl+Home"), "go-top", IconAnglesUp );
     addMenuItem( items, Actions::Item_MoveToBottom, QObject::tr("Move to Bottom"),
-                  "move_to_bottom",  QObject::tr("Ctrl+End"), "go-bottom", IconAngleDoubleDown );
+                  "move_to_bottom",  QObject::tr("Ctrl+End"), "go-bottom", IconAnglesDown );
 
     addMenuItem( items, Actions::Tabs_NewTab, QObject::tr("&New Tab"),
                   "new_tab", QObject::tr("Ctrl+T"), ":/images/tab_new" );
@@ -165,15 +165,15 @@ MenuItems menuItems()
                   "go-previous", IconArrowLeft );
 
     addMenuItem( items, Actions::Help_Help, QObject::tr("&Help"), "help", QKeySequence::HelpContents,
-                  "help-contents", IconQuestionCircle );
+                  "help-contents", IconCircleQuestion );
     addMenuItem( items, Actions::Help_ShowLog, QObject::tr("&Show Log"), "show-log", QObject::tr("F12"),
-                  "help-about", IconExclamationCircle );
+                  "help-about", IconCircleExclamation );
     addMenuItem( items, Actions::Help_About, QObject::tr("&About"), "about", QKeySequence::WhatsThis,
-                  "help-about", IconInfoCircle );
+                  "help-about", IconCircleInfo );
 
     addMenuItem( items, Actions::ItemMenu, QObject::tr("Open Item Context Menu"), "item-menu",
                  QObject::tr("Shift+F10", "Default shortcut to open item context menu"),
-                 "", IconListAlt );
+                 "", IconRectangleList );
 
     return items;
 }
