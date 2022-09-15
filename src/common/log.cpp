@@ -198,7 +198,12 @@ bool writeLogFile(const QByteArray &message)
 
 QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
 {
-    return label + QByteArray(text).replace("\n", "\n" + label + "   ") + "\n";
+    if ( text.contains('\n') ) {
+        const QByteArray continuation = '\n' + label + "   ";
+        return label + QByteArray(text).replace('\n', continuation) + '\n';
+    }
+
+    return label + text + '\n';
 }
 
 QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
@@ -210,7 +215,7 @@ QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
 QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
-        QDateTime::currentDateTime().toString(QStringLiteral(" [yyyy-MM-dd hh:mm:ss.zzz] ")).toUtf8();
+        QDateTime::currentDateTime().toString(QStringLiteral(" [yyyy-MM-dd hh:mm:ss.zzz] ")).toLatin1();
     const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + logLabel() + ": ";
     return createLogMessage(label, text);
 }
@@ -226,6 +231,22 @@ QString getLogFileName()
     dir.mkpath(QStringLiteral("."));
 
     return path + QStringLiteral("/copyq.log");
+}
+
+void logAlways(const QByteArray &msgText, const LogLevel level)
+{
+    const auto msg = createLogMessage(msgText, level);
+    const bool writtenToLogFile = writeLogFile(msg);
+
+    // Log to file and if needed to stderr.
+    if ( (!writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug))
+            && canUseStandardOutput() )
+    {
+        QFile ferr;
+        ferr.open(stderr, QIODevice::WriteOnly);
+        const auto simpleMsg = createSimpleLogMessage(msgText, level);
+        ferr.write(simpleMsg);
+    }
 }
 
 } // namespace
@@ -280,40 +301,38 @@ QByteArray logLevelLabel(LogLevel level)
 {
     switch(level) {
     case LogWarning:
-        return "Warning";
+        return QByteArrayLiteral("Warning");
     case LogError:
-        return "ERROR";
+        return QByteArrayLiteral("ERROR");
     case LogDebug:
-        return "DEBUG";
+        return QByteArrayLiteral("DEBUG");
     case LogTrace:
-        return "TRACE";
+        return QByteArrayLiteral("TRACE");
     case LogNote:
     case LogAlways:
-        return "Note";
+        return QByteArrayLiteral("Note");
     }
 
     Q_ASSERT(false);
     return "";
 }
 
+void log(const char *text, LogLevel level)
+{
+    if ( hasLogLevel(level) )
+        logAlways(QByteArray(text), level);
+}
+
+void log(const QByteArray &text, LogLevel level)
+{
+    if ( hasLogLevel(level) )
+        logAlways(text, level);
+}
+
 void log(const QString &text, const LogLevel level)
 {
-    if ( !hasLogLevel(level) )
-        return;
-
-    const auto msgText = text.toUtf8();
-    const auto msg = createLogMessage(msgText, level);
-    const bool writtenToLogFile = writeLogFile(msg);
-
-    // Log to file and if needed to stderr.
-    if ( (!writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug))
-            && canUseStandardOutput() )
-    {
-        QFile ferr;
-        ferr.open(stderr, QIODevice::WriteOnly);
-        const auto simpleMsg = createSimpleLogMessage(msgText, level);
-        ferr.write(simpleMsg);
-    }
+    if ( hasLogLevel(level) )
+        logAlways(text.toUtf8(), level);
 }
 
 void setLogLabel(const QByteArray &name)

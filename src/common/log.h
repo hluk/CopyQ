@@ -49,7 +49,9 @@ QByteArray logLevelLabel(LogLevel level);
 #define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
 #define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
 
+void log(const char *text, LogLevel level = LogNote);
 void log(const QString &text, LogLevel level = LogNote);
+void log(const QByteArray &text, LogLevel level = LogNote);
 
 void setLogLabel(const QByteArray &name);
 
