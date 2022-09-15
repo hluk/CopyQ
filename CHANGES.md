@@ -28,6 +28,8 @@
 
 - Improves rendering item list speed.
 
+- Updates icon font from Font-Awesome 6.2.0
+
 ## Fixed
 
 - Fixes showing window under mouse cursor (#2088).
@@ -38,6 +40,11 @@
 - The pre-defined command "Ignore items with no or single character" now also
   avoids synchronizing selection and showing popup if less than two characters
   where copied.
+
+- Wayland: Fixes synchronizing selection with clipboard in various cases.
+
+- Wayland: Fixes possible crash when managed clipboard data changes while it is
+  accessed.
 
 # 6.2.0
 
