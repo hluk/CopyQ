@@ -94,13 +94,13 @@ namespace {
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 void registerMetaTypes() {
     static bool registered = false;
     if (registered)
         return;
 
-    qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
     qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
@@ -110,10 +110,21 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
     qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+#else
+    qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
+    qRegisterMetaType<ClipboardMode>("ClipboardMode");
+    qRegisterMetaType<Command>("Command");
+    qRegisterMetaType<NamedValueList>("NamedValueList");
+    qRegisterMetaType<NotificationButtons>("NotificationButtons");
+    qRegisterMetaType<ScriptablePath>("ScriptablePath");
+    qRegisterMetaType<QVector<int>>("QVector<int>");
+    qRegisterMetaType<QVector<Command>>("QVector<Command>");
+    qRegisterMetaType<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+#endif
 
     registered = true;
 }
-#endif
 
 template<typename Predicate>
 void selectionRemoveIf(QList<QPersistentModelIndex> *indexes, Predicate predicate)
@@ -833,9 +844,8 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
                  emit abortEvaluation();
              } );
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     registerMetaTypes();
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     Q_ASSERT(QMetaType::fromType<Command>().hasRegisteredDataStreamOperators());
     Q_ASSERT(QMetaType::fromType<ClipboardMode>().hasRegisteredDataStreamOperators());
 #endif
