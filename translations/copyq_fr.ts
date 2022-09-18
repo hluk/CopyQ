@@ -354,7 +354,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="128"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Impossible de se connecter au serveur&#x202f;! Lancer d&apos;abord le serveur CopyQ.</translation>
+        <translation>Impossible de se connecter au serveur ! Lancer d&apos;abord le serveur CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="121"/>
@@ -493,7 +493,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="273"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation>Commandes (*.ini)&#x202f;;; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
+        <translation>Commandes (*.ini) ;; Configuration de CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="284"/>
@@ -2002,7 +2002,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Onglet corrompu</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
@@ -2456,7 +2456,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation>Feuille de style par défaut&#x202f;:</translation>
+        <translation>Feuille de style par défaut :</translation>
     </message>
 </context>
 <context>
@@ -3782,7 +3782,7 @@ Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescen
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>Nombre maximum d&apos;éléments&#x202f;:</translation>
+        <translation>Nombre maximum d&apos;éléments :</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
