@@ -35,6 +35,7 @@ fi
 fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pkg_rpm}"
 fetch_package "${pkg}_openSUSE_Leap_15.2${xrpm}"  "$url/openSUSE_Leap_15.2/x86_64/${project}-${version}-lp152.${rpm_version}${xrpm}"
 fetch_package "${pkg}_openSUSE_Leap_15.3${xrpm}"  "$url/openSUSE_Leap_15.3/x86_64/${project}-${version}-lp153.${rpm_version}${xrpm}"
+fetch_package "${pkg}_openSUSE_Leap_15.4${xrpm}"  "$url/15.4/x86_64/${project}-${version}-lp154.${rpm_version}${xrpm}"
 fetch_package "${pkg}_Debian_10${xdeb}"           "$url/Debian_10/${pkg_deb}"
 fetch_package "${pkg}_Debian_11${xdeb}"           "$url/Debian_11/${pkg_deb}"
 

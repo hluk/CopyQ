@@ -2,7 +2,6 @@
 set -e
 
 distros=(
-    bionic
     focal
     hirsute
     impish
