@@ -894,7 +894,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Yazı tipi</translation>
+        <translation>Yazı Tipi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
@@ -904,7 +904,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation>Ön plan</translation>
+        <translation>Ön Plan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
@@ -2562,7 +2562,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="902"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>%1 Sekmesini Yeniden Adlandır</translation>
+        <translation>%1 Sekmesini Yeniden &amp;Adlandır</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="904"/>
@@ -3071,7 +3071,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation>Yazı tipi</translation>
+        <translation>Yazı Tipi</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -3086,27 +3086,27 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation>Altı çizili</translation>
+        <translation>Altı Çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation>Üzeri çizili</translation>
+        <translation>Üstü Çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation>Ön plan</translation>
+        <translation>Ön Plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation>Arka plan</translation>
+        <translation>Arka Plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation>Stili Sil</translation>
+        <translation>Biçemi Sil</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
@@ -3122,7 +3122,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation>Düzenleyici ile _Düzenle</translation>
+        <translation>Düzenleyici ile &amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
@@ -3777,7 +3777,7 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Sekme adı dolu ve benzersiz olmalıdır.&lt;br /&gt;
-&lt;b&gt;No&amp;amp;tlar&lt;/b&gt; sekmesi &lt;b&gt;Alt+T&lt;/b&gt;kullanılarak açılabilir.&lt;br /&gt;
+&lt;b&gt;Notlar&lt;/b&gt; sekmesi &lt;b&gt;Alt+T&lt;/b&gt; kullanılarak açılabilir.&lt;br /&gt;
 Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; kullanın.</translation>
     </message>
     <message>
