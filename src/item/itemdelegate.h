@@ -25,6 +25,7 @@
 
 #include <QItemDelegate>
 #include <QRegularExpression>
+#include <QTimer>
 
 #include <memory>
 #include <vector>
@@ -56,7 +57,9 @@ class ItemDelegate final : public QItemDelegate
 
         ~ItemDelegate();
 
+        QSize sizeHintForItemSize(const QSize &itemSize, int row) const;
         QSize sizeHint(const QModelIndex &index) const;
+        QSize sizeHint(int row) const;
 
         QSize sizeHint(const QStyleOptionViewItem &option,
                        const QModelIndex &index) const override;
@@ -95,6 +98,12 @@ class ItemDelegate final : public QItemDelegate
          */
         void highlightMatches(ItemWidget *itemWidget) const;
 
+        /// Update positions of all widgets
+        /// (after filtering out items or invalidating).
+        void updateAllRows();
+        void updateLater();
+        void updateIfNeeded();
+
         /**
          * Set or unset item widget as current.
          *
@@ -117,8 +126,6 @@ class ItemDelegate final : public QItemDelegate
         void rowsMoved(const QModelIndex &parent, int sourceStart, int sourceEnd,
                        const QModelIndex &destination, int destinationRow);
 
-        bool showAt(const QModelIndex &index, QPoint pos);
-
         QWidget *createPreview(const QVariantMap &data, QWidget *parent);
 
     signals:
@@ -140,7 +147,11 @@ class ItemDelegate final : public QItemDelegate
 
         ItemWidget *updateCache(const QModelIndex &index, const QVariantMap &data);
 
-        void updateSize(ItemWidget *w, int row);
+        void updateSize(int row);
+
+        QPoint findPositionForWidget(const QModelIndex &index) const;
+
+        void invalidateAllHiddenNow();
 
         ClipboardBrowser *m_view;
         ClipboardBrowserSharedPtr m_sharedData;
@@ -150,6 +161,8 @@ class ItemDelegate final : public QItemDelegate
         int m_idealWidth;
 
         std::vector<std::shared_ptr<ItemWidget>> m_cache;
+
+        QTimer m_timerInvalidateHidden;
 };
 
 #endif // ITEMDELEGATE_H

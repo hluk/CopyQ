@@ -54,6 +54,8 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
         return nullptr;
 
     std::unique_ptr<ClipboardBrowser> c( new ClipboardBrowser(m_tabName, m_sharedData, this) );
+    emit browserCreated(c.get());
+
     c->setStoreItems(m_storeItems);
     c->setMaxItemCount(m_maxItemCount);
 
@@ -72,7 +74,6 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
 
     restartExpiring();
 
-    emit browserCreated(m_browser);
     return m_browser;
 }
 

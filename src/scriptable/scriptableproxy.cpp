@@ -1339,18 +1339,11 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
             indexes.append(indexToRemove);
     }
 
-    const QPersistentModelIndex currentIndex = c->currentIndex();
-
     QString error;
-    const int lastRow = c->removeIndexes(indexes, &error);
+    c->removeIndexes(indexes, &error);
 
     if ( !error.isEmpty() )
         return error;
-
-    if ( !currentIndex.isValid() ) {
-        const int currentRow = qMin(lastRow, c->length() - 1);
-        c->setCurrent(currentRow);
-    }
 
     return QString();
 }

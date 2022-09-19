@@ -115,8 +115,7 @@ class ClipboardBrowser final : public QListView
 
         QVariantMap copyIndexes(const QModelIndexList &indexes) const;
 
-        /** Remove items and return smallest row number (new current item if selection was removed). */
-        int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
+        void removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
         bool canRemoveItems(const QModelIndexList &indexes, QString *error = nullptr) const;
 
@@ -237,6 +236,10 @@ class ClipboardBrowser final : public QListView
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 
+        using QListView::isIndexHidden;
+        using QListView::isRowHidden;
+        using QListView::verticalOffset;
+
     signals:
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
@@ -293,6 +296,8 @@ class ClipboardBrowser final : public QListView
         void enterEvent(QEvent *event) override;
 #endif
 
+        void scrollContentsBy(int dx, int dy) override;
+
         void doItemsLayout() override;
 
     private slots:
@@ -332,7 +337,6 @@ class ClipboardBrowser final : public QListView
          * @return true only if hidden
          */
         bool hideFiltered(int row);
-        bool hideFiltered(const QModelIndex &index);
 
         /**
          * Connects signals and starts external editor.
@@ -364,7 +368,7 @@ class ClipboardBrowser final : public QListView
         void processDragAndDropEvent(QDropEvent *event);
 
         /// Removes indexes without notifying or asking plugins.
-        int dropIndexes(const QModelIndexList &indexes);
+        void dropIndexes(const QModelIndexList &indexes);
 
         void focusEditedIndex();
 
@@ -372,7 +376,6 @@ class ClipboardBrowser final : public QListView
         int findPreviousVisibleRow(int row);
 
         void preloadCurrentPage();
-        void preloadCurrentPageLater();
         void preload(int pixels, int direction, const QModelIndex &start);
 
         void updateCurrentIndex();

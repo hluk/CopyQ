@@ -1125,11 +1125,8 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
         }
     }
 
-    if (command.remove) {
-        const int lastRow = c->removeIndexes(selected);
-        if (lastRow != -1)
-            c->setCurrent(lastRow);
-    }
+    if (command.remove)
+        c->removeIndexes(selected);
 
     if (command.hideWindow)
         hideWindow();
@@ -2517,13 +2514,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     // Allow browsing items in search mode without focusing item list.
-    if (c && !browseMode()) {
+    if ( c && ui->searchBar->hasFocus() ) {
         switch(key) {
             case Qt::Key_Down:
             case Qt::Key_Up:
             case Qt::Key_PageDown:
             case Qt::Key_PageUp:
+                c->setFocus();
                 QCoreApplication::sendEvent(c, event);
+                ui->searchBar->setFocus();
                 return;
         }
     }
