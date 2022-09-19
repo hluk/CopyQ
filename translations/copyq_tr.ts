@@ -3018,7 +3018,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/gui/menuitems.cpp" line="164"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation>Left</translation>
+        <translation>Sol</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="174"/>
