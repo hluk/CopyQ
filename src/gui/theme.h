@@ -131,6 +131,7 @@ private:
     QFontMetrics m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
     QPalette m_rowNumberPalette;
     bool m_showRowNumber = false;
+    int m_rowNumberMargin = 2;
 
     QFont m_editorFont;
     QPalette m_editorPalette;

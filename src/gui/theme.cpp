@@ -535,6 +535,8 @@ void Theme::resetTheme()
     m_theme["css_template_main_window"] = Option("main_window");
     m_theme["css_template_notification"] = Option("notification");
     m_theme["css_template_menu"] = Option("menu");
+
+    m_theme["num_margin"] = Option(2);
 }
 
 void Theme::updateTheme()
@@ -556,6 +558,8 @@ void Theme::updateTheme()
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
     m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
+    const QVariant rowNumberMargin = value("num_margin");
+    m_rowNumberMargin = rowNumberMargin.canConvert<int>() ? rowNumberMargin.toInt() : 2;
 
     m_antialiasing = value("font_antialiasing").toBool();
 }
@@ -565,7 +569,9 @@ QSize Theme::rowNumberSize(int n) const
     if (!m_showRowNumber)
         return QSize(0, 0);
 
-    return m_rowNumberFontMetrics.boundingRect(QString::number(n + m_rowIndexFromOne)).size() + m_margins;
+    const QString number = QString::number(n + m_rowIndexFromOne);
+    return m_rowNumberFontMetrics.boundingRect(number).size()
+        + m_margins + QSize(m_rowNumberMargin, 0);
 }
 
 void Theme::decorateBrowser(QAbstractScrollArea *c) const
