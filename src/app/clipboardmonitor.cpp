@@ -125,7 +125,7 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
             const auto targetMode = mode == ClipboardMode::Clipboard
                 ? ClipboardMode::Selection
                 : ClipboardMode::Clipboard;
-            const QVariantMap targetData = m_clipboard->data(targetMode, QStringList(mimeText));
+            const QVariantMap targetData = m_clipboard->data(targetMode, {mimeText});
             const uint targetTextHash = qHash( getTextData(targetData, mimeText) );
             emit synchronizeSelection(mode, text, targetTextHash);
         }

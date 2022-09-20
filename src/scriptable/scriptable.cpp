@@ -3623,7 +3623,7 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         if (sourceText != newText) {
             COPYQ_LOG(QStringLiteral("Sync: Cancelled - source text changed"));
             COPYQ_LOG_VERBOSE(
-                QStringLiteral("  Expected: %1\n  Actual: %2")
+                QStringLiteral("  Expected: %1\nActual: %2")
                 .arg(newText, sourceText) );
             return false;
         }
@@ -3632,16 +3632,16 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     }
 
     const QVariantMap targetData = clipboardInstance()->data(
-        targetMode, {mimeTextUtf8, mimeText, mimeUriList, mimeOwner});
+        targetMode, {mimeText});
     if (!targetData.isEmpty()) {
-        const QString targetText = getTextData(targetData);
+        const QString targetText = getTextData(targetData, mimeText);
         const QString owner = targetData.value(mimeOwner).toString();
         if ( owner.isEmpty() && !targetText.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
             if (targetTextHash != qHash(targetText)) {
                 COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text changed"));
                 COPYQ_LOG_VERBOSE(
-                    QStringLiteral("  Actual: %1\n  Source text: %2")
+                    QStringLiteral("  Actual: %1\nSource text: %2")
                     .arg(targetText, sourceText) );
                 return false;
             }
