@@ -56,11 +56,8 @@ int smallIconSize()
 
 QPoint toScreen(QPoint pos, QWidget *w)
 {
-    QWindow *window = w->windowHandle();
-    if (window)
-        window->setPosition(pos);
-    else
-        w->move(pos);
+	QWindow *window = w->windowHandle();
+    w->move(pos);
 
     const QRect availableGeometry = screenAvailableGeometry(*w);
     if ( !availableGeometry.isValid() )
