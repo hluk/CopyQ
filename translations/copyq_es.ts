@@ -1998,12 +1998,12 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Pestaña corrompida</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>No fueron cargados correctamente todos los elementos de la pestaña &lt;strong&gt;%1&lt;/strong&gt;. ¿Deseas seguir cargando la pestaña pero quizá perder algunos elementos?</translation>
     </message>
 </context>
 <context>
