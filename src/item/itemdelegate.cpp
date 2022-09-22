@@ -43,9 +43,9 @@
 namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
-const char propertySizeUpdated[] = "CopyQ_sizeUpdated";
 const char propertyFilterId[] = "CopyQ_filterId";
 constexpr int defaultItemHeight = 100;
+constexpr int defaultMaxItemHeight = 2048 * 8;
 
 } // namespace
 
@@ -53,8 +53,8 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
     : QItemDelegate(parent)
     , m_view(view)
     , m_sharedData(sharedData)
-    , m_maxSize(2048, 2048 * 8)
-    , m_idealWidth(0)
+    , m_maxWidth(2048)
+    , m_idealWidth(m_view->viewport()->contentsRect().width())
     , m_cache()
 {
     initSingleShotTimer(
@@ -107,9 +107,6 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
         const int row = findWidgetRow(obj);
         Q_ASSERT(row != -1);
         updateLater();
-
-        if ( m_idealWidth > 0 && !obj->property(propertySizeUpdated).toBool() )
-            updateSize(row);
     } else if ( event->type() == QEvent::HideToParent ) {
         updateLater();
     }
@@ -241,18 +238,16 @@ ItemWidget *ItemDelegate::cacheOrNull(int row) const
     return m_cache[static_cast<size_t>(row)].get();
 }
 
-void ItemDelegate::setItemSizes(QSize size, int idealWidth)
+void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();
     const int margin = 2 * margins.width() + 2 * m_view->spacing();
-    m_maxSize.setWidth(size.width() - margin);
+    m_maxWidth = maxWidth - margin;
     m_idealWidth = idealWidth - margin;
 
-    if (m_idealWidth > 0) {
-        for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
-            if (m_cache[row])
-                updateSize(row);
-        }
+    for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
+        if (m_cache[row])
+            updateSize(row);
     }
 }
 
@@ -261,10 +256,9 @@ void ItemDelegate::updateSize(int row)
     const int rowNumberWidth = m_sharedData->theme.rowNumberSize(row).width();
     ItemWidget *w = m_cache[row].get();
     w->updateSize(
-        QSize(m_maxSize.width() - rowNumberWidth, m_maxSize.height()),
+        QSize(m_maxWidth - rowNumberWidth, defaultMaxItemHeight),
         m_idealWidth - rowNumberWidth
     );
-    w->widget()->setProperty(propertySizeUpdated, true);
 }
 
 ItemEditorWidget *ItemDelegate::createCustomEditor(
@@ -377,8 +371,7 @@ void ItemDelegate::updateAllRows()
                 ww->move( QPoint(ww->x(), y) );
                 if ( ww->isHidden() ) {
                     ww->show();
-                    if ( m_idealWidth > 0 && !ww->property(propertySizeUpdated).toBool() )
-                        updateSize(row);
+                    updateSize(row);
                     ww->installEventFilter(this);
                     emit sizeHintChanged( m_view->index(row) );
                 }

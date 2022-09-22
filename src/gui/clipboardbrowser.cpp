@@ -544,9 +544,9 @@ void ClipboardBrowser::connectModelAndDelegate()
 
 void ClipboardBrowser::updateItemMaximumSize()
 {
-    const QSize minSize = viewport()->contentsRect().size();
-    if ( minSize.width() > 0 )
-        d.setItemSizes(m_sharedData->textWrap ? minSize : QSize(2048, 2048), minSize.width());
+    const int viewWidth = viewport()->contentsRect().width();
+    if (viewWidth > 0)
+        d.setItemSizes(m_sharedData->textWrap ? viewWidth : 2048, viewWidth);
 }
 
 void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)

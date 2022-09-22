@@ -87,7 +87,7 @@ class ItemDelegate final : public QItemDelegate
         ItemWidget *cacheOrNull(int row) const;
 
         /** Set maximum size for all items. */
-        void setItemSizes(QSize size, int idealWidth);
+        void setItemSizes(int maxWidth, int idealWidth);
 
         /** Create internal item editor widget. */
         ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
@@ -157,7 +157,7 @@ class ItemDelegate final : public QItemDelegate
         ClipboardBrowserSharedPtr m_sharedData;
         ItemFilterPtr m_filter;
         int m_filterId = 0;
-        QSize m_maxSize;
+        int m_maxWidth;
         int m_idealWidth;
 
         std::vector<std::shared_ptr<ItemWidget>> m_cache;
