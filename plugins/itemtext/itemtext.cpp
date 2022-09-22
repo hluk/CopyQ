@@ -105,6 +105,7 @@ ItemText::ItemText(
     m_textDocument.setDefaultFont(font());
 
     // Disable slow word wrapping initially.
+    setLineWrapMode(QTextEdit::NoWrap);
     QTextOption option = m_textDocument.defaultTextOption();
     option.setWrapMode(QTextOption::NoWrap);
     m_textDocument.setDefaultTextOption(option);
@@ -171,13 +172,15 @@ void ItemText::updateSize(QSize maximumSize, int idealWidth)
     setFixedWidth(idealWidth);
     m_textDocument.setTextWidth(idealWidth - scrollBarWidth);
 
+    const bool noWrap = maximumSize.width() > idealWidth;
     QTextOption option = m_textDocument.defaultTextOption();
-    const QTextOption::WrapMode wrapMode = maximumSize.width() > idealWidth
+    const auto wrapMode = noWrap
             ? QTextOption::NoWrap : QTextOption::WrapAtWordBoundaryOrAnywhere;
     if (wrapMode != option.wrapMode()) {
         option.setWrapMode(wrapMode);
         m_textDocument.setDefaultTextOption(option);
     }
+    setLineWrapMode(noWrap ? QTextEdit::NoWrap : QTextEdit::WidgetWidth);
 
     // setDocument() is slow, so postpone this after resized properly
     if (document() != &m_textDocument)
