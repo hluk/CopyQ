@@ -43,8 +43,6 @@
 namespace {
 
 const char propertySelectedItem[] = "CopyQ_selected";
-const char propertyFilterId[] = "CopyQ_filterId";
-constexpr int defaultItemHeight = 100;
 constexpr int defaultMaxItemHeight = 2048 * 8;
 
 } // namespace
@@ -55,7 +53,6 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
     , m_sharedData(sharedData)
     , m_maxWidth(2048)
     , m_idealWidth(m_view->viewport()->contentsRect().width())
-    , m_cache()
 {
     initSingleShotTimer(
         &m_timerInvalidateHidden, 0, this, &ItemDelegate::invalidateAllHiddenNow );
@@ -63,29 +60,9 @@ ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedP
 
 ItemDelegate::~ItemDelegate() = default;
 
-QSize ItemDelegate::sizeHintForItemSize(const QSize &itemSize, int row) const
-{
-    const auto margins = m_sharedData->theme.margins();
-    const auto rowNumberSize = m_sharedData->theme.rowNumberSize(row);
-    const int width = itemSize.width() + 2 * margins.width() + rowNumberSize.width();
-    return QSize( width, qMax(itemSize.height() + 2 * margins.height(), rowNumberSize.height()) );
-}
-
 QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
-    return sizeHint( index.row() );
-}
-
-QSize ItemDelegate::sizeHint(int row) const
-{
-    if ( static_cast<size_t>(row) < m_cache.size() ) {
-        const ItemWidget *w = cacheOrNull(row);
-        if (w != nullptr) {
-            QWidget *ww = w->widget();
-            return sizeHintForItemSize(ww->size(), row);
-        }
-    }
-    return QSize(0, defaultItemHeight);
+    return m_items[index.row()].size;
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
@@ -101,14 +78,12 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
         const int row = findWidgetRow(obj);
         Q_ASSERT(row != -1);
         const auto index = m_view->index(row);
+        // TODO: To make scrolling more stable, try to ignore resize even if
+        // the item is above the viewport. This would require to update the
+        // item size later or invalidate the item and remember the old size.
         updateLater();
-        emit sizeHintChanged(index);
-    } else if ( event->type() == QEvent::ShowToParent ) {
-        const int row = findWidgetRow(obj);
-        Q_ASSERT(row != -1);
-        updateLater();
-    } else if ( event->type() == QEvent::HideToParent ) {
-        updateLater();
+        const auto ev = static_cast<QResizeEvent*>(event);
+        updateItemSize(index, ev->size());
     }
 
     return QItemDelegate::eventFilter(obj, event);
@@ -116,13 +91,8 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    for ( int row = a.row(); row <= b.row(); ++row ) {
-        auto item = &m_cache[row];
-        if (*item) {
-            item->reset();
-            cache( m_view->index(row) );
-        }
-    }
+    for ( int row = a.row(); row <= b.row(); ++row )
+        m_items[row].item.reset();
 
     updateLater();
 }
@@ -133,14 +103,14 @@ void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
         if ( m_view->isRowHidden(row) )
             continue;
 
-        if (m_cache[row]) {
+        if (m_items[row]) {
             const auto index = m_view->index(row);
-            m_cache[row]->widget()->removeEventFilter(this);
+            m_items[row]->widget()->removeEventFilter(this);
             setIndexWidget(index, nullptr);
         }
     }
 
-    m_cache.erase(std::begin(m_cache) + start, std::begin(m_cache) + end + 1);
+    m_items.erase(std::begin(m_items) + start, std::begin(m_items) + end + 1);
 
     updateLater();
 }
@@ -158,9 +128,9 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
         count = to - from - count;
     }
 
-    const auto start1 = std::begin(m_cache) + from;
+    const auto start1 = std::begin(m_items) + from;
     const auto start2 = start1 + count;
-    const auto end2 = std::begin(m_cache) + to;
+    const auto end2 = std::begin(m_items) + to;
     std::rotate(start1, start2, end2);
 
     updateLater();
@@ -189,30 +159,28 @@ QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     const auto count = static_cast<size_t>(end - start + 1);
-    const auto oldSize = m_cache.size();
-    m_cache.resize(oldSize + count);
-    std::rotate( std::begin(m_cache) + start,
-                 std::begin(m_cache) + oldSize,
-                 std::end(m_cache) );
+    const auto oldSize = m_items.size();
+    m_items.resize(oldSize + count);
+    std::rotate( std::begin(m_items) + start,
+                 std::begin(m_items) + oldSize,
+                 std::end(m_items) );
 
     updateLater();
 }
 
-ItemWidget *ItemDelegate::cache(const QModelIndex &index)
+void ItemDelegate::createItemWidget(const QModelIndex &index)
 {
     const int row = index.row();
-    ItemWidget *w = cacheOrNull(row);
+    ItemWidget *w = m_items[row].get();
     if (w == nullptr) {
         auto data = m_view->itemData(index);
         data.insert(mimeCurrentTab, m_view->tabName());
-        w = updateCache(index, data);
+        w = updateWidget(index, data);
         emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));
     }
-
-    return w;
 }
 
-void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
+void ItemDelegate::updateWidget(QObject *widget, const QVariantMap &data)
 {
     if ( widget->parent() != m_view->viewport() ) {
         auto previewParent = qobject_cast<QWidget*>( widget->parent() );
@@ -236,12 +204,12 @@ void ItemDelegate::updateCache(QObject *widget, const QVariantMap &data)
         return;
 
     const auto index = m_view->index(row);
-    updateCache(index, data);
+    updateWidget(index, data);
 }
 
-ItemWidget *ItemDelegate::cacheOrNull(int row) const
+bool ItemDelegate::hasItemWidget(int row) const
 {
-    return m_cache[static_cast<size_t>(row)].get();
+    return m_items[static_cast<size_t>(row)];
 }
 
 void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
@@ -251,20 +219,39 @@ void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
     m_maxWidth = maxWidth - margin;
     m_idealWidth = idealWidth - margin;
 
-    for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
-        if (m_cache[row])
-            updateSize(row);
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        if (m_items[row])
+            updateItemWidgetSize(row);
     }
 }
 
-void ItemDelegate::updateSize(int row)
+void ItemDelegate::updateItemWidgetSize(int row)
 {
     const int rowNumberWidth = m_sharedData->theme.rowNumberSize(row).width();
-    ItemWidget *w = m_cache[row].get();
+    ItemWidget *w = m_items[row].get();
     w->updateSize(
         QSize(m_maxWidth - rowNumberWidth, defaultMaxItemHeight),
         m_idealWidth - rowNumberWidth
     );
+}
+
+void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize)
+{
+    const int row = index.row();
+    const auto margins = m_sharedData->theme.margins();
+    const auto rowNumberSize = m_sharedData->theme.rowNumberSize(row);
+    const int width = itemWidgetSize.width() + 2 * margins.width() + rowNumberSize.width();
+    const int height = std::max(
+        itemWidgetSize.height() + 2 * margins.height(),
+        rowNumberSize.height()
+    );
+
+    const QSize newSize = QSize(width, height);
+    if (m_items[row].size == newSize)
+        return;
+
+    m_items[row].size = newSize;
+    emit sizeHintChanged(index);
 }
 
 ItemEditorWidget *ItemDelegate::createCustomEditor(
@@ -332,11 +319,6 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
 void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 {
     QWidget *w = itemWidget->widget();
-    if ( w->property(propertyFilterId).toInt() == m_filterId )
-        return;
-
-    w->setProperty(propertyFilterId, m_filterId);
-
     const auto textEdits = w->findChildren<QTextEdit*>();
     auto maybeTextEdit = qobject_cast<QTextEdit*>(w);
     if (m_filter) {
@@ -364,28 +346,32 @@ void ItemDelegate::updateAllRows()
     const int space = 2 * s;
     int y = -m_view->verticalOffset() + s;
 
-    for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
         const bool hide = m_view->isRowHidden(row);
-        auto w = cacheOrNull(row);
-        if (w) {
-            QWidget *ww = w->widget();
+        auto &item = m_items[row];
+        if (item) {
+            QWidget *ww = item->widget();
             if (hide) {
                 ww->removeEventFilter(this);
                 ww->hide();
             } else {
-                highlightMatches(w);
+                if (item.appliedFilterId != m_filterId) {
+                    highlightMatches(item.get());
+                    item.appliedFilterId = m_filterId;
+                }
                 ww->move( QPoint(ww->x(), y) );
                 if ( ww->isHidden() ) {
                     ww->show();
-                    updateSize(row);
+                    updateItemWidgetSize(row);
                     ww->installEventFilter(this);
-                    emit sizeHintChanged( m_view->index(row) );
+                    const auto index = m_view->index(row);
+                    updateItemSize(index, ww->size());
                 }
             }
         }
 
         if (!hide)
-            y += sizeHint(row).height() + space;
+            y += m_items[row].size.height() + space;
     }
 }
 
@@ -403,9 +389,12 @@ void ItemDelegate::updateIfNeeded()
 void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent)
 {
     ItemWidget *w;
-    if (isCurrent) {
-        w = cache(index);
 
+    const int row = index.row();
+
+    if (isCurrent) {
+        createItemWidget(index);
+        w = m_items[row].get();
         auto ww = w->widget();
         QPalette palette( ww->palette() );
         const auto highlightPalette = m_sharedData->theme.searchPalette();
@@ -415,8 +404,7 @@ void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent
         for ( auto childWidget : ww->findChildren<QWidget*>() )
             childWidget->setPalette(palette);
     } else {
-        const int row = index.row();
-        w = cacheOrNull(row);
+        w = m_items[row].get();
         if (!w)
             return;
     }
@@ -427,7 +415,7 @@ void ItemDelegate::setItemWidgetCurrent(const QModelIndex &index, bool isCurrent
 void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelected)
 {
     const int row = index.row();
-    auto w = cacheOrNull(row);
+    auto w = m_items[row].get();
     if (!w)
         return;
 
@@ -441,7 +429,9 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     const QPoint pos = w ? findPositionForWidget(index) : QPoint();
     const bool show = w && !m_view->isIndexHidden(index);
 
-    m_cache[row].reset(w);
+    auto &item = m_items[row];
+    item.item.reset(w);
+    item.appliedFilterId = 0;
     if (w) {
         QWidget *ww = w->widget();
 
@@ -458,15 +448,13 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
         if (show) {
             ww->show();
-            updateSize(row);
+            updateItemWidgetSize(row);
         }
 
         ww->installEventFilter(this);
-
+        updateItemSize(index, ww->size());
         updateLater();
     }
-
-    emit sizeHintChanged(index);
 }
 
 QPoint ItemDelegate::findPositionForWidget(const QModelIndex &index) const
@@ -478,18 +466,17 @@ QPoint ItemDelegate::findPositionForWidget(const QModelIndex &index) const
     int y = 0;
     int skipped = 0;
     for (int row = index.row() - 1; row >= 0; --row) {
-        ItemWidget *w = m_cache[row].get();
-        if (w == nullptr) {
+        if (!m_items[row]) {
             if ( !m_view->isRowHidden(row) )
                 ++skipped;
             continue;
         }
 
-        QWidget *ww = w->widget();
+        QWidget *ww = m_items[row]->widget();
         if ( ww->isHidden() )
             continue;
 
-        y = ww->geometry().top() + sizeHintForItemSize(ww->size(), row).height()
+        y = ww->geometry().top() - margins.height() + m_items[row].size.height()
             + skipped * (defaultItemHeight + 2 * s);
         break;
     }
@@ -498,6 +485,16 @@ QPoint ItemDelegate::findPositionForWidget(const QModelIndex &index) const
         s + margins.width() + rowNumberSize.width(),
         s + margins.height() + y
     );
+}
+
+void ItemDelegate::setCurrentRow(int row, bool current)
+{
+    ItemWidget *item = m_items[row].get();
+    if (!item)
+        return;
+
+    item->setCurrent(false);
+    item->setCurrent(current);
 }
 
 void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
@@ -516,8 +513,8 @@ void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
 
 int ItemDelegate::findWidgetRow(const QObject *obj) const
 {
-    for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
-        auto w = cacheOrNull(row);
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        auto w = m_items[row].get();
         if (w && w->widget() == obj)
             return row;
     }
@@ -525,7 +522,7 @@ int ItemDelegate::findWidgetRow(const QObject *obj) const
     return -1;
 }
 
-ItemWidget *ItemDelegate::updateCache(const QModelIndex &index, const QVariantMap &data)
+ItemWidget *ItemDelegate::updateWidget(const QModelIndex &index, const QVariantMap &data)
 {
     const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
     QWidget *parent = m_view->viewport();
@@ -535,7 +532,6 @@ ItemWidget *ItemDelegate::updateCache(const QModelIndex &index, const QVariantMa
             : m_sharedData->itemFactory->createItem(data, parent, antialiasing);
 
     setIndexWidget(index, w);
-    highlightMatches(w);
 
     return w;
 }
@@ -566,16 +562,19 @@ void ItemDelegate::invalidateAllHiddenNow()
     const int minY = viewRect.top() - viewRect.height() - defaultItemHeight;
     const int currentRow = m_view->currentIndex().row();
     const auto isRowAlmostVisible = [&](int row){
-        if (row < 0 || static_cast<size_t>(row) >= m_cache.size() || !m_cache[row])
+        if (row < 0 || static_cast<size_t>(row) >= m_items.size() || !m_items[row])
             return false;
 
-        QWidget *ww = m_cache[row]->widget();
+        QWidget *ww = m_items[row]->widget();
+        if ( ww->isHidden() )
+            return false;
+
         const QRect g = ww->geometry();
-        return !ww->isHidden() && minY < g.bottom() && g.top() < maxY;
+        return minY < g.bottom() && g.top() < maxY;
     };
 
-    for (int row = 0; static_cast<size_t>(row) < m_cache.size(); ++row) {
-        if (!m_cache[row] || row == currentRow)
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        if (!m_items[row] || row == currentRow)
             continue;
 
         if ( isRowAlmostVisible(row) )
@@ -585,7 +584,7 @@ void ItemDelegate::invalidateAllHiddenNow()
             continue;
 
         const auto index = m_view->index(row);
-        m_cache[row]->widget()->removeEventFilter(this);
+        m_items[row]->widget()->removeEventFilter(this);
         setIndexWidget(index, nullptr);
     }
 
@@ -608,8 +607,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     const int row = index.row();
-    auto w = cacheOrNull(row);
-    if (w == nullptr)
+    if (!m_items[row])
         return;
 
     // Colorize item.

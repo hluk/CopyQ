@@ -41,5 +41,5 @@ bool PersistentDisplayItem::isValid()
 void PersistentDisplayItem::setData(const QVariantMap &data)
 {
     if ( !data.isEmpty() && isValid() && m_delegate && data != m_data )
-        m_delegate->updateCache(m_widget, data);
+        m_delegate->updateWidget(m_widget, data);
 }

@@ -37,6 +37,8 @@ class ItemWidget;
 class ClipboardBrowser;
 class PersistentDisplayItem;
 
+constexpr int defaultItemHeight = 100;
+
 /**
  * Delegate for items in ClipboardBrowser.
  *
@@ -57,10 +59,7 @@ class ItemDelegate final : public QItemDelegate
 
         ~ItemDelegate();
 
-        QSize sizeHintForItemSize(const QSize &itemSize, int row) const;
         QSize sizeHint(const QModelIndex &index) const;
-        QSize sizeHint(int row) const;
-
         QSize sizeHint(const QStyleOptionViewItem &option,
                        const QModelIndex &index) const override;
 
@@ -75,16 +74,15 @@ class ItemDelegate final : public QItemDelegate
         /** Return regular expression for highlighting. */
         const ItemFilterPtr &itemFilter() const { return m_filter; }
 
-        /** Return cached item, create it if it doesn't exist. */
-        ItemWidget *cache(const QModelIndex &index);
+        /** Creates item widget if not created already. */
+        void createItemWidget(const QModelIndex &index);
 
         /**
          * Update data to display.
          */
-        void updateCache(QObject *widget, const QVariantMap &data);
+        void updateWidget(QObject *widget, const QVariantMap &data);
 
-        /** Return cached item or nullptr. */
-        ItemWidget *cacheOrNull(int row) const;
+        bool hasItemWidget(int row) const;
 
         /** Set maximum size for all items. */
         void setItemSizes(int maxWidth, int idealWidth);
@@ -128,6 +126,8 @@ class ItemDelegate final : public QItemDelegate
 
         QWidget *createPreview(const QVariantMap &data, QWidget *parent);
 
+        void setCurrentRow(int row, bool current);
+
     signals:
         void itemWidgetCreated(const PersistentDisplayItem &selection);
 
@@ -136,18 +136,27 @@ class ItemDelegate final : public QItemDelegate
                    const QModelIndex &index) const override;
 
     private:
-        void setIndexWidget(const QModelIndex &index, ItemWidget *w);
+        struct Item {
+            ItemWidget *operator->() const noexcept { return item.get(); }
+            ItemWidget *get() const noexcept { return item.get(); }
+            operator bool() const noexcept { return static_cast<bool>(item); }
 
-        void setWidgetCurrent(QWidget *ww, bool isCurrent);
+            std::shared_ptr<ItemWidget> item;
+            int appliedFilterId = 0;
+            QSize size = QSize(0, defaultItemHeight);
+        };
+
+        void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
         /// Updates style for selected/unselected widgets.
         void setWidgetSelected(QWidget *ww, bool selected);
 
         int findWidgetRow(const QObject *obj) const;
 
-        ItemWidget *updateCache(const QModelIndex &index, const QVariantMap &data);
+        ItemWidget *updateWidget(const QModelIndex &index, const QVariantMap &data);
 
-        void updateSize(int row);
+        void updateItemWidgetSize(int row);
+        void updateItemSize(const QModelIndex &index, QSize itemWidgetSize);
 
         QPoint findPositionForWidget(const QModelIndex &index) const;
 
@@ -160,9 +169,9 @@ class ItemDelegate final : public QItemDelegate
         int m_maxWidth;
         int m_idealWidth;
 
-        std::vector<std::shared_ptr<ItemWidget>> m_cache;
-
         QTimer m_timerInvalidateHidden;
+
+        std::vector<Item> m_items;
 };
 
 #endif // ITEMDELEGATE_H
