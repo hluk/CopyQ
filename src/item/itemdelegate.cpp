@@ -606,10 +606,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     QStyle *style = m_view->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
-    const int row = index.row();
-    if (!m_items[row])
-        return;
-
     // Colorize item.
     const QString colorExpr = index.data(contentType::color).toString();
     if (!colorExpr.isEmpty()) {
@@ -626,7 +622,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     // Render number.
     if ( m_sharedData->theme.showRowNumber() ) {
-        const QString num = QString::number(row + static_cast<int>(m_sharedData->rowIndexFromOne));
+        const int rowNumber = index.row() + static_cast<int>(m_sharedData->rowIndexFromOne);
+        const QString num = QString::number(rowNumber);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
         painter->setFont( m_sharedData->theme.rowNumberFont() );
