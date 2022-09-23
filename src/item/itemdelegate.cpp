@@ -123,6 +123,8 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
             cache( m_view->index(row) );
         }
     }
+
+    updateLater();
 }
 
 void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
@@ -160,6 +162,8 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
     const auto start2 = start1 + count;
     const auto end2 = std::begin(m_cache) + to;
     std::rotate(start1, start2, end2);
+
+    updateLater();
 }
 
 QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
@@ -190,6 +194,8 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
     std::rotate( std::begin(m_cache) + start,
                  std::begin(m_cache) + oldSize,
                  std::end(m_cache) );
+
+    updateLater();
 }
 
 ItemWidget *ItemDelegate::cache(const QModelIndex &index)
@@ -455,9 +461,9 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
             updateSize(row);
         }
 
-        updateLater();
-
         ww->installEventFilter(this);
+
+        updateLater();
     }
 
     emit sizeHintChanged(index);
