@@ -557,7 +557,7 @@ void ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
     std::sort( std::begin(toRemove), std::end(toRemove) );
 
     const QPersistentModelIndex current = currentIndex();
-    int first = toRemove.value(0).row();
+    const int first = toRemove.value(0).row();
 
     // Remove ranges of rows instead of a single rows.
     for (auto it1 = std::begin(toRemove); it1 != std::end(toRemove); ) {
@@ -576,19 +576,8 @@ void ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
     }
 
     // If current item was removed, select next visible.
-    if ( !current.isValid() ) {
-        if (first >= length())
-            first = length() - 1;
-
-        if ( first >= 0 && isRowHidden(first) ) {
-            int row = first + 1;
-            for ( ; row < length() && isRowHidden(row); ++row ) {}
-            if (row >= length())
-                for ( ; row >= 0 && isRowHidden(row); --row ) {}
-        }
-
-        setCurrent(first);
-    }
+    if ( !current.isValid() )
+        setCurrent( findVisibleRowFrom(first) );
 }
 
 void ClipboardBrowser::focusEditedIndex()
@@ -611,6 +600,14 @@ int ClipboardBrowser::findPreviousVisibleRow(int row)
 {
     while ( row >= 0 && isRowHidden(row) ) { --row; }
     return row >= 0 ? row : -1;
+}
+
+int ClipboardBrowser::findVisibleRowFrom(int row)
+{
+    const int visibleRow = findNextVisibleRow(row);
+    if (visibleRow != -1)
+        return visibleRow;
+    return findPreviousVisibleRow(row);
 }
 
 void ClipboardBrowser::preloadCurrentPage()
@@ -1411,9 +1408,15 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         executeDelayedItemsLayout();
         QListView::keyPressEvent(event);
+
         const QModelIndex newCurrent = currentIndex();
-        if ( newCurrent.isValid() && !selectionModel()->isSelected(newCurrent) )
+        if ( !newCurrent.isValid() )
+            setCurrent(0);
+        else if ( isIndexHidden(newCurrent) )
+            setCurrent( findVisibleRowFrom(newCurrent.row()) );
+        else if ( !selectionModel()->isSelected(newCurrent) )
             selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Select);
+
         break;
     }
 
@@ -1492,20 +1495,17 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
     const int direction = cur <= row ? 1 : -1;
 
     // select first visible
-    int i = std::max(0, std::min(row, m.rowCount() - 1));
-    cur = i;
-    while ( 0 <= i && i < length() && isRowHidden(i) ) {
-        i = std::max(0, std::min(i + direction, m.rowCount() - 1));
-        if ( i == 0 || i == m.rowCount() - 1 || i == cur)
-            break;
-    }
-    if ( i < 0 || i >= length() || isRowHidden(i) )
+    int toSelect = std::clamp(row, 0, m.rowCount() - 1);
+    toSelect = direction == 1
+        ? findNextVisibleRow(toSelect)
+        : findPreviousVisibleRow(toSelect);
+    if (toSelect == -1)
         return;
 
     if (keepSelection) {
         auto sel = selectionModel();
         const bool currentSelected = sel->isSelected(prev);
-        for ( int j = prev.row(); j != i + direction; j += direction ) {
+        for ( int j = prev.row(); j != toSelect + direction; j += direction ) {
             const auto ind = index(j);
             if ( !ind.isValid() )
                 break;
@@ -1525,7 +1525,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
         else if (!currentSelected)
             sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
-        setCurrentIndex( index(i) );
+        setCurrentIndex( index(toSelect) );
     }
 }
 

@@ -374,6 +374,7 @@ class ClipboardBrowser final : public QListView
 
         int findNextVisibleRow(int row);
         int findPreviousVisibleRow(int row);
+        int findVisibleRowFrom(int row);
 
         void preloadCurrentPage();
         void preload(int pixels, int direction, const QModelIndex &start);
