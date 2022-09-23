@@ -34,6 +34,8 @@
 #   include <X11/extensions/XTest.h>
 #endif
 
+#include <unistd.h> // usleep()
+
 namespace {
 
 class KeyPressTester final {
@@ -56,9 +58,9 @@ private:
 };
 
 #ifdef HAS_X11TEST
-void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
+void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress, unsigned long delayMs = CurrentTime)
 {
-    XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
+    XTestFakeKeyEvent(display, keyCode, isPress, delayMs);
     XSync(display, False);
 }
 
@@ -114,8 +116,8 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 
     fakeKeyEvent(display, keyCode, True);
     // This is needed to paste into URL bar in Chrome.
-    waitFor(config.option<Config::window_key_press_time_ms>());
-    fakeKeyEvent(display, keyCode, False);
+    const unsigned long delayMs = config.option<Config::window_key_press_time_ms>();
+    fakeKeyEvent(display, keyCode, False, delayMs);
 
     simulateModifierKeyPress(display, modCodes, False);
 
