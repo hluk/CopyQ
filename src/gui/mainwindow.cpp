@@ -735,17 +735,14 @@ bool MainWindow::focusNextPrevChild(bool next)
     if (!c)
         return false;
 
-    // Fix tab order while searching in editor.
-    if (c->isInternalEditorOpen() && !browseMode()) {
-        if ( next && ui->searchBar->hasFocus() ) {
-            c->setFocus();
-            return true;
-        }
+    if ( next && ui->searchBar->hasFocus() ) {
+        c->setFocus();
+        return true;
+    }
 
-        if ( !next && c->hasFocus() ) {
-            ui->searchBar->setFocus();
-            return true;
-        }
+    if ( !next && c->hasFocus() && !browseMode() ) {
+        ui->searchBar->setFocus();
+        return true;
     }
 
     // Focus floating preview dock.
