@@ -549,6 +549,9 @@ void ItemDelegate::invalidateAllHiddenNow()
 {
     m_timerInvalidateHidden.stop();
 
+    // Make sure item widgets have up-to-date positions for invalidation.
+    updateAllRows();
+
     const QRect viewRect = m_view->viewport()->contentsRect();
     const int maxY = viewRect.bottom() + viewRect.height() + defaultItemHeight;
     const int minY = viewRect.top() - viewRect.height() - defaultItemHeight;
@@ -579,8 +582,6 @@ void ItemDelegate::invalidateAllHiddenNow()
         m_items[row]->widget()->removeEventFilter(this);
         setIndexWidget(index, nullptr);
     }
-
-    updateAllRows();
 }
 
 void ItemDelegate::setItemFilter(const ItemFilterPtr &filter)
