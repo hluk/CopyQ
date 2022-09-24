@@ -207,11 +207,6 @@ void ItemDelegate::updateWidget(QObject *widget, const QVariantMap &data)
     updateWidget(index, data);
 }
 
-bool ItemDelegate::hasItemWidget(int row) const
-{
-    return m_items[static_cast<size_t>(row)];
-}
-
 void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
 {
     const auto margins = m_sharedData->theme.margins();

@@ -82,8 +82,6 @@ class ItemDelegate final : public QItemDelegate
          */
         void updateWidget(QObject *widget, const QVariantMap &data);
 
-        bool hasItemWidget(int row) const;
-
         /** Set maximum size for all items. */
         void setItemSizes(int maxWidth, int idealWidth);
 

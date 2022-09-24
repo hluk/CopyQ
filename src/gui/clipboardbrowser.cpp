@@ -936,11 +936,7 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
-    if ( m.rowCount() > 0 && !d.hasItemWidget(0) )
-        scrollToTop();
-
     preloadCurrentPage();
-
     QListView::showEvent(event);
 }
 
