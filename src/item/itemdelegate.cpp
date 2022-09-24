@@ -78,9 +78,6 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
         const int row = findWidgetRow(obj);
         Q_ASSERT(row != -1);
         const auto index = m_view->index(row);
-        // TODO: To make scrolling more stable, try to ignore resize even if
-        // the item is above the viewport. This would require to update the
-        // item size later or invalidate the item and remember the old size.
         updateLater();
         const auto ev = static_cast<QResizeEvent*>(event);
         updateItemSize(index, ev->size());

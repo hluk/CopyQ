@@ -1198,6 +1198,7 @@ void ClipboardBrowser::doItemsLayout()
     if (offset != 0) {
         QScrollBar *v = verticalScrollBar();
         v->setValue(v->value() + offset);
+        d.updateAllRows();
     }
 }
 
@@ -1426,46 +1427,45 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         const int atBottom = h - space;
         const int atTop = spacing();
 
-        if ( current != indexNear(atTop) || current != indexNear(atBottom) ) {
-            if (key == Qt::Key_PageDown)
-                preload(h, 1, indexNear(h - space));
-            else
-                preload(h, -1, indexNear(atTop));
+        // QListView page scrolling is broken if the current item is larger
+        // than the viewport.
+        if ( rectForIndex(current).height() + space >= viewport()->contentsRect().height() ) {
+            QModelIndex newCurrent;
+            QScrollBar *v = verticalScrollBar();
 
+            if (key == Qt::Key_PageDown) {
+                v->setValue( v->value() + v->pageStep() );
+                preloadCurrentPage();
+                executeDelayedItemsLayout();
+                newCurrent = indexNear(atTop);
+            } else {
+                v->setValue( v->value() - v->pageStep() );
+                preloadCurrentPage();
+                executeDelayedItemsLayout();
+                newCurrent = indexNear(atBottom);
+            }
+
+            if (!newCurrent.isValid() || newCurrent == current)
+                break;
+
+            const QItemSelectionModel::SelectionFlags flags = selectionCommand(newCurrent, event);
+            const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
+            const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+
+            setCurrent(newCurrent.row(), keepSelection, setCurrentOnly);
+
+            // Make scrolling more stable by keeping current item at the top.
+            if ( selectionModel()->selectedRows().size() <= 1 )
+                scrollTo(currentIndex(), PositionAtTop);
+        } else {
+            scrollTo(current, PositionAtTop);
+            preload(h, key == Qt::Key_PageDown ? 1 : -1, current);
             executeDelayedItemsLayout();
             QListView::keyPressEvent(event);
-            break;
+            // Make scrolling more stable by keeping current item at the top.
+            if ( selectionModel()->selectedRows().size() <= 1 )
+                scrollTo(currentIndex(), PositionAtTop);
         }
-
-        QModelIndex newCurrent;
-        QScrollBar *v = verticalScrollBar();
-
-        if (key == Qt::Key_PageDown) {
-            v->setValue( v->value() + v->pageStep() );
-            preloadCurrentPage();
-            executeDelayedItemsLayout();
-
-            newCurrent = indexNear(atTop);
-            if (newCurrent == current)
-                newCurrent = indexNear(atBottom);
-        } else {
-            v->setValue( v->value() - v->pageStep() );
-            preloadCurrentPage();
-            executeDelayedItemsLayout();
-
-            newCurrent = indexNear(atBottom);
-            if (newCurrent == current)
-                newCurrent = indexNear(atTop);
-        }
-
-        if (!newCurrent.isValid() || newCurrent == current)
-            break;
-
-        const QItemSelectionModel::SelectionFlags flags = selectionCommand(newCurrent, event);
-        const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
-        const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
-
-        setCurrent(newCurrent.row(), keepSelection, setCurrentOnly);
         break;
     }
 
