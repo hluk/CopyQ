@@ -587,7 +587,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="79"/>
         <source>Show command in context menu of matching items</source>
-        <translation>マッチしたアイテムのコンテキストメニューにコマンドを表示します</translation>
+        <translation>一致したアイテムのコンテキストメニューにコマンドを表示します</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="82"/>
@@ -720,7 +720,7 @@ Leave empty to disable this.</source>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>マッチしたアイテムを削除します
+        <translation>一致したアイテムを削除します
 
 注意: この動作が自動的に適用された場合、その他の自動コマンドは実行されません。</translation>
     </message>
@@ -976,7 +976,7 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="503"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>適当なノート (Shift+F2 で編集)</translation>
+        <translation>適当なメモ (Shift+F2 で編集)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="181"/>
@@ -1020,7 +1020,7 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation>長いテキストを折り返す(&amp;O)</translation>
+        <translation>長い文字列を折り返す(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
@@ -1035,12 +1035,12 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation>他のアプリケーションにフォーカスがある場合はメインウィンドウを閉じます</translation>
+        <translation>他のアプリケーションにフォーカスが移ればメインウィンドウを閉じます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation>非フォーカス時に閉じる</translation>
+        <translation>フォーカスがなくなれば閉じる</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1477,7 +1477,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>内蔵の通知機能を使用(&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1530,12 +1530,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>トレイアイコンを表示せずウィンドウを閉じる代わりに最小化します</translation>
+        <translation>トレイ内にアイコンを表示しません。ウィンドウを閉じる代わりに最小化します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>トレイを無効に(&amp;E)</translation>
+        <translation>トレイに表示しない(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1550,7 +1550,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>トレイメニューのアイテム数(&amp;U):</translation>
+        <translation>トレイ内のメニューのアイテム数(&amp;U):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
@@ -1565,7 +1565,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>メニューに現在のタブを表示する(&amp;R)、</translation>
+        <translation>メニューに現在のタブを表示(&amp;R)、</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
@@ -1595,7 +1595,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>メニューアイテムのアイコンとして画像プレビューを表示する(&amp;O)</translation>
+        <translation>メニューアイテムのアイコンとして画像プレビューを表示(&amp;O)</translation>
     </message>
 </context>
 <context>
@@ -1991,12 +1991,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>破損したタブ</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>タブ「 &lt;strong&gt;%1&lt;/strong&gt; 」は正常に読み込まれていません。一部のアイテムがなくなる可能性がありますが、タブを読み込みますか?</translation>
     </message>
 </context>
 <context>
@@ -2091,12 +2091,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="79"/>
         <source>Notes</source>
-        <translation>ノート</translation>
+        <translation>メモ</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="81"/>
         <source>Display notes for items.</source>
-        <translation>アイテムのノートを表示します。</translation>
+        <translation>アイテムのメモを表示します。</translation>
     </message>
 </context>
 <context>
@@ -2104,7 +2104,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation>ノートの位置</translation>
+        <translation>メモの位置</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
@@ -2231,7 +2231,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="138"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>アイテムとノートをディスク上のディレクトリへと同期します。</translation>
+        <translation>アイテムとメモをディスク上のディレクトリへと同期します。</translation>
     </message>
 </context>
 <context>
@@ -2340,12 +2340,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="628"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>タグがロックされたアイテムは削除できません</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="629"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>削除するには先にタグを外してください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="765"/>
@@ -2389,7 +2389,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation>マッチ</translation>
+        <translation>一致</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
@@ -2409,12 +2409,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>ロック</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>アイテムの削除を防止</translation>
     </message>
 </context>
 <context>
@@ -2886,7 +2886,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
         <source>Edit &amp;Notes</source>
-        <translation>ノートを編集(&amp;N)</translation>
+        <translation>メモを編集(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
@@ -3080,7 +3080,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">取り消し線</translation>
+        <translation>打ち消し線</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
@@ -3106,7 +3106,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>アイテムをアクティブにする(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
@@ -3526,7 +3526,7 @@ PROGRAM に引数としてテキストを渡す場合は %1 を使用します�
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="204"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>コマンドの実行前に、バックグラウンドでサーバーを開始します。</translation>
     </message>
     <message>
         <source>
@@ -3592,7 +3592,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="942"/>
         <location filename="../src/scriptable/scriptable.cpp" line="977"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ クリップボード管理</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="3056"/>
