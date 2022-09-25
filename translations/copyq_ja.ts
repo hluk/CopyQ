@@ -3106,7 +3106,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>アイテムをアクティブにする(&amp;A)</translation>
+        <translation>アイテムをアクティブに(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
