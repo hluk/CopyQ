@@ -1,3 +1,18 @@
+# 6.3.1
+
+## Fixed
+
+- Fixes rendering issues (#1728, #2093).
+
+- Fixes the space between row number and the item content. This is customizable
+  with `num_margin` theme option.
+
+- Fixes Qt 6 build.
+
+- Wayland: Fixes synchronizing selection with clipboard with UTF-8 text.
+
+- X11: Fixes tray window popup position on multi-monitor (#2038).
+
 # 6.3.0
 
 ## Changed
