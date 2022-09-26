@@ -1,3 +1,9 @@
+# 6.3.2
+
+## Fixed
+
+- Fixes potential crash when rendering an empty item list.
+
 # 6.3.1
 
 ## Fixed
