@@ -1477,7 +1477,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation>内蔵の通知機能を使用(&amp;U)</translation>
+        <translation>ネイティブの通知機能を使用(&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
