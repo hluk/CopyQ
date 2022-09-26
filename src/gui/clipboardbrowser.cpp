@@ -629,6 +629,9 @@ void ClipboardBrowser::preloadCurrentPage()
 
 void ClipboardBrowser::preload(int pixels, int direction, const QModelIndex &start)
 {
+    if ( !start.isValid() )
+        return;
+
     const int s = spacing();
     int y = -d.sizeHint(start).height();
     for ( QModelIndex ind = start;
