@@ -300,7 +300,7 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor, const QModelIndex &i
     --m_externalEditorsOpen;
 
     if ( index.isValid() && !isInternalEditorOpen() ) {
-        setCurrentIndex(index);
+        selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
         emit requestShow(this);
     }
 
