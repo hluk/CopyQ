@@ -192,11 +192,13 @@ void WindowGeometryGuard::onScreenChanged()
 
     if (isMousePositionSupported || m_window->isModal()) {
         ::restoreWindowGeometry(m_window, true);
-    } else {
+    } else if ( m_window->isVisible() ) {
         // WORKAROUND: Center window position on Sway window compositor which
         // does not support changing window position.
         m_window->hide();
         ::restoreWindowGeometry(m_window, true);
         m_window->show();
+    } else {
+        ::restoreWindowGeometry(m_window, true);
     }
 }
