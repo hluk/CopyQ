@@ -3599,6 +3599,7 @@ void Tests::automaticCommandIgnore()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "2\n");
 
     TEST( m_test->setClipboard("SHOULD BE IGNORED 1") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
@@ -3620,6 +3621,7 @@ void Tests::automaticCommandRemove()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "2\n");
 
     TEST( m_test->setClipboard("SHOULD BE IGNORED 1") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
@@ -3639,6 +3641,7 @@ void Tests::automaticCommandInput()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "2\n");
 
     TEST( m_test->setClipboard("SHOULD BE CHANGED") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
@@ -3654,6 +3657,7 @@ void Tests::automaticCommandRegExp()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "2\n");
 
     TEST( m_test->setClipboard("SHOULD BE CHANGED") );
     WAIT_ON_OUTPUT("read" << "DATA" << "0", "DONE");
@@ -3671,6 +3675,8 @@ void Tests::automaticCommandSetData()
         setCommands([{automatic: true, cmd: 'copyq: setData("text/plain", "OK")'}])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+
     TEST( m_test->setClipboard("SHOULD BE CHANGED") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
 }
@@ -3683,6 +3689,8 @@ void Tests::automaticCommandOutputTab()
         setCommands([{automatic: true, cmd: 'copyq: setData(mimeOutputTab, "' + tab1 + '")'}])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+
     TEST( m_test->setClipboard("TEST") );
     WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "TEST");
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
@@ -3694,6 +3702,8 @@ void Tests::automaticCommandNoOutputTab()
         setCommands([{automatic: true, cmd: 'copyq: removeData(mimeOutputTab)'}])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+
     TEST( m_test->setClipboard("TEST") );
     waitFor(1000);
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
@@ -3709,6 +3719,8 @@ void Tests::automaticCommandChaining()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "3\n");
+
     TEST( m_test->setClipboard("TEST") );
     WAIT_ON_OUTPUT("read" << "0", "123");
 }
@@ -3720,6 +3732,8 @@ void Tests::automaticCommandCopyToTab()
         setCommands([{automatic: true, tab: ')" + tab1 + R"('}])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+
     TEST( m_test->setClipboard("TEST") );
     WAIT_ON_OUTPUT("tab" << QString(clipboardTabName) << "read" << "0", "TEST");
     RUN("tab" << tab1 << "read" << "0", "TEST");
@@ -3733,6 +3747,7 @@ void Tests::automaticCommandStoreSpecialFormat()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
 
     TEST( m_test->setClipboard("DATA", "test-format") );
     WAIT_ON_OUTPUT("separator" << "," << "read" << "test-format" << "0" << "1", "DATA,");
@@ -3748,6 +3763,7 @@ void Tests::automaticCommandIgnoreSpecialFormat()
         ])
         )";
     RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "3\n");
 
     TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
     WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1", "CMD1,");
