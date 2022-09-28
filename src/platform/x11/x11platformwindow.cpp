@@ -44,7 +44,6 @@ private:
 void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress, unsigned long delayMs = CurrentTime)
 {
     XTestFakeKeyEvent(display, keyCode, isPress, delayMs);
-    XSync(display, False);
 }
 
 void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
@@ -93,45 +92,43 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
     if (!waitForModifiersReleased(display, config))
         return;
 
-    simulateModifierKeyPress(display, modCodes, True);
+    // Key release delay is needed to paste into URL bar in Chrome.
+    const unsigned long keyReleaseDelayMs = config.option<Config::window_key_press_time_ms>();
 
     const KeyCode keyCode = XKeysymToKeycode(display, key);
 
+    simulateModifierKeyPress(display, modCodes, True);
     fakeKeyEvent(display, keyCode, True);
-    // This is needed to paste into URL bar in Chrome.
-    const unsigned long delayMs = config.option<Config::window_key_press_time_ms>();
-    fakeKeyEvent(display, keyCode, False, delayMs);
-
+    fakeKeyEvent(display, keyCode, False, keyReleaseDelayMs);
     simulateModifierKeyPress(display, modCodes, False);
-
     XSync(display, False);
 }
 #else
 
 void simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
 {
-    XKeyEvent event;
-    XEvent *xev = reinterpret_cast<XEvent *>(&event);
-    event.display     = display;
-    event.window      = window;
-    event.root        = DefaultRootWindow(display);
-    event.subwindow   = None;
-    event.time        = CurrentTime;
-    event.x           = 1;
-    event.y           = 1;
-    event.x_root      = 1;
-    event.y_root      = 1;
-    event.same_screen = True;
-    event.keycode     = XKeysymToKeycode(display, key);
-    event.state       = modifiers;
+    XKeyEvent keyPress;
+    keyPress.display     = display;
+    keyPress.window      = window;
+    keyPress.root        = DefaultRootWindow(display);
+    keyPress.subwindow   = None;
+    keyPress.time        = CurrentTime;
+    keyPress.x           = 1;
+    keyPress.y           = 1;
+    keyPress.x_root      = 1;
+    keyPress.y_root      = 1;
+    keyPress.same_screen = True;
+    keyPress.keycode     = XKeysymToKeycode(display, key);
+    keyPress.state       = modifiers;
+    keyPress.type        = KeyPress;
 
-    event.type = KeyPress;
-    XSendEvent(display, window, True, KeyPressMask, xev);
+    XKeyEvent keyRelease = keyPress;
+    keyRelease.type = KeyRelease;
+
+    XSendEvent(display, window, True, KeyPressMask, reinterpret_cast<XEvent*>(&keyPress));
+    XSendEvent(display, window, True, KeyPressMask, reinterpret_cast<XEvent*>(&keyRelease);
     XSync(display, False);
 
-    event.type = KeyRelease;
-    XSendEvent(display, window, True, KeyPressMask, xev);
-    XSync(display, False);
 }
 #endif
 
