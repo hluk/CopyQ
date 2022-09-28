@@ -128,21 +128,33 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Shows main window.
 
+   This uses the last window position and size which is updated whenever the
+   window is moved or resized.
+
 .. js:function:: /*tab*/ show(tabName)
 
    Shows tab.
+
+   This uses the last window position and size which is updated whenever the
+   window is moved or resized.
 
 .. js:function:: showAt(x, y, [width, height])
 
    Shows main window with given geometry.
 
+   The new window position and size will not be stored for ``show()``.
+
 .. js:function:: /*cursor*/ showAt()
 
    Shows main window under mouse cursor.
 
+   The new window position will not be stored for ``show()``.
+
 .. js:function:: /*tab*/ showAt(x, y, width, height, tabName)
 
    Shows tab with given geometry.
+
+   The new window position and size will not be stored for ``show()``.
 
 .. js:function:: hide()
 
@@ -151,6 +163,9 @@ unlike in GUI, where row numbers start from 1 by default.
 .. js:function:: toggle()
 
    Shows or hides main window.
+
+   This uses the last window position and size which is updated whenever the
+   window is moved or resized.
 
    :returns: ``true`` only if main window is being shown, otherwise ``false``.
    :rtype: bool
