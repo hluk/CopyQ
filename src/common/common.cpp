@@ -362,8 +362,6 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
 {
     ClipboardDataGuard data(rawData, abortCloning);
 
-    const auto internalMimeTypes = {mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden};
-
     QVariantMap newdata;
 
     /*
@@ -394,11 +392,6 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
         }
     }
 
-    for (const auto &internalMime : internalMimeTypes) {
-        if ( data.hasFormat(internalMime) )
-            newdata.insert( internalMime, data.data(internalMime) );
-    }
-
     // Retrieve images last since this can take a while.
     if ( !imageFormats.isEmpty() ) {
         const QImage image = data.getImageData();
@@ -420,12 +413,22 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
 
 QVariantMap cloneData(const QMimeData &data)
 {
+    static const QSet<QString> ignoredFormats({
+        mimeOwner,
+        mimeClipboardMode,
+        mimeCurrentTab,
+        mimeSelectedItems,
+        mimeCurrentItem,
+        mimeShortcut,
+        mimeOutputTab,
+    });
+
     QStringList formats;
 
     for ( const auto &mime : data.formats() ) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
-        // and internal type to check clipboard owner
-        if ( !mime.isEmpty() && mime[0].isLower() )
+        // and specific internal types
+        if ( !mime.isEmpty() && mime[0].isLower() && !ignoredFormats.contains(mime) )
             formats.append(mime);
     }
 

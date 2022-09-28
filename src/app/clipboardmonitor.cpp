@@ -71,7 +71,10 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_storeClipboard = config.option<Config::check_clipboard>();
     m_clipboardTab = config.option<Config::clipboard_tab>();
 
-    m_clipboard->startMonitoring(formats);
+    m_formats.append({mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden});
+    m_formats.removeDuplicates();
+
+    m_clipboard->startMonitoring(m_formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
              this, &ClipboardMonitor::onClipboardChanged );
 
