@@ -280,9 +280,13 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
             newDataTimestamp = 0;
     }
 
-    // In case there is a timestamp, omit update if it did not change.
-    if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp )
-        return;
+    // In case there is a valid timestamp, omit update if the timestamp and
+    // text did not change.
+    if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp ) {
+        const QVariantMap newData = cloneData(*data, {mimeText});
+        if (newData.value(mimeText) == clipboardData->newData.value(mimeText))
+            return;
+    }
 
     clipboardData->timerEmitChange.stop();
     clipboardData->abortCloning = false;
