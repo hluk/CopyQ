@@ -170,6 +170,8 @@ public slots:
 
     void show();
     void showAt();
+    QJSValue windowPosition();
+    QJSValue windowSize();
     void hide();
     QJSValue toggle();
     QJSValue menu();

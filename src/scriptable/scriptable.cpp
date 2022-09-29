@@ -1037,6 +1037,28 @@ void Scriptable::showAt()
         m_proxy->showBrowserAt(tabName, rect);
 }
 
+QJSValue Scriptable::windowPosition()
+{
+    m_skipArguments = 2;
+    int x = -1;
+    int y = -1;
+    if ( !toInt(argument(0), &x) || !toInt(argument(1), &y) )
+        return throwError(argumentError());
+    m_proxy->setWindowPosition(x, y);
+    return {};
+}
+
+QJSValue Scriptable::windowSize()
+{
+    m_skipArguments = 2;
+    int w = -1;
+    int h = -1;
+    if ( !toInt(argument(0), &w) || !toInt(argument(1), &h) )
+        return throwError(argumentError());
+    m_proxy->setWindowSize(w, h);
+    return {};
+}
+
 void Scriptable::hide()
 {
     m_skipArguments = 0;

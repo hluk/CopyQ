@@ -156,6 +156,18 @@ unlike in GUI, where row numbers start from 1 by default.
 
    The new window position and size will not be stored for ``show()``.
 
+.. js:function:: windowPosition(x, y)
+
+   Set main window position.
+
+   The new window position will be also stored for ``show()``.
+
+.. js:function:: windowSize(width, height)
+
+   Set main window size.
+
+   The new window size will be also stored for ``show()``.
+
 .. js:function:: hide()
 
    Hides main window.

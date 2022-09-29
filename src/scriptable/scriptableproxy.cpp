@@ -615,8 +615,8 @@ void setGeometryWithoutSave(QWidget *window, QRect geometry)
             ? QCursor::pos()
             : geometry.topLeft();
 
-    const int w = pointsToPixels(geometry.width(), window);
-    const int h = pointsToPixels(geometry.height(), window);
+    const int w = geometry.width();
+    const int h = geometry.height();
     if (w > 0 && h > 0)
         window->resize(w, h);
 
@@ -1076,6 +1076,18 @@ bool ScriptableProxy::showWindowAt(QRect rect)
     INVOKE(showWindowAt, (rect));
     setGeometryWithoutSave(m_wnd, rect);
     return showWindow();
+}
+
+void ScriptableProxy::setWindowPosition(int x, int y)
+{
+    INVOKE2(setWindowPosition, (x, y));
+    m_wnd->move(x, y);
+}
+
+void ScriptableProxy::setWindowSize(int w, int h)
+{
+    INVOKE2(setWindowSize, (w, h));
+    m_wnd->resize(w, h);
 }
 
 bool ScriptableProxy::pasteToCurrentWindow()
@@ -2081,9 +2093,9 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
         else if (value.name == ".style")
             styleSheet = value.value.toString();
         else if (value.name == ".height")
-            geometry.setHeight( pointsToPixels(value.value.toInt()) );
+            geometry.setHeight( value.value.toInt() );
         else if (value.name == ".width")
-            geometry.setWidth( pointsToPixels(value.value.toInt()) );
+            geometry.setWidth( value.value.toInt() );
         else if (value.name == ".x")
             geometry.setX(value.value.toInt());
         else if (value.name == ".y")
