@@ -87,7 +87,7 @@ const auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
 const auto commandDialogListId = "focus:listWidgetItems";
 const auto configurationDialogId = "focus:ConfigurationManager";
 const auto shortcutButtonId = "focus::QToolButton in CommandDialog";
-const auto shortcutDialogId = "focus::QLineEdit in ShortcutDialog";
+const auto shortcutDialogId = "focus::QKeySequenceEdit in ShortcutDialog";
 const auto actionDialogId = "focus:ActionDialog";
 const auto aboutDialogId = "focus:AboutDialog";
 const auto logDialogId = "focus:LogDialog";
@@ -4172,7 +4172,8 @@ void Tests::shortcutDialogCancel()
     RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
     RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
     RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "ESCAPE" << shortcutButtonId, "");
+    RUN("keys" << shortcutDialogId << "TAB" << "focus:ShortcutDialog", "");
+    RUN("keys" << "ESCAPE" << shortcutButtonId, "");
 
     RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
     RUN("commands()[0].shortcuts", "ctrl+f1\n");

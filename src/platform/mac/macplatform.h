@@ -52,8 +52,6 @@ public:
 
     PlatformClipboardPtr clipboard() override;
 
-    int keyCode(const QKeyEvent &event) override { return event.key(); }
-
     QStringList getCommandLineArguments(int argc, char **argv) override;
 
     bool findPluginDir(QDir *pluginsDir) override;

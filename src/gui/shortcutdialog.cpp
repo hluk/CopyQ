@@ -28,34 +28,9 @@
 #include <QKeyEvent>
 #include <QPushButton>
 
-namespace {
-
-bool isModifierKey(int key)
-{
-    switch(key) {
-    case Qt::Key_Control:
-    case Qt::Key_Shift:
-    case Qt::Key_Alt:
-    case Qt::Key_AltGr:
-    case Qt::Key_Meta:
-    case Qt::Key_Super_L:
-    case Qt::Key_Super_R:
-    case Qt::Key_Hyper_L:
-    case Qt::Key_Hyper_R:
-    case Qt::Key_unknown:
-        return true;
-    default:
-        return false;
-    }
-}
-
-} // namespace
-
 ShortcutDialog::ShortcutDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShortcutDialog)
-    , m_shortcut()
-    , m_metaPressed(false)
 {
     ui->setupUi(this);
 
@@ -64,6 +39,12 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     resetButton->setText(tr("Remove Shortcut"));
     connect(resetButton, &QAbstractButton::clicked,
             this, &ShortcutDialog::onResetButtonClicked);
+
+    connect(ui->lineEditShortcut, &QKeySequenceEdit::keySequenceChanged,
+            this, [this](const QKeySequence &keySequence) {
+                if ( !keySequence.isEmpty() )
+                    accept();
+            });
 
     ui->lineEditShortcut->installEventFilter(this);
 
@@ -77,7 +58,7 @@ ShortcutDialog::~ShortcutDialog()
 
 QKeySequence ShortcutDialog::shortcut() const
 {
-    return m_shortcut;
+    return ui->lineEditShortcut->keySequence();
 }
 
 bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
@@ -85,38 +66,16 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
     if (object != ui->lineEditShortcut)
         return QDialog::eventFilter(object, event);
 
+    // WORKAROUND: Meta keyboard modifier in QKeySequenceEdit is not handled
+    // correctly on X11 and Wayland (QTBUG-78212, QTBUG-62102).
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         auto keyEvent = static_cast<QKeyEvent*>(event);
-        const int key = platformNativeInterface()->keyCode(*keyEvent);
-        const int mods = getModifiers(*keyEvent);
-
-        if (mods == Qt::NoModifier) {
-            if (key == Qt::Key_Tab)
-                return QDialog::eventFilter(object, event);
-
-            if (key == Qt::Key_Escape) {
-                reject();
-                return true;
-            }
-        }
-
-        event->accept();
-
-        if (event->type() == QEvent::KeyPress) {
-            COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
-
-            if ( isModifierKey(keyEvent->key()) ) {
-                processKey(0, mods);
-            } else {
-                processKey(key, mods);
-                accept();
-            }
-        } else if (result() != QDialog::Accepted) {
-            COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
-            processKey(0, mods);
-        }
-
-        return true;
+        const int key = keyEvent->key();
+        return key == Qt::Key_Meta
+            || key == Qt::Key_Super_L
+            || key == Qt::Key_Super_R
+            || key == Qt::Key_Hyper_L
+            || key == Qt::Key_Hyper_R;
     }
 
     return QDialog::eventFilter(object, event);
@@ -124,47 +83,6 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 
 void ShortcutDialog::onResetButtonClicked()
 {
-    m_shortcut = QKeySequence();
+    ui->lineEditShortcut->setKeySequence( QKeySequence() );
     accept();
-}
-
-void ShortcutDialog::processKey(int key, int mods)
-{
-    m_shortcut = QKeySequence(mods | key);
-
-    // WORKAROUND: Qt has convert some keys to upper case which
-    //             breaks some shortcuts on some keyboard layouts.
-    m_shortcut = QKeySequence(portableShortcutText(m_shortcut));
-
-    const QString shortcut = m_shortcut.toString();
-    COPYQ_LOG(QString("Shortcut: %1").arg(shortcut));
-
-    ui->lineEditShortcut->setText(shortcut);
-}
-
-int ShortcutDialog::getModifiers(const QKeyEvent &event)
-{
-    int key = event.key();
-    const Qt::KeyboardModifiers mods = event.modifiers();
-    int result = 0;
-
-    if (key == Qt::Key_Meta || key == Qt::Key_Super_L || key == Qt::Key_Super_R
-            || key == Qt::Key_Hyper_L || key == Qt::Key_Hyper_R)
-    {
-        m_metaPressed = (event.type() == QEvent::KeyPress);
-        COPYQ_LOG(QString("Shortcut \"Meta\" key %1.").arg(m_metaPressed ? "pressed" : "released"));
-    }
-
-    if (mods & Qt::ShiftModifier)
-        result |= Qt::SHIFT;
-    if (mods & Qt::ControlModifier)
-        result |= Qt::CTRL;
-    if (mods & Qt::AltModifier)
-        result |= Qt::ALT;
-    if (mods & Qt::KeypadModifier)
-        result |= Qt::KeypadModifier;
-    if (m_metaPressed || mods & Qt::MetaModifier)
-        result |= Qt::META;
-
-    return result;
 }

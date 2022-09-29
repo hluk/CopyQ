@@ -42,13 +42,7 @@ protected:
 private:
     void onResetButtonClicked();
 
-    void processKey(int key, int mods);
-
-    int getModifiers(const QKeyEvent &event);
-
     Ui::ShortcutDialog *ui;
-    QKeySequence m_shortcut;
-    bool m_metaPressed;
 };
 
 #endif // SHORTCUTDIALOG_H

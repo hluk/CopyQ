@@ -15,24 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="labelHelp">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="lineEditShortcut">
-     <property name="contextMenuPolicy">
-      <enum>Qt::NoContextMenu</enum>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-     <property name="placeholderText">
-      <string>Click here and press any key combination</string>
-     </property>
-    </widget>
+       <widget class="QKeySequenceEdit" name="lineEditShortcut"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -40,7 +23,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Reset</set>
+      <set>QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::Reset</set>
      </property>
     </widget>
    </item>

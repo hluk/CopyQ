@@ -111,11 +111,6 @@ public:
     virtual PlatformClipboardPtr clipboard() = 0;
 
     /**
-     * Return Qt key code from key press event (possibly using QKeyEvent::nativeVirtualKey()).
-     */
-    virtual int keyCode(const QKeyEvent &event) = 0;
-
-    /**
      * Returns list of command line arguments without executable name (argv[0]).
      */
     virtual QStringList getCommandLineArguments(int argc, char **argv) = 0;
