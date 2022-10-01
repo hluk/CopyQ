@@ -23,6 +23,7 @@
 
 #include "app/applicationexceptionhandler.h"
 #include "common/log.h"
+#include "common/sleeptimer.h"
 #include "common/textdata.h"
 
 #include <QApplication>
@@ -32,6 +33,15 @@
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
+#include <QWindow>
+#include <QThread>
+
+#include <QDebug>
+
+#include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/plasmashell.h>
+#include <KWayland/Client/registry.h>
+#include <KWayland/Client/surface.h>
 
 #include "x11platformwindow.h"
 #include "x11platformclipboard.h"
@@ -39,6 +49,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 
+#include <atomic>
 #include <memory>
 
 namespace {
@@ -99,6 +110,33 @@ void maybePrintFileError(const QFile &file, const char *message)
 {
     if (file.error() != QFile::NoError)
         printFileError(file, message);
+}
+
+KWayland::Client::PlasmaShell **createPlasmaShell()
+{
+    auto connection = KWayland::Client::ConnectionThread::fromApplication(qApp);
+    auto registry = new KWayland::Client::Registry();
+    registry->create(connection);
+    registry->setup();
+
+    static KWayland::Client::PlasmaShell *shell = nullptr;
+    QObject::connect(registry, &KWayland::Client::Registry::plasmaShellAnnounced, [&](){
+        const auto interface = registry->interface(
+            KWayland::Client::Registry::Interface::PlasmaShell);
+        qWarning() << "Plasma shell announced" << interface.name << interface.version;
+        if (interface.name != 0)
+            shell = registry->createPlasmaShell(interface.name, interface.version);
+    });
+
+    connection->roundtrip();
+
+    return &shell;
+}
+
+KWayland::Client::PlasmaShell *plasmaShell()
+{
+    static KWayland::Client::PlasmaShell **shell = createPlasmaShell();
+    return *shell;
 }
 
 } // namespace
@@ -320,6 +358,30 @@ QString X11Platform::defaultEditorCommand()
 QString X11Platform::translationPrefix()
 {
     return QString();
+}
+
+void X11Platform::moveWindow(QWidget *window, QPoint pos)
+{
+    if ( window->isHidden() )
+        window->show();
+
+    if ( window->windowHandle() && plasmaShell() && plasmaShell()->isValid() ) {
+        auto surface = KWayland::Client::Surface::fromWindow( window->windowHandle() );
+        if (surface && surface->isValid()) {
+            auto shellSurface = plasmaShell()->createSurface(surface, window);
+            if ( shellSurface->isValid() ) {
+                qWarning() << "Setting position" << pos << window;
+                shellSurface->setPosition(pos);
+            }
+        }
+    }
+
+    window->move(pos);
+}
+
+QPoint X11Platform::windowPosition(QWidget *window)
+{
+    return window->pos();
 }
 
 void sendDummyX11Event()

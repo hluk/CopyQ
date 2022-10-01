@@ -79,6 +79,9 @@ public:
     QString translationPrefix() override;
 
     QString themePrefix() override { return QString(); }
+
+    void moveWindow(QWidget *window, QPoint pos) override;
+    QPoint windowPosition(QWidget *window) override;
 };
 
 void sendDummyX11Event();

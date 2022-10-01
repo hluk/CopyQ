@@ -94,3 +94,13 @@ QStringList DummyPlatform::getCommandLineArguments(int argc, char **argv)
 
     return arguments;
 }
+
+void DummyPlatform::moveWindow(QWidget *window, QPoint pos)
+{
+    window->move(pos);
+}
+
+QPoint DummyPlatform::windowPosition(QWidget *window)
+{
+    return window->pos();
+}

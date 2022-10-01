@@ -33,6 +33,9 @@ else()
     list(APPEND copyq_qt_modules X11Extras)
 endif()
 
+find_package(KF5Wayland REQUIRED)
+list(APPEND copyq_LIBRARIES KF5::WaylandClient)
+
 # Wayland clipboard
 find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})

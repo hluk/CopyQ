@@ -152,6 +152,10 @@ public:
      */
     virtual QString themePrefix() = 0;
 
+    virtual void moveWindow(QWidget *window, QPoint pos) = 0;
+
+    virtual QPoint windowPosition(QWidget *window) = 0;
+
     PlatformNativeInterface(const PlatformNativeInterface &) = delete;
     PlatformNativeInterface &operator=(const PlatformNativeInterface &) = delete;
 };

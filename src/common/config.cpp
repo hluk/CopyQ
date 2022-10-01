@@ -21,6 +21,7 @@
 #include "log.h"
 
 #include "gui/screen.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QApplication>
 #include <QByteArray>
@@ -144,9 +145,11 @@ void ensureWindowOnScreen(QWidget *widget)
         widget->resize(w, h);
     }
 
-    if ( widget->pos() != QPoint(x, y) ) {
+    const QPoint pos = platformNativeInterface()->windowPosition(widget);
+    if ( pos != QPoint(x, y) ) {
         GEOMETRY_LOG( widget, QString::fromLatin1("Move window: %1, %2").arg(x).arg(y) );
         widget->move(x, y);
+        platformNativeInterface()->moveWindow( widget, QPoint(x, y) );
     }
 }
 
@@ -212,14 +215,16 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
             const QRect availableGeometry = screenAvailableGeometry(*w);
             if ( availableGeometry.isValid() ) {
                 const QPoint position = availableGeometry.center() - w->rect().center();
-                w->move(position);
+                platformNativeInterface()->moveWindow(w, position);
             }
         }
     }
 
     const QRect oldGeometry = w->geometry();
-    if ( !geometry.isEmpty() )
+    if ( !geometry.isEmpty() ) {
         w->restoreGeometry(geometry);
+        platformNativeInterface()->moveWindow(w, w->pos());
+    }
 
     ensureWindowOnScreen(w);
 
@@ -276,9 +281,9 @@ void moveToCurrentWorkspace(QWidget *w)
 
 void moveWindowOnScreen(QWidget *w, QPoint pos)
 {
-    w->move(pos);
-    ensureWindowOnScreen(w);
     moveToCurrentWorkspace(w);
+    platformNativeInterface()->moveWindow(w, pos);
+    ensureWindowOnScreen(w);
 }
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
