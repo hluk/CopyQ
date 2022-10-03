@@ -1991,6 +1991,28 @@ void ScriptableProxy::selectionMove(int id, int row)
         selection.browser->move(indexes, row);
 }
 
+void ScriptableProxy::selectionSort(int id, const QVector<int> &indexes)
+{
+    INVOKE2(selectionSort, (id, indexes));
+
+    auto selection = m_selections.value(id);
+
+    QList<QPersistentModelIndex> sorted;
+    sorted.reserve( indexes.size() );
+    for (const int i : indexes) {
+        if (i < 0 || i >= selection.indexes.size())
+            continue;
+
+        const auto index = selection.indexes[i];
+        if ( index.isValid() )
+            sorted.append(index);
+    }
+    selection.indexes = sorted;
+
+    if ( !sorted.isEmpty() )
+        selection.browser->sortItems(sorted);
+}
+
 #ifdef HAS_TESTS
 void ScriptableProxy::sendKeys(const QString &expectedWidgetName, const QString &keys, int delay)
 {

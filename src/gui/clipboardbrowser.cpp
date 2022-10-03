@@ -1552,6 +1552,11 @@ void ClipboardBrowser::sortItems(const QModelIndexList &indexes)
     m.sortItems(indexes, &alphaSort);
 }
 
+void ClipboardBrowser::sortItems(const QList<QPersistentModelIndex> &sorted)
+{
+    m.sortItems(sorted);
+}
+
 void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
 {
     m.sortItems(indexes, &reverseSort);

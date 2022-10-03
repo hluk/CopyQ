@@ -2314,6 +2314,29 @@ void Tests::classItemSelectionByteArray()
              << "read(mimeText, 0)", "C");
 }
 
+void Tests::classItemSelectionSort()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1 << "separator" << ",";
+    const QString outRows("ItemSelection(tab=\"" + tab1 + "\", rows=[%1])\n");
+    RUN("setCurrentTab" << tab1, "");
+
+    RUN(args << "add(2,5,1,3,4)", "");
+    RUN(args << "read(0,1,2,3,4)", "4,3,1,5,2");
+
+    const auto script = R"(
+        var sel = ItemSelection().selectAll();
+        const texts = sel.itemsFormat(mimeText);
+        sel.sort(function(i,j){
+            return texts[i] < texts[j];
+        });
+        sel.str();
+    )";
+    RUN(args << script, outRows.arg("3,2,0,4,1"));
+    RUN(args << "read(0,1,2,3,4)", "1,2,3,4,5");
+    RUN(args << "size", "5\n");
+}
+
 void Tests::classSettings()
 {
     TemporaryFile configFile;

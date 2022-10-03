@@ -261,6 +261,21 @@ QJSValue ScriptableItemSelection::move(int row)
     return m_self;
 }
 
+QJSValue ScriptableItemSelection::sort(QJSValue compareFn)
+{
+    const int size = m_proxy->selectionGetSize(m_id);
+    QVector<int> indexes;
+    indexes.reserve(size);
+    for (int i = 0; i < size; ++i)
+        indexes.append(i);
+
+    std::sort( indexes.begin(), indexes.end(), [&](int lhs, int rhs) {
+        return compareFn.call({lhs, rhs}).toBool();
+    } );
+    m_proxy->selectionSort(m_id, indexes);
+    return m_self;
+}
+
 void ScriptableItemSelection::init(const QJSValue &self, ScriptableProxy *proxy, const QString &currentTabName)
 {
     m_self = self;

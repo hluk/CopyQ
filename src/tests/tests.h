@@ -156,6 +156,7 @@ private slots:
     void classItemSelection();
     void classItemSelectionGetCurrent();
     void classItemSelectionByteArray();
+    void classItemSelectionSort();
     void classSettings();
     void calledWithInstance();
 

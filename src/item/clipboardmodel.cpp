@@ -219,10 +219,13 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
 {
     QList<QPersistentModelIndex> list = validIndeces(indexList);
     std::sort( list.begin(), list.end(), compare );
+}
 
-    int targetRow = topMostRow(list);
+void ClipboardModel::sortItems(const QList<QPersistentModelIndex> &sorted)
+{
+    int targetRow = topMostRow(sorted);
 
-    for (const auto &ind : list) {
+    for (const auto &ind : sorted) {
         if (ind.isValid()) {
             const int sourceRow = ind.row();
 

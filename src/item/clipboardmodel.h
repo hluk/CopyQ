@@ -129,6 +129,7 @@ public:
      * Sort items in ascending order.
      */
     void sortItems(const QModelIndexList &indexList, CompareItems *compare);
+    void sortItems(const QList<QPersistentModelIndex> &sorted);
 
     /**
      * Find item with given @a hash.
