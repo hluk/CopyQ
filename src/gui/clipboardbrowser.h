@@ -39,6 +39,7 @@
 class ItemEditorWidget;
 class ItemFactory;
 class PersistentDisplayItem;
+class QPersistentModelIndex;
 class QProgressBar;
 class QPushButton;
 
@@ -65,6 +66,7 @@ class ClipboardBrowser final : public QListView
 
         /** Sort selected items. */
         void sortItems(const QModelIndexList &indexes);
+        void sortItems(const QList<QPersistentModelIndex> &sorted);
 
         /** Reverse order of selected items. */
         void reverseItems(const QModelIndexList &indexes);

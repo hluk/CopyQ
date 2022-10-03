@@ -218,6 +218,7 @@ public slots:
     QVariantList selectionGetItemsFormat(int id, const QString &format);
     void selectionSetItemsFormat(int id, const QString &mime, const QVariant &value);
     void selectionMove(int id, int row);
+    void selectionSort(int id, const QVector<int> &indexes);
 
 #ifdef HAS_TESTS
     void sendKeys(const QString &expectedWidgetName, const QString &keys, int delay);

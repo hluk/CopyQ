@@ -72,6 +72,8 @@ public slots:
 
     QJSValue move(int row);
 
+    QJSValue sort(QJSValue compareFn);
+
 private:
     int m_id = -1;
     QString m_tabName;

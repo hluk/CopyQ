@@ -1788,6 +1788,16 @@ Types
        sel.invert()
        sel.items();
 
+   Example - sort items alphabetically:
+
+   .. code-block:: js
+
+       var sel = ItemSelection().selectAll();
+       const texts = sel.itemsFormat(mimeText);
+       sel.sort(function(i,j){
+           return texts[i] < texts[j];
+       });
+
    .. js:attribute:: tab
 
        Tab name
@@ -1867,6 +1877,19 @@ Types
    .. js:method:: move(row)
 
        Move all items in the selection to the target row.
+
+       :returns: self
+       :rtype: ItemSelection
+
+   .. js:method:: sort(row)
+
+       Sort items with a comparison function.
+
+       The comparison function takes two arguments, indexes to the selection,
+       and returns true only if the item in the selection under the first index
+       should be sorted above the item under the second index.
+
+       Items will be reordered in the tab and in the selection object.
 
        :returns: self
        :rtype: ItemSelection
