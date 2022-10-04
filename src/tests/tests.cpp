@@ -2618,6 +2618,20 @@ void Tests::copyItems()
     RUN("size", "6\n");
 }
 
+void Tests::selectAndCopyOrder()
+{
+    const auto tab = testTab(1);
+    const Args args = Args("tab") << tab << "separator" << " ";
+    RUN(args << "add" << "D" << "C" << "B" << "A", "");
+    RUN("setCurrentTab" << tab, "");
+
+    RUN("keys" << "END" << "SHIFT+UP" << "SHIFT+UP" << "SHIFT+UP", "");
+    RUN(args << "testSelected", tab + " 0 0 1 2 3\n");
+
+    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
+}
+
 void Tests::createTabDialog()
 {
     const auto tab1 = testTab(1);

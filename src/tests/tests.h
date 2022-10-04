@@ -177,6 +177,7 @@ private slots:
     void searchRowNumber();
     void searchAccented();
     void copyItems();
+    void selectAndCopyOrder();
 
     void createTabDialog();
 
