@@ -1391,84 +1391,74 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Up:
     case Qt::Key_Down:
     case Qt::Key_Home:
-    case Qt::Key_End: {
-        event->accept();
-
-        const QModelIndex current = currentIndex();
-        const int h = viewport()->contentsRect().height();
-        const int space = 2 * spacing() + 1;
-        if (key == Qt::Key_Down)
-            preload(space, 1, current);
-        else if (key == Qt::Key_Up)
-            preload(space, -1, current);
-        else if (key == Qt::Key_Home)
-            preload(h, 1, index(0));
-        else
-            preload(h, -1, index(m.rowCount() - 1));
-
-        executeDelayedItemsLayout();
-        QListView::keyPressEvent(event);
-
-        const QModelIndex newCurrent = currentIndex();
-        if ( !newCurrent.isValid() )
-            setCurrent(0);
-        else if ( isIndexHidden(newCurrent) )
-            setCurrent( findVisibleRowFrom(newCurrent.row()) );
-        else if ( !selectionModel()->isSelected(newCurrent) )
-            selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Select);
-
-        break;
-    }
-
+    case Qt::Key_End:
     case Qt::Key_PageDown:
     case Qt::Key_PageUp: {
         event->accept();
 
         const QModelIndex current = currentIndex();
         const int h = viewport()->contentsRect().height();
-        const int space = 2 * spacing() + 1;
-        const int atBottom = h - space;
-        const int atTop = spacing();
+        const int s = spacing();
+        const int space = 2 * s + 1;
+        const int direction =
+            (key == Qt::Key_Down || key == Qt::Key_PageDown || key == Qt::Key_End) ? 1 : -1;
+        int row = current.row();
 
-        // QListView page scrolling is broken if the current item is larger
-        // than the viewport.
-        if ( rectForIndex(current).height() + space >= viewport()->contentsRect().height() ) {
-            QModelIndex newCurrent;
-            QScrollBar *v = verticalScrollBar();
-
-            if (key == Qt::Key_PageDown) {
-                v->setValue( v->value() + v->pageStep() );
-                preloadCurrentPage();
-                executeDelayedItemsLayout();
-                newCurrent = indexNear(atTop);
-            } else {
-                v->setValue( v->value() - v->pageStep() );
-                preloadCurrentPage();
-                executeDelayedItemsLayout();
-                newCurrent = indexNear(atBottom);
+        if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
+            const int offset = verticalOffset();
+            const QRect currentRect = rectForIndex(current);
+            if (currentRect.bottom() < offset || currentRect.top() > offset + h
+                || (key == Qt::Key_PageDown
+                    ? currentRect.bottom() > offset + h
+                    : currentRect.top() < offset))
+            {
+                QScrollBar *v = verticalScrollBar();
+                v->setValue( v->value() + direction * v->pageStep() );
+                break;
             }
 
-            if (!newCurrent.isValid() || newCurrent == current)
-                break;
+            QModelIndex ind = indexNear(s + 1);
+            row = ind.row();
+            int y;
+            if (key == Qt::Key_PageDown)
+                y = rectForIndex(ind).top() - offset - h;
+            else
+                y = offset - rectForIndex(ind).top() + s - h;
 
-            const QItemSelectionModel::SelectionFlags flags = selectionCommand(newCurrent, event);
-            const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
-            const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+            for ( ; ind.isValid(); row += direction, ind = index(row) ) {
+                if ( isIndexHidden(ind) )
+                    continue;
 
-            setCurrent(newCurrent.row(), keepSelection, setCurrentOnly);
+                d.createItemWidget(ind);
+                y += d.sizeHint(ind).height() + 2 * s;
+                if (y > space)
+                    break;
+            }
 
-            // Make scrolling more stable by keeping current item at the top.
-            if ( selectionModel()->selectedRows().size() <= 1 )
-                scrollTo(currentIndex(), PositionAtTop);
+            if (row == current.row())
+                row += direction;
+            else if (row != current.row() + direction)
+                row -= direction;
+        } else if (key == Qt::Key_Up || key == Qt::Key_Down) {
+            preload(space, direction, current);
+            row += direction;
         } else {
-            scrollTo(current, PositionAtTop);
-            preload(h, key == Qt::Key_PageDown ? 1 : -1, current);
-            executeDelayedItemsLayout();
-            QListView::keyPressEvent(event);
-            // Make scrolling more stable by keeping current item at the top.
-            if ( selectionModel()->selectedRows().size() <= 1 )
-                scrollTo(currentIndex(), PositionAtTop);
+            row = (key == Qt::Key_Home) ? 0 : model()->rowCount() - 1;
+            preload(h, -direction, index(row));
+            for ( ; row != current.row() && hideFiltered(row); row -= direction ) {}
         }
+
+        executeDelayedItemsLayout();
+
+        const QItemSelectionModel::SelectionFlags flags = selectionCommand(index(row), event);
+        const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
+        const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+
+        setCurrent(row, keepSelection, setCurrentOnly);
+
+        if (key == Qt::Key_PageDown || key == Qt::Key_PageUp)
+            scrollTo(index(row), PositionAtTop);
+
         break;
     }
 
