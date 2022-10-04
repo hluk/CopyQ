@@ -1076,12 +1076,12 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation>Vi のナビゲーションキー (H, J, K, L など) や、検索に使うスラッシュ (/) キーをサポートします</translation>
+        <translation>Vi のナビゲーションキー (H, J, K, L など) や、検索に使うスラッシュ (/) キーに対応します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation>Vi スタイルナビゲーション(&amp;V)</translation>
+        <translation>Vi 風のナビゲーション(&amp;V)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
@@ -1477,7 +1477,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation>ネイティブの通知機能を使用(&amp;U)</translation>
+        <translation>OSの通知機能を使用(&amp;U)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1545,7 +1545,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>クリップボードの内容を確認するコマンドを表示する(&amp;W)</translation>
+        <translation>クリップボードの内容を確認するコマンドを表示(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
@@ -2014,7 +2014,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="46"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Vim エディタをエミュレートしてアイテムを編集します。</translation>
+        <translation>アイテムの編集中は Vim エディタ風にします。</translation>
     </message>
 </context>
 <context>
