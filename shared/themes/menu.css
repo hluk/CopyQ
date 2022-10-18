@@ -36,16 +36,6 @@
     ${menu_css}
 }
 
-#TrayMenu::item,
-#TrayMenu::separator,
-#MainWindow>QMenu::item,
-#MainWindow>QMenu::separator,
-#menu_bar>QMenu::item,
-#menu_bar>QMenu::separator
-{
-    ${menu_bar_css}
-}
-
 #TrayMenu::item:selected,
 #MainWindow>QMenu::item:selected,
 #menu_bar>QMenu::item:selected
