@@ -2022,12 +2022,12 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="91"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Skadet fane</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ikke alle elementer i fanen &lt;strong&gt;%1&lt;/strong&gt; ble innlastet rett. Vil du laste inn fanen og antagelig miste noen elementer?</translation>
     </message>
 </context>
 <context>
@@ -2475,7 +2475,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Forvalgt stilsett:</translation>
     </message>
 </context>
 <context>
@@ -3035,7 +3035,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="99"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Lagre element</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
@@ -3046,7 +3046,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt redigering</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
@@ -3067,7 +3067,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrift</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -3118,7 +3118,7 @@ Settes til 0 for å deaktivere.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">R&amp;ediger med tekstbehandler</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
