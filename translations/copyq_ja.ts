@@ -3045,7 +3045,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation>Escape</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
