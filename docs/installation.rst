@@ -36,7 +36,7 @@ On **Fedora**, install "copyq" package:
 
     sudo dnf install copyq
 
-On other Linux distributions, you can use `Flapak <https://www.flatpak.org/>`__
+On other Linux distributions, you can use `Flatpak <https://www.flatpak.org/>`__
 to install the app:
 
 .. code-block:: bash
