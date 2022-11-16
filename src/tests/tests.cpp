@@ -182,13 +182,13 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         // Windows Qt 5.15.2
         plain("[qt.qpa.mime] QtWarning: Retrying to obtain clipboard."),
-        plain("[qt.qpa.fonts] QtWarning: Unable to enumerate family ' \"Font Awesome 5 Free Solid (CopyQ)\" '"),
         plain("[default] QtWarning: QSystemTrayIcon::setVisible: No Icon set"),
 
         // macOS
         plain("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)"),
         plain("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed"),
         regex(R"(QtWarning: Window position.* outside any known screen.*)"),
+        regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Font Awesome.*" with one that exists to avoid this cost.)"),
 
         // New in Qt 5.15.0.
         regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)"),
