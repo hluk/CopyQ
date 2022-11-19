@@ -448,6 +448,16 @@ bool syncInternalCommandChanges(const Command &command, QVector<Command> *allCom
     return true;
 }
 
+bool menuItemMatches(const QModelIndex &index, const QString &searchText)
+{
+    for (const int type : {contentType::text, contentType::notes}) {
+        const QString itemText = index.data(type).toString().toLower();
+        if ( itemText.contains(searchText.toLower()) )
+            return true;
+    }
+    return false;
+}
+
 } // namespace
 
 #ifdef WITH_NATIVE_NOTIFICATIONS
@@ -1821,11 +1831,8 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
     int itemCount = 0;
     for ( int i = 0; i < c->length() && itemCount < maxItemCount; ++i ) {
         const QModelIndex index = c->model()->index(i, 0);
-        if ( !searchText.isEmpty() ) {
-            const QString itemText = index.data(contentType::text).toString().toLower();
-            if ( !itemText.contains(searchText.toLower()) )
-                continue;
-        }
+        if ( !searchText.isEmpty() && !menuItemMatches(index, searchText) )
+            continue;
         const QVariantMap data = index.data(contentType::data).toMap();
         menu->addClipboardItemAction(data, m_options.trayImages);
         ++itemCount;
