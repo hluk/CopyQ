@@ -3012,7 +3012,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/gui/menuitems.cpp" line="161"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation>Right</translation>
+        <translation>Sağ</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="164"/>
