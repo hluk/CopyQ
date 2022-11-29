@@ -3473,7 +3473,8 @@ void MainWindow::enterBrowseMode()
 void MainWindow::enterSearchMode()
 {
     ui->searchBar->show();
-    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+    if ( !ui->searchBar->hasFocus() )
+        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if ( !ui->searchBar->text().isEmpty() ) {
         auto c = browserOrNull();
@@ -3490,7 +3491,8 @@ void MainWindow::enterSearchMode(const QString &txt)
     const bool searchModeActivated = !ui->searchBar->isVisible();
 
     ui->searchBar->show();
-    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+    if ( !ui->searchBar->hasFocus() )
+        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if (searchModeActivated)
         ui->searchBar->setText(txt);
