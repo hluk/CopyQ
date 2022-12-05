@@ -756,7 +756,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>入力された文字列がこの正規表現に一致しないなら、コマンド実行を省略します (空ですべてに一致)。
+
+Command と Filter 内の %2 から %9 は、参照された文字列に置換されます。
+
+例:
+
+- URL に一致: ^(https?|ftp)://
+- PDF のファイル名: \.pdf$
+- 1文字: ^.$
+- オンラインのマルチメディア: ^https://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
