@@ -793,7 +793,7 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation>Ignora o comando se o texto entrado não corresponder a esta expressão regular (deixar em branco para comparar tudo).
+        <translation>Ignora o comando se o texto inserido não corresponder a esta expressão regular (deixar em branco para comparar tudo).
 
 %2 a %9 em Comando e Filtro serão substituídos pelos textos capturados.
 
