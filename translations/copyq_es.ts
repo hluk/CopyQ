@@ -1144,7 +1144,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished">(&amp;1) Almacenar portapapeles</translation>
+        <translation>(&amp;1) Guardar el portapapeles</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1154,7 +1154,7 @@ pulsar F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished">(&amp;2) Almacenar texto seleccionado con el ratón</translation>
+        <translation>(&amp;2) Almacenar el texto seleccionado con el ratón</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
@@ -1227,9 +1227,9 @@ Dejar vacío para deshabilitar el guardado automático.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished">Dejar sin marcar para guardar el elemento editado al pulsar la tecla Enter y crear una nueva línea al pulsar Ctrl+Enter.
+        <translation>Deje sin marcar la tecla Retorno para guardar el elemento editado y Ctrl+Retorno para crear una nueva línea.
 
-Nota: puede guardar los elementos editados con F2 sin importar la configuración de esta opción.</translation>
+Nota: Los elementos editados se pueden guardar con F2 sin tener en cuenta esta opción.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
@@ -1288,7 +1288,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="259"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished">&amp;Cerrar la ventana principal</translation>
+        <translation>&amp;Cerrar la ventana principal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1356,7 +1356,7 @@ Usar Previsualizar Elemento para mostrar todos los elementos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished">Disposición y transparencia</translation>
+        <translation>Diseño y transparencia</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1547,62 +1547,62 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished">Mostrar orden para el portapapeles actual en el menú de la bandeja</translation>
+        <translation>Mostrar el comando para el contenido actual del portapapeles en el menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished">M&amp;ostrar órdenes para el contenido del portapapeles</translation>
+        <translation>Mostrar comandos para el contenido del portapapeles</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished">C&amp;antidad de elementos en el menú de la bandeja:</translation>
+        <translation>&amp;Número de elementos en el menú de la barra principal:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished">Cantidad de elementos en el menú de la bandeja</translation>
+        <translation>Número de elementos en el menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished">Mostrar elementos de la pestaña actual en el menú de la bandeja</translation>
+        <translation>Mostrar elementos de la pestaña activa en el menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished">Most&amp;rar pestaña actual en el menú,</translation>
+        <translation>&amp;Mostrar la pestaña activa en el menú</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished">o sele%ccionar otra pestaña:</translation>
+        <translation>o &amp;elegir otra pestaña:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished">Nombre de la pestaña a mostrar en el menú de la bandeja (dejar vacío para mostrar la primera pestaña)</translation>
+        <translation>El nombre de la pestaña que se muestra en la bandeja del sistema (el nombre de la primera pestaña está vacío)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished">Pegar elemento a la ventana actual luego de seleccionarlo en el menú</translation>
+        <translation>Después de seleccionar un elemento en el menú, péguelo en el panel actual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished">&amp;Pegar elemento activado en la ventana actual</translation>
+        <translation>&amp;Pegar el elemento seleccionado en la ventana actual</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished">Mostrar previsualización de imagen al lado de los elementos del menú</translation>
+        <translation>Vista previa de imágenes junto a los elementos del menú</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished">M&amp;ostrar una previsualización de la imagen como ícono del elemento en el menú</translation>
+        <translation>Mostrar vistas previas de imágenes como iconos en el menú</translation>
     </message>
 </context>
 <context>
@@ -1723,7 +1723,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="168"/>
         <source>Select Icon</source>
-        <translation type="unfinished">Ícono de selección de</translation>
+        <translation>Seleccionar icono</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="175"/>
@@ -1899,7 +1899,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="838"/>
         <source>Enter</source>
-        <translation type="unfinished">Enter</translation>
+        <translation>Ingresar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
@@ -2477,7 +2477,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Bitácora</translation>
+        <translation>Registro</translation>
     </message>
 </context>
 <context>
@@ -2587,17 +2587,17 @@ Definir 0 para desactivar.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2061"/>
         <location filename="../src/gui/mainwindow.cpp" line="2183"/>
         <source>Options for Import</source>
-        <translation type="unfinished">Opciones para importar</translation>
+        <translation>Configuraciones para importar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3771"/>
         <source>Options for Export</source>
-        <translation type="unfinished">Opciones para exportar</translation>
+        <translation>Configuraciones para exportar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3792"/>
         <source>Export Error</source>
-        <translation type="unfinished">Error al Exportar</translation>
+        <translation>Error de exportación</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3793"/>
@@ -2607,7 +2607,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3885"/>
         <source>Import Error</source>
-        <translation type="unfinished">Error al Importar</translation>
+        <translation>error de importación</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3886"/>
@@ -3037,7 +3037,7 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="101"/>
@@ -3048,17 +3048,17 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Escape</translation>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation type="unfinished">Deshacer</translation>
+        <translation>Deshacer</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation type="unfinished">Rehacer</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
@@ -3068,22 +3068,22 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>Bold</source>
-        <translation type="unfinished">Negrita</translation>
+        <translation>En negrita</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>Italic</source>
-        <translation type="unfinished">Itálico</translation>
+        <translation>En Cursiva</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation type="unfinished">Subrayar</translation>
+        <translation>Subrayado</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Tachado</translation>
+        <translation>Tachado</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
@@ -3093,17 +3093,17 @@ como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation type="unfinished">Fondo</translation>
+        <translation>Fondo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Borrar Estilo</translation>
+        <translation>Eliminar estilo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Search</source>
-        <translation type="unfinished">Buscar</translation>
+        <translation>Búsqueda</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -3687,7 +3687,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished">Nuevo atajo</translation>
+        <translation>Nuevo acceso directo</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3757,17 +3757,17 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
         <source>New Tab</source>
-        <translation type="unfinished">Nueva Pestaña</translation>
+        <translation>Nueva pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation type="unfinished">Renombrar Pestaña</translation>
+        <translation>Renombrar la pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished">Renombrar grupo de pestañas</translation>
+        <translation>Renombrar el grupo de pestañas</translation>
     </message>
 </context>
 <context>
