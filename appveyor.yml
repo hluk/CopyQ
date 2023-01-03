@@ -16,7 +16,7 @@ environment:
 
   KF5_VERSION: 5.92
   KF5_PATCH: 0
-  SNORETOAST_VERSION: 0.8.0
+  SNORETOAST_VERSION: 0.9.0
 
   matrix:
     - QTDIR: /c/Qt/5.15/msvc2019_64
