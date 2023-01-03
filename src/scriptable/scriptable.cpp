@@ -2863,18 +2863,20 @@ void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
     m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
-void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
+void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash)
 {
 #ifdef HAS_MOUSE_SELECTIONS
-    auto data = createDataMap(mimeText, text);
+    QVariantMap data;
+    data[COPYQ_MIME_PREFIX "source-text-hash"] = QByteArray::number(sourceTextHash);
     data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
     const auto command = sourceMode == ClipboardMode::Clipboard
         ? "copyq --clipboard-access synchronizeToSelection"
         : "copyq --clipboard-access synchronizeFromSelection";
     m_proxy->runInternalAction(data, command);
 #else
-    Q_UNUSED(text)
     Q_UNUSED(sourceMode)
+    Q_UNUSED(sourceTextHash)
+    Q_UNUSED(targetTextHash)
 #endif
 }
 
@@ -3599,16 +3601,16 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     // Stop if the clipboard/selection text already changed again.
     const QVariantMap sourceData = clipboardInstance()->data(
         sourceMode, {mimeTextUtf8, mimeText, mimeUriList});
-    QString sourceText;
+    QByteArray source;
     if (!sourceData.isEmpty()) {
-        sourceText = getTextData(sourceData);
-        const QString newText = getTextData(m_data);
-        if (sourceText != newText) {
-            COPYQ_LOG(QStringLiteral("Sync: Cancelled - source text changed"));
-            COPYQ_LOG_VERBOSE(
-                QStringLiteral("  Expected: %1\nActual: %2")
-                .arg(newText, sourceText) );
-            return false;
+        source = sourceData.value(mimeText).toByteArray();
+        const QString owner = sourceData.value(mimeOwner).toString();
+        if ( owner.isEmpty() && !source.isEmpty() ) {
+            const auto sourceTextHash = m_data.value(COPYQ_MIME_PREFIX "source-text-hash").toByteArray().toUInt();
+            if (sourceTextHash != qHash(source)) {
+                COPYQ_LOG(QStringLiteral("Sync: Cancelled - source text changed"));
+                return false;
+            }
         }
     } else {
         COPYQ_LOG("Sync: Failed to fetch source data");
@@ -3617,22 +3619,19 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     const QVariantMap targetData = clipboardInstance()->data(
         targetMode, {mimeText});
     if (!targetData.isEmpty()) {
-        const QString targetText = getTextData(targetData, mimeText);
+        const QByteArray target = targetData.value(mimeText).toByteArray();
         const QString owner = targetData.value(mimeOwner).toString();
-        if ( owner.isEmpty() && !targetText.isEmpty() ) {
+        if ( owner.isEmpty() && !target.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
-            if (targetTextHash != qHash(targetText)) {
+            if (targetTextHash != qHash(target)) {
                 COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text changed"));
-                COPYQ_LOG_VERBOSE(
-                    QStringLiteral("  Actual: %1\nSource text: %2")
-                    .arg(targetText, sourceText) );
                 return false;
             }
         }
 
         // Stop if the clipboard and selection text is already synchronized
         // or user selected text and copied it to clipboard.
-        if (!sourceData.isEmpty() && sourceText == targetText) {
+        if (!sourceData.isEmpty() && source == target) {
             COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text is already same as source"));
             return false;
         }
@@ -3645,6 +3644,7 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         return false;
     }
 
+    m_data = sourceData;
     return true;
 #else
     Q_UNUSED(targetMode)

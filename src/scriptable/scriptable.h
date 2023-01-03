@@ -383,7 +383,7 @@ private:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void onMonitorClipboardUnchanged(const QVariantMap &data);
-    void onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
+    void onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
 
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
