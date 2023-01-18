@@ -21,6 +21,7 @@
 #include <qtwaylandclientversion.h>
 
 #include <errno.h>
+#include <fcntl.h>
 #include <poll.h>
 #include <signal.h>
 #include <string.h>
@@ -83,6 +84,8 @@ protected:
             sigemptyset(&action.sa_mask);
             action.sa_flags = 0;
             sigaction(SIGPIPE, &action, &oldAction);
+            // Unset O_NONBLOCK
+            fcntl(m_fd, F_SETFL, 0);
             const qint64 written = c.write(m_data);
             sigaction(SIGPIPE, &oldAction, nullptr);
             c.close();
