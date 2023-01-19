@@ -3,8 +3,6 @@ set -e
 
 distros=(
     focal
-    hirsute
-    impish
     jammy
     kinetic
 )
