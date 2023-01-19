@@ -50,6 +50,8 @@ private slots:
 
     void moveOwnItemsSortsBaseNames();
 
+    void avoidDuplicateItemsAddedFromClipboard();
+
 private:
     TestInterfacePtr m_test;
 };

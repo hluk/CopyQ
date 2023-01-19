@@ -731,3 +731,23 @@ void ItemSyncTests::moveOwnItemsSortsBaseNames()
     RUN(args << "read(0,1,2,3)", "B,C,D,A");
     RUN(args << testScript, "");
 }
+
+void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN("show" << tab1, "");
+
+    const Args args = Args() << "separator" << "," << "tab" << tab1;
+
+    RUN("config" << "clipboard_tab" << tab1, tab1 + "\n");
+
+    TEST( m_test->setClipboard("one") );
+    WAIT_ON_OUTPUT(args << "read(0,1,2,3)", "one,,,");
+
+    TEST( m_test->setClipboard("two") );
+    WAIT_ON_OUTPUT(args << "read(0,1,2,3)", "two,one,,");
+
+    TEST( m_test->setClipboard("one") );
+    WAIT_ON_OUTPUT(args << "read(0,1,2,3)", "one,two,,");
+}
