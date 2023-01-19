@@ -13,12 +13,21 @@
 
 namespace {
 
+const QLatin1String mimePluginPrefix(COPYQ_MIME_PREFIX "item");
+
 QString escapeHtmlSpaces(const QString &str)
 {
     QString str2 = str;
     return str2
             .replace(' ', "&nbsp;")
             .replace('\n', "<br />");
+}
+
+bool isPluginFormat(const QString &mime)
+{
+    return mime.startsWith(mimePluginPrefix)
+        && mime.size() > mimePluginPrefix.size()
+        && mime[mimePluginPrefix.size()] != '-';
 }
 
 } // namespace
@@ -33,6 +42,9 @@ uint hash(const QVariantMap &data)
 
         // Skip some special data.
         if (mime == mimeWindowTitle || mime == mimeOwner || mime == mimeClipboardMode)
+            continue;
+
+        if ( isPluginFormat(mime) )
             continue;
 
         seed = hash(seed, mime);
