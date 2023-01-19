@@ -1938,7 +1938,7 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
 
             QVariantMap commandMap;
             for ( const auto &key : settings.allKeys() )
-                commandMap[key] = serializableValue(settings.constSettingsData(), key);
+                commandMap[key] = serializableValue(settings, key);
 
             commandsList.append(commandMap);
         }
@@ -2733,7 +2733,7 @@ void MainWindow::loadTheme(const QSettings &themeSettings)
     {
         Settings settings;
         settings.beginGroup("Theme");
-        m_sharedData->theme.saveTheme(settings.settingsData());
+        m_sharedData->theme.saveTheme(&settings);
         settings.endGroup();
     }
 
