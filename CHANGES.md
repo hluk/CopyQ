@@ -1,3 +1,49 @@
+# 6.4.0
+
+## Added
+
+- Items in menu can be additionally filtered using the item notes (#2170).
+
+- Items can be sorted with a custom order via scripting. For example:
+
+      var sel = ItemSelection().selectAll();
+      const texts = sel.itemsFormat(mimeText);
+      sel.sort(function(i,j){
+          return texts[i] < texts[j];
+      });
+
+## Changed
+
+- More shortcuts and even sequences of shortcuts can be now captured and
+  assigned. This uses new QKeySequenceEdit UI widget from Qt framework.
+
+- UI uses the preferred sans-serif system font in the dark theme.
+
+## Fixed
+
+- Fixes copying items in order they were selected (#2124).
+
+- Fixes re-selecting the edited item after external editor closes.
+
+- Fixes menu theme (#2139).
+
+- Avoids duplicating items from clipboard in synchronized tabs (#2236).
+
+- macOS: Fixes compatibility with macOS 10.15 (#2103).
+
+- Linux: Fixes synchronizing UTF-encoded text to/from primary selection (#2195)
+
+- Wayland: Avoids showing window after a screen is turned on.
+
+- Wayland: Avoids a rare crash while accessing clipboard data.
+
+- Wayland: Fixes pasting to some XWayland apps (#2234)
+
+- X11: Avoids app freeze when entering search mode (#2171).
+
+- X11: Fixes capturing quickly changing clipboard text (ignores unchanged
+  TIMESTAMP).
+
 # 6.3.2
 
 ## Fixed
