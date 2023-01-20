@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "scriptableproxy.h"
 
@@ -94,13 +77,13 @@ namespace {
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 void registerMetaTypes() {
     static bool registered = false;
     if (registered)
         return;
 
-    qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
     qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
@@ -110,10 +93,21 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
     qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+#else
+    qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
+    qRegisterMetaType<ClipboardMode>("ClipboardMode");
+    qRegisterMetaType<Command>("Command");
+    qRegisterMetaType<NamedValueList>("NamedValueList");
+    qRegisterMetaType<NotificationButtons>("NotificationButtons");
+    qRegisterMetaType<ScriptablePath>("ScriptablePath");
+    qRegisterMetaType<QVector<int>>("QVector<int>");
+    qRegisterMetaType<QVector<Command>>("QVector<Command>");
+    qRegisterMetaType<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+#endif
 
     registered = true;
 }
-#endif
 
 template<typename Predicate>
 void selectionRemoveIf(QList<QPersistentModelIndex> *indexes, Predicate predicate)
@@ -833,9 +827,8 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
                  emit abortEvaluation();
              } );
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     registerMetaTypes();
-#else
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     Q_ASSERT(QMetaType::fromType<Command>().hasRegisteredDataStreamOperators());
     Q_ASSERT(QMetaType::fromType<ClipboardMode>().hasRegisteredDataStreamOperators());
 #endif
@@ -1329,18 +1322,11 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
             indexes.append(indexToRemove);
     }
 
-    const QPersistentModelIndex currentIndex = c->currentIndex();
-
     QString error;
-    const int lastRow = c->removeIndexes(indexes, &error);
+    c->removeIndexes(indexes, &error);
 
     if ( !error.isEmpty() )
         return error;
-
-    if ( !currentIndex.isValid() ) {
-        const int currentRow = qMin(lastRow, c->length() - 1);
-        c->setCurrent(currentRow);
-    }
 
     return QString();
 }
@@ -1986,6 +1972,28 @@ void ScriptableProxy::selectionMove(int id, int row)
 
     if ( !indexes.isEmpty() )
         selection.browser->move(indexes, row);
+}
+
+void ScriptableProxy::selectionSort(int id, const QVector<int> &indexes)
+{
+    INVOKE2(selectionSort, (id, indexes));
+
+    auto selection = m_selections.value(id);
+
+    QList<QPersistentModelIndex> sorted;
+    sorted.reserve( indexes.size() );
+    for (const int i : indexes) {
+        if (i < 0 || i >= selection.indexes.size())
+            continue;
+
+        const auto index = selection.indexes[i];
+        if ( index.isValid() )
+            sorted.append(index);
+    }
+    selection.indexes = sorted;
+
+    if ( !sorted.isEmpty() )
+        selection.browser->sortItems(sorted);
 }
 
 #ifdef HAS_TESTS

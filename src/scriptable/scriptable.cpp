@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "scriptable.h"
 
@@ -40,6 +23,7 @@
 #include "scriptable/scriptablefile.h"
 #include "scriptable/scriptableitemselection.h"
 #include "scriptable/scriptableproxy.h"
+#include "scriptable/scriptablesettings.h"
 #include "scriptable/scriptabletemporaryfile.h"
 
 #include <QApplication>
@@ -432,10 +416,13 @@ struct ScriptValueFactory<QVariant> {
         if (value.isArray())
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
 
+        const auto variant = toVariant(value);
+        if (variant.type() == QVariant::ByteArray)
+            return variant;
+
         if (value.isObject())
             return ScriptValueFactory<QVariantMap>::fromScriptValue(value, scriptable);
 
-        const auto variant = toVariant(value);
         Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
         return variant;
     }
@@ -708,6 +695,7 @@ Scriptable::Scriptable(
     addScriptableClass(&ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
     addScriptableClass(&ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine,
                        QStringLiteral("global._initItemSelection = "));
+    addScriptableClass(&ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
 }
 
 QJSValue Scriptable::argumentsArray() const
@@ -2477,7 +2465,7 @@ QJSValue Scriptable::setPointerPosition()
 
     m_proxy->setPointerPosition(x, y);
 
-    // Appearantly, on macOS the pointer position is set only after some time.
+    // Apparently, on macOS the pointer position is set only after some time.
     SleepTimer t(5000);
     while ( m_proxy->pointerPosition() != QPoint(x, y) ) {
         if ( !t.sleep() )
@@ -2875,18 +2863,20 @@ void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
     m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
-void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash)
+void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash)
 {
 #ifdef HAS_MOUSE_SELECTIONS
-    auto data = createDataMap(mimeText, text);
+    QVariantMap data;
+    data[COPYQ_MIME_PREFIX "source-text-hash"] = QByteArray::number(sourceTextHash);
     data[COPYQ_MIME_PREFIX "target-text-hash"] = QByteArray::number(targetTextHash);
     const auto command = sourceMode == ClipboardMode::Clipboard
         ? "copyq --clipboard-access synchronizeToSelection"
         : "copyq --clipboard-access synchronizeFromSelection";
     m_proxy->runInternalAction(data, command);
 #else
-    Q_UNUSED(text)
     Q_UNUSED(sourceMode)
+    Q_UNUSED(sourceTextHash)
+    Q_UNUSED(targetTextHash)
 #endif
 }
 
@@ -3054,7 +3044,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     QtPrivate::QHashCombine hash;
     const auto id = hash(hash(0, title), message);
     const auto notificationId = QString::number(id);
-    m_proxy->showMessage(title, message, QString(QChar(IconExclamationCircle)), 8000, notificationId);
+    m_proxy->showMessage(title, message, QString(QChar(IconCircleExclamation)), 8000, notificationId);
 }
 
 QVector<int> Scriptable::getRows() const
@@ -3584,12 +3574,11 @@ bool Scriptable::hasClipboardFormat(const QString &mime, ClipboardMode mode)
 bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
 {
 #ifdef HAS_MOUSE_SELECTIONS
-#   define COPYQ_SYNC_LOG(MESSAGE) \
-        COPYQ_LOG( QStringLiteral("Synchronizing to %1: " MESSAGE) \
-                   .arg(targetMode == ClipboardMode::Clipboard ? "clipboard" : "selection") )
-
     if (!verifyClipboardAccess())
         return false;
+
+    // Make sure a clipboard instance is created so as to monitor any changes;
+    clipboardInstance();
 
     SleepTimer tMin(50);
 
@@ -3598,7 +3587,7 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     SleepTimer t(5000);
     while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
         if ( !t.sleep() && !canContinue() ) {
-            COPYQ_SYNC_LOG("Cancelled (keyboard modifiers still being hold)");
+            COPYQ_LOG("Sync: Cancelled - keyboard modifiers still being held");
             return false;
         }
     }
@@ -3610,41 +3599,53 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     while ( tMin.sleep() ) {}
 
     // Stop if the clipboard/selection text already changed again.
-    const auto sourceData = mimeData(sourceMode);
-    QString sourceText;
-    if (sourceData) {
-        sourceText = cloneText(*sourceData);
-        if (sourceText != getTextData(m_data)) {
-            COPYQ_SYNC_LOG("Cancelled (source text changed)");
-            return false;
+    const QVariantMap sourceData = clipboardInstance()->data(
+        sourceMode, {mimeTextUtf8, mimeText, mimeUriList});
+    QByteArray source;
+    if (!sourceData.isEmpty()) {
+        source = sourceData.value(mimeText).toByteArray();
+        const QString owner = sourceData.value(mimeOwner).toString();
+        if ( owner.isEmpty() && !source.isEmpty() ) {
+            const auto sourceTextHash = m_data.value(COPYQ_MIME_PREFIX "source-text-hash").toByteArray().toUInt();
+            if (sourceTextHash != qHash(source)) {
+                COPYQ_LOG(QStringLiteral("Sync: Cancelled - source text changed"));
+                return false;
+            }
         }
     } else {
-        COPYQ_SYNC_LOG("Failed to fetch source data");
+        COPYQ_LOG("Sync: Failed to fetch source data");
     }
 
-    const auto targetData = mimeData(targetMode);
-    if (targetData) {
-        const QString targetText = cloneText(*targetData);
-        if ( targetData->data(mimeOwner).isEmpty() && !targetText.isEmpty() ) {
+    const QVariantMap targetData = clipboardInstance()->data(
+        targetMode, {mimeText});
+    if (!targetData.isEmpty()) {
+        const QByteArray target = targetData.value(mimeText).toByteArray();
+        const QString owner = targetData.value(mimeOwner).toString();
+        if ( owner.isEmpty() && !target.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
-            if (targetTextHash != qHash(targetText)) {
-                COPYQ_SYNC_LOG("Cancelled (target text changed)");
+            if (targetTextHash != qHash(target)) {
+                COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text changed"));
                 return false;
             }
         }
 
         // Stop if the clipboard and selection text is already synchronized
         // or user selected text and copied it to clipboard.
-        if (sourceData && sourceText == targetText) {
-            COPYQ_SYNC_LOG("Cancelled (target is same as source)");
+        if (!sourceData.isEmpty() && source == target) {
+            COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text is already same as source"));
             return false;
         }
     } else {
-        COPYQ_SYNC_LOG("Failed to fetch target data");
+        COPYQ_LOG(QStringLiteral("Sync: Failed to fetch target data"));
     }
 
+    if (m_abort != Abort::None) {
+        COPYQ_LOG(QStringLiteral("Sync: Aborting"));
+        return false;
+    }
+
+    m_data = sourceData;
     return true;
-#   undef COPYQ_SYNC_LOG
 #else
     Q_UNUSED(targetMode)
     return false;
@@ -3699,11 +3700,6 @@ PlatformClipboard *Scriptable::clipboardInstance()
     if (m_clipboard == nullptr)
         m_clipboard = platformNativeInterface()->clipboard();
     return m_clipboard.get();
-}
-
-const QMimeData *Scriptable::mimeData(ClipboardMode mode)
-{
-    return clipboardInstance()->mimeData(mode);
 }
 
 void Scriptable::interruptibleSleep(int msec)

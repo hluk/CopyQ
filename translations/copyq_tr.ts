@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>E-mail</source>
-        <translation>E-mail</translation>
+        <translation>E-posta</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="118"/>
         <source>Donate</source>
-        <translation>Bağış</translation>
+        <translation>Bağış Yap</translation>
     </message>
 </context>
 <context>
@@ -44,17 +44,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation>Komut:</translation>
+        <translation>&amp;Komut:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Standart girdi:</translation>
+        <translation>Standart &amp;girdi:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Standart çıktıyı saklayın:</translation>
+        <translation>Standart çıktıyı &amp;depola:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Çıktı &amp;tab:</translation>
+        <translation>Çıktı &amp;sekmesi:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -94,15 +94,13 @@
         <translation>Ögeleri verilen adla sekmesine kaydedin (geçerli sekmede kaydetmek için boş bırakın)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="218"/>
         <source>Command saved</source>
-        <translation>Komut kaydedildi</translation>
+        <translation type="vanished">Komut kaydedildi</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="219"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Komut kaydedildi ve öge menüsünden erişilebilir.
+        <translation type="vanished">Komut kaydedildi ve öge menüsünden erişilebilir.
 Komutu tercihlerde ayarlayabilirsiniz.</translation>
     </message>
 </context>
@@ -157,7 +155,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="81"/>
         <source>Show the tray menu</source>
-        <translation>Tespi menüsünü göster</translation>
+        <translation>Tepsi menüsünü göster</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="82"/>
@@ -182,7 +180,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
         <source>Show action dialog</source>
-        <translation>İletişim kutusunu göster</translation>
+        <translation>Eylem iletişim kutusunu göster</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="87"/>
@@ -217,7 +215,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="93"/>
         <source>Paste and copy next</source>
-        <translation>Yapıştır ve sıradakini kopyala</translation>
+        <translation>Yapıştır ve sonrakini kopyala</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="94"/>
@@ -252,7 +250,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="80"/>
         <source>Paste as Plain Text</source>
-        <translation>Düz metin olarak yapıştır</translation>
+        <translation>Düz Metin Olarak Yapıştır</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="88"/>
@@ -262,7 +260,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>Site adreslerini(URL) diğer sekmeye kopyala</translation>
+        <translation>Site adreslerini (URL) diğer sekmeye kopyala</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
@@ -278,7 +276,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation>Önceden tanımlanmış bazı komutlar için sekme adı</translation>
+        <translation>Görevler</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="123"/>
@@ -300,17 +298,17 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="149"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>*&quot;Password&quot;* penceresini yoksay</translation>
+        <translation>*&quot;Parola&quot;* penceresini yoksay</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="150"/>
         <source>Password</source>
-        <translation>Şifre</translation>
+        <translation>Parola</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="158"/>
         <source>Move to Trash</source>
-        <translation>Çöpe taşı</translation>
+        <translation>Çöpe Taşı</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
@@ -341,7 +339,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1907"/>
         <source>Discard Changes?</source>
-        <translation>Değişikliklerden vazgeç?</translation>
+        <translation>Değişikliklerden Vazgeçilsin Mi?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1908"/>
@@ -421,12 +419,12 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="433"/>
         <source>Cancel Exiting</source>
-        <translation>Çıkmaktan vazgeç</translation>
+        <translation>Çıkmaktan Vazgeç</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="434"/>
         <source>Exit Anyway</source>
-        <translation>Her şekilde çık</translation>
+        <translation>Yine de Çık</translation>
     </message>
 </context>
 <context>
@@ -468,17 +466,17 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Seçileni kopyala</translation>
+        <translation>Seçileni Kopyala</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
-        <translation>Komutları yapıştır</translation>
+        <translation>Komutları Yapıştır</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="194"/>
         <source>Unsaved Changes</source>
-        <translation>Değişiklikler Kaydedilmedi</translation>
+        <translation>Kaydedilmemiş Değişiklikler</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="194"/>
@@ -488,7 +486,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="272"/>
         <source>Open Files with Commands</source>
-        <translation>Dosyaları komutlarla aç</translation>
+        <translation>Dosyaları Komutlarla Aç</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="273"/>
@@ -559,12 +557,12 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation>&amp;İsim:</translation>
+        <translation>&amp;Ad:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation>Komut ismini menüde göster</translation>
+        <translation>Menüde gösterilen komut adı</translation>
     </message>
     <message>
         <source>Type of Action</source>
@@ -590,7 +588,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
         <location filename="../src/ui/commandwidget.ui" line="82"/>
         <source>In M&amp;enu</source>
         <extracomment>Type of command; triggered by a custom application shortcut</extracomment>
-        <translation>M&amp;enü içerisi</translation>
+        <translation>M&amp;enüde</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
@@ -611,7 +609,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="316"/>
         <source>Match Items</source>
-        <translation>Eşleşen Ögeler</translation>
+        <translation>Ögeleri Eşleştir</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
@@ -623,7 +621,7 @@ Bunu devre dışı bırakmak için boş bırakın.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Window:</source>
-        <translation>&gt;&amp;Pencere:</translation>
+        <translation>&amp;Pencere:</translation>
     </message>
     <message>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
@@ -633,7 +631,7 @@ Bunu devre dışı bırakmak için boş bırakın.</translation>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation>Script</translation>
+        <translation>Betik</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="121"/>
@@ -680,7 +678,7 @@ Bunu devre dışı bırakmak için boş bırakın.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
         <source>&amp;Advanced</source>
-        <translation>&amp;İleri</translation>
+        <translation>&amp;Gelişmiş</translation>
     </message>
     <message>
         <source>Skips the command if the input text does not match this regular expression (leave empty to match everything).
@@ -731,7 +729,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>&amp;Remove Item</source>
-        <translation>&amp;Ögeleri Kaldır</translation>
+        <translation>&amp;Ögeyi Kaldır</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"/>
@@ -751,7 +749,7 @@ Not: Eğer bu otomatik olarak uygulanırsa, başka otomatik komutlar çalıştı
     <message>
         <location filename="../src/ui/commandwidget.ui" line="541"/>
         <source>Command options</source>
-        <translation>Komut ayarları</translation>
+        <translation>Komut seçenekleri</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="637"/>
@@ -814,7 +812,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
         <source>Cop&amp;y to tab:</source>
-        <translation>Sekmeye Kop&amp;yala:</translation>
+        <translation>Sekmeye kop&amp;yala:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="580"/>
@@ -839,7 +837,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/commandwidget.ui" line="610"/>
         <source>Output &amp;tab:</source>
-        <translation>Çıktı &amp;sekme:</translation>
+        <translation>Çıktı &amp;sekmesi:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="620"/>
@@ -871,7 +869,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation>Bul</translation>
+        <translation>Bulundu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
@@ -896,7 +894,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Yazı tipi</translation>
+        <translation>Yazı Tipi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
@@ -906,7 +904,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation>Ön plan</translation>
+        <translation>Ön Plan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
@@ -921,7 +919,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation>Scrollbars göster</translation>
+        <translation>Kaydırma çubuklarını göster</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
@@ -931,7 +929,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation>Mümkün olduğunda masasüstü ortamın simgelerini kullan</translation>
+        <translation>Mümkün olduğunca masaüstü ortamındaki simgeleri kullan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -961,7 +959,7 @@ Komut ve Filtre&apos;de %2 ile %9 arası, yakalanan metinlerle değiştirilecekt
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation>&amp;Temayı Yükle</translation>
+        <translation>&amp;Tema Yükle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
@@ -1019,7 +1017,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="191"/>
         <source>Save Theme File As</source>
-        <translation>Temayı Farklı Kaydet</translation>
+        <translation>Tema Dosyasını Farklı Kaydet</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="210"/>
@@ -1063,7 +1061,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation>Her Zaman Üstte</translation>
+        <translation>Her Zaman &amp;Üstte</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1088,17 +1086,17 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation>Çıkarken onayla</translation>
+        <translation>Uygulama çıkışını onayla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation>Çıkarken o&amp;nayla</translation>
+        <translation>Uygulama &amp;çıkışını onayla</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation>Sistem başlangıcında başlat</translation>
+        <translation>Uygulamayı sistem başlangıcında çalıştır</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
@@ -1168,7 +1166,7 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation>(&amp;1) Panoya aktar</translation>
+        <translation>(&amp;1) Panoyu depola</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1282,7 +1280,7 @@ Tüm ögeleri görüntülemek için Öge Önizleme&apos;yi kullanın.</translati
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation>&amp;Sayıları Ara</translation>
+        <translation>&amp;Sayıları ara</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
@@ -1390,7 +1388,7 @@ Tüm ögeleri görüntülemek için Öge Önizleme&apos;yi kullanın.</translati
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation>&amp;Sekme ağacı</translation>
+        <translation>&amp;Sekme Ağacı</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -1494,7 +1492,7 @@ Tıklayana kadar görünür kalması için -1 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>&amp;Bildirim satır sayısı:</translation>
+        <translation>Pano &amp;bildirimi için satır sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
@@ -1581,7 +1579,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Tepsi menüsündeki ögelerin sayısı:</translation>
+        <translation>Tepsi menüsündeki ögelerin &amp;sayısı:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
@@ -1663,7 +1661,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="181"/>
         <source>Tabs</source>
-        <translation>&amp;Sekmeler</translation>
+        <translation>Sekmeler</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="182"/>
@@ -1688,7 +1686,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="499"/>
         <source>Reset preferences?</source>
-        <translation>Tercihleri sıfırla?</translation>
+        <translation>Tercihler sıfırlansın mı?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="500"/>
@@ -1716,13 +1714,13 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="811"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>Senkronizasyon dizini oluşturulamadı &quot;%1&quot;!</translation>
+        <translation>Eşitleme dizini oluşturulamadı &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
     <name>FilterCompleter</name>
     <message>
-        <location filename="../src/gui/filtercompleter.cpp" line="175"/>
+        <location filename="../src/gui/filtercompleter.cpp" line="189"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
         <translation>Alt+Aşağı</translation>
@@ -1739,7 +1737,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../src/gui/iconselectbutton.cpp" line="73"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation>İkon Seç/Gözat</translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -1757,7 +1755,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="221"/>
         <source>Open Icon file</source>
-        <translation>İkon Dosyası Aç</translation>
+        <translation>Simge Dosyası Aç</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="222"/>
@@ -1923,7 +1921,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="838"/>
         <source>Enter</source>
-        <translation>Gir</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="907"/>
@@ -1949,12 +1947,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="929"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="932"/>
         <source>Cancel</source>
-        <translation>Çıkış</translation>
+        <translation>İptal</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="931"/>
         <source>Setting new password...</source>
-        <translation>Yeni şifre ayarla...</translation>
+        <translation>Yeni parola ayarla...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="934"/>
@@ -1969,12 +1967,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="939"/>
         <source>Change Password...</source>
-        <translation>Şifreyi Değiştir...</translation>
+        <translation>Parola Değiştir...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="357"/>
         <source>Encryption failed!</source>
-        <translation>Şifreleme Hatası!</translation>
+        <translation>Şifreleme hatası!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="945"/>
@@ -1984,7 +1982,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="98"/>
         <source>Encryption</source>
-        <translation>Şifrele</translation>
+        <translation>Şifreleme</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="100"/>
@@ -2015,6 +2013,19 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Otomatik olarak şifrelenecek ve şifresi çözülecek sekmelerin adlarını (her satıra bir tane) belirtin.&lt;/p&gt;
 &lt;p&gt;Şifresi çözülmüş ögeleri bellekten güvenle kaldırmak için Geçmiş sekmesinde kaldırma sekmesi aralığını ayarlayın.&lt;/p&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>ItemFactory</name>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="91"/>
+        <source>Corrupted Tab</source>
+        <translation>Bozuk Sekme</translation>
+    </message>
+    <message>
+        <location filename="../src/item/itemfactory.cpp" line="92"/>
+        <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
+        <translation>&lt;strong&gt;%1&lt;/strong&gt; sekmesindeki tüm ögeler başarıyla yüklenmedi. Yine de sekmeyi yüklemek ve muhtemel olarak bazı ögeleri kaybetmek istiyor musunuz?</translation>
     </message>
 </context>
 <context>
@@ -2066,7 +2077,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>Maksimum Görüntü Genişliği:</translation>
+        <translation>Maksimum Görüntü &amp;Genişliği:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
@@ -2076,7 +2087,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation>Maksimum Görüntü Yüksekliği:</translation>
+        <translation>Maksimum Görüntü &amp;Yüksekliği:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
@@ -2127,7 +2138,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>&amp;Ögenin üstünde</translation>
+        <translation>&amp;Ögenin Üstünde</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
@@ -2200,27 +2211,27 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="200"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Ögeleri kaldırmak için önce işaretini kaldırın.</translation>
+        <translation>Ögeleri kaldırmak için önce sabitlemesini kaldırın.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="364"/>
         <source>Pin</source>
-        <translation>İşaretle</translation>
+        <translation>Sabitle</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="372"/>
         <source>Unpin</source>
-        <translation>İşareti kaldır</translation>
+        <translation>Sabitlemeyi Kaldır</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="98"/>
         <source>Pinned Items</source>
-        <translation>İşaretli Ögeler</translation>
+        <translation>Sabitlenmiş Ögeler</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Geçerli satırda kilitlemek için ögeleri işaretleyin ve silmeyi önlemeyin (işaretlenmemişse).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Geçerli satırda kilitlemek için ögeleri sabitleyin ve silmeyi önlemeyin (sabitleme kaldırılmamışsa).&lt;/p&gt;&lt;p&gt;Kısayollar ve komut dosyası işlevselliği sağlar.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2234,7 +2245,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="771"/>
         <source>Open Directory for Synchronization</source>
-        <translation>Eşitleme için klasörü açın</translation>
+        <translation>Eşitleme için Dizini Aç</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="785"/>
@@ -2249,7 +2260,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="138"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>Ögeleri ve notları diskteki bir klasörle eşitle.</translation>
+        <translation>Öğeleri ve notları diskteki bir dizinle eşitle.</translation>
     </message>
 </context>
 <context>
@@ -2257,12 +2268,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="443"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>&quot;%1&quot; sekmesini &quot;%2&quot; klasörüyle eşitleyemedi!</translation>
+        <translation>&quot;%1&quot; sekmesini &quot;%2&quot; diziniyle eşitleyemedi!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="478"/>
         <source>Remove Items?</source>
-        <translation>Ögeleri Kaldır?</translation>
+        <translation>Ögeler Kaldırılsın Mı?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="479"/>
@@ -2275,13 +2286,13 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation>Eşitleme Sekmeleri ve Klasörler</translation>
+        <translation>Eşitleme Sekmeleri ve Dizinler</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt; içeriklerini verilen &lt;strong&gt;yolla&lt;/strong&gt; klasörüyle senkronize et.&lt;/p&gt;
+        <translation>&lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt; içeriklerini verilen &lt;strong&gt;yolla&lt;/strong&gt; verilen dizinle eşitle.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sekme&lt;/strong&gt;deki ögeleri kaydetmeyecek &lt;strong&gt;boş bir yol&lt;/strong&gt; ayarla.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2338,12 +2349,12 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="162"/>
         <source>Add a Tag</source>
-        <translation>Bir Etiket Ekle</translation>
+        <translation>Etiket Ekle</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="167"/>
         <source>Remove a Tag</source>
-        <translation>Bir etiket kaldır</translation>
+        <translation>Etiketi Kaldır</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="188"/>
@@ -2356,23 +2367,23 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>%1 etiketini kaldır</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="625"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="628"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Kilitli Etikete Sahip Ögeler Kaldırılamaz</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="626"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="629"/>
         <source>Untag items first to remove them.</source>
         <translation>Kaldırmak için önce ögelerin etiketini kaldırın.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="762"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="765"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Önemli</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="786"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="789"/>
         <source>Clear all tags</source>
         <translation>Tüm etiketleri temizle</translation>
     </message>
@@ -2412,7 +2423,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation>Stil sayfası</translation>
+        <translation>Biçem Sayfası</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
@@ -2468,7 +2479,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation>Öntanımlı stil sayfası:</translation>
+        <translation>Öntanımlı biçem sayfası:</translation>
     </message>
 </context>
 <context>
@@ -2506,7 +2517,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="710"/>
         <source>Exit?</source>
-        <translation>Çıkış?</translation>
+        <translation>Çıkış yapmak istiyor musun?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="711"/>
@@ -2536,7 +2547,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="873"/>
         <source>&amp;Help</source>
-        <translation>Yardım</translation>
+        <translation>&amp;Yardım</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="898"/>
@@ -2546,22 +2557,22 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="900"/>
         <source>Rename &amp;Group %1</source>
-        <translation>Yeniden Adlandır &amp;Grup %1</translation>
+        <translation>%1 &amp;Grubunu Yeniden Adlandır</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="902"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>&amp;Ad değiştir Sekme %1</translation>
+        <translation>%1 Sekmesini Yeniden &amp;Adlandır</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="904"/>
         <source>Re&amp;move Tab %1</source>
-        <translation>&amp;Kaldır Sekme %1</translation>
+        <translation>%1 Sekmesini &amp;Kaldır</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="906"/>
         <source>Remove Group %1</source>
-        <translation>Kaldır Grup %1</translation>
+        <translation>%1 Grubunu Kaldır</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="908"/>
@@ -2569,23 +2580,23 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>&amp;Sekme Simgesini Değiştir</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1411"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1404"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation>&amp;Pano Depolamasını Etkinleştir</translation>
+        <translation>&amp;Pano Depolamayı Etkinleştir</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1412"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1405"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Pano Depolamayı Devre Dışı Bırak</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2068"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2190"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2061"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2183"/>
         <source>Options for Import</source>
         <translation>İçe Aktarma Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2439"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2432"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Hata</translation>
@@ -2596,17 +2607,17 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>&amp;Göster/Gizle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3781"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3771"/>
         <source>Options for Export</source>
         <translation>Dışa Aktarma Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3802"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3792"/>
         <source>Export Error</source>
         <translation>Dışa Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3803"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3793"/>
         <source>Failed to export file %1!</source>
         <translation>%1 dosyası dışa aktarılamadı!</translation>
     </message>
@@ -2619,35 +2630,35 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="343"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation>CopyQ ögeler (*.cpq)</translation>
+        <translation>CopyQ Ögeleri (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3895"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3885"/>
         <source>Import Error</source>
         <translation>İçe Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3896"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3886"/>
         <source>Failed to import file %1!</source>
         <translation>%1 dosyası içe aktarılamadı!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4081"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4071"/>
         <source>Remove All Tabs in Group?</source>
-        <translation>Gruptaki Tüm Sekmeleri Kaldır?</translation>
+        <translation>Gruptaki Tüm Sekmeler Kaldırılsın Mı?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4082"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4072"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; grubundaki &lt;strong&gt;tüm sekmeleri&lt;/strong&gt; kaldırmak istiyor musun?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4129"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4119"/>
         <source>Remove Tab?</source>
-        <translation>Sekmeyi Kaldır?</translation>
+        <translation>Sekme Kaldırılsın Mı?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4130"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4120"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; sekmesini kaldırmak istiyor musunuz?</translation>
     </message>
@@ -2669,13 +2680,13 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation>&amp;pano</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="565"/>
+        <location filename="../src/common/common.cpp" line="570"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation>&lt;HIDDEN&gt;</translation>
+        <translation>&lt;GİZLİ&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="571"/>
+        <location filename="../src/common/common.cpp" line="576"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -2684,28 +2695,28 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="581"/>
+        <location filename="../src/common/common.cpp" line="586"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation>&lt;IMAGE&gt;</translation>
+        <translation>&lt;GÖRÜNTÜ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="583"/>
+        <location filename="../src/common/common.cpp" line="588"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation>&lt;ITEMS&gt;</translation>
+        <translation>&lt;ÖGELER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="585"/>
+        <location filename="../src/common/common.cpp" line="590"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation>&lt;EMPTY&gt;</translation>
+        <translation>&lt;BOŞ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="587"/>
+        <location filename="../src/common/common.cpp" line="592"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation>&lt;DATA&gt;</translation>
+        <translation>&lt;VERİ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="49"/>
@@ -2737,7 +2748,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="63"/>
         <source>&amp;Export...</source>
-        <translation>&amp;Dışa aktar...</translation>
+        <translation>&amp;Dışa Aktar...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="65"/>
@@ -2752,7 +2763,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation>&amp;Komutlar/Genel kısayollar...</translation>
+        <translation>&amp;Komutlar/Genel Kısayollar...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="71"/>
@@ -2797,7 +2808,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
         <source>E&amp;xit</source>
-        <translation>&amp;Çıkış</translation>
+        <translation>&amp;Çık</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="83"/>
@@ -2817,7 +2828,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="89"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>&amp;Seçili Ögeler Tersine</translation>
+        <translation>&amp;Seçili Ögeleri Ters Çevir</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
@@ -2876,7 +2887,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Düzen</translation>
+        <translation>&amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
@@ -2935,7 +2946,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
         <source>Move to Top</source>
-        <translation>En üste taşı</translation>
+        <translation>En Üste Taşı</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2945,7 +2956,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Move to Bottom</source>
-        <translation>En alta taşı</translation>
+        <translation>En Alta Taşı</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
@@ -2965,7 +2976,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>R&amp;ename Tab</source>
-        <translation>&amp;Ad değiştirme sekmesi</translation>
+        <translation>Sekmeyi Yeniden &amp;Adlandır</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="155"/>
@@ -2975,7 +2986,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
         <source>Re&amp;move Tab</source>
-        <translation>&amp;Kaldır Sekmesi</translation>
+        <translation>Sekmeyi &amp;Kaldır</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="157"/>
@@ -3060,7 +3071,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
         <source>Font</source>
-        <translation>Yazı tipi</translation>
+        <translation>Yazı Tipi</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -3075,27 +3086,27 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>Underline</source>
-        <translation>Altı çizili</translation>
+        <translation>Altı Çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Strikethrough</source>
-        <translation>Üzeri çizili</translation>
+        <translation>Üstü Çizili</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>Foreground</source>
-        <translation>Ön plan</translation>
+        <translation>Ön Plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>Background</source>
-        <translation>Arka plan</translation>
+        <translation>Arka Plan</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="121"/>
         <source>Erase Style</source>
-        <translation>Stili Sil</translation>
+        <translation>Biçemi Sil</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
@@ -3111,7 +3122,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>E&amp;dit with Editor</source>
-        <translation>Düzenleyici ile _Düzenle</translation>
+        <translation>Düzenleyici ile &amp;Düzenle</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="169"/>
@@ -3153,7 +3164,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 en fazla 16 karakter içermelidir!</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="418"/>
+        <location filename="../src/item/itemfactory.cpp" line="442"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>%1 sekmesi bozuk veya bazı CopyQ eklentileri eksik!</translation>
     </message>
@@ -3192,7 +3203,7 @@ en fazla 16 karakter içermelidir!</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>NAME</source>
-        <translation>ADI</translation>
+        <translation>AD</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="74"/>
@@ -3439,7 +3450,7 @@ Sekme yoksa oluşturulur.
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="196"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="205"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>COMMAND</source>
         <translation>KOMUT</translation>
     </message>
@@ -3451,7 +3462,7 @@ Sekme yoksa oluşturulur.
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Rename tab.</source>
-        <translation>Sekmeyi Yeniden Adlandır.</translation>
+        <translation>Sekmeyi yeniden adlandır.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
@@ -3572,92 +3583,92 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <translation>Uygulama testlerini çalıştırın (ekleme daha fazla bilgi için --help argümanı).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
         <source>Usage: copyq [%1]</source>
         <translation>Kullanımı: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>Starts server if no command is specified.</source>
         <translation>Hiçbir komut belirtilmezse sunucuyu başlatır.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>  COMMANDs:</source>
         <translation>  KOMUTlar:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
         <source>NOTES:</source>
         <translation>NOTLAR:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="132"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Standart girişteki verileri okumak için çizgi (-) argümanını kullanın.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="134"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Kaçış dizilerini genişletmeden aşağıdaki tüm argümanları okumak için
     çift çizgi argümanını (--) kullanın (yani, \n, \t ve diğerleri).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="136"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - MIME&apos;nin kullanılabilir MIME türlerini yazdırması için ? kullan (öntanımlı &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="141"/>
         <source>Invalid number of arguments!</source>
         <translation>Geçersiz sayıda argüman!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="937"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="972"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="942"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="977"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ Pano Yöneticisi</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="984"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="989"/>
         <source>Command not found!</source>
         <translation>Komut bulunamadı!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1083"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1088"/>
         <source>Terminating server.
 </source>
         <translation>Sunucu sonlandırılıyor.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="850"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; dosyasına kaydedilemiyor!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="855"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="860"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; dosyası içe aktarılamıyor!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1603"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1608"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Geçersiz seçenek &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3051"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3056"/>
         <source>Exception</source>
         <translation>İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3052"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3057"/>
         <source>Exception in %1</source>
         <translation>%1’de İstisna</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3156"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3161"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Panoya kopyalanamadı!</translation>
     </message>
@@ -3763,16 +3774,16 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="29"/>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
-Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Sekme adı dolu ve benzersiz olmalıdır.&lt;br /&gt;
-&lt;b&gt;No&amp;amp;tlar&lt;/b&gt; sekmesi &lt;b&gt;Alt+t&lt;/b&gt;kullanılarak açılabilir.&lt;br /&gt;
+&lt;b&gt;Notlar&lt;/b&gt; sekmesi &lt;b&gt;Alt+T&lt;/b&gt; kullanılarak açılabilir.&lt;br /&gt;
 Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; kullanın.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation>&amp;Adı:</translation>
+        <translation>&amp;Ad:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="34"/>
@@ -3782,7 +3793,7 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="37"/>
         <source>Rename Tab</source>
-        <translation>Yeniden Adlandır Sekmesi</translation>
+        <translation>Sekmeyi Yeniden Adlandır</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="40"/>
@@ -3836,7 +3847,7 @@ Ağaç görünümü sekme düzeninde yol ayırıcı olarak &lt;b&gt;/&lt;/b&gt; 
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="375"/>
         <source>Regular Expression</source>
-        <translation>Düzenli ifade</translation>
+        <translation>Düzenli İfade</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>

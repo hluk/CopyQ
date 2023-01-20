@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
 
@@ -150,7 +133,8 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         WaylandClipboard::instance()->setMimeData(data, qmode);
 
         // This makes pasting the clipboard work in own widgets.
-        QGuiApplication::clipboard()->setMimeData(data, qmode);
+        const auto data2 = createMimeData(dataMap);
+        QGuiApplication::clipboard()->setMimeData(data2, qmode);
     }
 }
 
@@ -279,9 +263,13 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
             newDataTimestamp = 0;
     }
 
-    // In case there is a timestamp, omit update if it did not change.
-    if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp )
-        return;
+    // In case there is a valid timestamp, omit update if the timestamp and
+    // text did not change.
+    if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp ) {
+        const QVariantMap newData = cloneData(*data, {mimeText});
+        if (newData.value(mimeText) == clipboardData->newData.value(mimeText))
+            return;
+    }
 
     clipboardData->timerEmitChange.stop();
     clipboardData->abortCloning = false;

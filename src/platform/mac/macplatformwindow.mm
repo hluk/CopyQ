@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "macplatformwindow.h"
 
@@ -109,7 +92,7 @@ namespace {
         return nil;
     }
 
-    void sendShortcut(int modifier, int key, pid_t pid = -1) {
+    void sendShortcut(int modifier, int key) {
         COPYQ_LOG( QStringLiteral("Sending key codes %1 and %2")
                    .arg(modifier)
                    .arg(key) );
@@ -128,17 +111,10 @@ namespace {
         CGEventSetFlags(VDown,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
         CGEventSetFlags(VUp,CGEventFlags(kCGEventFlagMaskCommand|0x000008));
 
-        if (pid != -1) {
-            CGEventPostToPid(pid, commandDown);
-            CGEventPostToPid(pid, VDown);
-            CGEventPostToPid(pid, VUp);
-            CGEventPostToPid(pid, commandUp);
-        } else {
-            CGEventPost(kCGHIDEventTap, commandDown);
-            CGEventPost(kCGHIDEventTap, VDown);
-            CGEventPost(kCGHIDEventTap, VUp);
-            CGEventPost(kCGHIDEventTap, commandUp);
-        }
+        CGEventPost(kCGHIDEventTap, commandDown);
+        CGEventPost(kCGHIDEventTap, VDown);
+        CGEventPost(kCGHIDEventTap, VUp);
+        CGEventPost(kCGHIDEventTap, commandUp);
 
         CFRelease(commandDown);
         CFRelease(VDown);
@@ -370,7 +346,7 @@ void MacPlatformWindow::pasteClipboard()
         const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
         delayedSendShortcut(kVK_Command, keyCodeV, keyPressTimeMs, 5, m_window);
     } else {
-        sendShortcut(kVK_Command, keyCodeV, m_runningApplication.processIdentifier);
+        sendShortcut(kVK_Command, keyCodeV);
     }
 }
 

@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "itemfactory.h"
 
@@ -36,6 +19,7 @@
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
+#include <QMessageBox>
 #include <QMetaObject>
 #include <QModelIndex>
 #include <QSettings>
@@ -83,6 +67,19 @@ void trySetPixmap(QLabel *label, const QVariantMap &data, int height)
     }
 }
 
+bool askToKeepCorruptedTab(const QString &tabName)
+{
+    const int answer = QMessageBox::question(
+        nullptr,
+        ItemFactory::tr("Corrupted Tab"),
+        ItemFactory::tr(
+            "Not all items in the tab <strong>%1</strong> were loaded successfully. "
+            "Do you still want to load the tab and potentially lose some items?")
+            .arg(quoteString(tabName)),
+        QMessageBox::Yes | QMessageBox::No,
+        QMessageBox::Yes);
+    return answer == QMessageBox::Yes;
+}
 
 /** Sort plugins by prioritized list of names. */
 class PluginSorter final {
@@ -215,11 +212,21 @@ public:
 
     bool canSaveItems(const QString &) const override { return true; }
 
-    ItemSaverPtr loadItems(const QString &, QAbstractItemModel *model, QIODevice *file, int maxItems) override
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems) override
     {
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file, maxItems) ) {
-                model->removeRows(0, model->rowCount());
+                const int itemsLoadedCount = model->rowCount();
+                if ( itemsLoadedCount > 0 && askToKeepCorruptedTab(tabName) ) {
+                    log(QStringLiteral("Keeping corrupted tab on user request"));
+                    file->close();
+                    file->open(QIODevice::WriteOnly);
+                    auto saver = std::make_shared<DummySaver>();
+                    saver->saveItems(tabName, *model, file);
+                    return saver;
+                }
+
+                model->removeRows(0, itemsLoadedCount);
                 return nullptr;
             }
         }

@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
@@ -114,7 +97,7 @@ QString AboutDialog::aboutPage()
         "<table class='links'>"
             + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček"), IconUser )
             + helpLink( tr("E-mail"), helpMail("copyq@googlegroups.com"), IconEnvelope )
-            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/"), IconHome )
+            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/"), IconHouse )
             + helpLink( tr("Donate"), helpUrl("https://liberapay.com/CopyQ/"), IconGift )
             +
         "</table>"

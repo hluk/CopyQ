@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef PLATFORMNATIVEINTERFACE_H
 #define PLATFORMNATIVEINTERFACE_H
@@ -109,11 +92,6 @@ public:
      * Return object for managing clipboard.
      */
     virtual PlatformClipboardPtr clipboard() = 0;
-
-    /**
-     * Return Qt key code from key press event (possibly using QKeyEvent::nativeVirtualKey()).
-     */
-    virtual int keyCode(const QKeyEvent &event) = 0;
 
     /**
      * Returns list of command line arguments without executable name (argv[0]).

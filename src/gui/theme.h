@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef THEME_H
 #define THEME_H
@@ -23,6 +6,7 @@
 #include "common/option.h"
 
 #include <QFont>
+#include <QFontMetrics>
 #include <QHash>
 #include <QPalette>
 #include <QStringList>
@@ -76,8 +60,8 @@ public:
     /** Decorate item preview. */
     void decorateItemPreview(QAbstractScrollArea *itemPreview) const;
 
-    /** Return stylesheet for tooltips. */
-    QString getToolTipStyleSheet() const;
+    /** Return stylesheet for menus. */
+    QString getMenuStyleSheet() const;
 
     QString getNotificationStyleSheet() const;
 
@@ -93,10 +77,10 @@ public:
 
     void updateTheme();
 
+    QSize rowNumberSize(int n) const;
     bool showRowNumber() const { return m_showRowNumber; }
     const QFont &rowNumberFont() const { return m_rowNumberFont; }
     const QPalette &rowNumberPalette() const { return m_rowNumberPalette; }
-    QSize rowNumberSize() const { return m_showRowNumber ? m_rowNumberSize : QSize(0, 0); }
 
     const QFont &editorFont() const { return m_editorFont; }
     const QPalette &editorPalette() const { return m_editorPalette; }
@@ -105,6 +89,8 @@ public:
     const QPalette &searchPalette() const { return m_searchPalette; }
 
     QSize margins() const { return m_margins; }
+
+    void setRowIndexFromOne(bool enabled) { m_rowIndexFromOne = enabled; }
 
 private:
     void decorateBrowser(QAbstractScrollArea *c) const;
@@ -125,9 +111,10 @@ private:
     Ui::ConfigTabAppearance *ui = nullptr;
 
     QFont m_rowNumberFont;
-    QSize m_rowNumberSize;
+    QFontMetrics m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
     QPalette m_rowNumberPalette;
     bool m_showRowNumber = false;
+    int m_rowNumberMargin = 2;
 
     QFont m_editorFont;
     QPalette m_editorPalette;
@@ -137,6 +124,8 @@ private:
 
     bool m_antialiasing = true;
     QSize m_margins;
+
+    bool m_rowIndexFromOne = true;
 };
 
 QString serializeColor(const QColor &color);

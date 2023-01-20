@@ -34,6 +34,16 @@ Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt
     $EDITOR debian.changelog
     osc commit
 
+NOTE: In case of system package conflicts like the following one, update
+[project
+configuration](https://build.opensuse.org/projects/home:lukho:copyq/prjconf)
+(for example: `Prefer: clang13-libs util-linux-core`).
+
+    have choice for libclang.so.13()(64bit) needed by qt5-doctools: clang-libs
+    clang13-libs, have choice for libclang.so.13(LLVM_13)(64bit) needed by
+    qt5-doctools: clang-libs clang13-libs, have choice for (util-linux-core or
+    util-linux) needed by systemd: util-linux util-linux-core
+
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 
 1. Update "tag" and "commit" in "com.github.hluk.copyq.json" file.

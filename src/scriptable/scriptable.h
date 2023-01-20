@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
@@ -400,7 +383,7 @@ private:
     void onExecuteOutput(const QByteArray &output);
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void onMonitorClipboardUnchanged(const QVariantMap &data);
-    void onSynchronizeSelection(ClipboardMode sourceMode, const QString &text, uint targetTextHash);
+    void onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
 
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
@@ -455,7 +438,6 @@ private:
     QJSValue readInput();
 
     PlatformClipboard *clipboardInstance();
-    const QMimeData *mimeData(ClipboardMode mode);
 
     void interruptibleSleep(int msec);
 

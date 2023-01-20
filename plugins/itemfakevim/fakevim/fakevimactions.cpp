@@ -1,27 +1,5 @@
-/****************************************************************************
-**
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of Qt Creator.
-**
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3 as published by the Free Software
-** Foundation with exceptions as appearing in the file LICENSE.GPL3-EXCEPT
-** included in the packaging of this file. Please review the following
-** information to ensure the GNU General Public License requirements will
-** be met: https://www.gnu.org/licenses/gpl-3.0.html.
-**
-****************************************************************************/
+// Copyright (C) 2016 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0+ OR GPL-3.0 WITH Qt-GPL-exception-1.0
 
 #include "fakevimactions.h"
 #include "fakevimhandler.h"
@@ -30,12 +8,6 @@
 // Instead emit signals and let the FakeVimPlugin channel the information to
 // Qt Creator. The idea is to keep this file here in a "clean" state that
 // allows easy reuse with any QTextEdit or QPlainTextEdit derived class.
-
-#include <utils/qtcassert.h>
-
-#include <QDebug>
-
-using namespace Utils;
 
 namespace FakeVim {
 namespace Internal {
@@ -76,10 +48,15 @@ QString FvBaseAspect::settingsKey() const
 {
     return m_settingsKey;
 }
+
+// unused but kept for compile
+void setAutoApply(bool ) {}
 #endif
 
 FakeVimSettings::FakeVimSettings()
 {
+    setAutoApply(false);
+
 #ifndef FAKEVIM_STANDALONE
     setup(&useFakeVim,     false, "UseFakeVim",     {},    tr("Use FakeVim"));
 #endif
@@ -98,7 +75,7 @@ FakeVimSettings::FakeVimSettings()
     setup(&shiftWidth,     8,     "ShiftWidth",     "sw",  tr("Shift width:"));
     setup(&expandTab,      false, "ExpandTab",      "et",  tr("Expand tabulators"));
     setup(&autoIndent,     false, "AutoIndent",     "ai",  tr("Automatic indentation"));
-    setup(&smartIndent,    false, "SmartIndent",    "si",  tr("Smart tabulators"));
+    setup(&smartIndent,    false, "SmartIndent",    "si",  tr("Smart indentation"));
     setup(&incSearch,      true,  "IncSearch",      "is",  tr("Incremental search"));
     setup(&useCoreSearch,  false, "UseCoreSearch",  "ucs", tr("Use search dialog"));
     setup(&smartCase,      false, "SmartCase",      "scs", tr("Use smartcase"));
@@ -142,8 +119,13 @@ FakeVimSettings::FakeVimSettings()
     backspace.setDisplayStyle(FvStringAspect::LineEditDisplay);
     isKeyword.setDisplayStyle(FvStringAspect::LineEditDisplay);
 
-    const QString vimrcDefault = QLatin1String(HostOsInfo::isAnyUnixHost()
-                ? "$HOME/.vimrc" : "%USERPROFILE%\\_vimrc");
+    const QString vimrcDefault = QLatin1String(
+#ifdef Q_OS_UNIX
+        "$HOME/.vimrc"
+#else
+        "%USERPROFILE%\\_vimrc"
+#endif
+    )
     vimRcPath.setExpectedKind(PathChooser::File);
     vimRcPath.setToolTip(tr("Keep empty to use the default path, i.e. "
                "%USERPROFILE%\\_vimrc on Windows, ~/.vimrc otherwise."));

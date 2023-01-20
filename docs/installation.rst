@@ -28,6 +28,7 @@ On **Ubuntu** set up the official PPA repository and install the app from termin
     sudo add-apt-repository ppa:hluk/copyq
     sudo apt update
     sudo apt install copyq
+    # this package contains all plugins and documentation
 
 On **Fedora**, install "copyq" package:
 
@@ -35,7 +36,7 @@ On **Fedora**, install "copyq" package:
 
     sudo dnf install copyq
 
-On other Linux distributions, you can use `Flapak <https://www.flatpak.org/>`__
+On other Linux distributions, you can use `Flatpak <https://www.flatpak.org/>`__
 to install the app:
 
 .. code-block:: bash

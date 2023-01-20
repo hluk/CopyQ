@@ -1,27 +1,11 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "filtercompleter.h"
 
 #include <QAbstractListModel>
 #include <QApplication>
 #include <QAction>
+#include <QEvent>
 #include <QLineEdit>
 #include <QMoveEvent>
 
@@ -133,6 +117,19 @@ void FilterCompleter::setHistory(const QStringList &history)
     model()->removeRows( 0, model()->rowCount() );
     for (int i = history.size() - 1; i >= 0; --i)
         prependItem(history[i]);
+}
+
+bool FilterCompleter::eventFilter(QObject *obj, QEvent *event)
+{
+    // Close popup menu if mouse wheel scrolls and mouse pointer is outside the menu.
+    if (event->type() == QEvent::Wheel) {
+        auto popup = qobject_cast<QWidget*>(obj);
+        if (popup && !popup->underMouse())
+            popup->hide();
+        return true;
+    }
+
+    return QCompleter::eventFilter(obj, event);
 }
 
 void FilterCompleter::onTextEdited(const QString &text)

@@ -26,6 +26,8 @@ OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 
+add_definitions( -DQT_USE_STRINGBUILDER  )
+
 # Unix-specific options
 if (UNIX AND NOT APPLE)
     include(GNUInstallDirs)

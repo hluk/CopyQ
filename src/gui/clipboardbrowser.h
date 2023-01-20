@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #ifndef CLIPBOARDBROWSER_H
 #define CLIPBOARDBROWSER_H
@@ -39,6 +22,7 @@
 class ItemEditorWidget;
 class ItemFactory;
 class PersistentDisplayItem;
+class QPersistentModelIndex;
 class QProgressBar;
 class QPushButton;
 
@@ -65,6 +49,7 @@ class ClipboardBrowser final : public QListView
 
         /** Sort selected items. */
         void sortItems(const QModelIndexList &indexes);
+        void sortItems(const QList<QPersistentModelIndex> &sorted);
 
         /** Reverse order of selected items. */
         void reverseItems(const QModelIndexList &indexes);
@@ -115,8 +100,7 @@ class ClipboardBrowser final : public QListView
 
         QVariantMap copyIndexes(const QModelIndexList &indexes) const;
 
-        /** Remove items and return smallest row number (new current item if selection was removed). */
-        int removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
+        void removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
         bool canRemoveItems(const QModelIndexList &indexes, QString *error = nullptr) const;
 
@@ -237,6 +221,10 @@ class ClipboardBrowser final : public QListView
 
         bool eventFilter(QObject *watched, QEvent *event) override;
 
+        using QListView::isIndexHidden;
+        using QListView::isRowHidden;
+        using QListView::verticalOffset;
+
     signals:
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
@@ -293,6 +281,8 @@ class ClipboardBrowser final : public QListView
         void enterEvent(QEvent *event) override;
 #endif
 
+        void scrollContentsBy(int dx, int dy) override;
+
         void doItemsLayout() override;
 
     private slots:
@@ -332,7 +322,6 @@ class ClipboardBrowser final : public QListView
          * @return true only if hidden
          */
         bool hideFiltered(int row);
-        bool hideFiltered(const QModelIndex &index);
 
         /**
          * Connects signals and starts external editor.
@@ -364,16 +353,16 @@ class ClipboardBrowser final : public QListView
         void processDragAndDropEvent(QDropEvent *event);
 
         /// Removes indexes without notifying or asking plugins.
-        int dropIndexes(const QModelIndexList &indexes);
+        void dropIndexes(const QModelIndexList &indexes);
 
         void focusEditedIndex();
 
         int findNextVisibleRow(int row);
         int findPreviousVisibleRow(int row);
+        int findVisibleRowFrom(int row);
 
         void preloadCurrentPage();
-        void preloadCurrentPageLater();
-        void preload(int pixels, bool above, const QModelIndex &start);
+        void preload(int pixels, int direction, const QModelIndex &start);
 
         void updateCurrentIndex();
 

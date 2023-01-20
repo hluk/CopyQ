@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "theme.h"
 
@@ -233,12 +216,6 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
     return result;
 }
 
-int itemMargin()
-{
-    const int dpi = QGuiApplication::primaryScreen()->physicalDotsPerInchX();
-    return std::max(2, dpi / 72);
-}
-
 QString themePrefix()
 {
 #ifdef COPYQ_THEME_PREFIX
@@ -362,9 +339,9 @@ void Theme::decorateItemPreview(QAbstractScrollArea *itemPreview) const
     decorateBrowser(itemPreview);
 }
 
-QString Theme::getToolTipStyleSheet() const
+QString Theme::getMenuStyleSheet() const
 {
-    const QString cssTemplate = value("css_template_tooltip").toString();
+    const QString cssTemplate = value("css_template_menu").toString();
     return getStyleSheet(cssTemplate);
 }
 
@@ -540,13 +517,14 @@ void Theme::resetTheme()
     m_theme["css_template_items"] = Option("items");
     m_theme["css_template_main_window"] = Option("main_window");
     m_theme["css_template_notification"] = Option("notification");
-    m_theme["css_template_tooltip"] = Option("tooltip");
+    m_theme["css_template_menu"] = Option("menu");
+
+    m_theme["num_margin"] = Option(2);
 }
 
 void Theme::updateTheme()
 {
-    const auto margin = itemMargin();
-    m_margins = QSize(margin + 2, margin);
+    m_margins = QSize(2, 2);
 
     // search style
     m_searchPalette.setColor(QPalette::Base, color("find_bg"));
@@ -562,10 +540,21 @@ void Theme::updateTheme()
     m_showRowNumber = value("show_number").toBool();
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
     m_rowNumberFont = font("num_font");
-    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QLatin1String("0123") ).size()
-            + QSize(m_margins.width(), m_margins.height());
+    m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
+    const QVariant rowNumberMargin = value("num_margin");
+    m_rowNumberMargin = rowNumberMargin.canConvert<int>() ? rowNumberMargin.toInt() : 2;
 
     m_antialiasing = value("font_antialiasing").toBool();
+}
+
+QSize Theme::rowNumberSize(int n) const
+{
+    if (!m_showRowNumber)
+        return QSize(0, 0);
+
+    const QString number = QString::number(n + m_rowIndexFromOne);
+    return m_rowNumberFontMetrics.boundingRect(number).size()
+        + m_margins + QSize(m_rowNumberMargin, 0);
 }
 
 void Theme::decorateBrowser(QAbstractScrollArea *c) const

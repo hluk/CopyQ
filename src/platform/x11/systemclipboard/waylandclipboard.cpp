@@ -21,7 +21,9 @@
 #include <qtwaylandclientversion.h>
 
 #include <errno.h>
+#include <fcntl.h>
 #include <poll.h>
+#include <signal.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -75,8 +77,23 @@ protected:
     void run() override {
         QFile c;
         if (c.open(m_fd, QFile::WriteOnly, QFile::AutoCloseHandle)) {
-            c.write(m_data);
+            // Create a sigpipe handler that does nothing, or clients may be forced to terminate
+            // if the pipe is closed in the other end.
+            struct sigaction action, oldAction;
+            action.sa_handler = SIG_IGN;
+            sigemptyset(&action.sa_mask);
+            action.sa_flags = 0;
+            sigaction(SIGPIPE, &action, &oldAction);
+            // Unset O_NONBLOCK
+            fcntl(m_fd, F_SETFL, 0);
+            const qint64 written = c.write(m_data);
+            sigaction(SIGPIPE, &oldAction, nullptr);
             c.close();
+
+            if (written != m_data.size()) {
+                qWarning() << "Failed to send all clipobard data; sent"
+                           << written << "bytes out of" << m_data.size();
+            }
         }
     }
 
@@ -323,6 +340,10 @@ public:
 
     ~DataControlSource()
     {
+        if (m_mimeData) {
+            m_mimeData->deleteLater();
+            m_mimeData = nullptr;
+        }
         if ( isInitialized() )
             destroy();
     }

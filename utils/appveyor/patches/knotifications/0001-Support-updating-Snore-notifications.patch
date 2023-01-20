@@ -1,7 +1,7 @@
-From 72ecc7e04adc82a432b7bebf88406fdd0acda5b2 Mon Sep 17 00:00:00 2001
+From a91e08f149b64793fa3c0c0e09c61891f0814535 Mon Sep 17 00:00:00 2001
 From: Lukas Holecek <hluk@email.cz>
 Date: Sun, 15 Nov 2020 19:06:53 +0100
-Subject: [PATCH 1/2] Support updating Snore notifications
+Subject: [PATCH] Support updating Snore notifications
 
 ---
  src/notifybysnore.cpp | 29 +++++++++++++++++++++--------
@@ -86,5 +86,5 @@ index b89056b..6607b80 100644
 +    notify(notification, config);
  }
 -- 
-2.31.1
+2.35.1
 

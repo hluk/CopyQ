@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "windowgeometryguard.h"
 
@@ -168,10 +151,10 @@ void WindowGeometryGuard::unlockWindowGeometry()
 
 void WindowGeometryGuard::onScreenChanged()
 {
-    if ( isGeometryGuardBlockedUntilHidden(m_window) )
+    if (!openOnCurrentScreen())
         return;
 
-    if (!openOnCurrentScreen())
+    if ( !lockWindowGeometry() )
         return;
 
     QWindow *window = m_window->windowHandle();
@@ -190,15 +173,15 @@ void WindowGeometryGuard::onScreenChanged()
         return;
     }
 
-    setGeometryGuardBlockedUntilHidden(m_window, true);
     if (isMousePositionSupported || m_window->isModal()) {
         ::restoreWindowGeometry(m_window, true);
-    } else {
+    } else if ( m_window->isVisible() ) {
         // WORKAROUND: Center window position on Sway window compositor which
         // does not support changing window position.
         m_window->hide();
         ::restoreWindowGeometry(m_window, true);
         m_window->show();
+    } else {
+        ::restoreWindowGeometry(m_window, true);
     }
-    setGeometryGuardBlockedUntilHidden(m_window, false);
 }

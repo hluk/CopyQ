@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "predefinedcommands.h"
 
@@ -62,11 +45,40 @@ QVector<Command> predefinedCommands()
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore items with no or single character");
-    c->input = mimeText;
-    c->re   = QRegularExpression("^\\s*\\S?\\s*$");
-    c->icon = QString(QChar(IconExclamationCircle));
-    c->remove = true;
-    c->automatic = true;
+    c->icon = QString(QChar(IconCircleExclamation));
+    c->cmd  = R"(function hasEmptyOrSingleCharText() {
+    if (dataFormats().includes(mimeText)) {
+        var text = str(data(mimeText));
+        if (text.match(/^\s*.?\s*$/)) {
+            serverLog('Ignoring text with single or no character');
+            return true;
+        }
+    }
+    return false;
+}
+
+var onClipboardChanged_ = onClipboardChanged;
+onClipboardChanged = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        onClipboardChanged_();
+    }
+}
+
+var synchronizeFromSelection_ = synchronizeFromSelection;
+synchronizeFromSelection = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        synchronizeFromSelection_();
+    }
+}
+
+var synchronizeToSelection_ = synchronizeToSelection;
+synchronizeToSelection = function() {
+    if (!hasEmptyOrSingleCharText()) {
+        synchronizeToSelection_();
+    }
+}
+    )";
+    c->isScript = true;
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Open in &Browser");
@@ -87,7 +99,7 @@ QVector<Command> predefinedCommands()
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Autoplay videos");
     c->re   = QRegularExpression("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
-    c->icon = QString(QChar(IconPlayCircle));
+    c->icon = QString(QChar(IconCirclePlay));
     c->cmd  = "copyq open %1";
     c->automatic = true;
     c->hideWindow = true;
@@ -139,7 +151,7 @@ QVector<Command> predefinedCommands()
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Ignore copied files");
     c->re   = reNotURL;
-    c->icon = QString(QChar(IconExclamationCircle));
+    c->icon = QString(QChar(IconCircleExclamation));
     c->input = mimeUriList;
     c->remove = true;
     c->automatic = true;

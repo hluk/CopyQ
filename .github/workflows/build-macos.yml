@@ -12,13 +12,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-10.15
+          - os: macos-11
             buildname: macOS 10.15
             build_type: Release
             compiler: clang_64
             create_bundle: true
-            env:
-              MACOSX_DEPLOYMENT_TARGET: '10.15'
 
     steps:
       - name: Checkout source code
@@ -42,6 +40,7 @@ jobs:
             -DWITH_TESTS=TRUE
             -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
             -DCMAKE_PREFIX_PATH="/usr/local/opt/qt@5/lib/cmake"
+            -DCMAKE_OSX_DEPLOYMENT_TARGET='10.15'
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg

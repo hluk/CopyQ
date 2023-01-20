@@ -193,7 +193,7 @@ to a separate file**. On Linux and macOS:
 
     copyq exit
     export COPYQ_LOG_LEVEL='DEBUG'
-    export COPYQ_LOG_FILE="$HOME\copyq.log"
+    export COPYQ_LOG_FILE="$HOME/copyq.log"
     echo "Logs will be written to $COPYQ_LOG_FILE"
     copyq
 

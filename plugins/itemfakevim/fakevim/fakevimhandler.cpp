@@ -1,27 +1,5 @@
-/****************************************************************************
-**
-** Copyright (C) 2016 The Qt Company Ltd.
-** Contact: https://www.qt.io/licensing/
-**
-** This file is part of Qt Creator.
-**
-** Commercial License Usage
-** Licensees holding valid commercial Qt licenses may use this file in
-** accordance with the commercial license agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see https://www.qt.io/terms-conditions. For further
-** information use the contact form at https://www.qt.io/contact-us.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3 as published by the Free Software
-** Foundation with exceptions as appearing in the file LICENSE.GPL3-EXCEPT
-** included in the packaging of this file. Please review the following
-** information to ensure the GNU General Public License requirements will
-** be met: https://www.gnu.org/licenses/gpl-3.0.html.
-**
-****************************************************************************/
+// Copyright (C) 2016 The Qt Company Ltd.
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0+ OR GPL-3.0 WITH Qt-GPL-exception-1.0
 
 //
 // ATTENTION:
@@ -58,13 +36,11 @@
 #include "fakevimactions.h"
 #include "fakevimtr.h"
 
-#include <utils/optional.h>
-
 #include <QDebug>
 #include <QFile>
 #include <QObject>
-#include <QPointer>
 #include <QProcess>
+#include <QPointer>
 #include <QRegularExpression>
 #include <QTextStream>
 #include <QTimer>
@@ -89,23 +65,20 @@
 #include <climits>
 #include <ctype.h>
 #include <functional>
+#include <optional>
 
 //#define DEBUG_KEY  1
-#ifdef DEBUG_KEY
+#if DEBUG_KEY
 #   define KEY_DEBUG(s) qDebug() << s
 #else
 #   define KEY_DEBUG(s)
 #endif
 
 //#define DEBUG_UNDO  1
-#ifdef DEBUG_UNDO
+#if DEBUG_UNDO
 #   define UNDO_DEBUG(s) qDebug() << "REV" << revision() << s
 #else
 #   define UNDO_DEBUG(s)
-#endif
-
-#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-using QStringView = QStringRef;
 #endif
 
 namespace FakeVim {
@@ -820,9 +793,18 @@ static bool substituteText(QString *text,
 
 static int findUnescaped(QChar c, const QString &line, int from)
 {
+    bool singleBackSlashBefore = false;
     for (int i = from; i < line.size(); ++i) {
-        if (line.at(i) == c && (i == 0 || line.at(i - 1) != '\\'))
+        const QChar currentChar = line.at(i);
+        if (currentChar == '\\') {
+           singleBackSlashBefore = !singleBackSlashBefore;
+           continue;
+        }
+
+        if (currentChar == c && !singleBackSlashBefore)
             return i;
+
+        singleBackSlashBefore = false;
     }
     return -1;
 }
@@ -1248,7 +1230,7 @@ public:
             return '\n';
         if (m_key == Key_Escape)
             return QChar(27);
-        return QChar(m_xkey);
+        return QChar(m_xkey & 0xffff); // FIXME
     }
 
     QString toString() const
@@ -1265,7 +1247,7 @@ public:
             else if (m_xkey == '>')
                 key = "<GT>";
             else
-                key = QChar(m_xkey);
+                key = QChar(m_xkey & 0xffff);  // FIXME
         }
 
         bool shift = isShift();
@@ -1287,6 +1269,11 @@ public:
     {
         return ts << m_key << '-' << m_modifiers << '-'
             << quoteUnprintable(m_text);
+    }
+
+    friend auto qHash(const Input &i)
+    {
+        return ::qHash(i.m_key);
     }
 
 private:
@@ -1514,11 +1501,7 @@ public:
         m_buffer = s; m_pos = m_userPos = pos; m_anchor = anchor >= 0 ? anchor : pos;
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    QStringRef userContents() const { return QStringRef(&m_buffer).left(m_userPos); }
-#else
     QStringView userContents() const { return QStringView{m_buffer}.left(m_userPos); }
-#endif
     const QChar &prompt() const { return m_prompt; }
     const QString &contents() const { return m_buffer; }
     bool isEmpty() const { return m_buffer.isEmpty(); }
@@ -1638,7 +1621,7 @@ private:
 };
 
 // Mappings for a specific mode (trie structure)
-class ModeMapping : public QMap<Input, ModeMapping>
+class ModeMapping : public QHash<Input, ModeMapping>
 {
 public:
     const Inputs &value() const { return m_value; }
@@ -2280,6 +2263,7 @@ public:
     bool handleExHistoryCommand(const ExCommand &cmd);
     bool handleExRegisterCommand(const ExCommand &cmd);
     bool handleExMapCommand(const ExCommand &cmd);
+    bool handleExMultiRepeatCommand(const ExCommand &cmd);
     bool handleExNohlsearchCommand(const ExCommand &cmd);
     bool handleExNormalCommand(const ExCommand &cmd);
     bool handleExReadCommand(const ExCommand &cmd);
@@ -2431,7 +2415,7 @@ public:
 
         // If empty, cx{motion} will store the range defined by {motion} here.
         // If non-empty, cx{motion} replaces the {motion} with selectText(*exchangeData)
-        Utils::optional<Range> exchangeRange;
+        std::optional<Range> exchangeRange;
 
         bool surroundUpperCaseS; // True for yS and cS, false otherwise
         QString surroundFunction; // Used for storing the function name provided to ys{motion}f
@@ -2457,6 +2441,11 @@ FakeVimHandler::Private::Private(FakeVimHandler *parent, QWidget *widget)
                 this, &Private::onUndoCommandAdded);
         m_buffer->lastRevision = revision();
     }
+
+#ifndef FAKEVIM_STANDALONE
+    connect(&s.showMarks, &FvBaseAspect::changed,
+            this, &FakeVimHandler::Private::updateSelection);
+#endif
 }
 
 void FakeVimHandler::Private::init()
@@ -2841,17 +2830,9 @@ void FakeVimHandler::Private::updateEditor()
 
 void FakeVimHandler::Private::setTabSize(int tabSize)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     const int charWidth = QFontMetrics(EDITOR(font())).horizontalAdvance(' ');
-#else
-    const int charWidth = QFontMetrics(EDITOR(font())).width(' ');
-#endif
     const int width = charWidth * tabSize;
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     EDITOR(setTabStopDistance(width));
-#else
-    EDITOR(setTabStopWidth(width));
-#endif
 }
 
 void FakeVimHandler::Private::restoreWidget(int tabSize)
@@ -5920,7 +5901,7 @@ void FakeVimHandler::Private::handleCommand(const QString &cmd)
 
 bool FakeVimHandler::Private::handleExSubstituteCommand(const ExCommand &cmd)
 {
-    // :substitute
+    // :[range]s[ubstitute]/{pattern}/{string}/[flags] [count]
     if (!cmd.matches("s", "substitute")
         && !(cmd.cmd.isEmpty() && !cmd.args.isEmpty() && QString("&~").contains(cmd.args[0]))) {
         return false;
@@ -6517,6 +6498,61 @@ bool FakeVimHandler::Private::handleExShiftCommand(const ExCommand &cmd)
     return true;
 }
 
+bool FakeVimHandler::Private::handleExMultiRepeatCommand(const ExCommand &cmd)
+{
+    // :[range]g[lobal]/{pattern}/[cmd]
+    // :[range]g[lobal]!/{pattern}/[cmd]
+    // :[range]v[globa]!/{pattern}/[cmd]
+    const bool hasG = cmd.matches("g", "global");
+    const bool hasV = cmd.matches("v", "vglobal");
+    if (!hasG && !hasV)
+        return false;
+
+    // Force operation on full lines, and full document if only
+    // one line (the current one...) is specified
+    int beginLine = lineForPosition(cmd.range.beginPos);
+    int endLine = lineForPosition(cmd.range.endPos);
+    if (beginLine == endLine) {
+        beginLine = 0;
+        endLine = lineForPosition(lastPositionInDocument());
+    }
+
+    const bool negates = hasV || cmd.hasBang;
+
+    const QChar delim = cmd.args.front();
+    const QString pattern = cmd.args.section(delim, 1, 1);
+    const QRegularExpression re(pattern);
+
+    QString innerCmd = cmd.args.section(delim, 2, 2);
+    if (innerCmd.isEmpty())
+        innerCmd = "p";
+
+    QList<QTextCursor> matches;
+
+    for (int line = beginLine; line <= endLine; ++line) {
+        const int pos = firstPositionInLine(line);
+        const Range range(pos, pos, RangeLineMode);
+        const QString lineContents = selectText(range);
+        const QRegularExpressionMatch match = re.match(lineContents);
+        if (match.hasMatch() ^ negates) {
+            QTextCursor tc(document());
+            tc.setPosition(pos);
+            matches.append(tc);
+        }
+    }
+
+    beginEditBlock();
+
+    for (const QTextCursor &tc : qAsConst(matches)) {
+        setPosition(tc.position());
+        handleExCommand(innerCmd);
+    }
+
+    endEditBlock();
+
+    return true;
+}
+
 bool FakeVimHandler::Private::handleExSortCommand(const ExCommand &cmd)
 {
     // :[range]sor[t][!] [b][f][i][n][o][r][u][x] [/{pattern}/]
@@ -6604,12 +6640,11 @@ bool FakeVimHandler::Private::handleExSourceCommand(const ExCommand &cmd)
     while (!file.atEnd() || !line.isEmpty()) {
         QByteArray nextline = !file.atEnd() ? file.readLine() : QByteArray();
 
-        //  remove comment
-        int i = nextline.lastIndexOf('"');
-        if (i != -1)
-            nextline = nextline.remove(i, nextline.size() - i);
-
         nextline = nextline.trimmed();
+
+        // remove full line comment. for being precise, check :help comment in vim.
+        if (nextline.startsWith('"'))
+            continue;
 
         // multi-line command?
         if (nextline.startsWith('\\')) {
@@ -6697,6 +6732,7 @@ bool FakeVimHandler::Private::handleExCommandHelper(ExCommand &cmd)
         || handleExMoveCommand(cmd)
         || handleExJoinCommand(cmd)
         || handleExMapCommand(cmd)
+        || handleExMultiRepeatCommand(cmd)
         || handleExNohlsearchCommand(cmd)
         || handleExNormalCommand(cmd)
         || handleExReadCommand(cmd)
@@ -8275,7 +8311,8 @@ void FakeVimHandler::Private::onContentsChanged(int position, int charsRemoved, 
             g.dotCommand = "i";
             resetCount();
         }
-
+        int indentation = 0;
+        bool changedAtEnd = false;
         // Ignore changes outside inserted text (e.g. renaming other occurrences of a variable).
         if (position + charsRemoved >= insertState.pos1 && position <= insertState.pos2) {
             if (charsRemoved > 0) {
@@ -8294,17 +8331,39 @@ void FakeVimHandler::Private::onContentsChanged(int position, int charsRemoved, 
                 if (position < insertState.pos1) {
                     // <BACKSPACE>
                     const int backspaceCount = insertState.pos1 - position;
-                    if (backspaceCount != charsRemoved || (oldPosition == charsRemoved && wholeDocumentChanged)) {
+                    const QString inserted = textAt(position, position + charsAdded);
+                    const QString unified = inserted.startsWith('\n') ? inserted.mid(1) : inserted;
+                    changedAtEnd = unified.startsWith(insertState.textBeforeCursor);
+
+                    int indentNew = 0;
+                    for (int i = 0, end = unified.size(); i < end; ++i) {
+                        if (unified.at(i) != ' ')
+                            break;
+                        ++indentNew;
+                    }
+                    int indentOld = 0;
+                    for (int i = 0, end = insertState.textBeforeCursor.size(); i < end; ++i) {
+                        if (insertState.textBeforeCursor.at(i) != ' ')
+                            break;
+                        --indentOld;
+                    }
+                    indentation = indentNew + indentOld;
+
+                    if ((backspaceCount != charsRemoved && indentation == 0 && !changedAtEnd)
+                            || (oldPosition == charsRemoved && wholeDocumentChanged)) {
                         invalidateInsertState();
                     } else {
-                        const QString inserted = textAt(position, oldPosition);
-                        const QString removed = insertState.textBeforeCursor.right(backspaceCount);
-                        // Ignore backspaces if same text was just inserted.
-                        if ( !inserted.endsWith(removed) ) {
+                        const QString removed = insertState.textBeforeCursor.right(
+                                    qMax(backspaceCount, charsRemoved));
+                        if (indentation != 0 || changedAtEnd) {
+                            // automatic indent by electric chars / skipping of automatic inserted
+                            insertState.pos1 = position + backspaceCount + indentation;
+                            insertState.pos2 = position + charsAdded;
+                        } else if ( !inserted.endsWith(removed) ) {
                             insertState.backspaces += backspaceCount;
                             insertState.pos1 = position;
                             insertState.pos2 = qMax(position, insertState.pos2 - backspaceCount);
-                        }
+                        } // Ignore backspaces if same text was just inserted.
                     }
                 } else if (position + charsRemoved > insertState.pos2) {
                     // <DELETE>
@@ -8323,7 +8382,8 @@ void FakeVimHandler::Private::onContentsChanged(int position, int charsRemoved, 
             }
 
             const int newPosition = position + charsAdded;
-            insertState.pos2 = qMax(insertState.pos2 + charsAdded - charsRemoved, newPosition);
+            if (indentation == 0 && !changedAtEnd) // (un)indented has pos2 set correctly already
+                insertState.pos2 = qMax(insertState.pos2 + charsAdded - charsRemoved, newPosition);
             insertState.textBeforeCursor = textAt(block().position(), newPosition);
         }
     }

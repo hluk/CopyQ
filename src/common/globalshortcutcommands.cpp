@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "globalshortcutcommands.h"
 
@@ -77,21 +60,21 @@ Command createGlobalShortcut(const QString &name, const QString &script, IconId 
 QVector<Command> globalShortcutCommands()
 {
     return {
-        createGlobalShortcut( AddCommandDialog::tr("Show/hide main window"), "toggle()", IconListAlt, "copyq_global_toggle"),
+        createGlobalShortcut( AddCommandDialog::tr("Show/hide main window"), "toggle()", IconRectangleList, "copyq_global_toggle"),
         createGlobalShortcut( AddCommandDialog::tr("Show the tray menu"), "menu()", IconInbox, "copyq_global_menu"),
-        createGlobalShortcut( AddCommandDialog::tr("Show main window under mouse cursor"), "showAt()", IconListAlt, "copyq_global_show_under_mouse"),
-        createGlobalShortcut( AddCommandDialog::tr("Edit clipboard"), "edit(-1)", IconEdit, "copyq_global_edit_clipboard"),
-        createGlobalShortcut( AddCommandDialog::tr("Edit first item"), "edit(0)", IconEdit, "copyq_global_edit_first_item"),
+        createGlobalShortcut( AddCommandDialog::tr("Show main window under mouse cursor"), "showAt()", IconRectangleList, "copyq_global_show_under_mouse"),
+        createGlobalShortcut( AddCommandDialog::tr("Edit clipboard"), "edit(-1)", IconPenToSquare, "copyq_global_edit_clipboard"),
+        createGlobalShortcut( AddCommandDialog::tr("Edit first item"), "edit(0)", IconPenToSquare, "copyq_global_edit_first_item"),
         createGlobalShortcut( AddCommandDialog::tr("Copy second item"), "select(1)", IconCopy, "copyq_global_copy_second_item"),
-        createGlobalShortcut( AddCommandDialog::tr("Show action dialog"), "action()", IconCog, "copyq_global_show_action_dialog"),
+        createGlobalShortcut( AddCommandDialog::tr("Show action dialog"), "action()", IconGear, "copyq_global_show_action_dialog"),
         createGlobalShortcut( AddCommandDialog::tr("Create new item"), "edit()", IconAsterisk, "copyq_global_create_new_item"),
         createGlobalShortcut( AddCommandDialog::tr("Copy next item"), "next()", IconArrowDown, "copyq_global_copy_next"),
         createGlobalShortcut( AddCommandDialog::tr("Copy previous item"), "previous()", IconArrowUp, "copyq_global_copy_previous"),
         createGlobalShortcut( AddCommandDialog::tr("Paste clipboard as plain text"), pasteAsPlainTextScript("clipboard()"), IconPaste, "copyq_global_paste_clipboard_plain"),
         createGlobalShortcut( AddCommandDialog::tr("Disable clipboard storing"), "disable()", IconEyeSlash, "copyq_global_disable_clipboard_store"),
         createGlobalShortcut( AddCommandDialog::tr("Enable clipboard storing"), "enable()", IconEye, "copyq_global_enable_clipboard_store"),
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconArrowCircleDown, "copyq_global_paste_copy_next"),
-        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleUp, "copyq_global_paste_copy_previous"),
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy next"), "paste(); next()", IconCircleArrowDown, "copyq_global_paste_copy_next"),
+        createGlobalShortcut( AddCommandDialog::tr("Paste and copy previous"), "paste(); previous()", IconCircleArrowUp, "copyq_global_paste_copy_previous"),
         createGlobalShortcut( AddCommandDialog::tr("Take screenshot"), commandScreenshot, IconCamera, "copyq_global_screenshot"),
         createGlobalShortcut( AddCommandDialog::tr("Paste current date and time"), commandPasteDateTime(), IconClock , "copyq_global_paste_datetime"),
     };

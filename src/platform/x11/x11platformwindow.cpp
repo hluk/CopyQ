@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "x11platformwindow.h"
 
 #include "x11info.h"
@@ -33,6 +16,8 @@
 #ifdef HAS_X11TEST
 #   include <X11/extensions/XTest.h>
 #endif
+
+#include <unistd.h> // usleep()
 
 namespace {
 
@@ -56,9 +41,9 @@ private:
 };
 
 #ifdef HAS_X11TEST
-void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
+void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress, unsigned long delayMs = CurrentTime)
 {
-    XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
+    XTestFakeKeyEvent(display, keyCode, isPress, delayMs);
     XSync(display, False);
 }
 
@@ -114,8 +99,8 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 
     fakeKeyEvent(display, keyCode, True);
     // This is needed to paste into URL bar in Chrome.
-    waitFor(config.option<Config::window_key_press_time_ms>());
-    fakeKeyEvent(display, keyCode, False);
+    const unsigned long delayMs = config.option<Config::window_key_press_time_ms>();
+    fakeKeyEvent(display, keyCode, False, delayMs);
 
     simulateModifierKeyPress(display, modCodes, False);
 

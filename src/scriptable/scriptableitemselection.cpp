@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2021, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "scriptableitemselection.h"
 #include "scriptableproxy.h"
@@ -258,6 +241,21 @@ QJSValue ScriptableItemSelection::setItemsFormat(const QJSValue &format, const Q
 QJSValue ScriptableItemSelection::move(int row)
 {
     m_proxy->selectionMove(m_id, row);
+    return m_self;
+}
+
+QJSValue ScriptableItemSelection::sort(QJSValue compareFn)
+{
+    const int size = m_proxy->selectionGetSize(m_id);
+    QVector<int> indexes;
+    indexes.reserve(size);
+    for (int i = 0; i < size; ++i)
+        indexes.append(i);
+
+    std::sort( indexes.begin(), indexes.end(), [&](int lhs, int rhs) {
+        return compareFn.call({lhs, rhs}).toBool();
+    } );
+    m_proxy->selectionSort(m_id, indexes);
     return m_self;
 }
 

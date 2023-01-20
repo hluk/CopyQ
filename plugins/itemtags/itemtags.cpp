@@ -1,21 +1,4 @@
-/*
-    Copyright (c) 2020, Lukas Holecek <hluk@email.cz>
-
-    This file is part of CopyQ.
-
-    CopyQ is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    CopyQ is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
-*/
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "itemtags.h"
 #include "ui_itemtagssettings.h"
@@ -225,7 +208,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
 
     auto layout = new QHBoxLayout(tagWidget);
     const int x = QFontMetrics(font).height() / 6;
-    layout->setContentsMargins(x, x, x, x);
+    layout->setContentsMargins(x, 0, x, 0);
     layout->setSpacing(x * 2);
 
     if (tag.icon.size() > 1) {
@@ -266,6 +249,9 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
     const QFont font = smallerFont(layout->parentWidget()->font());
 
     for (const auto &tag : tags) {
+        if ( tag.name.isEmpty() && tag.icon.isEmpty() )
+            continue;
+
         QWidget *tagWidget = new QWidget(layout->parentWidget());
         initTagWidget(tagWidget, tag, font);
         layout->addWidget(tagWidget);
@@ -908,6 +894,8 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
 
     auto lock = new QTableWidgetItem();
     lock->setCheckState(tag.lock ? Qt::Checked : Qt::Unchecked);
+    const QString toolTip = t->horizontalHeaderItem(tagsTableColumns::lock)->toolTip();
+    lock->setToolTip(toolTip);
     t->setItem( row, tagsTableColumns::lock, lock );
 
     auto colorButton = new QPushButton(t);

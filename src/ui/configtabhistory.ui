@@ -229,9 +229,6 @@ Use Item Preview to display whole items.</string>
         <property name="text">
          <string>Activate item with single click</string>
         </property>
-        <property name="tristate">
-         <bool>true</bool>
-        </property>
        </widget>
       </item>
       <item>
