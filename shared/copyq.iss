@@ -16,7 +16,7 @@ AppName={#MyAppName}
 AppVersion={#AppVersion}
 AppVerName={#MyAppName} {#AppVersion}
 
-AppCopyright={#MyAppCopyright} {#MyAppCopyrightStartingYear}-{#MyAppCopyright}
+AppCopyright={#MyAppCopyright} {#MyAppCopyrightStartYear}-{#MyAppCopyrightEndYear}
 AppPublisher={#MyAppCopyright}
 
 AppPublisherURL=http://hluk.github.io/CopyQ/
