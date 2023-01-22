@@ -3,10 +3,12 @@
 ; 3. Compile "setup.exe".
 
 ; Path for output installation file
-#define Output         "."
-#define MyAppName      "CopyQ"
-#define MyAppNameMin   "copy"
-#define MyAppCopyright "Lukas Holecek"
+#define Output                   "."
+#define MyAppName                "CopyQ"
+#define MyAppNameMin             "copyq"
+#define MyAppCopyright           "Lukas Holecek"
+#define MyAppCopyrightStartYear  "2009"
+#define MyAppCopyrightEndYear    GetDateTimeString('yyyy','','')
 
 [Setup]
 AppId={{9DF1F443-EA0B-4C75-A4D3-767A7783228E}
@@ -14,7 +16,7 @@ AppName={#MyAppName}
 AppVersion={#AppVersion}
 AppVerName={#MyAppName} {#AppVersion}
 
-AppCopyright=(c) {#MyAppCopyright}
+AppCopyright={#MyAppCopyright} {#MyAppCopyrightStartingYear}-{#MyAppCopyright}
 AppPublisher={#MyAppCopyright}
 
 AppPublisherURL=http://hluk.github.io/CopyQ/
@@ -43,7 +45,6 @@ SetupIconFile={#Source}\src\images\icon.ico
 WizardImageFile=logo.bmp
 WizardSmallImageFile=logo-small.bmp
 CloseApplications=force
-
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
