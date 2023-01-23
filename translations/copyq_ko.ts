@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>정보 - 한국어 번역: 비너스걸💋</translation>
+        <translation>정보</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="108"/>
