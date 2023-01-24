@@ -103,11 +103,12 @@ QString AboutDialog::aboutPage()
         "</table>"
         "</p>"
 
-        "<p class='copyright'>Copyright (c) 2009 - 2020</p>"
+        "<p class='copyright'>Copyright (c) 2009 - 2023</p>"
 
         "<p></p>"
 
         + "<p>"
+            + helpUrl("https://github.com/hluk/CopyQ/graphs/contributors")
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
             + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
             + helpDeveloper("Greg Carp", "grcarpbe@gmail.com")
@@ -133,22 +134,22 @@ QString AboutDialog::aboutPage()
         "</p>"
 
             + helpLib("Qt Toolkit",
-                      "Copyright (c) 2020 The Qt Company Ltd. and other contributors",
+                      "Copyright (c) The Qt Company Ltd. and other contributors",
                       "https://www.qt.io/")
             + helpLib("KDE Frameworks",
-                      "Copyright (c) 2020 KDE Community",
+                      "Copyright (c) KDE Community",
                       "https://develop.kde.org/products/frameworks/")
             + helpLib("Snoretoast",
-                      "Copyright (c) 2013 - 2020 Hannah von Reth",
+                      "Copyright (c) Hannah von Reth",
                       "https://invent.kde.org/libraries/snoretoast")
             + helpLib("Weblate",
-                      "Copyright (c) 2012 - 2020 Michal &#268;iha&#345;", "https://weblate.org")
+                      "Copyright (c) Michal &#268;iha&#345;", "https://weblate.org")
             + helpLib("Font Awesome",
-                      "Copyright (c) 2020 Fonticons, Inc.", "https://fontawesome.com")
+                      "Copyright (c) Fonticons, Inc.", "https://fontawesome.com")
             + helpLib("LibQxt",
-                      "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
+                      "Copyright (c), the LibQxt project", "http://libqxt.org")
             + helpLib("Solarized",
-                      "Copyright (c) 2011 Ethan Schoonover", "https://ethanschoonover.com/solarized")
+                      "Copyright (c) Ethan Schoonover", "https://ethanschoonover.com/solarized")
 
         + "<p></p>"
 
