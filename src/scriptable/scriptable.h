@@ -34,6 +34,7 @@ class Scriptable final : public QObject
     Q_OBJECT
     Q_PROPERTY(QJSValue inputSeparator READ getInputSeparator WRITE setInputSeparator)
     Q_PROPERTY(QJSValue mimeText READ getMimeText CONSTANT)
+    Q_PROPERTY(QJSValue mimeTextUtf8 READ getMimeTextUtf8 CONSTANT)
     Q_PROPERTY(QJSValue mimeHtml READ getMimeHtml CONSTANT)
     Q_PROPERTY(QJSValue mimeUriList READ getMimeUriList CONSTANT)
     Q_PROPERTY(QJSValue mimeWindowTitle READ getMimeWindowTitle CONSTANT)
@@ -117,6 +118,7 @@ public:
     void installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject);
 
     QJSValue getMimeText() const { return mimeText; }
+    QJSValue getMimeTextUtf8() const { return mimeTextUtf8; }
     QJSValue getMimeHtml() const { return mimeHtml; }
     QJSValue getMimeUriList() const { return mimeUriList; }
     QJSValue getMimeWindowTitle() const { return mimeWindowTitle; }

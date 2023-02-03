@@ -238,12 +238,9 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
         text = index.data(contentType::notes).toString();
     } else {
         const QVariantMap data = m_sharedData->itemFactory->data(index);
-        if ( !data.contains(mimeText) )
-            return nullptr;
-
         text = getTextData(data, mimeHtml);
         if (text.isEmpty()) {
-            text = getTextData(data, mimeText);
+            text = getTextData(data);
         } else {
             hasHtml = true;
         }
