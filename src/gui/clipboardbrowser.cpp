@@ -1229,8 +1229,9 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
         return true;
 
     if ( !m_sharedData->editor.trimmed().isEmpty() ) {
-        if ( data.contains(mimeText) ) {
-            auto itemEditor = new ItemEditor( data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this );
+        const QString text = getTextData(data);
+        if ( !text.isNull() ) {
+            auto itemEditor = new ItemEditor( text.toUtf8(), mimeText, m_sharedData->editor, this );
             itemEditor->setIndex(index);
             if ( startEditor(itemEditor) )
                 return true;
