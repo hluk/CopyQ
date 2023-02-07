@@ -25,6 +25,14 @@ const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide
 constexpr int windowMinWidth = 50;
 constexpr int windowMinHeight = 50;
 
+QSize frameSize(QWidget *widget) {
+    const QRect frame = widget->frameGeometry();
+    const QSize size = widget->size();
+    const int w = qMax(windowMinWidth, qMax(frame.width(), size.width()));
+    const int h = qMax(windowMinHeight, qMax(frame.height(), size.height()));
+    return QSize(w, h);
+}
+
 QString toString(const QRect &geometry)
 {
     return QString::fromLatin1("%1x%2,%3,%4")
@@ -96,7 +104,7 @@ QString resolutionTag(const QWidget &widget, bool openOnCurrentScreen)
 
 void ensureWindowOnScreen(QWidget *widget)
 {
-    const QRect frame  = widget->frameGeometry();
+    const QSize frame  = frameSize(widget);
     int x = widget->x();
     int y = widget->y();
     int w = qMax(windowMinWidth, frame.width());
@@ -122,8 +130,13 @@ void ensureWindowOnScreen(QWidget *widget)
             y = availableGeometry.top();
     }
 
-    if ( frame.size() != QSize(w, h) ) {
-        GEOMETRY_LOG( widget, QString::fromLatin1("Resize window: %1x%2").arg(w).arg(h) );
+    if ( frame != QSize(w, h) ) {
+        GEOMETRY_LOG(
+            widget, QString::fromLatin1("Resize window: %1x%2 -> %3x%4")
+            .arg(frame.width())
+            .arg(frame.height())
+            .arg(w)
+            .arg(h) );
         widget->resize(w, h);
     }
 
