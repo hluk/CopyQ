@@ -260,7 +260,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="97"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>複製 URL（網站位址）到另一分頁</translation>
+        <translation>複製 URL (網站位址) 到另一分頁</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="104"/>
@@ -270,7 +270,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="112"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>從 URL 建立 QR 碼（需要 qrencode）</translation>
+        <translation>從 URL 建立 QR 碼 (需要 qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="120"/>
@@ -313,7 +313,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>(trash)</source>
-        <translation>（垃圾桶）</translation>
+        <translation>(垃圾桶)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
@@ -1321,7 +1321,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>隱藏分頁（按 alt 鍵顯示）</translation>
+        <translation>隱藏分頁 (按 alt 鍵顯示)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
@@ -2209,7 +2209,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="101"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;釘選項目以將它們鎖於目前行，避免被刪除（除非取消釘選）。&lt;/p&gt;&lt;p&gt;供快鍵和隨譯即行程式碼使用。&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;釘選項目以將它們鎖於目前行，避免被刪除 (除非取消釘選)。&lt;/p&gt;&lt;p&gt;供快鍵和隨譯即行程式碼使用。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3057,12 +3057,12 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="103"/>
         <source>Undo</source>
-        <translation>撤回剛才動作</translation>
+        <translation>撤回上個動作</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="105"/>
         <source>Redo</source>
-        <translation>重複剛才動作</translation>
+        <translation>再次上個動作</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="107"/>
