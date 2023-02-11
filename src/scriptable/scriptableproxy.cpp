@@ -2398,8 +2398,11 @@ void ScriptableProxy::setTitle(const QString &title)
     INVOKE2(setTitle, (title));
 
     if (title.isEmpty()) {
-        m_wnd->setWindowTitle(QString());
-        m_wnd->setTrayTooltip(QGuiApplication::applicationDisplayName());
+        const QString defaultTitle = isMonitoringEnabled()
+            ? QString()
+            : tr("*Clipboard Storing Disabled*", "Main window title if clipboard storing is disabled");
+        m_wnd->setWindowTitle(defaultTitle);
+        m_wnd->setTrayTooltip(defaultTitle);
     } else {
         m_wnd->setWindowTitle(title);
         m_wnd->setTrayTooltip(title);

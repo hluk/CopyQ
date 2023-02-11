@@ -567,7 +567,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_trayMenu( new TrayMenu(this) )
     , m_tray(nullptr)
     , m_toolBar(new ToolBar(this))
-    , m_actionToggleClipboardStoring()
     , m_sharedData(sharedData)
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
@@ -801,9 +800,7 @@ void MainWindow::createMenu()
     createAction( Actions::File_ProcessManager, &MainWindow::showProcessManagerDialog, menu );
 
     // - enable/disable
-    m_actionToggleClipboardStoring = createAction( Actions::File_ToggleClipboardStoring,
-                                                   &MainWindow::toggleClipboardStoring, menu );
-    updateMonitoringActions();
+    createAction( Actions::File_ToggleClipboardStoring, &MainWindow::toggleClipboardStoring, menu );
 
     // - separator
     menu->addSeparator();
@@ -1385,17 +1382,6 @@ void MainWindow::updateWindowTransparency(bool mouseOver)
 {
     int opacity = 100 - (mouseOver || isActiveWindow() ? m_options.transparencyFocused : m_options.transparency);
     setWindowOpacity(opacity / 100.0);
-}
-
-void MainWindow::updateMonitoringActions()
-{
-    if ( !m_actionToggleClipboardStoring.isNull() ) {
-        m_actionToggleClipboardStoring->setIcon(
-                    getIcon("", m_clipboardStoringDisabled ? IconCheck : IconBan));
-        m_actionToggleClipboardStoring->setText( m_clipboardStoringDisabled
-                                                 ? tr("&Enable Clipboard Storing")
-                                                 : tr("&Disable Clipboard Storing") );
-    }
 }
 
 ClipboardBrowserPlaceholder *MainWindow::getPlaceholder(int index) const
@@ -3324,14 +3310,11 @@ void MainWindow::disableClipboardStoring(bool disable)
     m_clipboardStoringDisabled = disable;
     emit disableClipboardStoringRequest(disable);
 
-    updateMonitoringActions();
-
     ::setSessionIconEnabled(!disable);
 
     updateIcon();
 
-    if (m_clipboardStoringDisabled)
-        runScript("setTitle(); showDataNotification()");
+    runScript("setTitle(); showDataNotification()");
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );

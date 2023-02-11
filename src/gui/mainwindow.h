@@ -555,9 +555,6 @@ private:
 
     void updateWindowTransparency(bool mouseOver = false);
 
-    /** Update name and icon of "disable/enable monitoring" menu actions. */
-    void updateMonitoringActions();
-
     /** Return browser widget in given tab @a index. */
     ClipboardBrowserPlaceholder *getPlaceholder(int index) const;
 
@@ -647,7 +644,6 @@ private:
     MainWindowOptions m_options;
 
     bool m_clipboardStoringDisabled = false;
-    QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
 
