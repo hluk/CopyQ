@@ -38,6 +38,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile={#Source}\LICENSE
 OutputDir={#Output}
+PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename={#MyAppNameMin}-{#AppVersion}-setup
 Compression=lzma
 SolidCompression=yes
