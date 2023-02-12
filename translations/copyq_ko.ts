@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation>동작 대화창</translation>
+        <translation>작업 대화창</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -170,12 +170,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="84"/>
         <source>Edit first item</source>
-        <translation>첫번째 항목 편집</translation>
+        <translation>첫 번째 항목 편집</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="85"/>
         <source>Copy second item</source>
-        <translation>두번째 항목 복사</translation>
+        <translation>두 번째 항목 복사</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="86"/>
@@ -421,7 +421,7 @@ You can set up the command in preferences.</source>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
         <translatorcomment>완료 메뉴를 표시하는 바로가기</translatorcomment>
-        <translation>Ctrl+Space</translation>
+        <translation>Ctrl+스페이스</translation>
     </message>
 </context>
 <context>
@@ -949,7 +949,7 @@ Note: If this is applied automatically, no other automatic commands are executed
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translatorcomment>모양 대화상자에서 글꼴 설정에 대한 텍스트를 미리 봅니다</translatorcomment>
-        <translation>Abc</translation>
+        <translation>가나다</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="493"/>
@@ -1092,7 +1092,7 @@ F2 키를 눌러 편집합니다.</translation>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
         <translatorcomment>(&amp;3) 마우스로 클립보드 붙여넣기</translatorcomment>
-        <translation>(&amp;3) Paste clipboard with mouse</translation>
+        <translation>(&amp;3) 마우스로 클립보드 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1103,12 +1103,12 @@ F2 키를 눌러 편집합니다.</translation>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
         <translatorcomment>(&amp;4) 키보드로 마우스 선택 항목 붙여넣기</translatorcomment>
-        <translation>(&amp;4) Paste mouse selection with keyboard</translation>
+        <translation>(&amp;4) 키보드로 마우스 선택 항목 붙여넣기</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation>기록에 클립보드 저장</translation>
+        <translation>내역에 클립보드 저장</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
@@ -1677,7 +1677,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="38"/>
         <source>Select Icon…</source>
-        <translation>아이콘 선택...</translation>
+        <translation>아이콘 선택…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="73"/>
@@ -2047,7 +2047,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
         <translatorcomment>도구 팁 표시(&amp;L)</translatorcomment>
-        <translation></translation>
+        <translation>도구 팁 표시(&amp;L)</translation>
     </message>
 </context>
 <context>
@@ -3270,7 +3270,8 @@ PROGRAM에서 %1을 사용하여 인수로 텍스트를 전달합니다.</transl
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
         <translation>지정된 이름의 탭에서 명령을 실행합니다.
-탭이 없는 경우 생성됩니다.</translation>
+탭이 없는 경우 생성됩니다.
+기본값은 첫 번째 탭입니다.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
