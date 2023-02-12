@@ -60,7 +60,7 @@ MenuItems menuItems()
     addMenuItem( items, Actions::File_ShowPreview, QObject::tr("&Show Preview"),
                  "show_item_preview", QObject::tr("F7"), "document-print-preview", IconEye );
     addMenuItem( items, Actions::File_ToggleClipboardStoring, QObject::tr("&Toggle Clipboard Storing"),
-                  "toggle_clipboard_storing", QObject::tr("Ctrl+Shift+X"), "" );
+                  "toggle_clipboard_storing", QObject::tr("Ctrl+Shift+X"), "", IconBan );
     addMenuItem( items, Actions::File_ProcessManager, QObject::tr("P&rocess Manager"),
                   "process_manager", QObject::tr("Ctrl+Shift+Z"), "system-search", IconGears );
     addMenuItem( items, Actions::File_Exit, QObject::tr("E&xit"), "exit", QObject::tr("Ctrl+Q"),

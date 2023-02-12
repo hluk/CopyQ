@@ -1512,9 +1512,11 @@ void Tests::commandCurrentWindowTitle()
 {
     RUN("disable", "");
 #ifdef Q_OS_MAC
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ - *Clipboard Storing Disabled*\n");
+#elif defined(Q_OS_WIN)
+    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* - CopyQ-TEST\n");
 #else
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ-TEST\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* — CopyQ-TEST\n");
 #endif
     RUN("enable", "");
 }
@@ -2481,7 +2483,11 @@ void Tests::keysAndFocusing()
 #endif
 
     RUN("keys" << tabDialogLineEditId << "ESC", "");
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ-TEST\n");
+#ifdef Q_OS_WIN
+    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* - CopyQ-TEST\n");
+#else
+    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* — CopyQ-TEST\n");
+#endif
     RUN("enable", "");
 }
 
