@@ -38,7 +38,6 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile={#Source}\LICENSE
 OutputDir={#Output}
-PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename={#MyAppNameMin}-{#AppVersion}-setup
 Compression=lzma
 SolidCompression=yes
@@ -53,6 +52,7 @@ Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: it; MessagesFile: "compiler:Languages\Italian.isl"
+Name: ko; MessagesFile: "compiler:Languages\Korean.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
@@ -101,6 +101,20 @@ it.PluginFakeVim=Editor FakeVim
 it.PluginSynchronize=Sincronizza elementi disco
 it.PluginTags=Etichette elementi
 it.PluginPinned=Elementi bloccati
+
+[CustomMessages]
+ko.ProgramFiles=Program Files
+ko.Translations=번역
+ko.Plugins=플러그인
+ko.PluginText=강조 표시가 있는 텍스트
+ko.PluginImages=이미지
+ko.PluginWeb=웹 페이지
+ko.PluginNotes=노트
+ko.PluginEncrypted=암호화
+ko.PluginFakeVim=FakeVim 편집기
+ko.PluginSynchronize=항목을 디스크에 동기화
+ko.PluginTags=항목 태그
+ko.PluginPinned=고정된 항목
 
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
@@ -161,12 +175,10 @@ function GetFullInstallation(Param: string): string;
 begin
 	Result := SetupMessage(msgFullInstallation);
 end;
-
 function GetCustomInstallation(Param: string): string;
 begin
 	Result := SetupMessage(msgCustomInstallation);
 end;
-
 function GetCompactInstallation(Param: string): string;
 begin
 	Result := SetupMessage(msgCompactInstallation);
