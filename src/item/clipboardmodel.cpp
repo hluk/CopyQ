@@ -202,6 +202,7 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
 {
     QList<QPersistentModelIndex> list = validIndeces(indexList);
     std::sort( list.begin(), list.end(), compare );
+    sortItems(list);
 }
 
 void ClipboardModel::sortItems(const QList<QPersistentModelIndex> &sorted)

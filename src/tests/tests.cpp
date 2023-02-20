@@ -2621,6 +2621,33 @@ void Tests::selectAndCopyOrder()
     WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
 }
 
+void Tests::sortAndReverse()
+{
+    const auto tab = testTab(1);
+    const Args args = Args("tab") << tab << "separator" << " ";
+    RUN(args << "add" << "D" << "A" << "C" << "B", "");
+    RUN("setCurrentTab" << tab, "");
+
+    RUN("keys" << "CTRL+A", "");
+    RUN(args << "testSelected", tab + " 0 0 1 2 3\n");
+
+    RUN("keys" << "CTRL+SHIFT+S", "");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "A B C D ");
+    RUN(args << "testSelected", tab + " 1 0 1 2 3\n");
+    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    WAIT_ON_OUTPUT("clipboard", "A\nB\nC\nD");
+
+    RUN("keys" << "CTRL+SHIFT+R", "");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D C B A ");
+    RUN(args << "testSelected", tab + " 2 0 1 2 3\n");
+    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
+
+    RUN("keys" << "CTRL+SHIFT+R", "");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "A B C D ");
+    RUN(args << "testSelected", tab + " 1 0 1 2 3\n");
+}
+
 void Tests::createTabDialog()
 {
     const auto tab1 = testTab(1);
