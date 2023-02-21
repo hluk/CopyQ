@@ -162,6 +162,8 @@ private slots:
     void copyItems();
     void selectAndCopyOrder();
 
+    void sortAndReverse();
+
     void createTabDialog();
 
     void copyPasteCommands();
