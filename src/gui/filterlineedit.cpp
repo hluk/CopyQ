@@ -405,15 +405,10 @@ void FilterLineEdit::loadSettings()
     const bool filterCaseSensitive = appConfig.option<Config::filter_case_insensitive>();
     m_actionCaseInsensitive->setChecked(filterCaseSensitive);
 
-    // KDE has custom icons for this. Notice that icon namings are counter intuitive.
-    // If these icons are not available we use the freedesktop standard name before
-    // falling back to a bundled resource.
-    QIcon icon1 = QIcon::fromTheme(layoutDirection() == Qt::LeftToRight ?
-                     "edit-clear-locationbar-rtl" : "edit-clear-locationbar-ltr",
-                     getIcon("edit-clear", IconXmark));
+    const QIcon icon1 = getIcon("edit-clear", IconXmark);
     setButtonIcon(Right, icon1);
 
-    QIcon icon2 = getIcon("edit-find", IconMagnifyingGlass);
+    const QIcon icon2 = getIcon("edit-find", IconMagnifyingGlass);
     setButtonIcon(Left, icon2);
 
     if ( appConfig.option<Config::save_filter_history>() ) {

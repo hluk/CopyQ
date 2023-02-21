@@ -123,9 +123,10 @@ public:
     QxtX11Data()
         : m_display(nullptr)
     {
-        createFirstWindow();
-        if ( X11Info::isPlatformX11() )
+        if ( X11Info::isPlatformX11() ) {
+            createFirstWindow();
             m_display = X11Info::display();
+        }
     }
 
     bool isValid()
