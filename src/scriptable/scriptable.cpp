@@ -823,7 +823,7 @@ QJSValue Scriptable::throwError(const QString &errorMessage)
     QJSValue throwFn = evaluateStrict(m_engine,  QStringLiteral(
         "(function(text) {throw new Error(text);})"
     ));
-    const auto exc = throwFn.call(QJSValueList() << errorMessage);
+    const auto exc = throwFn.call({errorMessage});
 #if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
     m_engine->throwError(QJSValue::GenericError, errorMessage);
     return exc;
@@ -2136,7 +2136,7 @@ QJSValue Scriptable::execute()
 
     if ( m_executeStdoutCallback.isCallable() ) {
         const auto arg = toScriptValue(m_executeStdoutLastLine, this);
-        call( "executeStdoutCallback", &m_executeStdoutCallback, QJSValueList() << arg );
+        call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
     }
 
     QJSValue actionResult = m_engine->newObject();
@@ -2833,7 +2833,7 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
         m_executeStdoutLastLine = lines.takeLast();
         if ( !lines.isEmpty() ) {
             const auto arg = toScriptValue(lines, this);
-            call( "executeStdoutCallback", &m_executeStdoutCallback, QJSValueList() << arg );
+            call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
         }
     }
 }
@@ -3239,7 +3239,7 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
 {
     m_stack.prepend(QStringLiteral("eval:") + label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
-    const auto result = m_safeEval.call(QJSValueList() << QJSValue(script));
+    const auto result = m_safeEval.call({QJSValue(script)});
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
 
@@ -3771,8 +3771,8 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
         // Allow passing variable number of arguments to scriptable methods
         // and handle exceptions.
         const auto v = hasByteArrayReturnType
-            ? m_createFnB.call(QJSValueList() << from << name)
-            : m_createFn.call(QJSValueList() << from << name);
+            ? m_createFnB.call({from, name})
+            : m_createFn.call({from, name});
         if ( v.isError() ) {
             log( QStringLiteral("Exception while wrapping %1.%2: %3").arg(fromObj->objectName(), name, v.toString()), LogError );
             Q_ASSERT(false);
@@ -3785,7 +3785,7 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
         const QMetaProperty prop = metaObject->property(i);
         const QLatin1String name( prop.name() );
 
-        const auto args = QJSValueList() << name << from;
+        const QJSValueList args{name, from};
         const auto v = m_createProperty.callWithInstance(toObject, args);
         if ( v.isError() ) {
             log( QStringLiteral("Exception while adding property %1.%2: %3").arg(fromObj->objectName(), name, v.toString()), LogError );
