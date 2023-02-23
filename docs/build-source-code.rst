@@ -136,7 +136,7 @@ Build with the following commands:
 ::
 
 	mkdir -p build && cd build
-    cmake -DCMAKE_PREFIX_PATH=(brew --prefix qt5) -DCMAKE_LISTS_TXT_PATH="$PWD/../CMakeLists.txt" -DCMAKE_LISTS_OR_SETTINGS_JSON=CMakeListsTxtAdvanced -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR=Ninja -DWITH_TESTS=TRUE ../
+    cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt5) -DCMAKE_LISTS_TXT_PATH="$PWD/../CMakeLists.txt" -DCMAKE_LISTS_OR_SETTINGS_JSON=CMakeListsTxtAdvanced -DCMAKE_BUILD_TYPE=Release -DCMAKE_GENERATOR=Ninja -DWITH_TESTS=TRUE ../
     cmake --build .
     cpack && codesign --force --deep --sign - $PWD/_CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app
 	mv _CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app .
