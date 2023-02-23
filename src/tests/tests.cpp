@@ -2372,7 +2372,7 @@ void Tests::classSettings()
     RUN("eval" << "s=Settings(str(arguments[1])); s.setValue('o1', 1)" << fileName, "");
     QVERIFY(QFile::exists(fileName));
 
-    const QString appConfigFileName = AppConfig().settings().fileName().remove(QStringLiteral("-bak"));
+    const QString appConfigFileName = AppConfig().settings().fileName();
     RUN("Settings().fileName()", QStringLiteral("%1\n").arg(appConfigFileName));
     RUN("Settings().value('Options/tabs')", QStringLiteral("%1\n").arg(clipboardTabName));
 }
@@ -4439,7 +4439,6 @@ int runTests(int argc, char *argv[])
     const QString session = "copyq.test";
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
-    Settings::canModifySettings = true;
     initLogging();
 
     // Set higher default tests timeout.

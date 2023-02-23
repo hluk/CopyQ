@@ -442,11 +442,11 @@ void ConfigurationManager::loadSettings(AppConfig *appConfig)
     settings.endGroup();
 
     settings.beginGroup("Shortcuts");
-    m_tabShortcuts->loadShortcuts(settings.constSettingsData());
+    m_tabShortcuts->loadShortcuts(settings);
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    m_tabAppearance->loadTheme(settings.constSettingsData());
+    m_tabAppearance->loadTheme(settings);
     settings.endGroup();
 
     m_tabAppearance->setEditor( appConfig->option<Config::editor>() );
@@ -522,16 +522,16 @@ void ConfigurationManager::apply(AppConfig *appConfig)
         settings.setValue( it.key(), it.value().value() );
     settings.endGroup();
 
-    m_tabTabs->saveTabs(settings.settingsData());
+    m_tabTabs->saveTabs(&settings);
 
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).
     settings.beginGroup("Shortcuts");
-    m_tabShortcuts->saveShortcuts(settings.settingsData());
+    m_tabShortcuts->saveShortcuts(&settings);
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    m_tabAppearance->saveTheme(settings.settingsData());
+    m_tabAppearance->saveTheme(&settings);
     settings.endGroup();
 
     // Save settings for each plugin.
@@ -552,7 +552,7 @@ void ConfigurationManager::apply(AppConfig *appConfig)
         if (w) {
             PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
-            loader->applySettings(*settings.settingsData());
+            loader->applySettings(settings);
         }
 
         const bool isPluginEnabled = m_tabItems->isItemChecked(i);

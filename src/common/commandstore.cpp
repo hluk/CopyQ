@@ -152,7 +152,7 @@ Commands loadAllCommands()
 void saveCommands(const Commands &commands)
 {
     Settings settings(getConfigurationFilePath("-commands.ini"));
-    saveCommands(commands, settings.settingsData());
+    saveCommands(commands, &settings);
 }
 
 Commands loadCommands(QSettings *settings)
