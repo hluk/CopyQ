@@ -103,6 +103,20 @@ it.PluginSynchronize=Sincronizza elementi disco
 it.PluginTags=Etichette elementi
 it.PluginPinned=Elementi bloccati
 
+[CustomMessages]
+ko.ProgramFiles=Program Files
+ko.Translations=번역
+ko.Plugins=플러그인
+ko.PluginText=강조 표시가 있는 텍스트
+ko.PluginImages=이미지
+ko.PluginWeb=웹 페이지
+ko.PluginNotes=노트
+ko.PluginEncrypted=암호화
+ko.PluginFakeVim=FakeVim 편집기
+ko.PluginSynchronize=항목을 디스크에 동기화
+ko.PluginTags=항목 태그
+ko.PluginPinned=고정된 항목
+
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
 Name: "compact"; Description: "{code:GetCompactInstallation}"
