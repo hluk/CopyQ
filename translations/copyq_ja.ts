@@ -775,7 +775,7 @@ Command と Filter 内の %2 から %9 は、参照された文字列に置換�
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>filter コマンドが 0 以外の終了コードで失敗した場合は、コマンドをスキップします。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -3755,7 +3755,8 @@ Print version of program and libraries.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>タブ名は1字以上の重複しない名前にしてください。&lt;br /&gt;
-レイアウトをタブツリーにしている場合は、&lt;b&gt;/&lt;/b&gt; をパス区切り文字としてタブ名に含めることができます。</translation>
+&lt;b&gt;Alt+T&lt;/b&gt;でタブ用の&lt;b&gt;メニュー&lt;/b&gt;を開きます。&lt;br /&gt;
+レイアウトがタブツリーの場合、&lt;b&gt;/&lt;/b&gt; でパスの階層を構築できます。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>

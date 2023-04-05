@@ -187,7 +187,7 @@ Set to -1 to keep visible until clicked.</string>
 Set to 0 to disable.</string>
             </property>
             <property name="maximum">
-             <number>9999</number>
+             <number>100</number>
             </property>
            </widget>
           </item>

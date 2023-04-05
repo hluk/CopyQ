@@ -32,6 +32,17 @@
 namespace {
 
 constexpr auto componentName = "copyq";
+constexpr auto maxTitleLength = 10000;
+constexpr auto maxBodyLength = 100000;
+constexpr auto maxLines = 100;
+
+QString limitLength(const QString &text, int maxLength)
+{
+    QString result = text.left(maxLength).split('\n').mid(0, maxLines).join('\n');
+    if (result.length() < text.length())
+        result.append("\n…");
+    return result;
+}
 
 QPixmap defaultIcon()
 {
@@ -107,15 +118,16 @@ NotificationNative::~NotificationNative()
 
 void NotificationNative::setTitle(const QString &title)
 {
-    m_title = title;
+    m_title = limitLength(title, maxTitleLength);
 }
 
 void NotificationNative::setMessage(const QString &msg, Qt::TextFormat format)
 {
-    if (format == Qt::PlainText)
-        m_message = msg.toHtmlEscaped();
-    else
-        m_message = msg;
+    m_message = limitLength(msg, maxBodyLength);
+
+    if (format == Qt::PlainText) {
+        m_message = m_message.toHtmlEscaped();
+    }
 }
 
 void NotificationNative::setPixmap(const QPixmap &pixmap)

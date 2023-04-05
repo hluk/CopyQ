@@ -59,7 +59,7 @@ struct notification_position : Config<int> {
 
 struct clipboard_notification_lines : Config<int> {
     static QString name() { return "clipboard_notification_lines"; }
-    static Value value(Value v) { return qBound(0, v, 10000); }
+    static Value value(Value v) { return qBound(0, v, 100); }
 };
 
 struct notification_horizontal_offset : Config<int> {

@@ -14,7 +14,7 @@ skip_branch_with_pr: true
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
-  KF5_VERSION: 5.92
+  KF5_VERSION: 5.103
   KF5_PATCH: 0
   SNORETOAST_VERSION: 0.9.0
 

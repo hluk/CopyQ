@@ -3,7 +3,7 @@ This is step-by-step description on how to release new version of CopyQ.
 # Verify the Builds
 
 - [copyq-beta Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq-beta)
-- [copyq-beta on OBS](https://build.opensuse.org/package/show/home:lukho:copyq-beta/CopyQ-Qt5-beta)
+- [copyq on OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5)
 - [Windows builds](https://ci.appveyor.com/project/hluk/copyq)
 
 # Update Version and Changelog

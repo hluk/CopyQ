@@ -122,25 +122,21 @@ and invoked from menu (or using custom shortcut).
 Linkify
 ~~~~~~~
 
-Creates interactive link from plain text.
+Stores an item with interactive link from plain text URL copied to clipboard.
 
 .. code-block:: ini
 
     [Command]
-    Name=Linkify
-    Match=^(https?|ftps?|file|mailto)://
+    Automatic=true
     Command="
         copyq:
-        var link = str(input());
-        var href = '<a href=\"###\">###</a>';
-        write(
-          'text/plain', link,
-          'text/html', href.replace(/###/g, link)
-        );"
-    Input=text/plain
-    Automatic=true
-    Remove=true
+        const link = str(input());
+        const href = `<a href=\"${link}\">${link}</a>`;
+        setData('text/html', href);"
     Icon=\xf127
+    Input=text/plain
+    Match=^(https?|ftps?|file|mailto)://
+    Name=Linkify
 
 Highlight Text
 ~~~~~~~~~~~~~~
