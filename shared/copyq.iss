@@ -103,7 +103,6 @@ it.PluginSynchronize=Sincronizza elementi disco
 it.PluginTags=Etichette elementi
 it.PluginPinned=Elementi bloccati
 
-[CustomMessages]
 ko.ProgramFiles=Program Files
 ko.Translations=번역
 ko.Plugins=플러그인
