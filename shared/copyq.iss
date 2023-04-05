@@ -53,7 +53,7 @@ Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: it; MessagesFile: "compiler:Languages\Italian.isl"
-Name: ko; MessagesFile: "{#Output}\Korean.isl"
+Name: ko; MessagesFile: "compiler:Languages\Korean.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
@@ -103,7 +103,6 @@ it.PluginSynchronize=Sincronizza elementi disco
 it.PluginTags=Etichette elementi
 it.PluginPinned=Elementi bloccati
 
-[CustomMessages]
 ko.ProgramFiles=Program Files
 ko.Translations=번역
 ko.Plugins=플러그인
