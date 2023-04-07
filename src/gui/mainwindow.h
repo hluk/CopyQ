@@ -692,6 +692,7 @@ private:
 
     bool m_isActiveWindow = false;
     bool m_singleClickActivate = 0;
+    bool m_enteringSearchMode = false;
 };
 
 #endif // MAINWINDOW_H
