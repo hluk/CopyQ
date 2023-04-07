@@ -921,7 +921,7 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         auto &value = arguments[i];
         const int argumentTypeId = metaMethod.parameterType(i);
         if (argumentTypeId == QMetaType::QVariant) {
-            args[i] = Q_ARG(QVariant, value);
+            args[i] = QGenericArgument( "QVariant", static_cast<void*>(value.data()) );
         } else if ( value.userType() == argumentTypeId ) {
             args[i] = QGenericArgument( value.typeName(), static_cast<void*>(value.data()) );
         } else {
@@ -949,8 +949,8 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         returnValue = QVariant(typeId, nullptr);
 #endif
         const auto genericReturnValue = returnValue.isValid()
-                ? QGenericReturnArgument(returnValue.typeName(), static_cast<void*>(returnValue.data()) )
-                : Q_RETURN_ARG(QVariant, returnValue);
+                ? QGenericReturnArgument( returnValue.typeName(), static_cast<void*>(returnValue.data()) )
+                : QGenericReturnArgument( "QVariant", static_cast<void*>(returnValue.data()) );
 
         called = metaMethod.invoke(
                 this, genericReturnValue,
