@@ -1307,12 +1307,18 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
 
 void MainWindow::onSearchShowRequest(const QString &text)
 {
-    enterSearchMode();
-    if (m_options.viMode && text == "/")
+    if (m_enteringSearchMode)
         return;
+    m_enteringSearchMode = true;
 
-    ui->searchBar->setText(text);
-    ui->searchBar->end(false);
+    enterSearchMode();
+
+    if (!m_options.viMode || text != "/") {
+        ui->searchBar->setText(text);
+        ui->searchBar->end(false);
+    }
+
+    m_enteringSearchMode = false;
 }
 
 void MainWindow::runDisplayCommands()
@@ -3456,8 +3462,7 @@ void MainWindow::enterBrowseMode()
 void MainWindow::enterSearchMode()
 {
     ui->searchBar->show();
-    if ( !ui->searchBar->hasFocus() )
-        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if ( !ui->searchBar->text().isEmpty() ) {
         auto c = browserOrNull();
@@ -3474,8 +3479,7 @@ void MainWindow::enterSearchMode(const QString &txt)
     const bool searchModeActivated = !ui->searchBar->isVisible();
 
     ui->searchBar->show();
-    if ( !ui->searchBar->hasFocus() )
-        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
+    ui->searchBar->setFocus(Qt::ShortcutFocusReason);
 
     if (searchModeActivated)
         ui->searchBar->setText(txt);
