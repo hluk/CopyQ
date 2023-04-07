@@ -98,14 +98,12 @@ if (PEDANTIC)
             -Wlogical-op
             -Wnoexcept
             -Wstrict-null-sentinel
+            -Wno-unknown-pragmas
             )
     else()
         list(APPEND copyq_pedantic_flags
             -Weverything
             -Winconsistent-missing-override
-            )
-
-        list(APPEND copyq_pedantic_flags
             -Wno-c++98-compat
             -Wno-c++98-compat-pedantic
             -Wno-disabled-macro-expansion
