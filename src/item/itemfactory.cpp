@@ -221,7 +221,7 @@ public:
                     log(QStringLiteral("Keeping corrupted tab on user request"));
                     file->close();
                     file->open(QIODevice::WriteOnly);
-                    auto saver = std::make_shared<DummySaver>();
+                    ItemSaverPtr saver = std::make_shared<DummySaver>();
                     saver->saveItems(tabName, *model, file);
                     return saver;
                 }

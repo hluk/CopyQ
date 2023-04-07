@@ -15,7 +15,10 @@
 
 namespace {
 
-QString logFileName_;
+QString &logFileNameVariable() {
+    static QString logFileName;
+    return logFileName;
+}
 
 /// System-wide mutex
 class SystemMutex final {
@@ -236,14 +239,14 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
 
 void initLogging()
 {
-    logFileName_ = getLogFileName();
+    logFileNameVariable() = getLogFileName();
 }
 
 const QString &logFileName()
 {
-    if ( logFileName_.isEmpty() )
-        logFileName_ = getLogFileName();
-    return logFileName_;
+    if ( logFileNameVariable().isEmpty() )
+        logFileNameVariable() = getLogFileName();
+    return logFileNameVariable();
 }
 
 QByteArray readLogFile(int maxReadSize)
