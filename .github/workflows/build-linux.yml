@@ -23,12 +23,21 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
             compiler_package: g++
+            with_qt6: false
 
           - os: ubuntu-20.04
             buildname: Linux-Clang
             build_type: Debug
             compiler: clang++
             compiler_package: clang
+            with_qt6: false
+
+          - os: ubuntu-latest
+            buildname: Qt 6
+            build_type: Debug
+            compiler: g++
+            compiler_package: g++
+            with_qt6: true
 
     steps:
       - name: Checkout source code
@@ -39,6 +48,8 @@ jobs:
 
       - name: Install dependencies
         uses: nick-invision/retry@v2
+        env:
+          WITH_QT6: '${{matrix.with_qt6}}'
         with:
           timeout_minutes: 10
           retry_wait_seconds: 30
@@ -63,6 +74,7 @@ jobs:
             -DCMAKE_CXX_FLAGS='${{matrix.compiler_flags}}'
             -DCMAKE_C_FLAGS='${{matrix.compiler_flags}}'
             -DCMAKE_CXX_COMPILER='${{matrix.compiler}}'
+            -DWITH_QT6='${{matrix.with_qt6}}'
 
       - name: Install with CMake
         run: cmake --install '${{runner.workspace}}/build'

@@ -22,4 +22,4 @@ rm -rf ~/.config/copyq.test
 
 # Run tests.
 export COPYQ_TESTS_RERUN_FAILED=0
-./copyq tests
+./copyq tests "$@"
