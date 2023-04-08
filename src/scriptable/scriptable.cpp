@@ -616,8 +616,11 @@ QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable 
     const auto encoding = encodingFromNameOrThrow(codecName, scriptable);
     if (!encoding)
         return QJSValue();
+    const QStringConverter::Flags flags = *encoding == QStringConverter::Utf8
+        ? QStringConverter::Flag::Default
+        : (QStringConverter::Flag::Default | QStringConverter::Flag::WriteBom);
     return scriptable->newByteArray(
-        QStringEncoder(*encoding).encode(text) );
+        QStringEncoder(*encoding, flags).encode(text) );
 }
 #endif
 
