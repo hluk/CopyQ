@@ -2004,13 +2004,13 @@ QJSValue Scriptable::setSelectedItemData()
 
 QJSValue Scriptable::selectedItemsData()
 {
-    return toScriptValue( m_proxy->selectedItemsData(), this );
+    return toScriptValue( m_proxy->selectedItemsData().items, this );
 }
 
 void Scriptable::setSelectedItemsData()
 {
     m_skipArguments = 1;
-    const auto dataList = fromScriptValue<QVector<QVariantMap>>( argument(0), this );
+    const VariantMapList dataList{fromScriptValue<QVector<QVariantMap>>( argument(0), this )};
     m_proxy->setSelectedItemsData(dataList);
 }
 
@@ -2207,18 +2207,18 @@ QJSValue Scriptable::menuItems()
     const auto text = argument(0);
     if ( text.isString() ) {
         m_skipArguments = -1;
-        QVector<QVariantMap> items;
+        VariantMapList items;
         for (const auto &arg : arguments())
-            items.append(createDataMap(mimeText, arg));
+            items.items.append(createDataMap(mimeText, arg));
         const int i = m_proxy->menuItems(items);
-        if (i == -1 || i >= items.size())
+        if (i == -1 || i >= items.items.size())
             return QString();
-        return getTextData(items[i]);
+        return getTextData(items.items[i]);
     }
 
     m_skipArguments = 1;
-    const auto items = fromScriptValue<QVector<QVariantMap>>(text, this);
-    if ( items.isEmpty() )
+    const VariantMapList items{fromScriptValue<QVector<QVariantMap>>(text, this)};
+    if ( items.items.isEmpty() )
         return -1;
     return m_proxy->menuItems(items);
 }
@@ -3189,7 +3189,7 @@ QJSValue Scriptable::changeItem(bool create)
     }
 
     QString error;
-    const QVector<QVariantMap> items = getItemArguments(i, args, &error);
+    const VariantMapList items{getItemArguments(i, args, &error)};
     if ( !error.isEmpty() )
         return throwError(error);
 
@@ -3493,7 +3493,7 @@ void Scriptable::insert(int row, int argumentsBegin, int argumentsEnd)
 {
     m_skipArguments = argumentsEnd;
 
-    const QVector<QVariantMap> items = getItemList(argumentsBegin, argumentsEnd, argumentsArray());
+    const VariantMapList items{getItemList(argumentsBegin, argumentsEnd, argumentsArray())};
     const auto error = m_proxy->browserInsert(m_tabName, row, items);
     if ( !error.isEmpty() )
         throwError(error);
