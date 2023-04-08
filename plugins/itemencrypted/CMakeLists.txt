@@ -1,4 +1,5 @@
 set(copyq_plugin_itemencrypted_SOURCES
+    ../../src/common/command.cpp
     ../../src/common/config.cpp
     ../../src/common/log.cpp
     ../../src/common/mimetypes.cpp
