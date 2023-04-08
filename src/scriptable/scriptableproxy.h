@@ -33,6 +33,10 @@ struct NamedValue {
     QVariant value;
 };
 
+struct VariantMapList {
+    QVector<QVariantMap> items;
+};
+
 using NamedValueList = QVector<NamedValue>;
 
 struct ScriptablePath {
@@ -47,7 +51,7 @@ struct ItemSelection {
 Q_DECLARE_METATYPE(NamedValueList)
 Q_DECLARE_METATYPE(ScriptablePath)
 Q_DECLARE_METATYPE(NotificationButtons)
-Q_DECLARE_METATYPE(QVector<QVariantMap>)
+Q_DECLARE_METATYPE(VariantMapList)
 Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -58,6 +62,8 @@ QDataStream &operator<<(QDataStream &out, const NotificationButtons &list);
 QDataStream &operator>>(QDataStream &in, NotificationButtons &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
+QDataStream &operator<<(QDataStream &out, const VariantMapList &list);
+QDataStream &operator>>(QDataStream &in, VariantMapList &list);
 QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
 QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
 QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
@@ -142,7 +148,7 @@ public slots:
     bool toggleCurrentMenu();
     int findTabIndex(const QString &arg1);
 
-    int menuItems(const QVector<QVariantMap> &items);
+    int menuItems(const VariantMapList &items);
 
     void openActionDialog(const QVariantMap &arg1);
 
@@ -159,8 +165,8 @@ public slots:
     int browserLength(const QString &tabName);
     bool browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard);
 
-    QString browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items);
-    QString browserChange(const QString &tabName, int row, const QVector<QVariantMap> &items);
+    QString browserInsert(const QString &tabName, int row, const VariantMapList &items);
+    QString browserChange(const QString &tabName, int row, const VariantMapList &items);
 
     QByteArray browserItemData(const QString &tabName, int arg1, const QString &arg2);
     QVariantMap browserItemData(const QString &tabName, int arg1);
@@ -177,8 +183,8 @@ public slots:
     QVariantMap selectedItemData(int selectedIndex);
     bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
 
-    QVector<QVariantMap> selectedItemsData();
-    void setSelectedItemsData(const QVector<QVariantMap> &dataList);
+    VariantMapList selectedItemsData();
+    void setSelectedItemsData(const VariantMapList &dataList);
 
     int createSelection(const QString &tabName);
     int selectionCopy(int id);
