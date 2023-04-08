@@ -183,20 +183,25 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
 
 Q_DECLARE_METATYPE(QFile*)
 
-QDataStream &operator<<(QDataStream &out, const NotificationButton &button)
+QDataStream &operator<<(QDataStream &out, const NotificationButtons &list)
 {
-    out << button.name
-        << button.script
-        << button.data;
+    out << list.size();
+    for (const auto &button : list)
+        out << button.name << button.script << button.data;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, NotificationButton &button)
+QDataStream &operator>>(QDataStream &in, NotificationButtons &list)
 {
-    in >> button.name
-       >> button.script
-       >> button.data;
+    decltype(list.size()) size;
+    in >> size;
+    list.reserve(size);
+    for (int i = 0; i < size; ++i) {
+        NotificationButton button;
+        in >> button.name >> button.script >> button.data;
+        list.append(button);
+    }
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }

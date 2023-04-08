@@ -54,8 +54,8 @@ Q_DECLARE_METATYPE(Qt::KeyboardModifiers)
 Q_DECLARE_METATYPE(ClipboardMode)
 #endif
 
-QDataStream &operator<<(QDataStream &out, const NotificationButton &button);
-QDataStream &operator>>(QDataStream &in, NotificationButton &button);
+QDataStream &operator<<(QDataStream &out, const NotificationButtons &list);
+QDataStream &operator>>(QDataStream &in, NotificationButtons &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
 QDataStream &operator>>(QDataStream &in, NamedValueList &list);
 QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
