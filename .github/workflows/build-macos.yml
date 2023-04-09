@@ -41,6 +41,7 @@ jobs:
             -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
             -DCMAKE_PREFIX_PATH="/usr/local/opt/qt@5/lib/cmake"
             -DCMAKE_OSX_DEPLOYMENT_TARGET='10.15'
+            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg

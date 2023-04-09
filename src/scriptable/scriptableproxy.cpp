@@ -91,7 +91,7 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
     qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
-    qRegisterMetaTypeStreamOperators<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaTypeStreamOperators<VariantMapList>("VariantMapList");
     qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
 #else
     qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
@@ -102,7 +102,7 @@ void registerMetaTypes() {
     qRegisterMetaType<ScriptablePath>("ScriptablePath");
     qRegisterMetaType<QVector<int>>("QVector<int>");
     qRegisterMetaType<QVector<Command>>("QVector<Command>");
-    qRegisterMetaType<QVector<QVariantMap>>("QVector<QVariantMap>");
+    qRegisterMetaType<VariantMapList>("VariantMapList");
     qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
 #endif
 
@@ -183,20 +183,25 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
 
 Q_DECLARE_METATYPE(QFile*)
 
-QDataStream &operator<<(QDataStream &out, const NotificationButton &button)
+QDataStream &operator<<(QDataStream &out, const NotificationButtons &list)
 {
-    out << button.name
-        << button.script
-        << button.data;
+    out << list.size();
+    for (const auto &button : list)
+        out << button.name << button.script << button.data;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, NotificationButton &button)
+QDataStream &operator>>(QDataStream &in, NotificationButtons &list)
 {
-    in >> button.name
-       >> button.script
-       >> button.data;
+    decltype(list.size()) size;
+    in >> size;
+    list.reserve(size);
+    for (int i = 0; i < size; ++i) {
+        NotificationButton button;
+        in >> button.name >> button.script >> button.data;
+        list.append(button);
+    }
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
@@ -212,13 +217,28 @@ QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
 
 QDataStream &operator>>(QDataStream &in, NamedValueList &list)
 {
-    int size;
+    decltype(list.size()) size;
     in >> size;
+    list.reserve(size);
     for (int i = 0; i < size; ++i) {
         NamedValue item;
         in >> item.name >> item.value;
         list.append(item);
     }
+    Q_ASSERT(in.status() == QDataStream::Ok);
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const VariantMapList &items)
+{
+    out << items.items;
+    Q_ASSERT(out.status() == QDataStream::Ok);
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, VariantMapList &items)
+{
+    in >> items.items;
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
@@ -921,7 +941,7 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         auto &value = arguments[i];
         const int argumentTypeId = metaMethod.parameterType(i);
         if (argumentTypeId == QMetaType::QVariant) {
-            args[i] = Q_ARG(QVariant, value);
+            args[i] = QGenericArgument( "QVariant", static_cast<void*>(value.data()) );
         } else if ( value.userType() == argumentTypeId ) {
             args[i] = QGenericArgument( value.typeName(), static_cast<void*>(value.data()) );
         } else {
@@ -949,8 +969,8 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         returnValue = QVariant(typeId, nullptr);
 #endif
         const auto genericReturnValue = returnValue.isValid()
-                ? QGenericReturnArgument(returnValue.typeName(), static_cast<void*>(returnValue.data()) )
-                : Q_RETURN_ARG(QVariant, returnValue);
+                ? QGenericReturnArgument( returnValue.typeName(), static_cast<void*>(returnValue.data()) )
+                : QGenericReturnArgument( "QVariant", static_cast<void*>(returnValue.data()) );
 
         called = metaMethod.invoke(
                 this, genericReturnValue,
@@ -1391,7 +1411,7 @@ int ScriptableProxy::findTabIndex(const QString &arg1)
     return m_wnd->findTabIndex(arg1);
 }
 
-int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
+int ScriptableProxy::menuItems(const VariantMapList &items)
 {
     INVOKE(menuItems, (items));
 
@@ -1401,7 +1421,7 @@ int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
 
     const auto addMenuItems = [&](const QString &searchText) {
         menu.clearClipboardItems();
-        for (const QVariantMap &data : items) {
+        for (const QVariantMap &data : items.items) {
             const QString text = getTextData(data);
             if ( text.contains(searchText, Qt::CaseInsensitive) )
                 menu.addClipboardItemAction(data, true);
@@ -1416,7 +1436,7 @@ int ScriptableProxy::menuItems(const QVector<QVariantMap> &items)
     if (act == nullptr)
         return -1;
 
-    return items.indexOf(act->data().toMap());
+    return items.items.indexOf(act->data().toMap());
 }
 
 void ScriptableProxy::openActionDialog(const QVariantMap &arg1)
@@ -1499,7 +1519,7 @@ bool ScriptableProxy::browserOpenEditor(const QString &tabName, const QByteArray
     return c && c->openEditor(arg1, changeClipboard);
 }
 
-QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QVector<QVariantMap> &items)
+QString ScriptableProxy::browserInsert(const QString &tabName, int row, const VariantMapList &items)
 {
     INVOKE(browserInsert, (tabName, row, items));
 
@@ -1507,10 +1527,10 @@ QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QV
     if (!c)
         return QLatin1String("Invalid tab");
 
-    if ( !c->allocateSpaceForNewItems(items.size()) )
+    if ( !c->allocateSpaceForNewItems(items.items.size()) )
         return QLatin1String("Tab is full (cannot remove any items)");
 
-    for (const auto &item : items) {
+    for (const auto &item : items.items) {
         if ( !c->add(item, row) )
             return QLatin1String("Failed to new add items");
     }
@@ -1518,7 +1538,7 @@ QString ScriptableProxy::browserInsert(const QString &tabName, int row, const QV
     return QString();
 }
 
-QString ScriptableProxy::browserChange(const QString &tabName, int row, const QVector<QVariantMap> &items)
+QString ScriptableProxy::browserChange(const QString &tabName, int row, const VariantMapList &items)
 {
     INVOKE(browserChange, (tabName, row, items));
 
@@ -1527,7 +1547,7 @@ QString ScriptableProxy::browserChange(const QString &tabName, int row, const QV
         return QLatin1String("Invalid tab");
 
     int currentRow = row;
-    for (const auto &data : items) {
+    for (const auto &data : items.items) {
         const auto index = c->index(currentRow);
         QVariantMap itemData = c->model()->data(index, contentType::data).toMap();
         for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
@@ -1643,13 +1663,13 @@ bool ScriptableProxy::setSelectedItemData(int selectedIndex, const QVariantMap &
     return c->model()->setData(index, data, contentType::data);
 }
 
-QVector<QVariantMap> ScriptableProxy::selectedItemsData()
+VariantMapList ScriptableProxy::selectedItemsData()
 {
     INVOKE(selectedItemsData, ());
 
     auto c = currentBrowser();
     if (!c)
-        return QVector<QVariantMap>();
+        return {};
 
     const auto model = c->model();
 
@@ -1664,10 +1684,10 @@ QVector<QVariantMap> ScriptableProxy::selectedItemsData()
         }
     }
 
-    return dataList;
+    return {dataList};
 }
 
-void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
+void ScriptableProxy::setSelectedItemsData(const VariantMapList &dataList)
 {
     INVOKE2(setSelectedItemsData, (dataList));
 
@@ -1678,12 +1698,12 @@ void ScriptableProxy::setSelectedItemsData(const QVector<QVariantMap> &dataList)
     const auto model = c->model();
 
     const auto indexes = selectedIndexes();
-    const auto count = std::min( indexes.size(), dataList.size() );
+    const auto count = std::min( indexes.size(), dataList.items.size() );
     for ( int i = 0; i < count; ++i ) {
         const auto &index = indexes[i];
         if ( index.isValid() ) {
             Q_ASSERT( index.model() == model );
-            model->setData(index, dataList[i], contentType::data);
+            model->setData(index, dataList.items[i], contentType::data);
         }
     }
 }

@@ -1909,19 +1909,6 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
-    <name>ItemFactory</name>
-    <message>
-        <location filename="../src/item/itemfactory.cpp" line="91"/>
-        <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/item/itemfactory.cpp" line="92"/>
-        <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ItemFakeVimLoader</name>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="42"/>
