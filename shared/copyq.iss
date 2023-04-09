@@ -53,7 +53,7 @@ Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: it; MessagesFile: "compiler:Languages\Italian.isl"
-Name: ko; MessagesFile: "{#Output}\Korean.isl"
+Name: ko; MessagesFile: "Languages\Korean.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
