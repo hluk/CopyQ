@@ -10,6 +10,8 @@
 #define MyAppCopyrightStartYear  "2009"
 #define MyAppCopyrightEndYear    GetDateTimeString('yyyy','','')
 
+#include ".\Korean.isl"
+
 [Setup]
 AppId={{9DF1F443-EA0B-4C75-A4D3-767A7783228E}
 AppName={#MyAppName}
@@ -53,7 +55,6 @@ Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: it; MessagesFile: "compiler:Languages\Italian.isl"
-Name: ko; MessagesFile: "{#Output}\Korean.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
