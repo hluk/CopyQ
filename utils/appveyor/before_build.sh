@@ -4,8 +4,12 @@ set -exo pipefail
 # shellcheck disable=SC1091
 source utils/appveyor/env.sh
 
-curl --remote-name-all --output-dir "$APPVEYOR_BUILD_FOLDER/Shared" \
+languages=$APPVEYOR_BUILD_FOLDER/Shared/Languages
+mkdir -p "$languages"
+curl --location --silent --show-error --fail-with-body \
+    --remote-name-all --output-dir "$languages" \
     https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/Korean.isl
+grep -q LanguageName "$languages/Korean.isl"
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
     build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf5_build.sh
