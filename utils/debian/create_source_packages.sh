@@ -5,6 +5,7 @@ distros=(
     focal
     jammy
     kinetic
+    lunar
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
