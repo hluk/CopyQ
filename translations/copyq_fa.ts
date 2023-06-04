@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="116"/>
         <source>E-mail</source>
-        <translation>ایمیل</translation>
+        <translation>رایانامه</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="117"/>
@@ -69,7 +69,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation>&amp; جداکننده موارد جدید:</translation>
+        <translation>جداکننده موارد جدید:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>زبانه خروجی:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -3477,7 +3477,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>پیش‌فرض</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
