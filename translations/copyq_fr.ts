@@ -2007,7 +2007,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="92"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les éléments de l&apos;onglet &lt;strong&gt;% 1 &lt;/strong&gt; n&apos;ont pas été chargés avec succès. Voulez-vous toujours charger l&apos;onglet et perdre potentiellement certains éléments?</translation>
     </message>
 </context>
 <context>
