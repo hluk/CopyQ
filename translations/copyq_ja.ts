@@ -842,7 +842,7 @@ Command と Filter 内の %2 から %9 は、参照された文字列に置換�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation>検索</translation>
+        <translation>検索語句</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
