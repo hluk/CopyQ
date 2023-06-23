@@ -241,6 +241,8 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
         text = getTextData(data, mimeHtml);
         if (text.isEmpty()) {
             text = getTextData(data);
+            if (text.isNull())
+                return nullptr;
         } else {
             hasHtml = true;
         }
