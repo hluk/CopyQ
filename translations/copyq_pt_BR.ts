@@ -2966,7 +2966,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="147"/>
         <source>Move to Top</source>
-        <translation>Mover para o início</translation>
+        <translation>Mover para o topo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2976,7 +2976,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="149"/>
         <source>Move to Bottom</source>
-        <translation>Mover para o final</translation>
+        <translation>Mover para baixo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
