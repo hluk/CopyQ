@@ -64,7 +64,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>Stvori elemente iz standardnog rezultata programa (ostavi prazno za deaktiviranje)</translation>
+        <translation>Stvori elemente iz standardnog rezultata programa (ostavi prazno za isključavanje)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -1606,7 +1606,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="177"/>
         <source>Layout</source>
-        <translation>Prikaz</translation>
+        <translation>Raspored</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="178"/>
