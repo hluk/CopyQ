@@ -8,7 +8,7 @@ imagesize==1.2.0
 Jinja2==3.0.2
 MarkupSafe==2.0.1
 packaging==21.2
-Pygments==2.10.0
+Pygments==2.15.0
 pyparsing==2.4.7
 pytz==2021.3
 requests==2.31.0
