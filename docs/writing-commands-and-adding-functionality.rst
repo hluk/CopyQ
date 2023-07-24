@@ -76,7 +76,7 @@ Name
 ''''
 
 Name of the command. This is used in context menu if "In Menu" check box
-is enabled. Use ``/`` in the name to create sub-menus.
+is enabled. Use the pipe character ``|`` in the name to create sub-menus.
 
 Group: Type of Action
 '''''''''''''''''''''
