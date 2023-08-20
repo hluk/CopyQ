@@ -375,7 +375,7 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation>&amp;İçerik:</translation>
+        <translation>İ&amp;çerik:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
