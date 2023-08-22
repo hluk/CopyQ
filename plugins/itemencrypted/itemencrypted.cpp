@@ -255,7 +255,7 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
     startGpgProcess(process, args, QIODevice::ReadWrite);
     process->write( "\nKey-Type: RSA"
              "\nKey-Usage: encrypt"
-             "\nKey-Length: 2048"
+             "\nKey-Length: 4096"
              "\nName-Real: copyq"
              + transientOptions +
              "\n%secring " + keys.sec.toUtf8() +
