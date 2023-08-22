@@ -296,9 +296,6 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
 bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &model, QIODevice *file)
 {
     const auto length = model.rowCount();
-    if (length == 0)
-        return false; // No need to encode empty tab.
-
     QByteArray bytes;
 
     {
@@ -720,7 +717,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
 
     quint64 length;
     stream2 >> length;
-    if ( length <= 0 || stream2.status() != QDataStream::Ok ) {
+    if ( length < 0 || stream2.status() != QDataStream::Ok ) {
         emitDecryptFailed();
         COPYQ_LOG("ItemEncrypt ERROR: Failed to parse item count!");
         return nullptr;
