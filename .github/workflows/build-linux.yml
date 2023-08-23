@@ -33,6 +33,13 @@ jobs:
             with_qt6: false
 
           - os: ubuntu-latest
+            buildname: Linux-latest
+            build_type: Debug
+            compiler: g++
+            compiler_package: g++
+            with_qt6: false
+
+          - os: ubuntu-latest
             buildname: Qt 6
             build_type: Debug
             compiler: g++

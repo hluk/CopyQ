@@ -25,8 +25,6 @@ if [[ $WITH_QT6 == true ]]; then
     )
 else
     qt_packages=(
-        qt5-default
-
         qtbase5-private-dev
         qtdeclarative5-dev
         qttools5-dev

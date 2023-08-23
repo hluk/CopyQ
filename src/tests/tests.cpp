@@ -1711,7 +1711,7 @@ void Tests::commandsAddCommandsRegExp()
 {
     const QString commands =
             "[Command]\n"
-            "Match=^(https?|ftps?)://\n";
+            "Match=^(https?|ftps?)://\\\\$\n";
 
     // Ensure there is a basic RegExp support.
     RUN("/test/", "/test/\n");
@@ -1720,7 +1720,7 @@ void Tests::commandsAddCommandsRegExp()
     RUN("eval" << "exportCommands(importCommands(arguments[1]))" << "--" << commands, commands);
     RUN("eval" << "Object.prototype.toString.call(importCommands(arguments[1])[0].re)" << "--" << commands, "[object RegExp]\n");
     RUN("eval" << "Object.prototype.toString.call(importCommands(arguments[1])[0].wndre)" << "--" << commands, "[object RegExp]\n");
-    RUN("eval" << "importCommands(arguments[1])[0].re" << "--" << commands, "/^(https?|ftps?):\\/\\//\n");
+    RUN("eval" << "importCommands(arguments[1])[0].re" << "--" << commands, "/^(https?|ftps?):\\/\\/\\$/\n");
     RUN("eval" << "importCommands(arguments[1])[0].wndre" << "--" << commands, "/(?:)/\n");
 
     RUN("eval" << "addCommands(importCommands(arguments[1]))" << "--" << commands, "");
@@ -1728,7 +1728,7 @@ void Tests::commandsAddCommandsRegExp()
 
     RUN("exportCommands(commands())", commands);
     RUN("commands()[0].name", "\n");
-    RUN("commands()[0].re", "/^(https?|ftps?):\\/\\//\n");
+    RUN("commands()[0].re", "/^(https?|ftps?):\\/\\/\\$/\n");
     RUN("commands()[0].wndre", "/(?:)/\n");
 }
 

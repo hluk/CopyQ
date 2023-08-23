@@ -291,7 +291,21 @@ struct ScriptValueFactory<QRegularExpression> {
             const auto variant = value.toVariant();
             return variant.toRegularExpression();
 #else
-            const QString pattern = toString(value.property("source"));
+            QString pattern = toString(value.property("source"));
+
+            // Unescape slash characters in JS regex pattern: \/ -> /
+            bool escape = false;
+            for (int i = 0; i < pattern.size(); ++i) {
+                const QChar &c = pattern[i];
+                if (escape && c == '/') {
+                    i -= 1;
+                    pattern.remove(i, 1);
+                    escape = false;
+                } else {
+                    escape = !escape && c == '\\';
+                }
+            }
+
             return pattern == QStringLiteral("(?:)")
                 ? QRegularExpression()
                 : QRegularExpression(pattern);
