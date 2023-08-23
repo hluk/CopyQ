@@ -287,10 +287,15 @@ struct ScriptValueFactory<QRegularExpression> {
     static QRegularExpression fromScriptValue(const QJSValue &value, const Scriptable *)
     {
         if (value.isRegExp()) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+            const auto variant = value.toVariant();
+            return variant.toRegularExpression();
+#else
             const QString pattern = toString(value.property("source"));
             return pattern == QStringLiteral("(?:)")
                 ? QRegularExpression()
                 : QRegularExpression(pattern);
+#endif
         }
 
         if (value.isVariant()) {
