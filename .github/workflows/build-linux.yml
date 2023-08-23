@@ -25,7 +25,7 @@ jobs:
             compiler_package: g++
             with_qt6: false
 
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             buildname: Linux-Clang
             build_type: Debug
             compiler: clang++
