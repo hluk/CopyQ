@@ -66,6 +66,14 @@ const int waitMsSetClipboard = 250;
 /// Interval to wait (in ms) for pasting clipboard.
 const int waitMsPasteClipboard = 1000;
 
+/// Interval before calling show/hide (toggling windows very fast can break
+/// some window managers).
+#ifdef COPYQ_WS_X11
+const int waitMsBeforeShowHide = 1000;
+#else
+const int waitMsBeforeShowHide = 0;
+#endif
+
 /// Interval to wait (in ms) for client process.
 const int waitClientRun = 30000;
 

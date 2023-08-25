@@ -1084,9 +1084,11 @@ void Tests::commandHide()
 void Tests::commandShow()
 {
     RUN("visible", "true\n");
+    waitFor(waitMsBeforeShowHide);
     RUN("hide", "");
     WAIT_ON_OUTPUT("visible", "false\n");
 
+    waitFor(waitMsBeforeShowHide);
     RUN("show", "");
     WAIT_ON_OUTPUT("visible", "true\n");
 }
@@ -1094,9 +1096,11 @@ void Tests::commandShow()
 void Tests::commandShowAt()
 {
     RUN("visible", "true\n");
+    waitFor(waitMsBeforeShowHide);
     RUN("hide", "");
     WAIT_ON_OUTPUT("visible", "false\n");
 
+    waitFor(waitMsBeforeShowHide);
     RUN("showAt", "");
     WAIT_ON_OUTPUT("visible", "true\n");
 }
@@ -3218,11 +3222,13 @@ void Tests::pasteFromMainWindow()
         );
 
     RUN("add" << "TEST", "");
+    waitFor(waitMsBeforeShowHide);
     RUN("hide", "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
         [&]() {
             RUN("keys" << "focus::QLineEdit in :QDialog", "");
+            waitFor(waitMsBeforeShowHide);
             RUN("show", "");
             RUN("keys" << clipboardBrowserId << "ENTER", "");
 
