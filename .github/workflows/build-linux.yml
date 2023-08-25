@@ -90,8 +90,12 @@ jobs:
           COPYQ_TESTS_POST_FAILURE_CMD: 'scrot ${{runner.workspace}}/screenshots/%time_%test.png'
         working-directory: '${{runner.workspace}}/install/bin'
         run: '${{github.workspace}}/utils/github/test-linux.sh'
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v3
+        if: failure()
         with:
-          name: CopyQ.dmg
+          name: screenshots
           path: '${{runner.workspace}}/screenshots'
 
       - name: Update coverage
