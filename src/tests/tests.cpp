@@ -639,7 +639,10 @@ public:
     QByteArray cleanup() override
     {
         m_ignoreError.clear();
-        addFailedTest();
+        if ( QTest::currentTestFailed() ) {
+            addFailedTest();
+            runPostFailureCommand();
+        }
         return QByteArray();
     }
 
@@ -702,8 +705,34 @@ public:
 private:
     void addFailedTest()
     {
-        if ( QTest::currentTestFailed() )
-            m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
+        m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
+    }
+
+    void runPostFailureCommand()
+    {
+        QString cmd = m_env.value("COPYQ_TESTS_POST_FAILURE_CMD");
+        if ( cmd.isEmpty() )
+            return;
+
+        const auto dateFormat = "yyyy-MM-dd_hh_mm_ss";
+        const auto dateTime = QDateTime::currentDateTime();
+        const auto now = dateTime.toString(dateFormat);
+        cmd.replace("%time", now);
+
+        const auto test = QString::fromUtf8(QTest::currentTestFunction());
+        cmd.replace("%test", test);
+
+        qInfo() << QString::fromLatin1("Running post-failure command:") << cmd;
+
+        const auto args = cmd.split(' ');
+        QProcess p;
+        p.closeWriteChannel();
+        p.setProcessChannelMode(QProcess::ForwardedChannels);
+        p.start(args[0], args.mid(1), QIODevice::ReadWrite);
+        if ( !p.waitForFinished() ) {
+            qWarning() << "Post-failure command failed to finish in time";
+            terminateProcess(&p);
+        }
     }
 
     void verifyConfiguration()

@@ -82,9 +82,17 @@ jobs:
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg
 
+      - name: Create screenshots directory for tests
+        run: mkdir -p '${{runner.workspace}}/screenshots'
+
       - name: Run tests
+        env:
+          COPYQ_TESTS_POST_FAILURE_CMD: 'scrot ${{runner.workspace}}/screenshots/%time_%test.png'
         working-directory: '${{runner.workspace}}/install/bin'
         run: '${{github.workspace}}/utils/github/test-linux.sh'
+        with:
+          name: CopyQ.dmg
+          path: '${{runner.workspace}}/screenshots'
 
       - name: Update coverage
         if: matrix.coverage

@@ -61,6 +61,7 @@ packages=(
     # tests
     xvfb
     openbox
+    scrot
 )
 
 sudo apt-get update
