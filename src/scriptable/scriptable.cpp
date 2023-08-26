@@ -1505,7 +1505,7 @@ QJSValue Scriptable::notification()
     int msec = -1;
     QString icon;
     QString notificationId;
-    NotificationButtons buttons;
+    NotificationButtonList buttons;
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         const auto name = arg(i++);
@@ -1526,7 +1526,7 @@ QJSValue Scriptable::notification()
             button.name = arg(i);
             button.script = arg(++i);
             button.data = makeByteArray( argument(++i) );
-            buttons.append(button);
+            buttons.items.append(button);
         } else {
             return throwError("Unknown argument: " + name);
         }
@@ -2184,12 +2184,12 @@ QJSValue Scriptable::dialog()
     m_skipArguments = -1;
 
     NamedValueList values;
-    values.reserve(argumentCount() / 2);
+    values.items.reserve(argumentCount() / 2);
 
     for ( int i = 0; i < argumentCount(); i += 2 ) {
         const QString key = arg(i);
         const QJSValue value = argument(i + 1);
-        values.append( NamedValue(key, toVariant(value)) );
+        values.items.append( NamedValue(key, toVariant(value)) );
     }
 
     const auto dialogId = m_proxy->inputDialog(values);
@@ -2207,15 +2207,15 @@ QJSValue Scriptable::dialog()
              });
     loop.exec();
 
-    if (values.isEmpty())
+    if (values.items.isEmpty())
         return QJSValue();
 
-    if (values.size() == 1)
-        return toScriptValue( values.first().value, this );
+    if (values.items.size() == 1)
+        return toScriptValue( values.items.first().value, this );
 
     QJSValue result = m_engine->newObject();
 
-    for (const auto &value : values)
+    for (const auto &value : values.items)
         result.setProperty( value.name, toScriptValue(value.value, this) );
 
     return result;
@@ -2458,7 +2458,7 @@ QJSValue Scriptable::screenNames()
 
 QJSValue Scriptable::queryKeyboardModifiers()
 {
-    const auto modifiers = m_proxy->queryKeyboardModifiers();
+    const auto modifiers = m_proxy->queryKeyboardModifiers().items;
     QStringList modifierList;
     if (modifiers.testFlag(Qt::ControlModifier))
         modifierList.append("Ctrl");
