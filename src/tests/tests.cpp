@@ -190,8 +190,11 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         regex(R"(QtWarning: Window position.* outside any known screen.*)"),
         regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Font Awesome.*" with one that exists to avoid this cost.)"),
 
-        // New in Qt 5.15.0.
+        // New in Qt 5.15.0
         regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Monospace" with one that exists to avoid this cost.)"),
+
+        // New in Qt 6.5
+        regex("QtWarning: Error in contacting registry"),
 
         // KNotification bug
         plain(R"(QtWarning: QLayout: Attempting to add QLayout "" to QWidget "", which already has a layout)"),

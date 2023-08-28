@@ -87,23 +87,23 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
-    qRegisterMetaTypeStreamOperators<NotificationButtons>("NotificationButtons");
+    qRegisterMetaTypeStreamOperators<NotificationButtonList>("NotificationButtonList");
     qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
     qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<VariantMapList>("VariantMapList");
-    qRegisterMetaTypeStreamOperators<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+    qRegisterMetaTypeStreamOperators<KeyboardModifierList>("KeyboardModifierList");
 #else
     qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
     qRegisterMetaType<ClipboardMode>("ClipboardMode");
     qRegisterMetaType<Command>("Command");
     qRegisterMetaType<NamedValueList>("NamedValueList");
-    qRegisterMetaType<NotificationButtons>("NotificationButtons");
+    qRegisterMetaType<NotificationButtonList>("NotificationButtonList");
     qRegisterMetaType<ScriptablePath>("ScriptablePath");
     qRegisterMetaType<QVector<int>>("QVector<int>");
     qRegisterMetaType<QVector<Command>>("QVector<Command>");
     qRegisterMetaType<VariantMapList>("VariantMapList");
-    qRegisterMetaType<Qt::KeyboardModifiers>("Qt::KeyboardModifiers");
+    qRegisterMetaType<KeyboardModifierList>("KeyboardModifierList");
 #endif
 
     registered = true;
@@ -183,24 +183,24 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
 
 Q_DECLARE_METATYPE(QFile*)
 
-QDataStream &operator<<(QDataStream &out, const NotificationButtons &list)
+QDataStream &operator<<(QDataStream &out, const NotificationButtonList &list)
 {
-    out << list.size();
-    for (const auto &button : list)
+    out << list.items.size();
+    for (const auto &button : list.items)
         out << button.name << button.script << button.data;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, NotificationButtons &list)
+QDataStream &operator>>(QDataStream &in, NotificationButtonList &list)
 {
-    decltype(list.size()) size;
+    decltype(list.items.size()) size;
     in >> size;
-    list.reserve(size);
+    list.items.reserve(size);
     for (int i = 0; i < size; ++i) {
         NotificationButton button;
         in >> button.name >> button.script >> button.data;
-        list.append(button);
+        list.items.append(button);
     }
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
@@ -208,8 +208,8 @@ QDataStream &operator>>(QDataStream &in, NotificationButtons &list)
 
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
 {
-    out << list.size();
-    for (const auto &item : list)
+    out << list.items.size();
+    for (const auto &item : list.items)
         out << item.name << item.value;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
@@ -217,13 +217,13 @@ QDataStream &operator<<(QDataStream &out, const NamedValueList &list)
 
 QDataStream &operator>>(QDataStream &in, NamedValueList &list)
 {
-    decltype(list.size()) size;
+    decltype(list.items.size()) size;
     in >> size;
-    list.reserve(size);
+    list.items.reserve(size);
     for (int i = 0; i < size; ++i) {
         NamedValue item;
         in >> item.name >> item.value;
-        list.append(item);
+        list.items.append(item);
     }
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
@@ -270,17 +270,17 @@ QDataStream &operator>>(QDataStream &in, ScriptablePath &path)
     return in >> path.path;
 }
 
-QDataStream &operator<<(QDataStream &out, Qt::KeyboardModifiers value)
+QDataStream &operator<<(QDataStream &out, KeyboardModifierList value)
 {
-    return out << static_cast<int>(value);
+    return out << static_cast<int>(value.items);
 }
 
-QDataStream &operator>>(QDataStream &in, Qt::KeyboardModifiers &value)
+QDataStream &operator>>(QDataStream &in, KeyboardModifierList &value)
 {
     int valueInt;
     in >> valueInt;
     Q_ASSERT(in.status() == QDataStream::Ok);
-    value = static_cast<Qt::KeyboardModifiers>(valueInt);
+    value.items = static_cast<Qt::KeyboardModifiers>(valueInt);
     return in;
 }
 
@@ -1282,7 +1282,7 @@ void ScriptableProxy::showMessage(const QString &title,
         const QString &icon,
         int msec,
         const QString &notificationId,
-        const NotificationButtons &buttons)
+        const NotificationButtonList &buttons)
 {
     INVOKE2(showMessage, (title, msg, icon, msec, notificationId, buttons));
 
@@ -1291,7 +1291,7 @@ void ScriptableProxy::showMessage(const QString &title,
     notification->setMessage(msg, Qt::AutoText);
     notification->setIcon(icon);
     notification->setInterval(msec);
-    notification->setButtons(buttons);
+    notification->setButtons(buttons.items);
 }
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
@@ -2093,12 +2093,12 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     QIcon icon;
     QVBoxLayout layout(&dialog);
     QWidgetList widgets;
-    widgets.reserve(values.size());
+    widgets.reserve(values.items.size());
 
     QString styleSheet;
     QRect geometry(-1, -1, 0, 0);
 
-    for (const auto &value : values) {
+    for (const auto &value : values.items) {
         if (value.name == ".title")
             dialogTitle = value.value.toString();
         else if (value.name == ".icon")
@@ -2154,14 +2154,14 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             return;
 
         NamedValueList result;
-        result.reserve( widgets.size() );
+        result.items.reserve( widgets.size() );
 
         if ( inputDialog.dialog->result() ) {
             for ( auto w : widgets ) {
                 const QString propertyName = w->property(propertyWidgetProperty).toString();
                 const QString name = w->property(propertyWidgetName).toString();
                 const QVariant value = w->property(propertyName.toUtf8().constData());
-                result.append( NamedValue(name, value) );
+                result.items.append( NamedValue(name, value) );
             }
         }
 
@@ -2309,10 +2309,10 @@ QStringList ScriptableProxy::screenNames()
     return result;
 }
 
-Qt::KeyboardModifiers ScriptableProxy::queryKeyboardModifiers()
+KeyboardModifierList ScriptableProxy::queryKeyboardModifiers()
 {
     INVOKE(queryKeyboardModifiers, ());
-    return QApplication::queryKeyboardModifiers();
+    return {QApplication::queryKeyboardModifiers()};
 }
 
 QPoint ScriptableProxy::pointerPosition()
