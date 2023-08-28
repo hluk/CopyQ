@@ -59,7 +59,7 @@ jobs:
             '${{matrix.compiler_package}}'
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v3
+        uses: lukka/run-cmake@v10
         with:
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: '${{github.workspace}}/CMakeLists.txt'
