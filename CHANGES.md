@@ -1,3 +1,29 @@
+# 7.1.0
+
+## Changed
+
+- Image editor (if set) will now open instead of built-in text editor when
+  selecting Edit action on image items containing no text.
+
+- Encryption now uses larger/safer keys (#2385).
+
+## Fixed
+
+- Fixes saving and opening empty encrypted tabs.
+
+- Fixes minimal size of dialogs (#2299).
+
+- Fixes importing commands with regular expressions containing slash characters
+  in scripts.
+
+- Fixes font weight with Qt 6.
+
+- Fixes closing the app with Qt 6.
+
+- Fixes the build and calling some script functions with Qt 6.5.
+
+- X11: Fixes crash when entering search with some keyboard layouts (#2171).
+
 # 7.0.0
 
 ## Added
