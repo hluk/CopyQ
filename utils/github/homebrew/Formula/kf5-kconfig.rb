@@ -10,7 +10,7 @@ class Kf5Kconfig < Formula
 
   depends_on "copyq/kde/extra-cmake-modules" => [:build, :test]
 
-  depends_on "qt@5"
+  depends_on "copyq/kde/qt5"
 
   def install
     args = std_cmake_args

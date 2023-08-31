@@ -9,7 +9,7 @@ class ExtraCmakeModules < Formula
   depends_on "cmake" => [:build, :test]
   depends_on "ninja" => :build
 
-  depends_on "qt@5" => :build
+  depends_on "copyq/kde/qt5" => :build
 
   def install
     args = std_cmake_args

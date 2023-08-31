@@ -23,4 +23,4 @@ rm -rf \
 
 brew tap copyq/kde utils/github/homebrew/
 
-brew install qt5 copyq/kde/kf5-knotifications
+brew install copyq/kde/qt5 copyq/kde/kf5-knotifications
