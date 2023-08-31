@@ -717,7 +717,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
 
     quint64 length;
     stream2 >> length;
-    if ( length < 0 || stream2.status() != QDataStream::Ok ) {
+    if ( stream2.status() != QDataStream::Ok ) {
         emitDecryptFailed();
         COPYQ_LOG("ItemEncrypt ERROR: Failed to parse item count!");
         return nullptr;
