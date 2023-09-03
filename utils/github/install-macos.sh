@@ -23,4 +23,8 @@ rm -rf \
 
 brew tap copyq/kde utils/github/homebrew/
 
-brew install qt5 copyq/kde/kf5-knotifications
+# https://github.com/Homebrew/homebrew-core/issues/140930
+brew update
+brew reinstall qt@5 glib freetype
+
+brew install copyq/kde/kf5-knotifications
