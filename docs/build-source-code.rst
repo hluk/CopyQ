@@ -144,7 +144,15 @@ Build with the following commands:
 
     cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" .
     cmake --build .
-    cpack
+    cmake --install .
+    macdeployqt CopyQ.app -dmg -verbose=2 -always-overwrite \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemfakevim.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemimage.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemnotes.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitempinned.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemsync.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemtags.so \
+        -executable=CopyQ.app/Contents/PlugIns/copyq/libitemtext.so
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.

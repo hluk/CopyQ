@@ -193,26 +193,28 @@ else()
         COMPONENT Runtime
         )
 
-    set(FIXUP_BUNDLE_APPS "\${CMAKE_INSTALL_PREFIX}/${COPYQ_EXECUTABLE_NAME}.app")
-
-    get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
-
-    # Directories to look for dependencies
-    set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS};${${copyq_qt}Widgets_DIR}/../..")
-
-    message(STATUS "Fixup app: ${FIXUP_BUNDLE_APPS}")
-    message(STATUS "Fixup app plugins: ${_copyq_installed_plugins}")
-    message(STATUS "Fixup qt plugins: ${FIXUP_BUNDLE_QT_PLUGINS}")
-    message(STATUS "Fixup dirs: ${FIXUP_BUNDLE_DEP_DIRS}")
-    install(CODE "
-        include(BundleUtilities)
-        set(BU_CHMOD_BUNDLE_ITEMS ON)
-        fixup_bundle(\"${FIXUP_BUNDLE_APPS}\" \"${FIXUP_BUNDLE_QT_PLUGINS};${_copyq_installed_plugins}\" \"${FIXUP_BUNDLE_DEP_DIRS}\")
-        verify_app(\"${FIXUP_BUNDLE_APPS}\")
-        "
-        COMPONENT Runtime
-        )
-
-    set(CPACK_GENERATOR "DragNDrop")
-    include(CPack)
+    # FIXME: Disable cpack for now due to unresolvable libraries:
+    #        https://github.com/Homebrew/homebrew-core/issues/140930
+    # set(FIXUP_BUNDLE_APPS "\${CMAKE_INSTALL_PREFIX}/${COPYQ_EXECUTABLE_NAME}.app")
+    #
+    # get_property(_copyq_installed_plugins GLOBAL PROPERTY COPYQ_INSTALLED_PLUGINS)
+    #
+    # # Directories to look for dependencies
+    # set(FIXUP_BUNDLE_DEP_DIRS "${CMAKE_BINARY_DIR};${QT_LIBRARY_DIRS};${QT_PLUGINS_DIR}/iconengines;${QT_PLUGINS_DIR}/imageformats;${QT_PLUGINS_DIR}/platforms;${QT_PLUGINS_DIR}/tls;${${copyq_qt}Widgets_DIR}/../..")
+    #
+    # message(STATUS "Fixup app: ${FIXUP_BUNDLE_APPS}")
+    # message(STATUS "Fixup app plugins: ${_copyq_installed_plugins}")
+    # message(STATUS "Fixup qt plugins: ${FIXUP_BUNDLE_QT_PLUGINS}")
+    # message(STATUS "Fixup dirs: ${FIXUP_BUNDLE_DEP_DIRS}")
+    # install(CODE "
+    #     include(BundleUtilities)
+    #     set(BU_CHMOD_BUNDLE_ITEMS ON)
+    #     fixup_bundle(\"${FIXUP_BUNDLE_APPS}\" \"${FIXUP_BUNDLE_QT_PLUGINS};${_copyq_installed_plugins}\" \"${FIXUP_BUNDLE_DEP_DIRS}\")
+    #     verify_app(\"${FIXUP_BUNDLE_APPS}\")
+    #     "
+    #     COMPONENT Runtime
+    #     )
+    #
+    # set(CPACK_GENERATOR "DragNDrop")
+    # include(CPack)
 endif()

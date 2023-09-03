@@ -2,10 +2,18 @@
 # Creates macOS bundle.
 set -xeuo pipefail
 
-cpack
+app_bundle_path="CopyQ.app"
 
-app_bundle_path="$(echo _CPack_Packages/Darwin/DragNDrop/copyq-*/CopyQ.app)"
 executable="${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ"
+plugins=("$app_bundle_path/Contents/PlugIns/copyq/"*.so)
+qt_bin="$(brew --prefix qt@5)/bin"
+
+rm -rf "$app_bundle_path/Contents/PlugIns/"{platforminputcontexts,printsupport,qmltooling}
+
+"$qt_bin/macdeployqt" "$app_bundle_path" -dmg -verbose=2 -always-overwrite -no-plugins \
+    "${plugins[@]/#/-executable=}"
+
+ls -Rl "$app_bundle_path"
 
 # Test the app before deployment.
 "$executable" --help
@@ -19,8 +27,8 @@ ls "$("$executable" info translations)/"
 test "$("$executable" info has-global-shortcuts)" -eq "1"
 
 # Uninstall local Qt to make sure we only use libraries from the bundle
-remove=$(brew list --formula)
-brew remove --force --ignore-dependencies $remove
+brew remove --ignore-dependencies --force \
+    qt@5 copyq/kde/kf5-knotifications freetype
 
 (
     export PATH=""
@@ -35,7 +43,6 @@ brew remove --force --ignore-dependencies $remove
 
 # Print dependencies to let us further make sure that we don't depend on local libraries
 otool -L "$executable"
+otool -L "$app_bundle_path/Contents/PlugIns/"*/*.dylib
 otool -L "$app_bundle_path/Contents/PlugIns/copyq/"*
 otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/5/Qt*
-
-mv copyq-*.dmg CopyQ.dmg

@@ -49,6 +49,8 @@ else
 fi
 
 packages=(
+    ninja-build
+
     # fixes some issues on X11
     libxfixes-dev
     libxtst-dev

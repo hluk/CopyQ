@@ -14,8 +14,6 @@ jobs:
         include:
           - os: macos-11
             buildname: macOS 10.15
-            build_type: Release
-            compiler: clang_64
             create_bundle: true
 
     steps:
@@ -25,23 +23,27 @@ jobs:
           submodules: false
           fetch-depth: 1
 
+      - name: Enable ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ github.job }}-${{ matrix.os }}
+
+      - name: Set up ccache
+        run: |
+          export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+
       - name: Install dependencies
+        env:
+          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
         run: '${{github.workspace}}/utils/github/install-macos.sh'
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v3
+        uses: lukka/run-cmake@v10
         with:
-          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-          cmakeListsTxtPath: '${{github.workspace}}/CMakeLists.txt'
-          cmakeBuildType: Release
-          cmakeGenerator: Ninja
-          buildDirectory: '${{runner.workspace}}/build'
-          cmakeAppendedArgs: >-
-            -DWITH_TESTS=TRUE
-            -DCMAKE_BUILD_TYPE='${{matrix.build_type}}'
-            -DCMAKE_PREFIX_PATH="/usr/local/opt/qt@5/lib/cmake"
-            -DCMAKE_OSX_DEPLOYMENT_TARGET='10.15'
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+          configurePreset: macOS
+          buildPreset: macOS
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg
