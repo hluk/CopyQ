@@ -46,10 +46,6 @@ QVector<int> toIntVector(const QJSValue &value)
 
 QRegularExpression toRegularExpression(const QJSValue &value)
 {
-    // If argument is invalid/not-regexp, create an invalid regex to match nothing.
-    if ( !value.isRegExp() )
-        return QRegularExpression("(");
-
     const QVariant variant = value.toVariant();
     QRegularExpression regexp = variant.toRegularExpression();
 
@@ -136,7 +132,7 @@ QJSValue ScriptableItemSelection::selectAll()
 
 QJSValue ScriptableItemSelection::select(const QJSValue &re, const QString &mimeFormat)
 {
-    const QVariant regexp = re.isUndefined() ? QVariant() : toRegularExpression(re);
+    const QVariant regexp = re.isRegExp() ? toRegularExpression(re) : QVariant();
     m_proxy->selectionSelect(m_id, regexp, mimeFormat);
     return m_self;
 }

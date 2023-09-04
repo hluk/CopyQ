@@ -150,8 +150,6 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
     static const std::vector<QRegularExpression> ignoreList{
-        plain("[EXPECTED-IN-TEST]"),
-
         regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
 
         // X11 (Linux)
@@ -520,8 +518,6 @@ public:
         if (m_server) {
             QCoreApplication::processEvents();
             QByteArray output = readLogFile(maxReadLogSize);
-            if ( !m_ignoreError.isEmpty() )
-                output.replace(m_ignoreError, "[EXPECTED-IN-TEST] " + m_ignoreError);
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
@@ -645,14 +641,8 @@ public:
 
     QByteArray cleanup() override
     {
-        m_ignoreError.clear();
         addFailedTest();
         return QByteArray();
-    }
-
-    void setIgnoreError(const QByteArray &ignoreError) override
-    {
-        m_ignoreError = ignoreError;
     }
 
     QString shortcutToRemove() override
@@ -771,8 +761,6 @@ private:
     QStringList m_failed;
 
     PlatformClipboardPtr m_clipboard;
-
-    QByteArray m_ignoreError;
 };
 
 QString keyNameFor(QKeySequence::StandardKey standardKey)
@@ -2272,9 +2260,8 @@ void Tests::classItemSelection()
     RUN(args << "ItemSelection().select(undefined, mimeItemNotes).str()", outRows.arg("0,2"));
 
     // Match nothing if select() argument is not a regular expression.
-    m_test->setIgnoreError("QtWarning: QString::contains: invalid QRegularExpression object");
+    RUN(args << "add" << "", "");
     RUN(args << "ItemSelection().select('A').str()", outRows.arg(""));
-    m_test->setIgnoreError(QByteArray());
 }
 
 void Tests::classItemSelectionGetCurrent()
