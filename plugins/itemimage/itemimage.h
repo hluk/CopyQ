@@ -68,6 +68,8 @@ public:
 
     QStringList formatsToSave() const override;
 
+    QObject *tests(const TestInterfacePtr &test) const override;
+
     void applySettings(QSettings &settings) override;
 
     void loadSettings(const QSettings &settings) override;

@@ -490,6 +490,10 @@ public:
 
     QByteArray verifyClipboard(const QByteArray &data, const QString &mime, bool exact = true) override
     {
+        // Due to image conversions in clipboard check only png.
+        if ( mime.startsWith(QStringLiteral("image/")) && mime != QStringLiteral("image/png") )
+            return verifyClipboard("PNG", QStringLiteral("image/png"), false);
+
         PerformanceTimer perf;
 
         SleepTimer t(5000);
