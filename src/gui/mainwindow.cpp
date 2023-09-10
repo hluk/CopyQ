@@ -1758,7 +1758,7 @@ void MainWindow::updateActionShortcuts()
         const Command &command = act->command();
         QList<QKeySequence> uniqueShortcuts;
 
-        for (const auto &shortcutText : command.shortcuts) {
+        const auto addShortuct = [&](const QString &shortcutText) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
                 usedShortcuts.append(shortcut);
@@ -1767,7 +1767,12 @@ void MainWindow::updateActionShortcuts()
                 if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) )
                     m_menuItem->setDefaultAction(act);
             }
-        }
+        };
+
+        for (const auto &shortcutText : command.shortcuts)
+            addShortuct(shortcutText);
+        for (const auto &shortcutText : command.globalShortcuts)
+            addShortuct(shortcutText);
 
         if (!uniqueShortcuts.isEmpty())
             act->setShortcuts(uniqueShortcuts);
