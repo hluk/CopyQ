@@ -147,6 +147,10 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
     if ( fileName.endsWith(dataFileSuffix) )
         return Ext(dataFileSuffix, mimeUnknownFormats);
 
+    // Avoid conflicting notes with text.
+    if ( fileName.endsWith(noteFileSuffix) )
+        return Ext(noteFileSuffix, mimeItemNotes);
+
     // Find in user defined formats.
     bool hasUserFormat = false;
     for (const auto &format : formatSettings) {
