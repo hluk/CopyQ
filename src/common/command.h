@@ -123,14 +123,16 @@ QDataStream &operator<<(QDataStream &out, const Command &command);
 
 QDataStream &operator>>(QDataStream &in, Command &command);
 
+namespace Private {
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-constexpr bool _testCommandMetaType()
+constexpr bool testCommandMetaType()
 {
     return QTypeTraits::has_stream_operator_v<QDataStream, Command>;
 }
-constexpr const bool _testCommandMetaTypeOk = _testCommandMetaType();
-static_assert(_testCommandMetaTypeOk, "");
+constexpr const bool testCommandMetaTypeOk = testCommandMetaType();
+static_assert(testCommandMetaTypeOk, "");
 #endif
+}
 
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 Q_DECLARE_METATYPE(Command)
