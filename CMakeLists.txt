@@ -110,6 +110,7 @@ if (PEDANTIC)
             -Wno-double-promotion
             -Wno-exit-time-destructors
             -Wno-extra-semi-stmt
+            -Wno-inconsistent-missing-destructor-override
             -Wno-redundant-parens
             -Wno-shadow-field
             -Wno-shadow-field-in-constructor
