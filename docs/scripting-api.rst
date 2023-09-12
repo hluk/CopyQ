@@ -1775,7 +1775,7 @@ Types
        for (var index = 0; index < sel.length; ++index) {
            var item = sel.itemAtIndex(index);
            item[mimeItemNotes] = 'Contains needle';
-           sel.setItemAtIndex(item);
+           sel.setItemAtIndex(index, item);
        }
 
    Example - selection with new items only:
