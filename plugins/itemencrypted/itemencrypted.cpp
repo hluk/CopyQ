@@ -116,7 +116,7 @@ bool checkGpgExecutable(const QString &executable)
 
 bool checkGpgVersionOutput(const QString &executable)
 {
-    const auto versionOutptput(executable);
+    const auto versionOutput = getGpgVersionOutput(executable);
     QStringList lines = versionOutput.split('\n');
     QString firstLine = lines.first();
     QRegularExpression versionRegex("(\\d+)\\.(\\d+)\\.(\\d+)");
