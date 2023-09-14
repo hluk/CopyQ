@@ -77,7 +77,27 @@ bool verifyProcess(QProcess *p, int timeoutMs = 30000)
     return true;
 }
 
-QString getGpgVersionOutput(const QString &executable) {
+QString getGpgVersionOutput(const QString &executable)
+    // version output for reference
+    /*
+    gpg --version
+    gpg (GnuPG) 2.2.40
+    libgcrypt 1.10.2
+    Copyright (C) 2022 g10 Code GmbH
+    License GNU GPL-3.0-or-later <https://gnu.org/licenses/gpl.html>
+    This is free software: you are free to change and redistribute it.
+    There is NO WARRANTY, to the extent permitted by law.
+
+    Home: /home/colin/.gnupg
+    Supported algorithms:
+    Pubkey: RSA, ELG, DSA, ECDH, ECDSA, EDDSA
+    Cipher: IDEA, 3DES, CAST5, BLOWFISH, AES, AES192, AES256, TWOFISH,
+            CAMELLIA128, CAMELLIA192, CAMELLIA256
+    Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
+    Compression: Uncompressed, ZIP, ZLIB, BZIP2
+    */
+
+ {
     QProcess p;
     p.start(executable, QStringList("--version"), QIODevice::ReadWrite);
     p.closeReadChannel(QProcess::StandardError);
@@ -96,7 +116,7 @@ bool checkGpgExecutable(const QString &executable)
 
 bool checkGpgVersionOutput(const QString &executable)
 {
-    const auto versionOutput = getGpgVersionOutput(executable);
+    const auto versionOutptput(executable);
     QStringList lines = versionOutput.split('\n');
     QString firstLine = lines.first();
     QRegularExpression versionRegex("(\\d+)\\.(\\d+)\\.(\\d+)");
