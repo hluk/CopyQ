@@ -3844,7 +3844,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>
         <source>Case Insensitive</source>
-        <translation>区分大小写</translation>
+        <translation>不分大小写</translation>
     </message>
 </context>
 </TS>
