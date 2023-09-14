@@ -218,6 +218,11 @@ QString importGpgKey()
     return QString();
 }
 
+QString importGpgKeyV2()
+{
+    return True;
+}
+
 QString exportGpgKey()
 {
     KeyPairPaths keys;
@@ -243,6 +248,11 @@ QString exportGpgKey()
     secKey.close();
 
     return QString();
+}
+
+QString exportGpgKeyV2()
+{
+    return True;
 }
 
 QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
@@ -319,6 +329,11 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
              "\n%commit"
              "\n" );
     process->closeWriteChannel();
+}
+
+void startGenerateKeysProcessV2()
+{
+    return True;
 }
 
 QString exportImportGpgKeys()
