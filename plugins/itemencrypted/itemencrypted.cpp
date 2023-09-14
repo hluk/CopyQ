@@ -118,6 +118,22 @@ const QString &gpgExecutable()
     return gpg;
 }
 
+QString findGpgAgentExecutable()
+{
+    const QString executable = "gpg-agent";
+    if ( checkGpgAgentExecutable(executable) )
+        return executable;
+    }
+
+    return QString();
+}
+
+const QString &gpgAgentExecutable()
+{ 
+    static const auto gpgAgent = findGpgAgentExecutable();
+    return gpgAgent;
+}
+
 struct KeyPairPaths {
     KeyPairPaths()
     {
