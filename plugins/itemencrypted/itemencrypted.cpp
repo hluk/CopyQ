@@ -94,6 +94,24 @@ bool checkGpgExecutable(const QString &executable)
     return versionOutput.contains(" 2.");
 }
 
+bool checkGpgVersionOutput(const QString &executable)
+{
+    const auto versionOutput = getGpgVersionOutput(executable);
+    QRegularExpression versionRegex("(\\d+)\\.(\\d+)\\.(\\d+)");
+    QRegularExpressionMatch match = versionRegex.match(versionOutput);
+    if (match.hasMatch()) {
+        int major = match.captured(1).toInt();
+        int minor = match.captured(2).toInt();
+        int hotfix = match.captured(3).toInt();
+
+        if (major > 2 || (major == 2 && (minor > 1 || (minor == 1 && hotfix >= 0)))) {
+            // gpg version is 2.1 or higher
+            return true;
+        }
+    }
+    return false;
+}
+
 #ifdef Q_OS_WIN
 bool checkUnixGpg(const QString &executable)
 {
