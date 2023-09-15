@@ -200,7 +200,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="90"/>
         <source>Paste clipboard as plain text</source>
-        <translation>Vlož jako prostý text</translation>
+        <translation>Vlož schránku jako prostý text</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="91"/>
