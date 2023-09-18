@@ -36,11 +36,8 @@ public:
 
     void clear()
     {
-        if (isValid()) {
-            for ( const auto &fileName : files() )
-                remove(fileName);
-            m_dir.rmpath(".");
-        }
+        if (isValid())
+            m_dir.removeRecursively();
     }
 
     void create()
@@ -128,13 +125,9 @@ void ItemSyncTests::init()
 {
     TEST(m_test->init());
 
-    // Remove temporary directory.
-    for (int i = 0; i < 10; ++i)
-        TestDir(i, false);
-
     QDir tmpDir(QDir::cleanPath(testDir(0) + "/.."));
     if ( tmpDir.exists() )
-        QVERIFY(tmpDir.rmdir("."));
+        QVERIFY(tmpDir.removeRecursively());
 }
 
 void ItemSyncTests::cleanup()
@@ -389,11 +382,35 @@ void ItemSyncTests::modifyItems()
 
     RUN(args << "keys" << "HOME" << "DOWN" << "F2" << ":XXX" << "F2", "");
     RUN(args << "size", "4\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,XXX,B,A");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D,XXX,B,A,");
 
     file = dir1.file(files[2]);
     QVERIFY(file->open(QIODevice::ReadOnly));
     QCOMPARE(file->readAll().data(), QByteArray("XXX").data());
+    file->close();
+
+    const auto script = R"(
+        setCommands([{
+            name: 'Modify current item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            cmd: `
+                copyq: item = selectedItemsData()[0]
+                item[mimeText] = "ZZZ"
+                setSelectedItemData(0, item)
+            `
+        }])
+        )";
+    RUN(script, "");
+    RUN(args << "keys" << "HOME" << "DOWN" << "CTRL+F1", "");
+    WAIT_ON_OUTPUT(args << "read" << "1", "ZZZ");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D,ZZZ,B,A,");
+    RUN(args << "unload" << tab1, "");
+    RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D,ZZZ,B,A,");
+
+    file = dir1.file(files[2]);
+    QVERIFY(file->open(QIODevice::ReadOnly));
+    QCOMPARE(file->readAll().data(), QByteArray("ZZZ").data());
     file->close();
 }
 

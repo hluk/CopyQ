@@ -452,7 +452,7 @@ FileWatcher::FileWatcher(
              this, &FileWatcher::onDataChanged );
 
     if (model->rowCount() > 0)
-        saveItems(0, model->rowCount() - 1);
+        saveItems(0, model->rowCount() - 1, UpdateType::Inserted);
 
     prependItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings, m_maxItems) );
 }
@@ -657,12 +657,12 @@ void FileWatcher::setUpdatesEnabled(bool enabled)
 
 void FileWatcher::onRowsInserted(const QModelIndex &, int first, int last)
 {
-    saveItems(first, last);
+    saveItems(first, last, UpdateType::Inserted);
 }
 
 void FileWatcher::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    saveItems(a.row(), b.row());
+    saveItems(a.row(), b.row(), UpdateType::Changed);
 }
 
 void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
@@ -780,7 +780,7 @@ QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
     return indexList;
 }
 
-void FileWatcher::saveItems(int first, int last)
+void FileWatcher::saveItems(int first, int last, UpdateType updateType)
 {
     if ( !lock() )
         return;
@@ -799,7 +799,7 @@ void FileWatcher::saveItems(int first, int last)
         return;
     }
 
-    if ( !renameMoveCopy(dir, indexList) )
+    if ( !renameMoveCopy(dir, indexList, updateType) )
         return;
 
     QStringList existingFiles = listFiles(dir);
@@ -877,7 +877,8 @@ void FileWatcher::saveItems(int first, int last)
     unlock();
 }
 
-bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList)
+bool FileWatcher::renameMoveCopy(
+    const QDir &dir, const QList<QPersistentModelIndex> &indexList, UpdateType updateType)
 {
     QStringList baseNames;
 
@@ -885,11 +886,14 @@ bool FileWatcher::renameMoveCopy(const QDir &dir, const QList<QPersistentModelIn
         if ( !index.isValid() )
             continue;
 
-        const QString olderBaseName = oldBaseName(index);
+        QString olderBaseName = oldBaseName(index);
         const QString oldBaseName = getBaseName(index);
+        if (updateType == UpdateType::Changed && olderBaseName.isEmpty())
+            olderBaseName = oldBaseName;
+
         QString baseName = oldBaseName;
 
-        bool newItem = olderBaseName.isEmpty();
+        bool newItem = updateType != UpdateType::Changed && olderBaseName.isEmpty();
         bool itemRenamed = olderBaseName != baseName;
         if ( newItem || itemRenamed ) {
             if ( !renameToUnique(dir, baseNames, &baseName, m_formatSettings) )

@@ -30,6 +30,11 @@ extern const QLatin1String mimePrivatePrefix;
 extern const QLatin1String mimeOldBaseName;
 extern const QLatin1String mimeHashPrefix;
 
+enum class UpdateType {
+    Inserted,
+    Changed,
+};
+
 struct FileFormat {
     bool isValid() const { return !extensions.isEmpty(); }
     QStringList extensions;
@@ -98,9 +103,10 @@ private:
 
     QList<QPersistentModelIndex> indexList(int first, int last);
 
-    void saveItems(int first, int last);
+    void saveItems(int first, int last, UpdateType updateType);
 
-    bool renameMoveCopy(const QDir &dir, const QList<QPersistentModelIndex> &indexList);
+    bool renameMoveCopy(
+        const QDir &dir, const QList<QPersistentModelIndex> &indexList, UpdateType updateType);
 
     void updateDataAndWatchFile(
             const QDir &dir, const BaseNameExtensions &baseNameWithExts,
