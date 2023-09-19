@@ -88,54 +88,98 @@ QString getGpgVersionOutput(const QString &executable) {
     return p.readAllStandardOutput();
 }
 
-bool checkGpgExecutable(const QString &executable)
+struct GpgVersion {
+    int major;
+    int minor;
+};
+
+GpgVersion parseVersion(const QString &versionOutput)
 {
-    const auto versionOutput = getGpgVersionOutput(executable);
-    return versionOutput.contains(" 2.");
+    const int lineEndIndex = versionOutput.indexOf('\n');
+#if QT_VERSION < QT_VERSION_CHECK(5,15,2)
+    const QStringRef firstLine = versionOutput.midRef(0, lineEndIndex);
+#else
+    const auto firstLine = QStringView{versionOutput}.mid(0, lineEndIndex);
+#endif
+    const QRegularExpression versionRegex(QStringLiteral(R"( (\d+)\.(\d+))"));
+    const QRegularExpressionMatch match = versionRegex.match(firstLine);
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    const int major = match.hasMatch() ? match.capturedView(1).toInt() : 0;
+    const int minor = match.hasMatch() ? match.capturedView(2).toInt() : 0;
+#else
+    const int major = match.hasMatch() ? match.capturedRef(1).toInt() : 0;
+    const int minor = match.hasMatch() ? match.capturedRef(2).toInt() : 0;
+#endif
+    return GpgVersion{major, minor};
 }
+
+class GpgExecutable {
+public:
+    GpgExecutable() = default;
+
+    explicit GpgExecutable(const QString &executable)
+        : m_executable(executable)
+    {
+        const auto versionOutput = getGpgVersionOutput(executable);
+        if ( !versionOutput.isEmpty() ) {
+            COPYQ_LOG_VERBOSE(
+                QStringLiteral("ItemEncrypt INFO: '%1 --version' output: %2")
+                .arg(executable, versionOutput) );
+
+            const GpgVersion version = parseVersion(versionOutput);
+            m_isSupported = version.major >= 2;
+            COPYQ_LOG( QStringLiteral("ItemEncrypt INFO: %1 gpg version: %2.%3")
+                    .arg(m_isSupported ? "Supported" : "Unsupported")
+                    .arg(version.major)
+                    .arg(version.minor) );
+
+            const bool needsSecring = version.major == 2 && version.minor == 0;
+
+            const QString path = getConfigurationFilePath("");
+            m_pubring = QDir::toNativeSeparators(path + ".pub");
+            if (needsSecring)
+                m_secring = QDir::toNativeSeparators(path + ".sec");
 
 #ifdef Q_OS_WIN
-bool checkUnixGpg(const QString &executable)
-{
-    static const auto unixGpg = getGpgVersionOutput(executable).contains("Home: /c/");
-    return unixGpg;
-}
+            const bool isUnixGpg = versionOutput.contains("Home: /c/");
+            if (isUnixGpg) {
+                m_pubring = QDir::fromNativeSeparators(m_pubring).replace(":", "").insert(0, '/');
+                if (needsSecring)
+                    m_secring = QDir::fromNativeSeparators(m_secring).replace(":", "").insert(0, '/');
+            }
 #endif
-
-QString findGpgExecutable()
-{
-    for (const auto &executable : {"gpg2", "gpg"}) {
-        if ( checkGpgExecutable(executable) )
-            return executable;
+        }
     }
 
-    return QString();
+    const QString &executable() const { return m_executable; }
+    bool isSupported() const { return m_isSupported; }
+    bool needsSecring() const { return !m_secring.isEmpty(); }
+    const QString &pubring() const { return m_pubring; }
+    const QString &secring() const { return m_secring; }
+
+private:
+    QString m_executable;
+    QString m_pubring;
+    QString m_secring;
+    bool m_isSupported = false;
+};
+
+GpgExecutable findGpgExecutable()
+{
+    for (const auto &executable : {"gpg2", "gpg"}) {
+        GpgExecutable gpg(executable);
+        if ( gpg.isSupported() )
+            return gpg;
+    }
+
+    return GpgExecutable();
 }
 
-const QString &gpgExecutable()
+const GpgExecutable &gpgExecutable()
 {
     static const auto gpg = findGpgExecutable();
     return gpg;
 }
-
-struct KeyPairPaths {
-    KeyPairPaths()
-    {
-        const QString path = getConfigurationFilePath("");
-        sec = QDir::toNativeSeparators(path + ".sec");
-        pub = QDir::toNativeSeparators(path + ".pub");
-
-#ifdef Q_OS_WIN
-        if (checkUnixGpg(gpgExecutable())) {
-            pub = QDir::fromNativeSeparators(pub).replace(":", "").insert(0, '/');
-            sec = QDir::fromNativeSeparators(sec).replace(":", "").insert(0, '/');
-        }
-#endif
-    }
-
-    QString sec;
-    QString pub;
-};
 
 QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 {
@@ -146,16 +190,18 @@ QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 
 void startGpgProcess(QProcess *p, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
-    KeyPairPaths keys;
-    p->start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) + args, mode);
+    const auto &gpg = gpgExecutable();
+    p->start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) + args, mode);
 }
 
 QString importGpgKey()
 {
-    KeyPairPaths keys;
+    const auto &gpg = gpgExecutable();
+    if ( !gpg.needsSecring() )
+        return QString();
 
     QProcess p;
-    p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
+    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) << "--import" << gpg.secring());
     if ( !verifyProcess(&p) )
         return "Failed to import private key (see log).";
 
@@ -164,18 +210,20 @@ QString importGpgKey()
 
 QString exportGpgKey()
 {
-    KeyPairPaths keys;
+    const auto &gpg = gpgExecutable();
+    if ( !gpg.needsSecring() )
+        return QString();
 
     // Private key already created or exported.
-    if ( QFile::exists(keys.sec) )
+    if ( QFile::exists(gpg.secring()) )
         return QString();
 
     QProcess p;
-    p.start(gpgExecutable(), getDefaultEncryptCommandArguments(keys.pub) << "--export-secret-key" << "copyq");
+    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) << "--export-secret-key" << gpg.secring());
     if ( !verifyProcess(&p) )
         return "Failed to export private key (see log).";
 
-    QFile secKey(keys.sec);
+    QFile secKey(gpg.secring());
     if ( !secKey.open(QIODevice::WriteOnly) )
         return "Failed to create private key.";
 
@@ -240,7 +288,7 @@ bool encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstrac
 
 void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKey = false)
 {
-    const KeyPairPaths keys;
+    const auto &gpg = gpgExecutable();
 
     auto args = QStringList() << "--batch" << "--gen-key";
 
@@ -253,15 +301,19 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
     }
 
     startGpgProcess(process, args, QIODevice::ReadWrite);
-    process->write( "\nKey-Type: RSA"
-             "\nKey-Usage: encrypt"
-             "\nKey-Length: 4096"
-             "\nName-Real: copyq"
-             + transientOptions +
-             "\n%secring " + keys.sec.toUtf8() +
-             "\n%pubring " + keys.pub.toUtf8() +
-             "\n%commit"
-             "\n" );
+    process->write(
+        "\nKey-Type: RSA"
+        "\nKey-Usage: encrypt"
+        "\nKey-Length: 4096"
+        "\nName-Real: copyq"
+        + transientOptions +
+        "\n%pubring " + gpg.pubring().toUtf8()
+    );
+
+    if ( gpg.needsSecring() )
+        process->write("\n%secring " + gpg.secring().toUtf8());
+
+    process->write("\n%commit\n");
     process->closeWriteChannel();
 }
 
@@ -276,7 +328,7 @@ QString exportImportGpgKeys()
 
 bool isGpgInstalled()
 {
-    return !gpgExecutable().isEmpty();
+    return gpgExecutable().isSupported();
 }
 
 } // namespace
@@ -510,10 +562,15 @@ void ItemEncryptedScriptable::pasteEncryptedItems()
 
 QString ItemEncryptedScriptable::generateTestKeys()
 {
-    const KeyPairPaths keys;
-    for ( const auto &keyFileName : {keys.sec, keys.pub} ) {
+    const auto &gpg = gpgExecutable();
+
+    QStringList keys = gpg.needsSecring()
+        ? QStringList{gpg.pubring(), gpg.secring()}
+        : QStringList{gpg.pubring()};
+
+    for (const auto &keyFileName : keys) {
         if ( QFile::exists(keyFileName) && !QFile::remove(keyFileName) )
-            return QString("Failed to remove \"%1\"").arg(keys.sec);
+            return QString("Failed to remove \"%1\"").arg(keyFileName);
     }
 
     QProcess process;
@@ -529,9 +586,9 @@ QString ItemEncryptedScriptable::generateTestKeys()
     if ( !error.isEmpty() )
         return error;
 
-    for ( const auto &keyFileName : {keys.sec, keys.pub} ) {
+    for (const auto &keyFileName : keys) {
         if ( !QFile::exists(keyFileName) )
-            return QString("Failed to create \"%1\"").arg(keys.sec);
+            return QString("Failed to create \"%1\"").arg(keyFileName);
     }
 
     return QString();
@@ -606,19 +663,29 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
         m_encryptTabs.join('\n') );
 
     if (status() != GpgNotInstalled) {
-        KeyPairPaths keys;
+        const auto &gpg = gpgExecutable();
         ui->labelShareInfo->setTextFormat(Qt::RichText);
-        ui->labelShareInfo->setText( ItemEncryptedLoader::tr(
-                    "To share encrypted items on other computer or"
-                    " session, you'll need public and secret key files:"
-                    "<ul>"
-                    "<li>%1</li>"
-                    "<li>%2<br />(Keep this secret key in a safe place.)</li>"
-                    "</ul>"
-                    )
-                .arg( quoteString(keys.pub),
-                    quoteString(keys.sec) )
-                );
+        QString text = ItemEncryptedLoader::tr(
+            "To share encrypted items on other computer or"
+            " session, you'll need these secret key files (keep them in a safe place):"
+        );
+        if (gpg.needsSecring()) {
+            text.append( QStringLiteral(
+                "<ul>"
+                "<li>%1</li>"
+                "<li>%2</li>"
+                "</ul>"
+                ).arg(quoteString(gpg.pubring()), quoteString(gpg.secring()))
+            );
+        } else {
+            text.append( QStringLiteral(
+                "<ul>"
+                "<li>%1</li>"
+                "</ul>"
+                ).arg(quoteString(gpg.pubring()))
+            );
+        }
+        ui->labelShareInfo->setText(text);
     }
 
     updateUi();
