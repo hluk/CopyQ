@@ -63,7 +63,10 @@ rm -vf /c/Windows/System32/libssl-*
 rm -vf /c/Windows/SysWOW64/libcrypto-*
 rm -vf /c/Windows/SysWOW64/libssl-*
 OldPath=$PATH
-export PATH=$Destination
+export PATH="$GPGPATH":$Destination
+
+mkdir ~/.gnupg
+gpg --version
 
 export QT_FORCE_STDERR_LOGGING=1
 export COPYQ_TESTS_RERUN_FAILED=1
