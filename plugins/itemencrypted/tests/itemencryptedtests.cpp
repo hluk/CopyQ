@@ -25,6 +25,8 @@ void ItemEncryptedTests::cleanupTestCase()
 void ItemEncryptedTests::init()
 {
     TEST(m_test->init());
+
+    QVERIFY(isGpgInstalled());
 }
 
 void ItemEncryptedTests::cleanup()
@@ -34,9 +36,6 @@ void ItemEncryptedTests::cleanup()
 
 void ItemEncryptedTests::encryptDecryptData()
 {
-    if ( !isGpgInstalled() )
-        SKIP("gpg2 is required to run the test");
-
     RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
 
     // Test gpg errors first.
@@ -59,9 +58,6 @@ void ItemEncryptedTests::encryptDecryptItems()
 #ifdef Q_OS_MAC
     SKIP("Ctrl+L shortcut doesn't seem work on OS X");
 #endif
-
-    if ( !isGpgInstalled() )
-        SKIP("gpg2 is required to run the test");
 
     RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
 
