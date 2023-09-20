@@ -124,6 +124,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     QApplication::setQuitOnLastWindowClosed(false);
 
+    ensureSettingsDirectoryExists();
+
     m_sharedData = std::make_shared<ClipboardBrowserShared>();
     m_sharedData->itemFactory = new ItemFactory(this);
     m_sharedData->notifications = new NotificationDaemon(this);

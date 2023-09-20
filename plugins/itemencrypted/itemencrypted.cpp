@@ -139,6 +139,7 @@ public:
             const bool needsSecring = version.major == 2 && version.minor == 0;
 
             const QString path = getConfigurationFilePath("");
+            ensureSettingsDirectoryExists();
             m_pubring = QDir::toNativeSeparators(path + ".pub");
             if (needsSecring)
                 m_secring = QDir::toNativeSeparators(path + ".sec");

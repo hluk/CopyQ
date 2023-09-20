@@ -157,6 +157,20 @@ QString getConfigurationFilePathHelper()
 
 } // namespace
 
+bool ensureSettingsDirectoryExists()
+{
+    QDir settingsDir( settingsDirectoryPath() );
+    if ( !settingsDir.mkpath(".") ) {
+        log( QStringLiteral("Failed to create the directory for settings: %1")
+             .arg(settingsDir.path()),
+             LogError );
+
+        return false;
+    }
+
+    return true;
+}
+
 const QString &getConfigurationFilePath()
 {
     static const QString path = getConfigurationFilePathHelper();

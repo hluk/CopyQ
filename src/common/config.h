@@ -9,6 +9,8 @@ class QString;
 class QVariant;
 class QWidget;
 
+bool ensureSettingsDirectoryExists();
+
 const QString &getConfigurationFilePath();
 
 QString getConfigurationFilePath(const char *suffix);
