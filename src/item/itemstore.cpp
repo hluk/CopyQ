@@ -22,20 +22,6 @@ QString itemFileName(const QString &id)
     return getConfigurationFilePath("_tab_") + part + QLatin1String(".dat");
 }
 
-bool createItemDirectory()
-{
-    QDir settingsDir( settingsDirectoryPath() );
-    if ( !settingsDir.mkpath(".") ) {
-        log( QString("Cannot create directory for settings %1!")
-             .arg(quoteString(settingsDir.path()) ),
-             LogError );
-
-        return false;
-    }
-
-    return true;
-}
-
 void printItemFileError(
         const QString &action, const QString &id, const QFileDevice &file)
 {
@@ -83,9 +69,6 @@ ItemSaverPtr createTab(
 
 ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
 {
-    if ( !createItemDirectory() )
-        return nullptr;
-
     const QString tabFileName = itemFileName(tabName);
     if ( !QFile::exists(tabFileName) )
         return createTab(tabName, model, itemFactory, maxItems);
@@ -107,7 +90,7 @@ bool saveItems(const QString &tabName, const QAbstractItemModel &model, const It
 {
     const QString tabFileName = itemFileName(tabName);
 
-    if ( !createItemDirectory() )
+    if ( !ensureSettingsDirectoryExists() )
         return false;
 
     // Save tab data to a new temporary file.

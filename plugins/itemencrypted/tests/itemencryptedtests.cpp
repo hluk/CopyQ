@@ -25,6 +25,8 @@ void ItemEncryptedTests::cleanupTestCase()
 void ItemEncryptedTests::init()
 {
     TEST(m_test->init());
+
+    QVERIFY(isGpgInstalled());
 }
 
 void ItemEncryptedTests::cleanup()
@@ -34,13 +36,10 @@ void ItemEncryptedTests::cleanup()
 
 void ItemEncryptedTests::encryptDecryptData()
 {
-    if ( !isGpgInstalled() )
-        SKIP("gpg2 is required to run the test");
-
-    RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
+    RUN("plugins.itemencrypted.generateTestKeys()", "\n");
 
     // Test gpg errors first.
-    RUN("-e" << "plugins.itemencrypted.encrypt(input());print('')", "");
+    RUN("plugins.itemencrypted.encrypt(input());print('')", "");
 
     const QByteArray input("\x00\x01\x02\x03\x04", 5);
     QByteArray stdoutActual;
@@ -60,10 +59,7 @@ void ItemEncryptedTests::encryptDecryptItems()
     SKIP("Ctrl+L shortcut doesn't seem work on OS X");
 #endif
 
-    if ( !isGpgInstalled() )
-        SKIP("gpg2 is required to run the test");
-
-    RUN("-e" << "plugins.itemencrypted.generateTestKeys()", "\n");
+    RUN("plugins.itemencrypted.generateTestKeys()", "\n");
 
     // Load commands from the plugin generating keys.
     RUN("keys" << "Ctrl+P" << "ENTER", "");

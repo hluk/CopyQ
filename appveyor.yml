@@ -29,6 +29,7 @@ environment:
       LIBSSL: libssl-1_1-x64.dll
       LIBCRYPTO: libcrypto-1_1-x64.dll
       WITH_NATIVE_NOTIFICATIONS: "ON"
+      GPGPATH: /c/Program Files/Git/usr/bin
 
 # Parameters for default build commands (build_script is used instead).
 build:
@@ -45,10 +46,6 @@ build_script:
 
 after_build:
   - bash utils/appveyor/after_build.sh
-
-artifacts:
-  - path: 'copyq-*-setup.exe'
-    name: CopyQ Setup
 
 # Upload test log files.
 on_finish:

@@ -31,7 +31,6 @@ brew remove --ignore-dependencies --force \
     qt@5 copyq/kde/kf5-knotifications freetype
 
 (
-    export PATH=""
     export LD_LIBRARY_PATH=""
 
     # Run tests (retry once on error).

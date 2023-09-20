@@ -63,7 +63,10 @@ rm -vf /c/Windows/System32/libssl-*
 rm -vf /c/Windows/SysWOW64/libcrypto-*
 rm -vf /c/Windows/SysWOW64/libssl-*
 OldPath=$PATH
-export PATH=$Destination
+export PATH="$GPGPATH":$Destination
+
+mkdir ~/.gnupg
+gpg --version
 
 export QT_FORCE_STDERR_LOGGING=1
 export COPYQ_TESTS_RERUN_FAILED=1
@@ -74,6 +77,7 @@ export COPYQ_TESTS_RERUN_FAILED=1
 
 # Take screenshots of the app.
 "$Executable" &
+copyq_pid=$!
 "$Executable" showAt 0 0 9999 9999
 
 "$Executable" add "Plain text item"
@@ -121,22 +125,32 @@ screenshot "Screenshot - Tab Menu"
 "$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
 
 "$Executable" exit
-wait
+wait "$copyq_pid"
 
 export PATH=$OldPath
 
 choco install -y InnoSetup
 cmd " /c C:/ProgramData/chocolatey/bin/ISCC.exe /O$APPVEYOR_BUILD_FOLDER /DAppVersion=$APP_VERSION /DRoot=$Destination /DSource=$Source $Source/Shared/copyq.iss"
 
+installer="$APPVEYOR_BUILD_FOLDER/copyq-$APP_VERSION-setup.exe"
+appveyor PushArtifact "$installer" -DeploymentName "CopyQ Setup"
+
 # Test installer
-cmd " /c $APPVEYOR_BUILD_FOLDER/copyq-$APP_VERSION-setup.exe /VERYSILENT /suppressmsgboxes"
+cmd " /c $installer /VERYSILENT /SUPPRESSMSGBOXES"
 "C:/Program Files (x86)/CopyQ/copyq.exe" --version
 
 # Test installer can close the app safely
 (
-    sleep 5
-    cmd " /c $APPVEYOR_BUILD_FOLDER/copyq-$APP_VERSION-setup.exe /VERYSILENT"
+    # Wait for CopyQ to start
+    "C:/Program Files (x86)/CopyQ/copyq.exe" ""
+    cmd " /c $installer /VERYSILENT /SUPPRESSMSGBOXES"
+    echo "Installation finished"
 ) &
+installer_pid=$!
 export COPYQ_LOG_LEVEL=DEBUG
 "C:/Program Files (x86)/CopyQ/copyq.exe"
-wait
+wait "$installer_pid"
+
+gpgconf --kill all
+
+echo "All OK"
