@@ -139,17 +139,19 @@ public:
             const bool needsSecring = version.major == 2 && version.minor == 0;
 
             const QString path = getConfigurationFilePath("");
-            ensureSettingsDirectoryExists();
-            m_pubring = QDir::toNativeSeparators(path + ".pub");
-            if (needsSecring)
-                m_secring = QDir::toNativeSeparators(path + ".sec");
+            m_pubring = path + ".pub";
+            m_pubringNative = QDir::toNativeSeparators(m_pubring);
+            if (needsSecring) {
+                m_secring = path + ".sec";
+                m_secringNative = QDir::toNativeSeparators(m_secring);
+            }
 
 #ifdef Q_OS_WIN
             const bool isUnixGpg = versionOutput.contains("Home: /c/");
             if (isUnixGpg) {
-                m_pubring = QDir::fromNativeSeparators(m_pubring).replace(":", "").insert(0, '/');
+                m_pubringNative = QString(m_pubring).replace(":", "").insert(0, '/');
                 if (needsSecring)
-                    m_secring = QDir::fromNativeSeparators(m_secring).replace(":", "").insert(0, '/');
+                    m_secringNative = QString(m_secring).replace(":", "").insert(0, '/');
             }
 #endif
         }
@@ -160,11 +162,15 @@ public:
     bool needsSecring() const { return !m_secring.isEmpty(); }
     const QString &pubring() const { return m_pubring; }
     const QString &secring() const { return m_secring; }
+    const QString &pubringNative() const { return m_pubringNative; }
+    const QString &secringNative() const { return m_secringNative; }
 
 private:
     QString m_executable;
     QString m_pubring;
     QString m_secring;
+    QString m_pubringNative;
+    QString m_secringNative;
     bool m_isSupported = false;
 };
 
@@ -195,7 +201,7 @@ QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 void startGpgProcess(QProcess *p, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
     const auto &gpg = gpgExecutable();
-    p->start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) + args, mode);
+    p->start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubringNative()) + args, mode);
 }
 
 QString importGpgKey()
@@ -205,7 +211,7 @@ QString importGpgKey()
         return QString();
 
     QProcess p;
-    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) << "--import" << gpg.secring());
+    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubringNative()) << "--import" << gpg.secringNative());
     if ( !verifyProcess(&p) )
         return "Failed to import private key (see log).";
 
@@ -223,7 +229,7 @@ QString exportGpgKey()
         return QString();
 
     QProcess p;
-    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubring()) << "--export-secret-key" << gpg.secring());
+    p.start(gpg.executable(), getDefaultEncryptCommandArguments(gpg.pubringNative()) << "--export-secret-key" << gpg.secringNative());
     if ( !verifyProcess(&p) )
         return "Failed to export private key (see log).";
 
@@ -311,11 +317,11 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
         "\nKey-Length: 4096"
         "\nName-Real: copyq"
         + transientOptions +
-        "\n%pubring " + gpg.pubring().toUtf8()
+        "\n%pubring " + gpg.pubringNative().toUtf8()
     );
 
     if ( gpg.needsSecring() )
-        process->write("\n%secring " + gpg.secring().toUtf8());
+        process->write("\n%secring " + gpg.secringNative().toUtf8());
 
     process->write("\n%commit\n");
     process->closeWriteChannel();
@@ -568,7 +574,7 @@ QString ItemEncryptedScriptable::generateTestKeys()
 {
     const auto &gpg = gpgExecutable();
 
-    QStringList keys = gpg.needsSecring()
+    const QStringList keys = gpg.needsSecring()
         ? QStringList{gpg.pubring(), gpg.secring()}
         : QStringList{gpg.pubring()};
 
@@ -679,14 +685,14 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
                 "<li>%1</li>"
                 "<li>%2</li>"
                 "</ul>"
-                ).arg(quoteString(gpg.pubring()), quoteString(gpg.secring()))
+                ).arg(quoteString(gpg.pubringNative()), quoteString(gpg.secringNative()))
             );
         } else {
             text.append( QStringLiteral(
                 "<ul>"
                 "<li>%1</li>"
                 "</ul>"
-                ).arg(quoteString(gpg.pubring()))
+                ).arg(quoteString(gpg.pubringNative()))
             );
         }
         ui->labelShareInfo->setText(text);
