@@ -47,10 +47,6 @@ build_script:
 after_build:
   - bash utils/appveyor/after_build.sh
 
-artifacts:
-  - path: 'copyq-*-setup.exe'
-    name: CopyQ Setup
-
 # Upload test log files.
 on_finish:
   - ps: >-
