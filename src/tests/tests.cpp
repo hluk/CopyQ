@@ -476,13 +476,18 @@ public:
         return clipboard()->data(mode, QStringList(mime)).value(mime).toByteArray();
     }
 
+    void setClipboard(const QVariantMap &data, ClipboardMode mode) override
+    {
+        waitFor(waitMsSetClipboard);
+        clipboard()->setData(mode, data);
+    }
+
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime, ClipboardMode mode) override
     {
         if ( getClipboard(mime, mode) == bytes )
             return QByteArray();
 
-        waitFor(waitMsSetClipboard);
-        clipboard()->setData( mode, createDataMap(mime, bytes) );
+        setClipboard( createDataMap(mime, bytes), mode );
         return verifyClipboard(bytes, mime);
     }
 
@@ -4398,6 +4403,37 @@ void Tests::startServerAndRunCommand()
     // Try to start new client.
     SleepTimer t(10000);
     while ( run(Args("exit();sleep(10000)")) == 0 && t.sleep() ) {}
+}
+
+void Tests::avoidStoringPasswords()
+{
+    waitFor(waitMsSetClipboard);
+
+#ifdef Q_OS_WIN
+    const QString format("application/x-qt-windows-mime;value=\"Clipboard Viewer Ignore\"");
+    const QByteArray value("");
+#elif defined(Q_OS_MACOS)
+    const QString format("application/x-nspasteboard-concealed-type");
+    const QByteArray value("secret");
+#elif defined(Q_OS_UNIX)
+    const QString format("x-kde-passwordManagerHint");
+    const QByteArray value("secret");
+#endif
+
+    const QVariantMap data{
+        {format, value},
+        {mimeText, QByteArrayLiteral("secret")},
+    };
+    m_test->setClipboard(data);
+    waitFor(2 * waitMsPasteClipboard);
+    RUN("clipboard" << "?", "");
+    RUN("read" << "0" << "1" << "2", "\n\n");
+    RUN("count", "0\n");
+
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    waitFor(waitMsPasteClipboard);
+    RUN("read" << "0" << "1" << "2", "\n\n");
+    RUN("count", "0\n");
 }
 
 int Tests::run(

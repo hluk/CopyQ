@@ -12,8 +12,10 @@ class WinPlatformClipboard final : public DummyClipboard
 public:
     void startMonitoring(const QStringList &) override;
 
-private:
-    void checkClipboard();
+    bool isHidden(const QMimeData &data) const override;
+
+protected:
+    void onChanged(int) override;
 
     DWORD m_lastClipboardSequenceNumber = -1;
 };

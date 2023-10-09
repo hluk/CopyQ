@@ -290,6 +290,8 @@ private slots:
 
     void startServerAndRunCommand();
 
+    void avoidStoringPasswords();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

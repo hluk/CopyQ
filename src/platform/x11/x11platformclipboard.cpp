@@ -97,9 +97,9 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
         useNewClipboardData(&m_selectionData);
     } );
 
-    DummyClipboard::startMonitoring(formats);
-
     m_monitoring = true;
+
+    DummyClipboard::startMonitoring(formats);
 }
 
 void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
@@ -138,10 +138,10 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
     }
 }
 
-const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
+const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
     if ( X11Info::isPlatformX11() )
-        return DummyClipboard::mimeData(mode);
+        return DummyClipboard::rawMimeData(mode);
 
     return WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
 }
@@ -239,6 +239,9 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         if ( !X11Info::isPlatformX11() )
             return;
 
+        if ( rawMimeData(clipboardData->mode) )
+            return;
+
         if (clipboardData->retry < maxRetryCount) {
             ++clipboardData->retry;
             m_timerCheckAgain.start(clipboardData->retry * maxCheckAgainIntervalMs);
@@ -253,7 +256,12 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
     clipboardData->retry = 0;
 
-    const QByteArray newDataTimestampData = data->data(QLatin1String("TIMESTAMP"));
+    // Ignore clipboard with secrets
+    const QByteArray passwordManagerHint = data->data(QStringLiteral("x-kde-passwordManagerHint"));
+    if ( passwordManagerHint == QByteArrayLiteral("secret") )
+        return;
+
+    const QByteArray newDataTimestampData = data->data(QStringLiteral("TIMESTAMP"));
     quint32 newDataTimestamp = 0;
     if ( !newDataTimestampData.isEmpty() ) {
         QDataStream stream(newDataTimestampData);

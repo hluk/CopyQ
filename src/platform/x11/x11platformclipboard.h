@@ -24,11 +24,10 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
-    const QMimeData *mimeData(ClipboardMode mode) const override;
-
     bool isSelectionSupported() const override { return m_selectionSupported; }
 
 protected:
+    const QMimeData *rawMimeData(ClipboardMode mode) const override;
     void onChanged(int mode) override;
 
 private:

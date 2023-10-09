@@ -9,6 +9,7 @@
 #include "platform/platformwindow.h"
 
 #include <QApplication>
+#include <QClipboard>
 #include <QMimeData>
 #include <QTextCodec>
 
@@ -17,13 +18,15 @@
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
-void MacClipboard::startMonitoring(const QStringList &)
+void MacClipboard::startMonitoring(const QStringList &formats)
 {
     auto timer = new MacTimer(this);
     timer->setInterval(250);
     timer->setTolerance(500);
     connect(timer, &MacTimer::timeout, this, &MacClipboard::clipboardTimeout);
     timer->start();
+
+    DummyClipboard::startMonitoring(formats);
 }
 
 void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
@@ -54,12 +57,27 @@ QByteArray MacClipboard::clipboardOwner()
     return QByteArray();
 }
 
-void MacClipboard::clipboardTimeout() {
+bool MacClipboard::isHidden(const QMimeData &data) const
+{
+    return data.hasFormat( QStringLiteral("application/x-nspasteboard-concealed-type") );
+}
+
+void MacClipboard::onChanged(int mode)
+{
+    if (mode != QClipboard::Clipboard)
+        return;
+
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     NSInteger newCount = [pasteboard changeCount];
 
-    if (newCount != m_prevChangeCount) {
-        m_prevChangeCount = newCount;
-        emit changed(ClipboardMode::Clipboard);
-    }
+    if (newCount == m_prevChangeCount)
+        return;
+
+    m_prevChangeCount = newCount;
+
+    emit changed(ClipboardMode::Clipboard);
+}
+
+void MacClipboard::clipboardTimeout() {
+    onChanged(QClipboard::Clipboard);
 }

@@ -6,6 +6,7 @@
 #include "common/clipboardmode.h"
 
 #include <QStringList>
+#include <QVariantMap>
 
 #include <memory>
 
@@ -57,6 +58,9 @@ public:
 
     /// Waits on client output.
     virtual QByteArray waitOnOutput(const QStringList &arguments, const QByteArray &stdoutExpected) = 0;
+
+    /// Set clipboard through monitor process.
+    virtual void setClipboard(const QVariantMap &data, ClipboardMode mode = ClipboardMode::Clipboard) = 0;
 
     /// Set clipboard through monitor process.
     virtual QByteArray setClipboard(

@@ -28,7 +28,10 @@ public:
 
     bool isSelectionSupported() const override { return false; }
 
+    bool isHidden(const QMimeData &data) const override;
+
 protected:
+    virtual const QMimeData *rawMimeData(ClipboardMode mode) const;
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);
 
