@@ -157,6 +157,7 @@ private slots:
     void deleteItems();
     void searchItems();
     void searchItemsAndSelect();
+    void searchItemsAndCopy();
     void searchRowNumber();
     void searchAccented();
     void copyItems();

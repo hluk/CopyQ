@@ -2561,6 +2561,13 @@ void Tests::searchItemsAndSelect()
     RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
 }
 
+void Tests::searchItemsAndCopy()
+{
+    RUN("add" << "TEST_ITEM", "");
+    RUN("keys" << ":test" << "CTRL+C" << filterEditId, "");
+    WAIT_FOR_CLIPBOARD("TEST_ITEM");
+}
+
 void Tests::searchRowNumber()
 {
     RUN("add" << "d2" << "c" << "b2" << "a", "");
