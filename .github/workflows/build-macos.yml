@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-11
+          - os: macos-12
             buildname: macOS 10.15
             create_bundle: true
 

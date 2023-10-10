@@ -425,9 +425,15 @@ void FilterLineEdit::loadSettings()
 
 void FilterLineEdit::keyPressEvent(QKeyEvent *ke)
 {
-    // Up/Down arrow keys should be passed to item list
+    // Up/Down arrow keys should be passed to the item list
     // (on OS X this moves text cursor to the beginning/end).
     if (ke->key() == Qt::Key_Down || ke->key() == Qt::Key_Up) {
+        ke->ignore();
+        return;
+    }
+
+    // If no text is selected, pass copy actions to the item list.
+    if ( selectionLength() == 0 && ke->matches(QKeySequence::Copy) ) {
         ke->ignore();
         return;
     }

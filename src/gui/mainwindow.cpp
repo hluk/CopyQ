@@ -2505,6 +2505,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     // Allow browsing items in search mode without focusing item list.
     if ( c && ui->searchBar->hasFocus() ) {
+        if ( event->matches(QKeySequence::Copy) && ui->searchBar->selectionLength() == 0 ) {
+            copyItems();
+            return;
+        }
+
         switch(key) {
             case Qt::Key_Down:
             case Qt::Key_Up:
