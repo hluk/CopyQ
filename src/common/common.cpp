@@ -221,9 +221,8 @@ private:
 
 QString getImageFormatFromMime(const QString &mime)
 {
-    const auto imageMimePrefix = "image/";
-    const auto prefixLength = static_cast<int>(strlen(imageMimePrefix));
-    return mime.startsWith(imageMimePrefix) ? mime.mid(prefixLength) : QString();
+    static const QString imageMimePrefix = QStringLiteral("image/");
+    return mime.startsWith(imageMimePrefix) ? mime.mid(imageMimePrefix.length()) : QString();
 }
 
 /**
@@ -262,29 +261,29 @@ bool canCloneImageData(const QImage &image)
         && image.width() <= 4096;
 }
 
-bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeData)
+bool setImageData(
+    QByteArray &bytes, const char *imageFormat, const std::unique_ptr<QMimeData> &mimeData)
 {
-    if ( !data.contains(mime) )
-        return false;
-
-    const QString imageFormat = getImageFormatFromMime(mime);
-    if ( imageFormat.isEmpty() )
-        return false;
-
-    QByteArray bytes = data.value(mime).toByteArray();
-
     // Omit converting animated images to static ones.
     QBuffer buffer(&bytes);
-    QMovie animatedImage( &buffer, imageFormat.toUtf8().constData() );
+    const QMovie animatedImage(&buffer, imageFormat);
     if ( animatedImage.frameCount() > 1 )
         return false;
 
-    const QImage image = QImage::fromData( bytes, imageFormat.toUtf8().constData() );
+    const QImage image = QImage::fromData(bytes, imageFormat);
     if ( image.isNull() )
         return false;
 
     mimeData->setImageData(image);
     return true;
+}
+
+bool setImageData(
+    const QVariantMap &data, const QString &mime, const char *imageFormat, const std::unique_ptr<QMimeData> &mimeData)
+{
+    QByteArray imageData = data.value(mime).toByteArray();
+    return !imageData.isEmpty()
+        && setImageData(imageData, imageFormat, mimeData);
 }
 
 Encoding encodingForName(const char *name)
@@ -433,26 +432,36 @@ QVariantMap cloneData(const QMimeData &data)
 
 QMimeData* createMimeData(const QVariantMap &data)
 {
-    QStringList copyFormats = data.keys();
-    copyFormats.removeOne(mimeClipboardMode);
-
     std::unique_ptr<QMimeData> newClipboardData(new MimeData);
 
-    for ( const auto &format : copyFormats )
-        newClipboardData->setData( format, data[format].toByteArray() );
+    bool hasImage =
+        setImageData(data, QStringLiteral("image/png"), "png", newClipboardData)
+        || setImageData(data, QStringLiteral("image/bmp"), "bmp", newClipboardData)
+        || setImageData(data, QStringLiteral("application/x-qt-image"), nullptr, newClipboardData)
+    ;
 
-    if ( !copyFormats.contains(mimeOwner) ) {
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if ( it.key() == mimeClipboardMode )
+            continue;
+
+        QByteArray bytes = it.value().toByteArray();
+
+        newClipboardData->setData( it.key(), bytes );
+
+        if (!hasImage) {
+            const QString imageFormat = getImageFormatFromMime(it.key());
+            if ( !imageFormat.isEmpty()
+                && setImageData(bytes, imageFormat.toUtf8().constData(), newClipboardData) )
+            {
+                hasImage = true;
+            }
+        }
+    }
+
+    if ( !data.contains(mimeOwner) ) {
         const auto owner = makeClipboardOwnerData();
         if ( !owner.isEmpty() )
             newClipboardData->setData( mimeOwner, owner );
-    }
-
-    // Set image data.
-    const QStringList formats =
-            QStringList() << "image/png" << "image/bmp" << "application/x-qt-image" << data.keys();
-    for (const auto &imageFormat : formats) {
-        if ( setImageData(data, imageFormat, newClipboardData.get()) )
-            break;
     }
 
     return newClipboardData.release();
