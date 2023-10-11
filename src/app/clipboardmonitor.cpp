@@ -57,7 +57,6 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_formats.append({mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden});
     m_formats.removeDuplicates();
 
-    m_clipboard->startMonitoring(m_formats);
     connect( m_clipboard.get(), &PlatformClipboard::changed,
              this, &ClipboardMonitor::onClipboardChanged );
 
@@ -72,10 +71,9 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
         COPYQ_LOG("Disabling selection monitoring");
         m_clipboard->setMonitoringEnabled(ClipboardMode::Selection, false);
     }
-
-    onClipboardChanged(ClipboardMode::Selection);
 #endif
-    onClipboardChanged(ClipboardMode::Clipboard);
+
+    m_clipboard->startMonitoring(m_formats);
 }
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)

@@ -40,6 +40,8 @@ public:
 
     virtual bool isSelectionSupported() const = 0;
 
+    virtual bool isHidden(const QMimeData &data) const = 0;
+
 signals:
     /// Notifies about clipboard changes.
     void changed(ClipboardMode mode);

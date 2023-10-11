@@ -13,6 +13,11 @@ public:
 
     QByteArray clipboardOwner() override;
 
+    bool isHidden(const QMimeData &data) const override;
+
+protected:
+    void onChanged(int mode) override;
+
 private:
     void clipboardTimeout();
 
