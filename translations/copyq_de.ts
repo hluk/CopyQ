@@ -1615,7 +1615,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="180"/>
         <source>Notifications</source>
-        <translation>Benachrichtigung</translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="454"/>
@@ -1762,7 +1762,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation>Befehle</translation>
+        <translation>&amp;Befehle</translation>
     </message>
 </context>
 <context>
@@ -2502,7 +2502,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2061"/>
         <location filename="../src/gui/mainwindow.cpp" line="2183"/>
         <source>Options for Import</source>
-        <translation>Importoptionen</translation>
+        <translation>Optionen für den Import</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="672"/>
@@ -2563,7 +2563,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3771"/>
         <source>Options for Export</source>
-        <translation>Importoptionen</translation>
+        <translation>Optionen für den Export</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3792"/>
@@ -3130,7 +3130,7 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="171"/>
         <source>&amp;About</source>
-        <translation>Über</translation>
+        <translation>&amp;Über</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="167"/>
