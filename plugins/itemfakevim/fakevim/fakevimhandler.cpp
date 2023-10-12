@@ -1057,14 +1057,6 @@ inline QString msgMarkNotSet(const QString &text)
     return Tr::tr("Mark \"%1\" not set.").arg(text);
 }
 
-static void initSingleShotTimer(QTimer *timer, int interval, FakeVimHandler::Private *receiver,
-                                void (FakeVimHandler::Private::*slot)())
-{
-    timer->setSingleShot(true);
-    timer->setInterval(interval);
-    QObject::connect(timer, &QTimer::timeout, receiver, slot);
-}
-
 class Input
 {
 public:
@@ -2423,6 +2415,16 @@ public:
 
     FakeVimSettings &s = *fakeVimSettings();
 };
+
+static void initSingleShotTimer(QTimer *timer,
+                                int interval,
+                                FakeVimHandler::Private *receiver,
+                                void (FakeVimHandler::Private::*slot)())
+{
+    timer->setSingleShot(true);
+    timer->setInterval(interval);
+    QObject::connect(timer, &QTimer::timeout, receiver, slot);
+}
 
 FakeVimHandler::Private::GlobalData FakeVimHandler::Private::g;
 
