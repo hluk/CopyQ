@@ -114,7 +114,7 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
 
 bool X11Platform::canAutostart()
 {
-#ifdef COPYQ_DESKTOP_FILE
+#if defined(COPYQ_AUTOSTART) && defined(COPYQ_DESKTOP_FILE)
     return true;
 #else
     return false;
@@ -123,7 +123,7 @@ bool X11Platform::canAutostart()
 
 bool X11Platform::isAutostartEnabled()
 {
-#ifdef COPYQ_DESKTOP_FILE
+#if defined(COPYQ_AUTOSTART) && defined(COPYQ_DESKTOP_FILE)
     const QString filename = getDesktopFilename();
 
     QFile desktopFile(filename);
@@ -153,7 +153,7 @@ bool X11Platform::isAutostartEnabled()
 
 void X11Platform::setAutostartEnabled(bool enable)
 {
-#ifdef COPYQ_DESKTOP_FILE
+#if defined(COPYQ_AUTOSTART) && defined(COPYQ_DESKTOP_FILE)
     if ( isAutostartEnabled() == enable )
         return;
 
