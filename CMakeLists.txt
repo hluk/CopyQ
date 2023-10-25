@@ -42,6 +42,7 @@ if (UNIX AND NOT APPLE)
     set(BASH_COMPLETION_INSTALL_PREFIX "${DATA_INSTALL_PREFIX}/bash-completion/completions/" CACHE PATH "Install path for bash completions")
     set(ICON_NAME "copyq" CACHE STRING "Name for icon files")
     set(COPYQ_AUTOSTART_COMMAND "" CACHE STRING "Autostart command")
+    OPTION(COPYQ_AUTOSTART "Enable autostart option" ON)
 endif()
 
 set(CMAKE_AUTOMOC ON)
@@ -192,6 +193,10 @@ if (UNIX AND NOT APPLE)
     add_definitions( -DCOPYQ_TRANSLATION_PREFIX="${TRANSLATION_INSTALL_PREFIX}" )
     add_definitions( -DCOPYQ_BASH_COMPLETION_PREFIX="${BASH_COMPLETION_INSTALL_PREFIX}" )
     add_definitions( -DCOPYQ_ICON_NAME="${ICON_NAME}" )
+
+    if (COPYQ_AUTOSTART)
+        add_definitions( -DCOPYQ_AUTOSTART )
+    endif()
 
     if (COPYQ_AUTOSTART_COMMAND)
         add_definitions( -DCOPYQ_AUTOSTART_COMMAND="${COPYQ_AUTOSTART_COMMAND}" )
