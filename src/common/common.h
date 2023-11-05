@@ -15,15 +15,6 @@ class QMimeData;
 class QProcess;
 class QString;
 
-#if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
-#   define NO_GLOBAL_SHORTCUTS
-#endif
-
-#ifdef COPYQ_WS_X11
-// QClipboard::supportsSelection() must return true.
-#   define HAS_MOUSE_SELECTIONS
-#endif
-
 bool isMainThread();
 
 QByteArray makeClipboardOwnerData();

@@ -48,11 +48,7 @@ MenuItems menuItems()
     addMenuItem( items, Actions::File_Preferences, QObject::tr("&Preferences..."), "preferences", QObject::tr("Ctrl+P"),
                   "preferences-other", IconWrench );
     addMenuItem( items, Actions::File_Commands,
-#ifndef NO_GLOBAL_SHORTCUTS
-                  QObject::tr("C&ommands/Global Shortcuts..."),
-#else
                   QObject::tr("C&ommands..."),
-#endif
                   "commands", QObject::tr("F6"), "system-run", IconGear );
 
     addMenuItem( items, Actions::File_ShowClipboardContent, QObject::tr("Show &Clipboard Content"),

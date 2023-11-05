@@ -22,9 +22,11 @@ namespace {
 
 const QIcon iconClipboard() { return getIcon("", IconClipboard); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
-const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
 const QIcon iconScript() { return getIcon("", IconGear); }
 const QIcon iconDisplay() { return getIcon("", IconEye); }
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
+#endif
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
 {
@@ -91,11 +93,11 @@ CommandWidget::CommandWidget(QWidget *parent)
 
     updateWidgets();
 
-#ifdef NO_GLOBAL_SHORTCUTS
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+    ui->toolButtonGlobalShortcut->setIcon(iconShortcut());
+#else
     ui->toolButtonGlobalShortcut->hide();
     ui->shortcutButtonGlobalShortcut->hide();
-#else
-    ui->toolButtonGlobalShortcut->setIcon(iconShortcut());
 #endif
 
     ui->toolButtonAutomatic->setIcon(iconClipboard());

@@ -13,8 +13,10 @@
 
 #include "systemclipboard/waylandclipboard.h"
 
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
+#ifdef COPYQ_WITH_X11
+#   include <X11/Xlib.h>
+#   include <X11/Xatom.h>
+#endif
 
 #include <QClipboard>
 #include <QMimeData>
@@ -28,10 +30,13 @@ constexpr auto maxRetryCount = 3;
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
 bool isSelectionIncomplete()
 {
+#ifdef COPYQ_WITH_X11
     if (!X11Info::isPlatformX11())
         return false;
 
     auto display = X11Info::display();
+    if (!display)
+        return false;
 
     // If mouse button or shift is pressed then assume that user is selecting text.
     XEvent event{};
@@ -42,6 +47,9 @@ bool isSelectionIncomplete()
                   &event.xbutton.state);
 
     return event.xbutton.state & (Button1Mask | ShiftMask);
+#else
+    return true;
+#endif
 }
 
 } // namespace
