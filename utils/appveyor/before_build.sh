@@ -6,9 +6,10 @@ source utils/appveyor/env.sh
 
 languages=$APPVEYOR_BUILD_FOLDER/Shared/Languages
 mkdir -p "$languages"
+# This can be removed when InnoSetup >= 6.2.3 is available.
 curl --location --silent --show-error --fail-with-body \
     --remote-name-all --output-dir "$languages" \
-    https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Unofficial/Korean.isl
+    https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Korean.isl
 grep -q LanguageName "$languages/Korean.isl"
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then

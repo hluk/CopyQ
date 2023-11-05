@@ -84,7 +84,7 @@ protected:
     QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override
 #endif
     {
-        COPYQ_LOG_VERBOSE( QString("Providing \"%1\"").arg(mimeType) );
+        COPYQ_LOG_VERBOSE( QStringLiteral("Providing \"%1\"").arg(mimeType) );
         return QMimeData::retrieveData(mimeType, preferredType);
     }
 };
@@ -94,10 +94,11 @@ class ClipboardDataGuard final {
 public:
     class ElapsedGuard {
     public:
-        explicit ElapsedGuard(const QString &format)
-            : m_format(format)
+        explicit ElapsedGuard(const QString &type, const QString &format)
+            : m_type(type)
+            , m_format(format)
         {
-            COPYQ_LOG_VERBOSE( QString("Accessing \"%1\"").arg(format) );
+            COPYQ_LOG_VERBOSE( QStringLiteral("Accessing [%1:%2]").arg(type, format) );
             m_elapsed.start();
         }
 
@@ -105,9 +106,10 @@ public:
         {
             const auto t = m_elapsed.elapsed();
             if (t > 500)
-                log( QString("ELAPSED %1 ms accessing \"%2\"").arg(t).arg(m_format), LogWarning );
+                log( QStringLiteral("ELAPSED %1 ms accessing [%2:%3]").arg(t).arg(m_type, m_format), LogWarning );
         }
     private:
+        QString m_type;
         QString m_format;
         QElapsedTimer m_elapsed;
     };
@@ -121,51 +123,52 @@ public:
 
     bool hasFormat(const QString &mime)
     {
-        ElapsedGuard _("has:" + mime);
+        ElapsedGuard _(QStringLiteral("hasFormat"), mime);
         return refresh() && m_dataGuard->hasFormat(mime);
     }
 
     QByteArray data(const QString &mime)
     {
-        ElapsedGuard _(mime);
+        ElapsedGuard _(QStringLiteral("data"), mime);
         return refresh() ? m_dataGuard->data(mime) : QByteArray();
     }
 
     QList<QUrl> urls()
     {
-        ElapsedGuard _("urls");
+        ElapsedGuard _(QStringLiteral(), QStringLiteral("urls"));
         return refresh() ? m_dataGuard->urls() : QList<QUrl>();
     }
 
     QString text()
     {
-        ElapsedGuard _("text");
+        ElapsedGuard _(QStringLiteral(), QStringLiteral("text"));
         return refresh() ? m_dataGuard->text() : QString();
     }
 
     bool hasText()
     {
-        ElapsedGuard _("hasText");
+        ElapsedGuard _(QStringLiteral(), QStringLiteral("hasText"));
         return refresh() && m_dataGuard->hasText();
     }
 
     QImage getImageData()
     {
-        ElapsedGuard _("imageData");
+        ElapsedGuard _(QStringLiteral(), QStringLiteral("imageData"));
         if (!refresh())
             return QImage();
 
         // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
-        COPYQ_LOG_VERBOSE("Fetching image data from clipboard");
         const QImage image = m_dataGuard->imageData().value<QImage>();
-        COPYQ_LOG_VERBOSE( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
+        COPYQ_LOG_VERBOSE(
+            QStringLiteral("Image is %1")
+            .arg(image.isNull() ? QStringLiteral("invalid") : QStringLiteral("valid")) );
         return image;
     }
 
     QByteArray getUtf8Data(const QString &format)
     {
-        ElapsedGuard _("UTF8:" + format);
+        ElapsedGuard _(QStringLiteral("UTF8"), format);
         if (!refresh())
             return QByteArray();
 
@@ -199,7 +202,7 @@ private:
 
         const auto elapsed = m_timerExpire.elapsed();
         if (elapsed > 5000) {
-            log("Clipboard data expired, refusing to access old data", LogWarning);
+            log(QStringLiteral("Clipboard data expired, refusing to access old data"), LogWarning);
             m_dataGuard = nullptr;
             return false;
         }
@@ -243,9 +246,9 @@ void cloneImageData(
     QBuffer buffer;
     bool saved = image.save(&buffer, format.toUtf8().constData());
 
-    COPYQ_LOG( QString("Converting image to \"%1\" format: %2")
+    COPYQ_LOG( QStringLiteral("Converting image to \"%1\" format: %2")
                .arg(format,
-                    saved ? "Done" : "Failed") );
+                    saved ? QStringLiteral("Done") : QStringLiteral("Failed")) );
 
     if (saved)
         dataMap->insert(mime, buffer.buffer());
@@ -415,7 +418,7 @@ QVariantMap cloneData(const QMimeData &data)
     }
 
     if ( !formats.contains(mimeText) ) {
-        const QString textPrefix(QLatin1String(mimeText) + ";");
+        const QString textPrefix(mimeText + QStringLiteral(";"));
         bool containsText = false;
         for (int i = formats.size() - 1; i >= 0; --i) {
             if ( formats[i].startsWith(textPrefix) ) {
