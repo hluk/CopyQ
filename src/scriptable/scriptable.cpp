@@ -1715,10 +1715,10 @@ QJSValue Scriptable::info()
                 );
 
     info.insert("has-global-shortcuts",
-#ifdef NO_GLOBAL_SHORTCUTS
-                "0"
-#else
+#ifdef COPYQ_GLOBAL_SHORTCUTS
                 "1"
+#else
+                "0"
 #endif
                 );
 
@@ -1734,7 +1734,8 @@ QJSValue Scriptable::info()
 #else
                 "?"
 #endif
-#ifdef COPYQ_WS_X11
+
+#ifdef COPYQ_WITH_X11
                 "/X11"
 #endif
                 );

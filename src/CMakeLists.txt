@@ -39,6 +39,7 @@ if (USE_QXT)
         ../qxt/qxtglobalshortcut.cpp
         )
     add_definitions( -DQXT_STATIC )
+    add_definitions( -DCOPYQ_GLOBAL_SHORTCUTS )
 endif()
 
 # translations

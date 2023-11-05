@@ -16,17 +16,17 @@
 #include <QVariant>
 #include <QWidget>
 
-#include "x11platformwindow.h"
 #include "x11platformclipboard.h"
 
-#include <X11/Xatom.h>
-#include <X11/Xlib.h>
+#ifdef COPYQ_WITH_X11
+#   include "x11platformwindow.h"
+#   include <X11/Xatom.h>
+#   include <X11/Xlib.h>
+#endif
 
 #include <memory>
 
 namespace {
-
-int (*old_xio_errhandler)(Display *) = nullptr;
 
 const char *defaultDesktopFileContent =
 R"([Desktop Entry]
@@ -39,6 +39,9 @@ X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false
 X-KDE-UniqueApplet=true
 )";
+
+#ifdef COPYQ_WITH_X11
+int (*old_xio_errhandler)(Display *) = nullptr;
 
 // Try to handle X11 fatal error gracefully.
 int copyq_xio_errhandler(Display *display)
@@ -60,6 +63,7 @@ int copyq_xio_errhandler(Display *display)
     // As documentation for XSetIOErrorHandler states, this function should not return.
     exit(1);
 }
+#endif
 
 #ifdef COPYQ_DESKTOP_FILE
 QString getDesktopFilename()
@@ -96,20 +100,29 @@ X11Platform::~X11Platform() = default;
 
 PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
+#ifdef COPYQ_WITH_X11
     if (!X11Info::isPlatformX11())
         return PlatformWindowPtr();
 
     std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow(winId));
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
+#else
+    Q_UNUSED(winId)
+    return PlatformWindowPtr();
+#endif
 }
 
 PlatformWindowPtr X11Platform::getCurrentWindow()
 {
+#ifdef COPYQ_WITH_X11
     if (!X11Info::isPlatformX11())
         return PlatformWindowPtr();
 
     std::unique_ptr<X11PlatformWindow> window(new X11PlatformWindow());
     return PlatformWindowPtr(window->isValid() ? window.release() : nullptr);
+#else
+    return PlatformWindowPtr();
+#endif
 }
 
 bool X11Platform::canAutostart()
@@ -227,8 +240,10 @@ QCoreApplication *X11Platform::createConsoleApplication(int &argc, char **argv)
 
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
+#ifdef COPYQ_WITH_X11
     if (X11Info::isPlatformX11())
         old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
+#endif
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
@@ -305,15 +320,20 @@ QString X11Platform::translationPrefix()
     return QString();
 }
 
+#ifdef COPYQ_WITH_X11
 void sendDummyX11Event()
 {
     if (!X11Info::isPlatformX11())
         return;
 
     auto display = X11Info::display();
+    if (!display)
+        return;
+
     auto black = BlackPixel(display, 0);
     Window window = XCreateSimpleWindow(
         display, RootWindow(display, 0), -100000, -100000, 1, 1, 0, black, black);
     XDestroyWindow(display, window);
     XFlush(display);
 }
+#endif

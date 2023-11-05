@@ -3,14 +3,14 @@
 #include "globalshortcutcommands.h"
 
 #include "common/command.h"
-#include "common/shortcuts.h"
-#include "gui/icons.h"
 
 #include <QCoreApplication>
 #include <QLocale>
 #include <QVector>
 
-#ifndef NO_GLOBAL_SHORTCUTS
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+#   include "common/shortcuts.h"
+#   include "gui/icons.h"
 
 namespace {
 

@@ -38,10 +38,10 @@
 #include <QStyleFactory>
 #include <QTextEdit>
 
-#ifdef NO_GLOBAL_SHORTCUTS
-class QxtGlobalShortcut final {};
-#else
+#ifdef COPYQ_GLOBAL_SHORTCUTS
 #include "../qxt/qxtglobalshortcut.h"
+#else
+class QxtGlobalShortcut final {};
 #endif
 
 #include <memory>
@@ -247,7 +247,7 @@ void ClipboardServer::removeGlobalShortcuts()
 
 void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
 {
-#ifndef NO_GLOBAL_SHORTCUTS
+#ifdef COPYQ_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 
     QList<QKeySequence> usedShortcuts;
@@ -556,7 +556,7 @@ void ClipboardServer::onNotificationButtonClicked(const NotificationButton &butt
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)
 {
-#ifdef NO_GLOBAL_SHORTCUTS
+#ifndef COPYQ_GLOBAL_SHORTCUTS
     Q_UNUSED(shortcut)
     Q_UNUSED(command)
 #else
@@ -731,7 +731,7 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
-#ifdef NO_GLOBAL_SHORTCUTS
+#ifndef COPYQ_GLOBAL_SHORTCUTS
     Q_UNUSED(shortcut)
 #else
     m_ignoreKeysTimer.start();

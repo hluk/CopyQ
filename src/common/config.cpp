@@ -270,7 +270,7 @@ void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &
 
 void moveToCurrentWorkspace(QWidget *w)
 {
-#ifdef COPYQ_WS_X11
+#ifdef COPYQ_MOVE_TO_WORKSPACE
     /* Re-initialize window in window manager so it can popup on current workspace. */
     if (w->isVisible()) {
         GEOMETRY_LOG( w, QLatin1String("Move to current workspace") );

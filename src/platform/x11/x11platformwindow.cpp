@@ -171,6 +171,9 @@ Window getCurrentWindow()
         return 0L;
 
     auto display = X11Info::display();
+    if (!display)
+        return 0L;
+
     XSync(display, False);
 
     static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
@@ -204,6 +207,9 @@ QString X11PlatformWindow::getTitle()
         return QString();
 
     auto display = X11Info::display();
+    if (!display)
+        return QString();
+
     static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
     static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
 
@@ -224,9 +230,11 @@ void X11PlatformWindow::raise()
     if (!X11Info::isPlatformX11())
         return;
 
-    COPYQ_LOG( QString("Raising window \"%1\"").arg(getTitle()) );
-
     auto display = X11Info::display();
+    if (!display)
+        return;
+
+    COPYQ_LOG( QString("Raising window \"%1\"").arg(getTitle()) );
 
     XEvent e{};
     memset(&e, 0, sizeof(e));
@@ -311,6 +319,8 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key, const AppConfig &con
         return;
 
     auto display = X11Info::display();
+    if (!display)
+        return;
 
 #ifdef HAS_X11TEST
     simulateKeyPress(display, QList<int>() << modifier, static_cast<uint>(key), config);

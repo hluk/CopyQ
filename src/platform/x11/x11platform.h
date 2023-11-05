@@ -62,6 +62,8 @@ public:
     QString themePrefix() override { return QString(); }
 };
 
+#ifdef COPYQ_WITH_X11
 void sendDummyX11Event();
+#endif
 
 #endif // X11PLATFORM_H
