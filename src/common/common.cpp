@@ -159,7 +159,13 @@ public:
 
         // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
-        const QImage image = m_dataGuard->imageData().value<QImage>();
+        QImage image = m_dataGuard->imageData().value<QImage>();
+        if ( image.isNull() ) {
+            image.loadFromData( data(QStringLiteral("image/png")), "png" );
+            if ( image.isNull() ) {
+                image.loadFromData( data(QStringLiteral("image/bmp")), "bmp" );
+            }
+        }
         COPYQ_LOG_VERBOSE(
             QStringLiteral("Image is %1")
             .arg(image.isNull() ? QStringLiteral("invalid") : QStringLiteral("valid")) );
