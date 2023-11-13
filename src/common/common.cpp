@@ -121,6 +121,12 @@ public:
         m_timerExpire.start();
     }
 
+    QStringList formats()
+    {
+        ElapsedGuard _(QStringLiteral(), QStringLiteral("formats"));
+        return refresh() ? m_dataGuard->formats() : QStringList();
+    }
+
     bool hasFormat(const QString &mime)
     {
         ElapsedGuard _(QStringLiteral("hasFormat"), mime);
@@ -342,17 +348,8 @@ bool isBinaryImageFormat(const QString &format)
            && !format.contains(QStringLiteral("svg"));
 }
 
-} // namespace
-
-bool isMainThread()
+QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
 {
-    return QThread::currentThread() == qApp->thread();
-}
-
-QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abortCloning)
-{
-    ClipboardDataGuard data(rawData, abortCloning);
-
     QVariantMap newdata;
 
     /*
@@ -402,8 +399,19 @@ QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abort
     return newdata;
 }
 
-QVariantMap cloneData(const QMimeData &data)
+} // namespace
+
+QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abortCloning)
 {
+    ClipboardDataGuard data(rawData, abortCloning);
+    return cloneData(data, formats);
+}
+
+QVariantMap cloneData(const QMimeData &rawData)
+{
+    bool abortCloning = false;
+    ClipboardDataGuard data(rawData, &abortCloning);
+
     static const QSet<QString> ignoredFormats({
         mimeOwner,
         mimeClipboardMode,
@@ -414,26 +422,44 @@ QVariantMap cloneData(const QMimeData &data)
         mimeOutputTab,
     });
 
+    const QStringList availableFormats = data.formats();
+
     QStringList formats;
 
-    for ( const auto &mime : data.formats() ) {
+    bool skipBinaryImages = formats.contains(mimeText) && data.hasText();
+    if (!skipBinaryImages && availableFormats.contains(QStringLiteral("image/png")) ) {
+        formats.append(QStringLiteral("image/png"));
+        if ( availableFormats.contains(QStringLiteral("image/webp")) )
+            formats.append(QStringLiteral("image/webp"));
+        if ( availableFormats.contains(QStringLiteral("image/gif")) )
+            formats.append(QStringLiteral("image/gif"));
+        skipBinaryImages = true;
+    }
+
+    for (const auto &mime : availableFormats) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
         // and specific internal types
-        if ( !mime.isEmpty() && mime[0].isLower() && !ignoredFormats.contains(mime) )
-            formats.append(mime);
+        if ( mime.isEmpty() || !mime[0].isLower() || ignoredFormats.contains(mime) )
+            continue;
+
+        // ignore redundant image formats
+        if ( skipBinaryImages && isBinaryImageFormat(mime) )
+            continue;
+
+        formats.append(mime);
     }
 
     if ( !formats.contains(mimeText) ) {
         const QString textPrefix(mimeText + QStringLiteral(";"));
-        bool containsText = false;
-        for (int i = formats.size() - 1; i >= 0; --i) {
-            if ( formats[i].startsWith(textPrefix) ) {
-                formats.removeAt(i);
-                containsText = true;
+        const auto first = std::remove_if(
+            std::begin(formats), std::end(formats), [&](const QString &format){
+                return format.startsWith(textPrefix);
             }
-        }
-        if (containsText)
+        );
+        if (first != std::end(formats)) {
+            formats.erase(first, std::end(formats));
             formats.append(mimeText);
+        }
     }
 
     return cloneData(data, formats);
