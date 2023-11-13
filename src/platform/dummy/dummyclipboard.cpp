@@ -39,8 +39,6 @@ QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats)
 
 void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
 {
-    Q_ASSERT( isMainThread() );
-
     QGuiApplication::clipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
 }
 
