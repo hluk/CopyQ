@@ -56,7 +56,7 @@
         <string>default</string>
        </property>
        <property name="maximum">
-        <number>10000</number>
+        <number>100000</number>
        </property>
        <property name="value">
         <number>200</number>

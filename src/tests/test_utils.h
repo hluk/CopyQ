@@ -6,6 +6,7 @@
 #include "common/commandstatus.h"
 
 #include <QByteArray>
+#include <QKeySequence>
 #include <QString>
 #include <QStringList>
 #include <QTest>
@@ -90,6 +91,11 @@ inline QByteArray toByteArray(const char *text)
 inline QString testTab(int i)
 {
     return "Tab_&" + QString::number(i);
+}
+
+inline QString keyNameFor(QKeySequence::StandardKey standardKey)
+{
+    return QKeySequence(standardKey).toString();
 }
 
 #endif // TEST_UTILS_H

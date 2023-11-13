@@ -39,7 +39,7 @@ int evaluate(
     setLogLabel("Prompt");
 
     QJSEngine engine;
-    Scriptable scriptable(&engine, nullptr);
+    Scriptable scriptable(&engine, nullptr, nullptr);
 
     QJSValue function = engine.globalObject().property(functionName);
     QJSValueList functionArguments;

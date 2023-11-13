@@ -5,6 +5,7 @@
 
 #include "filewatcher.h"
 
+#include "common/appconfig.h"
 #include "common/compatibility.h"
 #include "common/contenttype.h"
 #include "common/log.h"
@@ -531,6 +532,7 @@ QString ItemSyncScriptable::selectedTabPath()
 
 ItemSyncLoader::ItemSyncLoader()
 {
+    registerSyncDataFileConverter();
 }
 
 ItemSyncLoader::~ItemSyncLoader() = default;
@@ -604,6 +606,12 @@ void ItemSyncLoader::loadSettings(const QSettings &settings)
         fixUserMimeType(&fileFormat.itemMime);
         m_formatSettings.append(fileFormat);
     }
+
+    const QSettings settingsTopLevel(settings.fileName(), settings.format());
+    m_itemDataThreshold = settingsTopLevel.value(
+        QStringLiteral("Options/") + Config::item_data_threshold::name(),
+        Config::item_data_threshold::defaultValue()
+    ).toInt();
 }
 
 QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
@@ -769,6 +777,7 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
         return nullptr;
     }
 
-    auto *watcher = new FileWatcher(path, files, model, maxItems, m_formatSettings);
+    auto *watcher = new FileWatcher(
+        path, files, model, maxItems, m_formatSettings, m_itemDataThreshold);
     return std::make_shared<ItemSyncSaver>(tabPath, watcher);
 }

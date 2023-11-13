@@ -77,16 +77,6 @@ public:
     void setPluginPriority(const QStringList &pluginNames);
 
     /**
-     * Enable or disable instantiation of ItemWidget objects using @a loader.
-     */
-    void setLoaderEnabled(const ItemLoaderPtr &loader, bool enabled);
-
-    /**
-     * Return true if @a loader is enabled.
-     */
-    bool isLoaderEnabled(const ItemLoaderPtr &loader) const;
-
-    /**
      * Return true if no plugins were loaded.
      */
     bool hasLoaders() const { return !m_loaders.isEmpty(); }
@@ -135,9 +125,6 @@ private:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);
 
-    /** Return enabled plugins with dummy item loader. */
-    ItemLoaderList enabledLoaders(bool enabled = true) const;
-
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QVariantMap &data);
 
@@ -149,7 +136,6 @@ private:
 
     ItemLoaderList m_loaders;
     ItemLoaderPtr m_dummyLoader;
-    ItemLoaderList m_disabledLoaders;
     QMap<QObject *, ItemLoaderPtr> m_loaderChildren;
 };
 

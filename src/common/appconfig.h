@@ -13,7 +13,7 @@ QString defaultClipboardTabName();
 
 namespace Config {
 
-const int maxItems = 10000;
+const int maxItems = 100'000;
 
 template<typename ValueType>
 struct Config {
@@ -32,6 +32,15 @@ struct maxitems : Config<int> {
     static QString name() { return "maxitems"; }
     static Value defaultValue() { return 200; }
     static Value value(Value v) { return qBound(0, v, maxItems); }
+};
+
+struct item_data_threshold : Config<int> {
+    static QString name() { return "item_data_threshold"; }
+    static Value defaultValue() { return 1024; }
+    static const char *description() {
+        return "Maximum item data size in bytes to save in tab data file"
+               " (larger data are stored in separate files)";
+    }
 };
 
 struct clipboard_tab : Config<QString> {

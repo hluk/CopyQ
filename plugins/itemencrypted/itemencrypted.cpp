@@ -38,7 +38,7 @@ const QLatin1String dataFileHeaderV2("CopyQ_encrypted_tab v2");
 
 const QLatin1String configEncryptTabs("encrypt_tabs");
 
-const int maxItemCount = 10000;
+const int maxItemCount = 100'000;
 
 bool waitOrTerminate(QProcess *p, int timeoutMs)
 {

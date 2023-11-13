@@ -7,6 +7,7 @@
 #include "common/log.h"
 #include "common/settings.h"
 #include "common/textdata.h"
+#include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 #ifdef Q_OS_UNIX
 #   include "platform/unix/unixsignalhandler.h"
@@ -120,6 +121,8 @@ App::App(QCoreApplication *application,
     , m_started(false)
     , m_closed(false)
 {
+    registerDataFileConverter();
+
     QObject::connect(m_app, &QCoreApplication::aboutToQuit, [this]() { exit(); });
 
 #ifdef Q_OS_UNIX

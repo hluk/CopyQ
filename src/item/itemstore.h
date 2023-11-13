@@ -26,4 +26,6 @@ bool moveItems(
         const QString &newId //!< See ClipboardBrowser::getID().
         );
 
+void cleanDataFiles(const QStringList &tabNames);
+
 #endif // ITEMSTORE_H

@@ -9,6 +9,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/textdata.h"
+#include "item/itemfactory.h"
 #include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 #include "scriptable/scriptableproxy.h"
@@ -114,9 +115,14 @@ void ClipboardClient::onConnectionFailed()
 
 void ClipboardClient::start(const QStringList &arguments)
 {
+    ItemFactory itemFactory;
+    itemFactory.loadPlugins();
+    QSettings settings;
+    itemFactory.loadItemFactorySettings(&settings);
+
     QJSEngine engine;
     ScriptableProxy scriptableProxy(nullptr, nullptr);
-    Scriptable scriptable(&engine, &scriptableProxy);
+    Scriptable scriptable(&engine, &scriptableProxy, &itemFactory);
 
     const auto serverName = clipboardServerName();
     ClientSocket socket(serverName);
