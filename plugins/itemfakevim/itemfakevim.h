@@ -49,7 +49,6 @@ private:
 
     void wrapEditWidget(QObject *obj);
 
-    bool m_enabled = true;
     bool m_reallyEnabled = false;
     bool m_currentlyEnabled = false;
     QString m_sourceFileName;

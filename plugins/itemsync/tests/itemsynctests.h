@@ -52,6 +52,8 @@ private slots:
 
     void avoidDuplicateItemsAddedFromClipboard();
 
+    void saveLargeItem();
+
 private:
     TestInterfacePtr m_test;
 };

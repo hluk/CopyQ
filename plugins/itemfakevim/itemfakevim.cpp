@@ -754,7 +754,7 @@ QVariant ItemFakeVimLoader::icon() const
 
 void ItemFakeVimLoader::setEnabled(bool enabled)
 {
-    m_enabled = enabled;
+    ItemLoaderInterface::setEnabled(enabled);
     updateCurrentlyEnabledState();
 }
 
@@ -811,7 +811,7 @@ void ItemFakeVimLoader::updateCurrentlyEnabledState()
     if ( qobject_cast<QGuiApplication*>(qApp) == nullptr )
         return;
 
-    const bool enable = m_enabled && m_reallyEnabled;
+    const bool enable = isEnabled() && m_reallyEnabled;
     if (m_currentlyEnabled == enable)
         return;
 

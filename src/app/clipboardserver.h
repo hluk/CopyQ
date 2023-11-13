@@ -118,6 +118,8 @@ private:
 
     void sendActionData(int actionId, const QByteArray &bytes);
 
+    void cleanDataFiles();
+
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
@@ -135,6 +137,7 @@ private:
 
     QMap<int, QByteArray> m_actionDataToSend;
     QTimer m_timerClearUnsentActionData;
+    QTimer m_timerCleanItemFiles;
 
     struct ClientData {
         ClientData() = default;

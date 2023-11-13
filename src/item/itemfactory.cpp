@@ -2,6 +2,7 @@
 
 #include "itemfactory.h"
 
+#include "common/appconfig.h"
 #include "common/command.h"
 #include "common/common.h"
 #include "common/config.h"
@@ -189,19 +190,34 @@ private:
 class DummySaver final : public ItemSaverInterface
 {
 public:
+    explicit DummySaver(int itemDataThreshold)
+        : m_itemDataThreshold(itemDataThreshold)
+    {}
+
     bool saveItems(const QString & /* tabName */, const QAbstractItemModel &model, QIODevice *file) override
     {
-        return serializeData(model, file);
+        return serializeData(model, file, m_itemDataThreshold);
     }
+
+private:
+    int m_itemDataThreshold = -1;
 };
 
 class DummyLoader final : public ItemLoaderInterface
 {
 public:
+    int priority() const override { return std::numeric_limits<int>::min(); }
+
     QString id() const override { return QString(); }
     QString name() const override { return QString(); }
     QString author() const override { return QString(); }
     QString description() const override { return QString(); }
+
+    void setEnabled(bool) override {}
+    void loadSettings(const QSettings &) override
+    {
+        m_itemDataThreshold = AppConfig().option<Config::item_data_threshold>();
+    }
 
     ItemWidget *create(const QVariantMap &data, QWidget *parent, bool preview) const override
     {
@@ -221,7 +237,7 @@ public:
                     log(QStringLiteral("Keeping corrupted tab on user request"));
                     file->close();
                     file->open(QIODevice::WriteOnly);
-                    ItemSaverPtr saver = std::make_shared<DummySaver>();
+                    ItemSaverPtr saver = std::make_shared<DummySaver>(m_itemDataThreshold);
                     saver->saveItems(tabName, *model, file);
                     return saver;
                 }
@@ -231,12 +247,12 @@ public:
             }
         }
 
-        return std::make_shared<DummySaver>();
+        return std::make_shared<DummySaver>(m_itemDataThreshold);
     }
 
     ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *, int) override
     {
-        return std::make_shared<DummySaver>();
+        return std::make_shared<DummySaver>(m_itemDataThreshold);
     }
 
     bool matches(const QModelIndex &index, const ItemFilter &filter) const override
@@ -244,6 +260,9 @@ public:
         const QString text = index.data(contentType::text).toString();
         return filter.matches(text) || filter.matches(accentsRemoved(text));
     }
+
+private:
+    int m_itemDataThreshold = -1;
 };
 
 ItemSaverPtr transformSaver(
@@ -254,7 +273,7 @@ ItemSaverPtr transformSaver(
     ItemSaverPtr newSaver = saverToTransform;
 
     for ( auto &loader : loaders ) {
-        if (loader != currentLoader)
+        if (loader != currentLoader && loader->isEnabled())
             newSaver = loader->transformSaver(newSaver, model);
     }
 
@@ -271,7 +290,7 @@ ItemSaverPtr saveWithOther(
     ItemLoaderPtr newLoader;
 
     for ( auto &loader : loaders ) {
-        if ( loader->canSaveItems(tabName) ) {
+        if ( loader->isEnabled() && loader->canSaveItems(tabName) ) {
             newLoader = loader;
             break;
         }
@@ -294,14 +313,12 @@ ItemSaverPtr saveWithOther(
     return newSaver;
 }
 
-
 } // namespace
 
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
     , m_dummyLoader(std::make_shared<DummyLoader>())
-    , m_disabledLoaders()
     , m_loaderChildren()
 {
 }
@@ -344,13 +361,16 @@ ItemWidget *ItemFactory::createItem(
 ItemWidget *ItemFactory::createItem(
         const QVariantMap &data, QWidget *parent, bool antialiasing, bool transform, bool preview)
 {
-    for ( auto &loader : enabledLoaders() ) {
+    for ( auto &loader : m_loaders ) {
+        if ( !loader->isEnabled() )
+            continue;
+
         ItemWidget *item = createItem(loader, data, parent, antialiasing, transform, preview);
         if (item != nullptr)
             return item;
     }
 
-    return nullptr;
+    return createSimpleItem(data, parent, antialiasing);
 }
 
 ItemWidget *ItemFactory::createSimpleItem(
@@ -363,7 +383,10 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    for ( const auto &loader : enabledLoaders() ) {
+    for (const auto &loader : m_loaders) {
+        if ( !loader->isEnabled() )
+            continue;
+
         for ( const auto &format : loader->formatsToSave() ) {
             if ( !formats.contains(format) )
                 formats.append(format);
@@ -385,30 +408,17 @@ QStringList ItemFactory::formatsToSave() const
 
 void ItemFactory::setPluginPriority(const QStringList &pluginNames)
 {
+    m_loaders.removeOne(m_dummyLoader);
     std::sort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
-}
-
-void ItemFactory::setLoaderEnabled(const ItemLoaderPtr &loader, bool enabled)
-{
-    if ( isLoaderEnabled(loader) != enabled ) {
-        if (enabled)
-            m_disabledLoaders.remove( m_disabledLoaders.indexOf(loader) );
-        else
-            m_disabledLoaders.append(loader);
-
-        loader->setEnabled(enabled);
-    }
-}
-
-bool ItemFactory::isLoaderEnabled(const ItemLoaderPtr &loader) const
-{
-    return !m_disabledLoaders.contains(loader);
+    m_loaders.append(m_dummyLoader);
 }
 
 ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
-    auto loaders = enabledLoaders();
-    for ( auto &loader : loaders ) {
+    for (auto &loader : m_loaders) {
+        if ( !loader->isEnabled() )
+            continue;
+
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
             file->seek(0);
@@ -416,8 +426,8 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
             if (!saver)
                 return nullptr;
             file->close();
-            saver = saveWithOther(tabName, model, saver, &loader, loaders, maxItems);
-            return transformSaver(model, saver, loader, loaders);
+            saver = saveWithOther(tabName, model, saver, &loader, m_loaders, maxItems);
+            return transformSaver(model, saver, loader, m_loaders);
         }
     }
 
@@ -431,11 +441,10 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
 
 ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems)
 {
-    const auto loaders = enabledLoaders();
-    for ( auto &loader : loaders ) {
-        if ( loader->canSaveItems(tabName) ) {
+    for (const auto &loader : m_loaders) {
+        if ( loader->isEnabled() && loader->canSaveItems(tabName) ) {
             const auto saver = loader->initializeTab(tabName, model, maxItems);
-            return saver ? transformSaver(model, saver, loader, loaders) : nullptr;
+            return saver ? transformSaver(model, saver, loader, m_loaders) : nullptr;
         }
     }
 
@@ -447,8 +456,8 @@ bool ItemFactory::matches(const QModelIndex &index, const ItemFilter &filter) co
     if ( filter.matchesIndex(index) )
         return true;
 
-    for ( const auto &loader : enabledLoaders() ) {
-        if ( isLoaderEnabled(loader) && loader->matches(index, filter) )
+    for (const auto &loader : m_loaders) {
+        if ( loader->isEnabled() && loader->matches(index, filter) )
             return true;
     }
 
@@ -457,42 +466,21 @@ bool ItemFactory::matches(const QModelIndex &index, const ItemFilter &filter) co
 
 ItemScriptable *ItemFactory::scriptableObject(const QString &name) const
 {
-    QDir pluginsDir;
-    if ( !findPluginDir(&pluginsDir) )
-        return nullptr;
-
-    const QStringList nameFilters( QString::fromLatin1("*%1*").arg(name) );
-    for (const auto &fileName : pluginsDir.entryList(nameFilters, QDir::Files)) {
-        const QString path = pluginsDir.absoluteFilePath(fileName);
-        auto loader = loadPlugin(path, name);
-        if (loader) {
-            QSettings settings;
-            settings.beginGroup("Plugins");
-            loadItemFactorySettings(loader, &settings);
-            return loader->scriptableObject();
-        }
+    for (const auto &loader : m_loaders) {
+        if (loader->id() == name)
+            return loader->isEnabled() ? loader->scriptableObject() : nullptr;
     }
-
     return nullptr;
 }
 
 QVector<Command> ItemFactory::commands(bool enabled) const
 {
-#ifdef HAS_TESTS
-    const QString id = qApp->property("CopyQ_test_id").toString();
-    if ( !id.isEmpty() ) {
-        for ( const auto &loader : enabledLoaders(enabled) ) {
-            if (loader->id() == id)
-                return loader->commands();
-        }
-        return QVector<Command>();
-    }
-#endif
-
     QVector<Command> commands;
 
-    for ( const auto &loader : enabledLoaders(enabled) )
-        commands << loader->commands();
+    for (const auto &loader : m_loaders) {
+        if (loader->isEnabled() == enabled)
+            commands << loader->commands();
+    }
 
     return commands;
 }
@@ -514,6 +502,13 @@ bool ItemFactory::loadPlugins()
     if ( !findPluginDir(&pluginsDir) )
         return false;
 
+    // Plugins can be loaded only once.
+    static bool pluginsLoaded = false;
+    Q_ASSERT(!pluginsLoaded);
+    if (pluginsLoaded)
+        return true;
+    pluginsLoaded = true;
+
     for (const auto &fileName : pluginsDir.entryList(QDir::Files)) {
         const QString path = pluginsDir.absoluteFilePath(fileName);
         auto loader = loadPlugin(path, QString());
@@ -522,6 +517,7 @@ bool ItemFactory::loadPlugins()
     }
 
     std::sort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
+    addLoader(m_dummyLoader);
 
     return true;
 }
@@ -530,9 +526,9 @@ void ItemFactory::loadItemFactorySettings(QSettings *settings)
 {
     // load settings for each plugin
     settings->beginGroup("Plugins");
-    for ( auto &loader : loaders() ) {
+    for (const auto &loader : m_loaders) {
         const bool enabled = loadItemFactorySettings(loader, settings);
-        setLoaderEnabled(loader, enabled);
+        loader->setEnabled(enabled);
     }
     settings->endGroup();
 
@@ -544,7 +540,10 @@ void ItemFactory::loadItemFactorySettings(QSettings *settings)
 
 QObject *ItemFactory::createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const
 {
-    for ( auto &loader : enabledLoaders() ) {
+    for (const auto &loader : m_loaders) {
+        if ( !loader->isEnabled() )
+            continue;
+
         QObject *editor = loader->createExternalEditor(index, data, parent);
         if (editor != nullptr)
             return editor;
@@ -556,8 +555,8 @@ QObject *ItemFactory::createExternalEditor(const QModelIndex &index, const QVari
 QVariantMap ItemFactory::data(const QModelIndex &index) const
 {
     QVariantMap data = index.data(contentType::data).toMap();
-    for (auto &loader : enabledLoaders()) {
-        if ( !loader->data(&data, index) )
+    for (const auto &loader : m_loaders) {
+        if ( loader->isEnabled() && !loader->data(&data, index) )
             return QVariantMap();
     }
     return data;
@@ -565,37 +564,23 @@ QVariantMap ItemFactory::data(const QModelIndex &index) const
 
 bool ItemFactory::setData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model) const
 {
-    for (auto &loader : enabledLoaders()) {
-        if ( loader->setData(data, index, model) )
+    for (const auto &loader : m_loaders) {
+        if ( loader->isEnabled() && loader->setData(data, index, model) )
             return true;
     }
 
     return model->setData(index, data, contentType::updateData);
 }
 
-ItemLoaderList ItemFactory::enabledLoaders(bool enabled) const
-{
-    ItemLoaderList loaders;
-
-    for (auto &loader : m_loaders) {
-        if ( isLoaderEnabled(loader) == enabled )
-            loaders.append(loader);
-    }
-
-    if (enabled)
-        loaders.append(m_dummyLoader);
-
-    return loaders;
-}
-
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QVariantMap &data)
 {
-    for (auto &loader : m_loaders) {
-        if ( isLoaderEnabled(loader) ) {
-            ItemWidget *newItem = loader->transform(item, data);
-            if (newItem != nullptr)
-                item = newItem;
-        }
+    for (const auto &loader : m_loaders) {
+        if ( !loader->isEnabled() )
+            continue;
+
+        ItemWidget *newItem = loader->transform(item, data);
+        if (newItem != nullptr)
+            item = newItem;
     }
 
     return item;
@@ -642,6 +627,11 @@ ItemLoaderPtr ItemFactory::loadPlugin(const QString &path, const QString &id) co
 
 bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings *settings) const
 {
+    if (loader == m_dummyLoader) {
+        loader->loadSettings(*settings);
+        return true;
+    }
+
     settings->beginGroup(loader->id());
 
     const auto enabled = settings->value("enabled", true).toBool();
@@ -649,5 +639,11 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 
     settings->endGroup();
 
+#ifdef HAS_TESTS
+    // For tests, enable only the tested plugin.
+    const QString testId = qApp->property("CopyQ_test_id").toString();
+    if ( !testId.isEmpty() )
+        return loader->id() == testId;
+#endif
     return enabled;
 }

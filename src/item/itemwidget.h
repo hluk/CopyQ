@@ -292,7 +292,8 @@ public:
      */
     virtual void applySettings(QSettings &) {}
 
-    virtual void setEnabled(bool) {}
+    virtual void setEnabled(bool enabled) { m_enabled = enabled; }
+    bool isEnabled() const { return m_enabled; }
 
     /**
      * Load stored configuration values.
@@ -390,6 +391,9 @@ public:
 
     ItemLoaderInterface(const ItemLoaderInterface &) = delete;
     ItemLoaderInterface &operator=(const ItemLoaderInterface &) = delete;
+
+private:
+    bool m_enabled = true;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

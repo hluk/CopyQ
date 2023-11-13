@@ -158,6 +158,7 @@ private:
     ItemSyncTabPaths m_tabPaths;
     QStringList m_tabPathsSaved;
     QList<FileFormat> m_formatSettings;
+    int m_itemDataThreshold = -1;
 };
 
 #endif // ITEMSYNC_H

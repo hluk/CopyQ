@@ -782,11 +782,6 @@ private:
     PlatformClipboardPtr m_clipboard;
 };
 
-QString keyNameFor(QKeySequence::StandardKey standardKey)
-{
-    return QKeySequence(standardKey).toString();
-}
-
 int count(const QStringList &items, const QString &pattern)
 {
     int from = -1;
@@ -4520,6 +4515,46 @@ void Tests::currentClipboardOwner()
     TEST( m_test->setClipboard("test5") );
     WAIT_ON_OUTPUT("read(0)", "test5");
     RUN("read('application/x-copyq-owner-test', 0)", "TEST5");
+}
+
+void Tests::saveLargeItem()
+{
+    const auto tab = testTab(1);
+    const auto args = Args("tab") << tab;
+
+    const auto script = R"(
+        write(0, [{
+            'text/plain': '1234567890'.repeat(10000),
+            'application/x-copyq-test-data': 'abcdefghijklmnopqrstuvwxyz'.repeat(10000),
+        }])
+        )";
+    RUN(args << script, "");
+
+    for (int i = 0; i < 2; ++i) {
+        RUN(args << "read(0).left(20)", "12345678901234567890");
+        RUN(args << "read(0).length", "100000\n");
+        RUN(args << "getItem(0)[mimeText].length", "100000\n");
+        RUN(args << "getItem(0)[mimeText].left(20)", "12345678901234567890");
+        RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
+        RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
+        RUN("unload" << tab, tab + "\n");
+    }
+
+    RUN("show" << tab, "");
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Copy), "");
+    WAIT_ON_OUTPUT("clipboard().left(20)", "12345678901234567890");
+    RUN("clipboard('application/x-copyq-test-data').left(26)", "abcdefghijklmnopqrstuvwxyz");
+    RUN("clipboard('application/x-copyq-test-data').length", "260000\n");
+
+    const auto tab2 = testTab(2);
+    const auto args2 = Args("tab") << tab2;
+    RUN("show" << tab2, "");
+    waitFor(waitMsPasteClipboard);
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    RUN(args2 << "read(0).left(20)", "12345678901234567890");
+    RUN(args2 << "read(0).length", "100000\n");
+    RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
+    RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
 }
 
 int Tests::run(

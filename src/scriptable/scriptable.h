@@ -59,9 +59,10 @@ class Scriptable final : public QObject
     Q_PROPERTY(QJSValue _initItemSelection READ getUndefined WRITE initItemSelection)
 
 public:
-    explicit Scriptable(
+    Scriptable(
             QJSEngine *engine,
             ScriptableProxy *proxy,
+            ItemFactory *factory = nullptr,
             QObject *parent = nullptr);
 
     enum class Abort {
@@ -455,6 +456,7 @@ private:
 
     ScriptableProxy *m_proxy;
     QJSEngine *m_engine;
+    ItemFactory *m_factory;
     QJSValue m_temporaryFileClass;
     QString m_inputSeparator;
     QJSValue m_input;
@@ -536,14 +538,14 @@ class ScriptablePlugins final : public QObject {
     Q_OBJECT
 
 public:
-    explicit ScriptablePlugins(Scriptable *scriptable);
+    ScriptablePlugins(Scriptable *scriptable, ItemFactory *factory);
 
 public slots:
     QJSValue load(const QString &name);
 
 private:
-    ItemFactory *m_factory = nullptr;
     Scriptable *m_scriptable;
+    ItemFactory *m_factory;
     QMap<QString, QJSValue> m_plugins;
 };
 

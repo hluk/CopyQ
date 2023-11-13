@@ -47,6 +47,7 @@
 #include <QSysInfo>
 #include <QUrl>
 #include <QVector>
+#include <QStandardPaths>
 #include <QThread>
 #include <QTimer>
 
@@ -226,7 +227,9 @@ struct ScriptValueFactory<QVariantMap> {
         QJSValueIterator it(value);
         while ( it.hasNext() ) {
             it.next();
-            const auto itemValue = ::fromScriptValue<QVariant>( it.value(), scriptable );
+            auto itemValue = ::fromScriptValue<QVariant>( it.value(), scriptable );
+            if (itemValue.type() == QVariant::String)
+                itemValue = itemValue.toString().toUtf8();
             result.insert(it.name(), itemValue);
         }
         return result;
@@ -416,6 +419,9 @@ struct ScriptValueFactory<QVariant> {
 
         if (variant.canConvert<QVariantMap>())
             return ::toScriptValue(variant.value<QVariantMap>(), scriptable);
+
+        if (variant.canConvert<QByteArray>())
+            return ::toScriptValue(variant.toByteArray(), scriptable);
 
         return scriptable->engine()->toScriptValue(variant);
     }
@@ -656,10 +662,12 @@ bool isGuiApplication()
 Scriptable::Scriptable(
         QJSEngine *engine,
         ScriptableProxy *proxy,
+        ItemFactory *factory,
         QObject *parent)
     : QObject(parent)
     , m_proxy(proxy)
     , m_engine(engine)
+    , m_factory(factory)
     , m_inputSeparator("\n")
     , m_input()
 {
@@ -893,9 +901,9 @@ void Scriptable::setUncaughtException(const QJSValue &exc)
 QJSValue Scriptable::getPlugins()
 {
     // Load plugins on demand.
-    if ( m_plugins.isUndefined() ) {
+    if ( m_plugins.isUndefined() && m_factory ) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
-        m_plugins = m_engine->newQObject(new ScriptablePlugins(this));
+        m_plugins = m_engine->newQObject(new ScriptablePlugins(this, m_factory));
         m_engine->globalObject().setProperty(QStringLiteral("_copyqPlugins"), m_plugins);
         m_plugins = evaluateStrict(m_engine, QStringLiteral(
             "new Proxy({}, { get: function(_, name, _) { return _copyqPlugins.load(name); } });"
@@ -903,11 +911,7 @@ QJSValue Scriptable::getPlugins()
 #else
         m_plugins = m_engine->newObject();
         m_engine->globalObject().setProperty(QStringLiteral("_copyqPlugins"), m_plugins);
-        ItemFactory factory;
-        QSettings settings;
-        factory.loadPlugins();
-        factory.loadItemFactorySettings(&settings);
-        for (const ItemLoaderPtr &loader : factory.loaders()) {
+        for (const ItemLoaderPtr &loader : m_factory->loaders()) {
             const auto obj = loader->scriptableObject();
             if (!obj)
                 continue;
@@ -1665,6 +1669,7 @@ QJSValue Scriptable::info()
     info.insert("config", QSettings().fileName());
     info.insert("exe", QCoreApplication::applicationFilePath());
     info.insert("log", logFileName());
+    info.insert("data", QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
 
     info.insert("plugins",
 #ifdef COPYQ_PLUGIN_PREFIX
@@ -2844,13 +2849,10 @@ QJSValue Scriptable::isClipboardMonitorRunning()
 
 QJSValue Scriptable::clipboardFormatsToSave()
 {
-    ItemFactory factory;
-    factory.loadPlugins();
+    if (!m_factory)
+        return toScriptValue(QStringList(), this);
 
-    QSettings settings;
-    factory.loadItemFactorySettings(&settings);
-
-    QStringList formats = factory.formatsToSave();
+    QStringList formats = m_factory->formatsToSave();
     COPYQ_LOG( "Clipboard formats to save: " + formats.join(", ") );
 
     for (const auto &command : m_proxy->automaticCommands()) {
@@ -3956,9 +3958,10 @@ QJSValue NetworkReply::toScriptValue()
     return m_self;
 }
 
-ScriptablePlugins::ScriptablePlugins(Scriptable *scriptable)
+ScriptablePlugins::ScriptablePlugins(Scriptable *scriptable, ItemFactory *factory)
     : QObject(scriptable)
     , m_scriptable(scriptable)
+    , m_factory(factory)
 {
 }
 
@@ -3967,9 +3970,6 @@ QJSValue ScriptablePlugins::load(const QString &name)
     const auto it = m_plugins.find(name);
     if (it != std::end(m_plugins))
         return it.value();
-
-    if (!m_factory)
-        m_factory = new ItemFactory(this);
 
     auto obj = m_factory->scriptableObject(name);
     if (!obj) {

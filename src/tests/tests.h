@@ -295,6 +295,8 @@ private slots:
 
     void currentClipboardOwner();
 
+    void saveLargeItem();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
