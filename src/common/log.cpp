@@ -24,7 +24,7 @@ QString &logFileNameVariable() {
 class SystemMutex final {
 public:
     SystemMutex()
-        : m_lockFile(logFileName() + ".lock")
+        : m_lockFile(logFileName() + QLatin1String(".lock"))
     {
     }
 
@@ -94,7 +94,7 @@ QString logFileName(int i)
 {
     if (i <= 0)
         return ::logFileName();
-    return ::logFileName() + QStringLiteral(".") + QString::number(i);
+    return ::logFileName() + QLatin1String(".") + QString::number(i);
 }
 
 void rotateLogFiles()

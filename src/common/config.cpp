@@ -16,7 +16,7 @@
 #include <QWindow>
 
 #define GEOMETRY_LOG(window, message) \
-    COPYQ_LOG( QString::fromLatin1("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
+    COPYQ_LOG( QStringLiteral("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
 
 namespace {
 
@@ -35,7 +35,7 @@ QSize frameSize(QWidget *widget) {
 
 QString toString(const QRect &geometry)
 {
-    return QString::fromLatin1("%1x%2,%3,%4")
+    return QStringLiteral("%1x%2,%3,%4")
             .arg(geometry.width())
             .arg(geometry.height())
             .arg(geometry.x())
@@ -56,7 +56,7 @@ int screenNumber(const QWidget &widget)
 
 QString geometryOptionName(const QWidget &widget)
 {
-    return QString::fromLatin1("Options/%1_geometry").arg(widget.objectName());
+    return QStringLiteral("Options/%1_geometry").arg(widget.objectName());
 }
 
 QString geometryOptionName(const QWidget &widget, bool openOnCurrentScreen)
@@ -64,11 +64,11 @@ QString geometryOptionName(const QWidget &widget, bool openOnCurrentScreen)
     const QString baseGeometryName = geometryOptionName(widget);
 
     if (!openOnCurrentScreen)
-        return QString::fromLatin1("%1_global").arg(baseGeometryName);
+        return QStringLiteral("%1_global").arg(baseGeometryName);
 
     const int n = screenNumber(widget);
     if (n > 0)
-        return QString::fromLatin1("%1_screen_%2").arg(baseGeometryName).arg(n);
+        return QStringLiteral("%1_screen_%2").arg(baseGeometryName).arg(n);
 
     return baseGeometryName;
 }
@@ -81,7 +81,7 @@ QString getGeometryConfigurationFilePath()
 QString resolutionTagForScreen(int i)
 {
     const QRect screenGeometry = ::screenGeometry(i);
-    return QString::fromLatin1("_%1x%2")
+    return QStringLiteral("_%1x%2")
             .arg(screenGeometry.width())
             .arg(screenGeometry.height());
 }
@@ -132,7 +132,7 @@ void ensureWindowOnScreen(QWidget *widget)
 
     if ( frame != QSize(w, h) ) {
         GEOMETRY_LOG(
-            widget, QString::fromLatin1("Resize window: %1x%2 -> %3x%4")
+            widget, QStringLiteral("Resize window: %1x%2 -> %3x%4")
             .arg(frame.width())
             .arg(frame.height())
             .arg(w)
@@ -141,7 +141,7 @@ void ensureWindowOnScreen(QWidget *widget)
     }
 
     if ( widget->pos() != QPoint(x, y) ) {
-        GEOMETRY_LOG( widget, QString::fromLatin1("Move window: %1, %2").arg(x).arg(y) );
+        GEOMETRY_LOG( widget, QStringLiteral("Move window: %1, %2").arg(x).arg(y) );
         widget->move(x, y);
     }
 }
@@ -160,7 +160,7 @@ QString getConfigurationFilePathHelper()
 bool ensureSettingsDirectoryExists()
 {
     QDir settingsDir( settingsDirectoryPath() );
-    if ( !settingsDir.mkpath(".") ) {
+    if ( !settingsDir.mkpath(QStringLiteral(".")) ) {
         log( QStringLiteral("Failed to create the directory for settings: %1")
              .arg(settingsDir.path()),
              LogError );
@@ -235,7 +235,7 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
     const QRect newGeometry = w->geometry();
     GEOMETRY_LOG( w,
-        QString::fromLatin1("%5 geometry \"%1%2\": %3 -> %4").arg(
+        QStringLiteral("%5 geometry \"%1%2\": %3 -> %4").arg(
             optionName,
             restoreUntaggedGeometry ? QString() : tag,
             toString(oldGeometry),
@@ -252,19 +252,19 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     geometrySettings.setValue(optionName + tag, geometry);
     geometrySettings.setValue(optionName, geometry);
     geometrySettings.setValue(geometryOptionName(*w), geometry);
-    GEOMETRY_LOG( w, QString::fromLatin1("Save geometry \"%1%2\": %3")
+    GEOMETRY_LOG( w, QStringLiteral("Save geometry \"%1%2\": %3")
                   .arg(optionName, tag, toString(w->geometry())) );
 }
 
 QByteArray mainWindowState(const QString &mainWindowObjectName)
 {
-    const QString optionName = QString::fromLatin1("Options/%1_state").arg(mainWindowObjectName);
+    const QString optionName = QStringLiteral("Options/%1_state").arg(mainWindowObjectName);
     return geometryOptionValue(optionName).toByteArray();
 }
 
 void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
 {
-    const QString optionName = QString::fromLatin1("Options/%1_state").arg(mainWindowObjectName);
+    const QString optionName = QStringLiteral("Options/%1_state").arg(mainWindowObjectName);
     setGeometryOptionValue(optionName, state);
 }
 
@@ -293,7 +293,7 @@ void moveWindowOnScreen(QWidget *w, QPoint pos)
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
 {
-    GEOMETRY_LOG( w, QString::fromLatin1("Geometry blocked until hidden: %1").arg(blocked) );
+    GEOMETRY_LOG( w, QStringLiteral("Geometry blocked until hidden: %1").arg(blocked) );
     w->setProperty(propertyGeometryLockedUntilHide, blocked);
 }
 
