@@ -25,22 +25,22 @@ QString messageCodeToString(int code)
 {
     switch (code) {
     case CommandFunctionCallReturnValue:
-        return "CommandFunctionCallReturnValue";
+        return QStringLiteral("CommandFunctionCallReturnValue");
     case CommandInputDialogFinished:
-        return "CommandInputDialogFinished";
+        return QStringLiteral("CommandInputDialogFinished");
     case CommandStop:
-        return "CommandStop";
+        return QStringLiteral("CommandStop");
     case CommandData:
-        return "CommandData";
+        return QStringLiteral("CommandData");
     default:
-        return QString::fromLatin1("Unknown(%1)").arg(code);
+        return QStringLiteral("Unknown(%1)").arg(code);
     }
 }
 
 QCoreApplication *createClientApplication(int &argc, char **argv, const QStringList &arguments)
 {
     // Clipboard access requires QApplication.
-    if ( arguments.size() > 1 && arguments[0] == "--clipboard-access" ) {
+    if ( arguments.size() > 1 && arguments[0] == QLatin1String("--clipboard-access") ) {
         const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
         setLogLabel(arguments[1].toUtf8());
@@ -69,7 +69,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
-    COPYQ_LOG_VERBOSE( "Message received: " + messageCodeToString(messageCode) );
+    COPYQ_LOG_VERBOSE( QLatin1String("Message received: ") + messageCodeToString(messageCode) );
 
     switch (messageCode) {
     case CommandFunctionCallReturnValue:
@@ -91,7 +91,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         break;
 
     default:
-        log( "Unhandled message: " + messageCodeToString(messageCode), LogError );
+        log( QLatin1String("Unhandled message: ") + messageCodeToString(messageCode), LogError );
         break;
     }
 }

@@ -29,7 +29,7 @@ QString lockFilePath()
     // Ensure parent dir exists.
     const QString path = QDir::cleanPath( lockFilePath + QLatin1String("/..") );
     QDir dir(path);
-    dir.mkpath(".");
+    dir.mkpath(QStringLiteral("."));
 
     return lockFilePath;
 }
@@ -45,7 +45,7 @@ Server::Server(const QString &name, QObject *parent)
     if ( m_lockFile.tryLock() && !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
         if ( !m_server->listen(name) ) {
-            log( QString("Failed to create server \"%1\": %2")
+            log( QStringLiteral("Failed to create server \"%1\": %2")
                  .arg(m_server->fullServerName(), m_server->errorString()),
                  LogError);
         }
@@ -86,7 +86,7 @@ void Server::close()
     m_server->close();
 
     if (m_socketCount > 0) {
-        COPYQ_LOG( QString("Waiting for %1 sockets to disconnect").arg(m_socketCount) );
+        COPYQ_LOG( QStringLiteral("Waiting for %1 sockets to disconnect").arg(m_socketCount) );
 
         QEventLoop loop;
         m_loop = &loop;
