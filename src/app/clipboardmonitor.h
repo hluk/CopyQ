@@ -21,6 +21,7 @@ class ClipboardMonitor final : public QObject
 
 public:
     explicit ClipboardMonitor(const QStringList &formats);
+    void startMonitoring();
 
 signals:
     void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);

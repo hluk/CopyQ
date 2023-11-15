@@ -91,8 +91,6 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
         clipboardData->owner.clear();
         clipboardData->newOwner.clear();
-        updateClipboardData(clipboardData);
-        useNewClipboardData(clipboardData);
     }
 
     initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
@@ -108,6 +106,9 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     m_monitoring = true;
 
     DummyClipboard::startMonitoring(formats);
+
+    updateClipboardData(&m_clipboardData);
+    updateClipboardData(&m_selectionData);
 }
 
 void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
@@ -298,8 +299,8 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
     }
 
-    // In case there is no timestamp, update only if the data changed.
-    if ( newDataTimestamp == 0 && clipboardData->data == clipboardData->newData )
+    // Update only if the data changed.
+    if ( clipboardData->data == clipboardData->newData )
         return;
 
     clipboardData->newDataTimestamp = newDataTimestamp;

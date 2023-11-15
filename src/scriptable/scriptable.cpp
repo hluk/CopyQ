@@ -2808,6 +2808,8 @@ void Scriptable::monitorClipboard()
              this, &Scriptable::onMonitorClipboardUnchanged );
     connect( &monitor, &ClipboardMonitor::synchronizeSelection,
              this, &Scriptable::onSynchronizeSelection );
+
+    monitor.startMonitoring();
     loop.exec();
 }
 

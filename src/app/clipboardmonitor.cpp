@@ -73,6 +73,10 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     }
 #endif
 
+}
+
+void ClipboardMonitor::startMonitoring()
+{
     m_clipboard->startMonitoring(m_formats);
 }
 
