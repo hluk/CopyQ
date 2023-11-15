@@ -3814,6 +3814,7 @@ void Tests::automaticCommandStoreSpecialFormat()
 
 void Tests::automaticCommandIgnoreSpecialFormat()
 {
+    TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
     const auto script = R"(
         setCommands([
             { automatic: true, name: 'CMD1', cmd: 'copyq add CMD1', input: 'test-format', remove: true },
@@ -3824,7 +3825,6 @@ void Tests::automaticCommandIgnoreSpecialFormat()
     RUN(script, "");
     WAIT_ON_OUTPUT("commands().length", "3\n");
 
-    TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
     WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1", "CMD1,");
 
     TEST( m_test->setClipboard("SHOULD NOT BE IGNORED") );
