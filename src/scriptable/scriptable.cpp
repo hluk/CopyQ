@@ -451,9 +451,11 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
 {
     const auto v = engine->evaluate(script);
     if ( v.isError() ) {
-        log( QStringLiteral("Exception during evaluate: %1").arg(v.toString()), LogError );
-        log( QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script), LogError );
-        Q_ASSERT(v.toString() == QStringLiteral("Evaluation aborted"));
+        log( QStringLiteral("Exception during evaluate: %1\n%2")
+            .arg(
+                v.toString(),
+                QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script)
+            ), LogError );
     }
     return v;
 }
@@ -682,7 +684,7 @@ Scriptable::Scriptable(
             "return function() {"
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
-                "delete _copyqArguments;"
+                "_copyqArguments = null;"
                 "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return v;"
             "}"
@@ -693,7 +695,7 @@ Scriptable::Scriptable(
             "return function() {"
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
-                "delete _copyqArguments;"
+                "_copyqArguments = null;"
                 "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return ByteArray(v);"
             "}"
