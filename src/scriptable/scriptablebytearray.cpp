@@ -17,6 +17,11 @@ ScriptableByteArray::ScriptableByteArray(const QString &text)
 {
 }
 
+ScriptableByteArray::ScriptableByteArray(const QVariant &value)
+    : m_variant(value)
+{
+}
+
 ScriptableByteArray::ScriptableByteArray(int size)
     : m_self(size, /*ch=*/0)
 {
@@ -25,98 +30,99 @@ ScriptableByteArray::ScriptableByteArray(int size)
 ScriptableByteArray::ScriptableByteArray(const ScriptableByteArray &other)
     : QObject()
     , m_self(other.m_self)
+    , m_variant(other.m_variant)
 {
 }
 
 void ScriptableByteArray::chop(int n)
 {
-    m_self.chop(n);
+    self().chop(n);
 }
 
 bool ScriptableByteArray::equals(const QJSValue &other)
 {
     const auto byteArray = engine()->fromScriptValue<ScriptableByteArray*>(other);
-    return byteArray && m_self == *byteArray->data();
+    return byteArray && self() == *byteArray->data();
 }
 
-QJSValue ScriptableByteArray::left(int len) const
+QJSValue ScriptableByteArray::left(int len)
 {
-    return newByteArray( m_self.left(len) );
+    return newByteArray( self().left(len) );
 }
 
-QJSValue ScriptableByteArray::mid(int pos, int len) const
+QJSValue ScriptableByteArray::mid(int pos, int len)
 {
-    return newByteArray( m_self.mid(pos, len) );
+    return newByteArray( self().mid(pos, len) );
 }
 
 QJSValue ScriptableByteArray::remove(int pos, int len)
 {
-    return newByteArray( m_self.remove(pos, len) );
+    return newByteArray( self().remove(pos, len) );
 }
 
-QJSValue ScriptableByteArray::right(int len) const
+QJSValue ScriptableByteArray::right(int len)
 {
-    return newByteArray( m_self.right(len) );
+    return newByteArray( self().right(len) );
 }
 
-QJSValue ScriptableByteArray::simplified() const
+QJSValue ScriptableByteArray::simplified()
 {
-    return newByteArray( m_self.simplified() );
+    return newByteArray( self().simplified() );
 }
 
-QJSValue ScriptableByteArray::toBase64() const
+QJSValue ScriptableByteArray::toBase64()
 {
-    return newByteArray( m_self.toBase64() );
+    return newByteArray( self().toBase64() );
 }
 
-QJSValue ScriptableByteArray::toLower() const
+QJSValue ScriptableByteArray::toLower()
 {
-    return newByteArray( m_self.toLower() );
+    return newByteArray( self().toLower() );
 }
 
-QJSValue ScriptableByteArray::toUpper() const
+QJSValue ScriptableByteArray::toUpper()
 {
-    return newByteArray( m_self.toUpper() );
+    return newByteArray( self().toUpper() );
 }
 
-QJSValue ScriptableByteArray::trimmed() const
+QJSValue ScriptableByteArray::trimmed()
 {
-    return newByteArray( m_self.trimmed() );
+    return newByteArray( self().trimmed() );
 }
 
 void ScriptableByteArray::truncate(int pos)
 {
-    m_self.truncate(pos);
+    self().truncate(pos);
 }
 
-QJSValue ScriptableByteArray::valueOf() const
+QJSValue ScriptableByteArray::valueOf()
 {
     return toString();
 }
 
-int ScriptableByteArray::size() const
+int ScriptableByteArray::size()
 {
-    return m_self.size();
+    return self().size();
 }
 
-QString ScriptableByteArray::toString() const
+QString ScriptableByteArray::toString()
 {
-    return getTextData(m_self);
+    return getTextData(self());
 }
 
-QString ScriptableByteArray::toLatin1String() const
+QString ScriptableByteArray::toLatin1String()
 {
-    return QString::fromLatin1(m_self);
+    return QString::fromLatin1(self());
 }
 
-QJSValue ScriptableByteArray::length() const
+QJSValue ScriptableByteArray::length()
 {
-    return static_cast<int>(m_self.length());
+    return static_cast<int>(self().length());
 }
 
 void ScriptableByteArray::setLength(QJSValue size)
 {
-    m_self.resize(size.toInt());
+    self().resize(size.toInt());
 }
 
 QJSEngine *ScriptableByteArray::engine() const
@@ -127,6 +133,18 @@ QJSEngine *ScriptableByteArray::engine() const
 QJSValue ScriptableByteArray::newByteArray(const QByteArray &bytes) const
 {
     return engine()->newQObject( new ScriptableByteArray(bytes) );
+}
+
+QByteArray &ScriptableByteArray::self()
+{
+    // Convert lazily to QByteArray from QVariant when needed.
+    // This avoids expensive conversion from DataFile type.
+    if (m_variant.isValid()) {
+        m_self = m_variant.toByteArray();
+        m_variant.clear();
+    }
+
+    return m_self;
 }
 
 const QByteArray *getByteArray(const QJSValue &value)
