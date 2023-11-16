@@ -421,7 +421,7 @@ struct ScriptValueFactory<QVariant> {
             return ::toScriptValue(variant.value<QVariantMap>(), scriptable);
 
         if (variant.canConvert<QByteArray>())
-            return ::toScriptValue(variant.toByteArray(), scriptable);
+            return scriptable->engine()->newQObject(new ScriptableByteArray(variant));
 
         return scriptable->engine()->toScriptValue(variant);
     }
