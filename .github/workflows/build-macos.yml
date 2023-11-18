@@ -46,7 +46,7 @@ jobs:
           buildPreset: macOS
 
       - name: Create gnupg directory for tests
-        run: mkdir -p ~/.gnupg
+        run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Create macOS bundle
         if: matrix.create_bundle
