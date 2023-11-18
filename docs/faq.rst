@@ -97,6 +97,8 @@ then choose what to import back.
 
    Importing tabs and commands won't override existing tabs, and will create new ones.
 
+See also: :ref:`backup`
+
 .. _faq-disable-notifications:
 
 How to enable or disable displaying notification when clipboard changes?

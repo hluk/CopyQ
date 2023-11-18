@@ -1,3 +1,5 @@
+.. _backup:
+
 Backup
 ======
 
@@ -17,14 +19,21 @@ Back Up Manually
 ----------------
 
 To back up all the data, **exit the application** first and **copy
-the configuration directory**.
+the configuration directory** and **the data directory**.
 
-Path to configuration is usually:
+Path to the configuration is usually:
 
 -  Windows: ``%APPDATA%\copyq``
 -  Portable version for Windows: ``config`` sub-folder in unzipped
    application directory
 -  Linux: ``~/.config/copyq``
+
+Path to the data is usually:
+
+-  Windows: ``%APPDATA%\copyq\items``
+-  Portable version for Windows: ``items`` sub-folder in unzipped
+   application directory
+-  Linux: ``~/.local/share/copyq/copyq/items``
 
 To copy the configuration path to clipboard from CopyQ:
 
@@ -38,6 +47,8 @@ To copy the configuration path to clipboard from CopyQ:
     copy(dir.absolutePath())
 
 3. Click OK dialog button.
+
+To copy the data path, change ``'config'`` to ``'data'``.
 
 To restore the backup, exit the application and replace the
 configuration directory.

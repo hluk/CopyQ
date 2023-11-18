@@ -71,6 +71,40 @@ outside the application.
     $ COPYQ_SETTINGS_PATH=$HOME/copyq-settings copyq tab
     &clipboard
 
+Item Data Path
+--------------
+
+Item data path can be overridden with ``COPYQ_ITEM_DATA_PATH``
+environment variable.
+
+::
+
+    $ copyq info data
+    /home/user/.local/share/copyq/copyq
+
+    $ COPYQ_ITEM_DATA_PATH=$HOME/copyq-data copyq info data
+    /home/user/copyq-data/copyq/copyq.conf
+
+The directory contains data for items that exceeds 4096 bytes. The default
+threshold can be overridden with ``item_data_threshold`` option.
+
+::
+
+    $ copyq config item_data_threshold
+    4096
+
+To disable using the data directory and store everything into tab data files,
+set the threshold to a negative value. The tab data file will be updated only
+after the items in the tab change.
+
+::
+
+    $ copyq config item_data_threshold -1
+    -1
+
+Note: Using data directory ensure that the application is fast even if there
+are a lot of large items in tabs.
+
 Icon Color
 ----------
 

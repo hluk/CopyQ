@@ -25,6 +25,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItem
 bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDataThreshold = -1);
 bool deserializeData(QAbstractItemModel *model, QIODevice *file, int maxItems);
 
+QString itemDataPath();
 bool itemDataFiles(QIODevice *file, QStringList *files);
 
 #endif // SERIALIZE_H

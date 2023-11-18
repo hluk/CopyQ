@@ -3419,6 +3419,20 @@ void Tests::configPathEnvVariable()
     QCOMPARE( out.left(expectedOut.size()), expectedOut );
 }
 
+void Tests::itemDataPathEnvVariable()
+{
+    const auto path = QDir::home().absoluteFilePath("copyq-data");
+    const auto environment = QStringList("COPYQ_ITEM_DATA_PATH=" + path);
+
+    QByteArray out;
+    QByteArray err;
+    run(Args() << "info" << "data", &out, &err, QByteArray(), environment);
+    QVERIFY2( testStderr(err), err );
+
+    const auto expectedOut = path.toUtf8();
+    QCOMPARE( out.left(expectedOut.size()), expectedOut );
+}
+
 void Tests::configTabs()
 {
     const QString sep = QStringLiteral("\n");
