@@ -2948,7 +2948,7 @@ void MainWindow::tabChanged(int current, int)
 
     if (!currentIsTabGroup) {
         // update item menu (necessary for keyboard shortcuts to work)
-        auto c = browserOrNull();
+        auto c = browser();
         if (c) {
             c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 
