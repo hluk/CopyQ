@@ -15,12 +15,6 @@ jobs:
           - os: ubuntu-20.04
             buildname: Linux-GCC
             compiler: g++
-            coverage: true
-            compiler_flags: >-
-              --coverage
-              -fprofile-arcs
-              -ftest-coverage
-              -fprofile-abs-path
             compiler_package: g++
             with_qt6: false
 
@@ -35,6 +29,12 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_qt6: true
+            coverage: true
+            compiler_flags: >-
+              --coverage
+              -fprofile-arcs
+              -ftest-coverage
+              -fprofile-abs-path
 
     steps:
       - name: Checkout source code
