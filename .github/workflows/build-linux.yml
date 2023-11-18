@@ -78,7 +78,7 @@ jobs:
             ]
 
       - name: Create gnupg directory for tests
-        run: mkdir -p ~/.gnupg
+        run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Run tests
         working-directory: '${{runner.workspace}}/install/bin'

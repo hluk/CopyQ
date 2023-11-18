@@ -66,6 +66,7 @@ OldPath=$PATH
 export PATH="$GPGPATH":$Destination
 
 mkdir ~/.gnupg
+chmod go-rwx ~/.gnupg
 gpg --version
 
 export QT_FORCE_STDERR_LOGGING=1
