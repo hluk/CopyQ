@@ -22,8 +22,6 @@ exclude_regexs=(
     '.*/ui_.*'
     '.*/qrc_.*'
     '.*CMake.*'
-    '.*/tests/.*'
-    '.*/src/gui/add_icons.h'
 )
 
 arguments=()
@@ -47,4 +45,5 @@ coveralls \
     --follow-symlinks \
     --build-root "build" \
     --gcov gcov \
+    --gcov-options '\-lp' \
     "${arguments[@]}"
