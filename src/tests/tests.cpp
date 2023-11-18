@@ -1971,6 +1971,7 @@ void Tests::classByteArray()
 {
     RUN("ByteArray", "");
     RUN("ByteArray('test')", "test");
+    RUN("ByteArray(ByteArray('test'))", "test");
     RUN("typeof(ByteArray('test'))", "object\n");
     RUN("ByteArray('test') instanceof ByteArray", "true\n");
     RUN("b = ByteArray('0123'); b.chop(2); b", "01");
@@ -1979,6 +1980,7 @@ void Tests::classByteArray()
     RUN("ByteArray('0123').mid(1, 2)", "12");
     RUN("ByteArray('0123').mid(1)", "123");
     RUN("ByteArray('0123').right(3)", "123");
+    RUN("ByteArray('0123').remove(1, 2)", "03");
     RUN("ByteArray(' 01  23 ').simplified()", "01 23");
     RUN("ByteArray('0123').toBase64()", "MDEyMw==");
     RUN("ByteArray('ABCd').toLower()", "abcd");

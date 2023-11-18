@@ -421,7 +421,7 @@ struct ScriptValueFactory<QVariant> {
             return ::toScriptValue(variant.value<QVariantMap>(), scriptable);
 
         if (variant.canConvert<QByteArray>())
-            return scriptable->engine()->newQObject(new ScriptableByteArray(variant));
+            return scriptable->newByteArray(new ScriptableByteArray(variant));
 
         return scriptable->engine()->toScriptValue(variant);
     }
@@ -467,17 +467,13 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     return v;
 }
 
-void addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSEngine *engine, const QString &initFunction = QString())
+QJSValue addScriptableClass(const QMetaObject *metaObject, const QString &name, QJSEngine *engine)
 {
     auto cls = engine->newQMetaObject(metaObject);
-    const QString privateName(QStringLiteral("_copyq_") + name);
-    engine->globalObject().setProperty(privateName, cls);
-    // Only single argument constructors are supported.
-    // It's possible to use "...args" but it's not supported in Qt 5.9.
-    evaluateStrict(engine, QStringLiteral(
-        "function %1(arg) {return %3(arg === undefined ? new %2() : new %2(arg));}"
-        "%1.prototype = %2;"
-    ).arg(name, privateName, initFunction));
+    auto fn = engine->globalObject().property(name);
+    Q_ASSERT(fn.isCallable());
+    fn.setProperty(QStringLiteral("prototype"), cls);
+    return cls;
 }
 
 QByteArray serializeScriptValue(const QJSValue &value, Scriptable *scriptable)
@@ -727,13 +723,18 @@ Scriptable::Scriptable(
 
     installObject(this, &Scriptable::staticMetaObject, globalObject);
 
-    addScriptableClass(&ScriptableByteArray::staticMetaObject, QStringLiteral("ByteArray"), m_engine);
-    addScriptableClass(&ScriptableFile::staticMetaObject, QStringLiteral("File"), m_engine);
-    addScriptableClass(&ScriptableTemporaryFile::staticMetaObject, QStringLiteral("TemporaryFile"), m_engine);
-    addScriptableClass(&ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
-    addScriptableClass(&ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine,
-                       QStringLiteral("global._initItemSelection = "));
-    addScriptableClass(&ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
+    m_byteArrayPrototype = addScriptableClass(
+        &ScriptableByteArray::staticMetaObject, QStringLiteral("ByteArray"), m_engine);
+    m_filePrototype = addScriptableClass(
+        &ScriptableFile::staticMetaObject, QStringLiteral("File"), m_engine);
+    m_temporaryFilePrototype = addScriptableClass(
+        &ScriptableTemporaryFile::staticMetaObject, QStringLiteral("TemporaryFile"), m_engine);
+    m_dirPrototype = addScriptableClass(
+        &ScriptableDir::staticMetaObject, QStringLiteral("Dir"), m_engine);
+    m_itemSelectionPrototype = addScriptableClass(
+        &ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine);
+    m_settingsPrototype = addScriptableClass(
+        &ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
 }
 
 QJSValue Scriptable::argumentsArray() const
@@ -753,7 +754,12 @@ QJSValue Scriptable::argument(int index) const
 
 QJSValue Scriptable::newByteArray(const QByteArray &bytes) const
 {
-    return m_engine->newQObject(new ScriptableByteArray(bytes));
+    return newQObject(new ScriptableByteArray(bytes), m_byteArrayPrototype);
+}
+
+QJSValue Scriptable::newByteArray(ScriptableByteArray *ba) const
+{
+    return newQObject(ba, m_byteArrayPrototype);
 }
 
 QByteArray Scriptable::fromString(const QString &value) const
@@ -801,7 +807,14 @@ QJSValue Scriptable::fromDataMap(const QVariantMap &dataMap) const
 QByteArray Scriptable::makeByteArray(const QJSValue &value) const
 {
     const QByteArray *data = getByteArray(value);
-    return data ? *data : fromString(value.toString());
+    if (data)
+        return *data;
+
+    const QVariant variant = value.toVariant();
+    if (variant.type() == QVariant::ByteArray)
+        return variant.toByteArray();
+
+    return fromString(value.toString());
 }
 
 bool Scriptable::toItemData(const QJSValue &value, const QString &mime, QVariantMap *data) const
@@ -946,6 +959,65 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
     return v;
+}
+
+QJSValue Scriptable::ByteArray() const
+{
+    const auto arg = argument(0);
+    if (arg.isUndefined())
+        return newByteArray(new ScriptableByteArray());
+
+    if (arg.isNumber())
+        return newByteArray(new ScriptableByteArray(arg.toInt()));
+
+    const auto obj = arg.toQObject();
+    if (obj) {
+        const auto ba = qobject_cast<ScriptableByteArray*>(obj);
+        if (ba)
+            return newByteArray(new ScriptableByteArray(*ba));
+    }
+
+    return newByteArray(new ScriptableByteArray(makeByteArray(arg)));
+}
+
+QJSValue Scriptable::File() const
+{
+    const auto arg = argument(0);
+    const auto path = arg.isUndefined() ? QString() : toString(arg);
+    return newQObject(new ScriptableFile(path), m_filePrototype);
+}
+
+QJSValue Scriptable::TemporaryFile() const
+{
+    const auto arg = argument(0);
+    const auto path = arg.isUndefined() ? QString() : toString(arg);
+    return newQObject(new ScriptableTemporaryFile(path), m_temporaryFilePrototype);
+}
+
+QJSValue Scriptable::Dir() const
+{
+    const auto arg = argument(0);
+    const auto path = arg.isUndefined() ? QString() : toString(arg);
+    return newQObject(new ScriptableDir(path), m_dirPrototype);
+}
+
+QJSValue Scriptable::ItemSelection() const
+{
+    const auto arg = argument(0);
+    const auto tabName = arg.isUndefined() ? QString() : toString(arg);
+    auto sel = new ScriptableItemSelection(tabName);
+    auto obj = newQObject(sel, m_itemSelectionPrototype);
+    sel->init(obj, m_proxy, m_tabName);
+    return obj;
+}
+
+QJSValue Scriptable::Settings() const
+{
+    const auto arg = argument(0);
+    if (arg.isUndefined())
+        return newQObject(new ScriptableSettings(), m_settingsPrototype);
+
+    return newQObject(new ScriptableSettings(toString(arg)), m_settingsPrototype);
 }
 
 QJSValue Scriptable::version()
@@ -3742,6 +3814,7 @@ QJSValue Scriptable::readInput()
     }
 
     inputReaderThread->deleteLater();
+    COPYQ_LOG(QStringLiteral("Read Input %1 bytes").arg(inputReaderThread->input.length()));
     return newByteArray(inputReaderThread->input);
 }
 
@@ -3784,20 +3857,11 @@ NetworkReply *Scriptable::networkPostHelper()
     return NetworkReply::post(url, postData, this);
 }
 
-QJSValue Scriptable::initItemSelection(const QJSValue &obj)
+QJSValue Scriptable::newQObject(QObject *obj, const QJSValue &prototype) const
 {
-    QObject *qobj = obj.toQObject();
-    Q_ASSERT(qobj);
-    if (!qobj)
-        return {};
-
-    auto sel = qobject_cast<ScriptableItemSelection*>(qobj);
-    Q_ASSERT(sel);
-    if (!sel)
-        return {};
-
-    sel->init(obj, m_proxy, m_tabName);
-    return obj;
+    auto value = m_engine->newQObject(obj);
+    value.setPrototype(prototype);
+    return value;
 }
 
 void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject)

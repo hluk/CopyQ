@@ -16,6 +16,7 @@
 #include "platform/platformnativeinterface.h"
 
 class Action;
+class ScriptableByteArray;
 class ClipboardBrowser;
 class ItemFactory;
 class NetworkReply;
@@ -56,7 +57,6 @@ class Scriptable final : public QObject
 
     Q_PROPERTY(QJSValue _copyqUncaughtException READ uncaughtException WRITE setUncaughtException)
     Q_PROPERTY(QJSValue _copyqHasUncaughtException READ hasUncaughtException)
-    Q_PROPERTY(QJSValue _initItemSelection READ getUndefined WRITE initItemSelection)
 
 public:
     Scriptable(
@@ -76,6 +76,7 @@ public:
     QJSValue argument(int index) const;
 
     QJSValue newByteArray(const QByteArray &bytes) const;
+    QJSValue newByteArray(ScriptableByteArray *ba) const;
 
     QByteArray fromString(const QString &value) const;
     QVariant toVariant(const QJSValue &value);
@@ -153,6 +154,13 @@ public:
     void abortEvaluation(Abort abort = Abort::AllEvaluations);
 
 public slots:
+    QJSValue ByteArray() const;
+    QJSValue File() const;
+    QJSValue TemporaryFile() const;
+    QJSValue Dir() const;
+    QJSValue ItemSelection() const;
+    QJSValue Settings() const;
+
     QJSValue version();
     QJSValue help();
 
@@ -451,8 +459,7 @@ private:
     NetworkReply *networkGetHelper();
     NetworkReply *networkPostHelper();
 
-    QJSValue getUndefined () { return {}; }
-    QJSValue initItemSelection(const QJSValue &obj);
+    QJSValue newQObject(QObject *obj, const QJSValue &prototype) const;
 
     ScriptableProxy *m_proxy;
     QJSEngine *m_engine;
@@ -494,6 +501,13 @@ private:
     QJSValue m_createFn;
     QJSValue m_createFnB;
     QJSValue m_createProperty;
+
+    QJSValue m_byteArrayPrototype;
+    QJSValue m_filePrototype;
+    QJSValue m_temporaryFilePrototype;
+    QJSValue m_dirPrototype;
+    QJSValue m_itemSelectionPrototype;
+    QJSValue m_settingsPrototype;
 };
 
 class NetworkReply final : public QObject {
