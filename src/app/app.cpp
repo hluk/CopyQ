@@ -17,6 +17,7 @@
 #include <QDir>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QStandardPaths>
 #include <QTranslator>
 #include <QVariant>
 
@@ -148,6 +149,24 @@ App::App(QCoreApplication *application,
 
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
+
+    if ( qEnvironmentVariableIsEmpty("COPYQ_ITEM_DATA_PATH") ) {
+        if ( !m_app->property("CopyQ_item_data_path").isValid() ) {
+            m_app->setProperty(
+                "CopyQ_item_data_path",
+                QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                + QLatin1String("/items"));
+        }
+    } else {
+        m_app->setProperty(
+            "CopyQ_item_data_path",
+#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
+            qEnvironmentVariable("COPYQ_ITEM_DATA_PATH")
+#else
+            QString::fromLocal8bit(qgetenv("COPYQ_ITEM_DATA_PATH"))
+#endif
+        );
+    }
 
 #ifdef HAS_TESTS
     initTests();

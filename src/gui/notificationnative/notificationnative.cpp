@@ -22,7 +22,6 @@
 #include <QPainter>
 #include <QPointer>
 #include <QPushButton>
-#include <QStandardPaths>
 #include <QTextEdit>
 
 #include <knotifications_version.h>

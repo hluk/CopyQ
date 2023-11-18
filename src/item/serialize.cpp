@@ -7,6 +7,7 @@
 #include "common/mimetypes.h"
 
 #include <QAbstractItemModel>
+#include <QCoreApplication>
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QDataStream>
@@ -15,7 +16,6 @@
 #include <QList>
 #include <QPair>
 #include <QSaveFile>
-#include <QStandardPaths>
 #include <QStringList>
 
 #include <unordered_map>
@@ -185,12 +185,12 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 
 QString dataFilePath(const QByteArray &bytes, bool create = false)
 {
-    QDir dir( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) );
+    QDir dir(itemDataPath());
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(QByteArrayLiteral("copyq_salt"));
     hash.addData(bytes);
     const QString sha = QString::fromUtf8( hash.result().toHex() );
-    const QString subpath = QStringLiteral("items/%1/%2/%3").arg(
+    const QString subpath = QStringLiteral("%1/%2/%3").arg(
             sha.mid(0, 16),
             sha.mid(16, 16),
             sha.mid(32, 16)
@@ -431,4 +431,9 @@ bool itemDataFiles(QIODevice *file, QStringList *files)
     }
 
     return out.status() == QDataStream::Ok;
+}
+
+QString itemDataPath()
+{
+    return qApp->property("CopyQ_item_data_path").toString();
 }

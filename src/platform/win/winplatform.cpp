@@ -125,6 +125,7 @@ Application *createApplication(int &argc, char **argv)
     if ( !portableFolder.isEmpty() ) {
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, portableFolder);
         qputenv("COPYQ_LOG_FILE", portableFolder.toUtf8() + "/copyq.log");
+        app->setProperty("CopyQ_item_data_path", portableFolder + QLatin1String("/items"));
     }
 
     return app;

@@ -13,7 +13,6 @@
 #include <QFile>
 #include <QSaveFile>
 #include <QSet>
-#include <QStandardPaths>
 
 namespace {
 
@@ -178,8 +177,8 @@ bool moveItems(const QString &oldId, const QString &newId)
 
 void cleanDataFiles(const QStringList &tabNames)
 {
-    QDir dir( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) );
-    if ( !dir.cd(QStringLiteral("items")) )
+    QDir dir(itemDataPath());
+    if ( !dir.exists() )
         return;
 
     QStringList files;

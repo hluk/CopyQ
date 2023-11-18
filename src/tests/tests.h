@@ -216,6 +216,7 @@ private slots:
     void configAutostart();
 
     void configPathEnvVariable();
+    void itemDataPathEnvVariable();
 
     void configTabs();
 
