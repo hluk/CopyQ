@@ -8,6 +8,8 @@
 
 void WinPlatformClipboard::startMonitoring(const QStringList &formats)
 {
+    m_lastClipboardSequenceNumber = GetClipboardSequenceNumber();
+
     /* Clipboard needs to be checked in intervals since
      * the QClipboard::changed() signal is not emitted in some cases on Windows.
      */

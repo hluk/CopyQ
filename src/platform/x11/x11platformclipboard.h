@@ -43,6 +43,7 @@ private:
         bool enabled = true;
         bool cloningData = false;
         bool abortCloning = false;
+        bool ignoreNext = false;
         int retry = 0;
     };
 

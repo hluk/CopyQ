@@ -476,18 +476,32 @@ public:
         return clipboard()->data(mode, QStringList(mime)).value(mime).toByteArray();
     }
 
-    void setClipboard(const QVariantMap &data, ClipboardMode mode) override
+    QByteArray setClipboard(const QVariantMap &data, ClipboardMode mode) override
     {
-        waitFor(waitMsSetClipboard);
+        if ( !data.isEmpty() ) {
+            // Wait for clipboard monitor
+            QByteArray error;
+            SleepTimer t(8000);
+            do {
+                error = runClient(
+                    Args("monitoring() == isClipboardMonitorRunning()"),
+                    QByteArrayLiteral("true\n"));
+            } while (!error.isEmpty() && t.sleep());
+
+            if (!error.isEmpty())
+                return "Clipboard monitor is not running:" + error;
+        }
+
         clipboard()->setData(mode, data);
+        return {};
     }
 
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime, ClipboardMode mode) override
     {
-        if ( getClipboard(mime, mode) == bytes )
-            return QByteArray();
+        const QByteArray error = setClipboard( createDataMap(mime, bytes), mode );
+        if (!error.isEmpty())
+            return error;
 
-        setClipboard( createDataMap(mime, bytes), mode );
         return verifyClipboard(bytes, mime);
     }
 
@@ -630,9 +644,9 @@ public:
         verifyConfiguration();
 
         // Clear clipboard.
-        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText, ClipboardMode::Clipboard), "Failed to reset clipboard" );
+        RETURN_ON_ERROR( setClipboard({}, ClipboardMode::Clipboard), "Failed to reset clipboard" );
 #ifdef HAS_MOUSE_SELECTIONS
-        RETURN_ON_ERROR( setClipboard(QByteArray(), mimeText, ClipboardMode::Selection), "Failed to reset selection" );
+        RETURN_ON_ERROR( setClipboard({}, ClipboardMode::Selection), "Failed to reset selection" );
 #endif
 
         RETURN_ON_ERROR( startServer(), "Failed to initialize server" );
@@ -2736,6 +2750,7 @@ void Tests::toggleClipboardMonitoring()
 
     RUN("disable", "");
     RUN("monitoring", "false\n");
+    WAIT_ON_OUTPUT("isClipboardMonitorRunning", "false\n");
 
     const QByteArray data2 = generateData();
     TEST( m_test->setClipboard(data2) );
@@ -2744,6 +2759,7 @@ void Tests::toggleClipboardMonitoring()
 
     RUN("enable", "");
     RUN("monitoring", "true\n");
+    WAIT_ON_OUTPUT("isClipboardMonitorRunning", "true\n");
 
     const QByteArray data3 = generateData();
     TEST( m_test->setClipboard(data3) );
@@ -3814,7 +3830,6 @@ void Tests::automaticCommandStoreSpecialFormat()
 
 void Tests::automaticCommandIgnoreSpecialFormat()
 {
-    TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
     const auto script = R"(
         setCommands([
             { automatic: true, name: 'CMD1', cmd: 'copyq add CMD1', input: 'test-format', remove: true },
@@ -3825,6 +3840,7 @@ void Tests::automaticCommandIgnoreSpecialFormat()
     RUN(script, "");
     WAIT_ON_OUTPUT("commands().length", "3\n");
 
+    TEST( m_test->setClipboard("SHOULD BE IGNORED", "test-format") );
     WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1", "CMD1,");
 
     TEST( m_test->setClipboard("SHOULD NOT BE IGNORED") );
@@ -4407,8 +4423,6 @@ void Tests::startServerAndRunCommand()
 
 void Tests::avoidStoringPasswords()
 {
-    waitFor(waitMsSetClipboard);
-
 #ifdef Q_OS_WIN
     const QString format("application/x-qt-windows-mime;value=\"Clipboard Viewer Ignore\"");
     const QByteArray value("");
@@ -4424,7 +4438,7 @@ void Tests::avoidStoringPasswords()
         {format, value},
         {mimeText, QByteArrayLiteral("secret")},
     };
-    m_test->setClipboard(data);
+    TEST( m_test->setClipboard(data) );
     waitFor(2 * waitMsPasteClipboard);
     RUN("clipboard" << "?", "");
     RUN("read" << "0" << "1" << "2", "\n\n");

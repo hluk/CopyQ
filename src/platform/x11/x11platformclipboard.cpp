@@ -88,9 +88,22 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
                 this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
     }
 
+    // Ignore the initial clipboard content since
+    // it won't have the correct owner's window title.
+    m_clipboardData.ignoreNext = true;
+    m_selectionData.ignoreNext = true;
+    QTimer::singleShot(5000, this, [this](){
+        m_clipboardData.ignoreNext = false;
+        m_selectionData.ignoreNext = false;
+    });
+
     for (auto clipboardData : {&m_clipboardData, &m_selectionData}) {
         clipboardData->owner.clear();
         clipboardData->newOwner.clear();
+        if ( X11Info::isPlatformX11() ) {
+            updateClipboardData(clipboardData);
+            useNewClipboardData(clipboardData);
+        }
     }
 
     initSingleShotTimer( &m_timerCheckAgain, 0, this, &X11PlatformClipboard::check );
@@ -106,9 +119,6 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     m_monitoring = true;
 
     DummyClipboard::startMonitoring(formats);
-
-    updateClipboardData(&m_clipboardData);
-    updateClipboardData(&m_selectionData);
 }
 
 void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
@@ -312,7 +322,10 @@ void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardDa
     clipboardData->data = clipboardData->newData;
     clipboardData->owner = clipboardData->newOwner;
     clipboardData->timerEmitChange.stop();
-    emit changed(clipboardData->mode);
+    if (clipboardData->ignoreNext)
+        clipboardData->ignoreNext = false;
+    else
+        emit changed(clipboardData->mode);
 }
 
 void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
