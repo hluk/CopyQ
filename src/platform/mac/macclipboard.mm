@@ -20,6 +20,9 @@
 
 void MacClipboard::startMonitoring(const QStringList &formats)
 {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    m_prevChangeCount = [pasteboard changeCount];
+
     auto timer = new MacTimer(this);
     timer->setInterval(250);
     timer->setTolerance(500);

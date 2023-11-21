@@ -72,7 +72,6 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
         m_clipboard->setMonitoringEnabled(ClipboardMode::Selection, false);
     }
 #endif
-
 }
 
 void ClipboardMonitor::startMonitoring()

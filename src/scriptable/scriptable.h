@@ -371,6 +371,7 @@ public slots:
     void monitorClipboard();
     void provideClipboard();
     void provideSelection();
+    QJSValue isClipboardMonitorRunning();
 
     QJSValue clipboardFormatsToSave();
 

@@ -330,4 +330,7 @@ QString pluginsPath();
 QString themesPath();
 QString translationsPath();
 
+void setClipboardMonitorRunning(bool running);
+bool isClipboardMonitorRunning();
+
 #endif // SCRIPTABLEPROXY_H

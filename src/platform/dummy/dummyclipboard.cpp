@@ -27,8 +27,6 @@ void DummyClipboard::startMonitoring(const QStringList &)
 {
     connect(QGuiApplication::clipboard(), &QClipboard::changed,
             this, &DummyClipboard::onClipboardChanged);
-
-    onClipboardChanged(QClipboard::Clipboard);
 }
 
 QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const

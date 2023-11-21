@@ -187,6 +187,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         loadSettings(&appConfig);
     });
 
+    setClipboardMonitorRunning(false);
     startMonitoring();
 
     callback(QStringLiteral("onStart"));
@@ -530,6 +531,8 @@ void ClipboardServer::onClientConnectionFailed(ClientSocketId clientId)
 void ClipboardServer::onMonitorFinished()
 {
     COPYQ_LOG("Monitor finished");
+    if (!m_monitor)
+        setClipboardMonitorRunning(false);
     stopMonitoring();
     startMonitoring();
 }

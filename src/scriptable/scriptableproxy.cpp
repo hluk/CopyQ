@@ -2704,3 +2704,22 @@ QString translationsPath()
 {
     return platformNativeInterface()->translationPrefix();
 }
+
+void setClipboardMonitorRunning(bool running)
+{
+    QSettings settings(
+          QSettings::IniFormat,
+          QSettings::UserScope,
+          QCoreApplication::organizationName(),
+          QCoreApplication::applicationName() + "-monitor");
+    settings.setValue(QStringLiteral("running"), running);
+}
+bool isClipboardMonitorRunning()
+{
+    const QSettings settings(
+          QSettings::IniFormat,
+          QSettings::UserScope,
+          QCoreApplication::organizationName(),
+          QCoreApplication::applicationName() + "-monitor");
+    return settings.value(QStringLiteral("running")).toBool();
+}

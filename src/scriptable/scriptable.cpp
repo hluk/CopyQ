@@ -2810,7 +2810,9 @@ void Scriptable::monitorClipboard()
              this, &Scriptable::onSynchronizeSelection );
 
     monitor.startMonitoring();
+    setClipboardMonitorRunning(true);
     loop.exec();
+    setClipboardMonitorRunning(false);
 }
 
 void Scriptable::provideClipboard()
@@ -2821,6 +2823,11 @@ void Scriptable::provideClipboard()
 void Scriptable::provideSelection()
 {
     provideClipboard(ClipboardMode::Selection);
+}
+
+QJSValue Scriptable::isClipboardMonitorRunning()
+{
+    return ::isClipboardMonitorRunning();
 }
 
 QJSValue Scriptable::clipboardFormatsToSave()
