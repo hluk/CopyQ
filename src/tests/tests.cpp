@@ -3986,6 +3986,36 @@ void Tests::displayCommand()
                 .toUtf8() );
 }
 
+void Tests::displayCommandForMenu()
+{
+    const auto tab = testTab(1);
+    const auto args = Args("tab") << tab << "separator" << ",";
+    const auto script = QString(R"(
+        setCommands([{
+            display: true,
+            cmd: 'copyq:'
+               + 'currentTab = str(data(mimeCurrentTab));'
+               + 'inMenu = str(data(mimeDisplayItemInMenu));'
+               + 'if (inMenu != "1" || currentTab != "%1") abort();'
+               + 'text = str(data(mimeText));'
+               + 'setData(mimeText, "display:" + text);'
+               + 'setData(mimeIcon, String.fromCharCode(0xF328));'
+               + 'setData("application/x-copyq-item-tag", "TAG");'
+               + 'tab(tab()[0]);'
+               + 'old = str(read(0));'
+               + 'add(old + "|" + text);'
+        }])
+        )").arg(tab);
+
+    RUN("config" << "tray_tab" << tab, tab + "\n");
+    RUN("config" << "tray_tab_is_current" << "false", "false\n");
+    RUN(script, "");
+
+    RUN(args << "add(1,2,3,4,5)", "");
+    RUN("menu", "");
+    WAIT_ON_OUTPUT("read(0)", "|5|4|3|2|1");
+}
+
 void Tests::synchronizeInternalCommands()
 {
     // Keep internal commands synced with the latest version

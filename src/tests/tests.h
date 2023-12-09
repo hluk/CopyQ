@@ -250,6 +250,7 @@ private slots:
     void scriptCommandEndingWithComment();
     void scriptCommandWithError();
     void displayCommand();
+    void displayCommandForMenu();
 
     void synchronizeInternalCommands();
 

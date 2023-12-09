@@ -22,3 +22,4 @@ extern const QLatin1String mimeHidden;
 extern const QLatin1String mimeShortcut;
 extern const QLatin1String mimeColor;
 extern const QLatin1String mimeOutputTab;
+extern const QLatin1String mimeDisplayItemInMenu;

@@ -2161,6 +2161,13 @@ These MIME types values are assigned to global variables prefixed with
 
    Valid only in automatic commands.
 
+.. js:data:: mimeDisplayItemInMenu
+
+   Indicates if display commands run for a menu. Value: 'application/x-copyq-display-item-in-menu'.
+
+   Set to "1" for display commands if the item data is related to a menu item
+   instead of an item list.
+
 Selected Items
 --------------
 

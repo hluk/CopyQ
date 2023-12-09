@@ -9,6 +9,7 @@
 #include <QVariantMap>
 
 class ItemDelegate;
+class QAction;
 class QModelIndex;
 class QWidget;
 class QString;
@@ -25,6 +26,8 @@ public:
 
     PersistentDisplayItem(
             ItemDelegate *delegate, const QVariantMap &data, QWidget *widget);
+
+    PersistentDisplayItem(QAction *action, const QVariantMap &data);
 
     /**
      * Returns display data of the item.
@@ -48,6 +51,7 @@ public:
 private:
     QVariantMap m_data;
     QPointer<QWidget> m_widget;
+    QPointer<QAction> m_action;
     QPointer<ItemDelegate> m_delegate;
 };
 

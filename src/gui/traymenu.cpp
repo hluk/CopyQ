@@ -20,6 +20,8 @@
 
 namespace {
 
+const char propertyTextFormat[] = "CopyQ_text_format";
+
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 
 bool canActivate(const QAction &action)
@@ -65,7 +67,29 @@ TrayMenu::TrayMenu(QWidget *parent)
     setAttribute(Qt::WA_InputMethodEnabled);
 }
 
-void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
+void TrayMenu::updateTextFromData(QAction *act, const QVariantMap &data)
+{
+    const QString format = act->property(propertyTextFormat).toString();
+    const QString label = textLabelForData( data, act->font(), format, true );
+    act->setText(label);
+}
+
+bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
+{
+    if ( !act->parentWidget() )
+        return false;
+
+    const QString icon = data.value(mimeIcon).toString();
+    const QString tag = data.value(COPYQ_MIME_PREFIX "item-tag").toString();
+    if ( icon.isEmpty() && tag.isEmpty() )
+        return false;
+
+    const QColor color = getDefaultIconColor(*act->parentWidget());
+    act->setIcon( iconFromFile(icon, tag, color) );
+    return true;
+}
+
+QAction *TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
 {
     // Show search text at top of the menu.
     if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
@@ -86,15 +110,15 @@ void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
         format = tr("&%1. %2",
                     "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)")
                 .arg(rowNumber);
+        act->setProperty(propertyTextFormat, format);
     }
 
     m_clipboardItemActionCount++;
 
-    const QString label = textLabelForData( data, act->font(), format, true );
-    act->setText(label);
+    updateTextFromData(act, data);
 
     // Menu item icon from image.
-    if (showImages) {
+    if (!updateIconFromData(act, data) && showImages) {
         const QStringList formats = data.keys();
         static const QRegularExpression reImage("^image/.*");
         const int imageIndex = formats.indexOf(reImage);
@@ -117,16 +141,9 @@ void TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
         }
     }
 
-    if ( act->icon().isNull() ) {
-        const QString icon = data.value(mimeIcon).toString();
-        if ( !icon.isEmpty() ) {
-            const QColor color = getDefaultIconColor(*this);
-            const QString tag = data.value(COPYQ_MIME_PREFIX "item-tag").toString();
-            act->setIcon( iconFromFile(icon, tag, color) );
-        }
-    }
-
     connect(act, &QAction::triggered, this, &TrayMenu::onClipboardItemActionTriggered);
+
+    return act;
 }
 
 void TrayMenu::clearClipboardItems()
