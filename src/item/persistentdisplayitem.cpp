@@ -2,7 +2,10 @@
 
 #include "persistentdisplayitem.h"
 
+#include "gui/traymenu.h"
 #include "item/itemdelegate.h"
+
+#include <QAction>
 
 PersistentDisplayItem::PersistentDisplayItem(ItemDelegate *delegate,
         const QVariantMap &data,
@@ -13,16 +16,28 @@ PersistentDisplayItem::PersistentDisplayItem(ItemDelegate *delegate,
 {
 }
 
+PersistentDisplayItem::PersistentDisplayItem(QAction *action, const QVariantMap &data)
+    : m_data(data)
+    , m_action(action)
+{
+}
+
 bool PersistentDisplayItem::isValid()
 {
-    if ( m_widget.isNull() || m_delegate.isNull() )
-        return false;
-
-    return !m_delegate->invalidateHidden( m_widget.data() );
+    return !m_action.isNull() || (
+        !m_widget.isNull() && !m_delegate.isNull()
+        && !m_delegate->invalidateHidden(m_widget.data()) );
 }
 
 void PersistentDisplayItem::setData(const QVariantMap &data)
 {
-    if ( !data.isEmpty() && isValid() && m_delegate && data != m_data )
+    if ( data.isEmpty() || data == m_data )
+        return;
+
+    if ( !m_action.isNull() ) {
+        TrayMenu::updateTextFromData(m_action, data);
+        TrayMenu::updateIconFromData(m_action, data);
+    } else if ( !m_widget.isNull() && !m_delegate.isNull() ) {
         m_delegate->updateWidget(m_widget, data);
+    }
 }

@@ -1836,8 +1836,14 @@ void MainWindow::addMenuItems(TrayMenu *menu, ClipboardBrowserPlaceholder *place
         const QModelIndex index = c->model()->index(i, 0);
         if ( !searchText.isEmpty() && !menuItemMatches(index, searchText) )
             continue;
-        const QVariantMap data = index.data(contentType::data).toMap();
-        menu->addClipboardItemAction(data, m_options.trayImages);
+        QVariantMap data = index.data(contentType::data).toMap();
+        QAction *act = menu->addClipboardItemAction(data, m_options.trayImages);
+        if ( !m_displayCommands.isEmpty() ) {
+            data.insert(mimeCurrentTab, c->tabName());
+            data.insert(mimeDisplayItemInMenu, QByteArrayLiteral("1"));
+            PersistentDisplayItem item(act, data);
+            onItemWidgetCreated(item);
+        }
         ++itemCount;
     }
 }

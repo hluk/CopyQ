@@ -200,6 +200,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("mimeShortcut", "mimeShortcut", "Application or global shortcut which activated the command. Value: 'application/x-copyq-shortcut'.");
     addDocumentation("mimeColor", "mimeColor", "Item color (same as the one used by themes). Value: 'application/x-copyq-color'.");
     addDocumentation("mimeOutputTab", "mimeOutputTab", "Name of the tab where to store new item. Value: 'application/x-copyq-output-tab'.");
+    addDocumentation("mimeDisplayItemInMenu", "mimeDisplayItemInMenu", "Indicates if display commands run for a menu. Value: 'application/x-copyq-display-item-in-menu'.");
     addDocumentation("plugins.itemsync.selectedTabPath", "plugins.itemsync.selectedTabPath()", "Returns synchronization path for current tab (mimeCurrentTab).");
     addDocumentation("plugins.itemsync.tabPaths", "plugins.itemsync.tabPaths", "Object that maps tab name to synchronization path.");
     addDocumentation("plugins.itemsync.mimeBaseName", "plugins.itemsync.mimeBaseName", "MIME type for accessing base name (without full path).");

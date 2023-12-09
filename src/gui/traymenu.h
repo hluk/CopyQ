@@ -16,12 +16,15 @@ class TrayMenu final : public QMenu
 public:
     explicit TrayMenu(QWidget *parent = nullptr);
 
+    static void updateTextFromData(QAction *act, const QVariantMap &data);
+    static bool updateIconFromData(QAction *act, const QVariantMap &data);
+
     /**
      * Add clipboard item action with number key hint.
      *
      * Triggering this action emits clipboardItemActionTriggered() signal.
      */
-    void addClipboardItemAction(const QVariantMap &data, bool showImages);
+    QAction *addClipboardItemAction(const QVariantMap &data, bool showImages);
 
     void clearClipboardItems();
 
