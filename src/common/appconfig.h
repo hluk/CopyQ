@@ -486,11 +486,12 @@ struct window_wait_for_modifier_released_ms : Config<int> {
     }
 };
 
-struct change_clipboard_owner_delay_ms : Config<int> {
-    static QString name() { return "change_clipboard_owner_delay_ms"; }
-    static Value defaultValue() { return 150; }
+struct update_clipboard_owner_delay_ms : Config<int> {
+    static QString name() { return "update_clipboard_owner_delay_ms"; }
+    static Value defaultValue() { return -1; }
     static const char *description() {
-        return "Delay to save new clipboard owner window title";
+        return "Delay to update new clipboard owner window title"
+               " (use negative value for the default interval)";
     }
 };
 

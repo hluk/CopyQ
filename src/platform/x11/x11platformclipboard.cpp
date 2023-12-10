@@ -13,6 +13,8 @@
 
 #include "systemclipboard/waylandclipboard.h"
 
+#include <QDataStream>
+
 #ifdef COPYQ_WITH_X11
 #   include <X11/Xlib.h>
 #   include <X11/Xatom.h>
@@ -136,7 +138,7 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &fo
 
     auto data = clipboardData.data;
     if ( !data.contains(mimeOwner) )
-        data[mimeWindowTitle] = clipboardData.owner;
+        data[mimeWindowTitle] = clipboardData.owner.toUtf8();
     return data;
 }
 
@@ -174,15 +176,7 @@ void X11PlatformClipboard::onChanged(int mode)
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
     // owner most of the times.
-    const auto currentWindowTitle = clipboardOwner();
-    if (currentWindowTitle != clipboardData.newOwner) {
-        COPYQ_LOG( QString("New %1 owner: \"%2\"")
-                   .arg(
-                       QString::fromLatin1(mode == QClipboard::Clipboard ? "clipboard" : "selection"),
-                       QString::fromUtf8(currentWindowTitle)
-                   ) );
-        clipboardData.newOwner = currentWindowTitle;
-    }
+    clipboardData.newOwner = m_clipboardOwner;
 
     if (mode == QClipboard::Selection) {
         // Omit checking selection too fast.

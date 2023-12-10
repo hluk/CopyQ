@@ -2,28 +2,46 @@
 
 #include "clipboardownermonitor.h"
 
-#include "common/appconfig.h"
-#include "platform/platformwindow.h"
+#include "app/clipboardmonitor.h"
+#include "common/log.h"
 
 #include <QCoreApplication>
 
-ClipboardOwnerMonitor::ClipboardOwnerMonitor()
+constexpr int updateAfterEventIntervalMs = 20;
+
+ClipboardOwnerMonitor::ClipboardOwnerMonitor(ClipboardMonitor *monitor)
+    : m_monitor(monitor)
 {
     qApp->installNativeEventFilter(this);
 
-    m_timer.setSingleShot(true);
-    const int delay = AppConfig().option<Config::change_clipboard_owner_delay_ms>();
-    m_timer.setInterval(delay);
-    QObject::connect( &m_timer, &QTimer::timeout, [this]() {
-        m_clipboardOwner = m_newClipboardOwner;
+    m_timerSetOwner.setSingleShot(true);
 
-        PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
-        if (currentWindow) {
-            const auto currentWindowTitle = currentWindow->getTitle().toUtf8();
-            if (m_newClipboardOwner != currentWindowTitle) {
-                m_newClipboardOwner = currentWindowTitle;
-                m_timer.start();
+    m_timerUpdateAfterEvent.setSingleShot(true);
+    m_timerUpdateAfterEvent.setInterval(updateAfterEventIntervalMs);
+
+    QObject::connect(
+        &m_timerSetOwner, &QTimer::timeout,
+        [this]() {
+            if (!m_nextClipboardOwners.isEmpty()) {
+                m_monitor->setClipboardOwner(m_nextClipboardOwners.takeFirst());
+                if (!m_nextClipboardOwners.isEmpty())
+                    m_timerSetOwner.start();
             }
+        });
+
+    QObject::connect( &m_timerUpdateAfterEvent, &QTimer::timeout, [this]() {
+        const QString title = m_monitor->currentClipboardOwner();
+        if (m_lastClipboardOwner != title) {
+            m_lastClipboardOwner = title;
+            if ( m_timerSetOwner.interval() == 0 )
+                m_nextClipboardOwners = QStringList{m_lastClipboardOwner};
+            else
+                m_nextClipboardOwners.append(m_lastClipboardOwner);
+
+            if (!m_timerSetOwner.isActive())
+                m_timerSetOwner.start();
+
+            COPYQ_LOG(QStringLiteral("Next clipboard owner: %1").arg(title));
         }
     });
 }
@@ -33,10 +51,21 @@ ClipboardOwnerMonitor::~ClipboardOwnerMonitor()
     qApp->removeNativeEventFilter(this);
 }
 
+void ClipboardOwnerMonitor::update()
+{
+    if ( m_timerSetOwner.interval() == 0 ) {
+        m_lastClipboardOwner = m_monitor->currentClipboardOwner();
+        m_nextClipboardOwners.clear();
+        m_monitor->setClipboardOwner(m_lastClipboardOwner);
+    } else if ( !m_timerUpdateAfterEvent.isActive() ) {
+        m_timerUpdateAfterEvent.start();
+    }
+}
+
 bool ClipboardOwnerMonitor::nativeEventFilter(const QByteArray &, void *, NativeEventResult *)
 {
-    if ( !m_timer.isActive() )
-        m_timer.start();
+    if ( !m_timerUpdateAfterEvent.isActive() )
+        m_timerUpdateAfterEvent.start();
 
     return false;
 }

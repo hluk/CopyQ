@@ -297,6 +297,7 @@ public slots:
     QJSValue execute();
 
     QJSValue currentWindowTitle();
+    QJSValue currentClipboardOwner();
 
     QJSValue dialog();
 
@@ -389,6 +390,7 @@ private:
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void onMonitorClipboardUnchanged(const QVariantMap &data);
     void onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
+    void onFetchCurrentClipboardOwner(QString *title);
 
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
@@ -416,7 +418,6 @@ private:
     bool runCommands(CommandType::CommandType type);
     bool canExecuteCommand(const Command &command);
     bool canExecuteCommandFilter(const QString &matchCommand);
-    bool canAccessClipboard() const;
     bool verifyClipboardAccess();
     void provideClipboard(ClipboardMode mode);
 

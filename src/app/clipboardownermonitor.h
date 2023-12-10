@@ -7,7 +7,7 @@
 #include <QByteArray>
 #include <QTimer>
 
-#include "platform/platformnativeinterface.h"
+class ClipboardMonitor;
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 using NativeEventResult = qintptr;
@@ -18,18 +18,22 @@ using NativeEventResult = long;
 class ClipboardOwnerMonitor final : public QAbstractNativeEventFilter
 {
 public:
-    ClipboardOwnerMonitor();
+    explicit ClipboardOwnerMonitor(ClipboardMonitor *monitor);
     ~ClipboardOwnerMonitor();
-
-    const QByteArray &clipboardOwner() const { return m_clipboardOwner; }
 
     bool nativeEventFilter(
         const QByteArray &, void *message, NativeEventResult *result) override;
 
+    void setUpdateInterval(int ms) { m_timerSetOwner.setInterval(ms); }
+
+    void update();
+
 private:
-    QByteArray m_clipboardOwner;
-    QByteArray m_newClipboardOwner;
-    QTimer m_timer;
+    ClipboardMonitor *m_monitor;
+    QString m_lastClipboardOwner;
+    QStringList m_nextClipboardOwners;
+    QTimer m_timerSetOwner;
+    QTimer m_timerUpdateAfterEvent;
 };
 
 #endif // CLIPBOARDOWNERMONITOR_H

@@ -3,6 +3,7 @@
 #ifndef CLIPBOARDMONITOR_H
 #define CLIPBOARDMONITOR_H
 
+#include "app/clipboardownermonitor.h"
 #include "common/common.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformclipboard.h"
@@ -22,11 +23,14 @@ class ClipboardMonitor final : public QObject
 public:
     explicit ClipboardMonitor(const QStringList &formats);
     void startMonitoring();
+    QString currentClipboardOwner();
+    void setClipboardOwner(const QString &owner);
 
 signals:
     void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void clipboardUnchanged(const QVariantMap &data);
     void synchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
+    void fetchCurrentClipboardOwner(QString *title);
 
 private:
     void onClipboardChanged(ClipboardMode mode);
@@ -40,12 +44,16 @@ private:
     QString m_clipboardTab;
     bool m_storeClipboard;
 
+    ClipboardOwnerMonitor m_ownerMonitor;
+
 #ifdef HAS_MOUSE_SELECTIONS
     bool m_storeSelection;
     bool m_runSelection;
     bool m_clipboardToSelection;
     bool m_selectionToClipboard;
 #endif
+
+    QString m_clipboardOwner;
 };
 
 #endif // CLIPBOARDMONITOR_H

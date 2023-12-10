@@ -1060,6 +1060,24 @@ unlike in GUI, where row numbers start from 1 by default.
    :returns: Current window title.
    :rtype: string
 
+.. js:function:: String currentClipboardOwner()
+
+   Returns name of the current clipboard owner.
+
+   The default implementation returns `currentWindowTitle()`.
+
+   This is used to set `mimeWindowTitle` format for the clipboard data in
+   automatic commands and filtering by window title.
+
+   Depending on the current system, option `update_clipboard_owner_delay_ms`
+   can introduce a delay before any new owner value return by this function is
+   used. The reason is to avoid using an incorrect clipboard owner from the
+   current window title if the real clipboard owner set the clipboard after or
+   just before hiding its window (like with some password managers).
+
+   :returns: Current clipboard owner name.
+   :rtype: string
+
 .. js:function:: dialog(...)
 
    Shows messages or asks user for input.
