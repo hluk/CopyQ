@@ -26,6 +26,8 @@ public:
 
     bool isSelectionSupported() const override { return m_selectionSupported; }
 
+    void setClipboardOwner(const QString &owner) override { m_clipboardOwner = owner; }
+
 protected:
     const QMimeData *rawMimeData(ClipboardMode mode) const override;
     void onChanged(int mode) override;
@@ -34,8 +36,8 @@ private:
     struct ClipboardData {
         QVariantMap newData;
         QVariantMap data;
-        QByteArray owner;
-        QByteArray newOwner;
+        QString owner;
+        QString newOwner;
         QTimer timerEmitChange;
         QStringList formats;
         quint32 newDataTimestamp;
@@ -59,6 +61,8 @@ private:
 
     bool m_monitoring = false;
     bool m_selectionSupported = true;
+
+    QString m_clipboardOwner;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H

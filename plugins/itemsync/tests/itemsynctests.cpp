@@ -758,6 +758,7 @@ void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN("config" << "clipboard_tab" << tab1, tab1 + "\n");
+    WAIT_ON_OUTPUT("isClipboardMonitorRunning", "true\n");
 
     TEST( m_test->setClipboard("one") );
     WAIT_ON_OUTPUT(args << "read(0,1,2,3)", "one,,,");

@@ -3,7 +3,6 @@
 #ifndef DUMMYCLIPBOARD_H
 #define DUMMYCLIPBOARD_H
 
-#include "app/clipboardownermonitor.h"
 #include "common/clipboardmode.h"
 #include "platform/platformclipboard.h"
 
@@ -22,20 +21,18 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
-    QByteArray clipboardOwner() override { return m_ownerMonitor.clipboardOwner(); }
-
     const QMimeData *mimeData(ClipboardMode mode) const override;
 
     bool isSelectionSupported() const override { return false; }
 
     bool isHidden(const QMimeData &data) const override;
 
+    void setClipboardOwner(const QString &) override {}
+
 protected:
     virtual const QMimeData *rawMimeData(ClipboardMode mode) const;
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);
-
-    ClipboardOwnerMonitor m_ownerMonitor;
 };
 
 #endif // DUMMYCLIPBOARD_H

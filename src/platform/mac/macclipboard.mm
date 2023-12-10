@@ -52,14 +52,6 @@ void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
     return DummyClipboard::setData(mode, dataMapForMac);
 }
 
-QByteArray MacClipboard::clipboardOwner()
-{
-    PlatformWindowPtr currentWindow = platformNativeInterface()->getCurrentWindow();
-    if (currentWindow)
-        return currentWindow->getTitle().toUtf8();
-    return QByteArray();
-}
-
 bool MacClipboard::isHidden(const QMimeData &data) const
 {
     return data.hasFormat( QStringLiteral("application/x-nspasteboard-concealed-type") );

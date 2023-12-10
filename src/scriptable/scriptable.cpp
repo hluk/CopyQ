@@ -17,6 +17,7 @@
 #include "item/itemfactory.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
+#include "platform/platformwindow.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/scriptablebytearray.h"
 #include "scriptable/scriptabledir.h"
@@ -645,6 +646,11 @@ QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable 
 }
 #endif
 
+bool isGuiApplication()
+{
+    return qobject_cast<QGuiApplication*>(qApp);
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -792,21 +798,16 @@ QByteArray Scriptable::makeByteArray(const QJSValue &value) const
 
 bool Scriptable::toItemData(const QJSValue &value, const QString &mime, QVariantMap *data) const
 {
-    if (mime == mimeItems) {
-        const QByteArray *itemData = getByteArray(value);
-        if (!itemData)
-            return false;
-
-        return deserializeData(data, *itemData);
+    if (value.isUndefined()) {
+        data->insert( mime, QVariant() );
+        return true;
     }
 
-    if (value.isUndefined())
-        data->insert( mime, QVariant() );
-    else if (!mime.startsWith("text/") && getByteArray(value) )
-        data->insert( mime, *getByteArray(value) );
-    else
-        data->insert( mime, toString(value).toUtf8() );
+    const QByteArray *itemData = getByteArray(value);
+    if (mime == mimeItems)
+        return itemData && deserializeData(data, *itemData);
 
+    data->insert( mime, itemData ? *itemData : toString(value).toUtf8() );
     return true;
 }
 
@@ -2179,7 +2180,16 @@ QJSValue Scriptable::execute()
 QJSValue Scriptable::currentWindowTitle()
 {
     m_skipArguments = 0;
+    if ( isGuiApplication() ) {
+        PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
+        return window ? window->getTitle() : QString();
+    }
     return m_proxy->currentWindowTitle();
+}
+
+QJSValue Scriptable::currentClipboardOwner()
+{
+    return eval("currentWindowTitle()");
 }
 
 QJSValue Scriptable::dialog()
@@ -2808,6 +2818,8 @@ void Scriptable::monitorClipboard()
              this, &Scriptable::onMonitorClipboardUnchanged );
     connect( &monitor, &ClipboardMonitor::synchronizeSelection,
              this, &Scriptable::onSynchronizeSelection );
+    connect( &monitor, &ClipboardMonitor::fetchCurrentClipboardOwner,
+             this, &Scriptable::onFetchCurrentClipboardOwner );
 
     monitor.startMonitoring();
     setClipboardMonitorRunning(true);
@@ -2912,6 +2924,13 @@ void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTex
     Q_UNUSED(sourceTextHash)
     Q_UNUSED(targetTextHash)
 #endif
+}
+
+void Scriptable::onFetchCurrentClipboardOwner(QString *owner)
+{
+    const QJSValue result = eval("currentClipboardOwner()");
+    if ( !result.isError() )
+        *owner = toString(result);
 }
 
 bool Scriptable::sourceScriptCommands()
@@ -3467,14 +3486,9 @@ bool Scriptable::canExecuteCommandFilter(const QString &matchCommand)
     return runAction(&action) && action.exitCode() == 0;
 }
 
-bool Scriptable::canAccessClipboard() const
-{
-    return qobject_cast<QGuiApplication*>(qApp);
-}
-
 bool Scriptable::verifyClipboardAccess()
 {
-    if ( canAccessClipboard() )
+    if ( isGuiApplication() )
         return true;
 
     throwError("Cannot access system clipboard with QCoreApplication");

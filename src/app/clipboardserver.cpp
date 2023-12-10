@@ -216,6 +216,7 @@ void ClipboardServer::stopMonitoring()
         return;
 
     COPYQ_LOG("Terminating monitor");
+    setClipboardMonitorRunning(false);
 
     const auto client = findClient(m_monitor->id());
     if (client)

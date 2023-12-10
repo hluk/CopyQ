@@ -293,6 +293,8 @@ private slots:
 
     void avoidStoringPasswords();
 
+    void currentClipboardOwner();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

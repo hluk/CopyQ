@@ -11,7 +11,12 @@
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
 
+#ifdef COPYQ_WS_X11
+#   include "platform/x11/x11info.h"
+#endif
+
 #include <QApplication>
+#include <QClipboard>
 
 namespace {
 
@@ -44,15 +49,29 @@ bool isClipboardDataHidden(const QVariantMap &data)
     return data.value(mimeHidden).toByteArray() == "1";
 }
 
+int defaultOwnerUpdateInterval()
+{
+#ifdef COPYQ_WS_X11
+    if ( X11Info::isPlatformX11() )
+        return 150;
+#endif
+    return 0;
+}
+
 } // namespace
 
 ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     : m_clipboard(platformNativeInterface()->clipboard())
     , m_formats(formats)
+    , m_ownerMonitor(this)
 {
     const AppConfig config;
     m_storeClipboard = config.option<Config::check_clipboard>();
     m_clipboardTab = config.option<Config::clipboard_tab>();
+
+    const int ownerUpdateInterval = config.option<Config::update_clipboard_owner_delay_ms>();
+    m_ownerMonitor.setUpdateInterval(
+        ownerUpdateInterval < 0 ? defaultOwnerUpdateInterval() : ownerUpdateInterval);
 
     m_formats.append({mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden});
     m_formats.removeDuplicates();
@@ -76,11 +95,33 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
 
 void ClipboardMonitor::startMonitoring()
 {
+    setClipboardOwner(currentClipboardOwner());
+    connect(QGuiApplication::clipboard(), &QClipboard::changed,
+            this, [this](){ m_ownerMonitor.update(); });
+
     m_clipboard->startMonitoring(m_formats);
+}
+
+QString ClipboardMonitor::currentClipboardOwner()
+{
+    QString owner;
+    emit fetchCurrentClipboardOwner(&owner);
+    return owner;
+}
+
+void ClipboardMonitor::setClipboardOwner(const QString &owner)
+{
+    if (m_clipboardOwner != owner) {
+        m_clipboardOwner = owner;
+        m_clipboard->setClipboardOwner(m_clipboardOwner);
+        COPYQ_LOG(QStringLiteral("Clipboard owner: %1").arg(owner));
+    }
 }
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 {
+    m_ownerMonitor.update();
+
     QVariantMap data = m_clipboard->data(mode, m_formats);
     auto clipboardData = mode == ClipboardMode::Clipboard
             ? &m_clipboardData : &m_selectionData;
@@ -97,6 +138,13 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     }
 
     *clipboardData = data;
+
+    if ( !data.contains(mimeOwner)
+        && !data.contains(mimeWindowTitle)
+        && !m_clipboardOwner.isEmpty() )
+    {
+            data.insert(mimeWindowTitle, m_clipboardOwner.toUtf8());
+    }
 
     COPYQ_LOG( QString("%1 changed, owner is \"%2\"")
                .arg(mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection",
@@ -129,13 +177,6 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
                 ? "selection"
                 : "find buffer";
         data.insert(mimeClipboardMode, modeName);
-    }
-
-    // add window title of clipboard owner
-    if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
-        const QByteArray windowTitle = m_clipboard->clipboardOwner();
-        if ( !windowTitle.isEmpty() )
-            data.insert(mimeWindowTitle, windowTitle);
     }
 
     // run automatic commands

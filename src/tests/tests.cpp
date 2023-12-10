@@ -802,6 +802,17 @@ QStringList splitLines(const QByteArray &nativeText)
     return QString::fromUtf8(nativeText).split(QRegularExpression("\r\n|\n|\r"));
 }
 
+QString appWindowTitle(const QString &text)
+{
+#ifdef Q_OS_MAC
+    return QStringLiteral("CopyQ - %1\n").arg(text);
+#elif defined(Q_OS_WIN)
+    return QStringLiteral("%1 - CopyQ-TEST\n").arg(text);
+#else
+    return QStringLiteral("%1 — CopyQ-TEST\n").arg(text);
+#endif
+}
+
 } // namespace
 
 Tests::Tests(const TestInterfacePtr &test, QObject *parent)
@@ -1525,13 +1536,7 @@ void Tests::commandsData()
 void Tests::commandCurrentWindowTitle()
 {
     RUN("disable", "");
-#ifdef Q_OS_MAC
-    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ - *Clipboard Storing Disabled*\n");
-#elif defined(Q_OS_WIN)
-    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* - CopyQ-TEST\n");
-#else
-    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* — CopyQ-TEST\n");
-#endif
+    WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("*Clipboard Storing Disabled*"));
     RUN("enable", "");
 }
 
@@ -2482,25 +2487,13 @@ void Tests::configMaxitems()
 
 void Tests::keysAndFocusing()
 {
-#ifdef Q_OS_MAC
-    SKIP("FIXME: currentWindowTitle() returns different window titles on OS X.");
-#endif
-
     RUN("disable", "");
     RUN("keys" << clipboardBrowserId << "CTRL+T", "");
-
-#ifdef Q_OS_WIN
-    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab - CopyQ-TEST\n");
-#else
-    WAIT_ON_OUTPUT("currentWindowTitle", "New Tab — CopyQ-TEST\n");
-#endif
+    WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("New Tab"));
 
     RUN("keys" << tabDialogLineEditId << "ESC", "");
-#ifdef Q_OS_WIN
-    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* - CopyQ-TEST\n");
-#else
-    WAIT_ON_OUTPUT("currentWindowTitle", "*Clipboard Storing Disabled* — CopyQ-TEST\n");
-#endif
+    WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("*Clipboard Storing Disabled*"));
+
     RUN("enable", "");
 }
 
@@ -4478,6 +4471,55 @@ void Tests::avoidStoringPasswords()
     waitFor(waitMsPasteClipboard);
     RUN("read" << "0" << "1" << "2", "\n\n");
     RUN("count", "0\n");
+}
+
+void Tests::currentClipboardOwner()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.currentClipboardOwner = function() { return settings("clipboard_owner"); }'
+            },
+            {
+                automatic: true,
+                input: mimeWindowTitle,
+                cmd: 'copyq: setData("application/x-copyq-owner-test", input())',
+            },
+            {
+                automatic: true,
+                wndre: '.*IGNORE',
+                cmd: 'copyq ignore; copyq add IGNORED',
+            },
+        ])
+        )";
+    RUN("settings" << "clipboard_owner" << "TEST1", "");
+    RUN(script, "");
+
+    TEST( m_test->setClipboard("test1") );
+    WAIT_ON_OUTPUT("read(0)", "test1");
+    RUN("read('application/x-copyq-owner-test', 0)", "TEST1");
+
+    RUN("settings" << "clipboard_owner" << "TEST2", "");
+    RUN("config" << "update_clipboard_owner_delay_ms" << "10000", "10000\n");
+    TEST( m_test->setClipboard("test2") );
+    WAIT_ON_OUTPUT("read(0)", "test2");
+    RUN("read('application/x-copyq-owner-test', 0)", "TEST2");
+
+    RUN("settings" << "clipboard_owner" << "TEST3", "");
+    TEST( m_test->setClipboard("test3") );
+    WAIT_ON_OUTPUT("read(0)", "test3");
+    RUN("read('application/x-copyq-owner-test', 0)", "TEST2");
+
+    RUN("settings" << "clipboard_owner" << "TEST4_IGNORE", "");
+    RUN("config" << "update_clipboard_owner_delay_ms" << "0", "0\n");
+    TEST( m_test->setClipboard("test4") );
+    WAIT_ON_OUTPUT("read(0)", "IGNORED");
+
+    RUN("settings" << "clipboard_owner" << "TEST5", "");
+    TEST( m_test->setClipboard("test5") );
+    WAIT_ON_OUTPUT("read(0)", "test5");
+    RUN("read('application/x-copyq-owner-test', 0)", "TEST5");
 }
 
 int Tests::run(

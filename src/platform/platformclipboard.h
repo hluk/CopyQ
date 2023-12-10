@@ -34,13 +34,13 @@ public:
      */
     virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
 
-    virtual QByteArray clipboardOwner() = 0;
-
     virtual const QMimeData *mimeData(ClipboardMode mode) const = 0;
 
     virtual bool isSelectionSupported() const = 0;
 
     virtual bool isHidden(const QMimeData &data) const = 0;
+
+    virtual void setClipboardOwner(const QString &owner) = 0;
 
 signals:
     /// Notifies about clipboard changes.
