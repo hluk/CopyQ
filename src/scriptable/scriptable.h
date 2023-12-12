@@ -389,6 +389,8 @@ public slots:
 
     QJSValue styles();
 
+    void collectOverrides();
+
 signals:
     void finished();
     void dataReceived(const QByteArray &data);

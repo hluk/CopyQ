@@ -285,6 +285,8 @@ public slots:
 
     QStringList styles();
 
+    void setScriptOverrides(const QVector<int> &overrides);
+
 signals:
     void functionCallFinished(int functionCallId, const QVariant &returnValue);
     void inputDialogFinished(int dialogId, const NamedValueList &result);

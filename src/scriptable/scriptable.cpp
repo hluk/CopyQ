@@ -26,6 +26,7 @@
 #include "scriptable/scriptableproxy.h"
 #include "scriptable/scriptablesettings.h"
 #include "scriptable/scriptabletemporaryfile.h"
+#include "scriptable/scriptoverrides.h"
 
 #include <QApplication>
 #include <QCryptographicHash>
@@ -690,24 +691,28 @@ Scriptable::Scriptable(
 
     m_createFn = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
-            "return function() {"
+            "var f = function() {"
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
                 "_copyqArguments = null;"
                 "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return v;"
-            "}"
+            "};"
+            "f._copyq = 1;"
+            "return f;"
         "})"
     ));
     m_createFnB = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
-            "return function() {"
+            "var f = function() {"
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
                 "_copyqArguments = null;"
                 "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return ByteArray(v);"
-            "}"
+            "};"
+            "f._copyq = 1;"
+            "return f;"
         "})"
     ));
 
@@ -2940,6 +2945,19 @@ QJSValue Scriptable::clipboardFormatsToSave()
 QJSValue Scriptable::styles()
 {
     return toScriptValue( m_proxy->styles(), this );
+}
+
+void Scriptable::collectOverrides()
+{
+    m_skipArguments = 1;
+    auto globalObject = engine()->globalObject();
+
+    QVector<int> overrides;
+    const auto pasteFn = globalObject.property("paste");
+    if (pasteFn.property("_copyq").toInt() != 1)
+        overrides.append(ScriptOverrides::Paste);
+
+    m_proxy->setScriptOverrides(overrides);
 }
 
 void Scriptable::onExecuteOutput(const QByteArray &output)

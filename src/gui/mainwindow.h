@@ -15,6 +15,7 @@
 #include <QModelIndex>
 #include <QPointer>
 #include <QSystemTrayIcon>
+#include <QSet>
 #include <QTimer>
 #include <QVector>
 
@@ -411,6 +412,9 @@ public:
     void setItemPreviewVisible(bool visible);
     bool isItemPreviewVisible() const;
 
+    void setScriptOverrides(const QVector<int> &overrides);
+    bool isScriptOverridden(int id) const;
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, ClipboardMode mode);
@@ -693,6 +697,8 @@ private:
     bool m_isActiveWindow = false;
     bool m_singleClickActivate = 0;
     bool m_enteringSearchMode = false;
+
+    QVector<int> m_overrides;
 };
 
 #endif // MAINWINDOW_H

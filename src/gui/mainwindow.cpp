@@ -49,6 +49,7 @@
 #include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
+#include "scriptable/scriptoverrides.h"
 
 #ifdef Q_OS_MAC
 #  include "platform/mac/foregroundbackgroundfilter.h"
@@ -1064,6 +1065,17 @@ bool MainWindow::isItemPreviewVisible() const
     return m_showItemPreview;
 }
 
+void MainWindow::setScriptOverrides(const QVector<int> &overrides)
+{
+    m_overrides = overrides;
+    std::sort(m_overrides.begin(), m_overrides.end());
+}
+
+bool MainWindow::isScriptOverridden(int id) const
+{
+    return std::binary_search(m_overrides.begin(), m_overrides.end(), id);
+}
+
 void MainWindow::onAboutToQuit()
 {
     if (cm)
@@ -1869,10 +1881,15 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
 
     PlatformWindowPtr lastWindow = m_windowForMenuPaste;
 
-    if ( m_options.trayItemPaste && lastWindow && !omitPaste && canPaste() ) {
-        COPYQ_LOG( QString("Pasting item from tray menu to \"%1\".")
-                   .arg(lastWindow->getTitle()) );
-        lastWindow->pasteClipboard();
+    if ( m_options.trayItemPaste && !omitPaste && canPaste() ) {
+        if (isScriptOverridden(ScriptOverrides::Paste)) {
+            COPYQ_LOG("Pasting item with paste()");
+            runScript("paste()");
+        } else if (lastWindow) {
+            COPYQ_LOG( QStringLiteral("Pasting item from tray menu to: %1")
+                       .arg(lastWindow->getTitle()) );
+            lastWindow->pasteClipboard();
+        }
     }
 }
 
@@ -2330,6 +2347,8 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
         m_displayCommands = displayCommands;
         reloadBrowsers();
     }
+
+    runScript("collectOverrides()");
 
     updateContextMenu(contextMenuUpdateIntervalMsec);
     updateTrayMenuCommands();
@@ -3295,8 +3314,8 @@ void MainWindow::activateCurrentItemHelper()
 
     // Perform custom actions on item activation.
     PlatformWindowPtr lastWindow = m_windowForMainPaste;
-    const bool paste = lastWindow && m_options.activatePastes() && canPaste();
-    const bool activateWindow = paste || (lastWindow && m_options.activateFocuses());
+    const bool paste = m_options.activatePastes() && canPaste();
+    const bool activateWindow = m_options.activateFocuses();
 
     // Copy current item or selection to clipboard.
     // While clipboard is being set (in separate process)
@@ -3306,15 +3325,20 @@ void MainWindow::activateCurrentItemHelper()
     if ( m_options.activateCloses() )
         hideWindow();
 
-    if (activateWindow)
+    if (lastWindow && activateWindow)
         lastWindow->raise();
 
     enterBrowseMode();
 
     if (paste) {
-        COPYQ_LOG( QString("Pasting item from main window to \"%1\".")
-                   .arg(lastWindow->getTitle()) );
-        lastWindow->pasteClipboard();
+        if (isScriptOverridden(ScriptOverrides::Paste)) {
+            COPYQ_LOG("Pasting item with paste()");
+            runScript("paste()");
+        } else if (lastWindow) {
+            COPYQ_LOG( QStringLiteral("Pasting item from main window to: %1")
+                       .arg(lastWindow->getTitle()) );
+            lastWindow->pasteClipboard();
+        }
     }
 }
 
