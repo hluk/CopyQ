@@ -2601,6 +2601,12 @@ QStringList ScriptableProxy::styles()
     return QStyleFactory::keys();
 }
 
+void ScriptableProxy::setScriptOverrides(const QVector<int> &overrides)
+{
+    INVOKE2(setScriptOverrides, (overrides));
+    m_wnd->setScriptOverrides(overrides);
+}
+
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
