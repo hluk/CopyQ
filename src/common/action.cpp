@@ -310,7 +310,7 @@ bool Action::waitForFinished(int msecs)
         t.setSingleShot(true);
         t.start(msecs);
     }
-    loop.exec(QEventLoop::ExcludeUserInputEvents);
+    loop.exec(QEventLoop::AllEvents);
 
     // Loop stopped because application is exiting?
     while ( self && isRunning() && (msecs < 0 || t.isActive()) )

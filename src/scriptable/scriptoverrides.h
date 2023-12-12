@@ -4,5 +4,10 @@
 namespace ScriptOverrides {
 enum ScriptOverrides {
     Paste = 0,
+    OnItemsAdded = 1,
+    OnItemsRemoved = 2,
+    OnItemsChanged = 3,
+    OnTabSelected = 4,
+    OnItemsLoaded = 5,
 };
 }

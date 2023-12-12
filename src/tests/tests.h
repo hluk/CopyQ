@@ -250,6 +250,16 @@ private slots:
     void scriptCommandEnhanceFunction();
     void scriptCommandEndingWithComment();
     void scriptCommandWithError();
+
+    void scriptPaste();
+    void scriptOnTabSelected();
+    void scriptOnItemsRemoved();
+    void scriptOnItemsAdded();
+    void scriptOnItemsChanged();
+    void scriptOnItemsLoaded();
+    void scriptEventMaxRecursion();
+    void scriptSlowCollectOverrides();
+
     void displayCommand();
     void displayCommandForMenu();
 

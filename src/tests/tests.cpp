@@ -152,6 +152,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     static const std::vector<QRegularExpression> ignoreList{
         regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
 
+        plain("Event handler maximum recursion reached"),
+
         // X11 (Linux)
         plain("QtWarning: QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom"),
         plain("QtWarning: QXcbConnection: XCB error:"),
@@ -3957,6 +3959,184 @@ void Tests::scriptCommandWithError()
         "--- end backtrace ---\n"
     );
     m_test->setEnv("COPYQ_TEST_THROW", "0");
+}
+
+void Tests::scriptPaste()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.paste = function() { add("PASTE") }'
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("add(1)", "");
+    RUN("keys" << clipboardBrowserId << "ENTER", "");
+    WAIT_ON_OUTPUT("read(0)", "PASTE");
+}
+
+void Tests::scriptOnTabSelected()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.onTabSelected = function() { add(selectedTab()) }'
+            },
+        ])
+        )";
+    RUN(script, "");
+
+    const auto tab1 = testTab(1);
+    const auto tab2 = testTab(2);
+    RUN("show" << tab1, "");
+    WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", tab1);
+    RUN("show" << tab2, "");
+    WAIT_ON_OUTPUT("tab" << tab2 << "read(0)", tab2);
+}
+
+void Tests::scriptOnItemsRemoved()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: `
+                  global.onItemsRemoved = function() {
+                    items = ItemSelection().current().items();
+                    tab(tab()[0]);
+                    add("R0:" + str(items[0][mimeText]));
+                    add("R1:" + str(items[1][mimeText]));
+                  }
+                `
+            },
+        ])
+        )";
+    RUN(script, "");
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add(3,2,1,0)", "");
+    RUN("tab" << tab1 << "remove(1,2)", "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2,)", "R1:2,R0:1,");
+}
+
+void Tests::scriptOnItemsAdded()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: `
+                  global.onItemsAdded = function() {
+                    if (selectedTab() == tab()[0]) abort();
+                    items = ItemSelection().current().items();
+                    tab(tab()[0]);
+                    add("A:" + str(items[0][mimeText]));
+                  }
+                `
+            },
+        ])
+        )";
+    RUN(script, "");
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add(1,0)", "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", "A:0,A:1,");
+}
+
+void Tests::scriptOnItemsChanged()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: `
+                  global.onItemsChanged = function() {
+                    if (selectedTab() == tab()[0]) abort();
+                    items = ItemSelection().current().items();
+                    tab(tab()[0]);
+                    add("C:" + str(items[0][mimeText]));
+                  }
+                `
+            },
+        ])
+        )";
+    RUN(script, "");
+    const auto tab1 = testTab(1);
+    RUN("tab" << tab1 << "add(0)", "");
+    RUN("tab" << tab1 << "change(0, mimeText, 'A')", "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", "C:A,,");
+    RUN("tab" << tab1 << "change(0, mimeText, 'B')", "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", "C:B,C:A,");
+}
+
+void Tests::scriptOnItemsLoaded()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: `
+                  global.onItemsLoaded = function() {
+                    if (selectedTab() == tab()[0]) abort();
+                    tab(tab()[0]);
+                    add(selectedTab());
+                  }
+                `
+            },
+        ])
+        )";
+    RUN(script, "");
+
+    const auto tab1 = testTab(1);
+    RUN("show" << tab1, "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", tab1 + ",,");
+
+    const auto tab2 = testTab(2);
+    RUN("show" << tab2, "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", tab2 + "," + tab1 + ",");
+}
+
+void Tests::scriptEventMaxRecursion()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.onItemsAdded = function() { add("A") }'
+            },
+        ])
+        )";
+    RUN(script, "");
+    RUN("add(1,0)", "");
+    WAIT_ON_OUTPUT("length", "22\n");
+    waitFor(200);
+    RUN("separator" << "," << "read(0,1,2)", "A,A,A");
+    RUN("length", "22\n");
+}
+
+void Tests::scriptSlowCollectOverrides()
+{
+    const auto script = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: 'global.onTabSelected = function() { add(selectedTab()) }'
+            },
+            {
+                isScript: true,
+                cmd: `
+                  var collectOverrides_ = global.collectOverrides;
+                  global.collectOverrides = function() { sleep(1000); collectOverrides_() }
+                `
+            },
+        ])
+        )";
+    RUN(script, "");
+
+    const auto tab1 = testTab(1);
+    RUN("show" << tab1, "");
+    WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", tab1);
 }
 
 void Tests::displayCommand()

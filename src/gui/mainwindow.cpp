@@ -187,6 +187,18 @@ void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *windo
                       action, &WidgetOrAction::setDisabled );
 }
 
+void addSelectionData(
+        QVariantMap *result,
+        const QModelIndexList &selectedIndexes)
+{
+    QList<QPersistentModelIndex> selected;
+    selected.reserve(selectedIndexes.size());
+    for (const auto &index : selectedIndexes)
+        selected.append(index);
+    std::sort(selected.begin(), selected.end());
+    result->insert(mimeSelectedItems, QVariant::fromValue(selected));
+}
+
 /// Adds information about current tab and selection if command is triggered by user.
 QVariantMap addSelectionData(
         const ClipboardBrowser &c,
@@ -203,12 +215,7 @@ QVariantMap addSelectionData(
     }
 
     if ( !selectedIndexes.isEmpty() ) {
-        QList<QPersistentModelIndex> selected;
-        selected.reserve(selectedIndexes.size());
-        for (const auto &index : selectedIndexes)
-            selected.append(index);
-        std::sort(selected.begin(), selected.end());
-        result.insert(mimeSelectedItems, QVariant::fromValue(selected));
+        addSelectionData(&result, selectedIndexes);
     }
 
     return result;
@@ -1065,15 +1072,21 @@ bool MainWindow::isItemPreviewVisible() const
     return m_showItemPreview;
 }
 
-void MainWindow::setScriptOverrides(const QVector<int> &overrides)
+void MainWindow::setScriptOverrides(const QVector<int> &overrides, int actionId)
 {
+    if (!m_actionCollectOverrides || m_actionCollectOverrides->id() != actionId)
+        return;
+
     m_overrides = overrides;
     std::sort(m_overrides.begin(), m_overrides.end());
 }
 
 bool MainWindow::isScriptOverridden(int id) const
 {
-    return std::binary_search(m_overrides.begin(), m_overrides.end(), id);
+    return 
+        // Assume everything is overridden until collectOverrides() finishes
+        (m_actionCollectOverrides && m_actionCollectOverrides->isRunning() && m_overrides.isEmpty())
+        || std::binary_search(m_overrides.begin(), m_overrides.end(), id);
 }
 
 void MainWindow::onAboutToQuit()
@@ -1253,6 +1266,8 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, &MainWindow::onSearchShowRequest );
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
+    connect( browser, &ClipboardBrowser::itemsLoaded,
+             this, &MainWindow::onBrowserItemsLoaded );
 
     if (browserOrNull() == browser) {
         const int index = ui->tabWidget->currentIndex();
@@ -1266,6 +1281,34 @@ void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
         updateContextMenu(0);
         updateItemPreviewAfterMs(0);
     }
+}
+
+void MainWindow::onBrowserItemsLoaded(const ClipboardBrowser *browser)
+{
+    if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
+        runEventHandlerScript(
+            QStringLiteral("onItemsLoaded()"),
+            createDataMap(mimeCurrentTab, browser->tabName()));
+    }
+
+    connect( browser->model(), &QAbstractItemModel::rowsAboutToBeRemoved,
+             browser, [this, browser](const QModelIndex &, int first, int last) {
+                 if (isScriptOverridden(ScriptOverrides::OnItemsRemoved))
+                    runItemHandlerScript(QStringLiteral("onItemsRemoved()"), browser, first, last);
+             } );
+    connect( browser->model(), &QAbstractItemModel::rowsInserted,
+             browser, [this, browser](const QModelIndex &, int first, int last) {
+                 if (isScriptOverridden(ScriptOverrides::OnItemsAdded))
+                    runItemHandlerScript(QStringLiteral("onItemsAdded()"), browser, first, last);
+             } );
+    connect( browser->model(), &QAbstractItemModel::dataChanged,
+             browser, [this, browser](const QModelIndex &topLeft, const QModelIndex &bottomRight) {
+                 if (isScriptOverridden(ScriptOverrides::OnItemsChanged)) {
+                    runItemHandlerScript(
+                        QStringLiteral("onItemsChanged()"),
+                        browser, topLeft.row(), bottomRight.row());
+                    }
+             } );
 }
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)
@@ -1346,7 +1389,7 @@ void MainWindow::runDisplayCommands()
 
     if ( !isInternalActionId(m_displayActionId) ) {
         m_currentDisplayItem = m_displayItemList.takeFirst();
-        const auto action = runScript("runDisplayCommands()", m_currentDisplayItem.data());
+        const auto action = runScript(QStringLiteral("runDisplayCommands()"), m_currentDisplayItem.data());
         m_displayActionId = action->id();
     }
 
@@ -1613,7 +1656,7 @@ void MainWindow::runMenuCommandFilters(MenuMatchCommands *menuMatchCommands, QVa
     if (isRunning) {
         m_sharedData->actions->setActionData(menuMatchCommands->actionId, data);
     } else {
-        const auto act = runScript("runMenuCommandFilters()", data);
+        const auto act = runScript(QStringLiteral("runMenuCommandFilters()"), data);
         menuMatchCommands->actionId = act->id();
     }
 
@@ -1884,7 +1927,7 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
     if ( m_options.trayItemPaste && !omitPaste && canPaste() ) {
         if (isScriptOverridden(ScriptOverrides::Paste)) {
             COPYQ_LOG("Pasting item with paste()");
-            runScript("paste()");
+            runScript(QStringLiteral("paste()"));
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from tray menu to: %1")
                        .arg(lastWindow->getTitle()) );
@@ -2306,6 +2349,9 @@ void MainWindow::updateEnabledCommands()
 
 void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
 {
+    m_overrides = {};
+    m_actionCollectOverrides = runScript(QStringLiteral("collectScriptOverrides()"));
+
     m_automaticCommands.clear();
     m_menuCommands.clear();
     m_scriptCommands.clear();
@@ -2348,10 +2394,9 @@ void MainWindow::updateCommands(QVector<Command> allCommands, bool forceSave)
         reloadBrowsers();
     }
 
-    runScript("collectOverrides()");
-
     updateContextMenu(contextMenuUpdateIntervalMsec);
     updateTrayMenuCommands();
+
     emit commandsSaved(commands);
 }
 
@@ -2404,10 +2449,41 @@ const Theme &MainWindow::theme() const
 Action *MainWindow::runScript(const QString &script, const QVariantMap &data)
 {
     auto act = new Action();
-    act->setCommand(QStringList() << "copyq" << "eval" << "--" << script);
+    act->setCommand(
+        {QStringLiteral("copyq"), QStringLiteral("eval"), QStringLiteral("--"), script});
     act->setData(data);
     runInternalAction(act);
     return act;
+}
+
+void MainWindow::runEventHandlerScript(const QString &script, const QVariantMap &data)
+{
+    if (m_maxEventHandlerScripts == 0)
+        return;
+
+    --m_maxEventHandlerScripts;
+    if (m_maxEventHandlerScripts == 0)
+        log("Event handler maximum recursion reached", LogWarning);
+
+    const auto action = runScript(script, data);
+    action->waitForFinished();
+    ++m_maxEventHandlerScripts;
+}
+
+void MainWindow::runItemHandlerScript(
+    const QString &script, const ClipboardBrowser *browser, int firstRow, int lastRow)
+{
+     QModelIndexList indexes;
+     indexes.reserve(lastRow - firstRow + 1);
+     for (int row = firstRow; row <= lastRow; ++row) {
+        const auto index = browser->model()->index(row, 0);
+        if (index.isValid())
+            indexes.append(index);
+     }
+
+     QVariantMap data = createDataMap(mimeCurrentTab, browser->tabName());
+     addSelectionData(&data, indexes);
+     runEventHandlerScript(script, data);
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -2984,6 +3060,12 @@ void MainWindow::tabChanged(int current, int)
             }
 
             setTabOrder(ui->searchBar, c);
+
+            if (isScriptOverridden(ScriptOverrides::OnTabSelected)) {
+                runEventHandlerScript(
+                    QStringLiteral("onTabSelected()"),
+                    createDataMap(mimeCurrentTab, c->tabName()));
+            }
         }
     }
 
@@ -3333,7 +3415,7 @@ void MainWindow::activateCurrentItemHelper()
     if (paste) {
         if (isScriptOverridden(ScriptOverrides::Paste)) {
             COPYQ_LOG("Pasting item with paste()");
-            runScript("paste()");
+            runScript(QStringLiteral("paste()"));
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from main window to: %1")
                        .arg(lastWindow->getTitle()) );
@@ -3366,7 +3448,7 @@ void MainWindow::disableClipboardStoring(bool disable)
 
     updateIcon();
 
-    runScript("setTitle(); showDataNotification()");
+    runScript(QStringLiteral("setTitle(); showDataNotification()"));
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );

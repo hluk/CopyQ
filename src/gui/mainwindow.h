@@ -412,7 +412,7 @@ public:
     void setItemPreviewVisible(bool visible);
     bool isItemPreviewVisible() const;
 
-    void setScriptOverrides(const QVector<int> &overrides);
+    void setScriptOverrides(const QVector<int> &overrides, int actionId);
     bool isScriptOverridden(int id) const;
 
 signals:
@@ -500,6 +500,7 @@ private:
 
     void onBrowserCreated(ClipboardBrowser *browser);
     void onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder);
+    void onBrowserItemsLoaded(const ClipboardBrowser *browser);
 
     void onItemSelectionChanged(const ClipboardBrowser *browser);
     void onItemsChanged(const ClipboardBrowser *browser);
@@ -630,6 +631,9 @@ private:
     const Theme &theme() const;
 
     Action *runScript(const QString &script, const QVariantMap &data = QVariantMap());
+    void runEventHandlerScript(const QString &script, const QVariantMap &data = QVariantMap());
+    void runItemHandlerScript(
+        const QString &script, const ClipboardBrowser *browser, int firstRow, int lastRow);
 
     void activateCurrentItemHelper();
     void onItemClicked();
@@ -699,6 +703,8 @@ private:
     bool m_enteringSearchMode = false;
 
     QVector<int> m_overrides;
+    int m_maxEventHandlerScripts = 10;
+    QPointer<Action> m_actionCollectOverrides;
 };
 
 #endif // MAINWINDOW_H

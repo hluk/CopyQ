@@ -389,7 +389,12 @@ public slots:
 
     QJSValue styles();
 
-    void collectOverrides();
+    void onItemsAdded() {}
+    void onItemsRemoved() {}
+    void onItemsChanged() {}
+    void onTabSelected() {}
+    void onItemsLoaded() {}
+    void collectScriptOverrides();
 
 signals:
     void finished();

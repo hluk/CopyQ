@@ -118,6 +118,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("open", "open(url, ...) -> bool", "Tries to open URLs in appropriate applications.");
     addDocumentation("execute", "execute(argument, ..., null, stdinData, ...) -> `FinishedCommand` or `undefined`", "Executes a command.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle() -> string", "Returns window title of currently focused window.");
+    addDocumentation("currentClipboardOwner", "String currentClipboardOwner() -> string", "Returns name of the current clipboard owner.");
     addDocumentation("dialog", "dialog(...)", "Shows messages or asks user for input.");
     addDocumentation("menuItems", "menuItems(text...) -> string", "Opens menu with given items and returns selected item or an empty string.");
     addDocumentation("menuItems", "menuItems(items[]) -> int", "Opens menu with given items and returns index of selected item or -1.");
@@ -171,6 +172,11 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("hideDataNotification", "hideDataNotification()", "Hide notification for current data.");
     addDocumentation("setClipboardData", "setClipboardData()", "Sets clipboard data for menu commands.");
     addDocumentation("styles", "styles() -> array of strings", "List available styles for `style` option.");
+    addDocumentation("onItemsAdded", "onItemsAdded()", "Called when items are added to a tab.");
+    addDocumentation("onItemsRemoved", "onItemsRemoved()", "Called when items are being removed from a tab.");
+    addDocumentation("onItemsChanged", "onItemsChanged()", "Called when data in items change.");
+    addDocumentation("onTabSelected", "onTabSelected()", "Called when another tab is open.");
+    addDocumentation("onItemsLoaded", "onItemsLoaded()", "Called when items a loaded to a tab.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
