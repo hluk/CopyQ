@@ -1622,6 +1622,48 @@ unlike in GUI, where row numbers start from 1 by default.
 
        config("style", styleName)
 
+.. js:function:: onItemsAdded()
+
+   Called when items are added to a tab.
+
+   The target tab is returned by `selectedTab()`.
+
+   The new items can be accessed with `selectedItemsData()`,
+   `selectedItemData()`, `selectedItems()` and `ItemSelection().current()`.
+
+.. js:function:: onItemsRemoved()
+
+   Called when items are being removed from a tab.
+
+   The target tab is returned by `selectedTab()`.
+
+   The removed items can be accessed with `selectedItemsData()`,
+   `selectedItemData()`, `selectedItems()` and `ItemSelection().current()`.
+
+.. js:function:: onItemsChanged()
+
+   Called when data in items change.
+
+   The target tab is returned by `selectedTab()`.
+
+   The modified items can be accessed with `selectedItemsData()`,
+   `selectedItemData()`, `selectedItems()` and `ItemSelection().current()`.
+
+.. js:function:: onTabSelected()
+
+   Called when another tab is opened.
+
+   The newly selected tab is returned by `selectedTab()`.
+
+   The changed items can be accessed with `selectedItemsData()`,
+   `selectedItemData()`, `selectedItems()` and `ItemSelection().current()`.
+
+.. js:function:: onItemsLoaded()
+
+   Called when all items are loaded into a tab.
+
+   The target tab is returned by `selectedTab()`.
+
 Types
 -----
 

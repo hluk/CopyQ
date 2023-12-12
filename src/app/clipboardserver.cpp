@@ -163,6 +163,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
+    m_server->start();
+
     {
         AppConfig appConfig;
         loadSettings(&appConfig);
@@ -172,8 +174,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_wnd->enterBrowseMode();
 
     qApp->installEventFilter(this);
-
-    m_server->start();
 
     // Ignore global shortcut key presses in any widget.
     m_ignoreKeysTimer.setInterval(100);

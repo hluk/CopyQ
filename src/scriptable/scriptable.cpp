@@ -653,6 +653,11 @@ bool isGuiApplication()
     return qobject_cast<QGuiApplication*>(qApp);
 }
 
+bool isOverridden(const QJSValue &globalObject, const QString &property)
+{
+    return globalObject.property(property).property(QStringLiteral("_copyq")).toInt() != 1;
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -2947,15 +2952,24 @@ QJSValue Scriptable::styles()
     return toScriptValue( m_proxy->styles(), this );
 }
 
-void Scriptable::collectOverrides()
+void Scriptable::collectScriptOverrides()
 {
     m_skipArguments = 1;
     auto globalObject = engine()->globalObject();
 
     QVector<int> overrides;
-    const auto pasteFn = globalObject.property("paste");
-    if (pasteFn.property("_copyq").toInt() != 1)
+    if (isOverridden(globalObject, QStringLiteral("paste")))
         overrides.append(ScriptOverrides::Paste);
+    if (isOverridden(globalObject, QStringLiteral("onItemsAdded")))
+        overrides.append(ScriptOverrides::OnItemsAdded);
+    if (isOverridden(globalObject, QStringLiteral("onItemsRemoved")))
+        overrides.append(ScriptOverrides::OnItemsRemoved);
+    if (isOverridden(globalObject, QStringLiteral("onItemsChanged")))
+        overrides.append(ScriptOverrides::OnItemsChanged);
+    if (isOverridden(globalObject, QStringLiteral("onTabSelected")))
+        overrides.append(ScriptOverrides::OnTabSelected);
+    if (isOverridden(globalObject, QStringLiteral("onItemsLoaded")))
+        overrides.append(ScriptOverrides::OnItemsLoaded);
 
     m_proxy->setScriptOverrides(overrides);
 }

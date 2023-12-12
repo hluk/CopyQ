@@ -2604,7 +2604,7 @@ QStringList ScriptableProxy::styles()
 void ScriptableProxy::setScriptOverrides(const QVector<int> &overrides)
 {
     INVOKE2(setScriptOverrides, (overrides));
-    m_wnd->setScriptOverrides(overrides);
+    m_wnd->setScriptOverrides(overrides, m_actionId);
 }
 
 ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
