@@ -61,11 +61,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
     App::installTranslator();
 
     // Start script after QCoreApplication::exec().
-    auto timer = new QTimer(this);
-    timer->setSingleShot(true);
-    connect(timer, &QTimer::timeout, this, [&]() { start(arguments); });
-    connect(timer, &QTimer::timeout, timer, &QObject::deleteLater);
-    timer->start(0);
+    QTimer::singleShot(0, this, [&]() { start(arguments); });
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
