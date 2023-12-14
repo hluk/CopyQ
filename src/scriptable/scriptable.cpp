@@ -454,15 +454,32 @@ struct ScriptValueFactory<QVariant> {
     }
 };
 
+QString exceptionBacktrace(const QJSValue &exception, const QStringList &stack = {})
+{
+    const auto backtraceValue = exception.property("stack");
+    auto backtrace = backtraceValue.isUndefined() ? QStringList() : backtraceValue.toString().split("\n");
+    for (int i = backtrace.size() - 1; i >= 0; --i) {
+        if ( backtrace[i] == QLatin1String("@:1") )
+            backtrace.removeAt(i);
+    }
+    for (const auto &frame : stack)
+        backtrace.append(frame);
+
+    if ( backtrace.isEmpty() )
+        return {};
+
+    return QStringLiteral("\n\n--- backtrace ---\n%1\n--- end backtrace ---")
+        .arg(backtrace.join(QLatin1String("\n")));
+
+}
+
 QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
 {
     const auto v = engine->evaluate(script);
     if ( v.isError() ) {
-        log( QStringLiteral("Exception during evaluate: %1\n%2")
-            .arg(
-                v.toString(),
-                QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script)
-            ), LogError );
+        const auto scriptText = QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script);
+        log( QStringLiteral("Exception during evaluate: %1%2\n\n%3")
+            .arg(v.toString(), exceptionBacktrace(v), scriptText), LogError );
     }
     return v;
 }
@@ -722,8 +739,8 @@ Scriptable::Scriptable(
     ));
 
     m_createProperty = evaluateStrict(m_engine, QStringLiteral(
-        "(function(name, from) {"
-            "Object.defineProperty(this, name, {"
+        "(function(obj, name, from) {"
+            "Object.defineProperty(obj, name, {"
             "get: function(){return from[name];},"
             "set: function(arg){from[name] = arg},"
             "});"
@@ -3156,19 +3173,7 @@ void Scriptable::processUncaughtException(const QString &cmd)
             .remove(QRegularExpression("^Error: "))
             .trimmed();
 
-    const auto backtraceValue = m_uncaughtException.property("stack");
-    auto backtrace = backtraceValue.isUndefined() ? QStringList() : backtraceValue.toString().split("\n");
-    for (int i = backtrace.size() - 1; i >= 0; --i) {
-        if ( backtrace[i] == QLatin1String("@:1") )
-            backtrace.removeAt(i);
-    }
-    for (const auto &frame : m_uncaughtExceptionStack)
-        backtrace.append(frame);
-
-    QString backtraceText;
-    if ( !backtrace.isEmpty() )
-        backtraceText = "\n\n--- backtrace ---\n" + backtrace.join("\n") + "\n--- end backtrace ---";
-
+    const QString backtraceText = exceptionBacktrace(m_uncaughtException, m_uncaughtExceptionStack);
     const auto exceptionText = QStringLiteral("ScriptError: %3%4").arg(exceptionName, backtraceText);
 
     // Show exception popups only if the script was launched from application.
@@ -3929,9 +3934,7 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
     for (int i = 0; i < metaObject->propertyCount(); ++i) {
         const QMetaProperty prop = metaObject->property(i);
         const QLatin1String name( prop.name() );
-
-        const QJSValueList args{name, from};
-        const auto v = m_createProperty.callWithInstance(toObject, args);
+        const auto v = m_createProperty.call({toObject, name, from});
         if ( v.isError() ) {
             log( QStringLiteral("Exception while adding property %1.%2: %3").arg(fromObj->objectName(), name, v.toString()), LogError );
             Q_ASSERT(false);
