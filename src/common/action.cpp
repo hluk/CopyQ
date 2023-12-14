@@ -262,7 +262,7 @@ void Action::start()
                  this, &Action::onSubProcessErrorOutput );
     }
 
-    pipeThroughProcesses(m_processes.begin(), m_processes.end());
+    pipeThroughProcesses(m_processes.constBegin(), m_processes.constEnd());
 
     QProcess *lastProcess = m_processes.back();
     connect( lastProcess, &QProcess::started,
@@ -345,7 +345,7 @@ void Action::appendErrorOutput(const QByteArray &errorOutput)
     m_errorOutput.append(errorOutput);
 }
 
-void Action::onSubProcessError(QProcess::ProcessError error)
+void Action::onSubProcessError(int error)
 {
     QProcess *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
@@ -379,7 +379,7 @@ void Action::onSubProcessOutput()
     if ( m_processes.empty() )
         return;
 
-    auto p = m_processes.back();
+    QProcess *p = m_processes.back();
     if ( p->isReadable() )
         appendOutput( p->readAll() );
 }
@@ -432,8 +432,9 @@ void Action::closeSubCommands()
     if (m_processes.empty())
         return;
 
-    m_exitCode = m_processes.back()->exitCode();
-    m_failed = m_failed || m_processes.back()->exitStatus() != QProcess::NormalExit;
+    QProcess *last = m_processes.back();
+    m_exitCode = last->exitCode();
+    m_failed = m_failed || last->exitStatus() != QProcess::NormalExit;
 
     for (auto p : m_processes)
         p->deleteLater();

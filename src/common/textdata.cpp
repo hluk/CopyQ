@@ -6,7 +6,6 @@
 
 #include <QLocale>
 #include <QString>
-#include <Qt>
 
 #include <algorithm>
 #include <iterator>

@@ -5,9 +5,8 @@
 
 #include "common/settings.h"
 
-#include <QVariant>
-
 class QString;
+class QVariant;
 
 QString defaultClipboardTabName();
 

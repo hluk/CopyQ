@@ -8,6 +8,7 @@
 
 #include <QLabel>
 #include <QPixmap>
+#include <QVariant>
 
 #include <memory>
 

@@ -7,6 +7,7 @@
 #include "gui/icons.h"
 
 #include <QProcess>
+#include <QVariant>
 #include <QWidget>
 
 #include <memory>

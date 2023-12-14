@@ -28,6 +28,7 @@
 #include <QTextEdit>
 #include <QtPlugin>
 #include <QVBoxLayout>
+#include <QVariantMap>
 
 namespace {
 

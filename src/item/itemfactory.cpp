@@ -208,10 +208,11 @@ class DummyLoader final : public ItemLoaderInterface
 public:
     int priority() const override { return std::numeric_limits<int>::min(); }
 
-    QString id() const override { return QString(); }
-    QString name() const override { return QString(); }
-    QString author() const override { return QString(); }
-    QString description() const override { return QString(); }
+    QString id() const override { return {}; }
+    QString name() const override { return {}; }
+    QString author() const override { return {}; }
+    QString description() const override { return {}; }
+    QVariant icon() const override { return {}; }
 
     void setEnabled(bool) override {}
     void loadSettings(const QSettings &) override

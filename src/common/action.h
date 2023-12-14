@@ -3,14 +3,11 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include <QModelIndex>
-#include <QProcess>
 #include <QStringList>
 #include <QVariantMap>
 
-#include <vector>
-
 class QAction;
+class QProcess;
 
 /**
  * Terminate process or kill if it takes too long.
@@ -101,7 +98,7 @@ signals:
     void actionOutput(const QByteArray &output);
 
 private:
-    void onSubProcessError(QProcess::ProcessError error);
+    void onSubProcessError(int error);
     void onSubProcessStarted();
     void onSubProcessFinished();
     void onSubProcessOutput();
@@ -122,7 +119,7 @@ private:
     int m_currentLine;
     QString m_name;
     QVariantMap m_data;
-    std::vector<QProcess*> m_processes;
+    QList<QProcess*> m_processes;
 
     int m_exitCode;
     QString m_errorString;

@@ -5,7 +5,6 @@
 
 #include "common/clipboardmode.h"
 #include "gui/clipboardbrowsershared.h"
-#include "gui/theme.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemfilter.h"
@@ -15,9 +14,6 @@
 #include <QPointer>
 #include <QTimer>
 #include <QVariantMap>
-#include <QVector>
-
-#include <memory>
 
 class ItemEditorWidget;
 class ItemFactory;

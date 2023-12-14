@@ -3,7 +3,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <QLockFile>
 #include <QMetaType>
 #include <QObject>
 
@@ -37,10 +36,8 @@ private:
     void onNewConnection();
     void onSocketDestroyed();
 
-    QLocalServer *m_server;
-    QLockFile m_lockFile;
-    int m_socketCount;
-    QEventLoop *m_loop = nullptr;
+    struct PrivateData;
+    std::unique_ptr<PrivateData> m_data;
 };
 
 #endif // SERVER_H

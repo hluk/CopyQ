@@ -215,6 +215,11 @@ ItemWidget *ItemLoaderInterface::create(const QVariantMap &, QWidget *, bool) co
     return nullptr;
 }
 
+QStringList ItemLoaderInterface::formatsToSave() const
+{
+    return {};
+}
+
 bool ItemLoaderInterface::canLoadItems(QIODevice *) const
 {
     return false;

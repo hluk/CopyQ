@@ -72,10 +72,12 @@
 #include <QModelIndex>
 #include <QPushButton>
 #include <QShortcut>
+#include <QSystemTrayIcon>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
 #include <QUrl>
+#include <QVector>
 
 #include <algorithm>
 #include <memory>
@@ -2975,7 +2977,7 @@ void MainWindow::onTrayActionTriggered(const QVariantMap &data, bool omitPaste)
     activateMenuItem( getPlaceholderForTrayMenu(), data, omitPaste );
 }
 
-void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
+void MainWindow::trayActivated(int reason)
 {
 #ifdef Q_OS_MAC
     if (!m_options.nativeTrayMenu && reason == QSystemTrayIcon::Context) {

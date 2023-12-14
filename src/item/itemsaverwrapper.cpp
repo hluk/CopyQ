@@ -1,5 +1,7 @@
 #include "itemsaverwrapper.h"
 
+#include <QVariantMap>
+
 ItemSaverWrapper::ItemSaverWrapper(const ItemSaverPtr &saver)
     : m_saver(saver)
 {
