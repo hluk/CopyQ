@@ -30,6 +30,7 @@ using namespace FakeVim::Internal;
 #include <QSettings>
 #include <QStyle>
 #include <QStyleHints>
+#include <QVariantMap>
 #include <QtPlugin>
 
 #define EDITOR(s) (m_textEdit ? m_textEdit->s : m_plainTextEdit->s)

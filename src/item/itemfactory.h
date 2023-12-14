@@ -10,8 +10,6 @@
 #include <QObject>
 #include <QtContainerFwd>
 
-#include <memory>
-
 class ItemLoaderInterface;
 class ItemWidget;
 class ScriptableProxy;
@@ -23,7 +21,7 @@ class QWidget;
 struct Command;
 struct CommandMenu;
 
-using ItemLoaderList = QVector<ItemLoaderPtr>;
+using ItemLoaderList = QList<ItemLoaderPtr>;
 
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate

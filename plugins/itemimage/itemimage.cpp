@@ -21,6 +21,7 @@
 #include <QSettings>
 #include <QtPlugin>
 #include <QVariant>
+#include <QVariantMap>
 
 namespace {
 

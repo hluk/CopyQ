@@ -6,6 +6,7 @@
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
 
+#include <QVariant>
 #include <QWidget>
 
 namespace Ui {

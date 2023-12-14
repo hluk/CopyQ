@@ -3,9 +3,7 @@
 #ifndef ICONFACTORY_H
 #define ICONFACTORY_H
 
-#include <QColor>
-#include <QString>
-
+class QColor;
 class QIcon;
 class QPixmap;
 class QPainter;
@@ -20,7 +18,9 @@ QIcon getIcon(const QVariant &iconOrIconId);
 
 QIcon getIconFromResources(const QString &iconName);
 
-QIcon iconFromFile(const QString &fileName, const QString &tag = QString(), const QColor &color = QColor());
+QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &color);
+QIcon iconFromFile(const QString &fileName, const QString &tag);
+QIcon iconFromFile(const QString &fileName);
 
 unsigned short toIconId(const QString &fileNameOrId);
 

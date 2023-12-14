@@ -3,23 +3,23 @@
 #ifndef ITEMWIDGET_H
 #define ITEMWIDGET_H
 
-#include "common/command.h"
 #include "tests/testinterface.h"
 
-#include <QStringList>
+#include <QObject>
 #include <QtContainerFwd>
-#include <QtPlugin>
-#include <QVariantMap>
-#include <QWidget>
 
 #include <memory>
 
+struct Command;
+
 class ItemFilter;
+class TestInterface;
 class QAbstractItemModel;
 class QIODevice;
 class QModelIndex;
 class QSettings;
 class QTextEdit;
+class QWidget;
 
 class ItemLoaderInterface;
 using ItemLoaderPtr = std::shared_ptr<ItemLoaderInterface>;
@@ -29,6 +29,8 @@ using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
 class ItemScriptableFactoryInterface;
 using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
+
+using TestInterfacePtr = std::shared_ptr<TestInterface>;
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/7.1.0"
 
@@ -278,14 +280,14 @@ public:
      *
      * Default is no icon.
      */
-    virtual QVariant icon() const { return QVariant(); }
+    virtual QVariant icon() const = 0;
 
     /**
      * Provide formats to save (possibly configurable).
      *
      * The values are stored into user QSettings, under group with name same as value of id().
      */
-    virtual QStringList formatsToSave() const { return QStringList(); }
+    virtual QStringList formatsToSave() const;
 
     /**
      * Save and return configuration values to save from current settings widget.

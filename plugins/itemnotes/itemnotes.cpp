@@ -22,6 +22,7 @@
 #include <QTextEdit>
 #include <QTimer>
 #include <QToolTip>
+#include <QVariantMap>
 #include <QtPlugin>
 
 #include <cmath>

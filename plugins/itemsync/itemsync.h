@@ -6,6 +6,7 @@
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
 
+#include <QVariantMap>
 #include <QWidget>
 
 #include <memory>

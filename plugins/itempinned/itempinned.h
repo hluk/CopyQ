@@ -7,6 +7,8 @@
 #include "item/itemwidgetwrapper.h"
 #include "item/itemsaverwrapper.h"
 
+#include <QPointer>
+#include <QVariant>
 #include <QWidget>
 
 class ItemPinned final : public QWidget, public ItemWidgetWrapper

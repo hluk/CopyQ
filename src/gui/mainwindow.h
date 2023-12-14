@@ -12,12 +12,9 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QMainWindow>
-#include <QModelIndex>
 #include <QPointer>
-#include <QSystemTrayIcon>
-#include <QSet>
 #include <QTimer>
-#include <QVector>
+#include <QtContainerFwd>
 
 class Action;
 class ActionDialog;
@@ -35,6 +32,7 @@ class Tabs;
 class Theme;
 class TrayMenu;
 class ToolBar;
+class QModelIndex;
 struct MainWindowOptions;
 struct NotificationButton;
 
@@ -449,7 +447,7 @@ private:
     ClipboardBrowserPlaceholder *getPlaceholderForTrayMenu();
     void filterMenuItems(const QString &searchText);
     void filterTrayMenuItems(const QString &searchText);
-    void trayActivated(QSystemTrayIcon::ActivationReason reason);
+    void trayActivated(int reason);
     void onMenuActionTriggered(const QVariantMap &data, bool omitPaste);
     void onTrayActionTriggered(const QVariantMap &data, bool omitPaste);
     void findNextOrPrevious();

@@ -3,7 +3,8 @@
 #pragma once
 
 #include <QSettings>
-#include <QString>
+
+class QString;
 
 /**
  * Simple wrapper class for QSettings.

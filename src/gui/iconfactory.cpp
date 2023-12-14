@@ -631,6 +631,16 @@ QIcon iconFromFile(const QString &fileName, const QString &tag, const QColor &co
     return IconEngine::createIcon(0, fileName, tag, color);
 }
 
+QIcon iconFromFile(const QString &fileName, const QString &tag)
+{
+    return iconFromFile(fileName, tag, {});
+}
+
+QIcon iconFromFile(const QString &fileName)
+{
+    return iconFromFile(fileName, {}, {});
+}
+
 QPixmap createPixmap(unsigned short id, const QColor &color, int size)
 {
     if (loadIconFont())
