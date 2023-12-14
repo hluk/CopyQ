@@ -17,18 +17,21 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_qt6: false
+            with_native_notifications: true
 
           - os: ubuntu-20.04
             buildname: Linux-Clang
             compiler: clang++
             compiler_package: clang
             with_qt6: false
+            with_native_notifications: true
 
           - os: ubuntu-latest
             buildname: Qt 6
             compiler: g++
             compiler_package: g++
             with_qt6: true
+            with_native_notifications: false
             coverage: true
             compiler_flags: >-
               --coverage
@@ -74,7 +77,8 @@ jobs:
             '-DCMAKE_CXX_COMPILER=${{matrix.compiler}}',
             '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
             '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
-            '-DWITH_QT6=${{matrix.with_qt6}}'
+            '-DWITH_QT6=${{matrix.with_qt6}}',
+            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}'
             ]
 
       - name: Create gnupg directory for tests
