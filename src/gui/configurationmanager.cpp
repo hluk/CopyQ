@@ -173,6 +173,9 @@ void ConfigurationManager::initPluginWidgets(ItemFactory *itemFactory)
     m_tabItems->setItemsMovable(true);
 
     for ( const auto &loader : itemFactory->loaders() ) {
+        if ( loader->name().isEmpty() )
+            continue;
+
         ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         const auto state = loader->isEnabled()
