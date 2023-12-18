@@ -12,6 +12,7 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QMainWindow>
+#include <QPersistentModelIndex>
 #include <QPointer>
 #include <QTimer>
 #include <QtContainerFwd>
