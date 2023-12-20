@@ -369,7 +369,11 @@ bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &mo
 
         for (int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
             QModelIndex index = model.index(i, 0);
-            const QVariantMap dataMap = index.data(contentType::data).toMap();
+            QVariantMap dataMap = index.data(contentType::data).toMap();
+            for (auto it = dataMap.begin(); it != dataMap.end(); ++it) {
+                if (it.value().type() != QVariant::ByteArray)
+                    it.value() = it.value().toByteArray();
+            }
             stream << dataMap;
         }
     }
