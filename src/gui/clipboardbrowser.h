@@ -238,8 +238,6 @@ class ClipboardBrowser final : public QListView
 
         void itemsChanged(const ClipboardBrowser *self);
 
-        void itemsLoaded(const ClipboardBrowser *self);
-
         void itemSelectionChanged(const ClipboardBrowser *self);
 
         void internalEditorStateChanged(const ClipboardBrowser *self);

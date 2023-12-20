@@ -1671,7 +1671,6 @@ bool ClipboardBrowser::loadItems()
         return false;
 
     d.rowsInserted(QModelIndex(), 0, m.rowCount());
-    emit itemsLoaded(this);
     if ( hasFocus() )
         setCurrent(0);
     onItemCountChanged();
