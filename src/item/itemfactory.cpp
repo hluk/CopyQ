@@ -281,10 +281,11 @@ ItemSaverPtr transformSaver(
     return newSaver;
 }
 
-ItemSaverPtr saveWithOther(
+std::pair<ItemSaverPtr, ItemLoaderPtr> saveWithOther(
         const QString &tabName,
         QAbstractItemModel *model,
-        const ItemSaverPtr &currentSaver, ItemLoaderPtr *currentLoader,
+        const ItemSaverPtr &currentSaver,
+        const ItemLoaderPtr &currentLoader,
         const ItemLoaderList &loaders,
         int maxItems)
 {
@@ -297,8 +298,8 @@ ItemSaverPtr saveWithOther(
         }
     }
 
-    if (!newLoader || newLoader == *currentLoader)
-        return currentSaver;
+    if (!newLoader || newLoader == currentLoader)
+        return {currentSaver, currentLoader};
 
     COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
                .arg(tabName) );
@@ -307,11 +308,10 @@ ItemSaverPtr saveWithOther(
     if ( !newSaver || !saveItems(tabName, *model, newSaver) ) {
         COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
                    .arg(tabName) );
-        return currentSaver;
+        return {currentSaver, currentLoader};
     }
 
-    *currentLoader = newLoader;
-    return newSaver;
+    return {newSaver, newLoader};
 }
 
 } // namespace
@@ -427,8 +427,9 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
             if (!saver)
                 return nullptr;
             file->close();
-            saver = saveWithOther(tabName, model, saver, &loader, m_loaders, maxItems);
-            return transformSaver(model, saver, loader, m_loaders);
+            ItemLoaderPtr newLoader;
+            std::tie(saver, newLoader) = saveWithOther(tabName, model, saver, loader, m_loaders, maxItems);
+            return transformSaver(model, saver, newLoader, m_loaders);
         }
     }
 
