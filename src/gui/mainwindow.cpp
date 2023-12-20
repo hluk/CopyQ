@@ -1268,25 +1268,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              this, &MainWindow::onSearchShowRequest );
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
-    connect( browser, &ClipboardBrowser::itemsLoaded,
-             this, &MainWindow::onBrowserItemsLoaded );
 
-    if (browserOrNull() == browser) {
-        const int index = ui->tabWidget->currentIndex();
-        tabChanged(index, index);
-    }
-}
-
-void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
-{
-    if (placeholder == getPlaceholder()) {
-        updateContextMenu(0);
-        updateItemPreviewAfterMs(0);
-    }
-}
-
-void MainWindow::onBrowserItemsLoaded(const ClipboardBrowser *browser)
-{
     if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
         runEventHandlerScript(
             QStringLiteral("onItemsLoaded()"),
@@ -1311,6 +1293,19 @@ void MainWindow::onBrowserItemsLoaded(const ClipboardBrowser *browser)
                         browser, topLeft.row(), bottomRight.row());
                     }
              } );
+
+    if (browserOrNull() == browser) {
+        const int index = ui->tabWidget->currentIndex();
+        tabChanged(index, index);
+    }
+}
+
+void MainWindow::onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder)
+{
+    if (placeholder == getPlaceholder()) {
+        updateContextMenu(0);
+        updateItemPreviewAfterMs(0);
+    }
 }
 
 void MainWindow::onItemSelectionChanged(const ClipboardBrowser *browser)

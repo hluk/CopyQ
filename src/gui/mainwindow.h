@@ -499,7 +499,6 @@ private:
 
     void onBrowserCreated(ClipboardBrowser *browser);
     void onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder);
-    void onBrowserItemsLoaded(const ClipboardBrowser *browser);
 
     void onItemSelectionChanged(const ClipboardBrowser *browser);
     void onItemsChanged(const ClipboardBrowser *browser);
