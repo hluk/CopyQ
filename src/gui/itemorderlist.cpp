@@ -20,6 +20,16 @@ void deleteWidget(const QPointer<QWidget> &object)
         object->deleteLater();
 }
 
+void setItemId(QListWidgetItem *item, int id)
+{
+    item->setData(Qt::UserRole, id);
+}
+
+int itemId(QListWidgetItem *item)
+{
+    return item->data(Qt::UserRole).toInt();
+}
+
 } // namespace
 
 ItemOrderList::ItemOrderList(QWidget *parent)
@@ -86,7 +96,7 @@ void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
     for (const auto &pair : m_items)
-        deleteWidget(pair.widget);
+        deleteWidget(pair.second.widget);
     m_items.clear();
 }
 
@@ -105,7 +115,10 @@ void ItemOrderList::insertItem(
     auto listItem = new QListWidgetItem(icon, label);
     if (state != NotCheckable)
         listItem->setCheckState(state == Checked ? Qt::Checked : Qt::Unchecked);
-    m_items[listItem] = ItemWidgetPair(item, state == Checked);
+
+    ++m_lastItemId;
+    setItemId(listItem, m_lastItemId);
+    m_items.insert({m_lastItemId, ItemWidgetPair(item, state == Checked)});
 
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, listItem);
@@ -122,12 +135,16 @@ void ItemOrderList::removeRow(int row)
 
 QWidget *ItemOrderList::widget(int row) const
 {
-    return m_items[listItem(row)].widget;
+    const int id = itemId(listItem(row));
+    Q_ASSERT(m_items.find(id) != m_items.end());
+    return m_items.at(id).widget;
 }
 
 QVariant ItemOrderList::data(int row) const
 {
-    return m_items[listItem(row)].item->data();
+    const int id = itemId(listItem(row));
+    Q_ASSERT(m_items.find(id) != m_items.end());
+    return m_items.at(id).item->data();
 }
 
 int ItemOrderList::itemCount() const
@@ -355,11 +372,17 @@ void ItemOrderList::onListWidgetItemsItemSelectionChanged()
 
 void ItemOrderList::onListWidgetItemsItemChanged(QListWidgetItem *item)
 {
-    const auto row = ui->listWidgetItems->row(item);
-    const bool checked = isItemChecked(row);
+    const int id = itemId(item);
+    if (id == 0)
+        return;
 
-    if ( m_items[item].lastCheckedState != checked ) {
-        m_items[item].lastCheckedState = checked;
+    const auto row = ui->listWidgetItems->row(item);
+    const bool checked = item->checkState() == Qt::Checked;
+
+    Q_ASSERT(m_items.find(id) != m_items.end());
+    ItemWidgetPair &pair = m_items.at(id);
+    if ( pair.lastCheckedState != checked ) {
+        pair.lastCheckedState = checked;
         emit itemCheckStateChanged(row, checked);
     }
 }
@@ -395,7 +418,9 @@ void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 
 QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
 {
-    ItemWidgetPair &pair = m_items[item];
+    const int id = itemId(item);
+    Q_ASSERT(m_items.find(id) != m_items.end());
+    ItemWidgetPair &pair = m_items.at(id);
     if (!pair.widget)
         pair.widget = pair.item->createWidget(this);
     return pair.widget;
@@ -403,7 +428,10 @@ QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
 
 void ItemOrderList::removeItem(QListWidgetItem *item)
 {
-    ItemWidgetPair pair = m_items.take(item);
+    const int id = itemId(item);
+    Q_ASSERT(m_items.find(id) != m_items.end());
+    ItemWidgetPair pair = m_items.at(id);
+    m_items.erase(id);
     deleteWidget(pair.widget);
     delete item;
 }
