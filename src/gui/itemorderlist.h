@@ -3,12 +3,12 @@
 #ifndef ITEMORDERLIST_H
 #define ITEMORDERLIST_H
 
-#include <QMap>
 #include <QListWidgetItem>
 #include <QPointer>
 #include <QWidget>
 
 #include <memory>
+#include <unordered_map>
 
 namespace Ui {
 class ItemOrderList;
@@ -121,7 +121,6 @@ private:
     void moveTab(int row, int targetRow);
 
     struct ItemWidgetPair {
-        ItemWidgetPair() {}
         explicit ItemWidgetPair(const ItemPtr &item, bool checked)
             : item(item)
             , lastCheckedState(checked)
@@ -138,7 +137,8 @@ private:
     void removeItem(QListWidgetItem *item);
 
     Ui::ItemOrderList *ui;
-    QMap<QListWidgetItem*, ItemWidgetPair> m_items;
+    std::unordered_map<int, ItemWidgetPair> m_items;
+    int m_lastItemId = 0;
 
     QRegularExpression m_dragAndDropRe;
 };
