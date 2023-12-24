@@ -13,7 +13,9 @@ enum class ActionState;
 class ActionTableModel final : public QAbstractTableModel
 {
 public:
-    explicit ActionTableModel(uint maxRowCount, QObject *parent = nullptr);
+    explicit ActionTableModel(QObject *parent = nullptr);
+
+    void setMaxRowCount(uint rows);
 
     int actionAboutToStart(Action *action);
     void actionStarted(Action *action);
@@ -46,7 +48,7 @@ private:
     void limitItems();
 
     std::vector<ActionData> m_actions;
-    uint m_maxRowCount;
+    uint m_maxRowCount = 1000;
 };
 
 #endif // ACTIONTABLEMODEL_H

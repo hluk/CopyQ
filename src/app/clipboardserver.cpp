@@ -697,6 +697,8 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_sharedData->saveDelayMsOnItemEdited = appConfig->option<Config::save_delay_ms_on_item_edited>();
     m_sharedData->rowIndexFromOne = appConfig->option<Config::row_index_from_one>();
 
+    m_sharedData->actions->setMaxRowCount(appConfig->option<Config::max_process_manager_rows>());
+
     m_wnd->loadSettings(settings, appConfig);
 
     m_textTabSize = appConfig->option<Config::text_tab_width>();
