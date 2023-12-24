@@ -484,6 +484,9 @@ void ClipboardBrowser::connectModelAndDelegate()
     // delegate for rendering and editing items
     setItemDelegate(&d);
 
+    connect( &m, &QAbstractItemModel::rowsAboutToBeRemoved,
+             this, &ClipboardBrowser::itemsAboutToBeRemoved );
+
     // Delegate receives model signals first to update internal item list.
     connect( &m, &QAbstractItemModel::rowsInserted,
              &d, &ItemDelegate::rowsInserted );

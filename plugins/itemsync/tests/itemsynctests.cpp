@@ -791,6 +791,7 @@ void ItemSyncTests::saveLargeItem()
         RUN(args << "getItem(0)[mimeText].length", "100000\n");
         RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
         RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
+        RUN(args << "ItemSelection().selectAll().itemAtIndex(0)[mimeText].length", "100000\n");
         RUN("unload" << tab, tab + "\n");
     }
 

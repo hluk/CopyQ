@@ -152,7 +152,10 @@ void TrayMenu::clearClipboardItems()
     m_clipboardActions = {};
     for (QAction *action : actions) {
         removeAction(action);
-        delete action;
+        action->setVisible(false);
+        action->setDisabled(true);
+        action->setShortcuts({});
+        action->deleteLater();
     }
 
     m_clipboardItemActionCount = 0;
@@ -168,7 +171,10 @@ void TrayMenu::clearCustomActions()
     m_customActions = {};
     for (QAction *action : actions) {
         removeAction(action);
-        delete action;
+        action->setVisible(false);
+        action->setDisabled(true);
+        action->setShortcuts({});
+        action->deleteLater();
     }
 }
 

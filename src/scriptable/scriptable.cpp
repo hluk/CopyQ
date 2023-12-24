@@ -27,6 +27,7 @@
 #include "scriptable/scriptablesettings.h"
 #include "scriptable/scriptabletemporaryfile.h"
 #include "scriptable/scriptoverrides.h"
+#include "scriptable/scriptvaluefactory.h"
 
 #include <QApplication>
 #include <QCryptographicHash>
@@ -125,334 +126,6 @@ QString argumentError()
 {
     return Scriptable::tr("Invalid number of arguments!");
 }
-
-QFile *getFile(const QJSValue &value, const Scriptable *scriptable)
-{
-    auto obj = scriptable->engine()->fromScriptValue<ScriptableFile*>(value);
-    return obj ? obj->self() : nullptr;
-}
-
-QVariant toVariant(const QJSValue &value)
-{
-    const auto variant = value.toVariant();
-    Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
-    return variant;
-}
-
-template <typename T>
-struct ScriptValueFactory {
-    static QJSValue toScriptValue(const T &value, const Scriptable *)
-    {
-        return QJSValue(value);
-    }
-
-    static T fromScriptValue(const QJSValue &value, const Scriptable *)
-    {
-        const auto variant = toVariant(value);
-        Q_ASSERT( variant.canConvert<T>() );
-        return variant.value<T>();
-    }
-};
-
-template <typename T>
-QJSValue toScriptValue(const T &value, const Scriptable *scriptable)
-{
-    return ScriptValueFactory<T>::toScriptValue(value, scriptable);
-}
-
-template <typename T>
-T fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-{
-    return ScriptValueFactory<T>::fromScriptValue(value, scriptable);
-}
-
-template <typename T>
-void fromScriptValueIfValid(const QJSValue &value, const Scriptable *scriptable, T *outputValue)
-{
-    if (!value.isUndefined())
-        *outputValue = ScriptValueFactory<T>::fromScriptValue(value, scriptable);
-}
-
-template <typename List, typename T>
-struct ScriptValueListFactory {
-    static QJSValue toScriptValue(const List &list, const Scriptable *scriptable)
-    {
-        QJSValue array = scriptable->engine()->newArray();
-        for ( int i = 0; i < list.size(); ++i ) {
-            const auto value = ScriptValueFactory<T>::toScriptValue(list[i], scriptable);
-            array.setProperty( static_cast<quint32>(i), value );
-        }
-        return array;
-    }
-
-    static List fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-    {
-        if ( !value.isArray() )
-            return List();
-
-        const quint32 length = value.property("length").toUInt();
-        List list;
-        for ( quint32 i = 0; i < length; ++i ) {
-            const auto item = value.property(i);
-            list.append( ScriptValueFactory<T>::fromScriptValue(item, scriptable) );
-        }
-        return list;
-    }
-};
-
-template <typename T>
-struct ScriptValueFactory< QList<T> > : ScriptValueListFactory< QList<T>, T > {};
-
-// QVector is alias for a QList in Qt 6.
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-template <typename T>
-struct ScriptValueFactory< QVector<T> > : ScriptValueListFactory< QVector<T>, T > {};
-#endif
-
-template <>
-struct ScriptValueFactory<QVariantMap> {
-    static QJSValue toScriptValue(const QVariantMap &dataMap, const Scriptable *scriptable)
-    {
-        QJSValue value = scriptable->engine()->newObject();
-
-        for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it)
-            value.setProperty( it.key(), ::toScriptValue(it.value(), scriptable) );
-
-        return value;
-    }
-
-    static QVariantMap fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-    {
-        QVariantMap result;
-        QJSValueIterator it(value);
-        while ( it.hasNext() ) {
-            it.next();
-            auto itemValue = ::fromScriptValue<QVariant>( it.value(), scriptable );
-            if (itemValue.type() == QVariant::String)
-                itemValue = itemValue.toString().toUtf8();
-            result.insert(it.name(), itemValue);
-        }
-        return result;
-    }
-};
-
-template <>
-struct ScriptValueFactory<QByteArray> {
-    static QJSValue toScriptValue(const QByteArray &bytes, const Scriptable *scriptable)
-    {
-        return scriptable->newByteArray(bytes);
-    }
-};
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-template <>
-struct ScriptValueFactory<QStringList> {
-    static QJSValue toScriptValue(const QStringList &list, const Scriptable *scriptable)
-    {
-        return ScriptValueFactory< QList<QString> >::toScriptValue(list, scriptable);
-    }
-
-    static QStringList fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-    {
-        return ScriptValueFactory< QList<QString> >::fromScriptValue(value, scriptable);
-    }
-};
-#endif
-
-template <>
-struct ScriptValueFactory<QString> {
-    static QJSValue toScriptValue(const QString &text, const Scriptable *)
-    {
-        return QJSValue(text);
-    }
-
-    static QString fromScriptValue(const QJSValue &value, const Scriptable *)
-    {
-        return toString(value);
-    }
-};
-
-template <>
-struct ScriptValueFactory<QRegularExpression> {
-    static QJSValue toScriptValue(const QRegularExpression &re, const Scriptable *scriptable)
-    {
-#if QT_VERSION >= QT_VERSION_CHECK(5,13,0)
-        return scriptable->engine()->toScriptValue(re);
-#else
-        const auto caseSensitivity =
-            re.patternOptions().testFlag(QRegularExpression::CaseInsensitiveOption)
-            ? Qt::CaseInsensitive
-            : Qt::CaseSensitive;
-        const QRegExp re2(re.pattern(), caseSensitivity);
-        return scriptable->engine()->toScriptValue(re2);
-#endif
-    }
-
-    static QRegularExpression fromScriptValue(const QJSValue &value, const Scriptable *)
-    {
-        if (value.isRegExp()) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
-            const auto variant = value.toVariant();
-            return variant.toRegularExpression();
-#else
-            QString pattern = toString(value.property("source"));
-
-            // Unescape slash characters in JS regex pattern: \/ -> /
-            bool escape = false;
-            for (int i = 0; i < pattern.size(); ++i) {
-                const QChar &c = pattern[i];
-                if (escape && c == '/') {
-                    i -= 1;
-                    pattern.remove(i, 1);
-                    escape = false;
-                } else {
-                    escape = !escape && c == '\\';
-                }
-            }
-
-            return pattern == QStringLiteral("(?:)")
-                ? QRegularExpression()
-                : QRegularExpression(pattern);
-#endif
-        }
-
-        if (value.isVariant()) {
-            const auto variant = value.toVariant();
-            return variant.toRegularExpression();
-        }
-
-        return QRegularExpression( toString(value) );
-    }
-};
-
-template <>
-struct ScriptValueFactory<Command> {
-    static QJSValue toScriptValue(const Command &command, const Scriptable *scriptable)
-    {
-        QJSValue value = scriptable->engine()->newObject();
-
-        value.setProperty(QStringLiteral("name"), command.name);
-        value.setProperty(QStringLiteral("re"), ::toScriptValue(command.re, scriptable));
-        value.setProperty(QStringLiteral("wndre"), ::toScriptValue(command.wndre, scriptable));
-        value.setProperty(QStringLiteral("matchCmd"), command.matchCmd);
-        value.setProperty(QStringLiteral("cmd"), command.cmd);
-        value.setProperty(QStringLiteral("sep"), command.sep);
-        value.setProperty(QStringLiteral("input"), command.input);
-        value.setProperty(QStringLiteral("output"), command.output);
-        value.setProperty(QStringLiteral("wait"), command.wait);
-        value.setProperty(QStringLiteral("automatic"), command.automatic);
-        value.setProperty(QStringLiteral("display"), command.display);
-        value.setProperty(QStringLiteral("inMenu"), command.inMenu);
-        value.setProperty(QStringLiteral("isGlobalShortcut"), command.isGlobalShortcut);
-        value.setProperty(QStringLiteral("isScript"), command.isScript);
-        value.setProperty(QStringLiteral("transform"), command.transform);
-        value.setProperty(QStringLiteral("remove"), command.remove);
-        value.setProperty(QStringLiteral("hideWindow"), command.hideWindow);
-        value.setProperty(QStringLiteral("enable"), command.enable);
-        value.setProperty(QStringLiteral("icon"), command.icon);
-        value.setProperty(QStringLiteral("shortcuts"), ::toScriptValue(command.shortcuts, scriptable));
-        value.setProperty(QStringLiteral("globalShortcuts"), ::toScriptValue(command.globalShortcuts, scriptable));
-        value.setProperty(QStringLiteral("tab"), command.tab);
-        value.setProperty(QStringLiteral("outputTab"), command.outputTab);
-        value.setProperty(QStringLiteral("internalId"), command.internalId);
-
-        return value;
-    }
-
-    static Command fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-    {
-        Command command;
-
-        ::fromScriptValueIfValid( value.property("name"), scriptable, &command.name );
-        ::fromScriptValueIfValid( value.property("re"), scriptable, &command.re );
-        ::fromScriptValueIfValid( value.property("wndre"), scriptable, &command.wndre );
-        ::fromScriptValueIfValid( value.property("matchCmd"), scriptable, &command.matchCmd );
-        ::fromScriptValueIfValid( value.property("cmd"), scriptable, &command.cmd );
-        ::fromScriptValueIfValid( value.property("sep"), scriptable, &command.sep );
-        ::fromScriptValueIfValid( value.property("input"), scriptable, &command.input );
-        ::fromScriptValueIfValid( value.property("output"), scriptable, &command.output );
-        ::fromScriptValueIfValid( value.property("wait"), scriptable, &command.wait );
-        ::fromScriptValueIfValid( value.property("automatic"), scriptable, &command.automatic );
-        ::fromScriptValueIfValid( value.property("display"), scriptable, &command.display );
-        ::fromScriptValueIfValid( value.property("inMenu"), scriptable, &command.inMenu );
-        ::fromScriptValueIfValid( value.property("isGlobalShortcut"), scriptable, &command.isGlobalShortcut );
-        ::fromScriptValueIfValid( value.property("isScript"), scriptable, &command.isScript );
-        ::fromScriptValueIfValid( value.property("transform"), scriptable, &command.transform );
-        ::fromScriptValueIfValid( value.property("remove"), scriptable, &command.remove );
-        ::fromScriptValueIfValid( value.property("hideWindow"), scriptable, &command.hideWindow );
-        ::fromScriptValueIfValid( value.property("enable"), scriptable, &command.enable );
-        ::fromScriptValueIfValid( value.property("icon"), scriptable, &command.icon );
-        ::fromScriptValueIfValid( value.property("shortcuts"), scriptable, &command.shortcuts );
-        ::fromScriptValueIfValid( value.property("globalShortcuts"), scriptable, &command.globalShortcuts );
-        ::fromScriptValueIfValid( value.property("tab"), scriptable, &command.tab );
-        ::fromScriptValueIfValid( value.property("outputTab"), scriptable, &command.outputTab );
-        ::fromScriptValueIfValid( value.property("internalId"), scriptable, &command.internalId );
-
-        return command;
-    }
-};
-
-template <>
-struct ScriptValueFactory<QVariant> {
-    static QJSValue toScriptValue(const QVariant &variant, const Scriptable *scriptable)
-    {
-        if ( !variant.isValid() )
-            return QJSValue(QJSValue::UndefinedValue);
-
-        if (variant.type() == QVariant::Bool)
-            return ::toScriptValue(variant.toBool(), scriptable);
-
-        if (variant.type() == QVariant::ByteArray)
-            return ::toScriptValue(variant.toByteArray(), scriptable);
-
-        if (variant.type() == QVariant::String)
-            return ::toScriptValue(variant.toString(), scriptable);
-
-        if (variant.type() == QVariant::Char)
-            return ::toScriptValue(variant.toString(), scriptable);
-
-        if (variant.type() == QVariant::RegularExpression)
-            return ::toScriptValue(variant.toRegularExpression(), scriptable);
-
-        if (variant.canConvert<QVariantList>())
-            return ::toScriptValue(variant.value<QVariantList>(), scriptable);
-
-        if (variant.canConvert<QVariantMap>())
-            return ::toScriptValue(variant.value<QVariantMap>(), scriptable);
-
-        if (variant.canConvert<QByteArray>())
-            return scriptable->newByteArray(new ScriptableByteArray(variant));
-
-        return scriptable->engine()->toScriptValue(variant);
-    }
-
-    static QVariant fromScriptValue(const QJSValue &value, const Scriptable *scriptable)
-    {
-        const auto bytes = getByteArray(value);
-        if (bytes)
-            return QVariant(*bytes);
-
-        auto file = getFile(value, scriptable);
-        if (file) {
-            const QFileInfo fileInfo(*file);
-            const auto path = fileInfo.absoluteFilePath();
-            return QVariant::fromValue( ScriptablePath{path} );
-        }
-
-        if (value.isArray())
-            return ScriptValueFactory<QVariantList>::fromScriptValue(value, scriptable);
-
-        const auto variant = toVariant(value);
-        if (variant.type() == QVariant::ByteArray)
-            return variant;
-
-        if (value.isObject())
-            return ScriptValueFactory<QVariantMap>::fromScriptValue(value, scriptable);
-
-        Q_ASSERT(value.isUndefined() || value.isNull() || variant.isValid());
-        return variant;
-    }
-};
 
 QString exceptionBacktrace(const QJSValue &exception, const QStringList &stack = {})
 {
@@ -799,7 +472,7 @@ QByteArray Scriptable::fromString(const QString &value) const
 
 QVariant Scriptable::toVariant(const QJSValue &value)
 {
-    return fromScriptValue<QVariant>(value, this);
+    return fromScriptValue<QVariant>(value, m_engine);
 }
 
 bool Scriptable::toInt(const QJSValue &value, int *number) const
@@ -827,7 +500,7 @@ QVariantMap Scriptable::toDataMap(const QJSValue &value) const
 
 QJSValue Scriptable::fromDataMap(const QVariantMap &dataMap) const
 {
-    return toScriptValue(dataMap, this);
+    return toScriptValue(dataMap, m_engine);
 }
 
 QByteArray Scriptable::makeByteArray(const QJSValue &value) const
@@ -972,7 +645,7 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QVariantList
     QJSValueList fnArgs;
     fnArgs.reserve( arguments.size() );
     for (const auto &argument : arguments)
-        fnArgs.append( toScriptValue(argument, this) );
+        fnArgs.append( toScriptValue(argument, m_engine) );
 
     return call(label, fn, fnArgs);
 }
@@ -1341,7 +1014,7 @@ QJSValue Scriptable::tab()
 
     const QString &name = arg(0);
     if ( name.isNull() )
-        return toScriptValue( m_proxy->tabs(), this );
+        return toScriptValue( m_proxy->tabs(), m_engine );
 
     m_tabName = name;
     return QJSValue();
@@ -1387,7 +1060,7 @@ QJSValue Scriptable::unload()
 {
     const auto tabs = arguments();
     const QStringList unloaded = m_proxy->unloadTabs(tabs.isEmpty() ? m_proxy->tabs() : tabs);
-    return toScriptValue(unloaded, this);
+    return toScriptValue(unloaded, m_engine);
 }
 
 void Scriptable::forceUnload()
@@ -1725,8 +1398,8 @@ QJSValue Scriptable::config()
     if ( nameValue.size() == 1 ) {
         const auto value = nameValue.constBegin().value();
         return value.type() == QVariant::StringList || value.type() == QVariant::List
-            ? toScriptValue(value, this)
-            : toScriptValue(value.toString(), this);
+            ? toScriptValue(value, m_engine)
+            : toScriptValue(value.toString(), m_engine);
     }
 
     QStringList output;
@@ -1740,7 +1413,7 @@ QJSValue Scriptable::config()
         output.append( name + "=" + textValue );
     }
 
-    return toScriptValue(output, this);
+    return toScriptValue(output, m_engine);
 }
 
 QJSValue Scriptable::toggleConfig()
@@ -1946,7 +1619,7 @@ QJSValue Scriptable::fromUnicode()
 QJSValue Scriptable::dataFormats()
 {
     m_skipArguments = 0;
-    return toScriptValue( m_data.keys(), this );
+    return toScriptValue( m_data.keys(), m_engine );
 }
 
 QJSValue Scriptable::data()
@@ -2100,7 +1773,7 @@ QJSValue Scriptable::selectedTab()
 QJSValue Scriptable::selectedItems()
 {
     m_skipArguments = 0;
-    return toScriptValue( m_proxy->selectedItems(), this );
+    return toScriptValue( m_proxy->selectedItems(), m_engine );
 }
 
 QJSValue Scriptable::currentItem()
@@ -2115,7 +1788,7 @@ QJSValue Scriptable::selectedItemData()
     if ( !toInt(argument(0), &selectedIndex) )
         return throwError(argumentError());
 
-    return toScriptValue( m_proxy->selectedItemData(selectedIndex), this );
+    return toScriptValue( m_proxy->selectedItemData(selectedIndex), m_engine );
 }
 
 QJSValue Scriptable::setSelectedItemData()
@@ -2125,18 +1798,18 @@ QJSValue Scriptable::setSelectedItemData()
         return throwError(argumentError());
 
     const auto data = toDataMap( argument(1) );
-    return toScriptValue( m_proxy->setSelectedItemData(selectedIndex, data), this );
+    return toScriptValue( m_proxy->setSelectedItemData(selectedIndex, data), m_engine );
 }
 
 QJSValue Scriptable::selectedItemsData()
 {
-    return toScriptValue( m_proxy->selectedItemsData().items, this );
+    return toScriptValue( m_proxy->selectedItemsData().items, m_engine );
 }
 
 void Scriptable::setSelectedItemsData()
 {
     m_skipArguments = 1;
-    const VariantMapList dataList{fromScriptValue<QVector<QVariantMap>>( argument(0), this )};
+    const VariantMapList dataList{fromScriptValue<QVector<QVariantMap>>( argument(0), m_engine )};
     m_proxy->setSelectedItemsData(dataList);
 }
 
@@ -2155,7 +1828,7 @@ QJSValue Scriptable::unpack()
     if ( !toItemData(argument(0), mimeItems, &data) )
         return throwError(argumentError());
 
-    return toScriptValue(data, this);
+    return toScriptValue(data, m_engine);
 }
 
 QJSValue Scriptable::pack()
@@ -2173,7 +1846,7 @@ QJSValue Scriptable::getItem()
     if ( !toInt(argument(0), &row) )
         return throwError(argumentError());
 
-    return toScriptValue( m_proxy->browserItemData(m_tabName, row), this );
+    return toScriptValue( m_proxy->browserItemData(m_tabName, row), m_engine );
 }
 
 void Scriptable::setItem()
@@ -2264,7 +1937,7 @@ QJSValue Scriptable::execute()
         return QJSValue();
 
     if ( m_executeStdoutCallback.isCallable() ) {
-        const auto arg = toScriptValue(m_executeStdoutLastLine, this);
+        const auto arg = toScriptValue(m_executeStdoutLastLine, m_engine);
         call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
     }
 
@@ -2327,12 +2000,12 @@ QJSValue Scriptable::dialog()
         return QJSValue();
 
     if (values.items.size() == 1)
-        return toScriptValue( values.items.first().value, this );
+        return toScriptValue( values.items.first().value, m_engine );
 
     QJSValue result = m_engine->newObject();
 
     for (const auto &value : values.items)
-        result.setProperty( value.name, toScriptValue(value.value, this) );
+        result.setProperty( value.name, toScriptValue(value.value, m_engine) );
 
     return result;
 }
@@ -2352,7 +2025,7 @@ QJSValue Scriptable::menuItems()
     }
 
     m_skipArguments = 1;
-    const VariantMapList items{fromScriptValue<QVector<QVariantMap>>(text, this)};
+    const VariantMapList items{fromScriptValue<QVector<QVariantMap>>(text, m_engine)};
     if ( items.items.isEmpty() )
         return -1;
     return m_proxy->menuItems(items);
@@ -2378,10 +2051,10 @@ QJSValue Scriptable::settings()
 
     if (argumentCount() == 1) {
         const auto value = settings.value(arg(0));
-        return toScriptValue(value, this);
+        return toScriptValue(value, m_engine);
     }
 
-    return toScriptValue(settings.allKeys(), this);
+    return toScriptValue(settings.allKeys(), m_engine);
 }
 
 QJSValue Scriptable::dateString()
@@ -2393,18 +2066,18 @@ QJSValue Scriptable::dateString()
 
 QJSValue Scriptable::commands()
 {
-    return toScriptValue( m_proxy->commands(), this );
+    return toScriptValue( m_proxy->commands(), m_engine );
 }
 
 void Scriptable::setCommands()
 {
-    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), m_engine);
     m_proxy->setCommands(commands);
 }
 
 void Scriptable::addCommands()
 {
-    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), m_engine);
     m_proxy->addCommands(commands);
 }
 
@@ -2412,13 +2085,13 @@ QJSValue Scriptable::importCommands()
 {
     m_skipArguments = 1;
     const auto commands = importCommandsFromText(arg(0));
-    return toScriptValue(commands, this);
+    return toScriptValue(commands, m_engine);
 }
 
 QJSValue Scriptable::exportCommands()
 {
     m_skipArguments = 1;
-    const auto commands = fromScriptValue<QVector<Command>>(argument(0), this);
+    const auto commands = fromScriptValue<QVector<Command>>(argument(0), m_engine);
 
     const auto exportedCommands = ::exportCommands(commands);
     if ( exportedCommands.isEmpty() )
@@ -2569,7 +2242,7 @@ QJSValue Scriptable::screenshotSelect()
 
 QJSValue Scriptable::screenNames()
 {
-    return toScriptValue( m_proxy->screenNames(), this );
+    return toScriptValue( m_proxy->screenNames(), m_engine );
 }
 
 QJSValue Scriptable::queryKeyboardModifiers()
@@ -2584,13 +2257,13 @@ QJSValue Scriptable::queryKeyboardModifiers()
         modifierList.append("Alt");
     if (modifiers.testFlag(Qt::MetaModifier))
         modifierList.append("Meta");
-    return toScriptValue(modifierList, this);
+    return toScriptValue(modifierList, m_engine);
 }
 
 QJSValue Scriptable::pointerPosition()
 {
     const QPoint pos = m_proxy->pointerPosition();
-    return toScriptValue(QVector<int>{pos.x(), pos.y()}, this);
+    return toScriptValue(QVector<int>{pos.x(), pos.y()}, m_engine);
 }
 
 QJSValue Scriptable::setPointerPosition()
@@ -2911,7 +2584,7 @@ void Scriptable::monitorClipboard()
         return;
 
     ClipboardMonitor monitor(
-        fromScriptValue<QStringList>(eval("clipboardFormatsToSave()"), this) );
+        fromScriptValue<QStringList>(eval("clipboardFormatsToSave()"), m_engine) );
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
@@ -2948,7 +2621,7 @@ QJSValue Scriptable::isClipboardMonitorRunning()
 QJSValue Scriptable::clipboardFormatsToSave()
 {
     if (!m_factory)
-        return toScriptValue(QStringList(), this);
+        return toScriptValue(QStringList(), m_engine);
 
     QStringList formats = m_factory->formatsToSave();
     COPYQ_LOG( "Clipboard formats to save: " + formats.join(", ") );
@@ -2961,12 +2634,12 @@ QJSValue Scriptable::clipboardFormatsToSave()
         }
     }
 
-    return toScriptValue(formats, this);
+    return toScriptValue(formats, m_engine);
 }
 
 QJSValue Scriptable::styles()
 {
-    return toScriptValue( m_proxy->styles(), this );
+    return toScriptValue( m_proxy->styles(), m_engine );
 }
 
 void Scriptable::collectScriptOverrides()
@@ -3000,7 +2673,7 @@ void Scriptable::onExecuteOutput(const QByteArray &output)
         auto lines = m_executeStdoutLastLine.split('\n');
         m_executeStdoutLastLine = lines.takeLast();
         if ( !lines.isEmpty() ) {
-            const auto arg = toScriptValue(lines, this);
+            const auto arg = toScriptValue(lines, m_engine);
             call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
         }
     }
@@ -3127,7 +2800,7 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
         if ( result.isCallable() ) {
             const auto arguments = fnArgs.mid(skipArguments);
             if ( result.strictlyEquals(evalFn) )
-                globalObject.setProperty( QStringLiteral("arguments"), toScriptValue(arguments, this) );
+                globalObject.setProperty( QStringLiteral("arguments"), toScriptValue(arguments, m_engine) );
             m_skipArguments = -1;
             result = call( label, &result, arguments );
             if (m_skipArguments == -1)
@@ -3243,7 +2916,7 @@ QVector<QVariantMap> Scriptable::getItemArguments(int begin, int end, QString *e
     QVector<QVariantMap> items;
     if (firstArg.toVariant().canConvert<QVariantMap>()) {
         for (int i = begin; i < end; ++i)
-            items.append( fromScriptValue<QVariantMap>(argument(i), this) );
+            items.append( fromScriptValue<QVariantMap>(argument(i), m_engine) );
     } else if (end - begin == 1) {
         QVariantMap data;
         QJSValue value = argument(begin);
@@ -3278,7 +2951,7 @@ QVector<QVariantMap> Scriptable::getItemList(int begin, int end, const QJSValue 
     for (int i = begin; i < end; ++i) {
         const auto arg = arguments.property( static_cast<quint32>(i) );
         if ( arg.isObject() && getByteArray(arg) == nullptr && !arg.isArray() )
-            items.append( fromScriptValue<QVariantMap>(arg, this) );
+            items.append( fromScriptValue<QVariantMap>(arg, m_engine) );
         else
             items.append( createDataMap(mimeText, toString(arg)) );
     }

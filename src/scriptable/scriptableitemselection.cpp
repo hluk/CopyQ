@@ -4,67 +4,9 @@
 #include "scriptableproxy.h"
 
 #include "scriptable/scriptablebytearray.h"
+#include "scriptable/scriptvaluefactory.h"
 
 #include <QJSEngine>
-#include <QJSValueIterator>
-
-namespace {
-
-QVariantMap toDataMap(const QJSValue &value)
-{
-    QVariantMap result;
-    QJSValueIterator it(value);
-    while ( it.hasNext() ) {
-        it.next();
-        const auto bytes = toByteArray( it.value() );
-        result.insert(it.name(), bytes);
-    }
-    return result;
-}
-
-QVariantList toDataMapList(const QJSValue &value)
-{
-    QVariantList result;
-    const quint32 length = value.property("length").toUInt();
-    for ( quint32 i = 0; i < length; ++i ) {
-        const auto item = value.property(i);
-        result.append( toDataMap(item) );
-    }
-    return result;
-}
-
-QVector<int> toIntVector(const QJSValue &value)
-{
-    QVector<int> result;
-    const quint32 length = value.property("length").toUInt();
-    for ( quint32 i = 0; i < length; ++i ) {
-        const auto item = value.property(i);
-        result.append( item.toInt() );
-    }
-    return result;
-}
-
-QRegularExpression toRegularExpression(const QJSValue &value)
-{
-    const QVariant variant = value.toVariant();
-    QRegularExpression regexp = variant.toRegularExpression();
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    // Support for Qt 5.12.z and below.
-    if ( !variant.canConvert<QRegularExpression>() ) {
-        const QRegExp reOld = variant.toRegExp();
-        const auto caseSensitivity =
-            reOld.caseSensitivity() == Qt::CaseInsensitive
-            ? QRegularExpression::CaseInsensitiveOption
-            : QRegularExpression::NoPatternOption;
-        regexp = QRegularExpression(reOld.pattern(), caseSensitivity);
-    }
-#endif
-
-    return regexp;
-}
-
-} // namespace
 
 ScriptableItemSelection::ScriptableItemSelection(const QString &tabName)
     : m_tabName(tabName)
@@ -132,7 +74,9 @@ QJSValue ScriptableItemSelection::selectAll()
 
 QJSValue ScriptableItemSelection::select(const QJSValue &re, const QString &mimeFormat)
 {
-    const QVariant regexp = re.isRegExp() ? toRegularExpression(re) : QVariant();
+    const QVariant regexp = re.isRegExp()
+        ? fromScriptValue<QRegularExpression>(re, qjsEngine(this))
+        : QVariant();
     m_proxy->selectionSelect(m_id, regexp, mimeFormat);
     return m_self;
 }
@@ -151,7 +95,7 @@ QJSValue ScriptableItemSelection::invert()
 
 QJSValue ScriptableItemSelection::deselectIndexes(const QJSValue &indexes)
 {
-    const auto indexes2 = toIntVector(indexes);
+    const auto indexes2 = fromScriptValue<QVector<int>>(indexes, qjsEngine(this));
     m_proxy->selectionDeselectIndexes(m_id, indexes2);
     return m_self;
 }
@@ -198,12 +142,12 @@ QJSValue ScriptableItemSelection::rows()
 QJSValue ScriptableItemSelection::itemAtIndex(int index)
 {
     const auto item = m_proxy->selectionGetItemIndex(m_id, index);
-    return qjsEngine(this)->toScriptValue(item);
+    return toScriptValue(item, qjsEngine(this));
 }
 
 QJSValue ScriptableItemSelection::setItemAtIndex(int index, const QJSValue &item)
 {
-    const QVariantMap data = toDataMap(item);
+    const QVariantMap data = fromScriptValue<QVariantMap>(item, qjsEngine(this));
     m_proxy->selectionSetItemIndex(m_id, index, data);
     return m_self;
 }
@@ -211,12 +155,12 @@ QJSValue ScriptableItemSelection::setItemAtIndex(int index, const QJSValue &item
 QJSValue ScriptableItemSelection::items()
 {
     const QVariantList dataList = m_proxy->selectionGetItemsData(m_id);
-    return qjsEngine(this)->toScriptValue(dataList);
+    return toScriptValue(dataList, qjsEngine(this));
 }
 
 QJSValue ScriptableItemSelection::setItems(const QJSValue &items)
 {
-    const QVariantList dataList = toDataMapList(items);
+    const QVariantList dataList = fromScriptValue<QVariantList>(items, qjsEngine(this));
     m_proxy->selectionSetItemsData(m_id, dataList);
     return m_self;
 }
@@ -224,7 +168,7 @@ QJSValue ScriptableItemSelection::setItems(const QJSValue &items)
 QJSValue ScriptableItemSelection::itemsFormat(const QJSValue &format)
 {
     const QVariantList dataList = m_proxy->selectionGetItemsFormat(m_id, ::toString(format));
-    return qjsEngine(this)->toScriptValue(dataList);
+    return toScriptValue(dataList, qjsEngine(this));
 }
 
 QJSValue ScriptableItemSelection::setItemsFormat(const QJSValue &format, const QJSValue &value)

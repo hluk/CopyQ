@@ -157,7 +157,14 @@ const QByteArray *getByteArray(const QJSValue &value)
 QByteArray toByteArray(const QJSValue &value)
 {
     const auto byteArray = qobject_cast<ScriptableByteArray*>(value.toQObject());
-    return byteArray ? *byteArray->data() : value.toString().toUtf8();
+    if (byteArray)
+        return *byteArray->data();
+
+    const QVariant variant = value.toVariant();
+    if (variant.canConvert<QByteArray>())
+        return variant.toByteArray();
+
+    return value.toString().toUtf8();
 }
 
 QString toString(const QJSValue &value)

@@ -88,7 +88,6 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<Command>("Command");
     qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
     qRegisterMetaTypeStreamOperators<NotificationButtonList>("NotificationButtonList");
-    qRegisterMetaTypeStreamOperators<ScriptablePath>("ScriptablePath");
     qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<VariantMapList>("VariantMapList");
@@ -99,7 +98,6 @@ void registerMetaTypes() {
     qRegisterMetaType<Command>("Command");
     qRegisterMetaType<NamedValueList>("NamedValueList");
     qRegisterMetaType<NotificationButtonList>("NotificationButtonList");
-    qRegisterMetaType<ScriptablePath>("ScriptablePath");
     qRegisterMetaType<QVector<int>>("QVector<int>");
     qRegisterMetaType<QVector<Command>>("QVector<Command>");
     qRegisterMetaType<VariantMapList>("VariantMapList");
@@ -258,16 +256,6 @@ QDataStream &operator>>(QDataStream &in, ClipboardMode &mode)
     Q_ASSERT(in.status() == QDataStream::Ok);
     mode = static_cast<ClipboardMode>(modeId);
     return in;
-}
-
-QDataStream &operator<<(QDataStream &out, const ScriptablePath &path)
-{
-    return out << path.path;
-}
-
-QDataStream &operator>>(QDataStream &in, ScriptablePath &path)
-{
-    return in >> path.path;
 }
 
 QDataStream &operator<<(QDataStream &out, KeyboardModifierList value)
@@ -597,9 +585,9 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
     case QVariant::StringList:
         return createListWidget(name, value.toStringList(), inputDialog);
     default:
-        if ( value.userType() == qMetaTypeId<ScriptablePath>() ) {
-            const auto path = value.value<ScriptablePath>();
-            return createFileNameEdit(name, path.path, parent);
+        if ( value.type() == QVariant::Url ) {
+            const auto path = value.toUrl();
+            return createFileNameEdit(name, path.toLocalFile(), parent);
         }
 
         const QString text = value.toString();
