@@ -16,6 +16,8 @@ class ActionHandler final : public QObject
 public:
     explicit ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent);
 
+    void setMaxRowCount(uint rows);
+
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
 
     void showProcessManagerDialog(QWidget *parent);

@@ -37,10 +37,18 @@ int actionStateOrder(ActionState state)
 
 } // namespace
 
-ActionTableModel::ActionTableModel(uint maxRowCount, QObject *parent)
+ActionTableModel::ActionTableModel(QObject *parent)
     : QAbstractTableModel(parent)
-    , m_maxRowCount(maxRowCount)
 {
+}
+
+void ActionTableModel::setMaxRowCount(uint rows)
+{
+    if (m_maxRowCount == rows)
+        return;
+
+    m_maxRowCount = rows;
+    limitItems();
 }
 
 int ActionTableModel::actionAboutToStart(Action *action)

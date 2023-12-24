@@ -16,10 +16,9 @@ const QLatin1String mimePluginPrefix(COPYQ_MIME_PREFIX "item");
 
 QString escapeHtmlSpaces(const QString &str)
 {
-    QString str2 = str;
-    return str2
-            .replace(' ', "&nbsp;")
-            .replace('\n', "<br />");
+    return QString(str)
+            .replace(' ', QLatin1String("&nbsp;"))
+            .replace('\n', QLatin1String("<br />"));
 }
 
 bool isPluginFormat(const QString &mime)
