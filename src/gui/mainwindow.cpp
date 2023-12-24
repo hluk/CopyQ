@@ -416,8 +416,12 @@ void clearActions(QToolBar *toolBar)
 {
     for (QAction *action : toolBar->actions()) {
         // Omit removing action from other menus.
-        if (action->parent() == toolBar)
-            delete action;
+        if (action->parent() == toolBar) {
+            action->setVisible(false);
+            action->setDisabled(true);
+            action->setShortcuts({});
+            action->deleteLater();
+        }
     }
 
     deleteSubMenus(toolBar);
@@ -1281,7 +1285,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
             createDataMap(mimeCurrentTab, browser->tabName()));
     }
 
-    connect( browser->model(), &QAbstractItemModel::rowsAboutToBeRemoved,
+    connect( browser, &ClipboardBrowser::itemsAboutToBeRemoved,
              browser, [this, browser](const QModelIndex &, int first, int last) {
                  if (isScriptOverridden(ScriptOverrides::OnItemsRemoved))
                     runItemHandlerScript(QStringLiteral("onItemsRemoved()"), browser, first, last);
@@ -2469,7 +2473,10 @@ void MainWindow::runEventHandlerScript(const QString &script, const QVariantMap 
         log("Event handler maximum recursion reached", LogWarning);
 
     const auto action = runScript(script, data);
+    const bool hasUpdatesEnabled = updatesEnabled();
+    setUpdatesEnabled(false);
     action->waitForFinished();
+    setUpdatesEnabled(hasUpdatesEnabled);
     ++m_maxEventHandlerScripts;
 }
 

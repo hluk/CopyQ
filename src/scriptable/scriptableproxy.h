@@ -49,17 +49,12 @@ struct KeyboardModifierList {
     Qt::KeyboardModifiers items;
 };
 
-struct ScriptablePath {
-    QString path;
-};
-
 struct ItemSelection {
     QPointer<ClipboardBrowser> browser;
     QList<QPersistentModelIndex> indexes;
 };
 
 Q_DECLARE_METATYPE(NamedValueList)
-Q_DECLARE_METATYPE(ScriptablePath)
 Q_DECLARE_METATYPE(NotificationButtonList)
 Q_DECLARE_METATYPE(VariantMapList)
 Q_DECLARE_METATYPE(KeyboardModifierList)
@@ -76,8 +71,6 @@ QDataStream &operator<<(QDataStream &out, const VariantMapList &list);
 QDataStream &operator>>(QDataStream &in, VariantMapList &list);
 QDataStream &operator<<(QDataStream &out, ClipboardMode mode);
 QDataStream &operator>>(QDataStream &in, ClipboardMode &mode);
-QDataStream &operator<<(QDataStream &out, const ScriptablePath &path);
-QDataStream &operator>>(QDataStream &in, ScriptablePath &path);
 QDataStream &operator<<(QDataStream &out, KeyboardModifierList value);
 QDataStream &operator>>(QDataStream &in, KeyboardModifierList &value);
 

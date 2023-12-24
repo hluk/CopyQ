@@ -2235,16 +2235,16 @@ void Tests::classItemSelection()
     RUN(args << "ItemSelection().select(/e/, 'application/x-tst').removeAll().str()", outRows.arg(""));
     RUN(args << "read('application/x-tst',0,1,2)", "abc,ghi,");
 
-    RUN(args << "ItemSelection().selectAll().itemAtIndex(0)['application/x-tst']", "abc\n");
-    RUN(args << "ItemSelection().selectAll().itemAtIndex(1)['application/x-tst']", "ghi\n");
-    RUN(args << "ItemSelection().select(/h/, 'application/x-tst').itemAtIndex(0)['application/x-tst']", "ghi\n");
+    RUN(args << "ItemSelection().selectAll().itemAtIndex(0)['application/x-tst']", "abc");
+    RUN(args << "ItemSelection().selectAll().itemAtIndex(1)['application/x-tst']", "ghi");
+    RUN(args << "ItemSelection().select(/h/, 'application/x-tst').itemAtIndex(0)['application/x-tst']", "ghi");
     RUN(args << "ItemSelection().select(/h/, 'application/x-tst').itemAtIndex(1)['application/x-tst'] == undefined", "true\n");
 
     RUN(args << "ItemSelection().select(/ghi/, 'application/x-tst').setItemAtIndex(0, {'application/x-tst': 'def'}).str()",
         outRows.arg("1"));
     RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
 
-    RUN(args << "d = ItemSelection().selectAll().items(); [d.length, d[0]['application/x-tst'], d[1]['application/x-tst']]", "2\nabc\ndef\n");
+    RUN(args << "d = ItemSelection().selectAll().items(); [d.length, str(d[0]['application/x-tst']), str(d[1]['application/x-tst'])]", "2\nabc\ndef\n");
     RUN(args << "ItemSelection().selectAll().setItems([{'application/x-tst': 'xyz'}]).str()", outRows.arg("0,1"));
     RUN(args << "read('application/x-tst',0,1,2)", "xyz,def,");
 
@@ -2259,9 +2259,9 @@ void Tests::classItemSelection()
     RUN(args << "read(mimeItemNotes,0,1,2)", "test2,test2,");
     RUN(args << "read('application/x-tst',0,1,2)", "abc,def,");
 
-    RUN(args << "ItemSelection().selectAll().itemsFormat(mimeItemNotes)", "test2\ntest2\n");
-    RUN(args << "ItemSelection().selectAll().itemsFormat('application/x-tst')", "abc\ndef\n");
-    RUN(args << "ItemSelection().selectAll().itemsFormat(ByteArray('application/x-tst'))", "abc\ndef\n");
+    RUN(args << "ItemSelection().selectAll().itemsFormat(mimeItemNotes).map(str)", "test2\ntest2\n");
+    RUN(args << "ItemSelection().selectAll().itemsFormat('application/x-tst').map(str)", "abc\ndef\n");
+    RUN(args << "ItemSelection().selectAll().itemsFormat(ByteArray('application/x-tst')).map(str)", "abc\ndef\n");
 
     RUN(args << "ItemSelection().selectAll().setItemsFormat(mimeItemNotes, undefined).str()", outRows.arg("0,1"));
     RUN(args << "read(mimeItemNotes,0,1,2)", ",,");
@@ -4733,6 +4733,7 @@ void Tests::saveLargeItem()
         RUN(args << "getItem(0)[mimeText].left(20)", "12345678901234567890");
         RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
         RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
+        RUN(args << "ItemSelection().selectAll().itemAtIndex(0)[mimeText].length", "100000\n");
         RUN("unload" << tab, tab + "\n");
     }
 
