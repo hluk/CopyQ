@@ -191,6 +191,13 @@ void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *windo
 
 void addSelectionData(
         QVariantMap *result,
+        const QList<QPersistentModelIndex> &selectedIndexes)
+{
+    result->insert(mimeSelectedItems, QVariant::fromValue(selectedIndexes));
+}
+
+void addSelectionData(
+        QVariantMap *result,
         const QModelIndexList &selectedIndexes)
 {
     QList<QPersistentModelIndex> selected;
@@ -198,7 +205,7 @@ void addSelectionData(
     for (const auto &index : selectedIndexes)
         selected.append(index);
     std::sort(selected.begin(), selected.end());
-    result->insert(mimeSelectedItems, QVariant::fromValue(selected));
+    addSelectionData(result, selected);
 }
 
 /// Adds information about current tab and selection if command is triggered by user.
@@ -1120,8 +1127,7 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
     if ( !command.cmd.isEmpty() ) {
         if (command.transform) {
             for (const auto &index : selected) {
-                const auto selection = QModelIndexList() << index;
-                auto actionData = addSelectionData(*c, index, selection);
+                auto actionData = addSelectionData(*c, index, {index});
                 if ( !triggeredShortcut.isEmpty() )
                     actionData.insert(mimeShortcut, triggeredShortcut);
                 action(actionData, command, index);
@@ -2470,7 +2476,7 @@ void MainWindow::runEventHandlerScript(const QString &script, const QVariantMap 
 void MainWindow::runItemHandlerScript(
     const QString &script, const ClipboardBrowser *browser, int firstRow, int lastRow)
 {
-     QModelIndexList indexes;
+     QList<QPersistentModelIndex> indexes;
      indexes.reserve(lastRow - firstRow + 1);
      for (int row = firstRow; row <= lastRow; ++row) {
         const auto index = browser->model()->index(row, 0);
