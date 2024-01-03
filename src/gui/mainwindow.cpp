@@ -1279,12 +1279,6 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
 
-    if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
-        runEventHandlerScript(
-            QStringLiteral("onItemsLoaded()"),
-            createDataMap(mimeCurrentTab, browser->tabName()));
-    }
-
     connect( browser, &ClipboardBrowser::itemsAboutToBeRemoved,
              browser, [this, browser](const QModelIndex &, int first, int last) {
                  if (isScriptOverridden(ScriptOverrides::OnItemsRemoved))
@@ -1303,6 +1297,12 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
                         browser, topLeft.row(), bottomRight.row());
                     }
              } );
+
+    if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
+        runEventHandlerScript(
+            QStringLiteral("onItemsLoaded()"),
+            createDataMap(mimeCurrentTab, browser->tabName()));
+    }
 
     if (browserOrNull() == browser) {
         const int index = ui->tabWidget->currentIndex();
