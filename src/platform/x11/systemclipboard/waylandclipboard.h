@@ -11,6 +11,7 @@
 
 class DataControlDevice;
 class DataControlDeviceManager;
+class KeyboardFocusWatcher;
 class QMimeData;
 
 class WaylandClipboard final : public QObject
@@ -35,6 +36,8 @@ private:
     explicit WaylandClipboard(QObject *parent);
     static WaylandClipboard *createInstance();
 
+    void gainedFocus();
+    std::unique_ptr<KeyboardFocusWatcher> m_keyboardFocusWatcher;
     std::unique_ptr<DataControlDeviceManager> m_manager;
     std::unique_ptr<DataControlDevice> m_device;
 };
