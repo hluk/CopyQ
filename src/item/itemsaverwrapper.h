@@ -15,7 +15,7 @@ public:
 
     bool canMoveItems(const QList<QModelIndex> &indexList) override;
 
-    void itemsRemovedByUser(const QList<QModelIndex> &indexList) override;
+    void itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList) override;
 
     QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
 

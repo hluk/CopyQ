@@ -27,7 +27,7 @@ bool ItemSaverWrapper::canMoveItems(const QList<QModelIndex> &indexList)
     return m_saver->canMoveItems(indexList);
 }
 
-void ItemSaverWrapper::itemsRemovedByUser(const QList<QModelIndex> &indexList)
+void ItemSaverWrapper::itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList)
 {
     return m_saver->itemsRemovedByUser(indexList);
 }

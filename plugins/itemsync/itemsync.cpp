@@ -465,7 +465,7 @@ bool ItemSyncSaver::canRemoveItems(const QList<QModelIndex> &indexList, QString 
                 QMessageBox::Yes ) == QMessageBox::Yes;
 }
 
-void ItemSyncSaver::itemsRemovedByUser(const QList<QModelIndex> &indexList)
+void ItemSyncSaver::itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList)
 {
     if ( m_tabPath.isEmpty() )
         return;

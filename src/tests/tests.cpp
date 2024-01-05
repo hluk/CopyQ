@@ -4019,6 +4019,42 @@ void Tests::scriptOnItemsRemoved()
     RUN("tab" << tab1 << "add(3,2,1,0)", "");
     RUN("tab" << tab1 << "remove(1,2)", "");
     WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2,)", "R1:2,R0:1,");
+
+    // Cancel item removal
+    const auto script2 = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: "global.onItemsRemoved = global.fail",
+            },
+        ])
+        )";
+    RUN(script2, "");
+    const auto tab2 = testTab(2);
+    RUN("tab" << tab2 << "add(3,2,1,0)", "");
+    RUN("tab" << tab2 << "remove(1,2)", "");
+    waitFor(1000);
+    RUN("tab" << tab2 << "separator" << "," << "read(0,1,2,3,4)", "0,1,2,3,");
+
+    // Avoid crash if the tab itself is removed while removing items
+    const auto script3 = R"(
+        setCommands([
+            {
+                isScript: true,
+                cmd: `
+                  global.onItemsRemoved = function() {
+                    removeTab(selectedTab())
+                  }
+                `
+            },
+        ])
+        )";
+    RUN(script3, "");
+    const auto tab3 = testTab(3);
+    RUN("tab" << tab3 << "add(3,2,1,0)", "");
+    RUN("tab" << tab3 << "remove(1,2)", "");
+    waitFor(1000);
+    RUN("tab" << tab3 << "separator" << "," << "read(0,1,2,3,4)", ",,,,");
 }
 
 void Tests::scriptOnItemsAdded()
@@ -4029,10 +4065,10 @@ void Tests::scriptOnItemsAdded()
                 isScript: true,
                 cmd: `
                   global.onItemsAdded = function() {
-                    if (selectedTab() == tab()[0]) abort();
-                    items = ItemSelection().current().items();
-                    tab(tab()[0]);
-                    add("A:" + str(items[0][mimeText]));
+                    sel = ItemSelection().current();
+                    items = sel.items();
+                    items[0][mimeText] = "A:" + str(items[0][mimeText])
+                    sel.setItems(items);
                   }
                 `
             },
@@ -4041,7 +4077,7 @@ void Tests::scriptOnItemsAdded()
     RUN(script, "");
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add(1,0)", "");
-    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", "A:0,A:1,");
+    WAIT_ON_OUTPUT("tab" << tab1 << "separator" << "," << "read(0,1,2)", "A:0,A:1,");
 }
 
 void Tests::scriptOnItemsChanged()
@@ -4103,16 +4139,20 @@ void Tests::scriptEventMaxRecursion()
         setCommands([
             {
                 isScript: true,
-                cmd: 'global.onItemsAdded = function() { add("A") }'
+                cmd: `global.onItemsRemoved = function() {
+                    const toRemove = str(selectedItemData(0)[mimeText]);
+                    const newItem = (toRemove == "X") ? "A" : ("WRONG:" + toRemove);
+                    add(newItem);
+                    remove(size()-1);
+                }`
             },
         ])
         )";
     RUN(script, "");
-    RUN("add(1,0)", "");
-    WAIT_ON_OUTPUT("length", "22\n");
+    RUN("add('X'); remove(0)", "");
+    WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2,3,4,5,6,7,8,9,10)", "A,A,A,A,A,A,A,A,A,A,");
     waitFor(200);
-    RUN("separator" << "," << "read(0,1,2)", "A,A,A");
-    RUN("length", "22\n");
+    RUN("separator" << "," << "read(0,1,2,3,4,5,6,7,8,9,10)", "A,A,A,A,A,A,A,A,A,A,");
 }
 
 void Tests::scriptSlowCollectOverrides()

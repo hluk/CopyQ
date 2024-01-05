@@ -9,9 +9,6 @@
 #include "common/temporaryfile.h"
 #include "common/textdata.h"
 #include "common/timer.h"
-#include "gui/clipboarddialog.h"
-#include "gui/iconfactory.h"
-#include "gui/icons.h"
 #include "gui/pixelratio.h"
 #include "gui/theme.h"
 #include "item/itemeditor.h"
@@ -541,17 +538,21 @@ void ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 {
     auto toRemove = toPersistentModelIndexList(indexes);
     std::sort( std::begin(toRemove), std::end(toRemove) );
+    dropIndexes(toRemove);
+}
 
+void ClipboardBrowser::dropIndexes(const QList<QPersistentModelIndex> &indexes)
+{
     const QPersistentModelIndex current = currentIndex();
-    const int first = toRemove.value(0).row();
+    const int first = indexes.value(0).row();
 
     // Remove ranges of rows instead of a single rows.
-    for (auto it1 = std::begin(toRemove); it1 != std::end(toRemove); ) {
+    for (auto it1 = std::begin(indexes); it1 != std::end(indexes); ) {
         if ( it1->isValid() ) {
             const auto firstRow = it1->row();
             auto rowCount = 0;
 
-            for ( ++it1, ++rowCount; it1 != std::end(toRemove)
+            for ( ++it1, ++rowCount; it1 != std::end(indexes)
                   && it1->isValid()
                   && it1->row() == firstRow + rowCount; ++it1, ++rowCount ) {}
 
@@ -756,15 +757,28 @@ void ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *er
             *error = "No valid rows specified";
     }
 
-    if ( !m_itemSaver->canRemoveItems(indexes, error) )
+    if ( !canRemoveItems(indexes, error) )
         return;
 
-    m_itemSaver->itemsRemovedByUser(indexes);
+    auto toRemove = toPersistentModelIndexList(indexes);
+    std::sort( std::begin(toRemove), std::end(toRemove) );
 
-    dropIndexes(indexes);
+    QPointer<QObject> self(this);
+    bool canRemove = true;
+    emit runOnRemoveItemsHandler(toRemove, &canRemove);
+    if (!canRemove) {
+        COPYQ_LOG("Item removal cancelled from script");
+        return;
+    }
+    if (!self)
+        return;
+
+    m_itemSaver->itemsRemovedByUser(toRemove);
+
+    dropIndexes(toRemove);
 }
 
-bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes, QString *error) const
+bool ClipboardBrowser::canRemoveItems(const QModelIndexList &indexes, QString *error)
 {
     Q_ASSERT(m_itemSaver);
 
@@ -1122,6 +1136,8 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
         QWidget *target = qobject_cast<QWidget*>(drag->target());
 
+        QPointer<QObject> self(this);
+
         // Move items only if target is this app.
         if (target == this || target == viewport()) {
             moveIndexes(indexesToRemove, m_dragTargetRow, &m, MoveType::Absolute);
@@ -1130,6 +1146,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         {
             removeIndexes(selected);
         }
+
+        if (!self)
+            return;
     }
 
     // Clear drag indicator.
