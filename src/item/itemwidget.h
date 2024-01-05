@@ -17,6 +17,7 @@ class TestInterface;
 class QAbstractItemModel;
 class QIODevice;
 class QModelIndex;
+class QPersistentModelIndex;
 class QSettings;
 class QTextEdit;
 class QWidget;
@@ -204,7 +205,7 @@ public:
     /**
      * Called when items are being deleted by user.
      */
-    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
+    virtual void itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList);
 
     /**
      * Return copy of items data.

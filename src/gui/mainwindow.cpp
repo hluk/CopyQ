@@ -1279,10 +1279,13 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
     connect( browser, &ClipboardBrowser::itemWidgetCreated,
              this, &MainWindow::onItemWidgetCreated );
 
-    connect( browser, &ClipboardBrowser::itemsAboutToBeRemoved,
-             browser, [this, browser](const QModelIndex &, int first, int last) {
-                 if (isScriptOverridden(ScriptOverrides::OnItemsRemoved))
-                    runItemHandlerScript(QStringLiteral("onItemsRemoved()"), browser, first, last);
+    connect( browser, &ClipboardBrowser::runOnRemoveItemsHandler,
+             browser, [this, browser](const QList<QPersistentModelIndex> &indexes, bool *canRemove) {
+                 if (isScriptOverridden(ScriptOverrides::OnItemsRemoved)) {
+                     QVariantMap data = createDataMap(mimeCurrentTab, browser->tabName());
+                     addSelectionData(&data, indexes);
+                     *canRemove = runEventHandlerScript(QStringLiteral("onItemsRemoved()"), data);
+                 }
              } );
     connect( browser->model(), &QAbstractItemModel::rowsInserted,
              browser, [this, browser](const QModelIndex &, int first, int last) {
@@ -1299,7 +1302,7 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
              } );
 
     if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
-        runEventHandlerScript(
+        runScript(
             QStringLiteral("onItemsLoaded()"),
             createDataMap(mimeCurrentTab, browser->tabName()));
     }
@@ -2463,10 +2466,10 @@ Action *MainWindow::runScript(const QString &script, const QVariantMap &data)
     return act;
 }
 
-void MainWindow::runEventHandlerScript(const QString &script, const QVariantMap &data)
+bool MainWindow::runEventHandlerScript(const QString &script, const QVariantMap &data)
 {
     if (m_maxEventHandlerScripts == 0)
-        return;
+        return false;
 
     --m_maxEventHandlerScripts;
     if (m_maxEventHandlerScripts == 0)
@@ -2478,6 +2481,7 @@ void MainWindow::runEventHandlerScript(const QString &script, const QVariantMap 
     action->waitForFinished();
     setUpdatesEnabled(hasUpdatesEnabled);
     ++m_maxEventHandlerScripts;
+    return !action->actionFailed() && action->exitCode() == 0;
 }
 
 void MainWindow::runItemHandlerScript(
@@ -2493,7 +2497,7 @@ void MainWindow::runItemHandlerScript(
 
      QVariantMap data = createDataMap(mimeCurrentTab, browser->tabName());
      addSelectionData(&data, indexes);
-     runEventHandlerScript(script, data);
+     runScript(script, data);
 }
 
 int MainWindow::findTabIndex(const QString &name)

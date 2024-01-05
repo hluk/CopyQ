@@ -14,6 +14,7 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QPersistentModelIndex>
 #include <QTextEdit>
 #include <QUrl>
 #include <QWidget>
@@ -197,7 +198,7 @@ bool ItemSaverInterface::canMoveItems(const QList<QModelIndex> &)
     return true;
 }
 
-void ItemSaverInterface::itemsRemovedByUser(const QList<QModelIndex> &)
+void ItemSaverInterface::itemsRemovedByUser(const QList<QPersistentModelIndex> &)
 {
 }
 

@@ -38,11 +38,11 @@ struct MainWindowOptions;
 struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
-Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 using NativeEventResult = qintptr;
 #else
+Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
 using NativeEventResult = long;
 #endif
 
@@ -629,7 +629,7 @@ private:
     const Theme &theme() const;
 
     Action *runScript(const QString &script, const QVariantMap &data = QVariantMap());
-    void runEventHandlerScript(const QString &script, const QVariantMap &data = QVariantMap());
+    bool runEventHandlerScript(const QString &script, const QVariantMap &data);
     void runItemHandlerScript(
         const QString &script, const ClipboardBrowser *browser, int firstRow, int lastRow);
 

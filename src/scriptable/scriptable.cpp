@@ -345,7 +345,7 @@ bool isGuiApplication()
 
 bool isOverridden(const QJSValue &globalObject, const QString &property)
 {
-    return globalObject.property(property).property(QStringLiteral("_copyq")).toInt() != 1;
+    return globalObject.property(property).property(QStringLiteral("_copyq")).toString() != property;
 }
 
 } // namespace
@@ -393,7 +393,7 @@ Scriptable::Scriptable(
                 "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return v;"
             "};"
-            "f._copyq = 1;"
+            "f._copyq = name;"
             "return f;"
         "})"
     ));

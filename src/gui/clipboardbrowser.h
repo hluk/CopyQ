@@ -98,7 +98,7 @@ class ClipboardBrowser final : public QListView
 
         void removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
-        bool canRemoveItems(const QModelIndexList &indexes, QString *error = nullptr) const;
+        bool canRemoveItems(const QModelIndexList &indexes, QString *error = nullptr);
 
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
@@ -223,6 +223,7 @@ class ClipboardBrowser final : public QListView
 
     signals:
         void itemsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
+        void runOnRemoveItemsHandler(const QList<QPersistentModelIndex> &indexes, bool *canRemove);
 
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
@@ -352,6 +353,7 @@ class ClipboardBrowser final : public QListView
 
         /// Removes indexes without notifying or asking plugins.
         void dropIndexes(const QModelIndexList &indexes);
+        void dropIndexes(const QList<QPersistentModelIndex> &indexes);
 
         void focusEditedIndex();
 

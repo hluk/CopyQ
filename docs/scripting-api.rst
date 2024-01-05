@@ -1637,8 +1637,12 @@ unlike in GUI, where row numbers start from 1 by default.
 
    The target tab is returned by `selectedTab()`.
 
-   The removed items can be accessed with `selectedItemsData()`,
+   The items scheduled for removal can be accessed with `selectedItemsData()`,
    `selectedItemData()`, `selectedItems()` and `ItemSelection().current()`.
+
+   If the exit code is non-zero (for example `fail()` is called), items will
+   not be removed. But this can also cause a new items not to be added if the
+   tab is full.
 
 .. js:function:: onItemsChanged()
 
