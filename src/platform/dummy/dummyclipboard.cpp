@@ -58,7 +58,7 @@ const QMimeData *DummyClipboard::mimeData(ClipboardMode mode) const
     }
 
     if (isHidden(*data)) {
-        log( QStringLiteral("Hidding secret %1 data").arg(modeText) );
+        log( QStringLiteral("Hiding secret %1 data").arg(modeText) );
         return nullptr;
     }
 

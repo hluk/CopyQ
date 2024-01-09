@@ -8940,7 +8940,7 @@ void FakeVimHandler::Private::selectParagraphTextObject(bool inner)
 
     moveToParagraphStartOrEnd(d);
 
-    // If selection already changed, decreate count.
+    // If selection already changed, decrease count.
     if ((setupAnchor && g.submode != NoSubMode)
         || oldVisualMode != g.visualMode
         || m_cursor != oldCursor)
