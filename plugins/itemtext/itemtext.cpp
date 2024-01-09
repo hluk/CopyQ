@@ -38,7 +38,7 @@ const QLatin1String optionMaximumLines("max_lines");
 const QLatin1String optionMaximumHeight("max_height");
 const QLatin1String optionDefaultStyleSheet("default_style_sheet");
 
-// Some applications insert \0 teminator at the end of text data.
+// Some applications insert \0 terminator at the end of text data.
 // It needs to be removed because QTextBrowser can render the character.
 void removeTrailingNull(QString *text)
 {

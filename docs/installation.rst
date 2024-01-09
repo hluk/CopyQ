@@ -18,7 +18,7 @@ install stable version from official repositories:
 .. code-block:: bash
 
     sudo apt install copyq
-    # copyq-plugins and copyq-doc is splitted out and can be installed independently
+    # copyq-plugins and copyq-doc is split out and can be installed independently
 
 On **Ubuntu** set up the official PPA repository and install the app from terminal:
 

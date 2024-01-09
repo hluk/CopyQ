@@ -2,7 +2,7 @@
 '''
 Updates icon font and header files for CopyQ repository.
 
-First argument is path to upacked Font Awesome archive (https://fontawesome.com/).
+First argument is path to unpacked Font Awesome archive (https://fontawesome.com/).
 '''
 import json
 import os

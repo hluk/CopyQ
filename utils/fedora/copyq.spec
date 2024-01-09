@@ -227,10 +227,10 @@ appstream-util validate-relax --nonet $RPM_BUILD_ROOT%{_datadir}/metainfo/com.gi
 - Upstream release rhbz#1332032
 
 * Sun Feb 14 2016 Gerald Cox <gbcox@fedoraproject.org> - 2.6.1-1
-- Upstream releease rhbz#1308340
+- Upstream release rhbz#1308340
 
 * Sat Feb 06 2016 Gerald Cox <gbcox@fedoraproject.org> - 2.6.0-1
-- Upstream releease rhbz#1305247
+- Upstream release rhbz#1305247
 
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.5.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild

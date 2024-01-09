@@ -29,10 +29,10 @@ void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenMod
 }
 
 template <typename Entry, typename Container>
-void appendAndClearNonEmpty(Entry &entry, Container &containter)
+void appendAndClearNonEmpty(Entry &entry, Container &container)
 {
     if ( !entry.isEmpty() ) {
-        containter.append(entry);
+        container.append(entry);
         entry.clear();
     }
 }
