@@ -1,6 +1,7 @@
 # Ref: https://github.com/codespell-project/codespell#using-a-config-file
 [codespell]
-skip = .git,*.pdf,*.svg,go.sum,*.css,.codespellrc
+skip = .git,*.pdf,*.svg,go.sum,*.css,.codespellrc,translations
 check-hidden = true
-# ignore-regex = 
+# ignore translations, names, etc
+ignore-regex = (Comment|GenericName)\[.*|\bSimon Ser\b|DoubleClick|{0xf.*, (true|false),.*|\b\S+&amp;\S+\b
 # ignore-words-list =
