@@ -864,7 +864,7 @@ static QString getProcessOutput(const QString &command, const QString &input)
     proc.write(toLocalEncoding(input));
     proc.closeWriteChannel();
 
-    // FIXME: Process should be interruptable by user.
+    // FIXME: Process should be interruptible by user.
     //        Solution is to create a QObject for each process and emit finished state.
     proc.waitForFinished();
 
@@ -4091,7 +4091,7 @@ bool FakeVimHandler::Private::handleMovement(const Input &input)
     } else if (input.is('/') || input.is('?')) {
         g.lastSearchForward = input.is('/');
         if (s.useCoreSearch.value()) {
-            // re-use the core dialog.
+            // reuse the core dialog.
             g.findPending = true;
             m_findStartPosition = position();
             g.movetype = MoveExclusive;
@@ -6504,7 +6504,7 @@ bool FakeVimHandler::Private::handleExMultiRepeatCommand(const ExCommand &cmd)
 {
     // :[range]g[lobal]/{pattern}/[cmd]
     // :[range]g[lobal]!/{pattern}/[cmd]
-    // :[range]v[globa]!/{pattern}/[cmd]
+    // :[range]v[global]!/{pattern}/[cmd]
     const bool hasG = cmd.matches("g", "global");
     const bool hasV = cmd.matches("v", "vglobal");
     if (!hasG && !hasV)
@@ -9202,7 +9202,7 @@ bool FakeVimHandler::Private::selectArgumentTextObject(bool inner)
             tcEnd.setPosition(tcEnd.position() + 1);
     }
 
-    // Never include the opening paranthesis
+    // Never include the opening parenthesis
     if (characterAt(tcStart.position()) == '(') {
         tcStart.setPosition(tcStart.position() + 1);
     } else if (inner) {

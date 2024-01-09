@@ -273,7 +273,7 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns true only if clipboard contains MIME type.
 
-   :returns: ``true`` if clipboad contains the format, otherwise ``false``.
+   :returns: ``true`` if clipboard contains the format, otherwise ``false``.
    :rtype: bool
 
 .. js:function:: hasSelectionFormat(mimeType)

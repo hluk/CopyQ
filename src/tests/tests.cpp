@@ -2453,7 +2453,7 @@ void Tests::configMaxitems()
     RUN("separator" << " " << "read" << "0" << "1", "F E");
     RUN("size", "2\n");
 
-    // Ading too many items fails.
+    // Adding too many items fails.
     RUN_EXPECT_ERROR("add" << "1" << "2" << "3", CommandException);
     RUN("separator" << " " << "read" << "0" << "1", "F E");
     RUN("size", "2\n");
