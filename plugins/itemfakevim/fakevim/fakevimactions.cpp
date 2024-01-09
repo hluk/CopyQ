@@ -91,7 +91,7 @@ FakeVimSettings::FakeVimSettings()
     setup(&isKeyword,      "@,48-57,_,192-255,a-z,A-Z",
                                   "IsKeyword",      "isk", tr("Keyword characters:"));
     setup(&clipboard,      {},    "Clipboard",      "cb",  tr(""));
-    setup(&formatOptions,  {},    "formatoptions",  "fo",  tr(""));
+    setup(&formatOptions,  {},    "formatoptions",  "fo",  tr("")); // pragma: codespell-ignore
 
     // Emulated plugins
     setup(&emulateVimCommentary, false, "commentary", {}, "vim-commentary");
