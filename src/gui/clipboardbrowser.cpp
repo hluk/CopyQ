@@ -1658,7 +1658,7 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
             const auto oldText = getTextData(previousData);
             if ( (mode == ClipboardMode::Clipboard)
                  ? (newText == oldText)
-                 : newText.contains(oldText) )
+                 : (newText.startsWith(oldText) || newText.endsWith(oldText)) )
             {
                 COPYQ_LOG("New item: Merging with top item");
 
