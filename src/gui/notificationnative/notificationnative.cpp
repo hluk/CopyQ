@@ -172,29 +172,33 @@ void NotificationNative::show()
 
     if (m_notification) {
         update();
+#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,110,0)
         if (m_notification)
             m_notification->update();
+#endif
         notificationLog("Updated");
         return;
     }
 
-    m_notification = new KNotification("generic");
+    m_notification = new KNotification(QStringLiteral("generic"));
     notificationLog("Create");
     m_notification->setComponentName(componentName);
 
+#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,245,0)
     connect( m_notification.data(), static_cast<void (KNotification::*)(unsigned int)>(&KNotification::activated),
              this, &NotificationNative::onButtonClicked );
+#   if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,67,0)
+    connect( m_notification.data(), static_cast<void (KNotification::*)()>(&KNotification::activated),
+             this, &NotificationNative::onActivated );
+#   else
+    connect( m_notification.data(), &KNotification::defaultActivated,
+             this, &NotificationNative::onActivated );
+#   endif
+#endif
     connect( m_notification.data(), &KNotification::closed,
              this, &NotificationNative::onClosed );
     connect( m_notification.data(), &KNotification::ignored,
              this, &NotificationNative::onIgnored );
-#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,67,0)
-    connect( m_notification.data(), static_cast<void (KNotification::*)()>(&KNotification::activated),
-             this, &NotificationNative::onActivated );
-#else
-    connect( m_notification.data(), &KNotification::defaultActivated,
-             this, &NotificationNative::onActivated );
-#endif
     connect( m_notification.data(), &QObject::destroyed,
              this, &NotificationNative::onDestroyed );
 
@@ -220,7 +224,7 @@ void NotificationNative::close()
 
 void NotificationNative::onButtonClicked(unsigned int id)
 {
-    notificationLog("onButtonClicked");
+    notificationLog(QByteArray("onButtonClicked ") + QByteArray::number(id));
 
     if ( id - 1 < static_cast<unsigned int>(m_buttons.size()) ) {
         emit buttonClicked(m_buttons[id - 1]);
@@ -288,10 +292,19 @@ void NotificationNative::update()
         m_notification->setPixmap(defaultIcon());
     }
 
+#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,245,0)
+    m_notification->clearActions();
+    for (int i = 0; i < m_buttons.size(); ++i) {
+        KNotificationAction* act = m_notification->addAction(m_buttons[i].name);
+        connect( act, &KNotificationAction::activated,
+                 this, [=](){ onButtonClicked(i + 1); } );
+    }
+#else
     QStringList actions;
     for (const auto &button : m_buttons)
         actions.append(button.name);
     m_notification->setActions(actions);
+#endif
 
     if (m_intervalMsec < 0) {
         m_timer.stop();
