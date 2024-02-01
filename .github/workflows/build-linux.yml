@@ -56,7 +56,7 @@ jobs:
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
       - name: Install dependencies
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@v3
         env:
           WITH_QT6: '${{matrix.with_qt6}}'
         with:
