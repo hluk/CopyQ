@@ -3,7 +3,6 @@
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
 
-#include "common/shortcuts.h"
 #include "common/textdata.h"
 #include "common/version.h"
 #include "gui/icons.h"
@@ -29,12 +28,6 @@ QString helpLink(const QString &name, const QString &link, ushort icon)
            + QString("&#%1;").arg(icon) + "</td>"
            "<td>" + link + "</td>"
            "</tr>";
-}
-
-QString helpDeveloper(const char *name, const char *mail)
-{
-    return QString::fromLatin1("<div>%1 &nbsp;&nbsp;&nbsp;<span class='info'>%2</span></div>")
-            .arg(QString::fromUtf8(name), mail);
 }
 
 QString helpLib(const char *name, const QString &copyright, const char *url)
@@ -103,33 +96,12 @@ QString AboutDialog::aboutPage()
         "</table>"
         "</p>"
 
-        "<p class='copyright'>Copyright (c) 2009 - 2023</p>"
+        "<p class='copyright'>Copyright (c) 2009 - 2024</p>"
 
         "<p></p>"
 
         + "<p>"
             + helpUrl("https://github.com/hluk/CopyQ/graphs/contributors")
-            + helpDeveloper("Adam Batkin", "adam@batkin.net")
-            + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
-            + helpDeveloper("Greg Carp", "grcarpbe@gmail.com")
-            + helpDeveloper("Ilya Plenne", "libbkmz.dev@gmail.com")
-            + helpDeveloper("Jörg Thalheim", "joerg@higgsboson.tk")
-            + helpDeveloper("Kim Jzhone", "jzhone@gmail.com")
-            + helpDeveloper("Kos Ivantsov", "kos.ivantsov@gmail.com")
-            + helpDeveloper("lightonflux", "lightonflux@znn.info")
-            + helpDeveloper("Lukas Holecek", "hluk@email.cz")
-            + helpDeveloper("Marjolein Hoekstra", "http://twitter.com/cleverclogs")
-            + helpDeveloper("Martin Lepadusch", "mlepadusch@googlemail.com")
-            + helpDeveloper("Matt d'Entremont", "mattdentremont@gmail.com")
-            + helpDeveloper("Michal Čihař", "michal@cihar.com")
-            + helpDeveloper("Patricio M. Ros", "patricioros.dev@gmail.com")
-            + helpDeveloper("Robert Orzanna", "robert@orzanna.de")
-            + helpDeveloper("Ryan Wooden", "rygwdn@gmail.com")
-            + helpDeveloper("Scott Kostyshak", "skostysh@princeton.edu")
-            + helpDeveloper("Sebastian Schuberth", "sschuberth@gmail.com")
-            + helpDeveloper("Tomas Nilzon", "tomas.nilzon@telia.com")
-            + helpDeveloper("Wilfried Caruel", "wilfried.caruel@gmail.com")
-            + helpDeveloper("x2357", "x2357handle@gmail.com")
             +
         "</p>"
 
