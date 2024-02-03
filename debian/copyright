@@ -4,7 +4,7 @@ Upstream-Contact: Lukas Holecek <hluk@email.cz>
 Source: https://github.com/hluk/CopyQ
 
 Files: *
-Copyright: 2009-2020 Lukas Holecek <hluk@email.cz>
+Copyright: 2009-2024 Lukas Holecek <hluk@email.cz>
 License: GPL-3.0+
 
 Files: src/images/fontawesome-webfont.ttf
