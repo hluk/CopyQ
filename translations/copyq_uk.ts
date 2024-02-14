@@ -1854,7 +1854,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="631"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Для передавання зашифрованих елементів на інший комп&apos;ютер чи сеанс потрібні файли відкритого та секретного ключів:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Зберігайте цей секретний ключ у безпечному місці.)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Для спільного використання зашифрованих елементів на іншому комп’ютері або сеансі вам знадобляться відкриті та закриті файли ключів:&lt;ul&gt;&lt;li&gt;%1&lt;li&gt;%2&lt;br /&gt;(Збережіть ці закриті ключі в безпечному місці.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="696"/>
