@@ -538,7 +538,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="90"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation>Це дає такий вихід які і у %1, але є кориснішим для довших команд.</translation>
+        <translation>Це дає такий вихід як і у %1, але є кориснішим для довших команд.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="97"/>
