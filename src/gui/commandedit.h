@@ -22,6 +22,8 @@ public:
 
     bool isEmpty() const;
 
+    void setReadOnly(bool readOnly);
+
 signals:
     void changed();
     void commandTextChanged(const QString &command);
