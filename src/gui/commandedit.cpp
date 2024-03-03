@@ -58,6 +58,11 @@ bool CommandEdit::isEmpty() const
     return ui->plainTextEditCommand->document()->characterCount() == 0;
 }
 
+void CommandEdit::setReadOnly(bool readOnly)
+{
+    ui->plainTextEditCommand->setReadOnly(readOnly);
+}
+
 void CommandEdit::onPlainTextEditCommandTextChanged()
 {
     // TODO: Highlight syntax errors!
