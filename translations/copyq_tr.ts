@@ -1935,7 +1935,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Şifrelenen ögeleri başka bir bilgisayarda veya oturumda paylaşmak için bu gizli anahtar dosyalarına ihtiyacınız olacaktır (bunları güvenli bir yerde saklayın):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="974"/>
@@ -3693,7 +3693,7 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Panoya Kaydetme Devre Dışı*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
