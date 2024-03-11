@@ -1935,7 +1935,7 @@ Defina como 0 para desativar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Para compartilhar itens criptografados em outro computador ou sessão, você precisará desses arquivos de chave secreta (mantenha-os em um local seguro):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="974"/>
@@ -3696,7 +3696,7 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Armazenamento na área de transferência desativado*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
