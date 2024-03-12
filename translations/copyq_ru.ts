@@ -1913,7 +1913,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы получить доступ к шифрованным объектам на другом компьютере или в ином сеансе, вам понадобятся эти файлы секретных ключей (храните их в надёжном месте):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="974"/>
@@ -3677,7 +3677,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Хранение буфера обмена отключено*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
