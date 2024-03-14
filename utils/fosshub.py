@@ -15,7 +15,8 @@ github_release_url = 'https://github.com/hluk/CopyQ/releases/download/v{version}
 files = {
     'copyq-{version}-setup.exe': 'Windows Installer',
     'copyq-{version}.zip': 'Windows Portable',
-    'CopyQ.dmg.zip': 'macOS',
+    'CopyQ-macos-10.dmg.zip': 'macOS',
+    'CopyQ-macos-12-m1.dmg.zip': 'macOS M1',
 }
 
 version = sys.argv[1]
