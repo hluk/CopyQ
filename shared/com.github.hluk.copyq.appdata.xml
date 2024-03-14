@@ -90,4 +90,6 @@
     <developer_name>Lukas Holecek</developer_name>
 
     <content_rating type="oars-1.0" />
+
+    <launchable type="desktop-id">com.github.hluk.copyq.desktop</launchable>
 </component>
