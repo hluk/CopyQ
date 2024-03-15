@@ -1769,7 +1769,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>암호화된 항목을 다른 컴퓨터나 세션에서 공유하려면 다음과 같은 비밀 키 파일이 필요합니다 (안전한 장소에 보관):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="758"/>
@@ -3483,7 +3483,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*클립보드 저장 사용 안 함*</translation>
     </message>
 </context>
 <context>
