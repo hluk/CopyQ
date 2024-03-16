@@ -1935,7 +1935,7 @@ Stel in op 0 om uit te schakelen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Om versleutelde items te delen op een andere computer of sessie, heb je deze geheime sleutelbestanden nodig (bewaar ze op een veilige plek):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="974"/>
@@ -3016,7 +3016,7 @@ bestaande uit letters, getallen, &apos;-&apos; of &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Move Up</source>
-        <translation>Omhoog verplaatsen</translation>
+        <translation>Omhoog Verplaatsen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
@@ -3638,7 +3638,7 @@ Argumenten zijn toe te voegen door het gebruik van &quot;argumenten[0..N]&quot;.
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Klembord opslaan uitgeschakeld*</translation>
     </message>
 </context>
 <context>
