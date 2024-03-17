@@ -1,4 +1,4 @@
-From dfb10fdbdc3ae82037366ed4cf039796beca7d6d Mon Sep 17 00:00:00 2001
+From a91e08f149b64793fa3c0c0e09c61891f0814535 Mon Sep 17 00:00:00 2001
 From: Lukas Holecek <hluk@email.cz>
 Date: Sun, 15 Nov 2020 19:06:53 +0100
 Subject: [PATCH] Support updating Snore notifications
@@ -8,7 +8,7 @@ Subject: [PATCH] Support updating Snore notifications
  1 file changed, 21 insertions(+), 8 deletions(-)
 
 diff --git a/src/notifybysnore.cpp b/src/notifybysnore.cpp
-index a82d0a4..4bf1c53 100644
+index b89056b..6607b80 100644
 --- a/src/notifybysnore.cpp
 +++ b/src/notifybysnore.cpp
 @@ -61,7 +61,7 @@ NotifyBySnore::NotifyBySnore(QObject *parent)
@@ -20,7 +20,7 @@ index a82d0a4..4bf1c53 100644
              const QByteArray rawNotificationResponse = responseSocket->readAll();
              responseSocket->deleteLater();
  
-@@ -175,9 +175,20 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
+@@ -177,9 +177,20 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
  
      // handle the icon for toast notification
      const QString iconPath = m_iconDir.path() + QLatin1Char('/') + QString::number(notification->id());
@@ -41,7 +41,7 @@ index a82d0a4..4bf1c53 100644
          snoretoastArgsList << QStringLiteral("-p") << iconPath;
      }
  
-@@ -207,19 +218,20 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
+@@ -200,19 +211,20 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
          const auto data = snoretoastProcess->readAllStandardOutput();
          qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process stdout:" << snoretoastArgsList << data;
      });
@@ -66,7 +66,7 @@ index a82d0a4..4bf1c53 100644
              });
  
      qCDebug(LOG_KNOTIFICATIONS) << "SnoreToast process starting:" << snoretoastArgsList;
-@@ -228,6 +240,9 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
+@@ -221,6 +233,9 @@ void NotifyBySnore::notifyDeferred(KNotification *notification)
  
  void NotifyBySnore::close(KNotification *notification)
  {
@@ -76,17 +76,15 @@ index a82d0a4..4bf1c53 100644
      qCDebug(LOG_KNOTIFICATIONS) << "Requested to close notification with ID:" << notification->id();
      if (m_notifications.constFind(notification->id()) == m_notifications.constEnd()) {
          qCWarning(LOG_KNOTIFICATIONS) << "Couldn't find the notification in m_notifications. Nothing to close.";
-@@ -246,9 +261,7 @@ void NotifyBySnore::close(KNotification *notification)
+@@ -239,7 +254,5 @@ void NotifyBySnore::close(KNotification *notification)
  
- void NotifyBySnore::update(KNotification *notification, const KNotifyConfig &notifyConfig)
+ void NotifyBySnore::update(KNotification *notification, KNotifyConfig *config)
  {
 -    Q_UNUSED(notification);
--    Q_UNUSED(notifyConfig);
+-    Q_UNUSED(config);
 -    qCWarning(LOG_KNOTIFICATIONS) << "updating a notification is not supported yet.";
-+    notify(notification, notifyConfig);
++    notify(notification, config);
  }
- 
- #include "moc_notifybysnore.cpp"
 -- 
-2.43.0
+2.35.1
 

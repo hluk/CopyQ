@@ -9,14 +9,14 @@ mkdir -p "$Destination"
 cmake --install "$BUILD_PATH" --config Release --prefix "$Destination" --verbose
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
-    cp -v "$INSTALL_PREFIX/bin/KF6"*.dll "$Destination"
+    cp -v "$INSTALL_PREFIX/bin/KF5"*.dll "$Destination"
     cp -v "$INSTALL_PREFIX/bin/snoretoast.exe" "$Destination"
-    kf_libraries=(
-        "$Destination/KF6ConfigCore.dll"
-        "$Destination/KF6Notifications.dll"
+    kf5_libraries=(
+        "$Destination/KF5ConfigCore.dll"
+        "$Destination/KF5Notifications.dll"
     )
 else
-    kf_libraries=()
+    kf5_libraries=()
 fi
 
 cp -v "$Source/AUTHORS" "$Destination"
@@ -37,8 +37,11 @@ cp -v "$OPENSSL_PATH/$LIBSSL" "$Destination"
 
 "$QTDIR/bin/windeployqt" --help
 "$QTDIR/bin/windeployqt" \
-    $WINDEPLOYQT_ARGS \
-    "${kf_libraries[@]}" \
+    --no-system-d3d-compiler \
+    --no-angle \
+    --no-opengl-sw \
+    --no-quick \
+    "${kf5_libraries[@]}" \
     "$Executable"
 
 # Create and upload portable zip file.
@@ -46,7 +49,7 @@ cp -v "$OPENSSL_PATH/$LIBSSL" "$Destination"
 appveyor PushArtifact "$APP.zip" -DeploymentName "CopyQ Portable"
 
 # This works with minGW, not msvc.
-# objdump -x "$Destination/KF6Notifications.dll" | grep -F "DLL Name"
+# objdump -x "$Destination/KF5Notifications.dll" | grep -F "DLL Name"
 # objdump -x "$Destination/copyq.exe" | grep -F "DLL Name"
 
 # Note: Following removes system-installed dlls to verify required libs are included.

@@ -11,8 +11,8 @@ export BUILD_PATH=$APPVEYOR_BUILD_FOLDER/build
 export CMAKE_PREFIX_PATH="$QTDIR/lib/cmake"
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
-    export KF_FULLVER=$KF_VERSION.$KF_PATCH
-    export INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/usr/kf-$KF_FULLVER-$CMAKE_GENERATOR_ARCH
+    export KF5_FULLVER=$KF5_VERSION.$KF5_PATCH
+    export INSTALL_PREFIX=$APPVEYOR_BUILD_FOLDER/usr/kf-$KF5_FULLVER-$CMAKE_GENERATOR_ARCH
     export DEPENDENCY_PATH=$APPVEYOR_BUILD_FOLDER/dependencies
     export DOWNLOADS_PATH=$APPVEYOR_BUILD_FOLDER/downloads
     export DEPENDENCY_BUILD_PATH=$DEPENDENCY_PATH/build
@@ -21,7 +21,7 @@ if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
     export CMAKE_PREFIX_PATH="$CMAKE_PREFIX:$INSTALL_PREFIX/share/ECM/cmake":$CMAKE_PREFIX_PATH
 
     export SNORETOAST_BASE_URL=https://invent.kde.org/libraries/snoretoast/-/archive/v$SNORETOAST_VERSION
-    export KF_BASE_URL=https://download.kde.org/$KF_BRANCH/frameworks/$KF_VERSION
+    export KF5_BASE_URL=https://download.kde.org/stable/frameworks/$KF5_VERSION
 
     mkdir -p "$INSTALL_PREFIX"
     mkdir -p "$DEPENDENCY_PATH"

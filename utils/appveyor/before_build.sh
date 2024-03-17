@@ -13,7 +13,7 @@ curl --location --silent --show-error --fail-with-body \
 grep -q LanguageName "$languages/Korean.isl"
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
-    build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf_build.sh
+    build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf5_build.sh
 
     export PATH=$PATH:$INSTALL_PREFIX/bin
 
@@ -21,8 +21,8 @@ if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
     "$build" extra-cmake-modules
     "$build" kconfig "" "" "-DKCONFIG_USE_DBUS=OFF" "-DKCONFIG_USE_GUI=OFF"
     "$build" kwindowsystem
+    "$build" kcoreaddons
     "$build" knotifications
-    "$build" kstatusnotifieritem
 
     # Create and upload dependencies zip file.
     7z a "$APP-dependencies.zip" -r "$INSTALL_PREFIX"
@@ -40,5 +40,4 @@ cmake -B"$BUILD_PATH" -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
     -DCMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION=. \
     -DWITH_NATIVE_NOTIFICATIONS="$WITH_NATIVE_NOTIFICATIONS" \
-    -DWITH_QT6="$WITH_QT6" \
     -DWITH_TESTS=ON
