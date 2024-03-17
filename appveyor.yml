@@ -2,7 +2,7 @@
 configuration: Release
 
 image:
-  - Visual Studio 2022
+  - Visual Studio 2017
 
 cache:
   - usr
@@ -14,26 +14,42 @@ skip_branch_with_pr: true
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
-  KF_VERSION: 6.12
-  KF_BRANCH: stable
-  KF_PATCH: 0
+  KF5_VERSION: 5.109
+  KF5_PATCH: 0
   SNORETOAST_VERSION: 0.9.0
 
+  # https://wiki.qt.io/Qt_5.13_Tools_and_Versions
+  # https://www.appveyor.com/docs/windows-images-software/#tools
   matrix:
-    - QTDIR: /c/Qt/6.8/msvc2022_64
-      # https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators
-      CMAKE_GENERATOR: Visual Studio 17 2022
-      CMAKE_GENERATOR_ARCH: x64
+    # - QTDIR: /c/Qt/5.13/msvc2017_64
+    #   CMAKE_GENERATOR: Visual Studio 15 2017
+    #   CMAKE_GENERATOR_ARCH: x64
+    #   CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+    #   BUILD_SUB_DIR: Release
+    #   OPENSSL_PATH: /c/OpenSSL-v111-Win64/bin
+    #   LIBSSL: libssl-1_1-x64.dll
+    #   LIBCRYPTO: libcrypto-1_1-x64.dll
+    #   GPGPATH: /c/Program Files/Git/usr/bin
+    #   WITH_NATIVE_NOTIFICATIONS: "ON"
+    #   WITH_QT6: "OFF"
+    #   WINDEPLOYQT_ARGS: >-
+    #     --no-system-d3d-compiler
+    #     --no-opengl-sw
+    #     --no-quick
+    #   COPYQ_TESTS_SKIP_DRAG_AND_DROP: "1"
+    #   COPYQ_TESTS_NO_SYMLINKS: "1"
+
+    - QTDIR: /c/Qt/5.13/msvc2017
+      CMAKE_GENERATOR: Visual Studio 15 2017
+      CMAKE_GENERATOR_ARCH: Win32
       CMAKE_POLICY_VERSION_MINIMUM: "3.5"
       BUILD_SUB_DIR: Release
-      # https://wiki.qt.io/Qt_6.8_Tools_and_Versions
-      # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: /c/OpenSSL-v30-Win64/bin
-      LIBSSL: libssl-3-x64.dll
-      LIBCRYPTO: libcrypto-3-x64.dll
+      OPENSSL_PATH: /c/OpenSSL-v111-Win32/bin
+      LIBSSL: libssl-1_1.dll
+      LIBCRYPTO: libcrypto-1_1.dll
       GPGPATH: /c/Program Files/Git/usr/bin
       WITH_NATIVE_NOTIFICATIONS: "ON"
-      WITH_QT6: "ON"
+      WITH_QT6: "OFF"
       WINDEPLOYQT_ARGS: >-
         --no-system-d3d-compiler
         --no-opengl-sw

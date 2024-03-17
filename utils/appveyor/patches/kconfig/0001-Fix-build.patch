@@ -1,0 +1,26 @@
+From 59e856c8f51ac210592233b1de5433d629f9f478 Mon Sep 17 00:00:00 2001
+From: Lukas Holecek <hluk@email.cz>
+Date: Mon, 18 Nov 2019 13:03:57 +0100
+Subject: [PATCH] Fix build
+
+Signed-off-by: Lukas Holecek <hluk@email.cz>
+---
+ src/kconf_update/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/kconf_update/CMakeLists.txt b/src/kconf_update/CMakeLists.txt
+index 6947f94..e2e7a39 100644
+--- a/src/kconf_update/CMakeLists.txt
++++ b/src/kconf_update/CMakeLists.txt
+@@ -20,7 +20,7 @@ ecm_mark_nongui_executable(kconf_update)
+ 
+ file(
+   GENERATE OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/kconf-exec.h
+-  CONTENT "#define KCONF_UPDATE_EXECUTABLE \"$<TARGET_FILE:kconf_update>\""
++  CONTENT "#define KCONF_UPDATE_EXECUTABLE \"$<TARGET_FILE_NAME:KF5::kconf_update>\""
+ )
+ configure_file(config-kconf.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kconf.h )
+ 
+-- 
+2.23.0
+

@@ -160,11 +160,11 @@ Source: "{#Root}\plugins\*itemtags.dll"; DestDir: "{app}\plugins"; Components: p
 Source: "{#Root}\plugins\*itempinned.dll"; DestDir: "{app}\plugins"; Components: plugins/pinned; Flags: ignoreversion
 
 ; Qt and toolchain
-Source: "{#Root}\bearer\*.dll"; DestDir: "{app}\bearer"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
+Source: "{#Root}\bearer\*.dll"; DestDir: "{app}\bearer"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\imageformats\*.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\platforms\*.dll"; DestDir: "{app}\platforms"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#Root}\styles\*.dll"; DestDir: "{app}\styles"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#Root}\tls\*.dll"; DestDir: "{app}\tls"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#Root}\tls\*.dll"; DestDir: "{app}\tls"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs skipifsourcedoesntexist
 Source: "{#Root}\*.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
 [Icons]
