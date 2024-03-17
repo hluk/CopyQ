@@ -14,29 +14,23 @@ skip_branch_with_pr: true
 environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
-  KF_VERSION: 6.12
-  KF_BRANCH: stable
-  KF_PATCH: 0
+  KF5_VERSION: 5.109
+  KF5_PATCH: 0
   SNORETOAST_VERSION: 0.9.0
 
   matrix:
-    - QTDIR: /c/Qt/6.8/msvc2022_64
-      # https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators
+    - QTDIR: /c/Qt/5.15/msvc2019_64
       CMAKE_GENERATOR: Visual Studio 17 2022
       CMAKE_GENERATOR_ARCH: x64
       BUILD_SUB_DIR: Release
-      # https://wiki.qt.io/Qt_6.8_Tools_and_Versions
+      # https://wiki.qt.io/Qt_5.15_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
       OPENSSL_PATH: /c/OpenSSL-v30-Win64/bin
       LIBSSL: libssl-3-x64.dll
       LIBCRYPTO: libcrypto-3-x64.dll
       GPGPATH: /c/Program Files/Git/usr/bin
       WITH_NATIVE_NOTIFICATIONS: "ON"
-      WITH_QT6: "ON"
-      WINDEPLOYQT_ARGS: >-
-        --no-system-d3d-compiler
-        --no-opengl-sw
-        --no-quick
+      WITH_QT6: "OFF"
 
 # Parameters for default build commands (build_script is used instead).
 build: false
