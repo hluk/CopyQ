@@ -2,8 +2,8 @@
 set -exo pipefail
 
 name=$1
-version=${2:-$KF_FULLVER}
-base_url=${3:-$KF_BASE_URL}
+version=${2:-$KF5_FULLVER}
+base_url=${3:-$KF5_BASE_URL}
 
 if [[ $# -gt 3 ]]; then
     shift 3
@@ -12,7 +12,8 @@ else
     extra_cmake_args=()
 fi
 
-url=$base_url/$name-$version
+pkg=$DOWNLOADS_PATH/$name-$version.zip
+url=$base_url/$name-$version.zip
 patch_dir=$APPVEYOR_BUILD_FOLDER/utils/appveyor/patches/$name
 state_old=$INSTALL_PREFIX/$name-state
 state_new=$DEPENDENCY_PATH/$name-state-new
@@ -28,22 +29,6 @@ function get_new_state() {
     echo | md5sum "$patch_dir"/*.patch
 }
 
-function get_source() {
-    suffix=$1
-    pkg=$DOWNLOADS_PATH/$name-$version.$suffix
-
-    for retry in $(seq 5); do
-        curl -sSL -o "$pkg" "$url.$suffix"
-        if cmake -E tar xf "$pkg"; then
-            return 0
-        fi
-        if [[ $retry -gt 0 ]]; then
-            sleep $((retry * 15))
-        fi
-    done
-    return 1
-}
-
 # Omit rebuilding if already cached.
 get_new_state > "$state_new"
 if diff "$state_old" "$state_new"; then
@@ -52,13 +37,17 @@ fi
 
 (
     cd "$DEPENDENCY_PATH"
-
-    if [[ "$base_url" == "$KF_BASE_URL" ]]; then
-        get_source tar.xz
-    else
-        get_source zip
-    fi
-
+    # Retry downloading package.
+    for retry in $(seq 5); do
+        if cmake -E tar xf "$pkg" --format=zip; then
+            break
+        fi
+        rm -f "$pkg"
+        if [[ $retry -gt 0 ]]; then
+            sleep $((retry * 15))
+        fi
+        curl -L -o "$pkg" "$url"
+    done
     cd "$name-$version"
 
     for patch in "$patch_dir"/*.patch; do
