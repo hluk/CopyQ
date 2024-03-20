@@ -1913,7 +1913,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="683"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>要在其他電腦或工作態共用加密項，需要這些密鑰檔(請存於安全位置):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="974"/>
@@ -2719,7 +2719,7 @@ Set to 0 to disable.</source>
         <location filename="../src/main.cpp" line="227"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>Copyq 工作狀態名稱至多指允許 16 個字元
+        <translation>Copyq 工作態名稱至多指允許 16 個字元
 可以是字母、數字、&apos;-&apos; 或 &apos;_&apos;！</translation>
     </message>
     <message>
@@ -3496,7 +3496,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>以指定的工作狀況(session)名稱，啟動或連接到應用程式實例。</translation>
+        <translation>以指定的工作態(session)名稱，啟動或連接到應用程式實例。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
@@ -3562,7 +3562,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="111"/>
         <source>Usage: copyq [%1]</source>
-        <translation>用法：copyq [%1]</translation>
+        <translation>用法: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="112"/>
@@ -3670,7 +3670,7 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2412"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*已停用剪貼簿儲存*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
