@@ -267,6 +267,7 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
     editorParent->setBackgroundRole(QPalette::Base);
     editorParent->setAutoFillBackground(true);
     editorParent->setPalette(palette);
+    editor->setPalette(palette);
     editor->setStyleSheet("QTextEdit{background:transparent}");
 
     palette.setColor(QPalette::Base, Qt::transparent);
