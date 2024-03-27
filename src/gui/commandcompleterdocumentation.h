@@ -11,6 +11,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("showAt", "showAt(x, y, [width, height])", "Shows main window with given geometry.");
     addDocumentation("showAt", "showAt()", "Shows main window under mouse cursor.");
     addDocumentation("showAt", "showAt(x, y, width, height, tabName)", "Shows tab with given geometry.");
+    addDocumentation("windowPosition", "windowPosition(x, y)", "Set main window position.");
+    addDocumentation("windowSize", "windowSize(width, height)", "Set main window size.");
     addDocumentation("hide", "hide()", "Hides main window.");
     addDocumentation("toggle", "toggle() -> bool", "Shows or hides main window.");
     addDocumentation("menu", "menu()", "Opens context menu.");

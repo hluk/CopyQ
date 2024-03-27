@@ -99,6 +99,8 @@ public slots:
     void close();
     bool showWindow();
     bool showWindowAt(QRect rect);
+    void setWindowPosition(int x, int y);
+    void setWindowSize(int w, int h);
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
