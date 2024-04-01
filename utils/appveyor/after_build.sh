@@ -4,11 +4,6 @@ set -exuo pipefail
 # shellcheck disable=SC1091
 source utils/appveyor/env.sh
 
-Source=$APPVEYOR_BUILD_FOLDER
-Destination=$APPVEYOR_BUILD_FOLDER/$APP
-Executable=$Destination/copyq.exe
-BuildPlugins=$BUILD_PATH/plugins/${BUILD_SUB_DIR:-}
-
 mkdir -p "$Destination"
 
 cmake --install "$BUILD_PATH" --config Release --prefix "$Destination" --verbose
@@ -61,70 +56,9 @@ rm -vf /c/Windows/SysWOW64/libcrypto-*
 rm -vf /c/Windows/SysWOW64/libssl-*
 OldPath=$PATH
 export PATH="$GPGPATH":$Destination
-
-mkdir ~/.gnupg
-chmod go-rwx ~/.gnupg
-gpg --version
-
-export QT_FORCE_STDERR_LOGGING=1
-export COPYQ_TESTS_RERUN_FAILED=1
 "$Executable" --help
 "$Executable" --version
 "$Executable" --info
-"$Executable" tests
-
-# Take screenshots of the app.
-"$Executable" &
-copyq_pid=$!
-"$Executable" showAt 0 0 9999 9999
-
-"$Executable" add "Plain text item"
-"$Executable" add "Unicode: "
-"$Executable" 'write(mimeText, "Highlighted item", mimeColor, "#ff0")'
-"$Executable" 'write(mimeText, "Item with notes", mimeItemNotes, "Notes...")'
-"$Executable" 'write(mimeText, "Item with tags", plugins.itemtags.mimeTags, "important")'
-"$Executable" write text/html "<p><b>Rich text</b> <i>item</i></p>"
-"$Executable" write image/png - < "$Source/src/images/icon_128x128.png"
-
-# FIXME: Native notifications do not show up.
-#        Maybe a user interaction, like mouse move, is required.
-"$Executable" config native_notifications "false"
-"$Executable" popup "Popup title" "Popup message..."
-"$Executable" notification \
-    .title "Notification title" \
-    .message "Notification message..." \
-    .button OK cmd data \
-    .button Close cmd data
-
-"$Executable" sleep 1000
-
-export PATH=$Destination:$OldPath
-
-screenshot() {
-    "$Executable" screenshot > "$1.png"
-    appveyor PushArtifact "$1.png" -DeploymentName "$1"
-}
-
-screenshot "Screenshot - App"
-
-"$Executable" keys "Ctrl+P" "focus:ConfigurationManager"
-for n in $(seq 9); do
-    screenshot "Screenshot - Configuration Tab $n"
-    "$Executable" keys "DOWN" "focus:ConfigurationManager"
-done
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
-
-"$Executable" keys "Shift+F1" "focus:AboutDialog"
-screenshot "Screenshot - About Dialog"
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
-
-"$Executable" keys "Alt+T" "focus:Menu"
-screenshot "Screenshot - Tab Menu"
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
-
-"$Executable" exit
-wait "$copyq_pid"
-
 export PATH=$OldPath
 
 choco install -y InnoSetup

@@ -40,3 +40,11 @@ APP_VERSION=$(
 )
 export APP_VERSION
 export APP=copyq-$APP_VERSION
+
+export Source=$APPVEYOR_BUILD_FOLDER
+export Destination=$APPVEYOR_BUILD_FOLDER/$APP
+export Executable=$Destination/copyq.exe
+export BuildPlugins=$BUILD_PATH/plugins/${BUILD_SUB_DIR:-}
+
+export QT_FORCE_STDERR_LOGGING=1
+export COPYQ_TESTS_RERUN_FAILED=1
