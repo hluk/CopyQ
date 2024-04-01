@@ -38,7 +38,7 @@ environment:
         --no-quick
 
 # Parameters for default build commands (build_script is used instead).
-build:
+build: false
 
 install:
   - ps: $env:Path = "C:\Program Files\Git\bin;$env:Path"
@@ -52,6 +52,10 @@ build_script:
 
 after_build:
   - bash utils/appveyor/after_build.sh
+
+test_script:
+  - bash utils/appveyor/test_screenshots.sh
+  - bash utils/appveyor/test.sh
 
 # Upload test log files.
 on_finish:
