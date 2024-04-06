@@ -71,10 +71,10 @@ bool verifyProcess(QProcess *p, int timeoutMs = 30000)
     }
 
     if (exitCode != 0) {
-        const QString errors = p->readAllStandardError();
-        if ( !errors.isEmpty() )
+        if (const QString errors = p->readAllStandardError(); !errors.isEmpty()) {
             log( QStringLiteral("ItemEncrypt: GnuPG stderr:\n%1")
                  .arg(errors), LogError );
+        }
         return false;
     }
 
@@ -330,8 +330,7 @@ void startGenerateKeysProcess(QProcess *process, bool useTransientPasswordlessKe
 
 QString exportImportGpgKeys()
 {
-    const auto error = exportGpgKey();
-    if ( !error.isEmpty() )
+    if (const auto error = exportGpgKey(); !error.isEmpty())
         return error;
 
     return importGpgKey();
@@ -597,8 +596,7 @@ QString ItemEncryptedScriptable::generateTestKeys()
                       QString::fromUtf8(process.readAllStandardError()) );
     }
 
-    const auto error = exportImportGpgKeys();
-    if ( !error.isEmpty() )
+    if ( const auto error = exportImportGpgKeys(); !error.isEmpty() )
         return error;
 
     for (const auto &keyFileName : keys) {

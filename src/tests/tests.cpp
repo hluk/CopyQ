@@ -37,6 +37,7 @@
 #include <QTest>
 #include <QTimer>
 
+#include <array>
 #include <memory>
 
 #define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
@@ -149,7 +150,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     };
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
-    static const std::vector<QRegularExpression> ignoreList{
+    static const std::array ignoreList{
         regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
 
         plain("Event handler maximum recursion reached"),
@@ -500,9 +501,11 @@ public:
 
     QByteArray setClipboard(const QByteArray &bytes, const QString &mime, ClipboardMode mode) override
     {
-        const QByteArray error = setClipboard( createDataMap(mime, bytes), mode );
-        if (!error.isEmpty())
+        if ( const QByteArray error = setClipboard(createDataMap(mime, bytes), mode);
+                !error.isEmpty() )
+        {
             return error;
+        }
 
         return verifyClipboard(bytes, mime);
     }

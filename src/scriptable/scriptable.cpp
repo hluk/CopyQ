@@ -1025,8 +1025,7 @@ QJSValue Scriptable::removeTab()
     m_skipArguments = 1;
 
     const QString &name = arg(0);
-    const QString error = m_proxy->removeTab(name);
-    if ( !error.isEmpty() )
+    if ( const QString error = m_proxy->removeTab(name); !error.isEmpty() )
         return throwError(error);
     return QJSValue();
 }
@@ -1036,8 +1035,7 @@ QJSValue Scriptable::renameTab()
     m_skipArguments = 2;
     const QString &name = arg(0);
     const QString &newName = arg(1);
-    const QString error = m_proxy->renameTab(newName, name);
-    if ( !error.isEmpty() )
+    if ( const QString error = m_proxy->renameTab(newName, name); !error.isEmpty() )
         return throwError(error);
     return QJSValue();
 }
@@ -1117,8 +1115,7 @@ QJSValue Scriptable::remove()
     if ( rows.empty() )
         rows.append(0);
 
-    const auto error = m_proxy->browserRemoveRows(m_tabName, rows);
-    if ( !error.isEmpty() )
+    if ( const auto error = m_proxy->browserRemoveRows(m_tabName, rows); !error.isEmpty() )
         return throwError(error);
     return QJSValue();
 }
@@ -2332,8 +2329,7 @@ QJSValue Scriptable::loadTheme()
     m_skipArguments = 1;
 
     const QString path = getAbsoluteFilePath(arg(0));
-    const QString error = m_proxy->loadTheme(path);
-    if ( !error.isEmpty() )
+    if ( const QString error = m_proxy->loadTheme(path); !error.isEmpty() )
         return throwError(error);
 
     return QJSValue();
@@ -3322,8 +3318,7 @@ void Scriptable::insert(int row, int argumentsBegin, int argumentsEnd)
     m_skipArguments = argumentsEnd;
 
     const VariantMapList items{getItemList(argumentsBegin, argumentsEnd, argumentsArray())};
-    const auto error = m_proxy->browserInsert(m_tabName, row, items);
-    if ( !error.isEmpty() )
+    if ( const auto error = m_proxy->browserInsert(m_tabName, row, items); !error.isEmpty() )
         throwError(error);
 }
 

@@ -39,8 +39,8 @@ namespace {
 
 const char propertyWrapped[] = "CopyQ_fakevim_wrapped";
 
-QLatin1String configReallyEnabled("really_enable");
-QLatin1String configSourceFile("source_file");
+const QLatin1String configReallyEnabled("really_enable");
+const QLatin1String configSourceFile("source_file");
 
 // The same method for rendering document doesn't work for QPlainTextEdit.
 // This is simplified code from Qt source code.
