@@ -17,6 +17,7 @@ public:
 protected:
     void onChanged(int) override;
 
+private:
     DWORD m_lastClipboardSequenceNumber = -1;
 };
 

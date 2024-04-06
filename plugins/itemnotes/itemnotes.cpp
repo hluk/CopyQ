@@ -34,9 +34,9 @@ const int defaultMaxBytes = 10*1024;
 
 const int notesIndent = 16;
 
-QLatin1String configNotesAtBottom("notes_at_bottom");
-QLatin1String configNotesBeside("notes_beside");
-QLatin1String configShowTooltip("show_tooltip");
+const QLatin1String configNotesAtBottom("notes_at_bottom");
+const QLatin1String configNotesBeside("notes_beside");
+const QLatin1String configShowTooltip("show_tooltip");
 
 QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 {

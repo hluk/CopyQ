@@ -49,6 +49,7 @@ master_doc = 'index'
 project = 'CopyQ'
 copyright = '2024, Lukas Holecek'
 author = 'Lukas Holecek'
+title = 'CopyQ Documentation'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -131,8 +132,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'CopyQ.tex', 'CopyQ Documentation',
-     'Lukas Holecek', 'manual'),
+    (master_doc, 'CopyQ.tex', title, author, 'manual'),
 ]
 
 
@@ -141,8 +141,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'copyq', 'CopyQ Documentation',
-     [author], 1)
+    (master_doc, 'copyq', title, [author], 1)
 ]
 
 
@@ -152,7 +151,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'CopyQ', 'CopyQ Documentation',
+    (master_doc, 'CopyQ', title,
      author, 'CopyQ', 'One line description of project.',
      'Miscellaneous'),
 ]
