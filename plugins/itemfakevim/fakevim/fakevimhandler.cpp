@@ -7802,7 +7802,7 @@ void FakeVimHandler::Private::surroundCurrentRange(const Input &input, const QSt
             newBack += "\n";
         else
             newBack = "\n" + newBack;
-    } else if (input.is('(') || input.is('{') || input.is('[') || input.is('[')) {
+    } else if (input.is('(') || input.is('{') || input.is('[')) {
         // Opening characters add an extra space
         newFront = newFront + " ";
         newBack = " " + newBack;
