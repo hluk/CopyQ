@@ -236,18 +236,18 @@ void X11PlatformWindow::raise()
 
     COPYQ_LOG( QString("Raising window \"%1\"").arg(getTitle()) );
 
-    XEvent e{};
+    XClientMessageEvent e{};
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
-    e.xclient.display = display;
-    e.xclient.window = m_window;
-    e.xclient.message_type = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
-    e.xclient.format = 32;
-    e.xclient.data.l[0] = 2;
-    e.xclient.data.l[1] = CurrentTime;
-    e.xclient.data.l[2] = 0;
-    e.xclient.data.l[3] = 0;
-    e.xclient.data.l[4] = 0;
+    e.display = display;
+    e.window = m_window;
+    e.message_type = XInternAtom(display, "_NET_ACTIVE_WINDOW", False);
+    e.format = 32;
+    e.data.l[0] = 2;
+    e.data.l[1] = CurrentTime;
+    e.data.l[2] = 0;
+    e.data.l[3] = 0;
+    e.data.l[4] = 0;
 
     XWindowAttributes wattr{};
     XGetWindowAttributes(display, m_window, &wattr);
@@ -255,7 +255,7 @@ void X11PlatformWindow::raise()
     if (wattr.map_state == IsViewable) {
         XSendEvent(display, wattr.screen->root, False,
                    SubstructureNotifyMask | SubstructureRedirectMask,
-                   &e);
+                   reinterpret_cast<XEvent*>(&e));
         XSync(display, False);
         XRaiseWindow(display, m_window);
         XSetInputFocus(display, m_window, RevertToPointerRoot, CurrentTime);

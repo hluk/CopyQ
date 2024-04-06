@@ -41,14 +41,14 @@ bool isSelectionIncomplete()
         return false;
 
     // If mouse button or shift is pressed then assume that user is selecting text.
-    XEvent event{};
+    XButtonEvent event{};
     XQueryPointer(display, DefaultRootWindow(display),
-                  &event.xbutton.root, &event.xbutton.window,
-                  &event.xbutton.x_root, &event.xbutton.y_root,
-                  &event.xbutton.x, &event.xbutton.y,
-                  &event.xbutton.state);
+                  &event.root, &event.window,
+                  &event.x_root, &event.y_root,
+                  &event.x, &event.y,
+                  &event.state);
 
-    return event.xbutton.state & (Button1Mask | ShiftMask);
+    return event.state & (Button1Mask | ShiftMask);
 #else
     return true;
 #endif
