@@ -1233,7 +1233,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation>存储剪贴板的标签页:</translation>
+        <translation>存储剪贴板的标签页(&amp;B):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -1661,7 +1661,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="164"/>
         <source>Tabs</source>
-        <translation>标签</translation>
+        <translation>标签页</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="165"/>
