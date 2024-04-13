@@ -2725,6 +2725,7 @@ void Tests::editNotes()
 {
     RUN("add" << "B" << "A", "");
 
+    RUN("config" << "editor" << "", "\n");
     RUN("keys" << "SHIFT+F2" << ":A Note" << "F2", "");
     RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
     RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\n");

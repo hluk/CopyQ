@@ -69,8 +69,8 @@ class ItemDelegate final : public QItemDelegate
         void setItemSizes(int maxWidth, int idealWidth);
 
         /** Create internal item editor widget. */
-        ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
-                                             bool editNotes);
+        ItemEditorWidget *createCustomEditor(
+                QWidget *parent, const QModelIndex &index, const QString &format);
 
         /**
          * Highlight matched text with current search expression, font and color.

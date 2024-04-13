@@ -214,6 +214,7 @@ public slots:
     void insert();
     QJSValue remove();
     void edit();
+    QJSValue editItem();
     QJSValue move();
 
     QJSValue read();

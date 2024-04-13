@@ -230,33 +230,28 @@ void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize
 }
 
 ItemEditorWidget *ItemDelegate::createCustomEditor(
-        QWidget *parent, const QModelIndex &index, bool editNotes)
+        QWidget *parent, const QModelIndex &index, const QString &format)
 {
-    bool hasHtml = false;
-    QString text;
-    if (editNotes) {
-        text = index.data(contentType::notes).toString();
-    } else {
-        const QVariantMap data = m_sharedData->itemFactory->data(index);
-        text = getTextData(data, mimeHtml);
-        if (text.isEmpty()) {
-            text = getTextData(data);
-            if (text.isNull())
-                return nullptr;
-        } else {
-            hasHtml = true;
-        }
-    }
+    // Refuse editing non-text data
+    if ( format != mimeItemNotes && !format.startsWith(QLatin1String("text/")) )
+        return nullptr;
+
+    const QVariantMap data = m_sharedData->itemFactory->data(index);
+    if ( format != mimeItemNotes && !data.contains(format) )
+        return nullptr;
 
     auto editorParent = new QWidget(parent);
-    auto editor = new ItemEditorWidget(index, editNotes, editorParent);
+    auto editor = new ItemEditorWidget(index, format, editorParent);
 
     connect(editor, &QObject::destroyed, editorParent, &QObject::deleteLater);
 
-    if (hasHtml) {
-        editor->setHtml(text);
+    // Prefer editing rich text
+    if ( format == mimeText && data.contains(mimeHtml) ) {
+        const QString html = getTextData(data, mimeHtml);
+        editor->setHtml(html);
         sanitizeTextDocument(editor->document());
     } else {
+        const QString text = getTextData(data, format);
         editor->setPlainText(text);
     }
 

@@ -1138,34 +1138,64 @@ void Scriptable::edit()
     m_skipArguments = -1;
 
     QJSValue value;
-    QString text;
+    QByteArray content;
     int row = -1;
 
     const int len = argumentCount();
     for ( int i = 0; i < len; ++i ) {
         value = argument(i);
         if (i > 0)
-            text.append(m_inputSeparator);
+            content.append(m_inputSeparator.toUtf8());
         if ( toInt(value, &row) ) {
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(m_tabName, row, mimeText)
                                               : getClipboardData(mimeText);
-            text.append( getTextData(bytes) );
+            content.append(bytes);
         } else {
-            text.append( toString(value) );
+            content.append( toByteArray(value) );
         }
     }
 
     bool changeClipboard = row < 0;
 
-    if ( !m_proxy->browserOpenEditor(m_tabName, fromString(text), changeClipboard) ) {
+    if ( !m_proxy->browserOpenEditor(m_tabName, row, mimeText, content, changeClipboard) ) {
         m_proxy->showBrowser(m_tabName);
         if (len == 1 && row >= 0) {
             m_proxy->browserSetCurrent(m_tabName, row);
-            m_proxy->browserEditRow(m_tabName, row);
+            m_proxy->browserEditRow(m_tabName, row, mimeText);
         } else {
-            m_proxy->browserEditNew(m_tabName, text, changeClipboard);
+            m_proxy->browserEditNew(m_tabName, mimeText, content, changeClipboard);
         }
     }
+}
+
+QJSValue Scriptable::editItem()
+{
+    m_skipArguments = 3;
+
+    int row;
+    if ( !toInt(argument(0), &row) ) {
+        return throwError(argumentError());
+    }
+
+    const auto format = arg(1, mimeText);
+    const bool changeClipboard = row < 0;
+    const QByteArray content = argumentCount() > 2
+        ? makeByteArray( argument(2) )
+        : ( row >= 0
+                ? m_proxy->browserItemData(m_tabName, row, format)
+                : getClipboardData(format));
+
+    if ( !m_proxy->browserOpenEditor(m_tabName, row, format, content, changeClipboard) ) {
+        m_proxy->showBrowser(m_tabName);
+        if (row >= 0) {
+            m_proxy->browserSetCurrent(m_tabName, row);
+            m_proxy->browserEditRow(m_tabName, row, format);
+        } else {
+            m_proxy->browserEditNew(m_tabName, format, content, changeClipboard);
+        }
+    }
+
+    return {};
 }
 
 QJSValue Scriptable::read()

@@ -13,7 +13,6 @@
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/settings.h"
 #include "common/sleeptimer.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
@@ -1356,16 +1355,16 @@ void ScriptableProxy::browserMoveSelected(int targetRow)
     c->move(indexes, targetRow);
 }
 
-void ScriptableProxy::browserEditRow(const QString &tabName, int arg1)
+void ScriptableProxy::browserEditRow(const QString &tabName, int row, const QString &format)
 {
-    INVOKE2(browserEditRow, (tabName, arg1));
-    BROWSER(tabName, editRow(arg1));
+    INVOKE2(browserEditRow, (tabName, row, format));
+    BROWSER(tabName, editRow(row, format));
 }
 
-void ScriptableProxy::browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard)
+void ScriptableProxy::browserEditNew(const QString &tabName, const QString &format, const QByteArray &content, bool changeClipboard)
 {
-    INVOKE2(browserEditNew, (tabName, arg1, changeClipboard));
-    BROWSER(tabName, editNew(arg1, changeClipboard));
+    INVOKE2(browserEditNew, (tabName, format, content, changeClipboard));
+    BROWSER(tabName, editNew(format, content, changeClipboard));
 }
 
 QStringList ScriptableProxy::tabs()
@@ -1499,11 +1498,16 @@ int ScriptableProxy::browserLength(const QString &tabName)
     return c ? c->length() : 0;
 }
 
-bool ScriptableProxy::browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard)
+bool ScriptableProxy::browserOpenEditor(
+    const QString &tabName, int row, const QString &format, const QByteArray &content, bool changeClipboard)
 {
-    INVOKE(browserOpenEditor, (tabName, arg1, changeClipboard));
+    INVOKE(browserOpenEditor, (tabName, row, format, content, changeClipboard));
     ClipboardBrowser *c = fetchBrowser(tabName);
-    return c && c->openEditor(arg1, changeClipboard);
+    if (!c)
+        return false;
+
+    const auto index = c->index(row);
+    return c->openEditor(index, format, content, changeClipboard);
 }
 
 QString ScriptableProxy::browserInsert(const QString &tabName, int row, const VariantMapList &items)

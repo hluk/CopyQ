@@ -494,7 +494,13 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: edit([row|text] ...)
 
-   Edits items in current tab.
+   Edits items in the current tab.
+
+   Opens external editor if set, otherwise opens internal editor.
+
+.. js:function:: editItem(row, [mimeType, [data]])
+
+   Edits specific format for the item.
 
    Opens external editor if set, otherwise opens internal editor.
 
