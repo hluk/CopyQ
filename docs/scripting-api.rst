@@ -498,11 +498,17 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Opens external editor if set, otherwise opens internal editor.
 
+   If row is -1 (or other negative number) edits clipboard instead
+   and creates new item.
+
 .. js:function:: editItem(row, [mimeType, [data]])
 
    Edits specific format for the item.
 
    Opens external editor if set, otherwise opens internal editor.
+
+   If row is -1 (or other negative number) edits clipboard instead
+   and creates new item.
 
 .. js:function:: read([mimeType])
 

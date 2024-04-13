@@ -94,6 +94,7 @@ private slots:
     void commandHasClipboardFormat();
 
     void commandEdit();
+    void commandEditItem();
 
     void commandGetSetCurrentPath();
 

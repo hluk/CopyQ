@@ -1592,15 +1592,67 @@ void Tests::commandEdit()
 
     RUN("config" << "editor" << "", "\n");
 
-    // Edit new item.
-    RUN("edit", "");
-    RUN("keys" << ":LINE 1" << "F2", "");
-    RUN("read" << "0", "LINE 1");
+    // Edit clipboard and new item.
+    TEST( m_test->setClipboard("TEST") );
+    RUN("edit" << "-1", "");
+    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    RUN("read" << "0", "TESTLINE 1");
+    WAIT_FOR_CLIPBOARD("TESTLINE 1");
 
     // Edit existing item.
     RUN("edit" << "0", "");
     RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
-    RUN("read" << "0", "LINE 1\nLINE 2");
+    RUN("read" << "0", "TESTLINE 1\nLINE 2");
+    WAIT_FOR_CLIPBOARD("TESTLINE 1");
+
+    // Edit clipboard (ignore existing data) and new item.
+    RUN("edit", "");
+    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    RUN("read" << "0", "LINE 1");
+    WAIT_FOR_CLIPBOARD("LINE 1");
+}
+
+void Tests::commandEditItem()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_COMMAND_EDIT");
+
+    RUN("config" << "editor" << "", "\n");
+
+    // Edit clipboard and new item.
+    TEST( m_test->setClipboard("TEST", mimeHtml) );
+    RUN("editItem" << "-1" << mimeHtml, "");
+    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+#ifdef Q_OS_WIN
+#   define FRAG_START "<!--StartFragment-->"
+#   define FRAG_END "<!--EndFragment-->"
+    const auto expected = QByteArrayLiteral(FRAG_START "TEST" FRAG_END "LINE 1");
+#else
+    const auto expected = QByteArrayLiteral("TESTLINE 1");
+#endif
+    RUN("read" << mimeHtml << "0", expected);
+    RUN("read" << "0", "");
+    WAIT_FOR_CLIPBOARD2(expected, mimeHtml);
+    WAIT_FOR_CLIPBOARD("");
+
+    // Edit existing item.
+    RUN("editItem" << "0" << mimeHtml, "");
+    RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
+    RUN("read" << mimeHtml << "0", expected + "\nLINE 2");
+    RUN("read" << "0", "");
+    WAIT_FOR_CLIPBOARD2(expected, mimeHtml);
+    WAIT_FOR_CLIPBOARD("");
+
+    // Edit clipboard (ignore existing data) and new item.
+    RUN("editItem" << "-1" << mimeHtml << "TEST", "");
+    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    RUN("read" << mimeHtml << "0", "TESTLINE 1");
+    RUN("read" << "0", "");
+#ifdef Q_OS_WIN
+    WAIT_FOR_CLIPBOARD2(FRAG_START "TESTLINE 1" FRAG_END, mimeHtml);
+#else
+    WAIT_FOR_CLIPBOARD2("TESTLINE 1", mimeHtml);
+#endif
+    WAIT_FOR_CLIPBOARD("");
 }
 
 void Tests::commandGetSetCurrentPath()
@@ -3190,6 +3242,8 @@ void Tests::openAndSavePreferences()
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
     RUN("keys" << configurationDialogId << "ALT+1", "");
+    // Wait for any checkbox animation or delay
+    waitFor(1000);
     RUN("keys" << configurationDialogId << "ENTER" << clipboardBrowserId, "");
     WAIT_ON_OUTPUT("config" << "check_clipboard", "true\n");
 }

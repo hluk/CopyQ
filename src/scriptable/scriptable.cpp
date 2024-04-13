@@ -1137,16 +1137,19 @@ void Scriptable::edit()
 {
     m_skipArguments = -1;
 
-    QJSValue value;
     QByteArray content;
     int row = -1;
+    int editRow = -1;
+    bool changeClipboard = true;
 
     const int len = argumentCount();
     for ( int i = 0; i < len; ++i ) {
-        value = argument(i);
+        const QJSValue value = argument(i);
         if (i > 0)
             content.append(m_inputSeparator.toUtf8());
         if ( toInt(value, &row) ) {
+            editRow = (i == 0) ? row : -1;
+            changeClipboard = i == 0 && row < 0;
             const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(m_tabName, row, mimeText)
                                               : getClipboardData(mimeText);
             content.append(bytes);
@@ -1155,46 +1158,29 @@ void Scriptable::edit()
         }
     }
 
-    bool changeClipboard = row < 0;
-
-    if ( !m_proxy->browserOpenEditor(m_tabName, row, mimeText, content, changeClipboard) ) {
-        m_proxy->showBrowser(m_tabName);
-        if (len == 1 && row >= 0) {
-            m_proxy->browserSetCurrent(m_tabName, row);
-            m_proxy->browserEditRow(m_tabName, row, mimeText);
-        } else {
-            m_proxy->browserEditNew(m_tabName, mimeText, content, changeClipboard);
-        }
-    }
+    editContent(editRow, mimeText, content, changeClipboard);
 }
 
 QJSValue Scriptable::editItem()
 {
     m_skipArguments = 3;
 
-    int row;
-    if ( !toInt(argument(0), &row) ) {
+    int editRow;
+    if ( !toInt(argument(0), &editRow) )
         return throwError(argumentError());
-    }
 
     const auto format = arg(1, mimeText);
-    const bool changeClipboard = row < 0;
-    const QByteArray content = argumentCount() > 2
-        ? makeByteArray( argument(2) )
-        : ( row >= 0
-                ? m_proxy->browserItemData(m_tabName, row, format)
-                : getClipboardData(format));
+    const bool changeClipboard = editRow < 0;
 
-    if ( !m_proxy->browserOpenEditor(m_tabName, row, format, content, changeClipboard) ) {
-        m_proxy->showBrowser(m_tabName);
-        if (row >= 0) {
-            m_proxy->browserSetCurrent(m_tabName, row);
-            m_proxy->browserEditRow(m_tabName, row, format);
-        } else {
-            m_proxy->browserEditNew(m_tabName, format, content, changeClipboard);
-        }
-    }
+    QByteArray content;
+    if ( argumentCount() > 2 )
+        content = makeByteArray(argument(2));
+    else if (editRow >= 0)
+        content = m_proxy->browserItemData(m_tabName, editRow, format);
+    else
+        content = getClipboardData(format);
 
+    editContent(editRow, format, content, changeClipboard);
     return {};
 }
 
@@ -3074,6 +3060,21 @@ void Scriptable::nextToClipboard(int where)
 #ifdef HAS_MOUSE_SELECTIONS
     m_proxy->setClipboard(data, ClipboardMode::Selection);
 #endif
+}
+
+void Scriptable::editContent(
+        int editRow, const QString &format, const QByteArray &content, bool changeClipboard)
+{
+    if ( m_proxy->browserOpenEditor(m_tabName, editRow, format, content, changeClipboard) )
+        return;
+
+    m_proxy->showBrowser(m_tabName);
+    if (editRow >= 0) {
+        m_proxy->browserSetCurrent(m_tabName, editRow);
+        m_proxy->browserEditRow(m_tabName, editRow, format);
+    } else {
+        m_proxy->browserEditNew(m_tabName, format, content, changeClipboard);
+    }
 }
 
 QJSValue Scriptable::screenshot(bool select)
