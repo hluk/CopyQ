@@ -428,6 +428,7 @@ private:
     QJSValue copy(ClipboardMode mode);
     QJSValue changeItem(bool create);
     void nextToClipboard(int where);
+    void editContent(int editRow, const QString &format, const QByteArray &content, bool changeClipboard);
     QJSValue screenshot(bool select);
     QByteArray serialize(const QJSValue &value);
     QJSValue eval(const QString &script);
