@@ -140,9 +140,9 @@ class ClipboardBrowser final : public QListView
         /** Show only items matching the regular expression. */
         void filterItems(const ItemFilterPtr &filter);
         /** Open editor. */
-        bool openEditor(const QByteArray &textData, bool changeClipboard = false);
+        bool openEditor(const QModelIndex &index, const QString &format, const QByteArray &content, bool changeClipboard = false);
         /** Open editor for an item. */
-        bool openEditor(const QModelIndex &index);
+        bool openEditor(const QModelIndex &index, const QString &format);
 
         /** Set current item. */
         void setCurrent(int row, bool keepSelection = false, bool setCurrentOnly = false);
@@ -156,12 +156,10 @@ class ClipboardBrowser final : public QListView
          * Create and edit new item.
          */
         void editNew(
-                const QString &text = QString(), //!< Text of new item.
-                bool changeClipboard = false //!< Change clipboard if item is modified.
-                );
+            const QString &format, const QByteArray &content = {}, bool changeClipboard = false);
 
         /** Edit item in given @a row. */
-        void editRow(int row);
+        void editRow(int row, const QString &format);
 
         void move(int key);
 
@@ -329,7 +327,7 @@ class ClipboardBrowser final : public QListView
 
         void setEditorWidget(ItemEditorWidget *editor, bool changeClipboard = false);
 
-        void editItem(const QModelIndex &index, bool editNotes = false, bool changeClipboard = false);
+        void editItem(const QModelIndex &index, const QString &format, bool changeClipboard = false);
 
         void updateEditorGeometry();
 

@@ -142,8 +142,8 @@ public slots:
     QString browserRemoveRows(const QString &tabName, QVector<int> rows);
     void browserMoveSelected(int targetRow);
 
-    void browserEditRow(const QString &tabName, int arg1);
-    void browserEditNew(const QString &tabName, const QString &arg1, bool changeClipboard);
+    void browserEditRow(const QString &tabName, int arg1, const QString &format);
+    void browserEditNew(const QString &tabName, const QString &format, const QByteArray &content, bool changeClipboard);
 
     QStringList tabs();
     bool toggleVisible();
@@ -166,7 +166,8 @@ public slots:
     QVariant toggleConfig(const QString &optionName);
 
     int browserLength(const QString &tabName);
-    bool browserOpenEditor(const QString &tabName, const QByteArray &arg1, bool changeClipboard);
+    bool browserOpenEditor(
+        const QString &tabName, int row, const QString &format, const QByteArray &content, bool changeClipboard);
 
     QString browserInsert(const QString &tabName, int row, const VariantMapList &items);
     QString browserChange(const QString &tabName, int row, const VariantMapList &items);

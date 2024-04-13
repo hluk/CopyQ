@@ -36,7 +36,6 @@
 #include "gui/icons.h"
 #include "gui/logdialog.h"
 #include "gui/notification.h"
-#include "gui/notificationbutton.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
 #include "gui/tabicons.h"
@@ -3813,7 +3812,7 @@ void MainWindow::editNewItem()
     showWindow();
     if ( !c->isInternalEditorOpen() ) {
         c->setFocus();
-        c->editNew();
+        c->editNew(mimeText);
     }
 }
 

@@ -51,11 +51,11 @@ QAction *addMenuItem(const MenuItem &menuItem, QToolBar *toolBar, ItemEditorWidg
 
 } // namespace
 
-ItemEditorWidget::ItemEditorWidget(const QModelIndex &index, bool editNotes, QWidget *parent)
+ItemEditorWidget::ItemEditorWidget(const QModelIndex &index, const QString &format, QWidget *parent)
     : QTextEdit(parent)
     , m_index(index)
     , m_saveOnReturnKey(false)
-    , m_editNotes(editNotes)
+    , m_format(format)
 {
     setFrameShape(QFrame::NoFrame);
     setFocusPolicy(Qt::StrongFocus);
@@ -84,12 +84,12 @@ void ItemEditorWidget::setSaveOnReturnKey(bool enabled)
 QVariantMap ItemEditorWidget::data() const
 {
     QVariantMap data;
-    if (m_editNotes) {
-        setTextData( &data, toPlainText(), mimeItemNotes );
-    } else {
+    if (m_format == mimeText) {
         setTextData( &data, toPlainText(), mimeText );
         if ( containsRichText(*document()) )
             setTextData( &data, toHtml(), mimeHtml );
+    } else {
+        setTextData( &data, toPlainText(), m_format );
     }
     return data;
 }

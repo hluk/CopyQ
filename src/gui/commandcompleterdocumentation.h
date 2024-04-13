@@ -52,7 +52,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("insert", "insert(row, text|Item...)", "Inserts new items to current tab.");
     addDocumentation("remove", "remove(row, ...)", "Removes items in current tab.");
     addDocumentation("move", "move(row)", "Moves selected items to given row in same tab.");
-    addDocumentation("edit", "edit([row|text] ...)", "Edits items in current tab.");
+    addDocumentation("edit", "edit([row|text] ...)", "Edits items in the current tab.");
+    addDocumentation("editItem", "editItem(row, [mimeType, [data]])", "Edits specific format for the item.");
     addDocumentation("read", "read([mimeType])", "Same as `clipboard()`.");
     addDocumentation("read", "read(mimeType, row, ...) -> `ByteArray`", "Returns concatenated data from items, or clipboard if row is negative.");
     addDocumentation("write", "write(row, mimeType, data, [mimeType, data]...)", "Inserts new item to current tab.");
@@ -175,8 +176,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("onItemsAdded", "onItemsAdded()", "Called when items are added to a tab.");
     addDocumentation("onItemsRemoved", "onItemsRemoved()", "Called when items are being removed from a tab.");
     addDocumentation("onItemsChanged", "onItemsChanged()", "Called when data in items change.");
-    addDocumentation("onTabSelected", "onTabSelected()", "Called when another tab is open.");
-    addDocumentation("onItemsLoaded", "onItemsLoaded()", "Called when items a loaded to a tab.");
+    addDocumentation("onTabSelected", "onTabSelected()", "Called when another tab is opened.");
+    addDocumentation("onItemsLoaded", "onItemsLoaded()", "Called when all items are loaded into a tab.");
     addDocumentation("ByteArray", "ByteArray", "Wrapper for QByteArray Qt class.");
     addDocumentation("File", "File", "Wrapper for QFile Qt class.");
     addDocumentation("Dir", "Dir", "Wrapper for QDir Qt class.");
