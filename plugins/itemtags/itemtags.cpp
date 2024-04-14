@@ -168,16 +168,10 @@ void addTagCommands(const QString &tagName, const QString &match, QVector<Comman
 
     c = dummyTagCommand();
     c.internalId = QStringLiteral("copyq_tags_tag:") + name;
-    c.name = ItemTagsLoader::tr("Tag as %1").arg(quotedTag);
-    c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") && fail()";
-    c.cmd = "copyq: plugins.itemtags.tag(" + tagString + ")";
-    commands->append(c);
-
-    c = dummyTagCommand();
-    c.internalId = QStringLiteral("copyq_tags_untag:") + name;
-    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quotedTag);
-    c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") || fail()";
-    c.cmd = "copyq: plugins.itemtags.untag(" + tagString + ")";
+    c.name = ItemTagsLoader::tr("Toggle Tag %1").arg(quotedTag);
+    c.cmd = QStringLiteral(
+        "copyq: (plugins.itemtags.hasTag(%1) ? plugins.itemtags.untag : plugins.itemtags.tag)(%1)"
+    ).arg(tagString);
     commands->append(c);
 }
 
@@ -747,8 +741,14 @@ QVector<Command> ItemTagsLoader::commands() const
     if (m_tags.isEmpty()) {
         addTagCommands(tr("Important", "Tag name for example command"), QString(), &commands);
     } else {
-        for (const auto &tag : m_tags)
+        const QRegularExpression reCapture(R"(\(.*\))");
+        const QRegularExpression reGroup(R"(\\\d)");
+        for (const auto &tag : m_tags) {
+            if ( reCapture.match(tag.match).hasMatch() && reGroup.match(tag.name).hasMatch() )
+                continue;
+
             addTagCommands(tag.name, tag.match, &commands);
+        }
     }
 
     Command c;
