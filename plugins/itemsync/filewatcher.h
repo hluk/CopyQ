@@ -18,7 +18,7 @@ struct Ext;
 struct BaseNameExtensions;
 
 #define COPYQ_MIME_PREFIX_ITEMSYNC COPYQ_MIME_PREFIX "itemsync-"
-#define COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE COPYQ_MIME_PREFIX "itemsync-private-"
+#define COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE COPYQ_MIME_PRIVATE_PREFIX "itemsync-"
 extern const QLatin1String mimeExtensionMap;
 extern const QLatin1String mimeBaseName;
 extern const QLatin1String mimeNoSave;
@@ -26,7 +26,7 @@ extern const QLatin1String mimeSyncPath;
 extern const QLatin1String mimeNoFormat;
 extern const QLatin1String mimeUnknownFormats;
 
-extern const QLatin1String mimePrivatePrefix;
+extern const QLatin1String mimePrivateSyncPrefix;
 extern const QLatin1String mimeOldBaseName;
 extern const QLatin1String mimeHashPrefix;
 
