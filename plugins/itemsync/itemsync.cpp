@@ -483,7 +483,7 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
     QVariantMap copiedItemData;
     for (auto it = itemData.begin(); it != itemData.constEnd(); ++it) {
         const auto &format = it.key();
-        if ( !format.startsWith(mimePrivatePrefix) )
+        if ( !format.startsWith(mimePrivateSyncPrefix) )
             copiedItemData[format] = it.value();
     }
 

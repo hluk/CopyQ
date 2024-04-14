@@ -4,6 +4,7 @@
 
 #include <QLatin1String>
 
+const QLatin1String mimePrivatePrefix(COPYQ_MIME_PRIVATE_PREFIX);
 const QLatin1String mimeText("text/plain");
 const QLatin1String mimeTextUtf8("text/plain;charset=utf-8");
 const QLatin1String mimeHtml("text/html");

@@ -5,6 +5,9 @@
 class QLatin1String;
 
 #define COPYQ_MIME_PREFIX "application/x-copyq-"
+// Prefix for MIME format not visible to user for data private to plugins.
+#define COPYQ_MIME_PRIVATE_PREFIX COPYQ_MIME_PREFIX "private-"
+extern const QLatin1String mimePrivatePrefix;
 extern const QLatin1String mimeText;
 extern const QLatin1String mimeTextUtf8;
 extern const QLatin1String mimeHtml;

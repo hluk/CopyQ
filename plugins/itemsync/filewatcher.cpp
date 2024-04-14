@@ -25,7 +25,7 @@ const QLatin1String mimeNoSave(COPYQ_MIME_PREFIX_ITEMSYNC "no-save");
 const QLatin1String mimeSyncPath(COPYQ_MIME_PREFIX_ITEMSYNC "sync-path");
 const QLatin1String mimeNoFormat(COPYQ_MIME_PREFIX_ITEMSYNC "no-format");
 const QLatin1String mimeUnknownFormats(COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats");
-const QLatin1String mimePrivatePrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE);
+const QLatin1String mimePrivateSyncPrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE);
 const QLatin1String mimeOldBaseName(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "old-basename");
 const QLatin1String mimeHashPrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "hash");
 
@@ -647,6 +647,8 @@ void FileWatcher::updateItems()
             const QModelIndex index = m_model->index(row, 0);
             if ( !oldBaseName(index).isEmpty() )
                 m_batchIndexData.append(index);
+            else
+                COPYQ_LOG_VERBOSE("Would create item");
         }
 
         m_lastBatchIndex = -1;
@@ -836,7 +838,7 @@ void FileWatcher::updateIndexData(const QModelIndex &index, QVariantMap *itemDat
 
     const QVariantMap mimeToExtension = itemData->value(mimeExtensionMap).toMap();
     for ( auto it = mimeToExtension.begin(); it != mimeToExtension.end(); ++it ) {
-        if ( !it.key().startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) ) {
+        if ( !it.key().startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) && !it.key().startsWith(COPYQ_MIME_PRIVATE_PREFIX) ) {
             const QString ext = it.value().toString();
             const Hash hash = calculateHash(itemData->value(it.key()).toByteArray());
             const QString mime = mimeHashPrefix + ext;
@@ -896,7 +898,7 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
         while (it.hasNext()) {
             const auto item = it.next();
             const QString &format = item.key();
-            if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
+            if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) || format.startsWith(COPYQ_MIME_PRIVATE_PREFIX) )
                 continue; // skip internal data
 
             const QByteArray bytes = it.value().toByteArray();

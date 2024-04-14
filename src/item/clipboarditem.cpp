@@ -63,7 +63,14 @@ bool ClipboardItem::setData(const QVariantMap &data)
     if (m_data == data)
         return false;
 
+    const auto oldData = m_data;
     m_data = data;
+
+    for (auto it = oldData.constBegin(); it != oldData.constEnd(); ++it) {
+        if (it.key().startsWith(mimePrivatePrefix) && !m_data.contains(it.key()))
+            m_data[it.key()] = it.value();
+    }
+
     invalidateDataHash();
     return true;
 }
