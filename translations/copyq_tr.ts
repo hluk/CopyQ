@@ -2371,7 +2371,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Etiketini Aç/Kapat</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
