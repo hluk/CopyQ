@@ -2349,7 +2349,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключить метку %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -2380,7 +2380,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
         <source>Display tags for items.</source>
-        <translation>Отображать теги для объектов.</translation>
+        <translation>Отображать метки для объектов.</translation>
     </message>
 </context>
 <context>
@@ -2388,12 +2388,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>Элементы меню для добавления и удаления настраиваемых тегов можно добавлять и настраивать в диалоговом окне «Команды».</translation>
+        <translation>Элементы меню для добавления и удаления настраиваемых меток можно добавлять и настраивать в диалоге «Команды».</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Дополнительная информация доступна на &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;странице wiki&lt;/a&gt;.</translation>
+        <translation>Подробности доступны на &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;вики-странице&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
