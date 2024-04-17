@@ -2343,7 +2343,7 @@ Definir 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar la etiqueta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
