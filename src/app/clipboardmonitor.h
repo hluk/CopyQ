@@ -29,6 +29,7 @@ public:
 signals:
     void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void clipboardUnchanged(const QVariantMap &data);
+    void saveData(const QVariantMap &data);
     void synchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
     void fetchCurrentClipboardOwner(QString *title);
 

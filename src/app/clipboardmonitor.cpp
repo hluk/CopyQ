@@ -179,14 +179,20 @@ void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
     }
 
     // omit running run automatic commands when disabled
-    if ( !m_runSelection && mode == ClipboardMode::Selection )
+    if ( !m_runSelection && mode == ClipboardMode::Selection ) {
+        if ( m_storeSelection && !m_clipboardTab.isEmpty() ) {
+            data.insert(mimeClipboardMode, QByteArrayLiteral("selection"));
+            setTextData(&data, m_clipboardTab, mimeOutputTab);
+            emit saveData(data);
+        }
         return;
+    }
 #endif
 
     if (mode != ClipboardMode::Clipboard) {
         const QString modeName = mode == ClipboardMode::Selection
-                ? "selection"
-                : "find buffer";
+                ? QStringLiteral("selection")
+                : QStringLiteral("find buffer");
         data.insert(mimeClipboardMode, modeName);
     }
 

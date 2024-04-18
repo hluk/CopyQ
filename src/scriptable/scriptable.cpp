@@ -2608,6 +2608,11 @@ void Scriptable::monitorClipboard()
              this, &Scriptable::onSynchronizeSelection );
     connect( &monitor, &ClipboardMonitor::fetchCurrentClipboardOwner,
              this, &Scriptable::onFetchCurrentClipboardOwner );
+    connect( &monitor, &ClipboardMonitor::saveData,
+             m_proxy, [this](const QVariantMap &data) {
+                 m_data = data;
+                 eval("saveData()");
+             } );
 
     monitor.startMonitoring();
     setClipboardMonitorRunning(true);
