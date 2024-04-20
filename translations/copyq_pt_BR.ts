@@ -2371,7 +2371,7 @@ Qualquer um dos outros arquivos desconhecidos ou ocultos são ignorados. &lt;/p&
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar etiqueta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
