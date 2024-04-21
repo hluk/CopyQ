@@ -145,7 +145,7 @@ bool matchData(const QRegularExpression &re, const QVariantMap &data, const QStr
 bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName)
 {
     // Verify that an action is provided.
-    if ( command.cmd.isEmpty() && !command.remove
+    if ( command.cmd.isEmpty()
          && (command.tab.isEmpty() || command.tab == sourceTabName) )
     {
         return false;
@@ -1142,7 +1142,7 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
         }
     }
 
-    if (command.remove)
+    if ( command.remove && (command.tab.isEmpty() || command.tab != c->tabName()) )
         c->removeIndexes(selected);
 
     if (command.hideWindow)
