@@ -39,7 +39,7 @@ QVector<Command> predefinedCommands()
     c = &commands.first();
     c->name = AddCommandDialog::tr("New command");
     c->icon = QString(QChar(IconFile));
-    c->input = c->output = "";
+    c->input = c->output = QString();
     c->wait = c->automatic = c->remove = false;
     c->sep = QLatin1String("\\n");
 
@@ -84,7 +84,7 @@ synchronizeToSelection = function() {
     c->name = AddCommandDialog::tr("Open in &Browser");
     c->re   = reURL;
     c->icon = QString(QChar(IconGlobe));
-    c->cmd  = "copyq open %1";
+    c->cmd  = QStringLiteral("copyq open %1");
     c->hideWindow = true;
     c->inMenu = true;
 
@@ -92,7 +92,7 @@ synchronizeToSelection = function() {
     c->name = AddCommandDialog::tr("Paste as Plain Text");
     c->input = mimeText;
     c->icon = QString(QChar(IconPaste));
-    c->cmd  = "copyq:" + pasteAsPlainTextScript("input()");
+    c->cmd  = QStringLiteral("copyq:") + pasteAsPlainTextScript("input()");
     c->hideWindow = true;
     c->inMenu = true;
 
@@ -100,7 +100,7 @@ synchronizeToSelection = function() {
     c->name = AddCommandDialog::tr("Autoplay videos");
     c->re   = QRegularExpression("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
     c->icon = QString(QChar(IconCirclePlay));
-    c->cmd  = "copyq open %1";
+    c->cmd  = QStringLiteral("copyq open %1");
     c->automatic = true;
     c->hideWindow = true;
     c->inMenu = true;
@@ -109,24 +109,24 @@ synchronizeToSelection = function() {
     c->name = AddCommandDialog::tr("Copy URL (web address) to other tab");
     c->re   = reURL;
     c->icon = QString(QChar(IconCopy));
-    c->tab  = "&web";
+    c->tab  = QStringLiteral("&web");
     c->automatic = true;
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Create thumbnail (needs ImageMagick)");
     c->icon = QString(QChar(IconImage));
-    c->cmd  = "convert - -resize 92x92 png:-";
-    c->input = "image/png";
-    c->output = "image/png";
+    c->cmd  = QStringLiteral("convert - -resize 92x92 png:-");
+    c->input = QStringLiteral("image/png");
+    c->output = QStringLiteral("image/png");
     c->inMenu = true;
 
     c = newCommand(&commands);
     c->name = AddCommandDialog::tr("Create QR Code from URL (needs qrencode)");
     c->re   = reURL;
     c->icon = QString(QChar(IconQrcode));
-    c->cmd  = "qrencode -o - -t PNG -s 6";
+    c->cmd  = QStringLiteral("qrencode -o - -t PNG -s 6");
     c->input = mimeText;
-    c->output = "image/png";
+    c->output = QStringLiteral("image/png");
     c->inMenu = true;
 
     const auto todoTab = AddCommandDialog::tr("Tasks", "Tab name for some predefined commands");
@@ -144,7 +144,6 @@ synchronizeToSelection = function() {
             .arg(todoTabQuoted);
     c->icon = QString(QChar(IconShare));
     c->tab  = todoTab;
-    c->input = mimeText;
     c->remove = true;
     c->inMenu = true;
 
@@ -163,7 +162,7 @@ synchronizeToSelection = function() {
         c->icon = QString(QChar(IconAsterisk));
         c->remove = true;
         c->automatic = true;
-        c->cmd = "copyq ignore";
+        c->cmd = QStringLiteral("copyq ignore");
     }
 
     c = newCommand(&commands);
@@ -177,8 +176,8 @@ synchronizeToSelection = function() {
     c->name = AddCommandDialog::tr("Clear Current Tab");
     c->icon = QString(QChar(IconBroom));
     c->inMenu = true;
-    c->cmd = "copyq: ItemSelection(selectedTab()).selectRemovable().removeAll()";
-    c->matchCmd = "copyq: tab(selectedTab()); if (size() == 0) fail()";
+    c->cmd = QStringLiteral("copyq: ItemSelection(selectedTab()).selectRemovable().removeAll()");
+    c->matchCmd = QStringLiteral("copyq: tab(selectedTab()); if (size() == 0) fail()");
 
     return commands;
 }
