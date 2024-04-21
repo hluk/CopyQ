@@ -27,11 +27,6 @@ enum {
      */
     removeFormats,
 
-    /**
-     * Item hash
-     */
-    hash,
-
     hasText,
     hasHtml,
     text,

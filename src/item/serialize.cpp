@@ -38,6 +38,8 @@ public:
         return QFileInfo(m_path).size();
     }
 
+    QString toString() const { return m_path; }
+
     QByteArray readAll() const
     {
         QFile f(m_path);
@@ -216,6 +218,7 @@ QString dataFilePath(const QByteArray &bytes, bool create = false)
 void registerDataFileConverter()
 {
     QMetaType::registerConverter(&DataFile::readAll);
+    QMetaType::registerConverter(&DataFile::toString);
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     qRegisterMetaTypeStreamOperators<DataFile>("DataFile");
 #else

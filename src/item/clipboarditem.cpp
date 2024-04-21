@@ -143,8 +143,6 @@ QVariant ClipboardItem::data(int role) const
 
     case contentType::data:
         return m_data; // copy-on-write, so this should be fast
-    case contentType::hash:
-        return dataHash();
     case contentType::hasText:
         return m_data.contains(mimeText)
             || m_data.contains(mimeTextUtf8)
