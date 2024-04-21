@@ -48,7 +48,12 @@ uint hash(const QVariantMap &data)
             continue;
 
         seed = hash(seed, mime);
-        seed = hash(seed, data[mime].toByteArray());
+
+        const auto &value = it.value();
+        if ( value.type() == QVariant::ByteArray )
+            seed = hash(seed, value.toByteArray());
+        else
+            seed = hash(seed, value.toString());
     }
 
     return seed;

@@ -49,6 +49,13 @@ public:
         return f.size();
     }
 
+    QString toString() const {
+        if ( m_format.isEmpty() )
+            return m_path;
+
+        return QStringLiteral("%1\n%2").arg(m_path, m_format);
+    }
+
     QByteArray readAll() const
     {
         COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Reading file: %1").arg(m_path) );
@@ -95,6 +102,7 @@ QDataStream &operator>>(QDataStream &in, SyncDataFile &value)
 void registerSyncDataFileConverter()
 {
     QMetaType::registerConverter(&SyncDataFile::readAll);
+    QMetaType::registerConverter(&SyncDataFile::toString);
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     qRegisterMetaTypeStreamOperators<SyncDataFile>("SyncDataFile");
 #else
