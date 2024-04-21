@@ -20,7 +20,7 @@ namespace {
 QString itemFileName(const QString &id)
 {
     QString part( id.toUtf8().toBase64() );
-    part.replace( QChar('/'), QString('-') );
+    part.replace( QChar('/'), QChar('-') );
     return getConfigurationFilePath("_tab_") + part + QLatin1String(".dat");
 }
 
