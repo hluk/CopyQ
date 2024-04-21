@@ -12,6 +12,8 @@
 #include <QCryptographicHash>
 #include <QDataStream>
 #include <QDir>
+#include <QFile>
+#include <QFileInfo>
 #include <QIODevice>
 #include <QList>
 #include <QPair>
@@ -30,6 +32,11 @@ public:
 
     const QString &path() const { return m_path; }
     void setPath(const QString &path) { m_path = path; }
+
+    qint64 size() const
+    {
+        return QFileInfo(m_path).size();
+    }
 
     QByteArray readAll() const
     {
@@ -223,11 +230,20 @@ void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThr
     const qint32 size = data.size();
     *stream << size;
 
-    QByteArray bytes;
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
-        const auto &mime = it.key();
-        bytes = data[mime].toByteArray();
-        if ( (itemDataThreshold >= 0 && bytes.length() > itemDataThreshold) || mime.startsWith(mimeFilePrefix) ) {
+        const QString &mime = it.key();
+        const QVariant &value = it.value();
+
+        const DataFile dataFile = value.value<DataFile>();
+        const int dataLength = dataFile.path().isEmpty()
+            ? value.toByteArray().size() : dataFile.size();
+
+        if ( (itemDataThreshold >= 0 && dataLength > itemDataThreshold) || mime.startsWith(mimeFilePrefix) ) {
+            // Already saved
+            if ( !dataFile.path().isEmpty() )
+                continue;
+
+            const QByteArray bytes = value.toByteArray();
             const QString path = dataFilePath(bytes, true);
             if ( path.isEmpty() ) {
                 stream->setStatus(QDataStream::WriteFailed);
@@ -255,6 +271,7 @@ void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThr
             *stream << /* compressData = */ false
                     << path.toUtf8();
         } else {
+            const QByteArray bytes = value.toByteArray();
             *stream << compressMime(mime)
                     << /* compressData = */ false
                     << bytes;
