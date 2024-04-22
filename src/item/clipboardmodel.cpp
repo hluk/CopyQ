@@ -125,7 +125,7 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
     endInsertRows();
 }
 
-void ClipboardModel::insertItems(const QList<QVariantMap> &dataList, int row)
+void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
 {
     if ( dataList.isEmpty() )
         return;

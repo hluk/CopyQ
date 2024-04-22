@@ -16,6 +16,8 @@
 #include <QRegularExpression>
 #include <QUrl>
 
+#include <QDebug>
+
 #include <array>
 #include <vector>
 
@@ -860,8 +862,12 @@ QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
 {
     QList<QPersistentModelIndex> indexList;
     indexList.reserve(last - first + 1);
-    for (int i = first; i <= last; ++i)
+
+    // List items in reverse order so the most recent file is created for the
+    // top item.
+    for (int i = last; i >= first; --i)
         indexList.append( m_model->index(i, 0) );
+
     return indexList;
 }
 

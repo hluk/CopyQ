@@ -106,7 +106,7 @@ public:
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
 
-    void insertItems(const QList<QVariantMap> &dataList, int row);
+    void insertItems(const QVector<QVariantMap> &dataList, int row);
 
     /**
      * Sort items in ascending order.
