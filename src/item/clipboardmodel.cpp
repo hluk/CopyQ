@@ -143,6 +143,35 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
     endInsertRows();
 }
 
+void ClipboardModel::setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData)
+{
+    QPersistentModelIndex topIndex;
+    QPersistentModelIndex bottomIndex;
+
+    for (auto it = std::begin(itemsData); it != std::end(itemsData); ++it) {
+        const QPersistentModelIndex &index = it.key();
+        if ( !index.isValid() )
+            continue;
+
+        const int row = index.row();
+        ClipboardItem &item = m_clipboardList[row];
+
+        // Emit dataChanged() only if really changed.
+        if ( item.setData(it.value()) ) {
+            if ( !topIndex.isValid() ) {
+                topIndex = index;
+                bottomIndex = index;
+            } else {
+                topIndex = std::min(topIndex, index);
+                bottomIndex = std::max(bottomIndex, index);
+            }
+        }
+    }
+
+    if ( topIndex.isValid() )
+        emit dataChanged(topIndex, bottomIndex);
+}
+
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
     if ( rows <= 0 || position < 0 )

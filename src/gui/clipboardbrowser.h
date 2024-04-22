@@ -131,6 +131,8 @@ class ClipboardBrowser final : public QListView
          */
         void addUnique(const QVariantMap &data, ClipboardMode mode);
 
+        void setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData);
+
         /** Number of items in list. */
         int length() const { return m.rowCount(); }
 
@@ -185,8 +187,6 @@ class ClipboardBrowser final : public QListView
          * Return true only if row is filtered and should be hidden.
          */
         bool isFiltered(int row) const;
-
-        QVariantMap itemData(const QModelIndex &index) const;
 
         bool isLoaded() const;
 

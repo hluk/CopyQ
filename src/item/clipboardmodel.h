@@ -108,6 +108,8 @@ public:
 
     void insertItems(const QVector<QVariantMap> &dataList, int row);
 
+    void setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData);
+
     /**
      * Sort items in ascending order.
      */

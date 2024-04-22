@@ -17,8 +17,6 @@
 #include <QVariant>
 #include <QVector>
 
-#include <unordered_map>
-
 class ClipboardBrowser;
 class KeyClicker;
 class MainWindow;
@@ -294,8 +292,12 @@ private:
     QVariantMap itemData(const QString &tabName, int i);
     QByteArray itemData(const QString &tabName, int i, const QString &mime);
 
+    void setItemsData(
+        ClipboardBrowser *c, const QList<QPersistentModelIndex> &indexes, const QString &mime, const QVariant &value);
+
     ClipboardBrowser *currentBrowser() const;
     QList<QPersistentModelIndex> selectedIndexes() const;
+    ClipboardBrowser *browserForIndexes(const QList<QPersistentModelIndex> &indexes) const;
 
     QVariant waitForFunctionCallFinished(int functionId);
 
