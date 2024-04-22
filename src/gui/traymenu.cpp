@@ -252,7 +252,8 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
                     if ( !m_numberSearch && m_searchText.isEmpty() ) {
                         bool ok;
                         const int row = txt.toInt(&ok);
-                        if (ok && row < m_clipboardItemActionCount) {
+                        const int start = static_cast<int>(m_rowIndexFromOne);
+                        if (ok && start <= row && row < start + m_clipboardItemActionCount) {
                             // Allow keypad digit to activate appropriate item in context menu.
                             if (event->modifiers() == Qt::KeypadModifier)
                                 event->setModifiers(Qt::NoModifier);
