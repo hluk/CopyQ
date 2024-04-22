@@ -242,27 +242,28 @@ void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThr
             ? value.toByteArray().size() : dataFile.size();
 
         if ( (itemDataThreshold >= 0 && dataLength > itemDataThreshold) || mime.startsWith(mimeFilePrefix) ) {
-            // Already saved
-            if ( !dataFile.path().isEmpty() )
-                continue;
+            QString path = dataFile.path();
 
-            const QByteArray bytes = value.toByteArray();
-            const QString path = dataFilePath(bytes, true);
+            // Already saved into a separate data file?
             if ( path.isEmpty() ) {
-                stream->setStatus(QDataStream::WriteFailed);
-                return;
-            }
-
-            if ( !QFile::exists(path) ) {
-                QSaveFile f(path);
-                f.setDirectWriteFallback(false);
-                if ( !f.open(QIODevice::WriteOnly) || !f.write(bytes) || !f.commit() ) {
-                    log( QStringLiteral("Failed to create data file \"%1\": %2")
-                            .arg(path, f.errorString()),
-                            LogError );
+                const QByteArray bytes = value.toByteArray();
+                path = dataFilePath(bytes, true);
+                if ( path.isEmpty() ) {
                     stream->setStatus(QDataStream::WriteFailed);
-                    f.cancelWriting();
                     return;
+                }
+
+                if ( !QFile::exists(path) ) {
+                    QSaveFile f(path);
+                    f.setDirectWriteFallback(false);
+                    if ( !f.open(QIODevice::WriteOnly) || !f.write(bytes) || !f.commit() ) {
+                        log( QStringLiteral("Failed to create data file \"%1\": %2")
+                                .arg(path, f.errorString()),
+                                LogError );
+                        stream->setStatus(QDataStream::WriteFailed);
+                        f.cancelWriting();
+                        return;
+                    }
                 }
             }
 
