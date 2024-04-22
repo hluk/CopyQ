@@ -153,7 +153,7 @@ void ItemDelegate::createItemWidget(const QModelIndex &index)
     const int row = index.row();
     ItemWidget *w = m_items[row].get();
     if (w == nullptr) {
-        auto data = m_view->itemData(index);
+        QVariantMap data = index.data(contentType::data).toMap();
         data.insert(mimeCurrentTab, m_view->tabName());
         w = updateWidget(index, data);
         emit itemWidgetCreated(PersistentDisplayItem(this, data, w->widget()));

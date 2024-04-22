@@ -329,11 +329,6 @@ bool ClipboardBrowser::isFiltered(int row) const
             && !m_sharedData->itemFactory->matches(ind, *filter);
 }
 
-QVariantMap ClipboardBrowser::itemData(const QModelIndex &index) const
-{
-    return index.data(contentType::data).toMap();
-}
-
 bool ClipboardBrowser::hideFiltered(int row)
 {
     const bool hide = isFiltered(row);
@@ -1710,6 +1705,12 @@ void ClipboardBrowser::addUnique(const QVariantMap &data, ClipboardMode mode)
     add(data);
 }
 
+void ClipboardBrowser::setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData)
+{
+    if ( isLoaded() )
+        m.setItemsData(itemsData);
+}
+
 bool ClipboardBrowser::loadItems()
 {
     if ( isLoaded() )
@@ -1858,7 +1859,7 @@ QWidget *ClipboardBrowser::currentItemPreview(QWidget *parent)
         return nullptr;
 
     const QModelIndex index = currentIndex();
-    const auto data = itemData(index);
+    const auto data = index.data(contentType::data).toMap();
     return d.createPreview(data, parent);
 }
 
