@@ -1315,7 +1315,7 @@ QString ScriptableProxy::browserRemoveRows(const QString &tabName, QVector<int> 
     INVOKE(browserRemoveRows, (tabName, rows));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return QLatin1String("Invalid tab");
+        return QStringLiteral("Invalid tab");
 
     std::sort( rows.begin(), rows.end(), std::greater<int>() );
 
@@ -1516,15 +1516,13 @@ QString ScriptableProxy::browserInsert(const QString &tabName, int row, const Va
 
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return QLatin1String("Invalid tab");
+        return QStringLiteral("Invalid tab");
 
     if ( !c->allocateSpaceForNewItems(items.items.size()) )
-        return QLatin1String("Tab is full (cannot remove any items)");
+        return QStringLiteral("Tab is full (cannot remove any items)");
 
-    for (const auto &item : items.items) {
-        if ( !c->add(item, row) )
-            return QLatin1String("Failed to new add items");
-    }
+    if ( !c->addReversed(items.items, row) )
+        return QStringLiteral("Failed to add items");
 
     return QString();
 }
@@ -1535,7 +1533,7 @@ QString ScriptableProxy::browserChange(const QString &tabName, int row, const Va
 
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
-        return QLatin1String("Invalid tab");
+        return QStringLiteral("Invalid tab");
 
     int currentRow = row;
     for (const auto &data : items.items) {
@@ -2175,7 +2173,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     if ( !dialogTitle.isNull() ) {
         dialog.setWindowTitle(dialogTitle);
-        dialog.setObjectName(QLatin1String("dialog_") + dialogTitle);
+        dialog.setObjectName(QStringLiteral("dialog_") + dialogTitle);
         WindowGeometryGuard::create(&dialog);
     }
 

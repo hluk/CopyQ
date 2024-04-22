@@ -853,6 +853,10 @@ void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
                 || !isVisible()
                 || !isActiveWindow()));
 
+    // Avoid selecting multiple items if not requested.
+    if (!m_selectNewItems)
+        last = first;
+
     for (int row = first; row <= last; ++row) {
         if ( !hideFiltered(row) ) {
             const auto newIndex = index(row);
@@ -1594,13 +1598,8 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 
 bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
-    if ( !isLoaded() ) {
-        loadItems();
-        if ( !isLoaded() ) {
-            log( QString("Cannot add new items. Tab %1 is not loaded.").arg(m_tabName), LogWarning );
-            return false;
-        }
-    }
+    if ( !isLoaded() )
+        return false;
 
     const int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
 
@@ -1608,7 +1607,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
         const QByteArray bytes = data[mimeItems].toByteArray();
         QDataStream stream(bytes);
 
-        QList<QVariantMap> dataList;
+        QVector<QVariantMap> dataList;
         while ( !stream.atEnd() ) {
             QVariantMap dataMap;
             stream >> dataMap;
@@ -1626,6 +1625,37 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
         m.insertItem(data, newRow);
     }
 
+    return true;
+}
+
+bool ClipboardBrowser::addReversed(const QVector<QVariantMap> &dataList, int row)
+{
+    if ( !isLoaded() )
+        return false;
+
+    const int newRow = row < 0 ? m.rowCount() : qMin(row, m.rowCount());
+
+    QVector<QVariantMap> items;
+    items.reserve(dataList.size());
+    for (auto it = std::rbegin(dataList); it != std::rend(dataList); ++it) {
+        if ( it->contains(mimeItems) ) {
+            const QByteArray bytes = (*it)[mimeItems].toByteArray();
+            QDataStream stream(bytes);
+
+            while ( !stream.atEnd() ) {
+                QVariantMap dataMap;
+                stream >> dataMap;
+                items.append(dataMap);
+            }
+        } else {
+            items.append(*it);
+        }
+    }
+
+    if ( !allocateSpaceForNewItems(items.size()) )
+        return false;
+
+    m.insertItems(items, newRow);
     return true;
 }
 

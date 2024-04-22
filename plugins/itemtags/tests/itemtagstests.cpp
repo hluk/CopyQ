@@ -218,11 +218,14 @@ void ItemTagsTests::tagSelected()
     RUN("add" << "A" << "B" << "C", "");
     RUN("keys" << "CTRL+F1", "");
     WAIT_ON_OUTPUT("plugins.itemtags.tags(0)", "x\n");
+    RUN("plugins.itemtags.tags(1)", "");
+    RUN("plugins.itemtags.tags(2)", "");
 
     RUN("selectItems(0,1)", "true\n");
     RUN("keys" << "CTRL+F2", "");
     WAIT_ON_OUTPUT("plugins.itemtags.tags(0)", "x\ny\n");
     RUN("plugins.itemtags.tags(1)", "y\n");
+    RUN("plugins.itemtags.tags(2)", "");
 }
 
 void ItemTagsTests::untagSelected()

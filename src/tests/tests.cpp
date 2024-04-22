@@ -4125,7 +4125,8 @@ void Tests::scriptOnItemsAdded()
                   global.onItemsAdded = function() {
                     sel = ItemSelection().current();
                     items = sel.items();
-                    items[0][mimeText] = "A:" + str(items[0][mimeText])
+                    for (i = 0; i < items.length; ++i)
+                        items[i][mimeText] = "A:" + str(items[i][mimeText])
                     sel.setItems(items);
                   }
                 `

@@ -14,6 +14,7 @@
 #include <QPointer>
 #include <QTimer>
 #include <QVariantMap>
+#include <QVector>
 
 class ItemEditorWidget;
 class ItemFactory;
@@ -120,6 +121,8 @@ class ClipboardBrowser final : public QListView
                 const QVariantMap &data, //!< Data for new item.
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
+
+        bool addReversed(const QVector<QVariantMap> &dataList, int row);
 
         bool addAndSelect(const QVariantMap &data, int row);
 
