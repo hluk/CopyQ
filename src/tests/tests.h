@@ -221,6 +221,8 @@ private slots:
 
     void configTabs();
 
+    void selectedItems();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();

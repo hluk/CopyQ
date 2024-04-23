@@ -181,6 +181,7 @@ public slots:
     bool selectItems(const QString &tabName, const QVector<int> &rows);
 
     QVector<int> selectedItems();
+    QString selectedTab();
 
     QVariantMap selectedItemData(int selectedIndex);
     bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
@@ -295,13 +296,19 @@ private:
     void setItemsData(
         ClipboardBrowser *c, const QList<QPersistentModelIndex> &indexes, const QString &mime, const QVariant &value);
 
-    ClipboardBrowser *currentBrowser() const;
-    QList<QPersistentModelIndex> selectedIndexes() const;
+    template<typename T>
+    T getSelectionData(const QString &mime);
+
+    QPersistentModelIndex currentIndex();
+    QList<QPersistentModelIndex> selectedIndexes();
+
     ClipboardBrowser *browserForIndexes(const QList<QPersistentModelIndex> &indexes) const;
 
     QVariant waitForFunctionCallFinished(int functionId);
 
     QByteArray callFunctionHelper(const QByteArray &serializedFunctionCall);
+
+    bool getSelectionData();
 
 #ifdef HAS_TESTS
     KeyClicker *keyClicker();

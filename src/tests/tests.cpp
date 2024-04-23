@@ -2346,10 +2346,18 @@ void Tests::classItemSelectionGetCurrent()
 {
     const auto tab1 = testTab(1);
     const Args args = Args("tab") << tab1 << "separator" << ",";
+
+    RUN("ItemSelection().tab", "CLIPBOARD\n");
+    RUN(args << "ItemSelection().tab", tab1 + "\n");
+
+    RUN(args << "ItemSelection().current().tab", "CLIPBOARD\n");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"CLIPBOARD\", rows=[])\n");
     RUN("setCurrentTab" << tab1, "");
+    RUN(args << "ItemSelection().current().tab", tab1 + "\n");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"" + tab1 + "\", rows=[])\n");
 
     RUN(args << "add" << "C" << "B" << "A", "");
-    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"\", rows=[])\n");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"" + tab1 + "\", rows=[0])\n");
 
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq: add(ItemSelection().current().str())'}])", "");
     RUN("keys" << "CTRL+F1", "");
@@ -3510,6 +3518,46 @@ void Tests::configTabs()
     RUN(QString("config('tabs', ['%1', '%2'])").arg(tab1, tab2), tab1 + sep + tab2 + sep);
     RUN("config" << "tabs", tab1 + sep + tab2 + sep + clipboardTabName + sep);
     RUN("tab", tab1 + sep + tab2 + sep + clipboardTabName + sep);
+}
+
+void Tests::selectedItems()
+{
+    const auto tab1 = testTab(1);
+    const Args args = Args("tab") << tab1;
+
+    RUN("selectedTab", "CLIPBOARD\n");
+    RUN("selectedItems", "");
+
+    RUN(args << "add" << "D" << "C" << "B" << "A", "");
+    RUN(args << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
+    RUN("selectedTab", tab1 + "\n");
+    RUN("selectedItems", "1\n2\n");
+    RUN("currentItem", "2\n");
+
+    const auto print = R"(
+        print([selectedTab(), "c:" + currentItem(), "s:" + selectedItems()]);
+        print("\\n")
+    )";
+
+    // Selection stays consistent when moving items
+    RUN(print << "move(0)" << print, tab1 + ",c:2,s:1,2\n" + tab1 + ",c:1,s:0,1\n");
+    RUN(print, tab1 + ",c:1,s:0,1\n");
+
+    RUN(print << "keys('HOME', 'CTRL+DOWN')" << print, tab1 + ",c:1,s:0,1\n" + tab1 + ",c:0,s:1,0\n");
+    RUN(print, tab1 + ",c:1,s:1\n");
+
+    // Selection stays consistent when removing items
+    RUN(args << "setCurrentTab" << tab1 << "selectItems" << "1" << "2" << "3", "true\n");
+    RUN(print << "remove(2)" << print, tab1 + ",c:3,s:1,2,3\n" + tab1 + ",c:2,s:1,-1,2\n");
+    RUN(print, tab1 + ",c:2,s:1,2\n");
+
+    // Renaming tab invalidates selection and all items because the tab
+    // underlying data needs to be loaded again using plugins.
+    const QString tab2 = testTab(2);
+    const auto rename = QString("renameTab('%1', '%2')").arg(tab1, tab2);
+    RUN(print << rename << print, tab1 + ",c:2,s:1,2\n" + tab1 + ",c:-1,s:-1,-1\n");
+
+    RUN(print, tab2 + ",c:0,s:0\n");
 }
 
 void Tests::shortcutCommand()
