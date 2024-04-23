@@ -1780,7 +1780,7 @@ QJSValue Scriptable::selectItems()
 QJSValue Scriptable::selectedTab()
 {
     m_skipArguments = 0;
-    return m_data.value(mimeCurrentTab).toString();
+    return m_proxy->selectedTab();
 }
 
 QJSValue Scriptable::selectedItems()
