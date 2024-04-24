@@ -3469,8 +3469,9 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         const QString owner = sourceData.value(mimeOwner).toString();
         if ( owner.isEmpty() && !source.isEmpty() ) {
             const auto sourceTextHash = m_data.value(COPYQ_MIME_PREFIX "source-text-hash").toByteArray().toUInt();
-            if (sourceTextHash != qHash(source)) {
-                COPYQ_LOG(QStringLiteral("Sync: Cancelled - source text changed"));
+            const uint newSourceTextHash = qHash(source);
+            if (sourceTextHash != newSourceTextHash) {
+                COPYQ_LOG("Sync: Cancelled - source text changed");
                 return false;
             }
         }
@@ -3485,8 +3486,9 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         const QString owner = targetData.value(mimeOwner).toString();
         if ( owner.isEmpty() && !target.isEmpty() ) {
             const auto targetTextHash = m_data.value(COPYQ_MIME_PREFIX "target-text-hash").toByteArray().toUInt();
-            if (targetTextHash != qHash(target)) {
-                COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text changed"));
+            const uint newTargetTextHash = qHash(target);
+            if (targetTextHash != newTargetTextHash) {
+                COPYQ_LOG("Sync: Cancelled - target text changed");
                 return false;
             }
         }
@@ -3494,15 +3496,15 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
         // Stop if the clipboard and selection text is already synchronized
         // or user selected text and copied it to clipboard.
         if (!sourceData.isEmpty() && source == target) {
-            COPYQ_LOG(QStringLiteral("Sync: Cancelled - target text is already same as source"));
+            COPYQ_LOG("Sync: Cancelled - target text is already same as source");
             return false;
         }
     } else {
-        COPYQ_LOG(QStringLiteral("Sync: Failed to fetch target data"));
+        COPYQ_LOG("Sync: Failed to fetch target data");
     }
 
     if (m_abort != Abort::None) {
-        COPYQ_LOG(QStringLiteral("Sync: Aborting"));
+        COPYQ_LOG("Sync: Aborting");
         return false;
     }
 
