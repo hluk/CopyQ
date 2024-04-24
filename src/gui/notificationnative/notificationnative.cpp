@@ -218,8 +218,6 @@ void NotificationNative::close()
         notification->close();
 
     notificationLog("Closed");
-
-    emit closeNotification(this);
 }
 
 void NotificationNative::onButtonClicked(unsigned int id)
@@ -337,12 +335,12 @@ void NotificationNative::notificationLog(const char *message)
 KNotification *NotificationNative::dropNotification()
 {
     m_closed = true;
-    if (!m_notification)
-        return nullptr;
-
     auto notification = m_notification;
-    m_notification = nullptr;
-    notification->disconnect(this);
+    if (notification) {
+        m_notification = nullptr;
+        notification->disconnect(this);
+    }
+    emit closeNotification(this);
     return notification;
 }
 
