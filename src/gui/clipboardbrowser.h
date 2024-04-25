@@ -223,7 +223,6 @@ class ClipboardBrowser final : public QListView
         using QListView::verticalOffset;
 
     signals:
-        void itemsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
         void runOnRemoveItemsHandler(const QList<QPersistentModelIndex> &indexes, bool *canRemove);
 
         /** Show list request. */
