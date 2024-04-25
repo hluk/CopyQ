@@ -76,7 +76,9 @@ private:
     void onDestroyed();
     void onClosed();
     void onIgnored();
+#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,245,0)
     void onActivated();
+#endif
     void update();
 
     void notificationLog(const char *message);
@@ -248,11 +250,13 @@ void NotificationNative::onIgnored()
     dropNotification();
 }
 
+#if KNOTIFICATIONS_VERSION < QT_VERSION_CHECK(5,245,0)
 void NotificationNative::onActivated()
 {
     notificationLog("onActivated");
     dropNotification();
 }
+#endif
 
 void NotificationNative::update()
 {
