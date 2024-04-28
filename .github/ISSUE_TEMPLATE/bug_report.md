@@ -1,36 +1,40 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: |
+  Create a report to help us fix problems.
+
+  Before continuing, make sure it is not known already:
+
+  - See the list of known issues: https://copyq.readthedocs.io/en/latest/known-issues.html
+  - Try to look up a similar problem: https://github.com/hluk/CopyQ/issues
+
 title: ''
 labels: bug
 assignees: ''
 
 ---
 
-Before creating a new issue, see list of [known
-issues](https://copyq.readthedocs.io/en/latest/known-issues.html).
-
 **Describe the bug**
-A clear and concise description of what the bug is.
+<!-- A clear and concise description of what the bug is. -->
 
 **To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '...'
-3. Scroll down to '...'
-4. See error
+<!-- List of steps to reproduce the behavior. -->
 
 **Expected behavior**
-A clear and concise description of what you expected to happen.
+<!-- A clear and concise description of what you expected to happen. -->
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+<!-- If applicable, add screenshots to help explain your problem. -->
 
 **Version, OS and Environment**
-(Get details from `copyq version` command if possible.)
- - Application Version [e.g. 3.7.2]
- - OS [e.g. Windows]
- - Desktop environment, window manager (if applicable)
+<!-- Get details from `copyq version` command if possible. -->
+
+- Application Version (for example 7.1.0)
+- OS (for example Windows 11, Ubuntu 22.04, macOS Sonoma 14.4)
+- Desktop environment, window manager (if applicable)
 
 **Additional context**
-Add any other context about the problem here.
+<!--
+Provide any additional context about the problem if possible.
+For example, the latest logs from `copyq logs` or from GUI (in menu bar Help - Show Log).
+-->
