@@ -4,7 +4,6 @@
 
 #include "common/common.h"
 #include "common/display.h"
-#include "common/mimetypes.h"
 #include "common/timer.h"
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
@@ -676,8 +675,6 @@ void TabTree::doUpdateSize()
 
     resizeColumnToContents(0);
     w += sizeHintForColumn(0);
-    resizeColumnToContents(1);
-    w += sizeHintForColumn(1);
 
     setFixedWidth(w);
 }
