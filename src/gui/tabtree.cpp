@@ -149,7 +149,7 @@ public:
 
         m_layout->addWidget(m_label);
         m_layout->setContentsMargins({});
-        m_layout->addStretch(1);
+        m_layout->addStretch(2);
 
         updateFromItem(item);
     }
