@@ -255,6 +255,8 @@ TabTree::TabTree(QWidget *parent)
     const int x = smallIconSize();
     setIconSize(QSize(x, x));
 
+    setRootIsDecorated(false);
+
     setMinimumHeight(fontMetrics().lineSpacing() * 3);
     verticalScrollBar()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Ignored);
 
