@@ -1,15 +1,16 @@
 ---
 name: Feature request
-about: |
-  Suggest an idea for this project
-
-  Before continuing, make sure a similar request does not exists already:
-  https://github.com/hluk/CopyQ/issues
+about: Suggest an idea for this project.
 title: ''
 labels: feature
 assignees: ''
 
 ---
+
+<!--
+Before continuing, make sure a similar request does not exists already:
+https://github.com/hluk/CopyQ/issues
+-->
 
 **Is your feature request related to a problem? Please describe.**
 <!-- A clear and concise description of what the problem is. -->

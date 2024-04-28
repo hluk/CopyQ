@@ -1,18 +1,17 @@
 ---
 name: Bug report
-about: |
-  Create a report to help us fix problems.
-
-  Before continuing, make sure it is not known already:
-
-  - See the list of known issues: https://copyq.readthedocs.io/en/latest/known-issues.html
-  - Try to look up a similar problem: https://github.com/hluk/CopyQ/issues
-
+about: Create a report to help us fix problems.
 title: ''
 labels: bug
 assignees: ''
 
 ---
+
+<!--
+Before continuing, make sure a similar request or a known issue does not exists already:
+- See the list of known issues: https://copyq.readthedocs.io/en/latest/known-issues.html
+- Try to look up a similar problem: https://github.com/hluk/CopyQ/issues
+-->
 
 **Describe the bug**
 <!-- A clear and concise description of what the bug is. -->
