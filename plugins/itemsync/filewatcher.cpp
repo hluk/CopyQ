@@ -16,8 +16,6 @@
 #include <QRegularExpression>
 #include <QUrl>
 
-#include <QDebug>
-
 #include <array>
 #include <vector>
 
@@ -364,7 +362,7 @@ QStringList listFiles(const QDir &dir)
 
 /// Return true only if no file name in @a fileNames starts with @a baseName.
 bool isUniqueBaseName(const QString &baseName, const QStringList &fileNames,
-                      const QStringList &baseNames = QStringList())
+                      const QSet<QString> &baseNames = {})
 {
     if ( baseNames.contains(baseName) )
         return false;
@@ -402,7 +400,7 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 }
 
 bool renameToUnique(
-        const QDir &dir, const QStringList &baseNames, QString *name,
+        const QDir &dir, const QSet<QString> &baseNames, QString *name,
         const QList<FileFormat> &formatSettings)
 {
     if ( name->isEmpty() ) {
@@ -426,14 +424,14 @@ bool renameToUnique(
     QString baseName;
     getBaseNameAndExtension(*name, &baseName, &ext, formatSettings);
 
-    qulonglong i = 0;
-    int fieldWidth = 0;
+    int i = 0;
+    int fieldWidth = 4;
 
-    QRegularExpression re(QLatin1String(R"(\d+$)"));
+    QRegularExpression re(QStringLiteral(R"(\d{1,4}$)"));
     const auto m = re.match(baseName);
     if (m.hasMatch()) {
         const QString num = m.captured();
-        i = num.toULongLong();
+        i = num.toInt();
         fieldWidth = num.size();
         baseName = baseName.mid( 0, baseName.size() - fieldWidth );
     } else {
@@ -450,6 +448,16 @@ bool renameToUnique(
                 "ItemSync: Failed to find unique base name with prefix: %1")
             .arg(baseName), LogError);
     return false;
+}
+
+QString findLastOwnBaseName(QAbstractItemModel *model, int fromRow) {
+    for (int row = fromRow; row < model->rowCount(); ++row) {
+        const QModelIndex index = model->index(row, 0);
+        const QString baseName = FileWatcher::getBaseName(index);
+        if ( FileWatcher::isOwnBaseName(baseName) )
+            return baseName;
+    }
+    return {};
 }
 
 } // namespace
@@ -522,6 +530,7 @@ FileWatcher::FileWatcher(
     , m_lock(m_path + QLatin1String("/.copyq_lock"))
 {
     m_updateTimer.setSingleShot(true);
+    m_moveTimer.setSingleShot(true);
 
     m_lock.setStaleLockTime(staleLockTimeMs);
 
@@ -531,6 +540,8 @@ FileWatcher::FileWatcher(
 
     connect( &m_updateTimer, &QTimer::timeout,
              this, &FileWatcher::updateItems );
+    connect( &m_moveTimer, &QTimer::timeout,
+             this, &FileWatcher::updateMovedRows );
 
     connect( m_model, &QAbstractItemModel::rowsInserted,
              this, &FileWatcher::onRowsInserted );
@@ -549,8 +560,20 @@ FileWatcher::FileWatcher(
 
 bool FileWatcher::lock()
 {
-    if ( !m_valid || !m_lock.lock() )
+    if ( !m_valid )
         return false;
+
+    // Create path if doesn't exist.
+    QDir dir(m_path);
+    if ( !dir.mkpath(QStringLiteral(".")) ) {
+        log( tr("Failed to create synchronization directory \"%1\"!").arg(m_path), LogError );
+        return false;
+    }
+
+    if ( !m_lock.lock() ) {
+        log( QStringLiteral("Failed to create lock file in \"%1\"!").arg(m_path), LogError );
+        return false;
+    }
 
     m_valid = false;
     return true;
@@ -750,6 +773,9 @@ void FileWatcher::setUpdatesEnabled(bool enabled)
 
 void FileWatcher::onRowsInserted(const QModelIndex &, int first, int last)
 {
+    if (first < m_moveEnd)
+        m_moveEnd += last - first + 1;
+
     saveItems(first, last, UpdateType::Inserted);
 }
 
@@ -760,6 +786,9 @@ void FileWatcher::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
 {
+    if (first < m_moveEnd)
+        m_moveEnd -= std::min(m_moveEnd, last) - first + 1;
+
     const bool wasFull = m_maxItems >= m_model->rowCount();
 
     for ( const auto &index : indexList(first, last) ) {
@@ -778,38 +807,68 @@ void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
 
 void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow)
 {
-    /* If own items were moved, change their base names in data to trigger
-     * updating/renaming file names so they are also moved in other app instances.
-     *
-     * The implementation works in common cases but will fail if:
-     * - Items are moved after the last own item.
-     * - Items move repeatedly to some not-top position.
-     */
+    // Update copyq_* base names for moved rows and all rows above so that file
+    // are ordered the same way as the rows.
+    //
+    // The update is postponed and batched since it may need to go through a
+    // lot of items.
     const int count = end - start + 1;
+    if (destinationRow < start) {
+        m_moveEnd = std::max(m_moveEnd, destinationRow + count - 1);
+    } else if (destinationRow > end) {
+        m_moveEnd = std::max(m_moveEnd, destinationRow - 1);
+    } else {
+        m_moveEnd = std::max(m_moveEnd, end);
+    }
+    m_moveTimer.start(0);
+}
 
-    const int baseRow = destinationRow < start
-        ? destinationRow + count
-        : destinationRow;
-    QString baseName;
-    if (destinationRow > 0) {
-        const QModelIndex baseIndex = m_model->index(baseRow, 0);
-        baseName = FileWatcher::getBaseName(baseIndex);
+void FileWatcher::updateMovedRows()
+{
+    if ( !lock() ) {
+        m_moveTimer.start();
+        return;
+    }
 
-        if ( !isOwnBaseName(baseName) )
+    QString baseName = findLastOwnBaseName(m_model, m_moveEnd + 1);
+    QSet<QString> baseNames;
+
+    QDir dir(m_path);
+
+    const int batchStart = std::max(0, m_moveEnd - 100);
+    const auto indexList = this->indexList(batchStart, m_moveEnd);
+
+    for (const auto &index : indexList) {
+        const QString currentBaseName = FileWatcher::getBaseName(index);
+
+        // Skip renaming non-owned items
+        if ( !currentBaseName.isEmpty() && !isOwnBaseName(currentBaseName) )
+            continue;
+
+        // Skip already sorted
+        if ( isBaseNameLessThan(currentBaseName, baseName) ) {
+            baseName = currentBaseName;
+            continue;
+        }
+
+        if ( !renameToUnique(dir, baseNames, &baseName, m_formatSettings) )
             return;
 
-        if ( !baseName.isEmpty() && !baseName.contains(QLatin1Char('-')) )
-            baseName.append(QLatin1String("-0000"));
+        baseNames.insert(baseName);
+        const QVariantMap data = {{mimeBaseName, baseName}};
+        m_model->setData(index, data, contentType::updateData);
     }
 
-    for (int row = baseRow - 1; row >= baseRow - count; --row) {
-        const auto index = m_model->index(row, 0);
-        const QString currentBaseName = FileWatcher::getBaseName(index);
-        if ( currentBaseName.isEmpty() || isOwnBaseName(currentBaseName) ) {
-            const QVariantMap data = {{mimeBaseName, baseName}};
-            m_model->setData(index, data, contentType::updateData);
-        }
-    }
+    if ( !renameMoveCopy(dir, indexList, UpdateType::Changed) )
+        return;
+
+    unlock();
+
+    m_moveEnd = batchStart - 1;
+    if (0 <= m_moveEnd)
+        m_moveTimer.start(batchItemUpdateIntervalMs);
+    else
+        m_moveEnd = -1;
 }
 
 QString FileWatcher::oldBaseName(const QModelIndex &index) const
@@ -889,13 +948,7 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
 
     const auto indexList = this->indexList(first, last);
 
-    // Create path if doesn't exist.
     QDir dir(m_path);
-    if ( !dir.mkpath(".") ) {
-        log( tr("Failed to create synchronization directory \"%1\"!").arg(m_path) );
-        return;
-    }
-
     if ( !renameMoveCopy(dir, indexList, updateType) )
         return;
 
@@ -977,7 +1030,11 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
 bool FileWatcher::renameMoveCopy(
     const QDir &dir, const QList<QPersistentModelIndex> &indexList, UpdateType updateType)
 {
-    QStringList baseNames;
+    if ( indexList.isEmpty() )
+        return false;
+
+    QSet<QString> baseNames;
+    QString baseName = findLastOwnBaseName(m_model, indexList.first().row() + 1);
 
     for (const auto &index : indexList) {
         if ( !index.isValid() )
@@ -988,7 +1045,8 @@ bool FileWatcher::renameMoveCopy(
         if (updateType == UpdateType::Changed && olderBaseName.isEmpty())
             olderBaseName = oldBaseName;
 
-        QString baseName = oldBaseName;
+        if ( !oldBaseName.isEmpty() )
+            baseName = oldBaseName;
 
         bool newItem = updateType != UpdateType::Changed && olderBaseName.isEmpty();
         bool itemRenamed = olderBaseName != baseName;
@@ -996,7 +1054,7 @@ bool FileWatcher::renameMoveCopy(
             if ( !renameToUnique(dir, baseNames, &baseName, m_formatSettings) )
                 return false;
             itemRenamed = olderBaseName != baseName;
-            baseNames.append(baseName);
+            baseNames.insert(baseName);
         }
 
         QVariantMap itemData = index.data(contentType::data).toMap();
@@ -1079,7 +1137,7 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
     }
 }
 
-bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow, const QStringList &baseNames)
+bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow, const QSet<QString> &baseNames)
 {
     QMimeData tmpData;
     tmpData.setData(mimeUriList, uriData);
