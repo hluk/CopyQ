@@ -148,7 +148,8 @@ public:
 
         m_layout->addWidget(m_label);
         m_layout->setContentsMargins({});
-        m_layout->addStretch(2);
+        m_layout->addStretch(1);
+        m_layout->setSizeConstraint(QLayout::SetMinimumSize);
 
         updateFromItem(item);
     }
@@ -222,7 +223,7 @@ void labelItem(QTreeWidgetItem *item)
     QTreeWidget *parent = item->treeWidget();
     label = new ItemLabel(item);
     label->installEventFilter(parent);
-    item->setTextAlignment(0, Qt::AlignCenter);
+    item->setTextAlignment(0, Qt::AlignLeft);
     parent->setItemWidget(item, 0, label);
 
     setItemWidgetSelected(item);
