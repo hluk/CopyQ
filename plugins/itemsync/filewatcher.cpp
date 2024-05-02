@@ -21,6 +21,8 @@
 #include <array>
 #include <vector>
 
+constexpr int staleLockTimeMs = 10'000;
+
 const QLatin1String mimeExtensionMap(COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map");
 const QLatin1String mimeBaseName(COPYQ_MIME_PREFIX_ITEMSYNC "basename");
 const QLatin1String mimeNoSave(COPYQ_MIME_PREFIX_ITEMSYNC "no-save");
@@ -517,8 +519,11 @@ FileWatcher::FileWatcher(
     , m_valid(true)
     , m_maxItems(maxItems)
     , m_itemDataThreshold(itemDataThreshold)
+    , m_lock(m_path + QLatin1String("/.copyq_lock"))
 {
     m_updateTimer.setSingleShot(true);
+
+    m_lock.setStaleLockTime(staleLockTimeMs);
 
     bool ok;
     const int interval = qEnvironmentVariableIntValue("COPYQ_SYNC_UPDATE_INTERVAL_MS", &ok);
@@ -544,7 +549,7 @@ FileWatcher::FileWatcher(
 
 bool FileWatcher::lock()
 {
-    if ( !m_valid )
+    if ( !m_valid || !m_lock.lock() )
         return false;
 
     m_valid = false;
@@ -553,6 +558,7 @@ bool FileWatcher::lock()
 
 void FileWatcher::unlock()
 {
+    m_lock.unlock();
     m_valid = true;
 }
 
