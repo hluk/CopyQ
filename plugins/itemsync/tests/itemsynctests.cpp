@@ -748,6 +748,10 @@ void ItemSyncTests::moveOwnItemsSortsBaseNames()
     RUN(args << "keys" << "END" << "UP" << "CTRL+HOME", "");
     RUN(args << "read(0,1,2,3)", "B,C,D,A");
     RUN(args << testScript, "");
+
+    RUN(args << "keys" << "HOME" << "CTRL+END", "");
+    RUN(args << "read(0,1,2,3)", "C,D,A,B");
+    RUN(args << testScript, "");
 }
 
 void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
