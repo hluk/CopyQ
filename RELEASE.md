@@ -12,7 +12,7 @@ Update `CHANGES.md` file.
 
 Bump version.
 
-    utils/bump_version.sh 3.3.1
+    utils/bump_version.sh 7.1.0
 
 Verify and push the changes.
 
@@ -22,9 +22,9 @@ Verify and push the changes.
 
 Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq).
 
-    git checkout v3.3.1
+    git checkout v7.1.0
     utils/debian/create_source_packages.sh
-    dput ppa:hluk/copyq ../copyq_3.3.1~*.changes
+    dput ppa:hluk/copyq ../copyq_7.1.0~*.changes
 
 Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5).
 
@@ -58,11 +58,14 @@ Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 Download:
 
 - binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq)
+
+      utils/download_window_builds.sh 7.1.0
+
 - binary for OS X from [github](https://github.com/hluk/CopyQ/releases)
 - source package from [github](https://github.com/hluk/CopyQ/releases)
 - OBS packages
 
-      utils/download_obs_packages.sh 3.3.1 1.1
+      utils/download_obs_packages.sh 7.1.0 1.1
 
 Create [release on github](https://github.com/hluk/CopyQ/releases) for the new version tag.
 
@@ -72,7 +75,7 @@ Upload packages and binaries to:
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
 - [fosshub](https://www.fosshub.com/CopyQ.html)
 
-        ./utils/fosshub.py 3.3.1 $TOKEN
+        ./utils/fosshub.py 7.1.0 $TOKEN
 
 Update Homebrew package for OS X.
 

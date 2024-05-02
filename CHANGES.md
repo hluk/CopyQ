@@ -31,7 +31,7 @@
 
 ## Fixed
 
-- Includes many perfomance improvements for working with large amount of items. 
+- Includes many performance improvements for working with large amount of items.
 
 - Fixes triggering menu items by number (#2569).
 
