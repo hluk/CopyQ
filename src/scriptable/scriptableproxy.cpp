@@ -2164,6 +2164,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
                 const QVariant value = w->property(propertyName.toUtf8().constData());
                 result.items.append( NamedValue(name, value) );
             }
+            if ( widgets.isEmpty() )
+                result.items.append( NamedValue(QString(), true) );
         }
 
         QByteArray bytes;
