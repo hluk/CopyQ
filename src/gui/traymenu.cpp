@@ -81,8 +81,21 @@ bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
 
     const QString icon = data.value(mimeIcon).toString();
     const QString tag = data.value(COPYQ_MIME_PREFIX "item-tag").toString();
-    if ( icon.isEmpty() && tag.isEmpty() )
-        return false;
+
+    if ( icon.isEmpty() && tag.isEmpty() ) {
+        const QString colorName = data.value(mimeColor).toString();
+        if ( colorName.isEmpty() )
+            return false;
+
+        const QColor color(colorName);
+        if ( !color.isValid() )
+            return false;
+
+        QPixmap pix(16, 16);
+        pix.fill(color);
+        act->setIcon(pix);
+        return true;
+    }
 
     const QColor color = getDefaultIconColor(*act->parentWidget());
     act->setIcon( iconFromFile(icon, tag, color) );
