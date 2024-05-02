@@ -1303,6 +1303,12 @@ void Tests::commandDialog()
         [&]() { RUN(WITH_TIMEOUT + script, "DEFAULT\n"); },
         [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ENTER", ""); }
     );
+
+    RUN(Args() << "keys" << clipboardBrowserId, "");
+    runMultiple(
+        [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
+        [&]() { RUN(Args() << "keys" << "focus::QPushButton in dialog_Remove Items:QDialog" << "ENTER", ""); }
+    );
 }
 
 void Tests::commandDialogCloseOnDisconnect()

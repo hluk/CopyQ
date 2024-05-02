@@ -1109,6 +1109,18 @@ unlike in GUI, where row numbers start from 1 by default.
          '.label', 'Command <b>successfully</b> finished.'
          )
 
+   Accepting a dialog containing only a question returns ``true``
+   (rejecting/cancelling the dialog returns ``undefined``).
+
+   .. code-block:: js
+
+       const remove = dialog(
+         '.title', 'Remove Items',
+         '.label', 'Do you really want to remove all items?'
+         )
+       if (!remove)
+           abort();
+
    Other arguments are used to get user input.
 
    .. code-block:: js
