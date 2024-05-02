@@ -5,6 +5,7 @@
 
 #include "common/mimetypes.h"
 
+#include <QLockFile>
 #include <QObject>
 #include <QPersistentModelIndex>
 #include <QStringList>
@@ -140,6 +141,8 @@ private:
     BaseNameExtensionsList m_fileList;
     int m_lastBatchIndex = -1;
     int m_itemDataThreshold = -1;
+
+    QLockFile m_lock;
 };
 
 #endif // FILEWATCHER_H
