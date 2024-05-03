@@ -498,6 +498,7 @@ private:
     void moveToBottom();
 
     void onBrowserCreated(ClipboardBrowser *browser);
+    void onBrowserLoaded(ClipboardBrowser *browser);
     void onBrowserDestroyed(ClipboardBrowserPlaceholder *placeholder);
 
     void onItemSelectionChanged(const ClipboardBrowser *browser);

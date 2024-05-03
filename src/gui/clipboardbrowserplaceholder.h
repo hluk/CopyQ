@@ -57,6 +57,7 @@ public:
 
 signals:
     void browserCreated(ClipboardBrowser *browser);
+    void browserLoaded(ClipboardBrowser *browser);
     void browserDestroyed();
 
 protected:
