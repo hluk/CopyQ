@@ -1240,7 +1240,10 @@ void MainWindow::onBrowserCreated(ClipboardBrowser *browser)
                         browser, topLeft.row(), bottomRight.row());
                     }
              } );
+}
 
+void MainWindow::onBrowserLoaded(ClipboardBrowser *browser)
+{
     if (isScriptOverridden(ScriptOverrides::OnItemsLoaded)) {
         runScript(
             QStringLiteral("onItemsLoaded()"),
@@ -1455,6 +1458,8 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
         placeholder = new ClipboardBrowserPlaceholder(name, m_sharedData, this);
         connect( placeholder, &ClipboardBrowserPlaceholder::browserCreated,
                  this, &MainWindow::onBrowserCreated );
+        connect( placeholder, &ClipboardBrowserPlaceholder::browserLoaded,
+                 this, &MainWindow::onBrowserLoaded );
         connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
                  this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
 

@@ -52,11 +52,16 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
              this, &ClipboardBrowserPlaceholder::restartExpiring);
 
     m_browser = c.release();
+
+    emit browserCreated(m_browser);
+    if (!m_browser)
+        return nullptr;
+
     setActiveWidget(m_browser);
 
     restartExpiring();
 
-    emit browserCreated(m_browser);
+    emit browserLoaded(m_browser);
     return m_browser;
 }
 
