@@ -419,6 +419,21 @@ bool menuItemMatches(const QModelIndex &index, const QString &searchText)
     return false;
 }
 
+QList<QKeySequence> getUniqueShortcuts(const QStringList &shortcuts, QList<QKeySequence> *usedShortcuts)
+{
+    QList<QKeySequence> uniqueShortcuts;
+
+    for (const auto &shortcutText : shortcuts) {
+        const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+        if ( !shortcut.isEmpty() && !usedShortcuts->contains(shortcut) ) {
+            usedShortcuts->append(shortcut);
+            uniqueShortcuts.append(shortcut);
+        }
+    }
+
+    return uniqueShortcuts;
+}
+
 } // namespace
 
 #ifdef WITH_NATIVE_NOTIFICATIONS
@@ -1573,11 +1588,17 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
         data.insert( mimeWindowTitle, m_windowForMenuPaste->getTitle() );
 
     const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
+    QList<QKeySequence> usedShortcuts;
 
     for (const auto &command : commands) {
         QString name = command.name;
         QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
+
+        const QList<QKeySequence> uniqueShortcuts = getUniqueShortcuts(
+                command.globalShortcuts, &usedShortcuts);
+        act->setShortcuts(uniqueShortcuts);
+
         actions->append(act);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
@@ -1766,26 +1787,17 @@ void MainWindow::updateActionShortcuts()
             continue;
 
         const Command &command = act->command();
-        QList<QKeySequence> uniqueShortcuts;
+        const QList<QKeySequence> uniqueShortcuts = getUniqueShortcuts(
+                command.shortcuts + command.globalShortcuts, &usedShortcuts);
 
-        const auto addShortuct = [&](const QString &shortcutText) {
-            const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
-                usedShortcuts.append(shortcut);
-                uniqueShortcuts.append(shortcut);
-
-                if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) )
-                    m_menuItem->setDefaultAction(act);
+        for (const auto &shortcut : uniqueShortcuts) {
+            if ( !isItemMenuDefaultActionValid() && isItemActivationShortcut(shortcut) ) {
+                m_menuItem->setDefaultAction(act);
+                break;
             }
-        };
+        }
 
-        for (const auto &shortcutText : command.shortcuts)
-            addShortuct(shortcutText);
-        for (const auto &shortcutText : command.globalShortcuts)
-            addShortuct(shortcutText);
-
-        if (!uniqueShortcuts.isEmpty())
-            act->setShortcuts(uniqueShortcuts);
+        act->setShortcuts(uniqueShortcuts);
     }
 
     for (int id = 0; id < m_actions.size(); ++id) {
