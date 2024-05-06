@@ -2430,7 +2430,7 @@ bool MainWindow::runEventHandlerScript(const QString &script, const QVariantMap 
     const bool hasUpdatesEnabled = updatesEnabled();
     setUpdatesEnabled(false);
     action->waitForFinished();
-    setUpdatesEnabled(hasUpdatesEnabled);
+    setUpdatesEnabled(hasUpdatesEnabled || updatesEnabled());
     ++m_maxEventHandlerScripts;
     return !action->actionFailed() && action->exitCode() == 0;
 }
