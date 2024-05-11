@@ -1946,8 +1946,9 @@ QJSValue Scriptable::execute()
     connect( &action, &Action::actionOutput,
              this, &Scriptable::onExecuteOutput );
 
-    if ( !runAction(&action) || action.actionFailed() )
-        return QJSValue();
+    if ( !runAction(&action) || action.actionFailed() ) {
+        return throwError( QStringLiteral("Failed to run command") );
+    }
 
     if ( m_executeStdoutCallback.isCallable() ) {
         const auto arg = toScriptValue(m_executeStdoutLastLine, m_engine);
