@@ -355,7 +355,7 @@
                   <property name="toolTip">
                    <string>Skips the command if the input text does not match this regular expression (leave empty to match everything).
 
-%2 through %9 in Command and Filter will be replaced with the captured texts.
+%2 through %9 (or argument[1] and up in script) in Command and Filter will be replaced with the captured texts.
 
 Examples:
 

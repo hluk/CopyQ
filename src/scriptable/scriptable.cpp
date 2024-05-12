@@ -212,15 +212,6 @@ QString parseCommandLineArgument(const QString &arg)
     return result;
 }
 
-bool matchData(const QRegularExpression &re, const QVariantMap &data, const QString &format)
-{
-    if ( re.pattern().isEmpty() )
-        return true;
-
-    const QString text = getTextData(data, format);
-    return text.contains(re);
-}
-
 bool isInternalDataFormat(const QString &format)
 {
     return format == mimeWindowTitle
@@ -3217,12 +3208,13 @@ bool Scriptable::runCommands(CommandType::CommandType type)
         if ( command.outputTab.isEmpty() )
             command.outputTab = tabName;
 
-        if ( !canExecuteCommand(command) )
+        QStringList arguments;
+        if ( !canExecuteCommand(command, &arguments) )
             continue;
 
         if ( canContinue() && !command.cmd.isEmpty() ) {
             Action action;
-            action.setCommand( command.cmd, QStringList(getTextData(m_data)) );
+            action.setCommand(command.cmd, arguments);
             action.setInputWithFormat(m_data, command.input);
             action.setName(command.name);
             action.setData(m_data);
@@ -3261,7 +3253,7 @@ bool Scriptable::runCommands(CommandType::CommandType type)
     return true;
 }
 
-bool Scriptable::canExecuteCommand(const Command &command)
+bool Scriptable::canExecuteCommand(const Command &command, QStringList *arguments)
 {
     // Verify that data for given MIME is available.
     if ( !command.input.isEmpty() ) {
@@ -3274,12 +3266,21 @@ bool Scriptable::canExecuteCommand(const Command &command)
         }
     }
 
+    const QString text = getTextData(m_data);
+    arguments->append(text);
+
     // Verify that and text matches given regexp.
-    if ( !matchData(command.re, m_data, mimeText) )
-        return false;
+    if ( !command.re.pattern().isEmpty() ) {
+        QRegularExpressionMatchIterator it = command.re.globalMatch(text);
+        if ( !it.isValid() || !it.hasNext() )
+            return false;
+
+        while (it.hasNext())
+            arguments->append( it.next().capturedTexts().mid(1) );
+    }
 
     // Verify that window title matches given regexp.
-    if ( !matchData(command.wndre, m_data, mimeWindowTitle) )
+    if ( !command.wndre.pattern().isEmpty() && !getTextData(m_data, mimeWindowTitle).contains(command.wndre) )
         return false;
 
     return canExecuteCommandFilter(command.matchCmd);
