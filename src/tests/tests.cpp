@@ -3845,7 +3845,7 @@ void Tests::automaticCommandRegExp()
 {
     const auto script = R"(
         setCommands([
-            { automatic: true, re: 'SHOULD BE CHANGED$', cmd: 'copyq: setData("text/plain", "CHANGED")' },
+            { automatic: true, re: 'SHOULD BE (CHANGED)$', cmd: 'copyq: setData(mimeText, arguments[1])' },
             { automatic: true, cmd: 'copyq: setData("DATA", "DONE")' },
         ])
         )";

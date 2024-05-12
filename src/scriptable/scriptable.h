@@ -434,7 +434,7 @@ private:
     QJSValue eval(const QString &script);
     bool runAction(Action *action);
     bool runCommands(CommandType::CommandType type);
-    bool canExecuteCommand(const Command &command);
+    bool canExecuteCommand(const Command &command, QStringList *arguments);
     bool canExecuteCommandFilter(const QString &matchCommand);
     bool verifyClipboardAccess();
     void provideClipboard(ClipboardMode mode);
