@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>על אודות</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="84"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>מנהל לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="91"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>נוצר על ידי</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="92"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>דוא&quot;ל</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="93"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>רשת</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>תרומה</translation>
     </message>
 </context>
 <context>
@@ -39,58 +39,59 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>דו־שיח פעולה</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
+        <translation>פ&amp;קודה:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>קלט &amp;תיקני:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>אחסון &amp;פלט תיקני:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>שליחת נתוני מדיה מסוג נתון לקלט פקודה תקני (להשאיר ריק לכיבוי)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת פריטים מפלט התוכנית התיקנית (להשאיר ריק לכיבוי)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;מפריד לפריטים חדשים:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;ביטוי רגיל לפיצול פלט לפריטים מרובים.&lt;\p&gt;
+&lt;p&gt;נא להשתמש ב־&lt;b&gt;\n&lt;/b&gt; כדי לאחסן כל שורה בפריט נפרד.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>לשונית &amp;פלט:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת פריטים בלשונית בשם נתון (להשאיר ריק לשמירה בלשונית נוכחית)</translation>
     </message>
 </context>
 <context>
@@ -98,17 +99,17 @@
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="118"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאה: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>קוד יציאה: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="158"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודה %1</translation>
     </message>
 </context>
 <context>
@@ -116,17 +117,17 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>מנהל תהליכים</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>מסנן</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;סיום תהליכים שנבחרו</translation>
     </message>
 </context>
 <context>
@@ -134,180 +135,180 @@
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>הוספת פקודות</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="63"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת/הסתרת חלו ראשי</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תפריט מגש</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת חלון ראשי מתחת לסמן העכבר</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>עריכת לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>עריכת פריט ראשון</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת פריט שני</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת דו־שיח פעולה</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת פריט חדש</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת הפריט הבא</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת הפריט הקודם</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת לוח־גזירים כמלל רגיל</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>השבתת מיון לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשור מיון לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="76"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקה והעתקת הבא</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="77"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקה והעתקת הקודם</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>צילום־מרקע</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקת תאריך ושעה נוכחיים</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="40"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודה חדשה</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="47"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>להתעלם מפריטים עם תו בודד או ללא תווים</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="84"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחה ב&amp;דפדפן</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="92"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקה כמלל רגיל</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="100"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת סרטונים אוטומטית</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="109"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת כתובת URL (כתובת מרשתת) ללשונית אחרת</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="116"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת דוגמית (מצריך ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="124"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת קוד QR מכתובת URL (מצריך qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="132"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>משימות</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="135"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>הוספה ללשונית %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="143"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>העברה ללשונית %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="151"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>להתעלם מקובצים שהועתקו</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="160"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>להתעלם מחלוןן *&quot;סיסמה&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>סיסמה</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="169"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>העברה לסל־המחזור</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="172"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(סל־מחזור)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="176"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>ניקוי לשונית נוכחית</translation>
     </message>
 </context>
 <context>
@@ -315,17 +316,17 @@
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1577"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן להוסיף פריטים חדשים ללשונית %1. נא להסיר פריטים באופן ידני כדי לפנות מקום.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1896"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>לסלק שינויים?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם &lt;strong&gt;לסלק שינויים&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -333,12 +334,12 @@
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="101"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>החיבור אבד!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="108"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן להתחבר לשרת! נא לאתחל את שרת CopyQ תחילה.</translation>
     </message>
 </context>
 <context>
@@ -346,33 +347,33 @@
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>תכולת לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;תסדירים:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;תוכן:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation type="unfinished"></translation>
+        <translation>הסרת תסדיר</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="82"/>
         <source>Item Content</source>
-        <translation type="unfinished"></translation>
+        <translation>תוכן פריט</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="151"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;strong&gt;גודל&lt;/strong&gt; %1 ביתים</translation>
     </message>
 </context>
 <context>
@@ -380,27 +381,27 @@
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="104"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished"></translation>
+        <translation>שרת CopyQ כבר מופעל.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="368"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול פקודות פעילות</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="369"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>לבטל פקודות פעילות ולצאת?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="372"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול יציאה</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="373"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>לצאת בכל מקרה</translation>
     </message>
 </context>
 <context>
@@ -409,7 +410,7 @@
         <location filename="../src/gui/commandcompleter.cpp" line="221"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+רווח</translation>
     </message>
 </context>
 <context>
@@ -417,67 +418,67 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודות</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת פקודות חדשות שניתן לעורר, באמצעות תוכן חדש בלוח־הגזרים, באופן אוטומטי, על ידי משתמש מהתפריט או באמצעות קיצורי דרך של המערכת.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;חיפוש:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;טעינת פקודות…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שמירת פריטים שנבחרו…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת פריטים שנבחרו</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקת פקודות</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="177"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>שינויים שלא נשמרו</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="177"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>קיימים שימויים שלא נשמרו בדו־שיח פקודה.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="255"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת קובץ באמצעות פקודות</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="256"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודות (*.ini);; תצורת CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="267"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת פקודות שנבחרו</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="268"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודות (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -485,27 +486,27 @@
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="56"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודה שמכילה רשימת תוכניות עם משתנים שיבוצעו. לדוגמה:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="60"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>משתנה תוכנית %1 יחליף את מלל הפריט.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="64"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"></translation>
+        <translation>ניתן להשתמש בתו %1 כדי להעביר פלט תני לתוכנית הבאה.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="70"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"></translation>
+        <translation>ניתן להשתמש בתחביר הבא כדי להעביר את שאר הפקודה כפרמטר בודד.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>מייצר פלט זהה ל־%1 אך שימושי יותר עבור פקודות ארוכות יותר.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="80"/>
