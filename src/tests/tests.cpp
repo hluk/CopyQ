@@ -199,6 +199,9 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         // KNotification bug
         plain(R"(QtWarning: QLayout: Attempting to add QLayout "" to QWidget "", which already has a layout)"),
+
+        // Warnings from itemsync plugin, not sure what it causes
+        regex(R"(QtWarning: Could not remove our own lock file .* maybe permissions changed meanwhile)"),
     };
     static QHash<QString, bool> ignoreLog;
 
