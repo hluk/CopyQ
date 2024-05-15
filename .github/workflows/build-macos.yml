@@ -50,6 +50,7 @@ jobs:
         with:
           configurePreset: '${{ matrix.cmake_preset }}'
           buildPreset: '${{ matrix.cmake_preset }}'
+          packagePreset: '${{ matrix.cmake_preset }}'
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg

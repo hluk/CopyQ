@@ -173,4 +173,7 @@ qt_deploy_runtime_dependencies(
     VERBOSE
 )")
     install(SCRIPT ${deploy_script})
+
+    set(CPACK_GENERATOR "DragNDrop")
+    include(CPack)
 endif()
