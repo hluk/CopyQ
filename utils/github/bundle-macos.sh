@@ -2,16 +2,10 @@
 # Creates macOS bundle.
 set -xeuo pipefail
 
+cpack
+
 app_bundle_path="CopyQ.app"
-
 executable="${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ"
-plugins=("$app_bundle_path/Contents/PlugIns/copyq/"*.so)
-qt_bin="$(brew --prefix qt@6)/bin"
-
-rm -r "$app_bundle_path/Contents/PlugIns/"{networkinformation,imageformats/libqpdf.dylib,platforminputcontexts}
-
-"$qt_bin/macdeployqt" "$app_bundle_path" -dmg -verbose=2 -always-overwrite -no-plugins \
-    "${plugins[@]/#/-executable=}"
 
 ls -Rl "$app_bundle_path"
 
@@ -49,3 +43,5 @@ otool -L "$executable"
 otool -L "$app_bundle_path/Contents/PlugIns/"*/*.dylib
 otool -L "$app_bundle_path/Contents/PlugIns/copyq/"*
 otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/*/Qt*
+
+mv copyq-*.dmg CopyQ.dmg

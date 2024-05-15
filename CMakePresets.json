@@ -64,5 +64,15 @@
             "configuration": "Release",
             "targets": "install"
         }
+    ],
+    "packagePresets": [
+        {
+            "name": "macOS-10",
+            "configurePreset": "macOS-10"
+        },
+        {
+            "name": "macOS-12-m1",
+            "configurePreset": "macOS-12-m1"
+        }
     ]
 }
