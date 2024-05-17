@@ -595,7 +595,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="243"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>פ&amp;קודה</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
@@ -624,7 +624,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>לדלג על הפקודה אם מלל הקלט לא תואם לביטוי הרגיל הבא (להשאיר ריק להתאים הכל).
+
+%2 עד %9 בפקודה יוחלפע במלל שנלכד.
+
+דוגמאות:
+
+- התאמת כתובת URL: ^(https?|ftp)://
+- התאמת שם קובץ PDF: \.pdf$
+- התאמת תו יחיד: ^.$
+- התאמת רב־מדיה מרוחקת: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
@@ -634,7 +643,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;להשתמש בפקודה רק עבור פריטים שהועתקו ללוח־הגזירים מחלון עם מלל כותרת התואם את הביטוי הרגיל הזה (להשאיר ריק כדי להתאים לכל חלון). ב־macOS, הביטוי כולל את שם היישומון כשמקף (&amp;quot;-&amp;quot;)מפריד בינו לבין כותרת החלון. לדוגמה. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -790,12 +799,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>תקין</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
@@ -810,7 +819,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>חילוף</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
@@ -895,17 +904,17 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת קובץ ערכת נושא</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="174"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת קובץ ערכת נושא בשם</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>אין עורך חיצוני</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="194"/>
@@ -922,12 +931,12 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>פריט</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="478"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>מחרוזת חיפוש %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="479"/>
@@ -938,7 +947,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="481"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>פריט דוגמה %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="486"/>
@@ -951,7 +960,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שפה:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1001,7 +1010,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>אישור י&amp;ציאה מהישומון</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
@@ -1011,7 +1020,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;איתחול אוטומטי</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
