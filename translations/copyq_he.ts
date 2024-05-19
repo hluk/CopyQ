@@ -679,7 +679,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="480"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation type="unfinished"></translation>
+        <translation>שם לשונית לתוכה יועתקו פריטים חדשים (להשאיר ריק כדי לא להעתיק)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="492"/>
@@ -864,7 +864,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;גדרת שבעים ללשוניות,סרגלי כלים ותפריטים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
@@ -1113,19 +1113,21 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר פריטים מירבי בכל לשונית</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;פריקת לשונית לאחר מרווח־זמן בדקות:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>פריקת כל לשונית מהזיכרון לאחר חוסר פילות של מספר דקות מוגדר.
+
+הגדרת 0 כדי לא לפרוק לשוניות.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
@@ -1152,7 +1154,9 @@ Set to 0 not to unload tabs.</source>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>שם לשונית שתאחסן תוכן לוח־גזירים חדש באופן אוטומטי.
+
+להשראיר ריק להשבתת אחסון אוטומטי.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="193"/>
@@ -1249,12 +1253,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת לשוניות (לחיצה על מקש Alt להצגה)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;סתרת לשוניות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
@@ -1289,7 +1293,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת עץ לשוניות במקום סרגל לשוניות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
@@ -1323,7 +1327,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת מספר פריטים בלשוניות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
@@ -1485,22 +1489,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת פריטים מלשונית נוכחית בתפריט מגש</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת לשונית נוכחית בתפריט,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>או ב&amp;חירת לשונית אחרת:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>שם לשונית להצגה בתפריט מגש (להשאיר ריק להצגת לשונית ראשונה)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
@@ -1588,7 +1592,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="487"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>פעולה זו תשצב את כל ההעדפות (בכל הלשוניות) לערכי ברירת מחדל.&lt;br /&gt;&lt;br /&gt; האם &lt;strong&gt; לשצב את כל ההעדפות &lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="589"/>
@@ -1701,7 +1705,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>GnuPG חייב להיות מותקן כדי להציג לשוניות מוצפנות.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="861"/>
@@ -1798,7 +1802,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="84"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצפנת פריטים ולשוניות.</translation>
     </message>
 </context>
 <context>
@@ -1806,7 +1810,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>כדי להצפין ולפענוח פריטים יש להוסיף פקודות מתאימות בלשונית פקודות.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
@@ -1822,7 +1826,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt; שמות לשוניות מסוימים (שם אחד בשורה) שיוצפנו ויפוענחו באופן אוטומטי.&lt;/p&gt;
+&lt;p&gt;יש להגדיר מרווח־זמן לפריקת לשונית בלשונית ההסטוריה, כדי לפרוק מהזכרון, באופן בטוח, פריטים לא מוצפנים.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1835,7 +1840,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>לא כל הפריטים בלשונית &lt;strong&gt;%1&lt;/strong&gt; נטענו בהצלחה. האם לטעון את הלשונית בכול זאת עם התכנות לאובדן מספר פריטים?</translation>
     </message>
 </context>
 <context>
@@ -2070,7 +2075,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="427"/>
         <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>סינכרון לשונת &quot;%1&quot; עם מחיצה &quot;%2&quot; כשל!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
@@ -2094,7 +2099,8 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;סנכרון תוכן &lt;strong&gt;לשונית&lt;/strong&gt; עם מחיצה ב&lt;strong&gt;נתיב&lt;/strong&gt; נתון.&lt;/p&gt;
+&lt;p&gt;הגדרת&lt;strong&gt; נתיב ריק&lt;/strong&gt; כדי לא לשמור פריטים ב&lt;strong&gt;לשונית&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2397,7 +2403,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4145"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>האפ לנסיר את &lt;strong&gt;כל הלשוניות&lt;/strong&gt; בקבוצה &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4192"/>
@@ -2407,7 +2413,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4193"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם להסיר לשונית&lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2424,7 +2430,7 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="22"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="600"/>
@@ -2829,7 +2835,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished"></translation>
+        <translation>ימין</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="142"/>
@@ -2840,7 +2846,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished"></translation>
+        <translation>שמאל</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
@@ -2911,7 +2917,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="54"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת חלון ראשי ולחלופין פתיחת לשונית בשם נתון.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="55"/>
@@ -2919,37 +2925,37 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>שם</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="57"/>
         <source>Hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת חלון ראשי.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="59"/>
         <source>Show or hide main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת או הסתרת חלון ראשי.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="61"/>
         <source>Open context menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת תפריט הרשר.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
         <source>Exit server.</source>
-        <translation type="unfinished"></translation>
+        <translation>יציאה מהשרת.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="65"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>להשבית או לאפשר אחסון תוכן לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Print clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת תוכן לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="69"/>
@@ -2960,41 +2966,43 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="120"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>MIME</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">MIME</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Print X11 selection content.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת בחירת תוכן X11.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקת לוח־גזירים לחלון נוכחי
+(עשוי לא לעבוד עם כמה יישומונים).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="79"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת לוח־גזירים מחלון נוכחי
+(עשוי לא לעבוד עם כמה יישומונים).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Set clipboard text.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדת מלל לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>מלל</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="83"/>
         <source>Set clipboard content.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת תוכן לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
@@ -3002,7 +3010,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>נתונים</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3106,29 +3114,31 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
         <source>TITLE</source>
-        <translation type="unfinished"></translation>
+        <translation>כותרת</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>MESSAGE</source>
-        <translation type="unfinished"></translation>
+        <translation>הודעה</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>זמן</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>List available tab names.</source>
-        <translation type="unfinished"></translation>
+        <translation>רשימת שמות לשוניות זמינים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת פקודה מלשונית בשם נתון.
+אם הלשונית לא קיימת היא תיווצר.
+ברירת מחדל היא הלשונית הראשונה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
@@ -3136,17 +3146,17 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <location filename="../src/scriptable/scriptable.cpp" line="111"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודה</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
         <source>Remove tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>הסרת לשונית.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <source>Rename tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי שם לשונית.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
@@ -3156,7 +3166,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="155"/>
         <source>Export items to file.</source>
-        <translation type="unfinished"></translation>
+        <translation>ייצוא פריטים לקובץ.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
@@ -3167,43 +3177,43 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
         <source>Import items from file.</source>
-        <translation type="unfinished"></translation>
+        <translation>ייבוא פריטים מקובץ.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <source>List all options.</source>
-        <translation type="unfinished"></translation>
+        <translation>רשימת כל האפשרויות.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>Get option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>קבלת ערך אפשרות.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>OPTION</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשרות</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Set option value.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת ערך אפשרויות.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>VALUE</source>
-        <translation type="unfinished"></translation>
+        <translation>ערך</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
         <source>Evaluate script.</source>
-        <translation type="unfinished"></translation>
+        <translation>הערכת תסריט.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>SCRIPT</source>
-        <translation type="unfinished"></translation>
+        <translation>תסריט</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
@@ -3213,52 +3223,52 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation type="unfinished"></translation>
+        <translation>אתחול או התחברות לאדגם יישומוןן עם שם שיח נתון.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="176"/>
         <source>SESSION</source>
-        <translation type="unfinished"></translation>
+        <translation>שיח</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת עזרה לפקודה או לכל הפקודות.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>Print version of program and libraries.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת גרסת תוכנית וספריות.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת בדיקות יישומום (append - משתנה עזרה לקבלת מידע נוסף).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <source>Start server in background before running a command.</source>
-        <translation type="unfinished"></translation>
+        <translation>אתחול שרת ברקע לפני הפעלת פקודה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="111"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"></translation>
+        <translation>שימוש: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>Starts server if no command is specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>אתחול שרת אם לא צויינה פקודה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="113"/>
         <source>  COMMANDs:</source>
-        <translation type="unfinished"></translation>
+        <translation>  פקודות:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="118"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>העות:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="119"/>
