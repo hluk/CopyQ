@@ -731,7 +731,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="600"/>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>מפריד שמשמש התאמת פיצול הפלט לפריטים מרובים</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="603"/>
@@ -746,27 +746,27 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="620"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת פריטים בלשונית עם שם נתון (להשאיר ריק לשמירה בלשונית ראשונה)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="637"/>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת דו־שיח פעולה לפני ביצוע הפקודה</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="640"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;המתנה</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="647"/>
         <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי פריט, לא ליצור פריטים חדשים</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="650"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;תמרה</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
@@ -849,7 +849,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>שימוש בסמלילי סביבת שולחן העבודה ככל שניתן</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -889,7 +889,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>עריכת ערכת נושא נוכחית בעורך חיצוני</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
@@ -919,13 +919,13 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="194"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>תחילה יש להגדיר פקודת עורך חיצוני!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="394"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>א-ב</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
@@ -942,7 +942,8 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="479"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>בחירת פריט ולחיצה
+על F2 לעריכה.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="481"/>
@@ -952,7 +953,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="486"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>כמה הערות אקראיות (Shift+F2 לעריכה)</translation>
     </message>
 </context>
 <context>
@@ -965,27 +966,27 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
         <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>פיצול מלל אם ארוך מכדי להתאים לשורה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="96"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>עיטוף מלל א&amp;רוך</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="103"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>להשאיר חלון ראשי מעל לחלונות אחרים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>תמיד עליון</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation type="unfinished"></translation>
+        <translation>סגירת חלון ראשי כאשר יישומים אחרים במוקד</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
@@ -1641,22 +1642,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="151"/>
         <source>Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>בחירת סמליל</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="158"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>דפדוף...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="204"/>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת קובץ סמליל</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="205"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>קובצי תמונה (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1664,22 +1665,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;הכול</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;לשוניות:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation>תי&amp;צור</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;הכול</translation>
     </message>
 </context>
 <context>
@@ -2047,7 +2048,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="111"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>דפדוף...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="762"/>
@@ -2188,7 +2189,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>ניתן להוסיף ולהתאים אישית פריטי תפריט להוספת והסרת תגים מותאמים אישית בדו־שיח פקודות.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
@@ -2272,7 +2273,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>יומן־רשומות</translation>
     </message>
 </context>
 <context>
@@ -3067,33 +3068,34 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>עריכת פריטים או עריכת חדשים.
+ערך1 - הוא למלל הנוכחי לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Set separator for items on output.</source>
-        <translation type="unfinished"></translation>
+        <translation>הגדרת מפריד לפריטים בפלט.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation>מפריד</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת נתוני לוח־גזירים גולמיים או פריט בשורה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Write raw data to given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>כתיבת נתונים גולמיים לשורה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Show action dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת דו־שיח פעולה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
@@ -3376,12 +3378,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>קיצור־דרך חדש</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="22"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>הסרת קיצור־דרך</translation>
     </message>
 </context>
 <context>
@@ -3424,27 +3426,29 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>שם לשונית לא יכול להיות קיר וחייב להיות ייחודי.
+ניתן לפתוח לשונית&lt;b&gt;ה&amp;ערות&lt;/b&gt; באמצעות &lt;b&gt;Alt+T&lt;/b&gt;.
+במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/ &lt;/b&gt; כמפריד בנתיב.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שם?</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="17"/>
         <source>New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>לשונית חדשה</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="20"/>
         <source>Rename Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי שם לשונית</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="23"/>
         <source>Rename Tab Group</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי שם קבוצת לשוניות</translation>
     </message>
 </context>
 <context>
