@@ -854,7 +854,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation>סמל מ&amp;ערכת</translation>
+        <translation>סמליל מ&amp;ערכת</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -1036,7 +1036,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירה ושחזור היסטוריית מסנני הפריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
@@ -1076,17 +1076,17 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;4) הדבקת בחירת עכבר באמצעות מקלדת</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save clipboard in history</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת היסטורית לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;1) אחסון לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1096,12 +1096,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;2) אחסון מלל שנבחר באמצעות עכבר</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="241"/>
         <source>(&amp;5) Run automatic commands on selection</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;5) הפעלת פקודות אוטומטיות בעת בחירה</translation>
     </message>
 </context>
 <context>
@@ -1109,7 +1109,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation type="unfinished"></translation>
+        <translation>כמות פריטים מירבית בהיסטוריה:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
@@ -1133,7 +1133,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="144"/>
         <source>External editor command (%&amp;1 is file to edit):</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודת עורך חיצוני (%&amp;1 הוא קובץ לעריכה):</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="154"/>
@@ -1143,12 +1143,17 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודת עורך חיצוני (%1 הוא קובץ לעריכה).
+דוגמאות:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="169"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>ל&amp;שונית לאחסון לוח־גזירים:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="179"/>
@@ -1241,7 +1246,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;דבקה לחלון נוכחי</translation>
     </message>
 </context>
 <context>
@@ -1249,7 +1254,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגה/הסתרה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1264,32 +1269,32 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת סרגל כלים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת סרגל &amp;כלים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת תויות סרגל כלים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת חלון ראשי בעת סגירה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>הסתרת חלון &amp;ראשי</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>עימוד ושקיפות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1299,7 +1304,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>עץ ל&amp;שוניות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -1333,7 +1338,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגת מספר פריטים</translation>
     </message>
 </context>
 <context>
@@ -1351,32 +1356,32 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>מעלה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="86"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>מטה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>מעלה מימין</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>מטה מימין</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>מטה משמאל</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>מעלה משמאל</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
@@ -1417,7 +1422,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="227"/>
         <source>Hori&amp;zontal offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>הסט א&amp;פקי:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
@@ -1427,7 +1432,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"></translation>
+        <translation>הסט א&amp;נכי:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
@@ -1437,7 +1442,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"></translation>
+        <translation>רוחב מ&amp;רבי:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
@@ -1447,7 +1452,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;גובה מרבי:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
@@ -1460,12 +1465,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>לא להציג סמליל מגש; מזעור חלון בעת סבירה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;שבתת מגש</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1525,7 +1530,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגת תצוגה מקדימה של תמונות כסמליל פריט תפריט</translation>
     </message>
 </context>
 <context>
@@ -1620,7 +1625,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/filtercompleter.cpp" line="172"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Down</translation>
     </message>
 </context>
 <context>
@@ -1628,13 +1633,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="21"/>
         <source>Select Icon…</source>
-        <translation type="unfinished"></translation>
+        <translation>בחירת סמליל…</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="56"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -2219,7 +2224,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>סמליל</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
@@ -2351,7 +2356,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="882"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;חלפת סמליל לשונית</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="925"/>
@@ -2820,7 +2825,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;חלפת סמליל לשונית</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
