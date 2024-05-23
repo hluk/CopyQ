@@ -654,7 +654,8 @@ Examples:
         <location filename="../src/ui/commandwidget.ui" line="405"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"></translation>
+        <translation>נתונים מסוג MIME זה יישלחו כקלט פקודה תיקני.
+להשאיר ריק כדי להשבית זאת.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
@@ -664,7 +665,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>דילוג על הפקודה אם פקודת המסנן כשלה עם קוד יציאה לא־אפס.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -686,7 +687,9 @@ Leave empty to disable this.</source>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation type="unfinished"></translation>
+        <translation>הסרת פריט תואם
+
+הערה: אם מוחל באופן אוטומטי, פקודות אוטומטיות אחרות לא תתבצענה.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
@@ -721,7 +724,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="580"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת פריטים מפלט תוכניות תיקני (להשאיר ריק כדי להשבית)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
@@ -991,22 +994,22 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation type="unfinished"></translation>
+        <translation>סגירה כאשר לא במוקד</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
+        <translation>לאפשר פתיחת חלונות במרקע הנוכחי. להשבית לפתיחת חלונות שנסגרו לאחרונה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"></translation>
+        <translation>פתיחת חלונות במרקע הנוכחי</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>אישור יציאה מהישומון</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
@@ -1016,7 +1019,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת היישומון עם אתחול המערכת</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
@@ -1026,12 +1029,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
-        <translation type="unfinished"></translation>
+        <translation>תמיכה במפתחות ניווט Vi (H, J, K, L ועוד), מפתח לוכסן ( /) לחיפוש</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Vi style navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>סגנון ניווט Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
@@ -1041,27 +1044,27 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת היסטורית סינון</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת חלון־צץ באופן אוטומטי להשלמת פעולה, סוג ושמות משתנים בפקודות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודות השלמה אוטומטית</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>טפלול לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"></translation>
+        <translation>לאפשרהדבקת תוכן מועתק באופן זההל בחירת עכבר (בדרך כלל על ידי לחיצה על לחצן עכבראמצעי)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
@@ -1191,7 +1194,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>לאפשר חיפוש מספרים, אחרת לחיצה על מקש ספרות תשפעל פריט במיקום זה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
@@ -1236,12 +1239,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;מיקוד על חלון אחרון</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="273"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקה לחלון הנוכחי לאחר הפעלת פריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
@@ -1309,14 +1312,16 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>מיקוד שקיפות:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>שקיפות החלון הראשי אם הוא במוקד.
+
+הערה: לא נתמך בכול המערכות.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
@@ -1328,7 +1333,9 @@ Note: This is not supported on all systems.</source>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>שקיפות החלון הראשי אם לא במוקד.
+
+הערה: לא נתמך בכול המערכות.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
@@ -1346,12 +1353,12 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;איות הודעה:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>איות הודעות על המרקע</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
@@ -1417,7 +1424,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation>גאומטרית הודעה (איות על המרקע)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="227"/>
@@ -1427,7 +1434,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>מרחק הודעה מימין או משמאל לאיות שפת המרקע</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
@@ -1437,7 +1444,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>מרחק הודעה מלמעלה או מלמטה לאיות שפת המרקע</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
@@ -1447,7 +1454,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>רוחב הודעה מירבי באיות המרקע</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
@@ -1457,7 +1464,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
+        <translation>גובה הודעה מירבי באיות המרקע</translation>
     </message>
 </context>
 <context>
@@ -1954,7 +1961,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>איות הערות</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
