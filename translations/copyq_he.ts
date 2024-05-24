@@ -600,7 +600,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
         <source>&amp;Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;אפשרויות מתקדמות</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="316"/>
@@ -774,7 +774,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת אפשרויות מתקדמות</translation>
     </message>
 </context>
 <context>
@@ -1069,12 +1069,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="201"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>(&amp;3) הדבקת לוח־גזירים באמצעות עכבר</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"></translation>
+        <translation>לאפשר הדבקת פריטים שנבחרו באמצעות עכבר תוך שימוש בקיצור־דרך (בדרך כלל Ctrl+V או Shift+Insert)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="211"/>
@@ -1094,7 +1094,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת מלל שנבחר באמצעות עכבר (בחירה ראשית) בהיסטוריה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1177,19 +1177,21 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation type="unfinished"></translation>
+        <translation>ש&amp;מירת פריטים שנערכו עם קיצור־דרך Ctrl+Return ויצירת קו חדש עם מקש Return</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="205"/>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצג תיאור כל פריט בשורה אחת.
+
+ניתן להשתמש בתצוגת פריט מקדימה כדי להציג פריטים בשלמותם.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגת פריטים פשוטים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
@@ -1199,42 +1201,42 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;חיפוש מספרים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>שפעול פריט בהקשה יחידה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="237"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>לאחר שפעול פריט (הקשת עכבר כפולה או מקש Enter), הוא יועתק לוח־גזירים ו...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>להעביר פריט לראש הרשימה לאחר שהוא שופעל</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>העברת פריט ל&amp;ראש הרשימה</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>סגירת החלון הראשי לאחר שופעל פריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;סגירת חלון ראשי</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>להתמקד על חלון אחרון לאחר שופעל פריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1326,7 +1328,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שקיפות בלתי ממוקדת:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -1393,7 +1395,7 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>מרווח־זמן בשניות להצגת הודעות:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1407,7 +1409,7 @@ Set to -1 to keep visible until clicked.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר שורות להודעות לוח־גזירים:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
@@ -2172,7 +2174,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
         <source>Untag items first to remove them.</source>
-        <translation type="unfinished"></translation>
+        <translation>יש להסיר תגים מפריטים לפני שניתן יהיה להסירם.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="742"/>
@@ -2183,7 +2185,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="772"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation>לנקות את כל התגים</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
@@ -2193,7 +2195,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תגי פריטים.</translation>
     </message>
 </context>
 <context>
