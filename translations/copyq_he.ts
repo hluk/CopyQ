@@ -1421,7 +1421,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שימוש בהודעות מובנות</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1484,22 +1484,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת פקודה לתוכן לוח־גזירים נוכחי בתפריט מגש</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>הצ&amp;גת פקודה לתוכן לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;מספר הפריטים בתפריט מגש:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר הפריטים בתפריט מגש</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
@@ -1524,17 +1524,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקת פריט לחלון נוכחי לאחר בחירתו בתפריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="173"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>הדבקת פריט משופעל לחלון נוכחי</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תצוגת תמונה מקדימה ליד פריטי תפריט</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
@@ -1547,62 +1547,62 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>העדפות</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="159"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>כללי</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="160"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>עימוד</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="161"/>
         <source>History</source>
-        <translation type="unfinished"></translation>
+        <translation>היסטוריה</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="162"/>
         <source>Tray</source>
-        <translation type="unfinished"></translation>
+        <translation>מגש</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="163"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>הודעות</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="164"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>לשוניות</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="165"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>פריטים</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="166"/>
         <source>Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>קיצורי־דרך</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="167"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>מראה</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="441"/>
         <source>Invalid value for option &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>ערך לא תקין לאפשרות &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="486"/>
         <source>Reset preferences?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם לשצב העדפות?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="487"/>
@@ -1612,12 +1612,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="589"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>נדרש אתחול</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="590"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>שפה תשתנה לאחר שתחול היישומון.</translation>
     </message>
 </context>
 <context>
@@ -1625,7 +1625,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="569"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת מחיצת סנכרון &quot;%1&quot; כשלה!</translation>
     </message>
 </context>
 <context>
@@ -1702,7 +1702,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="139"/>
         <source>Editor command failed (see logs)</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודת עורך כשלה (נא לעיין ביומני פעולות)</translation>
     </message>
 </context>
 <context>
@@ -1710,7 +1710,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="403"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>הצפנה כשלה!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
@@ -1725,69 +1725,69 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="861"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>הצפנה (נדרש GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="878"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>לפענח</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>פענוח והעתקה</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="888"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="893"/>
         <source>Decrypt and Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>פענוח והדבקה</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">אנטר</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="955"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>נכשל לייצר מפתחות.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאה: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>בוצע</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="988"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>יצירת מפתחות חדשים (עשוי לארוך מספר דקות).</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="992"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>קביעת סיסמה חדשה...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="994"/>
@@ -1797,22 +1797,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>חילול מפתחות חדשים...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="999"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי ססמה...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="1005"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>פענוח כשל!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="82"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>הצפנה</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="84"/>
@@ -1830,12 +1830,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>שיתוף פריטים מוצפנים ולשוניות</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>לשוניות מוצפנות</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
@@ -1850,7 +1850,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="75"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>לשונית משובשת</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
@@ -1863,17 +1863,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="25"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="27"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>מתקע FakeVim הוא חלק מ־Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="29"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>חיקוי עורך Vim בעת עריכת פריטים.</translation>
     </message>
 </context>
 <context>
@@ -1881,12 +1881,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשור FakeVim לעריכת פריטים</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>נתיב לקובץ תצורה:</translation>
     </message>
 </context>
 <context>
@@ -1894,12 +1894,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>תמונות</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תמונות.</translation>
     </message>
 </context>
 <context>
@@ -1907,17 +1907,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;רוחב תמונה מרבי:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation type="unfinished"></translation>
+        <translation>רוחב תמונה מרבי שמוצגת בהיסטוריה (קביעת אפס לגודל מקורי)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;גובה תמונה מרבי:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
@@ -1927,7 +1927,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודת עורך &amp;תמונות:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
@@ -1937,7 +1937,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation type="unfinished"></translation>
+        <translation>פקודת עורך &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
@@ -1950,12 +1950,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="63"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>הערות</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="65"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת הערות פריטים.</translation>
     </message>
 </context>
 <context>
@@ -1968,22 +1968,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation type="unfinished"></translation>
+        <translation>מ&amp;על לפריט</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>מ&amp;תחת לפריט</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation type="unfinished"></translation>
+        <translation>ל&amp;צד פריט</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת רמ&amp;ז־צץ</translation>
     </message>
 </context>
 <context>
@@ -1991,36 +1991,36 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="59"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>הו&amp;ספה</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="72"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>הס&amp;רה</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="82"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>העברה מעלה</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="92"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>העברה מטה</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="102"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>לעבור לראש הרשימה</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="112"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>לעבור לתחתית‏ הרשימה</translation>
     </message>
 </context>
 <context>
@@ -2159,17 +2159,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="150"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>הסרת צג</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>מיתוג תג %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן להסיר פריט עם תג נעול</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
@@ -2190,7 +2190,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>תגים</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
@@ -2213,22 +2213,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation>שם תג</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation type="unfinished"></translation>
+        <translation>התאמה</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation type="unfinished"></translation>
+        <translation>גיליון סגנון</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>צבע</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
@@ -2238,12 +2238,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
         <source>Lock</source>
-        <translation type="unfinished"></translation>
+        <translation>לנעול</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="66"/>
         <source>Avoid removing item</source>
-        <translation type="unfinished"></translation>
+        <translation>להימנע הסרת פריט</translation>
     </message>
 </context>
 <context>
@@ -2251,12 +2251,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="63"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>מלל</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="65"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת מלל ופריטHTML פשוטים.</translation>
     </message>
 </context>
 <context>
@@ -2264,22 +2264,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="17"/>
         <source>Save and display HTML and rich text</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירה והצגת HTML ןמלל עשיר</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר קווים מרבי לתצוגה (0 כדי להראות את הכל):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"></translation>
+        <translation>גובה מרבי בפיקסלים (0 ללא הגבלה):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>גיליון סגנון בררת מחדל:</translation>
     </message>
 </context>
 <context>
@@ -2295,72 +2295,72 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="283"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"></translation>
+        <translation>פרטי CopyQ (*cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="645"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגה/הסתרה</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="683"/>
         <source>Exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>לצאת?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="684"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם לצאת מ־CopyQ&lt;/strong&gt;&lt;strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="748"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;קובץ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="794"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;עריכה</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="818"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;פריט</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="822"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;לשוניות</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="847"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;עזרה</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="872"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;לשונית חדשה</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="874"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי שם &amp;קבוצה %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="876"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי &amp;שם לשונית %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="878"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי &amp;שם לשונית %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="880"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>שינוי שם לשונית %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="882"/>
@@ -2371,49 +2371,49 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="925"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;לוח־גזירים: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2078"/>
         <location filename="../src/gui/mainwindow.cpp" line="2200"/>
         <source>Options for Import</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשרויות ייבוא</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2488"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>שגיאת copyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3844"/>
         <source>Options for Export</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשרויות יצוא</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3865"/>
         <source>Export Error</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאת ייצוא</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3866"/>
         <source>Failed to export file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>ייצוא קובץ %1 כשל!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3958"/>
         <source>Import Error</source>
-        <translation type="unfinished"></translation>
+        <translation>שגיאת ייבוא</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3959"/>
         <source>Failed to import file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>ייבוא קוץ %1 כשל!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4144"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם להסיר את כל התגים בקבוצה?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4145"/>
@@ -2423,7 +2423,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4192"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"></translation>
+        <translation>האם להסיר צג?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4193"/>
@@ -2436,7 +2436,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="519"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>מידע</translation>
     </message>
 </context>
 <context>
@@ -2451,295 +2451,295 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="600"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;מוסתר&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="606"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%1 (%n שורה)</numerusform>
+            <numerusform>%1 (%n שורות)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="616"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;תמונה&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="618"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;פריטים&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="620"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;ריק&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="622"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;נתונים&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="32"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation>רווח אחורי</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="34"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"></translation>
+        <translation>מחיקה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="42"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"></translation>
+        <translation>פריט &amp;חדש</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ייבוא...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="46"/>
         <source>&amp;Export...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ייצוא...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;העדפות...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="51"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"></translation>
+        <translation>פ&amp;קודות...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="52"/>
         <source>F6</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="54"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת תוכן לוח־&amp;גזירים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="55"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="56"/>
         <source>&amp;Show Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגת תצוגה מקדימה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="57"/>
         <source>F7</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="58"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>מ&amp;תוג אחסון לוח־גזירים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>מנהל &amp;תהליכים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="61"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>יצי&amp;אה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="65"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>מיון פריטים שנבחרו</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="68"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;היפוך מיון פריטים שנבחרו</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="71"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;דבקת פריטים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="73"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;עתקת פריטים שנבחרו</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="75"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;חיפוש</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>שמירת פריט</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול עריכה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escape</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטול פעולה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>החזרת פעולה שבוטלה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>גופן</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>תו מודגש</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>תו נטוי</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="92"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>קו תחתון</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="94"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>קו חוצה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="96"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>קידמה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>רקע</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Erase Style</source>
-        <translation type="unfinished"></translation>
+        <translation>סגנון מחיקה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>חיפוש</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished"></translation>
+        <translation>ש&amp;פעול פריטים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;צגת תוכן...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>F4</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>ה&amp;סרה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;עריכה</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>F2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>עריכת ה&amp;ערות</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
@@ -3441,13 +3441,13 @@ Default is the first tab.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>שם לשונית לא יכול להיות קיר וחייב להיות ייחודי.
-ניתן לפתוח לשונית&lt;b&gt;ה&amp;ערות&lt;/b&gt; באמצעות &lt;b&gt;Alt+T&lt;/b&gt;.
+ניתן לפתוח לשונית&lt;b&gt;ה&amp;ערות/b&gt; באמצעות &lt;b&gt;Alt+T&lt;/b&gt;.
 במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/ &lt;/b&gt; כמפריד בנתיב.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation>&amp;שם?</translation>
+        <translation>&amp;שם:</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="17"/>
