@@ -3306,7 +3306,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
         <source>Invalid number of arguments!</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן לשמור קובץ &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
@@ -3316,13 +3316,13 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="588"/>
         <source>Cannot import file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן לייבא קובץ &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="725"/>
         <location filename="../src/scriptable/scriptable.cpp" line="760"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>מנהל לוח־גזירים CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="772"/>
@@ -3338,22 +3338,22 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1404"/>
         <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>אפשרות &quot;%1&quot; לא תקינה!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2894"/>
         <source>Exception</source>
-        <translation type="unfinished"></translation>
+        <translation>חריגה</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2895"/>
         <source>Exception in %1</source>
-        <translation type="unfinished"></translation>
+        <translation>חריגה ב־%1</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2999"/>
         <source>Failed to copy to clipboard!</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקה ללוח־גזירים כשלה!</translation>
     </message>
 </context>
 <context>
@@ -3361,23 +3361,23 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="619"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation type="unfinished"></translation>
+        <translation>לא קיימת לשונית בשם הנתון!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="624"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>שם לשונית לא יכול להיות ריק!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1152"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>לשונית בשם הנתון קיימת כבר!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2420"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*דו־שיח אחסון לוח־גזירים*</translation>
     </message>
 </context>
 <context>
@@ -3431,7 +3431,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="229"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>קיצור־דרך קיים כבר!</translation>
     </message>
 </context>
 <context>
@@ -3471,7 +3471,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation type="unfinished"></translation>
+        <translation>מ&amp;פר פריטים מירבי:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -3481,7 +3481,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;שמירת פריטים</translation>
     </message>
 </context>
 <context>
@@ -3489,18 +3489,18 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="109"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation type="unfinished"></translation>
+        <translation>לחיצה על &apos;/&apos; לחיפוש</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="109"/>
         <source>Type to search</source>
-        <translation type="unfinished"></translation>
+        <translation>להקליד כדי לחפש</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="123"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 <context>
@@ -3508,12 +3508,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="375"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>ביטוי רגיל</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="378"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>לא רגיש לרישיות</translation>
     </message>
 </context>
 </TS>
