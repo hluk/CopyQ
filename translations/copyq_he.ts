@@ -1172,7 +1172,9 @@ Leave empty to disable automatic storing.</source>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>להשאיר לא מסומן כדי שמקש Return ישמור פריט שנערך ו־Ctrl+Return ייצור שורה חדשה.
+
+הערה: ניתן לשמור פריטים שנערכו באמצעות F2 מבלי להתחשב באפשרות זו.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
@@ -1404,7 +1406,11 @@ Note: This is not supported on all systems.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>מרווח־זמן בשניות להצגת התראה על תוכן חדש או העתקת פריט ללוח־הגזירים (רק כאשר החלון הראשי סגור).
+
+הגדרת 0 כדי להשבית אפשרות זו.
+
+הגדרת 1 כדי להישאר גלוי עד להקשה.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
@@ -1416,7 +1422,9 @@ Set to -1 to keep visible until clicked.</source>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>מספר השורות שיוצגו עבור תוכן חדש בלוח־הגזירים.
+
+הגדרת 0 כדי להשבית.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
@@ -2160,7 +2168,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="150"/>
         <source>Remove a Tag</source>
-        <translation>הסרת צג</translation>
+        <translation>הסרת תג</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
@@ -2170,7 +2178,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation>לא ניתן להסיר פריט עם תג נעול</translation>
+        <translation>לא ניתן להסיר פריט כשתג נעול</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
@@ -2209,7 +2217,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>מידע נוסף זמין בעמוד ויקי &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;&lt;/a&gt;</translation>
+        <translation>מידע נוסף זמין בעמוד ויקי &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
@@ -2311,7 +2319,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="684"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation>האם לצאת מ־CopyQ&lt;/strong&gt;&lt;strong&gt;?</translation>
+        <translation>האם &lt;strong&gt;לצאת&lt;/strong&gt; מ־CopyQ?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="748"/>
@@ -2356,12 +2364,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="878"/>
         <source>Re&amp;move Tab %1</source>
-        <translation>שינוי &amp;שם לשונית %1</translation>
+        <translation>ה&amp;סרת לשונית %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="880"/>
         <source>Remove Group %1</source>
-        <translation>שינוי שם לשונית %1</translation>
+        <translation>הסרת קבוצה %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="882"/>
@@ -2419,12 +2427,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4145"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>האפ לנסיר את &lt;strong&gt;כל הלשוניות&lt;/strong&gt; בקבוצה &lt;strong&gt;%1&lt;/strong&gt;?</translation>
+        <translation>האם לנסיר את &lt;strong&gt;כל הלשוניות&lt;/strong&gt; בקבוצה &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4192"/>
         <source>Remove Tab?</source>
-        <translation>האם להסיר צג?</translation>
+        <translation>האם להסיר לשונית?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4193"/>
@@ -2705,7 +2713,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>ש&amp;פעול פריטים</translation>
+        <translation>לש&amp;פעל פריטים</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -2898,21 +2906,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="437"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>לשונית %1 פגומה או שכמה מתקעי CopyQ חסרים!</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="227"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation type="unfinished"></translation>
+        <translation>שם שיח חייב להכיל 16 תווים לכל היותר
+שיכולים להיות אותיות, ספרות, &apos;-&apos; או &apos;_&apos;!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2482"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>מלל הועתק ( שורה %n)</numerusform>
+            <numerusform>מלל הועתק (%n שורות)</numerusform>
         </translation>
     </message>
     <message>
@@ -3031,12 +3040,12 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print amount of items in current tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>הדפסת מספר הפריטים בלשונית נוכחית.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>העתק פריט שבשורה אל לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="92"/>
@@ -3050,27 +3059,27 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת הפריט הבא מלשונית נוכחית לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>העתקת פריט קודם מלשונית נוכחית לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Add text into clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>להוסיף מלל לתוך לוח־גזירים.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
         <source>Insert text into given row.</source>
-        <translation type="unfinished"></translation>
+        <translation>להכניס מלל לשורה נתונה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <source>Remove items in given rows.</source>
-        <translation type="unfinished"></translation>
+        <translation>להסיר פריטים משורה נתונה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
@@ -3116,7 +3125,8 @@ Value -1 is for current text in clipboard.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation type="unfinished"></translation>
+        <translation>הפעלת תוכנית על פריט מלל בשורות.
+להשתמש בתוכנית ב־%1 כדי להעביר מלל כמשתנה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
@@ -3126,7 +3136,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>הצגת הודעה חלון־צץ למשך אלפיות שניה.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
@@ -3290,18 +3300,19 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation type="unfinished"></translation>
+        <translation>  להשתמש במשתנה מקף (-) כדי לקרוא נתונים מקלט רגיל.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - להשתמש במשתנה מקף כפול (--) כדי לקרוא את כל המשתנים הבאים ללא
+    הרחבת רצפי בריחה (כלומר \n, \t ואחרים).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation type="unfinished"></translation>
+        <translation>  - להשתמש ב־? עבור MIME כדי להדפיס סוגי MIME זמינים (ברירת מחדל הוא &quot;מלל/רגיל&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
@@ -3311,7 +3322,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation type="unfinished"></translation>
+        <translation>לא ניתן לשמור לקובץ &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="588"/>
@@ -3333,7 +3344,8 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="871"/>
         <source>Terminating server.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>סיום שרת.
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1404"/>
@@ -3416,7 +3428,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation type="unfinished"></translation>
+        <translation>ניתן להפעיל קיצורי דרך כלליים מכל יישומון.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
@@ -3426,7 +3438,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>ניתן להפעיל קיצורי דרך יישומונים רק מהחלון הראשי.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="229"/>
@@ -3441,9 +3453,9 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>שם לשונית לא יכול להיות קיר וחייב להיות ייחודי.
-ניתן לפתוח לשונית&lt;b&gt;ה&amp;ערות/b&gt; באמצעות &lt;b&gt;Alt+T&lt;/b&gt;.
-במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/ &lt;/b&gt; כמפריד בנתיב.</translation>
+        <translation>שם לשונית לא יכול להיות ריק וחייב להיות ייחודי.&lt;br /&gt;
+ניתן לפתוח לשונית &lt;b&gt;ה&amp;ערות&lt;/b&gt; באמצעות &lt;b&gt;אלט+T&lt;/b&gt;.&lt;br /&gt;
+במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/&lt;/b&gt; כמפריד בנתיב.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
