@@ -3454,8 +3454,8 @@ Default is the first tab.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>שם לשונית לא יכול להיות ריק וחייב להיות ייחודי.&lt;br /&gt;
-ניתן לפתוח לשונית &lt;b&gt;ה&amp;ערות&lt;/b&gt; באמצעות &lt;b&gt;אלט+T&lt;/b&gt;.&lt;br /&gt;
-במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/&lt;/b&gt; כמפריד בנתיב.</translation>
+ניתן לפתוח לשונית &lt;b&gt;ה&amp;ערות&lt;/b&gt; באמצעות &lt;b&gt;אלט+T&lt;/b&gt;
+במתווה מצג עץ לשוניות, ניתן להשתמש ב־&lt;b&gt;/&lt;/b&gt;כמפריד בנתיב.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
