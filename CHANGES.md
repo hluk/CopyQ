@@ -4,6 +4,8 @@
 
 - Adds `editItem()` script function for editing any item format (#2672).
 
+- Item color is now shown in tray menu as the default icon (#2700).
+
 ## Changed
 
 - Removes large margins in the tab tree.
@@ -29,6 +31,9 @@
 
       // remove items ...
 
+- The `execute()` script function now throws an exception when command cannot
+  be executed instead of returning `undefine`.
+
 ## Fixed
 
 - Includes many performance improvements for working with large amount of items.
@@ -37,7 +42,13 @@
 
 - Fixes text color in the internal item editor (#2643).
 
+- Fixes showing global shortcuts in tray menu (#2382).
+
+- Fixes passing captured texts to automated commands (#2707).
+
 - Fixes duplicate synchronized items after tagging or modifying data.
+
+- Fixes situation when display commands stop updating items.
 
 - The pre-defined "Move to tab" action will be shown only if the current tab is
   not the same as target tab (#2669). Previously, in such case the item was
