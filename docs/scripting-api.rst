@@ -1047,9 +1047,10 @@ unlike in GUI, where row numbers start from 1 by default.
    If argument is function it will be called with array of lines read from
    stdout whenever available.
 
-   :returns: Finished command properties or ``undefined`` if executable was not
-             found or could not be executed.
-   :rtype: :js:class:`FinishedCommand` or ``undefined``
+   An exception is thrown if executable was not found or could not be executed.
+
+   :returns: Finished command properties.
+   :rtype: :js:class:`FinishedCommand`
 
    Example -- create item for each line on stdout:
 
