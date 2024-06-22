@@ -1935,7 +1935,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Para partilhar itens encriptados noutro computador ou sessão, necessitará destes ficheiros de chave secreta (mantenha-os seguros):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -2365,7 +2365,7 @@ Definir como 0 para desactivar.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternar etiqueta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -3693,7 +3693,7 @@ Imprimir versão do programa e bibliotecas.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2416"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Armazenamento em memória desactivado*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
