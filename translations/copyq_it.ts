@@ -6,12 +6,12 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Info programma</translation>
+        <translation>Informazioni su</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="84"/>
         <source>Clipboard Manager</source>
-        <translation>Gestione Appunti</translation>
+        <translation>Gestore appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="91"/>
@@ -1114,7 +1114,7 @@ premi F2 per modificarlo.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation>Gestione Appunti</translation>
+        <translation>Manipolazione appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
@@ -2343,7 +2343,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation>Attiva tag %1</translation>
+        <translation>Attiva/disattiva tag %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -2942,7 +2942,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>Move to Top</source>
-        <translation>Spostain alto</translation>
+        <translation>Sposta in alto</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
