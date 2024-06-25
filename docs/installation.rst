@@ -5,12 +5,24 @@ Packages and installation files are available at `Releases page <https://github.
 
 Alternatively, you can install the app with one of the following methods:
 
-a. On **Windows**, you can install `Chocolatey package <https://chocolatey.org/packages/copyq>`__.
-b. On **OS X**, you can use `Homebrew <https://brew.sh/>`__ to install the app.
+On **Windows**, you can install `Chocolatey package <https://chocolatey.org/packages/copyq>`__.
+
+On **macOS**, you can use `Homebrew <https://brew.sh/>`__ to install the app
+(also see the problem in the next section):
 
 .. code-block:: bash
 
     brew install --cask copyq
+
+On **macOS**, if you encounter issue where the app does crash with a dialog
+saying "CopyQ is damaged" or "CopyQ cannot be opened", you may need to run the
+following commands (for details, see `issue #2652
+<https://github.com/hluk/CopyQ/issues/2652>`__):
+
+.. code-block:: bash
+
+    xattr -d com.apple.quarantine /Applications/CopyQ.app
+    codesign --force --deep --sign - /Applications/CopyQ.app
 
 On Debian unstable, **Debian 10+**, **Ubuntu 18.04+** and later derivatives can
 install stable version from official repositories:
