@@ -1316,7 +1316,7 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation>Visualizza/nascondi finestra programma</translation>
+        <translation>Visualizza/nascondi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1356,7 +1356,7 @@ Per visualizzare l&apos;intero elemento usa &apos;Anteprime elemento&apos; .</tr
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation>Layout e trasparenza</translation>
+        <translation>Disposizione e trasparenza</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1619,7 +1619,7 @@ Imposta a 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="160"/>
         <source>Layout</source>
-        <translation>Configurazione</translation>
+        <translation>Disposizione</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="161"/>
