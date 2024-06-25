@@ -81,6 +81,15 @@ On OS X you can use [Homebrew](https://brew.sh/) to install CopyQ:
 brew install --cask copyq
 ```
 
+If you encounter an issue where the app crashes with a dialog saying "CopyQ is
+damaged" or "CopyQ cannot be opened", you may need to run the following
+commands (for details, see #2652):
+
+```bash
+xattr -d com.apple.quarantine /Applications/CopyQ.app
+codesign --force --deep --sign - /Applications/CopyQ.app
+```
+
 ### Debian 10+, Ubuntu 18.04+, and their derivatives
 
 Install `copyq` and `copyq-plugins` packages.

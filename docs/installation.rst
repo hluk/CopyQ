@@ -14,7 +14,7 @@ On **macOS**, you can use `Homebrew <https://brew.sh/>`__ to install the app
 
     brew install --cask copyq
 
-On **macOS**, if you encounter issue where the app does crash with a dialog
+On **macOS**, if you encounter an issue where the app crashes with a dialog
 saying "CopyQ is damaged" or "CopyQ cannot be opened", you may need to run the
 following commands (for details, see `issue #2652
 <https://github.com/hluk/CopyQ/issues/2652>`__):
