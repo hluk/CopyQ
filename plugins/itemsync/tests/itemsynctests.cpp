@@ -54,7 +54,9 @@ public:
 
     QStringList files() const
     {
-        return m_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
+        QStringList files = m_dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
+        files.removeOne(QStringLiteral(".copyq_lock"));
+        return files;
     }
 
     FilePtr file(const QString &fileName) const
