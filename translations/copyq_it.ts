@@ -2343,7 +2343,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation>Attiva/disattiva tag %1</translation>
+        <translation>Attiva/disattiva etichetta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -2353,7 +2353,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
         <source>Untag items first to remove them.</source>
-        <translation>Sblocca gli oggetti prima di rimuoverli.</translation>
+        <translation>Deseleziona prima gli elementi per rimuoverli.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="742"/>
@@ -2364,7 +2364,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="772"/>
         <source>Clear all tags</source>
-        <translation>Azzera tutte le etichette</translation>
+        <translation>Svuota tutte le etichette</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
@@ -2374,7 +2374,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
         <source>Display tags for items.</source>
-        <translation>Visualizza etichetta elementi.</translation>
+        <translation>Visualizza etichette per elementi.</translation>
     </message>
 </context>
 <context>
@@ -2382,12 +2382,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation>Gli elementi menu per aggiungere/rimuovere etichette personalizzate possono essere aggiunti/personalizzati nella finestra &apos;Comandi&apos;.</translation>
+        <translation>Le voci di menu per l&apos;aggiunta e la rimozione di etichette personalizzate possono essere aggiunte e personalizzate nella finestra di dialogo Comandi.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="27"/>
         <source>More info is available on &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;wiki page&lt;/a&gt;.</source>
-        <translation>Maggiori info sono disponibili nella &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;pagina wiki&lt;/a&gt;.</translation>
+        <translation>Maggiori informazioni sono disponibili nella &lt;a href=&quot;https://copyq.readthedocs.io/en/latest/tags.html&quot;&gt;pagina wiki&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
