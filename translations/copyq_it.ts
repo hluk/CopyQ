@@ -2784,7 +2784,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="58"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>Cronologia App&amp;unti ON/OFF</translation>
+        <translation>A&amp;ttiva/disattiva memorizzazione appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
@@ -3192,7 +3192,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="65"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation>Disabilita/abilita cronologia contenuto Appunti.</translation>
+        <translation>Disabilita o abilita la memorizzazione del contenuto degli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
