@@ -403,7 +403,6 @@ signals:
     void receiveData();
 
 private:
-    void onExecuteOutput(const QByteArray &output);
     void onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
     void onMonitorClipboardUnchanged(const QVariantMap &data);
     void onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);
@@ -482,11 +481,6 @@ private:
     QString m_actionName;
     Abort m_abort = Abort::None;
     int m_skipArguments = 0;
-
-    // FIXME: Parameters for execute() shouldn't be global.
-    QByteArray m_executeStdoutData;
-    QString m_executeStdoutLastLine;
-    QJSValue m_executeStdoutCallback;
 
     bool m_displayFunctionsLock = false;
 

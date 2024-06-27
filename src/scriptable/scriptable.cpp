@@ -1904,9 +1904,9 @@ QJSValue Scriptable::execute()
 {
     m_skipArguments = -1;
 
-    m_executeStdoutData.clear();
-    m_executeStdoutLastLine.clear();
-    m_executeStdoutCallback = QJSValue();
+    QByteArray executeStdoutData;
+    QString executeStdoutLastLine;
+    QJSValue executeStdoutCallback;
 
     // Pass all arguments until null to command. The rest will be sent to stdin.
     QStringList args;
@@ -1917,7 +1917,7 @@ QJSValue Scriptable::execute()
             break;
 
         if ( arg.isCallable() )
-            m_executeStdoutCallback = arg;
+            executeStdoutCallback = arg;
         else
             args.append( toString(arg) );
     }
@@ -1926,7 +1926,7 @@ QJSValue Scriptable::execute()
     for ( ++i ; i < argumentCount(); ++i ) {
         const auto arg = argument(i);
         if ( arg.isCallable() )
-            m_executeStdoutCallback = arg;
+            executeStdoutCallback = arg;
         else
             action.setInput( action.input() + makeByteArray(arg) );
     }
@@ -1935,25 +1935,35 @@ QJSValue Scriptable::execute()
     action.setReadOutput(true);
 
     connect( &action, &Action::actionOutput,
-             this, &Scriptable::onExecuteOutput );
+             this, [&](const QByteArray &output) {
+                 executeStdoutData.append(output);
+             });
+    if ( executeStdoutCallback.isCallable() ) {
+        connect( &action, &Action::actionOutput,
+                 this, [&](const QByteArray &output) {
+                     executeStdoutLastLine.append( getTextData(output) );
+                     auto lines = executeStdoutLastLine.split('\n');
+                     executeStdoutLastLine = lines.takeLast();
+                     if ( !lines.isEmpty() ) {
+                         const auto arg = toScriptValue(lines, m_engine);
+                         call( "executeStdoutCallback", &executeStdoutCallback, {arg} );
+                     }
+                 });
+    }
 
     if ( !runAction(&action) || action.actionFailed() ) {
         return throwError( QStringLiteral("Failed to run command") );
     }
 
-    if ( m_executeStdoutCallback.isCallable() ) {
-        const auto arg = toScriptValue(m_executeStdoutLastLine, m_engine);
-        call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
+    if ( executeStdoutCallback.isCallable() ) {
+        const auto arg = toScriptValue(executeStdoutLastLine, m_engine);
+        call( "executeStdoutCallback", &executeStdoutCallback, {arg} );
     }
 
     QJSValue actionResult = m_engine->newObject();
-    actionResult.setProperty( QStringLiteral("stdout"), newByteArray(m_executeStdoutData) );
+    actionResult.setProperty( QStringLiteral("stdout"), newByteArray(executeStdoutData) );
     actionResult.setProperty( QStringLiteral("stderr"), getTextData(action.errorOutput()) );
     actionResult.setProperty( QStringLiteral("exit_code"), action.exitCode() );
-
-    m_executeStdoutData.clear();
-    m_executeStdoutLastLine.clear();
-    m_executeStdoutCallback = QJSValue();
 
     return actionResult;
 }
@@ -2671,21 +2681,6 @@ void Scriptable::collectScriptOverrides()
         overrides.append(ScriptOverrides::OnItemsLoaded);
 
     m_proxy->setScriptOverrides(overrides);
-}
-
-void Scriptable::onExecuteOutput(const QByteArray &output)
-{
-    m_executeStdoutData.append(output);
-
-    if ( m_executeStdoutCallback.isCallable() ) {
-        m_executeStdoutLastLine.append( getTextData(output) );
-        auto lines = m_executeStdoutLastLine.split('\n');
-        m_executeStdoutLastLine = lines.takeLast();
-        if ( !lines.isEmpty() ) {
-            const auto arg = toScriptValue(lines, m_engine);
-            call( "executeStdoutCallback", &m_executeStdoutCallback, {arg} );
-        }
-    }
 }
 
 void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership)
