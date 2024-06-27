@@ -867,7 +867,7 @@ Esempi:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Font</translation>
+        <translation>Carattere</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
@@ -1366,7 +1366,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation>Visualizza scheda st&amp;ruttura</translation>
+        <translation>St&amp;ruttura scheda</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -1385,7 +1385,7 @@ Nota: questo non è supportato su tutti i sistemi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>Trasparenza non in foc&amp;us:</translation>
+        <translation>Trasparenza non focali&amp;zzata:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
@@ -2064,7 +2064,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>Larghezza max immagine visualizzata nella cronologia (imposta a 0 per le dimensioni originali)</translation>
+        <translation>Larghezza massima immagine visualizzata nella cronologia (0 per dimensione originale)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2074,7 +2074,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation>Altezza max immagine visualizzata nella Cronologia (imposta a 0 per dimensione originale)</translation>
+        <translation>Altezza massima immagine visualizzata nella cronologia (0 per dimensione originale)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
@@ -2237,7 +2237,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="120"/>
         <source>Synchronize</source>
-        <translation>Sincronizza</translation>
+        <translation>Sincronizzazione</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="122"/>
@@ -2290,7 +2290,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation>File a formati elementi dati</translation>
+        <translation>File in formati di dati per elementi</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
@@ -2448,12 +2448,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Numero massimo di righe da visualizzare (0 per mostrare tutte):</translation>
+        <translation>Numero massimo di righe da visualizzare (0 mostra tutte):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Altezza max in pixel (0 per nessun limite):</translation>
+        <translation>Altezza massima in pixel (0 per nessun limite):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
@@ -2718,8 +2718,8 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../src/main.cpp" line="227"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>Il nome della sessione deve avere max 16 caratteri
-che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
+        <translation>Il nome della sessione deve contenere al massimo 16 caratteri
+che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     </message>
     <message>
         <location filename="../src/common/appconfig.cpp" line="22"/>
@@ -3067,7 +3067,7 @@ che possonoe ssre lettere, numeri, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Font</source>
-        <translation>Font</translation>
+        <translation>Carattere</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
@@ -3417,7 +3417,7 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
         <source>Print amount of items in current tab.</source>
-        <translation>Visualizza numero elementi nella scheda attuale.</translation>
+        <translation>Stampa quantità di elementi nella scheda attuale.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
@@ -3787,7 +3787,7 @@ Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</transl
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>&amp;Numero massimo elementi:</translation>
+        <translation>Numero &amp;massimo elementi:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
