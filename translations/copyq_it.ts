@@ -1049,7 +1049,7 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation>Chiudi quando non è in primo piano</translation>
+        <translation>Chiudi quando non è focalizzato</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1293,7 +1293,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Focus last window after item is activated</source>
-        <translation>Focus ultima finestra dopo che l&apos;elemento è stato attivato</translation>
+        <translation>Evidenzia ultima finestra dopo l&apos;attivazione dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1371,7 +1371,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation>&amp;Focus trasparenza:</translation>
+        <translation>&amp;Trasparenza mirata:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
@@ -2750,7 +2750,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>&amp;Preferences...</source>
-        <translation>Im&amp;postazioni...</translation>
+        <translation>&amp;Preferenze...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
@@ -3133,7 +3133,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>&amp;About</source>
-        <translation>Info sul progr&amp;amma</translation>
+        <translation>Inform&amp;azioni su</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
