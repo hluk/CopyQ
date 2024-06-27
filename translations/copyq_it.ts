@@ -1939,7 +1939,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="994"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Le chiavi di criptazione &lt;strong&gt;devono essere generate&lt;/strong&gt; prima dell&apos;uso dell&apos;elemento criptato.</translation>
+        <translation>Le chiavi di crittografia &lt;strong&gt;devono essere generate&lt;/strong&gt; prima di poter utilizzare la crittografia degli elementi.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
@@ -1954,17 +1954,17 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="403"/>
         <source>Encryption failed!</source>
-        <translation>Criptazione fallita!</translation>
+        <translation>Crittografia fallita!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="1005"/>
         <source>Decryption failed!</source>
-        <translation>Decriptazione fallita!</translation>
+        <translation>Decrittazione fallita!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="82"/>
         <source>Encryption</source>
-        <translation>Criptazione</translation>
+        <translation>Crittografia</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="84"/>
@@ -2059,7 +2059,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>Larg&amp;hezza max immagine:</translation>
+        <translation>Larg&amp;hezza massima immagine:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
