@@ -1303,7 +1303,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="273"/>
         <source>Paste to current window after item is activated</source>
-        <translation>Incolla nella finestra attuale dopo che l&apos;elemento è stato attivato</translation>
+        <translation>Incolla nella finestra attuale dopo l&apos;attivazione dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
@@ -1321,7 +1321,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>Nascondi schede (premi il tasto Alt per mostrarle)</translation>
+        <translation>Nascondi schede (premi Alt per mostrarle)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
@@ -1404,7 +1404,7 @@ Nota: questo non è supportato su tutti i sistemi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>&amp;Visualizza numero elementi</translation>
+        <translation>&amp;Mostra conteggio elementi</translation>
     </message>
 </context>
 <context>
@@ -1461,16 +1461,16 @@ Nota: questo non è supportato su tutti i sistemi.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Intervallo in secondi visualizzazione notifica per nuovo contenuto Appunti o se l&apos;elemento è copiato negli Appunti (solo la finestra principale è chiusa).
+        <translation>Intervallo in secondi per visualizzare la notifica per il nuovo contenuto degli appunti o se l&apos;elemento viene copiato negli appunti (solo se la finestra principale è chiusa).
 
-Imposta a 0 per disabilitare la notifica.
+Imposta su 0 per disabilitarlo
 
-Imposta a -1 se vuoi mantenere visibile fino al clic.</translation>
+Imposta su -1 per rimanere visibile finché non si fa clic.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="173"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation>Numero di &amp;linee per la notifica Appunti:</translation>
+        <translation>Numero di righe per la notifica negli appunti:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="185"/>
@@ -1499,7 +1499,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="239"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation>Distanza notifiche in punti dagli angoli sinistro o destro dello schermo</translation>
+        <translation>Distanza di notifica dal bordo sinistro o destro dello schermo in punti dello schermo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="267"/>
@@ -1509,7 +1509,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="279"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation>Distanza notifiche in punti degli angoli superiore o inferiore dello schermo</translation>
+        <translation>Distanza di notifica dal bordo superiore o inferiore dello schermo in punti dello schermo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="307"/>
@@ -1519,7 +1519,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="319"/>
         <source>Maximum width for notification in screen points</source>
-        <translation>Larghezza massima in punti per le notifiche</translation>
+        <translation>Larghezza massima per le notifiche in punti dello schermo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="344"/>
@@ -1529,7 +1529,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="356"/>
         <source>Maximum height for notification in screen points</source>
-        <translation>Altezza massima notifiche in punti</translation>
+        <translation>Altezza massima per le notifiche in punti dello schermo</translation>
     </message>
 </context>
 <context>
@@ -1542,7 +1542,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>Disabilita icona nella &amp;barra di sistema</translation>
+        <translation>Disabilita icona n&amp;ella barra</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1552,17 +1552,17 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation>&amp;Visualizza comandi contenuto Appunti</translation>
+        <translation>Mos&amp;tra comandi per contenuto degli appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="82"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>N&amp;umero elementi nel menu barra di sistema:</translation>
+        <translation>N&amp;umero elementi nel menu barra applicazioni:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="92"/>
         <source>Number of items in tray menu</source>
-        <translation>Numero elementi nel menu barra di sistema</translation>
+        <translation>Numero elementi nel menu barra applicazioni</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
@@ -1644,7 +1644,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="165"/>
         <source>Items</source>
-        <translation>Oggetti</translation>
+        <translation>Elementi</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="166"/>
@@ -1664,12 +1664,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="486"/>
         <source>Reset preferences?</source>
-        <translation>Vuoi ripristinare le preferenze?</translation>
+        <translation>Reimpostare le preferenze?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="487"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Questa azione ripristinerà tutte le impostazioni (in tutte le schede) ai valori predefiniti. &lt;br/&gt;&lt;br/&gt;. Vuoi veramente &lt;strong&gt;ripristinare tutte le impostazioni&lt;/strong&gt;?</translation>
+        <translation>Questa azione reimposterà tutte le tue preferenze (in tutte le schede) sui valori predefiniti.&lt;br /&gt;&lt;br /&gt;Vuoi davvero &lt;strong&gt;reimpostare tutte le preferenze&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="589"/>
@@ -1692,7 +1692,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/filewatcher.cpp" line="875"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>Impossibile creare cartella sincronizzazione: &quot;%1&quot;!</translation>
+        <translation>Impossibile creare la directory di sincronizzazione &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
@@ -1723,7 +1723,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="151"/>
         <source>Select Icon</source>
-        <translation>Scegli l&apos;icona</translation>
+        <translation>Seleziona icona</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="158"/>
@@ -1746,7 +1746,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation>&amp;tutti</translation>
+        <translation>&amp;Tutti</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
@@ -1756,7 +1756,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation>Impostazio&amp;ni</translation>
+        <translation>Co&amp;nfigurazione</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
@@ -1777,7 +1777,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="139"/>
         <source>Editor command failed (see logs)</source>
-        <translation>Modifica comando fallita (vedi registro eventi)</translation>
+        <translation>Comando dell&apos;editor non riuscito (vedi registri)</translation>
     </message>
 </context>
 <context>
@@ -1862,12 +1862,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation>Pe visualizzare le schede criptate deve essere installato GnuPG.</translation>
+        <translation>GnuPG deve essere installato per visualizzare le schede crittografate.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="861"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation>Cripta (richiede GnuPG)</translation>
+        <translation>Crittografa (richiede GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
@@ -1923,7 +1923,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="988"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>Creazione nuove chiavi (può richiedere alcuni minuti)...</translation>
+        <translation>Creazione nuove chiavi (l&apos;operazione potrebbe richiedere alcuni minuti)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
@@ -1944,12 +1944,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
         <source>Generate New Keys...</source>
-        <translation>Generazione nuove chiavi...</translation>
+        <translation>Genera nuove chiavi...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="999"/>
         <source>Change Password...</source>
-        <translation>Modifica password...</translation>
+        <translation>Cambia password...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="403"/>
@@ -1977,24 +1977,24 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Per criptare e decriptare gli elementi aggiungi il comando relativo nella scheda &apos;Comandi&apos;.</translation>
+        <translation>Per crittografare e decrittografare gli elementi, aggiungi i comandi appropriati nella scheda Comandi.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation>Elementi e schede condivise criptate</translation>
+        <translation>Condivisione di elementi e schede crittografati</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation>Cripta schede</translation>
+        <translation>Schede crittografate</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Specifica nomi delle schede (una per linea) che verranno automaticamente criptate e decriptate.&lt;/p&gt;
-&lt;p&gt;Imposta intervallo di chiusura delle schede nella scheda &apos;Cronologia&apos; per scaricare in modo sicuro elementi decriptati dalla memoria.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Specifica i nomi delle schede (una per riga) che verranno automaticamente crittografate e decrittografate.&lt;/p&gt;
+&lt;p&gt;Imposta l&apos;intervallo di scaricamento della scheda nella scheda Cronologia per scaricare in modo sicuro gli elementi decrittografati dalla memoria.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2002,12 +2002,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="75"/>
         <source>Corrupted Tab</source>
-        <translation>Scheda corrotta</translation>
+        <translation>Scheda danneggiata</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation>Non tutti gli elementi nella scheda &lt;strong&gt;%1&lt;/strong&gt; sono stati caricati correttamente. Vuoi ancora caricare la scheda e potenzialmente perdere alcuni elementi?</translation>
+        <translation>Non tutti gli elementi nella scheda &lt;strong&gt;%1&lt;/strong&gt; sono stati caricati correttamente. Vuoi comunque caricare la scheda e potenzialmente perdere alcuni elementi?</translation>
     </message>
 </context>
 <context>
@@ -2020,12 +2020,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="27"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation>Il plugin FakeVim è parte di QT Ceator</translation>
+        <translation>Il plugin FakeVim fa parte di Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="29"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Emula editor Vim mentre modifichi il testo.</translation>
+        <translation>Emula editor Vim durante la modifica degli elementi.</translation>
     </message>
 </context>
 <context>
@@ -2079,12 +2079,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>Comando ed&amp;itor immagine:</translation>
+        <translation>Comando ed&amp;itor immagini:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>Comando editor per formati immagini supportate diverso da SVG.</translation>
+        <translation>Comando dell&apos;editor per formati immagine supportati diversi da SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
@@ -2094,7 +2094,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>Comando editor per immagine formato SVG.</translation>
+        <translation>Comando dell&apos;editor per il formato immagine SVG.</translation>
     </message>
 </context>
 <context>
@@ -2120,17 +2120,17 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Oggetto sopra</translation>
+        <translation>&amp;Sopra l&apos;elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>Oggetto sotto</translation>
+        <translation>Sotto l&apos;ele&amp;mento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>Oggetto a lato</translation>
+        <translation>Accanto all&apos;ele&amp;mento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2193,7 +2193,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
         <source>Unpin items first to remove them.</source>
-        <translation>Sblocca gli elementi prima di rimuoverli.</translation>
+        <translation>Sblocca elementi prima di rimuoverli.</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="347"/>
@@ -2232,7 +2232,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="776"/>
         <source>Failed to create synchronization directory</source>
-        <translation>Impossibile creare la cartella della sincronizzazione</translation>
+        <translation>Impossibile creare la cartella di sincronizzazione</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="120"/>
@@ -2242,7 +2242,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="122"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation>Sincronizza elementi e note con una cartella su disco.</translation>
+        <translation>Sincronizza elementi e note con una cartella sul disco.</translation>
     </message>
 </context>
 <context>
@@ -2255,7 +2255,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
         <source>Remove Items?</source>
-        <translation>Vuoi rimuovere gli elementi?</translation>
+        <translation>Rimuovere gli elementi?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="463"/>
@@ -2274,7 +2274,7 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Sincronizza contenuto della &lt;strong&gt;scheda&lt;/strong&gt; con la cartella con &lt;strong&gt;percorso&lt;/strong&gt; indicato.&lt;/p&gt;
+        <translation>&lt;p&gt;Sincronizza contenuto della &lt;strong&gt;scheda&lt;/strong&gt; con la cartella con il &lt;strong&gt;percorso&lt;/strong&gt; indicato.&lt;/p&gt;
 &lt;p&gt;Imposta un &lt;strong&gt;percorso vuoto&lt;/strong&gt; per non salvare gli elementi nella &lt;strong&gt;scheda&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2348,7 +2348,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation>Impossibile rimuovere oggetti bloccati</translation>
+        <translation>Impossibile rimuovere elementi con un&apos;etichetta bloccata</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
@@ -2369,7 +2369,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
         <source>Tags</source>
-        <translation>Etichetta</translation>
+        <translation>Etichette</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
@@ -2448,17 +2448,17 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Numero massimo di righe da visualizzare (0 mostra tutte):</translation>
+        <translation>Numero massimo righe mostrate (0 mostra tutte):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>Altezza massima in pixel (0 per nessun limite):</translation>
+        <translation>Altezza massima in pixel (0 nessun limite):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation>Foglio stile predefinito:</translation>
+        <translation>Foglio di stile predefinito:</translation>
     </message>
 </context>
 <context>
@@ -2496,7 +2496,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="715"/>
         <source>Exit?</source>
-        <translation>Vuoi uscire?</translation>
+        <translation>Uscire?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="716"/>
@@ -2532,7 +2532,7 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2108"/>
         <location filename="../src/gui/mainwindow.cpp" line="2230"/>
         <source>Options for Import</source>
-        <translation>Opzioni importazione</translation>
+        <translation>Opzioni per importazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="677"/>
@@ -2542,12 +2542,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3874"/>
         <source>Options for Export</source>
-        <translation>Opzioni esportazione</translation>
+        <translation>Opzioni per esportazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3895"/>
         <source>Export Error</source>
-        <translation>Errore esportazione</translation>
+        <translation>Errore di esportazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3896"/>
@@ -2566,7 +2566,7 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2518"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation>Errore CopyQ</translation>
+        <translation>Errore di CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="904"/>
@@ -2612,7 +2612,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3988"/>
         <source>Import Error</source>
-        <translation>Errore importazione</translation>
+        <translation>Errore di importazione</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3989"/>
@@ -2622,7 +2622,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4174"/>
         <source>Remove All Tabs in Group?</source>
-        <translation>Vuoi rimuovere tutte le schede nel gruppo?</translation>
+        <translation>Rimuovere tutte le schede nel gruppo?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4175"/>
@@ -2632,7 +2632,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4222"/>
         <source>Remove Tab?</source>
-        <translation>Vuoi rimuovere la scheda?</translation>
+        <translation>Rimuovere la scheda?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4223"/>
@@ -2661,8 +2661,8 @@ Imposta su 0 per disabilitare.</translation>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1 (%n linea)</numerusform>
-            <numerusform>%1 (%n linee)</numerusform>
+            <numerusform>%1 (%n riga)</numerusform>
+            <numerusform>%1 (%n righe)</numerusform>
         </translation>
     </message>
     <message>
@@ -2675,7 +2675,7 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../src/common/common.cpp" line="618"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation>&lt;OGGETTI&gt;</translation>
+        <translation>&lt;ELEMENTI&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="620"/>
@@ -2693,7 +2693,7 @@ Imposta su 0 per disabilitare.</translation>
         <location filename="../src/common/shortcuts.cpp" line="32"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation>Backspace</translation>
+        <translation>Indietro</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="34"/>
@@ -2725,7 +2725,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
         <location filename="../src/common/appconfig.cpp" line="22"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation>&amp;Appunti</translation>
+        <translation>&amp;appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="42"/>
@@ -2794,12 +2794,12 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>P&amp;rocess Manager</source>
-        <translation>Gestione elabo&amp;razione</translation>
+        <translation>Gestore p&amp;rocessi</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="61"/>
         <source>Ctrl+Shift+Z</source>
-        <translation>Ctrl+Shift+</translation>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2824,7 +2824,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="68"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>Inve&amp;rsione elementi selezionati</translation>
+        <translation>Inve&amp;rti elementi selezionati</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
@@ -2957,7 +2957,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
         <source>Ctrl+End</source>
-        <translation>Ctrl+Fine</translation>
+        <translation>Ctrl+End</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
@@ -3019,7 +3019,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Open Item Context Menu</source>
-        <translation>Apri menù contestuale</translation>
+        <translation>Apri menu contestuale dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
@@ -3087,7 +3087,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="94"/>
         <source>Strikethrough</source>
-        <translation>Ribattuto</translation>
+        <translation>Barrato</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="96"/>
@@ -3107,13 +3107,13 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Search</source>
-        <translation>Cerca</translation>
+        <translation>Ricerca</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>Elementi a&amp;ttivati</translation>
+        <translation>A&amp;ttiva elementi</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
@@ -3123,7 +3123,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>&amp;Show Log</source>
-        <translation>Mo&amp;stra registro eventi</translation>
+        <translation>Mo&amp;stra registro</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -3143,7 +3143,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="437"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation>La scheda %1 è corrotta o alcuni plugin CopyQ non sono presenti!</translation>
+        <translation>La scheda %1 è danneggiata o mancano alcuni plugin di CopyQ!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2478"/>
@@ -3197,7 +3197,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="68"/>
         <source>Print clipboard content.</source>
-        <translation>Visualizza contenuto Appunti.</translation>
+        <translation>Stampa contenuto appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="69"/>
@@ -3213,19 +3213,19 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="72"/>
         <source>Print X11 selection content.</source>
-        <translation>Visualizza contenuto selezione X11.</translation>
+        <translation>Stampa contenuto selezione X11.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
-        <translation>Incolla contenuto Appunti nella finestra attuale.
+        <translation>Incolla gli appunti nella finestra attuale
 (potrebbe non funzionare con alcune applicazioni).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
         <source>Set clipboard text.</source>
-        <translation>Imposta testo Appunti.</translation>
+        <translation>Imposta testo appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="82"/>
@@ -3251,7 +3251,7 @@ Imposta contenuto Appunti.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
         <source>Copy item in the row to clipboard.</source>
-        <translation>Copia elemento nella colonna negli Appunti.</translation>
+        <translation>Copia elemento della riga negli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="92"/>
@@ -3265,27 +3265,27 @@ Imposta contenuto Appunti.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation>Copia elemento successivo dalla scheda attuale negli Appunti.</translation>
+        <translation>Copia elemento successivo dalla scheda attuale agli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation>Copia elemento precedente dalla scheda attuale negli Appunti.</translation>
+        <translation>Copia elemento precedente dalla scheda attuale agli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="98"/>
         <source>Add text into clipboard.</source>
-        <translation>Aggiungi testo negli Appunti.</translation>
+        <translation>Aggiungi testo agli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
         <source>Insert text into given row.</source>
-        <translation>Inserisci testo nelle righe indicate.</translation>
+        <translation>Inserisci testo nella riga specificata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="105"/>
         <source>Remove items in given rows.</source>
-        <translation>Rimuovi elementi nelle colonne indicate.</translation>
+        <translation>Rimuovi elementi in determinate righe.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
@@ -3298,13 +3298,13 @@ Imposta contenuto Appunti.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
-        <translation>Modifica elementi o elemento nuovo.
-Valore -1 per testo attuale negli Appunti.</translation>
+        <translation>Modifica elementi o modificane uno nuovo.
+Il valore -1 è per il testo attuale negli appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Set separator for items on output.</source>
-        <translation>Imposta separatore epr elementi nella destinazione.</translation>
+        <translation>Imposta il separatore per elementi in output.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
@@ -3315,7 +3315,7 @@ Valore -1 per testo attuale negli Appunti.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
         <source>Print raw data of clipboard or item in row.</source>
-        <translation>Visualizza dati RAW degli Appunti o elemento nella colonna.</translation>
+        <translation>Stampa dati grezzi degli appunti o dell&apos;elemento nella riga.</translation>
     </message>
     <message>
         <source>
@@ -3365,16 +3365,16 @@ Visualizza popup barra sistema per TEMPO in millisecondi.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>List available tab names.</source>
-        <translation>Visualizza nomi schede disponibili.</translation>
+        <translation>Elenca nomi schede disponibili.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation>Esegui il comando nella scheda con il nome indicato.
+        <translation>Esegui il comando sulla scheda con il nome specificato.
 Se non esiste la scheda verrà creata.
-Predefinita è la rpima scheda.</translation>
+L&apos;impostazione predefinita è la prima scheda.</translation>
     </message>
     <message>
         <source>
@@ -3387,7 +3387,7 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Esegui test applicazione (aggiungi --hellp per maggiori info).</translation>
+        <translation>Esegui test applicazione (aggiungi --help per maggiori informazioni).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="55"/>
@@ -3406,13 +3406,13 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
         <location filename="../src/scriptable/commandhelp.cpp" line="79"/>
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
-        <translation>Copia negli appunti dalla finestra attiva
+        <translation>Copia gli appunti dalla finestra attuale
 (potrebbe non funzionare con alcune applicazioni).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="83"/>
         <source>Set clipboard content.</source>
-        <translation>Imposta contenuto Appunti.</translation>
+        <translation>Imposta contenuto appunti.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3422,14 +3422,14 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Write raw data to given row.</source>
-        <translation>Scrive dati RAW nella riga selezionata.</translation>
+        <translation>Scrivi dati grezzi nella riga specificata.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation>Esegue PROGRAMMA sul testo dell&apos;elemento nelle righe.
-Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
+        <translation>Esegui PROGRAMMA sul testo dell&apos;elemento nelle righe.
+Utilizza %1 in PROGRAMMA per inviare il testo come argomento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
@@ -3478,7 +3478,7 @@ Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="162"/>
         <source>List all options.</source>
-        <translation>Visualizza tutte le opzioni.</translation>
+        <translation>Elenca tutte le opzioni.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
@@ -3504,7 +3504,7 @@ Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="171"/>
         <source>Evaluate script.</source>
-        <translation>Elabora script.</translation>
+        <translation>Valuta script.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
@@ -3519,22 +3519,22 @@ Usa %1 in PROGRAMMA per specificare il testo come argomento.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>Inizia o si connette ad un&apos;istanza dell&apos;applicazione con il dato nome sessione.</translation>
+        <translation>Avvia o si connette all&apos;istanza dell&apos;applicazione con il nome di sessione specificato.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
         <source>Print help for COMMAND or all commands.</source>
-        <translation>Visualizza aiuto per COMMAND o tutti i comandi.</translation>
+        <translation>Stampa la guida per COMANDO o tutti i comandi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="181"/>
         <source>Print version of program and libraries.</source>
-        <translation>Visualizza versione del programma e delle sue librerie.</translation>
+        <translation>Stampa versione del programma e delle librerie.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
         <source>Start server in background before running a command.</source>
-        <translation>Avvia il server in background prima di lanciare un comando.</translation>
+        <translation>Avvia server in background prima di eseguire un comando.</translation>
     </message>
     <message>
         <source>
@@ -3562,12 +3562,12 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="111"/>
         <source>Usage: copyq [%1]</source>
-        <translation>Uso: copyq [%1]</translation>
+        <translation>Utilizzo: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>Starts server if no command is specified.</source>
-        <translation>Avvia il server se non è specificato nessun comando.</translation>
+        <translation>Avvia server se non viene specificato alcun comando.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="113"/>
@@ -3583,13 +3583,13 @@ Visualizza programma e librerie.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - Usa la doppia lineetta (--) per leggere i seguenti argomenti senza
-    espandere le sequenze escape (es. \n, \t e altro).</translation>
+        <translation>  - Utilizza l&apos;argomento con doppio trattino (--) per leggere tutti gli argomenti successivi
+    senza espandere le sequenze di escape (per esempio \n, \t e altri).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  -Usa ? per MIME per visualizzare i tipi MIME disponibili (predefinito è &quot;text/plain&quot;).</translation>
+        <translation>  - Utilizza ? per MIME per stampare i tipi MIME disponibili (l&apos;impostazione predefinita è &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="127"/>
@@ -3627,7 +3627,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2994"/>
         <source>Failed to copy to clipboard!</source>
-        <translation>Impossibile copiare negli Appunti!</translation>
+        <translation>Impossibile copiare negli appunti!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
@@ -3637,7 +3637,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation>  - Usa la lineetta (-) per leggere dati dall&apos;input standard.</translation>
+        <translation>  - Utilizza l&apos;argomento trattino (-) per leggere i dati dall&apos;input standard.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="588"/>
@@ -3655,23 +3655,23 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="618"/>
         <source>Tab with given name doesn&apos;t exist!</source>
-        <translation>Lla scheda con il nome indicato non esiste!</translation>
+        <translation>La scheda con il nome specificato non esiste!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="623"/>
         <source>Tab name cannot be empty!</source>
-        <translation>Il mome scheda non può essere vuoto!</translation>
+        <translation>Il nome della scheda non può essere vuoto!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="1151"/>
         <source>Tab with given name already exists!</source>
-        <translation>La scheda con il nome indicato esiste già!</translation>
+        <translation>La scheda con il nome specificato esiste già!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2416"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation>*Memorizzazione degli appunti disabilitata*</translation>
+        <translation>*Memorizzazione appunti disabilitata*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
@@ -3757,9 +3757,9 @@ Visualizza programma e librerie.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Il nome scheda non può essere vuoto e deve essere univoco.&lt;br/&gt;
-La scheda &lt;b&gt;No&amp;amp;ta&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
-Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</translation>
+        <translation>Il nome della scheda non deve essere vuoto e univoco.&lt;br /&gt;
+La scheda &lt;b&gt;No&amp;amp;te&lt;/b&gt; può essere aperta utilizzando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+Utilizza &lt;b&gt;/&lt;/b&gt; come separatore di percorso nella visualizzazione ad albero della scheda.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3809,12 +3809,12 @@ Usa &lt;b&gt;/&lt;/b&gt; come separatore percorso nella vista struttura.</transl
     <message>
         <location filename="../src/gui/traymenu.cpp" line="96"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>Premi &apos;/&apos; per la ricerca</translation>
+        <translation>Premi &apos;/&apos; per la cercare</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="96"/>
         <source>Type to search</source>
-        <translation>Ricerca stringa</translation>
+        <translation>Digita per cercare</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="110"/>
