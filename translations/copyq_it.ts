@@ -2824,7 +2824,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="68"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>Inve&amp;rti elementi selezionati</translation>
+        <translation>Inve&amp;rti ordine elementi selezionati</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
