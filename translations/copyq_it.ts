@@ -1044,12 +1044,12 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation>Chiudi finestra principale quando è attiva un&apos;altra applicazione</translation>
+        <translation>Chiudi finestra principale quando altre applicazioni sono in primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation>Chiudi quando non è focalizzato</translation>
+        <translation>Chiudi quando non è in primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1293,12 +1293,12 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Focus last window after item is activated</source>
-        <translation>Evidenzia ultima finestra dopo l&apos;attivazione dell&apos;elemento</translation>
+        <translation>Metti in primo piano l&apos;ultima finestra dopo l&apos;attivazione dell&apos;elemento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
         <source>&amp;Focus last window</source>
-        <translation>&amp;Focus su ultima finestra</translation>
+        <translation>Ultima &amp;finestra in primo piano</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="273"/>
@@ -1371,28 +1371,28 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation>&amp;Trasparenza mirata:</translation>
+        <translation>&amp;Trasparenza in primo piano:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation>Trasparenza della finestra principale se focalizzata.
+        <translation>Trasparenza della finestra principale se in primo piano.
 
 Nota: questo non è supportato su tutti i sistemi.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>Trasparenza non focali&amp;zzata:</translation>
+        <translation>Trasparenza non in primo piano:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation>Trasparenza della finestra principale se non focalizzata.
+        <translation>Trasparenza della finestra principale se non in primo piano.
 
 Nota: questo non è supportato su tutti i sistemi.</translation>
     </message>
