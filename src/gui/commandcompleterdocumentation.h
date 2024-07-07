@@ -117,7 +117,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("sha256sum", "sha256sum(data) -> `ByteArray`", "Returns SHA256 checksum of data.");
     addDocumentation("sha512sum", "sha512sum(data) -> `ByteArray`", "Returns SHA512 checksum of data.");
     addDocumentation("open", "open(url, ...) -> bool", "Tries to open URLs in appropriate applications.");
-    addDocumentation("execute", "execute(argument, ..., null, stdinData, ...) -> `FinishedCommand` or `undefined`", "Executes a command.");
+    addDocumentation("execute", "execute(argument, ..., null, stdinData, ...) -> `FinishedCommand`", "Executes a command.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle() -> string", "Returns window title of currently focused window.");
     addDocumentation("currentClipboardOwner", "String currentClipboardOwner() -> string", "Returns name of the current clipboard owner.");
     addDocumentation("dialog", "dialog(...)", "Shows messages or asks user for input.");
@@ -204,6 +204,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("mimeSelectedItems", "mimeSelectedItems", "Selected items when invoking command from main window. Value: 'application/x-copyq-selected-items'.");
     addDocumentation("mimeCurrentItem", "mimeCurrentItem", "Current item when invoking command from main window. Value: 'application/x-copyq-current-item'.");
     addDocumentation("mimeHidden", "mimeHidden", "If set to `1`, the clipboard or item content will be hidden in GUI. Value: 'application/x-copyq-hidden'.");
+    addDocumentation("mimeSecret", "mimeSecret", "If set to `1`, the clipboard contains a password or other secret (for example, copied from clipboard manager).");
     addDocumentation("mimeShortcut", "mimeShortcut", "Application or global shortcut which activated the command. Value: 'application/x-copyq-shortcut'.");
     addDocumentation("mimeColor", "mimeColor", "Item color (same as the one used by themes). Value: 'application/x-copyq-color'.");
     addDocumentation("mimeOutputTab", "mimeOutputTab", "Name of the tab where to store new item. Value: 'application/x-copyq-output-tab'.");

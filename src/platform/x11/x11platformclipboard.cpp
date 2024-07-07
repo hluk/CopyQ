@@ -269,11 +269,6 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
     clipboardData->retry = 0;
 
-    // Ignore clipboard with secrets
-    const QByteArray passwordManagerHint = data->data(QStringLiteral("x-kde-passwordManagerHint"));
-    if ( passwordManagerHint == QByteArrayLiteral("secret") )
-        return;
-
     const QByteArray newDataTimestampData = data->data(QStringLiteral("TIMESTAMP"));
     quint32 newDataTimestamp = 0;
     if ( !newDataTimestampData.isEmpty() ) {

@@ -596,7 +596,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
     const QString notes = data.value(mimeItemNotes).toString();
 
-    if ( data.contains(mimeHidden) ) {
+    if ( data.contains(mimeHidden) || data.contains(mimeSecret) ) {
         label = QObject::tr("<HIDDEN>", "Label for hidden/secret clipboard content");
     } else if ( data.contains(mimeText) || data.contains(mimeUriList) ) {
         const QString text = getTextData(data);
