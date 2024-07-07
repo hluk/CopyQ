@@ -52,6 +52,7 @@ class Scriptable final : public QObject
     Q_PROPERTY(QJSValue mimeColor READ getMimeColor CONSTANT)
     Q_PROPERTY(QJSValue mimeOutputTab READ getMimeOutputTab CONSTANT)
     Q_PROPERTY(QJSValue mimeDisplayItemInMenu READ getMimeDisplayItemInMenu CONSTANT)
+    Q_PROPERTY(QJSValue mimeSecret READ getMimeSecret CONSTANT)
 
     Q_PROPERTY(QJSValue plugins READ getPlugins CONSTANT)
 
@@ -138,6 +139,7 @@ public:
     QJSValue getMimeColor() const { return mimeColor; }
     QJSValue getMimeOutputTab() const { return mimeOutputTab; }
     QJSValue getMimeDisplayItemInMenu() const { return mimeDisplayItemInMenu; }
+    QJSValue getMimeSecret() const { return mimeSecret; }
 
     QJSValue getPlugins();
 

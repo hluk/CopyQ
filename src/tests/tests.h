@@ -306,6 +306,7 @@ private slots:
     void startServerAndRunCommand();
 
     void avoidStoringPasswords();
+    void scriptsForPasswords();
 
     void currentClipboardOwner();
 

@@ -816,6 +816,25 @@ QString appWindowTitle(const QString &text)
 #endif
 }
 
+QVariantMap secretData(const QByteArray &text)
+{
+#ifdef Q_OS_WIN
+    const QString format("application/x-qt-windows-mime;value=\"Clipboard Viewer Ignore\"");
+    const QByteArray value("");
+#elif defined(Q_OS_MACOS)
+    const QString format("application/x-nspasteboard-concealed-type");
+    const QByteArray value("secret");
+#elif defined(Q_OS_UNIX)
+    const QString format("x-kde-passwordManagerHint");
+    const QByteArray value("secret");
+#endif
+
+    return QVariantMap{
+        {format, value},
+        {mimeText, text},
+    };
+}
+
 } // namespace
 
 Tests::Tests(const TestInterfacePtr &test, QObject *parent)
@@ -4799,31 +4818,34 @@ void Tests::startServerAndRunCommand()
 
 void Tests::avoidStoringPasswords()
 {
-#ifdef Q_OS_WIN
-    const QString format("application/x-qt-windows-mime;value=\"Clipboard Viewer Ignore\"");
-    const QByteArray value("");
-#elif defined(Q_OS_MACOS)
-    const QString format("application/x-nspasteboard-concealed-type");
-    const QByteArray value("secret");
-#elif defined(Q_OS_UNIX)
-    const QString format("x-kde-passwordManagerHint");
-    const QByteArray value("secret");
-#endif
-
-    const QVariantMap data{
-        {format, value},
-        {mimeText, QByteArrayLiteral("secret")},
-    };
-    TEST( m_test->setClipboard(data) );
+    TEST( m_test->setClipboard(secretData("secret")) );
     waitFor(2 * waitMsPasteClipboard);
-    RUN("clipboard" << "?", "");
+    RUN("clipboard" << "?", mimeSecret + "\n");
     RUN("read" << "0" << "1" << "2", "\n\n");
     RUN("count", "0\n");
 
     RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
     waitFor(waitMsPasteClipboard);
     RUN("read" << "0" << "1" << "2", "\n\n");
-    RUN("count", "0\n");
+    RUN("count", "1\n");
+}
+
+void Tests::scriptsForPasswords()
+{
+    const auto script = R"(
+        setCommands([{
+            isScript: true,
+            cmd: `global.updateClipboardData = function() {
+                if (data(mimeSecret) == "1") add("SECRET");
+            }`
+        }])
+        )";
+    RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+    TEST( m_test->setClipboard(secretData("secret")) );
+    waitFor(2 * waitMsPasteClipboard);
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "SECRET\n\n");
+    RUN("count", "1\n");
 }
 
 void Tests::currentClipboardOwner()

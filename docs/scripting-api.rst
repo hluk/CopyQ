@@ -2208,6 +2208,12 @@ These MIME types values are assigned to global variables prefixed with
 
        copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
 
+.. js:data:: mimeSecret
+
+   If set to ``1``, the clipboard contains a password or other secret (for example, copied from clipboard manager).
+
+   In such case, the data won't be available in the app, not even via calling ``data()`` script function.
+
 .. js:data:: mimeShortcut
 
    Application or global shortcut which activated the command. Value: 'application/x-copyq-shortcut'.

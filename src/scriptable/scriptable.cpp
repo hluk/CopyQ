@@ -222,7 +222,8 @@ bool isInternalDataFormat(const QString &format)
         || format == mimeSelectedItems
         || format == mimeCurrentItem
         || format == mimeShortcut
-        || format == mimeOutputTab;
+        || format == mimeOutputTab
+        || format == mimeSecret;
 }
 
 QVariantMap copyWithoutInternalData(const QVariantMap &data) {
