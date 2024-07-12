@@ -192,15 +192,16 @@ QMenu *findSubMenu(const QString &name, const QMenu &menu)
     return nullptr;
 }
 
-QMenu *createSubMenus(QString *name, QMenu *menu)
+std::pair<QMenu*, QMenu*> createSubMenus(QString *name, QMenu *menu)
 {
     QStringList path = name->split('|');
     if (path.size() == 1)
-        return menu;
+        return {nullptr, menu};
 
     *name = path.takeLast();
 
     QMenu *parentMenu = menu;
+    QMenu *rootMenu = nullptr;
 
     for (const auto &subMenuName : path) {
         QMenu *subMenu = findSubMenu(subMenuName, *parentMenu);
@@ -210,10 +211,12 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
             parentMenu->addMenu(subMenu);
         }
 
+        if (parentMenu == menu)
+            rootMenu = subMenu;
         parentMenu = subMenu;
     }
 
-    return parentMenu;
+    return {rootMenu, parentMenu};
 }
 
 // WORKAROUND: setWindowFlags() hides the window.
@@ -1558,7 +1561,8 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
 
     for (const auto &command : commands) {
         QString name = command.name;
-        QMenu *currentMenu = createSubMenus(&name, m_menuItem);
+        QMenu *_rootMenu, *currentMenu;
+        std::tie(_rootMenu, currentMenu) = createSubMenus(&name, m_menuItem);
         auto act = new CommandAction(command, name, currentMenu);
         c->addAction(act);
 
@@ -1592,14 +1596,18 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
 
     for (const auto &command : commands) {
         QString name = command.name;
-        QMenu *currentMenu = createSubMenus(&name, m_trayMenu);
+        QMenu *rootMenu, *currentMenu;
+        std::tie(rootMenu, currentMenu) = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
 
         const QList<QKeySequence> uniqueShortcuts = getUniqueShortcuts(
                 command.globalShortcuts, &usedShortcuts);
         act->setShortcuts(uniqueShortcuts);
 
-        actions->append(act);
+        if (rootMenu)
+            actions->append(rootMenu->menuAction());
+        else
+            actions->append(act);
 
         addMenuMatchCommand(&m_trayMenuMatchCommands, command.matchCmd, act);
 

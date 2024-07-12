@@ -247,6 +247,8 @@ private slots:
     void automaticCommandStoreSpecialFormat();
     void automaticCommandIgnoreSpecialFormat();
 
+    void globalCommandInMenu();
+
     void scriptCommandLoaded();
     void scriptCommandAddFunction();
     void scriptCommandOverrideFunction();
