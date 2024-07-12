@@ -3987,6 +3987,41 @@ void Tests::automaticCommandIgnoreSpecialFormat()
     WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1" << "2" << "3", "SHOULD NOT BE IGNORED,CMD2,CMD1,");
 }
 
+void Tests::globalCommandInMenu()
+{
+    const auto script = R"(
+        setCommands([
+            { isGlobalShortcut: true, name: 'test', cmd: 'copyq add test' },
+        ])
+        )";
+    RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+    RUN("menu", "");
+    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
+    RUN("keys" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("read(0)", "test");
+
+    RUN("setCommands([])", "");
+    WAIT_ON_OUTPUT("commands().length", "0\n");
+
+    // Test sub-menus
+    const auto script2 = R"(
+        setCommands([
+            { isGlobalShortcut: true, name: 'test|test1|test2', cmd: 'copyq add test2' },
+        ])
+        )";
+    RUN(script2, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+    RUN("menu", "");
+    RUN("keys" << trayMenuId << "DOWN" << "DOWN" << "ENTER", "");
+    waitFor(100);
+    RUN("keys" << trayMenuId << "ENTER", "");
+    waitFor(100);
+    RUN("keys" << trayMenuId << "ENTER", "");
+    RUN("keys" << clipboardBrowserId, "");
+    WAIT_ON_OUTPUT("read(0)", "test2");
+}
+
 void Tests::scriptCommandLoaded()
 {
     const auto script = R"(
