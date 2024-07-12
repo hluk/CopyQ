@@ -76,10 +76,13 @@ Depending on the desktop environment, these features may not be supported:
 - pasting from CopyQ and issuing copy command to other apps (that is passing
   shortcuts to application)
 - screenshot functionality
+- retrieving and matching window titles
 - querying keyboard modifiers and mouse position
 
-**Workaround** for most problems is to set ``QT_QPA_PLATFORM`` environment variable
-and use Xwayland (e.g. ``xorg-x11-server-Xwayland`` Fedora package).
+**Workaround:** try using the **Wayland Support** command mentioned below or
+set ``QT_QPA_PLATFORM`` environment variable to run the app under **Xwayland**
+mode (additional package may be needed, for example:
+``xorg-x11-server-Xwayland`` in Fedora).
 
 For example, launch CopyQ with::
 
