@@ -120,6 +120,7 @@ QString helpTail()
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + "\n"
         + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").");
+        + Scriptable::tr("  - Use COPYQ_LOG_LEVEL=DEBUG and COPYQ_LOG_FILE=\"$HOME/copyq.log\" env vars to enable logging");
 }
 
 QString argumentError()
