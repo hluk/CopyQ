@@ -766,7 +766,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoppa över kommandot om inmatningstexten inte matchar detta reguljära uttryck (lämna tomt för att matcha allt).
+
+%2 till %9 i kommando och filter kommer att ersättas med de infångade texterna.
+
+Exempel:
+
+Matcha webbadress: ^(https?|ftp):
+Matcha PDF-filnamn: \.pdf$
+Matcha ett tecken: ^.$
+Matcha fjärrmultimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
@@ -1904,7 +1913,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>För att dela krypterade objekt på annan dator eller session behöver du dessa hemliga nyckelfiler (förvara dem på ett säkert ställe):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -1993,12 +2002,12 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="75"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Skadad flik</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Inte alla objekt i fliken &lt;strong&gt;%1 &lt;/strong&gt; laddades korrekt. Vill du fortfarande ladda fliken och eventuellt förlora några objekt?</translation>
     </message>
 </context>
 <context>
@@ -2334,7 +2343,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla flik %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -2449,7 +2458,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard stilmall:</translation>
     </message>
 </context>
 <context>
@@ -3006,79 +3015,79 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>Save Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Spara objekt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Avbryt redigering</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Esc</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Undo</source>
-        <translation type="unfinished">Ångra</translation>
+        <translation>Ångra</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Redo</source>
-        <translation type="unfinished">Gör om</translation>
+        <translation>Göra om</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Font</source>
-        <translation type="unfinished">Typsnitt</translation>
+        <translation>Typsnitt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Bold</source>
-        <translation type="unfinished">Fet</translation>
+        <translation>Fetstil</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>Italic</source>
-        <translation type="unfinished">Kursiv</translation>
+        <translation>Kursiv</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="92"/>
         <source>Underline</source>
-        <translation type="unfinished">Understruken</translation>
+        <translation>Understruken</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="94"/>
         <source>Strikethrough</source>
-        <translation type="unfinished">Genomstruken</translation>
+        <translation>Genomstruken</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="96"/>
         <source>Foreground</source>
-        <translation type="unfinished">Förgrund</translation>
+        <translation>Förgrund</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Background</source>
-        <translation type="unfinished">Bakgrund</translation>
+        <translation>Bakgrund</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Erase Style</source>
-        <translation type="unfinished">Radera stil</translation>
+        <translation>Radera stil</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Search</source>
-        <translation type="unfinished">Sök</translation>
+        <translation>Sök</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -3089,7 +3098,7 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>E&amp;dit with Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Re&amp;digera med redigerare</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -3662,7 +3671,7 @@ Skriv ut version på program och bibliotek.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2416"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Urklippslagring inaktiverad*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
