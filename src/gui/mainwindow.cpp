@@ -3031,7 +3031,7 @@ void MainWindow::tabChanged(int current, int)
             setTabOrder(ui->searchBar, c);
 
             if (isScriptOverridden(ScriptOverrides::OnTabSelected)) {
-                runEventHandlerScript(
+                runScript(
                     QStringLiteral("onTabSelected()"),
                     createDataMap(mimeCurrentTab, c->tabName()));
             }
