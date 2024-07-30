@@ -4854,14 +4854,13 @@ void Tests::startServerAndRunCommand()
 void Tests::avoidStoringPasswords()
 {
     TEST( m_test->setClipboard(secretData("secret")) );
-    waitFor(2 * waitMsPasteClipboard);
-    RUN("clipboard" << "?", mimeSecret + "\n");
+    WAIT_ON_OUTPUT("clipboard", "secret");
     RUN("read" << "0" << "1" << "2", "\n\n");
     RUN("count", "0\n");
 
     RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
     waitFor(waitMsPasteClipboard);
-    RUN("read" << "0" << "1" << "2", "\n\n");
+    RUN("read" << "0" << "1" << "2", "secret\n\n");
     RUN("count", "1\n");
 }
 
@@ -4870,15 +4869,14 @@ void Tests::scriptsForPasswords()
     const auto script = R"(
         setCommands([{
             isScript: true,
-            cmd: `global.updateClipboardData = function() {
-                if (data(mimeSecret) == "1") add("SECRET");
+            cmd: `global.onSecretClipboardChanged = function() {
+                add("SECRET");
             }`
         }])
         )";
     RUN(script, "");
     WAIT_ON_OUTPUT("commands().length", "1\n");
     TEST( m_test->setClipboard(secretData("secret")) );
-    waitFor(2 * waitMsPasteClipboard);
     WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "SECRET\n\n");
     RUN("count", "1\n");
 }

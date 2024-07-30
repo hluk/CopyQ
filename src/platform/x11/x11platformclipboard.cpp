@@ -22,6 +22,7 @@
 
 #include <QClipboard>
 #include <QMimeData>
+#include <QPointer>
 
 namespace {
 
@@ -245,7 +246,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
     }
 
-    const auto data = mimeData(clipboardData->mode);
+    const QPointer<const QMimeData> data( mimeData(clipboardData->mode) );
 
     // Retry to retrieve clipboard data few times.
     if (!data) {
@@ -283,14 +284,17 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     // text did not change.
     if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp ) {
         const QVariantMap newData = cloneData(*data, {mimeText});
-        if (newData.value(mimeText) == clipboardData->newData.value(mimeText))
+        if (!data || newData.value(mimeText) == clipboardData->newData.value(mimeText))
             return;
     }
 
     clipboardData->timerEmitChange.stop();
     clipboardData->abortCloning = false;
     clipboardData->cloningData = true;
+    const bool isDataSecret = isHidden(*data);
     clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->abortCloning);
+    if (isDataSecret)
+        clipboardData->newData[mimeSecret] = QByteArrayLiteral("1");
     clipboardData->cloningData = false;
     if (clipboardData->abortCloning) {
         m_timerCheckAgain.setInterval(0);
