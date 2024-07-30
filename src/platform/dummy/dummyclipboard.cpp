@@ -10,17 +10,6 @@
 #include <QMimeData>
 #include <QStringList>
 
-namespace {
-
-const QMimeData *createSecretData()
-{
-    auto data = new QMimeData();
-    data->setData(mimeSecret, QByteArrayLiteral("1"));
-    return data;
-}
-
-} // namespace
-
 QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 {
     switch (mode) {
@@ -43,7 +32,15 @@ void DummyClipboard::startMonitoring(const QStringList &)
 QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const
 {
     const QMimeData *data = mimeData(mode);
-    return data ? cloneData(*data, formats) : QVariantMap();
+    if (data == nullptr)
+        return {};
+
+    const bool isDataSecret = isHidden(*data);
+    QVariantMap dataMap = cloneData(*data, formats);
+    if (isDataSecret)
+        dataMap[mimeSecret] = QByteArrayLiteral("1");
+
+    return dataMap;
 }
 
 void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
@@ -66,12 +63,6 @@ const QMimeData *DummyClipboard::mimeData(ClipboardMode mode) const
     if (!data) {
         log( QStringLiteral("Null data in %1").arg(modeText), LogError );
         return nullptr;
-    }
-
-    if (isHidden(*data)) {
-        log( QStringLiteral("Hiding secret %1 data").arg(modeText) );
-        static const QMimeData *secretData = createSecretData();
-        return secretData;
     }
 
     COPYQ_LOG_VERBOSE( QStringLiteral("Got %1 data").arg(modeText) );

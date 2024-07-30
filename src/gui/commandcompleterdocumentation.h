@@ -153,9 +153,10 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("iconTagColor", "iconTagColor() -> string", "Get current tray and window tag color name.");
     addDocumentation("iconTagColor", "iconTagColor(colorName)", "Set current tray and window tag color name.");
     addDocumentation("loadTheme", "loadTheme(path)", "Loads theme from an INI file.");
-    addDocumentation("onClipboardChanged", "onClipboardChanged()", "Called when clipboard or `Linux mouse selection`_ changes.");
-    addDocumentation("onOwnClipboardChanged", "onOwnClipboardChanged()", "Called when clipboard or `Linux mouse selection`_ changes by a CopyQ instance.");
-    addDocumentation("onHiddenClipboardChanged", "onHiddenClipboardChanged()", "Called when hidden clipboard or `Linux mouse selection`_ changes.");
+    addDocumentation("onClipboardChanged", "onClipboardChanged()", "Called when clipboard or `Linux mouse selection`_ changes and is not set by CopyQ, is not marked as hidden nor secret (see the other callbacks).");
+    addDocumentation("onOwnClipboardChanged", "onOwnClipboardChanged()", "Called when clipboard or `Linux mouse selection`_ is set by CopyQ and is not marked as hidden nor secret (see the other callbacks).");
+    addDocumentation("onHiddenClipboardChanged", "onHiddenClipboardChanged()", "Called when clipboard or `Linux mouse selection`_ changes and is marked as hidden but not secret (see the other callbacks).");
+    addDocumentation("onSecretClipboardChanged", "onSecretClipboardChanged()", "Called if the clipboard or `Linux mouse selection`_ changes and contains a password or other secret (for example, copied from clipboard manager).");
     addDocumentation("onClipboardUnchanged", "onClipboardUnchanged()", "Called when clipboard or `Linux mouse selection`_ changes but data remained the same.");
     addDocumentation("onStart", "onStart()", "Called when application starts.");
     addDocumentation("onExit", "onExit()", "Called just before application exists.");

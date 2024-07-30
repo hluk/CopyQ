@@ -1465,7 +1465,8 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: onClipboardChanged()
 
-   Called when clipboard or `Linux mouse selection`_ changes.
+   Called when clipboard or `Linux mouse selection`_ changes and is not set by
+   CopyQ, is not marked as hidden nor secret (see the other callbacks).
 
    Default implementation is:
 
@@ -1482,7 +1483,8 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: onOwnClipboardChanged()
 
-   Called when clipboard or `Linux mouse selection`_ changes by a CopyQ instance.
+   Called when clipboard or `Linux mouse selection`_ is set by CopyQ and is not
+   marked as hidden nor secret (see the other callbacks).
 
    Owned clipboard data contains :js:data:`mimeOwner` format.
 
@@ -1490,11 +1492,27 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: onHiddenClipboardChanged()
 
-   Called when hidden clipboard or `Linux mouse selection`_ changes.
+   Called when clipboard or `Linux mouse selection`_ changes and is marked as
+   hidden but not secret (see the other callbacks).
 
    Hidden clipboard data contains :js:data:`mimeHidden` format set to ``1``.
 
    Default implementation calls :js:func:`updateClipboardData`.
+
+.. js:function:: onSecretClipboardChanged()
+
+   Called if the clipboard or `Linux mouse selection`_ changes and contains a
+   password or other secret (for example, copied from clipboard manager).
+
+   The default implementation clears all data, so they are not accessible using
+   :js:func:`data` and :js:func:`dataFormats`, except :js:data:`mimeSecret`,
+   and calls :js:func:`updateClipboardData`.
+
+   **Be careful overriding** this function (via a Script command). Calling
+   `onClipboardChanged()` without clearing the data and without any further
+   checks can cause storing and processing secrets from password managers. On
+   the other hand, it can help to get access to the data copied, for example
+   from a web browser in private mode.
 
 .. js:function:: onClipboardUnchanged()
 
@@ -2211,8 +2229,6 @@ These MIME types values are assigned to global variables prefixed with
 .. js:data:: mimeSecret
 
    If set to ``1``, the clipboard contains a password or other secret (for example, copied from clipboard manager).
-
-   In such case, the data won't be available in the app, not even via calling ``data()`` script function.
 
 .. js:data:: mimeShortcut
 

@@ -4,17 +4,11 @@
 #define CLIPBOARDMONITOR_H
 
 #include "app/clipboardownermonitor.h"
+#include "common/clipboardmode.h"
 #include "common/common.h"
 #include "platform/platformnativeinterface.h"
-#include "platform/platformclipboard.h"
 
 #include <QVariantMap>
-
-enum class ClipboardOwnership {
-    Foreign,
-    Own,
-    Hidden,
-};
 
 class ClipboardMonitor final : public QObject
 {
@@ -27,7 +21,10 @@ public:
     void setClipboardOwner(const QString &owner);
 
 signals:
-    void clipboardChanged(const QVariantMap &data, ClipboardOwnership ownership);
+    void clipboardChanged(const QVariantMap &data);
+    void secretClipboardChanged(const QVariantMap &data);
+    void hiddenClipboardChanged(const QVariantMap &data);
+    void ownClipboardChanged(const QVariantMap &data);
     void clipboardUnchanged(const QVariantMap &data);
     void saveData(const QVariantMap &data);
     void synchronizeSelection(ClipboardMode sourceMode, uint sourceTextHash, uint targetTextHash);

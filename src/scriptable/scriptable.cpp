@@ -2382,6 +2382,13 @@ void Scriptable::onClipboardUnchanged()
 {
 }
 
+void Scriptable::onSecretClipboardChanged()
+{
+    // Drop secret data by default
+    m_data = {{mimeSecret, m_data.value(mimeSecret)}};
+    eval("updateClipboardData()");
+}
+
 void Scriptable::synchronizeToSelection()
 {
     if ( canSynchronizeSelection(ClipboardMode::Selection) ) {
@@ -2605,6 +2612,12 @@ void Scriptable::monitorClipboard()
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
     connect( &monitor, &ClipboardMonitor::clipboardChanged,
              this, &Scriptable::onMonitorClipboardChanged );
+    connect( &monitor, &ClipboardMonitor::hiddenClipboardChanged,
+             this, &Scriptable::onMonitorHiddenClipboardChanged );
+    connect( &monitor, &ClipboardMonitor::ownClipboardChanged,
+             this, &Scriptable::onMonitorOwnClipboardChanged );
+    connect( &monitor, &ClipboardMonitor::secretClipboardChanged,
+             this, &Scriptable::onMonitorSecretClipboardChanged );
     connect( &monitor, &ClipboardMonitor::clipboardUnchanged,
              this, &Scriptable::onMonitorClipboardUnchanged );
     connect( &monitor, &ClipboardMonitor::synchronizeSelection,
@@ -2684,28 +2697,33 @@ void Scriptable::collectScriptOverrides()
     m_proxy->setScriptOverrides(overrides);
 }
 
-void Scriptable::onMonitorClipboardChanged(const QVariantMap &data, ClipboardOwnership ownership)
+void Scriptable::onMonitorClipboardChanged(const QVariantMap &data)
 {
-    COPYQ_LOG( QStringLiteral("onMonitorClipboardChanged: %1 %2, owner is \"%3\"")
-               .arg(
-                   QString::fromLatin1(
-                       ownership == ClipboardOwnership::Own ? "own"
-                       : ownership == ClipboardOwnership::Foreign ? "foreign"
-                       : "hidden"),
-                   QString::fromLatin1(isClipboardData(data) ? "clipboard" : "selection"),
-                   getTextData(data, mimeOwner)
-               ) );
+    COPYQ_LOG("onClipboardChanged");
+    m_proxy->runInternalAction(data, QStringLiteral("copyq onClipboardChanged"));
+}
 
-    const QString command =
-        ownership == ClipboardOwnership::Own ? "copyq onOwnClipboardChanged"
-      : ownership == ClipboardOwnership::Hidden ? "copyq onHiddenClipboardChanged"
-      : "copyq onClipboardChanged";
+void Scriptable::onMonitorSecretClipboardChanged(const QVariantMap &data)
+{
+    COPYQ_LOG("onSecretClipboardChanged");
+    m_proxy->runInternalAction(data, QStringLiteral("copyq onSecretClipboardChanged"));
+}
 
-    m_proxy->runInternalAction(data, command);
+void Scriptable::onMonitorHiddenClipboardChanged(const QVariantMap &data)
+{
+    COPYQ_LOG("onHiddenClipboardChanged");
+    m_proxy->runInternalAction(data, QStringLiteral("copyq onHiddenClipboardChanged"));
+}
+
+void Scriptable::onMonitorOwnClipboardChanged(const QVariantMap &data)
+{
+    COPYQ_LOG("onOwnClipboardChanged");
+    m_proxy->runInternalAction(data, QStringLiteral("copyq onOwnClipboardChanged"));
 }
 
 void Scriptable::onMonitorClipboardUnchanged(const QVariantMap &data)
 {
+    COPYQ_LOG("onOwnClipboardUnchanged");
     m_proxy->runInternalAction(data, "copyq onClipboardUnchanged");
 }
 
