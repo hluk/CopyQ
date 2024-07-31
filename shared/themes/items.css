@@ -34,10 +34,12 @@ ${hsv_value_factor = 0.9}
     #ClipboardBrowser::item:hover:selected
     {
         ;background:${sel_bg}
+        ;${hover_item_css}
     }
     #ClipboardBrowser::item:hover:!selected
     {
         ;background:${bg}
+        ;${hover_item_css}
     }
 ${hsv_saturation_factor = 1}
 ${hsv_value_factor = 1}
@@ -51,7 +53,6 @@ ${hsv_value_factor = 1}
 #ClipboardBrowser{ ${item_css} }
 #ClipboardBrowser::item:alternate:!hover:!selected{ ${alt_item_css} }
 #ClipboardBrowser::item:selected{ ${sel_item_css} }
-#ClipboardBrowser::item:hover{ ${hover_item_css} }
 
 #editor_status_bar * {
     ;background: ${edit_bg}
