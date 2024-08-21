@@ -51,6 +51,10 @@ public:
         return f.readAll();
     }
 
+    bool operator==(const DataFile &other) const {
+        return m_path == other.m_path;
+    }
+
 private:
     QString m_path;
 };
