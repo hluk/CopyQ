@@ -162,10 +162,15 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
-    if ( X11Info::isPlatformX11() )
-        return DummyClipboard::rawMimeData(mode);
+    if ( !X11Info::isPlatformX11() ) {
+        auto data = WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
+        if (data)
+            return data;
+        COPYQ_LOG( QStringLiteral("Null data in Wayland %1")
+                   .arg(mode == ClipboardMode::Clipboard ? "clipboard" : "selection") );
+    }
 
-    return WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
+    return DummyClipboard::rawMimeData(mode);
 }
 
 void X11PlatformClipboard::onChanged(int mode)
