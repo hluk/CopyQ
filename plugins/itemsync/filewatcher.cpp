@@ -80,6 +80,11 @@ public:
         return dataMap.value(m_format).toByteArray();
     }
 
+    bool operator==(const SyncDataFile &other) const {
+        return m_path == other.m_path
+            && m_format == other.m_format;
+    }
+
 private:
     QString m_path;
     QString m_format;
