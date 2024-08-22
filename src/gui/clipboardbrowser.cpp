@@ -1525,7 +1525,7 @@ void ClipboardBrowser::setCurrent(int row, bool keepSelection, bool setCurrentOn
 void ClipboardBrowser::editSelected()
 {
     if ( selectedIndexes().size() > 1 ) {
-        editNew( selectedText() );
+        editNew( mimeText, selectedText().toUtf8() );
     } else {
         QModelIndex ind = currentIndex();
         if ( ind.isValid() ) {

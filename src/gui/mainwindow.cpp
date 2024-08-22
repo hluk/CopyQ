@@ -3790,7 +3790,7 @@ void MainWindow::editNewItem()
     showWindow();
     if ( !c->isInternalEditorOpen() ) {
         c->setFocus();
-        c->editNew(mimeText);
+        c->editNew(mimeText, {});
     }
 }
 

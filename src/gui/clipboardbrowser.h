@@ -161,7 +161,7 @@ class ClipboardBrowser final : public QListView
          * Create and edit new item.
          */
         void editNew(
-            const QString &format, const QByteArray &content = {}, bool changeClipboard = false);
+            const QString &format, const QByteArray &content, bool changeClipboard = false);
 
         /** Edit item in given @a row. */
         void editRow(int row, const QString &format);
