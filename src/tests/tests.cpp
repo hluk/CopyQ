@@ -2796,6 +2796,14 @@ void Tests::editItems()
         << editorId << "HOME" << ":Line 3" << "ENTER" << "F2", "");
     RUN("read" << "1", "Line 3\nLine 4");
     RUN("read" << "0", "Line 1\nLine 2");
+
+    // Edit multiple items
+    RUN("keys"
+        << clipboardBrowserId << "SHIFT+UP" << "F2"
+        << editorId << "END" << "ENTER" << ":Line 5" << "F2", "");
+    RUN("read" << "0", "Line 3\nLine 4\nLine 1\nLine 2\nLine 5");
+    RUN("read" << "1", "Line 1\nLine 2");
+    RUN("read" << "2", "Line 3\nLine 4");
 }
 
 void Tests::createNewItem()
