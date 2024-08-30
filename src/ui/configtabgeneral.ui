@@ -151,23 +151,39 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxViMode">
-        <property name="toolTip">
-         <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+       <widget class="QGroupBox" name="groupBoxKeymap">
+        <property name="title">
+         <string>Navigation style / Keymap</string>
         </property>
-        <property name="text">
-         <string>&amp;Vi style navigation</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBoxEmacsMode">
-        <property name="toolTip">
-         <string>Support for Emacs navigation keys (Ctrl+N, P, V ... ), Ctrl+S key to search</string>
-        </property>
-        <property name="text">
-         <string>&amp;Emacs style navigation</string>
-        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QRadioButton" name="radioButtonViMode">
+           <property name="toolTip">
+            <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+           </property>
+           <property name="text">
+            <string>Vi style navigation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonEmacsMode">
+           <property name="toolTip">
+            <string>Support for Emacs navigation keys (Ctrl+N, P, V ... ) etc</string>
+           </property>
+           <property name="text">
+            <string>Emacs style navigation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="radioButtonNone">
+           <property name="text">
+            <string>Default navigation</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -294,8 +310,7 @@
   <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
-  <tabstop>checkBoxViMode</tabstop>
-  <tabstop>checkBoxEmacsMode</tabstop>
+  <tabstop>groupBoxKeymap</tabstop>
   <tabstop>checkBoxSaveFilterHistory</tabstop>
   <tabstop>checkBoxAutocompleteCommands</tabstop>
   <tabstop>checkBoxClip</tabstop>

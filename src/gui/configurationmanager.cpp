@@ -257,8 +257,8 @@ void ConfigurationManager::initOptions()
     bind<Config::move>(m_tabHistory->checkBoxMove);
     bind<Config::check_clipboard>(m_tabGeneral->checkBoxClip);
     bind<Config::confirm_exit>(m_tabGeneral->checkBoxConfirmExit);
-    bind<Config::vi>(m_tabGeneral->checkBoxViMode);
-    bind<Config::emacs>(m_tabGeneral->checkBoxEmacsMode);
+    bind<Config::vi>(m_tabGeneral->radioButtonViMode);
+    bind<Config::emacs>(m_tabGeneral->radioButtonEmacsMode);
     bind<Config::save_filter_history>(m_tabGeneral->checkBoxSaveFilterHistory);
     bind<Config::autocompletion>(m_tabGeneral->checkBoxAutocompleteCommands);
     bind<Config::always_on_top>(m_tabGeneral->checkBoxAlwaysOnTop);
@@ -358,6 +358,11 @@ void ConfigurationManager::bind()
 }
 
 void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "checked", obj);
+}
+
+void ConfigurationManager::bind(const QString &optionKey, QRadioButton *obj, bool defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "checked", obj);
 }
