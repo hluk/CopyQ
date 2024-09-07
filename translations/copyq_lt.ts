@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished">Apie</translation>
+        <translation>Apie</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="84"/>
@@ -39,43 +39,44 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiksmų langas</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation>Komanda:</translation>
+        <translation>Ko&amp;manda:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standartinė į&amp;vestis:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sa&amp;ugoti standartinę išvestį:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Siųsti nurodyto tipo duomenis į standartinę komandos įvestį (jei norite išjungti, palikite tuščią langelį)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurti įrašus pagal standartinę programos išvestį (jei norite išjungti, palikite tuščią langelį)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"></translation>
+        <translation>Naujų įrašų &amp;skirtukas:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Reguliarioji išraiška išvesties skaidymui į kelis elementus.&lt;\p&gt;
+&lt;p&gt;Norėdami kiekvieną eilutę įrašyti kaip atskirą įrašą, naudokite &lt;b&gt;\n&lt;/b&gt;.&lt;\p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -85,12 +86,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>Išvedimo &amp;kortelė:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Išsaugoti įrašus kortelėje nurodytu pavadinimu (jei norite išsaugoti dabartinėje kortelėje, palikite tuščią langelį)</translation>
     </message>
     <message>
         <source>Command saved</source>
@@ -120,12 +121,12 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiklų tvarkyklė</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation>Filtruoti</translation>
+        <translation>Atrinkti</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -138,87 +139,87 @@
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="63"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti / slėpti pagrindinį langą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti dėklo meniu</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Pagrindinį langą rodyti po pelės žymekliu</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Iškarpinės taisa</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
         <source>Edit first item</source>
-        <translation>Keisti pirmąjį elementą</translation>
+        <translation>Keisti pirmąjį įrašą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
         <source>Copy second item</source>
-        <translation>Kopijuoti antrąjį elementą</translation>
+        <translation>Kopijuoti antrąjį įrašą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti veiksmų langą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Create new item</source>
-        <translation>Sukurti naują elementą</translation>
+        <translation>Sukurti naują įrašą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
         <source>Copy next item</source>
-        <translation>Kopijuoti sekantį elementą</translation>
+        <translation>Kopijuoti kitą įrašą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
         <source>Copy previous item</source>
-        <translation>Kopijuoti buvusį elementą</translation>
+        <translation>Kopijuoti ankstesnį įrašą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Įdėti iškarpinę kaip paprastą tekstą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Išjungti iškarpinės saugyklą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Įgalinti iškarpinės saugyklą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="76"/>
         <source>Paste and copy next</source>
-        <translation>Įklijuoti ir kopijuoti sekantį</translation>
+        <translation>Įdėti ir kopijuoti kitą</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="77"/>
         <source>Paste and copy previous</source>
-        <translation>Įklijuoti ir kopijuoti ankstesnį</translation>
+        <translation>Įdėti ir kopijuoti ankstesnį</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Sukurti ekrano kopiją</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Įdėti datą ir dabartinį laiką</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="40"/>
@@ -228,65 +229,65 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="47"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepaisyti tuščių įrašų ir tų, kuriuose yra tik vienas simbolis</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="84"/>
         <source>Open in &amp;Browser</source>
-        <translation>Atidaryti naršyklėje</translation>
+        <translation>Atverti &amp;naršyklėje</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="92"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Įdėti kaip paprastą tekstą</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="100"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatiškai paleisti vaizdo įrašus</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="109"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopijuoti URL (žiniatinklio adresą) į kitą kortelę</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="116"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sukurti miniatiūrą (reikalinga „ImageMagick“)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="124"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Iš URL adreso sukurti QR kodą (reikalinga qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="132"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Užduotys</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="135"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Pridėti prie %1 kortelės</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="143"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Perkelti į %1 kortelę</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="152"/>
         <source>Ignore copied files</source>
-        <translation>Ignoruoti kopijuotus failus</translation>
+        <translation>Nepaisyti nukopijuotų rinkmenų</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="161"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepaisyti *&quot;Slaptažodžio&quot;* lango</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="162"/>
@@ -306,12 +307,12 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="177"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Išvalyti dabartinę kortelę</translation>
     </message>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Pridėti komandas</translation>
     </message>
 </context>
 <context>
@@ -431,7 +432,7 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ieškoti:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
@@ -451,12 +452,12 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Įdėti komandas</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="177"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Neišsaugoti pakeitimai</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="177"/>
@@ -533,12 +534,12 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pavadinimas:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Komandos pavadinimas, rodytinas per meniu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="63"/>
@@ -549,7 +550,7 @@
         <location filename="../src/ui/commandwidget.ui" line="66"/>
         <source>Auto&amp;matic</source>
         <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Auto&amp;matiškai</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="79"/>
@@ -592,39 +593,39 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Langas:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Scenarijus</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="121"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="346"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Turinys:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Atranka:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="243"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
+        <translation>Komand&amp;a</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipas:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
@@ -639,7 +640,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Veiksmas</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="480"/>
@@ -686,7 +687,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="640"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Laukti</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="647"/>
@@ -725,12 +726,12 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
         <source>For&amp;mat:</source>
-        <translation type="unfinished"></translation>
+        <translation>For&amp;matas:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
         <source>Cop&amp;y to tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kopijuoti į kortelę:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="580"/>
@@ -740,7 +741,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Skirtukas:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="600"/>
@@ -750,12 +751,12 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="603"/>
         <source>\n</source>
-        <translation type="unfinished">\n</translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="610"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"></translation>
+        <translation>išvedim&amp;o kortelė:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="620"/>
@@ -765,7 +766,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
         <source>Show Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Sudėtingesnės parinktys</translation>
     </message>
 </context>
 <context>
@@ -773,12 +774,12 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Fonas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Paaiškinimai</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
@@ -793,7 +794,7 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Skaičius</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
@@ -818,12 +819,12 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Priekinis planas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Pranešimai</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
@@ -833,12 +834,12 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti slinkties juostas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Slinkties juostos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
@@ -848,7 +849,7 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemos žen&amp;kliukai</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
@@ -868,17 +869,17 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Apipavidalinimas:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Į&amp;kelti apipavidalinimą</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Į&amp;rašyti apipavidalinimą</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -893,13 +894,13 @@ Examples:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Peržiūra:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>įrašas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="478"/>
@@ -925,7 +926,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>Atverti apipavidalinimo rinkmeną</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="174"/>
@@ -954,7 +955,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kalba:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -974,7 +975,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Visada viršuje</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -999,22 +1000,22 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Patvirtinti programos išjungimą</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Pa&amp;tvirtinti programos išjungimą</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Paleisti kartu su sistema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>Paleisti &amp;automatiškai</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
@@ -1044,12 +1045,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>Auto-complete Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatiškai užbaigti komandas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="186"/>
         <source>Clipboard Manipulation</source>
-        <translation type="unfinished"></translation>
+        <translation>Iškarpinės valdymas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="198"/>
@@ -1238,7 +1239,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti / slėpti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1552,7 +1553,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="165"/>
         <source>Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Įrašai</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="166"/>
@@ -1562,7 +1563,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="167"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Išvaizda</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="441"/>
@@ -1592,7 +1593,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Parinktys</translation>
     </message>
 </context>
 <context>
@@ -1636,7 +1637,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="158"/>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>Naršyti...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="204"/>
@@ -1659,17 +1660,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
         <source>&amp;Tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kortelės:</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;nfigūracija</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko&amp;mandos</translation>
     </message>
 </context>
 <context>
@@ -1709,7 +1710,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="878"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Vald+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
@@ -1724,7 +1725,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="888"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Vald+Lyg2+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="893"/>
@@ -1734,7 +1735,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
         <source>Enter</source>
-        <translation>Enter</translation>
+        <translation>Įvestis</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
@@ -1754,7 +1755,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Atlikta</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="988"/>
@@ -1765,7 +1766,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="992"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Atsisakyti</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
@@ -1785,7 +1786,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="999"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Pakeisti slaptažodį...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="403"/>
@@ -1800,7 +1801,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="82"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifravimas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="84"/>
@@ -1837,7 +1838,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="75"/>
         <source>Corrupted Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Sugadinta kortelė</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
@@ -1881,12 +1882,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"/>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Paveikslai</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"/>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rodyti paveikslus.</translation>
     </message>
 </context>
 <context>
@@ -1937,7 +1938,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="63"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Pastabos</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="65"/>
@@ -1950,7 +1951,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Pastabų padėtis</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
@@ -1978,36 +1979,36 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="59"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Pridėti</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="72"/>
         <source>&amp;Remove</source>
-        <translation>Pašalinti</translation>
+        <translation>Paša&amp;linti</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="82"/>
         <source>Move up</source>
         <extracomment>Button moves current item one row up</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Pakelti</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="92"/>
         <source>Move down</source>
         <extracomment>Button moves current item one row down</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nuleisti</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="102"/>
         <source>Move to the top</source>
         <extracomment>Button moves current item to the top</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Į patį viršų</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="112"/>
         <source>Move to the bottom</source>
         <extracomment>Button moves current item to the bottom</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Į pačią apačią</translation>
     </message>
 </context>
 <context>
@@ -2025,12 +2026,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="347"/>
         <source>Pin</source>
-        <translation type="unfinished"></translation>
+        <translation>Prisegti</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="355"/>
         <source>Unpin</source>
-        <translation type="unfinished"></translation>
+        <translation>Atsegti</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="83"/>
@@ -2049,7 +2050,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsync.cpp" line="111"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"></translation>
+        <translation>Naršyti...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="762"/>
@@ -2064,7 +2065,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="120"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Sinchronizavimas</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="122"/>
@@ -2082,7 +2083,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti įrašus?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="463"/>
@@ -2106,12 +2107,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kortelės pavadinimas</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Kelias</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
@@ -2140,12 +2141,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Pridėti gairę</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="150"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Pašalinti gairę</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
@@ -2166,7 +2167,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemtags/itemtags.cpp" line="742"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation>Svarbu</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="772"/>
@@ -2176,7 +2177,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="111"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Gairės</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="113"/>
@@ -2219,7 +2220,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ženkliukas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
@@ -2237,7 +2238,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="63"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Tekstas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="65"/>
@@ -2280,7 +2281,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation type="unfinished">Žurnalas</translation>
+        <translation>Žurnalas</translation>
     </message>
 </context>
 <context>
@@ -2302,42 +2303,42 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="780"/>
         <source>&amp;File</source>
-        <translation>Failas</translation>
+        <translation>&amp;Rinkmena</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="826"/>
         <source>&amp;Edit</source>
-        <translation>Keisti</translation>
+        <translation>&amp;Taisa</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="850"/>
         <source>&amp;Item</source>
-        <translation>Elementas</translation>
+        <translation>Įraša&amp;s</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="854"/>
         <source>&amp;Tabs</source>
-        <translation>Kortelės</translation>
+        <translation>&amp;Kortelės</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="879"/>
         <source>&amp;Help</source>
-        <translation>Pagalba</translation>
+        <translation>&amp;Pagalba</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="904"/>
         <source>&amp;New Tab</source>
-        <translation>Nauja kortelė</translation>
+        <translation>&amp;Nauja kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="906"/>
         <source>Rename &amp;Group %1</source>
-        <translation>Pervadinti grupę %1</translation>
+        <translation>Per&amp;vadinti grupę %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="908"/>
         <source>Re&amp;name Tab %1</source>
-        <translation>Pervadinti kortelę %2</translation>
+        <translation>Pervadinti &amp;kortelę %2</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="910"/>
@@ -2384,7 +2385,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="677"/>
         <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rodyti / slėpti</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3896"/>
@@ -2395,7 +2396,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="957"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Iškarpinė: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="330"/>
@@ -2442,13 +2443,13 @@ Set to 0 to disable.</source>
         <location filename="../src/common/appconfig.cpp" line="22"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;iškarpinė</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="600"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;PASLĖPTA&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="606"/>
@@ -2464,52 +2465,52 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="616"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;PAVEIKSLAS&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="618"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;ĮRAŠAI&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="620"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;TUŠČIA&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="622"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;DUOMENYS&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="32"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished"></translation>
+        <translation>Naikinti</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="34"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation>Ištrinti</translation>
+        <translation>Šalinti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="42"/>
         <source>&amp;New Item</source>
-        <translation>Naujas elementas</translation>
+        <translation>&amp;Naujas įrašas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Vald+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>&amp;Import...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Importuoti...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="46"/>
@@ -2519,22 +2520,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>&amp;Preferences...</source>
-        <translation>Nuostatos...</translation>
+        <translation>&amp;Parinktys...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Vald+P</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="51"/>
         <source>C&amp;ommands...</source>
-        <translation>Komandos...</translation>
+        <translation>Ko&amp;mandos...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="52"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="54"/>
@@ -2569,7 +2570,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
         <source>E&amp;xit</source>
-        <translation>Išeiti</translation>
+        <translation>Iš&amp;eiti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2609,7 +2610,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="75"/>
         <source>&amp;Find</source>
-        <translation>Rasti</translation>
+        <translation>&amp;Ieškoti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
@@ -2620,7 +2621,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2631,7 +2632,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Escape</translation>
+        <translation>Gr</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -2646,27 +2647,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Šriftas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Pastorintas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Pasviras</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="92"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Pabrauktas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="94"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Perbrauktas</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="96"/>
@@ -2686,7 +2687,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Ieškoti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
@@ -2697,12 +2698,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>&amp;Show Content...</source>
-        <translation>Rodyti turinį...</translation>
+        <translation>&amp;Rodyti turinį...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="56"/>
@@ -2712,22 +2713,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="57"/>
         <source>F7</source>
-        <translation type="unfinished">F7</translation>
+        <translation>F7</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="111"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished">Pašalinti</translation>
+        <translation>Pašalinti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">Keisti</translation>
+        <translation>&amp;Taisa</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
@@ -2747,12 +2748,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>&amp;Action...</source>
-        <translation>Veiksmas...</translation>
+        <translation>&amp;Veiksmas...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
@@ -2797,7 +2798,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished">Nauja kortelė</translation>
+        <translation>&amp;Nauja kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
@@ -2837,7 +2838,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>Sekanti kortelė</translation>
+        <translation>&amp;Kita kortelė</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
@@ -2880,7 +2881,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>F12</source>
-        <translation type="unfinished">F12</translation>
+        <translation>F12</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
@@ -2890,7 +2891,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">Pagalba</translation>
+        <translation>&amp;Pagalba</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="227"/>
@@ -2917,13 +2918,13 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2481"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tekstas nukopijuotas</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2497"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>Duomenys nukopijuoti</translation>
     </message>
 </context>
 <context>
@@ -2939,7 +2940,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="148"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="151"/>
         <source>NAME</source>
-        <translation type="unfinished"></translation>
+        <translation>VARDAS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="57"/>
@@ -3009,7 +3010,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
         <source>TEXT</source>
-        <translation type="unfinished"></translation>
+        <translation>TEKSTAS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="85"/>
@@ -3017,7 +3018,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="121"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>DATA</source>
-        <translation type="unfinished"></translation>
+        <translation>DUOMENYS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3036,7 +3037,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="117"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
         <source>ROW</source>
-        <translation type="unfinished"></translation>
+        <translation>EILUTĖ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
@@ -3068,7 +3069,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>ROWS</source>
-        <translation type="unfinished"></translation>
+        <translation>EILUTĖS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
@@ -3085,7 +3086,7 @@ Value -1 is for current text in clipboard.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="114"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>SEPARATOR</source>
-        <translation type="unfinished"></translation>
+        <translation>SKIRTUKAS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="116"/>
@@ -3100,7 +3101,7 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAMA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
@@ -3141,7 +3142,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>TIME</source>
-        <translation type="unfinished"></translation>
+        <translation>LAIKAS</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
@@ -3161,7 +3162,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <location filename="../src/scriptable/scriptable.cpp" line="111"/>
         <source>COMMAND</source>
-        <translation type="unfinished"></translation>
+        <translation>KOMANDA</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="147"/>
@@ -3278,7 +3279,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="118"/>
         <source>NOTES:</source>
-        <translation type="unfinished"></translation>
+        <translation>PASTABOS:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="119"/>
