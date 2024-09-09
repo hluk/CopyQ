@@ -488,7 +488,7 @@ private:
     Abort m_abort = Abort::None;
     int m_skipArguments = 0;
 
-    bool m_displayFunctionsLock = false;
+    bool m_modifyDisplayDataOnly = false;
 
     QJSValue m_plugins;
 
