@@ -1641,7 +1641,9 @@ QJSValue Scriptable::setData()
     if ( !toItemData(argument(1), mime, &m_data) )
         return false;
 
-    m_proxy->setSelectedItemsData(mime, m_data.value(mime));
+    if (!m_modifyDisplayDataOnly)
+        m_proxy->setSelectedItemsData(mime, m_data.value(mime));
+
     return true;
 }
 
@@ -1651,7 +1653,10 @@ QJSValue Scriptable::removeData()
 
     const QString mime = arg(0);
     m_data.remove(mime);
-    m_proxy->setSelectedItemsData(mime, QVariant());
+
+    if (!m_modifyDisplayDataOnly)
+        m_proxy->setSelectedItemsData(mime, QVariant());
+
     return true;
 }
 
@@ -2487,6 +2492,8 @@ QJSValue Scriptable::runAutomaticCommands()
 
 void Scriptable::runDisplayCommands()
 {
+    m_modifyDisplayDataOnly = true;
+
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, [&]() {
         if (m_abort == Abort::AllEvaluations)
@@ -2526,6 +2533,8 @@ void Scriptable::runDisplayCommands()
 
     if (m_abort == Abort::None)
         loop.exec();
+
+    m_modifyDisplayDataOnly = false;
 }
 
 void Scriptable::runMenuCommandFilters()

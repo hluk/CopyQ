@@ -2,6 +2,7 @@
 
 #include "persistentdisplayitem.h"
 
+#include "common/mimetypes.h"
 #include "gui/traymenu.h"
 #include "item/itemdelegate.h"
 
@@ -27,6 +28,9 @@ PersistentDisplayItem::PersistentDisplayItem(ItemDelegate *delegate,
     , m_widget(widget)
     , m_delegate(delegate)
 {
+    // Avoid accessing current selection in Display commands.
+    if ( !m_data.contains(mimeCurrentTab) )
+        m_data[mimeSelectedItems] = QByteArray();
 }
 
 PersistentDisplayItem::PersistentDisplayItem(QAction *action, const QVariantMap &data)
