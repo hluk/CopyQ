@@ -736,12 +736,14 @@ bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver)
         if (mods & Qt::ControlModifier) {
             key = Qt::Key_PageDown;
             mods = mods & ~Qt::ControlModifier;
-        } else if (mods & Qt::AltModifier) {
+            break;
+        }
+        if (mods & Qt::AltModifier) {
             key = Qt::Key_PageUp;
             mods = mods & ~Qt::AltModifier;
-        } else {
+            break;
+        }
         return false;
-    }
     break;
     case Qt::Key_N:
         if (mods & Qt::ControlModifier) {
@@ -761,18 +763,16 @@ bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver)
         if ((mods & Qt::AltModifier)) {
             key = Qt::Key_Home;
             mods = mods & ~(Qt::ShiftModifier | Qt::AltModifier);
-			break;
-        } else {
-            return false;
+            break;
         }
+        return false;
     case Qt::Key_Greater:
         if ((mods & Qt::AltModifier)) {
             key = Qt::Key_End;
             mods = mods & ~(Qt::ShiftModifier | Qt::AltModifier);
-			break;
-        } else {
-            return false;
+            break;
         }
+        return false;
     case Qt::Key_G:
         if (mods & Qt::ControlModifier) {
             key = Qt::Key_Escape;
