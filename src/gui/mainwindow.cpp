@@ -2564,8 +2564,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         }
 
-        if (browseMode()) {
-            if (c && handleEmacsKey(event, c))
+        if (browseMode() && c && handleEmacsKey(event, c)) {
                 return;
         }
     }
