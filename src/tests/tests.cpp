@@ -1247,6 +1247,21 @@ void Tests::commandConfig()
     RUN("config" << "tab_tree", "false\n");
 }
 
+void Tests::commandConfigVi()
+{
+    RUN("config" << "vi", "false\n");
+    RUN("config" << "vi" << "0", "false\n");
+    RUN("config" << "vi" << "1", "true\n");
+    RUN("config" << "vi" << "2", "emacs\n");
+
+    RUN("config" << "vi" << "false", "false\n");
+    RUN("config" << "vi" << "true", "true\n");
+
+    RUN("config" << "vi" << "3", "false\n");
+    RUN("config" << "vi" << "-1", "false\n");
+    RUN("config" << "vi" << "", "false\n");
+}
+
 void Tests::commandToggleConfig()
 {
     RUN("toggleConfig" << "check_clipboard", "false\n");

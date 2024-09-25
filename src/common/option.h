@@ -5,7 +5,18 @@
 
 #include <QVariant>
 
+#include <functional>
+#include <memory>
+
 class QObject;
+
+class OptionValueConverter {
+public:
+    virtual QVariant read(const QVariant &value) const = 0;
+    virtual QVariant save(const QVariant &value) const = 0;
+};
+
+using OptionValueConverterPtr = std::shared_ptr<OptionValueConverter>;
 
 /**
  * Configuration option.
@@ -21,7 +32,8 @@ public:
     explicit Option(
         const QVariant &default_value,
         const char *property_name,
-        QObject *obj
+        QObject *obj,
+        OptionValueConverterPtr &&converter = nullptr
         );
 
     explicit Option(
@@ -51,6 +63,7 @@ private:
     const char *m_property_name = nullptr;
     const char *m_description = nullptr;
     QObject *m_obj = nullptr;
+    OptionValueConverterPtr m_converter = nullptr;
 };
 
 #endif // OPTION_H

@@ -3,6 +3,7 @@
 #ifndef APPCONFIG_H
 #define APPCONFIG_H
 
+#include "common/navigationstyle.h"
 #include "common/settings.h"
 
 class QString;
@@ -20,6 +21,14 @@ struct Config {
     static Value defaultValue() { return Value(); }
     static Value value(Value v) { return v; }
     static const char *description() { return nullptr; }
+    // Convert the value read from QSettings or a QWidget in Preferences dialog
+    static Value fromVariant(const QVariant &value) {
+        return Config::value(value.value<Value>());
+    }
+    // Convert the value to store in QSettings
+    static QVariant toVariant(const Value &value) {
+        return QVariant::fromValue(value);
+    }
 };
 
 struct autostart : Config<bool> {
@@ -120,12 +129,33 @@ struct confirm_exit : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
-struct vi : Config<bool> {
+struct vi : Config<NavigationStyle> {
     static QString name() { return QStringLiteral("vi"); }
-};
+    static Value fromVariant(const QVariant &value) {
+        // Backwards-compatibility
+        const QByteArray text = value.toByteArray().toLower();
+        if (text == "true" || text == "vi")
+            return NavigationStyle::Vi;
+        if (text == "emacs")
+            return NavigationStyle::Emacs;
 
-struct emacs : Config<bool> {
-    static QString name() { return "emacs"; }
+        const int n = value.toInt();
+        if (n >= 0 && n <= NavigationStyleLastValue)
+            return static_cast<NavigationStyle>(n);
+
+        return NavigationStyle::Default;
+    }
+    static QVariant toVariant(const NavigationStyle &value) {
+        switch (value) {
+            case NavigationStyle::Default:
+                return QStringLiteral("false");
+            case NavigationStyle::Vi:
+                return QStringLiteral("true");
+            case NavigationStyle::Emacs:
+                return QStringLiteral("emacs");
+        }
+        return {};
+    }
 };
 
 struct save_filter_history : Config<bool> {
@@ -536,17 +566,12 @@ public:
     QVariant option(const QString &name) const;
 
     template <typename T>
-    T option(const QString &name, T defaultValue) const
-    {
-        const QVariant value = option(name);
-        return value.isValid() ? value.value<T>() : defaultValue;
-    }
-
-    template <typename T>
     typename T::Value option() const
     {
-        typename T::Value value = option(T::name(), T::defaultValue());
-        return T::value(value);
+        const QVariant variant = option(T::name());
+        if (!variant.isValid())
+            return T::defaultValue();
+        return T::fromVariant(variant);
     }
 
     void setOption(const QString &name, const QVariant &value);

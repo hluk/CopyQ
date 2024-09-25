@@ -31,14 +31,15 @@ Option::Option()
 {}
 
 Option::Option(const QVariant &default_value, const char *property_name,
-               QObject *obj)
+               QObject *obj, OptionValueConverterPtr &&converter)
     : m_default_value(default_value)
     , m_value(m_default_value)
     , m_property_name(property_name)
     , m_obj(obj)
+    , m_converter(std::move(converter))
 {
     if (m_obj)
-        m_obj->setProperty(m_property_name, m_default_value);
+        setValue(m_default_value);
 }
 
 Option::Option(const QVariant &default_value, const char *description)
@@ -50,11 +51,19 @@ Option::Option(const QVariant &default_value, const char *description)
 
 QVariant Option::value() const
 {
-    return m_obj != nullptr ? m_obj->property(m_property_name) : m_value;
+    if (m_obj == nullptr)
+        return m_value;
+
+    const QVariant value = m_obj->property(m_property_name);
+    if (m_converter)
+        return m_converter->save(value);
+    return value;
 }
 
-bool Option::setValue(const QVariant &value)
+bool Option::setValue(const QVariant &rawValue)
 {
+    const QVariant value = m_converter ? m_converter->read(rawValue) : rawValue;
+
     if (m_obj != nullptr) {
         m_obj->setProperty(m_property_name, value);
         return m_obj->property(m_property_name) == value;

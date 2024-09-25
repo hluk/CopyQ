@@ -3,6 +3,8 @@
 #ifndef TRAYMENU_H
 #define TRAYMENU_H
 
+#include "common/navigationstyle.h"
+
 #include <QMenu>
 #include <QPointer>
 #include <QTimer>
@@ -36,11 +38,7 @@ public:
     /** Clear clipboard item actions and curstom actions. */
     void clearAllActions();
 
-    /** Handle Vi shortcuts. */
-    void setViModeEnabled(bool enabled);
-
-    /** Handle Emacs shortcuts. */
-    void setEmacsModeEnabled(bool enabled);
+    void setNavigationStyle(NavigationStyle style);
 
     /** Enable searching for numbers. */
     void setNumberSearchEnabled(bool enabled);
@@ -85,9 +83,8 @@ private:
     int m_clipboardItemActionCount;
 
     bool m_omitPaste;
-    bool m_viMode;
-    bool m_emacsMode;
     bool m_numberSearch;
+    NavigationStyle m_navigationStyle = NavigationStyle::Default;
 
     QString m_searchText;
 

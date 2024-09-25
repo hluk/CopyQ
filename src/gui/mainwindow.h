@@ -5,6 +5,7 @@
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
+#include "common/navigationstyle.h"
 #include "gui/clipboardbrowsershared.h"
 #include "gui/menuitems.h"
 #include "item/persistentdisplayitem.h"
@@ -34,7 +35,6 @@ class Theme;
 class TrayMenu;
 class ToolBar;
 class QModelIndex;
-struct MainWindowOptions;
 struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
@@ -71,8 +71,7 @@ struct MainWindowOptions {
     bool activatePastes() const { return itemActivationCommands & ActivatePastes; }
 
     bool confirmExit = true;
-    bool viMode = false;
-    bool emacsMode = false;
+    NavigationStyle navigationStyle = NavigationStyle::Default;
     bool trayCommands = false;
     bool trayCurrentTab = false;
     QString trayTabName;

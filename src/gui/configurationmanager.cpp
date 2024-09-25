@@ -40,6 +40,19 @@
 
 namespace {
 
+template <typename Config>
+class AppConfigValueConverter final : public OptionValueConverter {
+public:
+    QVariant read(const QVariant &variant) const override {
+        const auto value = Config::fromVariant(variant);
+        return QVariant::fromValue(value);
+    }
+    QVariant save(const QVariant &variant) const override {
+        const auto value = Config::fromVariant(variant);
+        return Config::toVariant(value);
+    }
+};
+
 class TabItem final : public ItemOrderList::Item {
 public:
     explicit TabItem(QWidget *widget) noexcept
@@ -257,8 +270,7 @@ void ConfigurationManager::initOptions()
     bind<Config::move>(m_tabHistory->checkBoxMove);
     bind<Config::check_clipboard>(m_tabGeneral->checkBoxClip);
     bind<Config::confirm_exit>(m_tabGeneral->checkBoxConfirmExit);
-    bind<Config::vi>(m_tabGeneral->radioButtonViMode);
-    bind<Config::emacs>(m_tabGeneral->radioButtonEmacsMode);
+    bind<Config::vi>(m_tabGeneral->comboBoxNavigationStyle);
     bind<Config::save_filter_history>(m_tabGeneral->checkBoxSaveFilterHistory);
     bind<Config::autocompletion>(m_tabGeneral->checkBoxAutocompleteCommands);
     bind<Config::always_on_top>(m_tabGeneral->checkBoxAlwaysOnTop);
@@ -348,7 +360,9 @@ void ConfigurationManager::initOptions()
 template <typename Config, typename Widget>
 void ConfigurationManager::bind(Widget *obj)
 {
-    bind(Config::name(), obj, Config::defaultValue());
+    //OptionValueConverterPtr converter = std::make_shared<AppConfigValueConverter<Config>>();
+    OptionValueConverterPtr converter(new AppConfigValueConverter<Config>());
+    bind(Config::name(), obj, Config::defaultValue(), std::move(converter));
 }
 
 template <typename Config>
@@ -357,29 +371,29 @@ void ConfigurationManager::bind()
     bind(Config::name(), QVariant::fromValue(Config::defaultValue()), Config::description());
 }
 
-void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QCheckBox *obj, bool defaultValue, OptionValueConverterPtr &&converter)
 {
-    m_options[optionKey] = Option(defaultValue, "checked", obj);
+    m_options[optionKey] = Option(defaultValue, "checked", obj, std::move(converter));
 }
 
-void ConfigurationManager::bind(const QString &optionKey, QRadioButton *obj, bool defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QSpinBox *obj, int defaultValue, OptionValueConverterPtr &&converter)
 {
-    m_options[optionKey] = Option(defaultValue, "checked", obj);
+    m_options[optionKey] = Option(defaultValue, "value", obj, std::move(converter));
 }
 
-void ConfigurationManager::bind(const QString &optionKey, QSpinBox *obj, int defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QLineEdit *obj, const QString &defaultValue, OptionValueConverterPtr &&converter)
 {
-    m_options[optionKey] = Option(defaultValue, "value", obj);
+    m_options[optionKey] = Option(defaultValue, "text", obj, std::move(converter));
 }
 
-void ConfigurationManager::bind(const QString &optionKey, QLineEdit *obj, const QString &defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, int defaultValue, OptionValueConverterPtr &&converter)
 {
-    m_options[optionKey] = Option(defaultValue, "text", obj);
+    m_options[optionKey] = Option(defaultValue, "currentIndex", obj, std::move(converter));
 }
 
-void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, int defaultValue)
+void ConfigurationManager::bind(const QString &optionKey, QComboBox *obj, NavigationStyle defaultValue, OptionValueConverterPtr &&converter)
 {
-    m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
+    m_options[optionKey] = Option(static_cast<int>(defaultValue), "currentIndex", obj, std::move(converter));
 }
 
 void ConfigurationManager::bind(const QString &optionKey, const QVariant &defaultValue, const char *description)
