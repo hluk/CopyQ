@@ -2,6 +2,7 @@
 #ifndef CLIPBOARDBROWSERSHARED_H
 #define CLIPBOARDBROWSERSHARED_H
 
+#include "common/navigationstyle.h"
 #include "gui/menuitems.h"
 #include "gui/theme.h"
 
@@ -17,8 +18,7 @@ struct ClipboardBrowserShared {
     QString editor;
     int maxItems = 100;
     bool textWrap = true;
-    bool viMode = false;
-    bool emacsMode = false;
+    NavigationStyle navigationStyle = NavigationStyle::Default;
     bool saveOnReturnKey = false;
     bool moveItemOnReturnKey = false;
     bool showSimpleItems = false;

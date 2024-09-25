@@ -3,6 +3,7 @@
 #ifndef APPCONFIG_H
 #define APPCONFIG_H
 
+#include "common/navigationstyle.h"
 #include "common/settings.h"
 
 class QString;
@@ -120,12 +121,8 @@ struct confirm_exit : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
-struct vi : Config<bool> {
+struct vi : Config<NavigationStyle> {
     static QString name() { return QStringLiteral("vi"); }
-};
-
-struct emacs : Config<bool> {
-    static QString name() { return "emacs"; }
 };
 
 struct save_filter_history : Config<bool> {

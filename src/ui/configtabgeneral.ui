@@ -151,40 +151,56 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="groupBoxKeymap">
-        <property name="title">
-         <string>Navigation style / Keymap</string>
+       <layout class="QHBoxLayout" name="horizontalLayoutNavigationStyle">
+        <property name="bottomMargin">
+         <number>0</number>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QRadioButton" name="radioButtonViMode">
-           <property name="toolTip">
-            <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
-           </property>
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Navigation style / Keymap:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxNavigationStyle</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBoxNavigationStyle">
+          <property name="toolTip">
+           <string>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</string>
+          </property>
+          <item>
            <property name="text">
-            <string>Vi style navigation</string>
+            <string>Default</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButtonEmacsMode">
-           <property name="toolTip">
-            <string>Support for Emacs navigation keys (Ctrl+N, P, V ... ) etc</string>
-           </property>
+          </item>
+          <item>
            <property name="text">
-            <string>Emacs style navigation</string>
+            <string>Vi</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButtonNone">
+          </item>
+          <item>
            <property name="text">
-            <string>Default navigation</string>
+            <string>Emacs</string>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacerNavigationStyle">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QCheckBox" name="checkBoxSaveFilterHistory">
@@ -310,7 +326,7 @@
   <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
-  <tabstop>groupBoxKeymap</tabstop>
+  <tabstop>comboBoxNavigationStyle</tabstop>
   <tabstop>checkBoxSaveFilterHistory</tabstop>
   <tabstop>checkBoxAutocompleteCommands</tabstop>
   <tabstop>checkBoxClip</tabstop>
