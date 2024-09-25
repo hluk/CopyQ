@@ -1345,7 +1345,7 @@ void MainWindow::onSearchShowRequest(const QString &text)
 
     enterSearchMode();
 
-    if (!m_options.viMode || text != "/") {
+    if (m_options.navigationStyle != NavigationStyle::Vi || text != "/") {
         ui->searchBar->setText(text);
         ui->searchBar->end(false);
     }
@@ -2530,7 +2530,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (m_options.hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
 
-    if (m_options.viMode) {
+    if (m_options.navigationStyle == NavigationStyle::Vi) {
         if (modifiers == Qt::ControlModifier && key == Qt::Key_BracketLeft) {
             onEscape();
             return;
@@ -2557,7 +2557,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    if (m_options.emacsMode) {
+    if (m_options.navigationStyle == NavigationStyle::Emacs) {
         if ((modifiers == Qt::ControlModifier && key == Qt::Key_G)
             || (key == Qt::Key_Escape)) {
             onEscape();
@@ -2714,15 +2714,9 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     setAlwaysOnTop(this, alwaysOnTop);
     setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
-    // Vi mode
-    m_options.viMode = appConfig->option<Config::vi>();
-    m_trayMenu->setViModeEnabled(m_options.viMode);
-    m_menu->setViModeEnabled(m_options.viMode);
-
-    // Emacs mode
-    m_options.emacsMode = appConfig->option<Config::emacs>();
-    m_trayMenu->setEmacsModeEnabled(m_options.emacsMode);
-    m_menu->setEmacsModeEnabled(m_options.emacsMode);
+    m_options.navigationStyle = appConfig->option<Config::vi>();
+    m_trayMenu->setNavigationStyle(m_options.navigationStyle);
+    m_menu->setNavigationStyle(m_options.navigationStyle);
 
     // Number search
     m_trayMenu->setNumberSearchEnabled(m_sharedData->numberSearch);
