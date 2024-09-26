@@ -51,3 +51,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)
 add_subdirectory(platform/x11/systemclipboard)
 set_target_properties(systemclipboard PROPERTIES COMPILE_FLAGS "-Wno-old-style-cast")
 list(APPEND copyq_LIBRARIES systemclipboard)
+
+find_package(KWayland REQUIRED)
+list(APPEND copyq_LIBRARIES Plasma::KWaylandClient)

@@ -130,6 +130,8 @@ public:
      */
     virtual QString themePrefix() = 0;
 
+    virtual void setWindowGeometry(QWindow *window, const QRect &windowGeometry) = 0;
+
     PlatformNativeInterface(const PlatformNativeInterface &) = delete;
     PlatformNativeInterface &operator=(const PlatformNativeInterface &) = delete;
 };

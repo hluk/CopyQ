@@ -46,6 +46,8 @@ public:
     QString translationPrefix() override;
 
     QString themePrefix() override { return QString(); }
+
+    void setWindowGeometry(QWindow *window, const QRect &windowGeometry) override;
 };
 
 #endif // DUMMYPLATFORM_H

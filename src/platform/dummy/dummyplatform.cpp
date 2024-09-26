@@ -77,3 +77,8 @@ QStringList DummyPlatform::getCommandLineArguments(int argc, char **argv)
 
     return arguments;
 }
+
+void DummyPlatform::setWindowGeometry(QWindow *window, const QRect &windowGeometry)
+{
+    window->setGeometry(windowGeometry);
+}

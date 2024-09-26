@@ -15,6 +15,12 @@
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
+#include <QThread>
+
+#include <KWayland/Client/connection_thread.h>
+#include <KWayland/Client/registry.h>
+#include <KWayland/Client/surface.h>
+#include <KWayland/Client/xdgshell.h>
 
 #include "x11platformclipboard.h"
 
@@ -318,6 +324,50 @@ QString X11Platform::defaultEditorCommand()
 QString X11Platform::translationPrefix()
 {
     return QString();
+}
+
+
+void X11Platform::setWindowGeometry(QWindow *window, const QRect &windowGeometry)
+{
+    using namespace KWayland::Client;
+
+    XdgShellSurface *xdgSurface = window->findChild<XdgShellSurface*>();
+
+    if (!xdgSurface) {
+        if (!m_registry) {
+            ConnectionThread *connection = new ConnectionThread;
+            QThread *thread = new QThread;
+            connection->moveToThread(thread);
+            thread->start();
+
+            QObject::connect(connection, &ConnectionThread::connected, [connection] {
+                qDebug() << "Successfully connected to Wayland server at socket:" << connection->socketName();
+            });
+            QObject::connect(connection, &ConnectionThread::failed, [connection] {
+                qDebug() << "Failed to connect to Wayland server at socket:" << connection->socketName();
+            });
+            connection->initConnection();
+
+            qDebug() << "Creating registry";
+            m_registry = new Registry();
+            m_registry->create(connection);
+            m_registry->setup();
+        }
+
+        if (!m_xdgShell) {
+            const auto interface = m_registry->interface(Registry::Interface::XdgShellUnstableV5);
+            if (interface.name == 0 && interface.version == 0) {
+                qDebug() << "XdgShellUnstableV5 interface has not been announced";
+                return;
+            }
+            m_xdgShell = m_registry->createXdgShell(interface.name, interface.version);
+        }
+
+        Surface *surface = Surface::fromWindow(window);
+        xdgSurface = m_xdgShell->createSurface(surface, window);
+    }
+
+    xdgSurface->setWindowGeometry(windowGeometry);
 }
 
 #ifdef COPYQ_WITH_X11

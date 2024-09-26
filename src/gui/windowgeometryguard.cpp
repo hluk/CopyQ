@@ -101,10 +101,18 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
     }
 
     case QEvent::Move:
-    case QEvent::Resize:
+    case QEvent::Resize: {
         if ( !isWindowGeometryLocked() && m_window->isVisible() )
             m_timerSaveGeometry.start();
+
+        QWindow *w = m_window->windowHandle();
+        if (w) {
+            const QRect newGeometry = m_window->geometry();
+            auto platform = platformNativeInterface();
+            platform->setWindowGeometry(w, newGeometry);
+        }
         break;
+    }
 
     case QEvent::Hide:
         if ( isGeometryGuardBlockedUntilHidden(m_window) )

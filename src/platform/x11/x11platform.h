@@ -8,6 +8,11 @@
 #include <QKeyEvent>
 #include <QString>
 
+namespace KWayland::Client {
+    class Registry;
+    class XdgShell;
+}
+
 class X11Platform final : public PlatformNativeInterface
 {
 public:
@@ -60,6 +65,12 @@ public:
     QString translationPrefix() override;
 
     QString themePrefix() override { return QString(); }
+
+    void setWindowGeometry(QWindow *window, const QRect &windowGeometry) override;
+
+private:
+    KWayland::Client::Registry *m_registry = nullptr;
+    KWayland::Client::XdgShell *m_xdgShell = nullptr;
 };
 
 #ifdef COPYQ_WITH_X11
