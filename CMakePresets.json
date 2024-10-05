@@ -4,8 +4,8 @@
         {
             "name": "Debug",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build",
-            "installDir": "${sourceParentDir}/install",
+            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "installDir": "${sourceParentDir}/install/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "PEDANTIC": "TRUE",
@@ -16,8 +16,8 @@
         {
             "name": "macOS-10",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build",
-            "installDir": "${sourceParentDir}/build",
+            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
@@ -31,8 +31,8 @@
         {
             "name": "macOS-12-m1",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build",
-            "installDir": "${sourceParentDir}/build",
+            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",

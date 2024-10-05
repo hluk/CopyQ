@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-12
+          - os: macos-13
             buildname: macOS 10.15
             bundle_suffix: '-macos-10'
             cmake_preset: macOS-10
@@ -56,11 +56,11 @@ jobs:
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Create macOS bundle
-        working-directory: '${{runner.workspace}}/build'
+        working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
         run: '${{github.workspace}}/utils/github/bundle-macos.sh'
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@v4
         with:
           name: 'CopyQ${{ matrix.bundle_suffix }}.dmg'
-          path: '${{runner.workspace}}/build/CopyQ.dmg'
+          path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ.dmg'
