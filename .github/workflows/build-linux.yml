@@ -18,6 +18,7 @@ jobs:
             compiler_package: g++
             with_qt6: false
             with_native_notifications: true
+            cmake_preset: Debug
 
           - os: ubuntu-20.04
             buildname: Linux-Clang
@@ -25,6 +26,7 @@ jobs:
             compiler_package: clang
             with_qt6: false
             with_native_notifications: true
+            cmake_preset: Debug
 
           - os: ubuntu-latest
             buildname: Qt 6
@@ -33,6 +35,7 @@ jobs:
             with_qt6: true
             with_native_notifications: false
             coverage: true
+            cmake_preset: Debug
             compiler_flags: >-
               --coverage
               -fprofile-arcs
@@ -70,8 +73,8 @@ jobs:
       - name: Build with CMake
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: Debug
-          buildPreset: Debug
+          configurePreset: '${{ matrix.cmake_preset }}'
+          buildPreset: '${{ matrix.cmake_preset }}'
           configurePresetAdditionalArgs: >-
             [
             '-DCMAKE_CXX_COMPILER=${{matrix.compiler}}',
@@ -85,7 +88,7 @@ jobs:
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Run tests
-        working-directory: '${{runner.workspace}}/install/bin'
+        working-directory: '${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin'
         run: '${{github.workspace}}/utils/github/test-linux.sh'
 
       - name: Update coverage
@@ -94,4 +97,4 @@ jobs:
           COVERALLS_REPO_TOKEN: '${{secrets.COVERALLS_REPO_TOKEN}}'
         run: >-
           '${{github.workspace}}/utils/github/coverage-linux.sh'
-          '${{runner.workspace}}/build'
+          '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
