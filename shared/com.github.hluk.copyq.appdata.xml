@@ -93,4 +93,9 @@
     <content_rating type="oars-1.0" />
 
     <launchable type="desktop-id">com.github.hluk.copyq.desktop</launchable>
+
+    <branding>
+        <color type="primary" scheme_preference="light">#91e9b2</color>
+        <color type="primary" scheme_preference="dark">#36724d</color>
+    </branding>
 </component>
