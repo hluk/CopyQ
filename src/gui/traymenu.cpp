@@ -59,6 +59,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_clipboardItemActionCount(0)
     , m_omitPaste(false)
     , m_viMode(false)
+    , m_emacsMode(false)
     , m_numberSearch(false)
 {
     m_clipboardItemActionsSeparator = addSeparator();
@@ -105,8 +106,13 @@ bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
 QAction *TrayMenu::addClipboardItemAction(const QVariantMap &data, bool showImages)
 {
     // Show search text at top of the menu.
-    if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() )
-        setSearchMenuItem( m_viMode ? tr("Press '/' to search") : tr("Type to search") );
+    if ( m_clipboardItemActionCount == 0 && m_searchText.isEmpty() ) {
+        if (m_viMode) {
+            setSearchMenuItem( tr("Press '/' to search") );
+        } else {
+            setSearchMenuItem( tr("Type to search") );
+        }
+    }
 
     QAction *act = addAction(QString());
     m_clipboardActions.append(act);
@@ -209,7 +215,18 @@ void TrayMenu::clearAllActions()
 
 void TrayMenu::setViModeEnabled(bool enabled)
 {
+    if (enabled) {
+        m_emacsMode = false;
+    }
     m_viMode = enabled;
+}
+
+void TrayMenu::setEmacsModeEnabled(bool enabled)
+{
+    if (enabled) {
+        m_viMode = false;
+    }
+    m_emacsMode = enabled;
 }
 
 void TrayMenu::setNumberSearchEnabled(bool enabled)
@@ -220,9 +237,14 @@ void TrayMenu::setNumberSearchEnabled(bool enabled)
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     const int key = event->key();
+    Qt::KeyboardModifiers mods = event->modifiers();
     m_omitPaste = false;
 
-    if ( m_viMode && m_searchText.isEmpty() && handleViKey(event, this) ) {
+    bool not_searching = m_searchText.isEmpty();
+
+    if ( not_searching && m_viMode && handleViKey(event, this) ) {
+        return;
+    } else if ( not_searching && m_emacsMode && handleEmacsKey(event, this) ) {
         return;
     } else {
         // Movement in tray menu.

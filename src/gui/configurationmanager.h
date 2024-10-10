@@ -28,6 +28,7 @@ class Option;
 class ShortcutsWidget;
 class QAbstractButton;
 class QCheckBox;
+class QRadioButton;
 class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
@@ -106,6 +107,7 @@ private:
     void bind();
 
     void bind(const QString &optionKey, QCheckBox *obj, bool defaultValue);
+    void bind(const QString &optionKey, QRadioButton *obj, bool defaultValue);
     void bind(const QString &optionKey, QSpinBox  *obj, int defaultValue);
     void bind(const QString &optionKey, QLineEdit *obj, const QString &defaultValue);
     void bind(const QString &optionKey, QComboBox *obj, int defaultValue);

@@ -124,6 +124,10 @@ struct vi : Config<bool> {
     static QString name() { return QStringLiteral("vi"); }
 };
 
+struct emacs : Config<bool> {
+    static QString name() { return "emacs"; }
+};
+
 struct save_filter_history : Config<bool> {
     static QString name() { return QStringLiteral("save_filter_history"); }
 };

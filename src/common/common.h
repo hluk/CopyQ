@@ -79,6 +79,11 @@ bool isClipboardData(const QVariantMap &data);
 bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
 
 /**
+ * Handle key for Emacs mode.
+ */
+bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver);
+
+/**
  * Return true only if tabs can accept the drag'n'drop event.
  */
 bool canDropToTab(const QDropEvent &event);
