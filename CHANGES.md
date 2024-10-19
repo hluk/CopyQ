@@ -1,3 +1,32 @@
+# 9.1.0
+
+## Added
+
+- Allows processing all clipboard changes (#2787, #2746).
+  If clipboard contains secret (for example is copied from a password manager),
+  `onSecretClipboardChanged()` script function is called with data containing
+  `mimeSecret` format set to `1`. Also ensures that callbacks are called
+  consistently for all clipboard changes with properly set formats
+  `mimeClipboardMode`, `mimeOutputTab` and `mimeCurrentTab`.
+
+## Fixed
+
+- Fixes editing multiple items (#2810).
+
+- Fixes synchronization plugin causing redundant UI updates and menu
+  misbehavior (#2649).
+
+- Fixes showing sub-menus for custom commands in tray menu (#2730).
+
+- Fixes switching tab if `onItemsLoaded()` is overridden (#2788).
+
+- Fixes theme option `hover_item_css` (#2687).
+
+- Avoids modifying data from display commands and causing redundant UI updates
+  (#2837).
+
+- Avoids sharing execute() state in case it is launched recursively.
+
 # 9.0.0
 
 ## Added
