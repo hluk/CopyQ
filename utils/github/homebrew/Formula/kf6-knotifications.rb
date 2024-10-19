@@ -1,8 +1,8 @@
 class Kf6Knotifications < Formula
   desc "Abstraction for system notifications"
   homepage "https://www.kde.org"
-  url "https://download.kde.org/unstable/frameworks/5.249.0/knotifications-5.249.0.tar.xz"
-  sha256 "66b945919d0b9a8354be229969c7af20a01f27b0739fa1093f99ffe5e27f4a81"
+  url "https://download.kde.org/stable/frameworks/6.7/knotifications-6.7.0.tar.xz"
+  sha256 "9e972f015d9b31b3283bf842a32d270096224d127c13a6e79450f4f0452de5e7"
   head "https://invent.kde.org/frameworks/knotifications.git"
 
   depends_on "cmake" => [:build, :test]
@@ -21,8 +21,7 @@ class Kf6Knotifications < Formula
     args << "-DKDE_INSTALL_QMLDIR=lib/qt6/qml"
     args << "-DKDE_INSTALL_PLUGINDIR=lib/qt6/plugins"
     args << "-DKDE_INSTALL_QTPLUGINDIR=lib/qt6/plugins"
-
-    inreplace ["CMakeLists.txt", "src/CMakeLists.txt"], /TARGET Qt6::DBus/, "FALSE"
+    args << "-DUSE_DBUS=OFF"
 
     mkdir "build" do
       system "cmake", "-G", "Ninja", "..", *args
