@@ -1,8 +1,8 @@
 class Kf6Kstatusnotifieritem < Formula
   desc "Abstraction for status/tray"
   homepage "https://www.kde.org"
-  url "https://download.kde.org/unstable/frameworks/5.249.0/kstatusnotifieritem-5.249.0.tar.xz"
-  sha256 "b4485d37226758b4b43c4ebd7fe344b65e2408334f778a3deecef71315451f40"
+  url "https://download.kde.org/stable/frameworks/6.7/kstatusnotifieritem-6.7.0.tar.xz"
+  sha256 "80eae2693cdb5da669b4ed6a8228bddc39816aca0fde928f231e4894827d1de0"
   head "https://invent.kde.org/frameworks/kstatusnotifieritem.git"
 
   depends_on "cmake" => [:build, :test]
@@ -22,8 +22,7 @@ class Kf6Kstatusnotifieritem < Formula
     args << "-DKDE_INSTALL_QMLDIR=lib/qt6/qml"
     args << "-DKDE_INSTALL_PLUGINDIR=lib/qt6/plugins"
     args << "-DKDE_INSTALL_QTPLUGINDIR=lib/qt6/plugins"
-
-    inreplace ["CMakeLists.txt", "src/CMakeLists.txt"], /TARGET Qt6::DBus/, "FALSE"
+    args << "-DUSE_DBUS=OFF"
 
     mkdir "build" do
       system "cmake", "-G", "Ninja", "..", *args
