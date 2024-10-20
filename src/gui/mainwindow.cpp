@@ -2714,7 +2714,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     setAlwaysOnTop(this, alwaysOnTop);
     setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
-    m_options.navigationStyle = appConfig->option<Config::vi>();
+    m_options.navigationStyle = appConfig->option<Config::navigation_style>();
     m_trayMenu->setNavigationStyle(m_options.navigationStyle);
     m_menu->setNavigationStyle(m_options.navigationStyle);
 

@@ -121,8 +121,8 @@ struct confirm_exit : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
-struct vi : Config<NavigationStyle> {
-    static QString name() { return QStringLiteral("vi"); }
+struct navigation_style : Config<NavigationStyle> {
+    static QString name() { return QStringLiteral("navigation_style"); }
 };
 
 struct save_filter_history : Config<bool> {
