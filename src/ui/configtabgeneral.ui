@@ -156,7 +156,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="label_nav_style">
           <property name="text">
            <string>Navigation style / Keymap:</string>
           </property>

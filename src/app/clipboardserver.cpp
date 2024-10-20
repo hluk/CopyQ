@@ -684,7 +684,7 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_sharedData->editor = appConfig->option<Config::editor>();
     m_sharedData->maxItems = appConfig->option<Config::maxitems>();
     m_sharedData->textWrap = appConfig->option<Config::text_wrap>();
-    m_sharedData->navigationStyle = appConfig->option<Config::vi>();
+    m_sharedData->navigationStyle = appConfig->option<Config::navigation_style>();
     m_sharedData->saveOnReturnKey = !appConfig->option<Config::edit_ctrl_return>();
     m_sharedData->moveItemOnReturnKey = appConfig->option<Config::move>();
     m_sharedData->showSimpleItems = appConfig->option<Config::show_simple_items>();
