@@ -4,8 +4,8 @@ set -e
 distros=(
     focal
     jammy
-    mantic
     noble
+    oracular
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'

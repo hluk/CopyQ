@@ -8,25 +8,27 @@ This is step-by-step description on how to release new version of CopyQ.
 
 # Update Version and Changelog
 
-Update `CHANGES.md` file.
+Update `CHANGES.md` file (go through all commits since the last release tag).
 
-Bump version.
+Bump the version:
 
-    utils/bump_version.sh 7.1.0
+    utils/bump_version.sh 9.1.0
 
-Verify and push the changes.
+Verify and push the changes:
 
     for r in origin gitlab bitbucket; do git push --follow-tags $r master || break; done
 
-# Build Packages
+# Launchpad: Build Ubuntu Packages
 
-Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq).
+Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq):
 
-    git checkout v7.1.0
+    git checkout v9.1.0
     utils/debian/create_source_packages.sh
-    dput ppa:hluk/copyq ../copyq_7.1.0~*.changes
+    dput ppa:hluk/copyq ../copyq_9.1.0~*.changes
 
-Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5).
+# openSUSE Build Service: Build Other Linux Packages
+
+Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5):
 
     osc co home:lukho:copyq
     cd home:lukho:copyq/CopyQ-Qt5
@@ -44,38 +46,53 @@ configuration](https://build.opensuse.org/projects/home:lukho:copyq/prjconf)
     qt5-doctools: clang-libs clang13-libs, have choice for (util-linux-core or
     util-linux) needed by systemd: util-linux util-linux-core
 
+# Build Flatpak
+
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 
 1. Update "tag" and "commit" in "com.github.hluk.copyq.json" file.
 2. Push to your fork.
 3. [Create pull request](https://github.com/flathub/com.github.hluk.copyq/compare/master...hluk:master).
-4. Wait for build to finish (flathubbot will add comments).
-5. [Verify the build](https://flathub.org/builds/#/).
-6. Merge the changes if build is OK.
+4. Verify the build when the build finishes (flathubbot will add comments).
+5. Merge the changes if the build is OK.
 
-# Publish Release
+# Download Packages
 
 Download:
 
-- binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq)
+- Binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq):
 
-      utils/download_window_builds.sh 7.1.0
+      $COPYQ_SOURCE/utils/download_window_builds.sh 9.1.0
 
-- binary for OS X from [github](https://github.com/hluk/CopyQ/releases)
-- source package from [github](https://github.com/hluk/CopyQ/releases)
-- OBS packages
+- Binaries for OS X from [github](https://github.com/hluk/CopyQ/releases)
+- Create source package:
 
-      utils/download_obs_packages.sh 7.1.0 1.1
+      $COPYQ_SOURCE/utils/create_source_package.sh 9.1.0
 
-Create [release on github](https://github.com/hluk/CopyQ/releases) for the new version tag.
+- OBS packages:
+
+      $COPYQ_SOURCE/utils/download_obs_packages.sh 9.1.0 1.1
+
+# Checksums and Signing
+
+Create checksums and sign all new packages, source tarball and binaries:
+
+    $COPYQ_SOURCE/utils/sign_released_files.sh
+
+This creates `checksums-sha512.txt` with the checksums and its signature in
+`cosign.bundle`.
+
+# Publish Release
+
+Create [release on GitHub](https://github.com/hluk/CopyQ/releases) for the new version tag.
 
 Upload packages and binaries to:
 
-- [github](https://github.com/hluk/CopyQ/releases)
+- [github](https://github.com/hluk/CopyQ/releases) (include `checksums-sha512.txt` and `cosign.bundle`)
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
 - [fosshub](https://www.fosshub.com/CopyQ.html)
 
-        ./utils/fosshub.py 7.1.0 $TOKEN
+      ./utils/fosshub.py 9.1.0 $TOKEN
 
 Update Homebrew package for OS X.
 
