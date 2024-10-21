@@ -224,7 +224,6 @@ void TrayMenu::setNumberSearchEnabled(bool enabled)
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     const int key = event->key();
-    Qt::KeyboardModifiers mods = event->modifiers();
     m_omitPaste = false;
 
     bool not_searching = m_searchText.isEmpty();

@@ -141,11 +141,6 @@ if (PEDANTIC)
         -Wno-padded
         -Wno-switch-enum
         )
-
-    # Disable Q_OBJECT macro warnings.
-    list(APPEND copyq_pedantic_flags
-        -Wno-unused-member-function
-        )
 endif()
 
 if(WITH_TESTS)
