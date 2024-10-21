@@ -2606,6 +2606,17 @@ void Tests::selectItems()
 
     RUN("keys" << "CTRL+A", "");
     RUN("testSelected", tab + " 1 0 1 2\n");
+
+    // CTRL+SPACE toggles current item selection
+    RUN("add" << "D", "");
+    RUN("keys" << "PGUP" << "CTRL+SHIFT+DOWN" << "CTRL+SHIFT+DOWN", "");
+    RUN("testSelected", tab + " 2 0\n");
+    RUN("keys" << "CTRL+SPACE", "");
+    RUN("testSelected", tab + " 2 0 2\n");
+    RUN("keys" << "SHIFT+DOWN", "");
+    RUN("testSelected", tab + " 3 0 2 3\n");
+    RUN("keys" << "CTRL+SPACE", "");
+    RUN("testSelected", tab + " 3 0 2\n");
 }
 
 void Tests::moveItems()

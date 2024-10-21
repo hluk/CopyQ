@@ -1390,6 +1390,16 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
     const int key = event->key();
 
+    // WORKAROUND: Avoid triggering search with Ctrl+Space toggle selection action.
+    if (mods.testFlag(Qt::ControlModifier) && key == Qt::Key_Space) {
+        const QModelIndex current = currentIndex();
+        if (!edit(current, AnyKeyPressed, event)) {
+            selectionModel()->select(current, selectionCommand(current, event));
+            event->accept();
+            return;
+        }
+    }
+
     // This fixes few issues with default navigation and item selections.
     switch (key) {
     case Qt::Key_Up:
