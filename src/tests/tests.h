@@ -295,6 +295,7 @@ private slots:
 
     void exitConfirm();
     void exitNoConfirm();
+    void exitStopCommands();
 
     void abortInputReader();
 

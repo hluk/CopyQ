@@ -4775,6 +4775,15 @@ void Tests::exitNoConfirm()
     TEST( m_test->waitForServerToStop() );
 }
 
+void Tests::exitStopCommands()
+{
+    RUN("config" << "confirm_exit" << "false", "false\n");
+    RUN("action" << "copyq sleep 999999", "");
+    RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
+    RUN("keys" << confirmExitDialogId << "ENTER", "");
+    TEST( m_test->waitForServerToStop() );
+}
+
 void Tests::abortInputReader()
 {
     RUN_WITH_INPUT("afterMilliseconds(0, abort); input(); 'DONE'", KEEP_STDIN_OPEN, "");
