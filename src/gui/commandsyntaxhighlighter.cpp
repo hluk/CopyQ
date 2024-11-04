@@ -76,7 +76,7 @@ public:
         , m_reFunctions(createRegExp(scriptableFunctions()))
         , m_reKeywords(createRegExp(scriptableKeywords()))
         , m_reLabels(commandLabelRegExp())
-        , m_reConstants("\\b0x[0-9A-Fa-f]+|(?:\\b|%)\\d+|\\btrue\\b|\\bfalse\\b")
+        , m_reConstants(R"(\b0x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*|(?:\b|%)\d(?:_?\d)*|\btrue\b|\bfalse\b)")
     {
     }
 
@@ -198,8 +198,14 @@ private:
                     if (i == -1)
                         i = text.size();
 
+                    --i;
                     format(a, i);
 
+                    setCurrentBlockState(Code);
+                } else if (c == '\n' || i + 1 == text.size()) {
+                    // The '/' was not regex start, since there is no ending
+                    // '/' on the same line.
+                    i = a;
                     setCurrentBlockState(Code);
                 }
             } else if (c == '\\') {
