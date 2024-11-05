@@ -90,9 +90,6 @@ public:
         connectActionOutput(action, this);
     }
 
-    void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
-    void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
-
     void onActionOutput(const QByteArray &output)
     {
         m_output.append(output);
