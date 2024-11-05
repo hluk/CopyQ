@@ -115,46 +115,58 @@ public:
     };
 
     explicit ClipboardDataGuard(const QMimeData &data, bool *abortCloning = nullptr)
-        : m_dataGuard(&data)
+        : m_data(&data)
         , m_abort(abortCloning)
     {
+        // This uses simple connection to ensure pointer is not destroyed
+        // instead of QPointer to work around a possible Qt bug
+        // (https://bugzilla.redhat.com/show_bug.cgi?id=2320093).
+        m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
+            m_data = nullptr;
+            log( QStringLiteral("Clipboard data deleted"), LogWarning );
+        });
         m_timerExpire.start();
+    }
+
+    ~ClipboardDataGuard()
+    {
+        QObject::disconnect(m_connection);
     }
 
     QStringList formats()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("formats"));
-        return refresh() ? m_dataGuard->formats() : QStringList();
+        return refresh() ? m_data->formats() : QStringList();
     }
 
     bool hasFormat(const QString &mime)
     {
         ElapsedGuard _(QStringLiteral("hasFormat"), mime);
-        return refresh() && m_dataGuard->hasFormat(mime);
+        return refresh() && m_data->hasFormat(mime);
     }
 
     QByteArray data(const QString &mime)
     {
         ElapsedGuard _(QStringLiteral("data"), mime);
-        return refresh() ? m_dataGuard->data(mime) : QByteArray();
+        return refresh() ? m_data->data(mime) : QByteArray();
     }
 
     QList<QUrl> urls()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("urls"));
-        return refresh() ? m_dataGuard->urls() : QList<QUrl>();
+        return refresh() ? m_data->urls() : QList<QUrl>();
     }
 
     QString text()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("text"));
-        return refresh() ? m_dataGuard->text() : QString();
+        return refresh() ? m_data->text() : QString();
     }
 
     bool hasText()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("hasText"));
-        return refresh() && m_dataGuard->hasText();
+        return refresh() && m_data->hasText();
     }
 
     QImage getImageData()
@@ -165,7 +177,7 @@ public:
 
         // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
-        QImage image = m_dataGuard->imageData().value<QImage>();
+        QImage image = m_data->imageData().value<QImage>();
         if ( image.isNull() ) {
             image.loadFromData( data(QStringLiteral("image/png")), "png" );
             if ( image.isNull() ) {
@@ -209,25 +221,26 @@ private:
         if (m_abort && *m_abort)
             return false;
 
-        if (m_dataGuard.isNull())
+        if (!m_data)
             return false;
 
         const auto elapsed = m_timerExpire.elapsed();
         if (elapsed > 5000) {
             log(QStringLiteral("Clipboard data expired, refusing to access old data"), LogWarning);
-            m_dataGuard = nullptr;
+            m_data = nullptr;
             return false;
         }
 
         if (elapsed > 100)
             QCoreApplication::processEvents();
 
-        return !m_dataGuard.isNull();
+        return m_data;
     }
 
-    QPointer<const QMimeData> m_dataGuard;
+    const QMimeData *m_data;
     QElapsedTimer m_timerExpire;
     bool *m_abort = nullptr;
+    QMetaObject::Connection m_connection;
 
 #ifdef COPYQ_WS_X11
     WakeUpThread m_wakeUpThread;
