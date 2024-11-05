@@ -744,7 +744,6 @@ bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver)
             break;
         }
         return false;
-    break;
     case Qt::Key_N:
         if (mods & Qt::ControlModifier) {
             key = Qt::Key_Down;
