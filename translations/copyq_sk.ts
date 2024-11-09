@@ -323,7 +323,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="176"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstrániť všetko z vybranej záložky</translation>
     </message>
 </context>
 <context>
@@ -523,7 +523,7 @@ Príkaz je možné zmeniť v nastaveniach.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="60"/>
         <source>Program argument %1 will be substituted for item text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Argument %1 bude nahradený textom prvku.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="64"/>
@@ -678,7 +678,7 @@ Pre vypnutie ponechať prázdne.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
@@ -697,12 +697,21 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Preskočí príkaz, ak vstupný text nezodpovedá tomuto regulárnemu výrazu (ponechajte prázdne, aby vyhovovalo všetko).
+
+%2 až %9 (alebo argument[1] a viac v skripte) v príkaze a filtri budú nahradené zachytenými textami.
+
+Príklady:
+
+- Zhoda URL: ^(https?|ftp)://
+- Zhoda s názvami súborov PDF: \.pdf$
+- Zhoda s jedným znakom: ^.$
+- Zhoda so vzdialenými multimédiami: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>Skips the command if the filter command fails with non-zero exit code.</source>
-        <translation type="unfinished"></translation>
+        <translation>Preskočí príkaz, ak filter skončí s nenulovým kódom.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
@@ -838,7 +847,7 @@ Poznámka: Ak sa aplikuje automaticky, nie sú vykonané žiadne ďalšie automa
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Tooltip</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
@@ -1088,27 +1097,27 @@ stlačte F2 pre editáciu.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Štýl navigácie:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpora pre Vi navigáciu (klávesy H, J, K, L a viac) a Emacs navigáciu (Ctrl+N, P, V a viac)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Východzí</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1246,7 +1255,9 @@ Nechajte prázdne, ak chcete vypnúť automatické ukladanie.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nezaškrtnuté pre klávesu Enter na uloženie editovaného prvku a Ctrl+Enter na vytvorenie nového riadku.
+
+Pozn.: Editované prvky môžu byť uložené pomocou F2 bez ohľadu na túto voľbu.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="198"/>
@@ -1258,47 +1269,49 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazí jednoriadkový popis pre každý prvok.
+
+Použi Náhľad prvku pre zobrazenie celého obsahu.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation type="unfinished"></translation>
+        <translation>Zo&amp;braz jednoduché prvky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
         <source>Enable searching for numbers, otherwise pressing a digit key activates item on that position</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolí hľadanie čísel; inak stlačenie klávesy aktivuje prvok na danej pozícii</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="220"/>
         <source>S&amp;earch for numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hľadanie čísel</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="230"/>
         <source>Activate item with single click</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktivovať prvky jedným kliknutím</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="237"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Po aktivácii prvku (dvojklik alebo klávesa Enter), skopíruj schránky a ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Presunúť prvok na začiatok zoznamu po jeho aktivácii</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="246"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Presunúť prvok na začiatok</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="253"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavri hlavné okno po aktivácii prvku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="256"/>
@@ -1308,7 +1321,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="263"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyber posledné aktívne okno po aktivácii prvku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="266"/>
@@ -1318,12 +1331,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="273"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
+        <translation>Vlož do vybraného okna po aktivácii prvku</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="276"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"></translation>
+        <translation>V&amp;lož do vybraného okna</translation>
     </message>
 </context>
 <context>
@@ -1331,91 +1344,95 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraziť/Skryť</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"></translation>
+        <translation>Skryť záložky (stlačením klávesy Alt sa zobrazia)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrývať &amp;záložky</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Skry nástrojový panel</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Skry ná&amp;strojový panel</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="88"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"></translation>
+        <translation>Skr&amp;y popisy v paneli</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide main window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrývať hlavné okno po zatvorení</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide &amp;main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Skryť &amp;hlavné okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozloženie a priehľadnosť</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobraz strom so záložkami namiesto panela</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>Stro&amp;m so záložkami</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
         <source>&amp;Focused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aktívna priehľadnosť:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="139"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Priehľadnosť aktívneho hlavného okna.
+
+Poznámka: Táto funkcia nie je podporovaná na niektorých systémoch.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="169"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Neaktívna priehľadnosť:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="181"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Priehľadnosť neaktívneho hlavného okna.
+
+Poznámka: Táto funkcia nie je podporovaná na niektorých systémoch.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazovať počet prvkov pri záložkách</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Zo&amp;brazovať počet prvkov</translation>
     </message>
 </context>
 <context>
@@ -1423,12 +1440,12 @@ Note: This is not supported on all systems.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="65"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozíc&amp;ia upozornenia:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="77"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozícia na obrazovke pre zobrazenie upozornení</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="81"/>
