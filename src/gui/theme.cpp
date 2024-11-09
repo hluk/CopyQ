@@ -507,6 +507,7 @@ void Theme::resetTheme()
     m_theme["css_template_menu"] = Option("menu");
 
     m_theme["num_margin"] = Option(2);
+    m_theme["num_sel_fg"] = Option(QString());
 }
 
 void Theme::updateTheme()
@@ -526,6 +527,10 @@ void Theme::updateTheme()
     // number style
     m_showRowNumber = value("show_number").toBool();
     m_rowNumberPalette.setColor(QPalette::Text, color("num_fg"));
+    const QString numSelFgValue = value("num_sel_fg").toString();
+    const QColor numSelFg =
+        numSelFgValue.isEmpty() ? color("sel_fg") : evalColor(numSelFgValue, *this);
+    m_rowNumberPalette.setColor(QPalette::HighlightedText, numSelFg);
     m_rowNumberFont = font("num_font");
     m_rowNumberFontMetrics = QFontMetrics(m_rowNumberFont);
     const QVariant rowNumberMargin = value("num_margin");
