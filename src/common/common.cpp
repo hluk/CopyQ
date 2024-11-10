@@ -46,6 +46,12 @@ int clipboardCopyTimeoutMs()
     return ok ? ms : 5000;
 }
 
+const QMimeData *dummyMimeData()
+{
+    static QMimeData mimeData;
+    return &mimeData;
+}
+
 class MimeData final : public QMimeData {
 protected:
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
@@ -94,7 +100,7 @@ public:
         // (https://bugzilla.redhat.com/show_bug.cgi?id=2320093).
         m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
             m_data = nullptr;
-            log( QByteArrayLiteral("Clipboard data deleted"), LogWarning );
+            log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
         });
         m_timerExpire.start();
     }
@@ -107,48 +113,46 @@ public:
     QStringList formats()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("formats"));
-        return refresh() ? m_data->formats() : QStringList();
+        return mimeData()->formats();
     }
 
     bool hasFormat(const QString &mime)
     {
         ElapsedGuard _(QStringLiteral("hasFormat"), mime);
-        return refresh() && m_data->hasFormat(mime);
+        return mimeData()->hasFormat(mime);
     }
 
     QByteArray data(const QString &mime)
     {
         ElapsedGuard _(QStringLiteral("data"), mime);
-        return refresh() ? m_data->data(mime) : QByteArray();
+        return mimeData()->data(mime);
     }
 
     QList<QUrl> urls()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("urls"));
-        return refresh() ? m_data->urls() : QList<QUrl>();
+        return mimeData()->urls();
     }
 
     QString text()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("text"));
-        return refresh() ? m_data->text() : QString();
+        return mimeData()->text();
     }
 
     bool hasText()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("hasText"));
-        return refresh() && m_data->hasText();
+        return mimeData()->hasText();
     }
 
     QImage getImageData()
     {
         ElapsedGuard _(QStringLiteral(), QStringLiteral("imageData"));
-        if (!refresh())
-            return QImage();
 
         // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
-        QImage image = m_data->imageData().value<QImage>();
+        QImage image = mimeData()->imageData().value<QImage>();
         if ( image.isNull() ) {
             image.loadFromData( data(QStringLiteral("image/png")), "png" );
             if ( image.isNull() ) {
@@ -164,8 +168,6 @@ public:
     QByteArray getUtf8Data(const QString &format)
     {
         ElapsedGuard _(QStringLiteral("UTF8"), format);
-        if (!refresh())
-            return QByteArray();
 
         if (format == mimeUriList) {
             QByteArray bytes;
@@ -186,24 +188,36 @@ public:
         return data(format);
     }
 
-private:
-    bool refresh()
-    {
-        if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal)
-            return false;
-
+    bool isExpired() {
         if (!m_data)
-            return false;
+            return true;
 
-        const auto elapsed = m_timerExpire.elapsed();
-        if (elapsed > clipboardCopyTimeoutMs()) {
-            log(QByteArrayLiteral("Clipboard data expired, refusing to access old data"), LogWarning);
+        if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal) {
             m_data = nullptr;
-            return false;
+            log( QByteArrayLiteral("Aborting clipboard cloning: Clipboard changed again"), LogWarning );
+            return true;
         }
 
-        if (elapsed > 100)
+        if (m_timerExpire.elapsed() > clipboardCopyTimeoutMs()) {
+            m_data = nullptr;
+            log( QByteArrayLiteral("Aborting clipboard cloning: Data access took too long"), LogWarning );
+            return true;
+        }
+
+        return false;
+    }
+
+private:
+    const QMimeData *mimeData()
+    {
+        if (isExpired())
+            return dummyMimeData();
+
+        if (m_timerExpire.elapsed() > 100) {
             QCoreApplication::processEvents();
+            if (isExpired())
+                return dummyMimeData();
+        }
 
         return m_data;
     }
@@ -372,6 +386,9 @@ QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
             }
         }
     }
+
+    if (data.isExpired())
+        return {};
 
     // Drop duplicate UTF-8 text format.
     if ( newdata.contains(mimeTextUtf8) && newdata[mimeTextUtf8] == newdata.value(mimeText) )
