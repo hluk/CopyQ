@@ -734,7 +734,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Пропускає команду, якщо введений текст не відповідає цьому регулярному виразу (якщо залишити порожнім, буде відповідати будь-якому).
+
+заповнювачи від %2 до %9 (або аргумент[1] та далі в сценарії) в команді та фільтрі будуть замінені на відповідний текст.
+
+Приклади:
+
+- Пошук URL-адреси: ^(https?|ftp)://
+- Пошук імен PDF-файлів: \.pdf$
+- Пошук будь-якого символу: ^.$
+- Пошук мультимедіа-файлів: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -1105,27 +1114,27 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип навігації / розкладка клавіш:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтримка навігації в стилі Vi (клавіші H, J, K, L, /, тощо) та Emacs (Ctrl+N, P, V, тощо)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартний</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1945,7 +1954,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Ці файли з закритими ключами знадобляться для надання доступу до зашифрованих об&apos;єктів іншому ком&apos;ютеру або сеансу (зберігайте їх в надійному місці):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -2365,7 +2374,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключити тег %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -3632,7 +3641,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2388"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Зберігання буферу обміну вимкнено*</translation>
     </message>
 </context>
 <context>
