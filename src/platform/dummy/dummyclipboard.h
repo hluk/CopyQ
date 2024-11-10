@@ -34,6 +34,7 @@ protected:
     virtual const QMimeData *rawMimeData(ClipboardMode mode) const;
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);
+    virtual const long int *clipboardSequenceNumber(ClipboardMode) const { return nullptr; }
 };
 
 #endif // DUMMYCLIPBOARD_H
