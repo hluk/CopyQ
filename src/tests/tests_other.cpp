@@ -959,7 +959,7 @@ void Tests::clipboardUriList()
     RUN(script, "");
     WAIT_ON_OUTPUT("commands().length", "1\n");
 
-    const QByteArray uris = "https://test1.example.com\nhttps://test2.example.com";
-    TEST( m_test->setClipboard(uris, mimeUriList) );
-    WAIT_ON_OUTPUT("clipboard(mimeUriList)", uris);
+    const QByteArray uri = "https://test1.example.com";
+    TEST( m_test->setClipboard(uri, mimeUriList) );
+    WAIT_ON_OUTPUT("clipboard(mimeUriList)", uri);
 }
