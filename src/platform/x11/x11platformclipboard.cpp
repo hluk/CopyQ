@@ -160,6 +160,16 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
     }
 }
 
+void X11PlatformClipboard::setRawData(ClipboardMode mode, QMimeData *mimeData)
+{
+    if ( X11Info::isPlatformX11() ) {
+        DummyClipboard::setRawData(mode, mimeData);
+    } else {
+        const auto qmode = modeToQClipboardMode(mode);
+        WaylandClipboard::instance()->setMimeData(mimeData, qmode);
+    }
+}
+
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
     if ( X11Info::isPlatformX11() )

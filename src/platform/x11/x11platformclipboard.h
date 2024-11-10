@@ -23,6 +23,7 @@ public:
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
+    void setRawData(ClipboardMode mode, QMimeData *mimeData) override;
 
     bool isSelectionSupported() const override { return m_selectionSupported; }
 

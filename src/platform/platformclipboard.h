@@ -33,6 +33,7 @@ public:
      * Set data to clipboard.
      */
     virtual void setData(ClipboardMode mode, const QVariantMap &dataMap) = 0;
+    virtual void setRawData(ClipboardMode mode, QMimeData *mimeData) = 0;
 
     virtual const QMimeData *mimeData(ClipboardMode mode) const = 0;
 
