@@ -4,6 +4,8 @@
 
 #include "tests/test_utils.h"
 
+#include "common/commandstatus.h"
+
 ItemPinnedTests::ItemPinnedTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
