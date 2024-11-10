@@ -317,9 +317,12 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     wl_display_flush(display);
 
     ReceiveThread thread(pipeFds[0]);
+    QEventLoop loop;
+    connect(&thread, &QThread::finished, &loop, &QEventLoop::quit);
     thread.start();
-    while (thread.isRunning())
-        QCoreApplication::processEvents();
+    if (thread.isRunning())
+        loop.exec();
+
     const auto data = thread.data();
 
     if (!data.isEmpty() && mimeType == applicationQtXImageLiteral()) {
