@@ -290,7 +290,6 @@ private slots:
 
     void actionDialogCancel();
     void actionDialogAccept();
-    void actionDialogSelection();
     void actionDialogSelectionInputOutput();
 
     void exitConfirm();

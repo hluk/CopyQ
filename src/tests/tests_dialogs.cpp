@@ -223,7 +223,7 @@ void Tests::actionDialogAccept()
     WAIT_ON_OUTPUT("settings" << "test", "SHOULD_BE_SET");
 }
 
-void Tests::actionDialogSelection()
+void Tests::actionDialogSelectionInputOutput()
 {
     const auto script = R"(
         setCommands([{
@@ -231,7 +231,12 @@ void Tests::actionDialogSelection()
             inMenu: true,
             shortcuts: ['ctrl+f1'],
             wait: true,
-            cmd: 'copyq settings test %1'
+            input: 'text/plain',
+            output: 'text/plain',
+            cmd: `
+                copyq settings test %1
+                copyq input
+            `
         }])
         )";
     RUN(script, "");
@@ -250,36 +255,6 @@ void Tests::actionDialogSelection()
     RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
 #endif
     WAIT_ON_OUTPUT("settings" << "test", "A\nC");
-}
-
-void Tests::actionDialogSelectionInputOutput()
-{
-    const auto script = R"(
-        setCommands([{
-            name: 'test',
-            inMenu: true,
-            shortcuts: ['ctrl+f1'],
-            wait: true,
-            input: 'text/plain',
-            output: 'text/plain',
-            cmd: 'copyq input'
-        }])
-        )";
-    RUN(script, "");
-
-    const auto tab = testTab(1);
-    const auto args = Args("tab") << tab;
-    RUN(args << "add" << "C" << "B" << "A", "");
-    RUN("setCurrentTab" << tab, "");
-    RUN(args << "selectItems" << "0" << "2", "true\n");
-
-    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
-    // Can't focus configuration checkboxes on OS X
-#ifdef Q_OS_MAC
-    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
-#else
-    RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
-#endif
     WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
 }
 
