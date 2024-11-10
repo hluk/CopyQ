@@ -48,6 +48,11 @@ void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
     QGuiApplication::clipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
 }
 
+void DummyClipboard::setRawData(ClipboardMode mode, QMimeData *mimeData)
+{
+    QGuiApplication::clipboard()->setMimeData( mimeData, modeToQClipboardMode(mode) );
+}
+
 const QMimeData *DummyClipboard::rawMimeData(ClipboardMode mode) const
 {
     return QGuiApplication::clipboard()->mimeData( modeToQClipboardMode(mode) );
