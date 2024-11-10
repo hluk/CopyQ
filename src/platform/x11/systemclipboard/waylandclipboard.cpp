@@ -249,7 +249,9 @@ public:
 protected:
     void zwlr_data_control_offer_v1_offer(const QString &mime_type) override
     {
-        m_receivedFormats << mime_type;
+        if (!m_receivedFormats.contains(mime_type)) {
+            m_receivedFormats << mime_type;
+        }
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
