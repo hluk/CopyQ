@@ -20,7 +20,7 @@ bool isMainThread();
 QByteArray makeClipboardOwnerData();
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
-QVariantMap cloneData(const QMimeData &data, QStringList formats, bool *abortCloning = nullptr);
+QVariantMap cloneData(const QMimeData &data, QStringList formats, const long int *clipboardSequenceNumber = nullptr);
 
 /** Clone all data as is. */
 QVariantMap cloneData(const QMimeData &data);

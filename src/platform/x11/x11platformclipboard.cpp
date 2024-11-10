@@ -184,6 +184,8 @@ void X11PlatformClipboard::onChanged(int mode)
     if (!clipboardData.enabled)
         return;
 
+    ++clipboardData.sequenceNumber;
+
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
     // owner most of the times.
@@ -207,14 +209,8 @@ void X11PlatformClipboard::onChanged(int mode)
         }
     }
 
-    if (m_clipboardData.cloningData || m_selectionData.cloningData) {
-        if (clipboardData.cloningData && !clipboardData.abortCloning) {
-            COPYQ_LOG( QString("Aborting getting %1, the data changed again")
-                       .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
-            clipboardData.abortCloning = true;
-        }
+    if (m_clipboardData.cloningData || m_selectionData.cloningData)
         return;
-    }
 
     updateClipboardData(&clipboardData);
 
@@ -299,14 +295,14 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
 
     clipboardData->timerEmitChange.stop();
-    clipboardData->abortCloning = false;
     clipboardData->cloningData = true;
     const bool isDataSecret = isHidden(*data);
-    clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->abortCloning);
+    const auto sequenceNumberOrig = clipboardData->sequenceNumber;
+    clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->sequenceNumber);
     if (isDataSecret)
         clipboardData->newData[mimeSecret] = QByteArrayLiteral("1");
     clipboardData->cloningData = false;
-    if (clipboardData->abortCloning) {
+    if (sequenceNumberOrig != clipboardData->sequenceNumber) {
         m_timerCheckAgain.setInterval(0);
         m_timerCheckAgain.start();
         return;

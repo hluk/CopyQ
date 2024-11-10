@@ -16,9 +16,12 @@ public:
 
 protected:
     void onChanged(int) override;
+    const long int *clipboardSequenceNumber(ClipboardMode) const override {
+        return &m_lastClipboardSequenceNumber; 
+    }
 
 private:
-    DWORD m_lastClipboardSequenceNumber = -1;
+    long int m_lastClipboardSequenceNumber = 0;
 };
 
 #endif // WINPLATFORMCLIPBOARD_H

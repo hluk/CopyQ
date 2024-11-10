@@ -36,7 +36,7 @@ QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats)
         return {};
 
     const bool isDataSecret = isHidden(*data);
-    QVariantMap dataMap = cloneData(*data, formats);
+    QVariantMap dataMap = cloneData(*data, formats, clipboardSequenceNumber(mode));
     if (isDataSecret)
         dataMap[mimeSecret] = QByteArrayLiteral("1");
 

@@ -84,9 +84,10 @@ public:
         QElapsedTimer m_elapsed;
     };
 
-    explicit ClipboardDataGuard(const QMimeData &data, bool *abortCloning = nullptr)
+    explicit ClipboardDataGuard(const QMimeData &data, const long int *clipboardSequenceNumber = nullptr)
         : m_data(&data)
-        , m_abort(abortCloning)
+        , m_clipboardSequenceNumber(clipboardSequenceNumber)
+        , m_clipboardSequenceNumberOriginal(clipboardSequenceNumber ? *clipboardSequenceNumber : 0)
     {
         // This uses simple connection to ensure pointer is not destroyed
         // instead of QPointer to work around a possible Qt bug
@@ -188,7 +189,7 @@ public:
 private:
     bool refresh()
     {
-        if (m_abort && *m_abort)
+        if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal)
             return false;
 
         if (!m_data)
@@ -209,7 +210,8 @@ private:
 
     const QMimeData *m_data;
     QElapsedTimer m_timerExpire;
-    bool *m_abort = nullptr;
+    const long int *m_clipboardSequenceNumber;
+    long int m_clipboardSequenceNumberOriginal;
     QMetaObject::Connection m_connection;
 };
 
@@ -380,16 +382,15 @@ QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
 
 } // namespace
 
-QVariantMap cloneData(const QMimeData &rawData, QStringList formats, bool *abortCloning)
+QVariantMap cloneData(const QMimeData &rawData, QStringList formats, const long int *clipboardSequenceNumber)
 {
-    ClipboardDataGuard data(rawData, abortCloning);
+    ClipboardDataGuard data(rawData, clipboardSequenceNumber);
     return cloneData(data, formats);
 }
 
 QVariantMap cloneData(const QMimeData &rawData)
 {
-    bool abortCloning = false;
-    ClipboardDataGuard data(rawData, &abortCloning);
+    ClipboardDataGuard data(rawData);
 
     static const QSet<QString> ignoredFormats({
         mimeOwner,
