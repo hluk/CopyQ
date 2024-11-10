@@ -68,16 +68,16 @@ void Tests::slowClipboard()
 
     auto clipboard = platformNativeInterface()->clipboard();
     for (int i = 0; i < 3; ++i) {
-        QMimeData *data = new SlowMimeData(QByteArray::number(i), 501);
+        QMimeData *data = new SlowMimeData(QByteArray::number(i), i == 2 ? 100 : 501);
         clipboard->setRawData(ClipboardMode::Clipboard, data);
-        waitFor(100);
+        waitFor(50);
     }
     WAIT_ON_OUTPUT("read('a/a', 0, 1, 2, 3)", "2\nA\n\n");
     RUN("read('b/b', 0)", "2");
     RUN("read('c/c', 0)", "2");
     RUN("read('?', 0)", "a/a\nb/b\nc/c\n");
 
-    QMimeData *data = new SlowMimeData("X", 2001);
+    QMimeData *data = new SlowMimeData("X", 1500);
     clipboard->setRawData(ClipboardMode::Clipboard, data);
     waitFor(2000);
     const auto expectedLog = R"(^.*<monitorClipboard-\d+>: Aborting clipboard cloning: Data access took too long$)";
