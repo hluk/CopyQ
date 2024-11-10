@@ -830,7 +830,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora o comando se o texto de entrada não corresponder a essa expressão regular (deixe em branco para corresponder a tudo).
+
+%2 a %9 (ou argumento[1] e acima no script) em Command e Filter serão substituídos pelos textos capturados.
+
+Exemplos:
+
+- Corresponder ao URL: ^(https?|ftp)://
+- Corresponder nomes de arquivos PDF: \.pdf$
+- Corresponde a um único caractere: ^.$
+- Corresponde a multimídia remota: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
@@ -1127,27 +1136,27 @@ pressione F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo de navegação / mapa de teclado:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Suporte para navegação Vi (teclas H, J, K, L, / e outras) e navegação Emacs (Ctrl+N, P, V e outras)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Padrão</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>

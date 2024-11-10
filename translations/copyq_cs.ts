@@ -21,12 +21,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="92"/>
         <source>E-mail</source>
-        <translation></translation>
+        <translation>E-mail</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="93"/>
         <source>Web</source>
-        <translation></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
@@ -1309,7 +1309,7 @@ Pozn.: Editované prvky mohou být uloženy pomocí F2 bez ohledu na tuto volbu.
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Zobrazí jedno-řádkový popis pro každy prvek.
+        <translation>Zobrazí jednořádkový popis pro každy prvek.
 
 Použij Náhled prvku pro zobrazení celého obsahu.</translation>
     </message>
@@ -1336,7 +1336,7 @@ Použij Náhled prvku pro zobrazení celého obsahu.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="237"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Po aktivování prvku (dvoj-klik nebo klávesa Enter), zkopíruj jej do schránky a ...</translation>
+        <translation>Po aktivování prvku (dvoj-klik nebo klávesa Enter), zkopíruj do schránky a ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="243"/>
