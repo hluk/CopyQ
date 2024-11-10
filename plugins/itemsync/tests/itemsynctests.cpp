@@ -2,6 +2,7 @@
 
 #include "itemsynctests.h"
 
+#include "common/commandstatus.h"
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 #include "tests/test_utils.h"
@@ -17,7 +18,6 @@ using FilePtr = std::shared_ptr<QFile>;
 
 const char sep[] = " ;; ";
 
-const auto clipboardBrowserId = "focus:ClipboardBrowser";
 const auto confirmRemoveDialogId = "focus::QPushButton in :QMessageBox";
 
 class TestDir final {

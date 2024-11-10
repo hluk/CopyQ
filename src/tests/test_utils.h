@@ -1,16 +1,47 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TEST_UTILS_H
-#define TEST_UTILS_H
-
-#include "common/commandstatus.h"
+#pragma once
 
 #include <QByteArray>
 #include <QKeySequence>
 #include <QString>
 #include <QStringList>
 #include <QTest>
+#include <QTimer>
 #include <QVariantMap>
+
+constexpr int maxReadLogSize = 1 * 1024 * 1024;
+
+constexpr auto clipboardTabName = "CLIPBOARD";
+constexpr auto defaultSessionColor = "#ff8800";
+constexpr auto defaultTagColor = "#000000";
+
+constexpr auto clipboardBrowserId = "focus:ClipboardBrowser";
+constexpr auto clipboardBrowserRefreshButtonId = "focus:ClipboardBrowserRefreshButton";
+constexpr auto filterEditId = "focus:Utils::FilterLineEdit";
+constexpr auto trayMenuId = "focus:TrayMenu";
+constexpr auto menuId = "focus:Menu";
+constexpr auto customMenuId = "focus:CustomMenu";
+constexpr auto editorId = "focus::ItemEditorWidget";
+constexpr auto tabDialogLineEditId = "focus:lineEditTabName";
+constexpr auto commandDialogId = "focus:CommandDialog";
+constexpr auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
+constexpr auto commandDialogListId = "focus:listWidgetItems";
+constexpr auto configurationDialogId = "focus:ConfigurationManager";
+constexpr auto shortcutButtonId = "focus::QToolButton in CommandDialog";
+constexpr auto shortcutDialogId = "focus::QKeySequenceEdit in ShortcutDialog";
+constexpr auto actionDialogId = "focus:ActionDialog";
+constexpr auto aboutDialogId = "focus:AboutDialog";
+constexpr auto logDialogId = "focus:LogDialog";
+constexpr auto actionHandlerDialogId = "focus:ActionHandlerDialog";
+constexpr auto actionHandlerFilterId = "focus:filterLineEdit";
+constexpr auto actionHandlerTableId = "focus:tableView";
+constexpr auto clipboardDialogId = "focus:ClipboardDialog";
+constexpr auto clipboardDialogFormatListId = "focus:listWidgetFormats";
+constexpr auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
+constexpr auto itemPreviewId = "focus:in dockWidgetItemPreviewContents";
+
+#define KEEP_STDIN_OPEN "KEEP_STDIN_OPEN"
 
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 
@@ -56,6 +87,8 @@
     if ( qgetenv(ENV) == "1" ) \
         SKIP("Unset " ENV " to run the tests")
 
+#define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
+
 /// Interval to wait (in ms) before and after setting clipboard.
 #ifdef Q_OS_MAC
 // macOS seems to require larger delay before/after setting clipboard
@@ -98,4 +131,13 @@ inline QString keyNameFor(QKeySequence::StandardKey standardKey)
     return QKeySequence(standardKey).toString();
 }
 
-#endif // TEST_UTILS_H
+template <typename Fn1, typename Fn2>
+void runMultiple(Fn1 f1, Fn2 f2)
+{
+    QTimer timer;
+    timer.setSingleShot(true);
+    timer.setInterval(0);
+    QObject::connect(&timer, &QTimer::timeout, f2);
+    timer.start();
+    f1();
+}
