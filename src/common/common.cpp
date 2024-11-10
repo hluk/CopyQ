@@ -32,11 +32,6 @@ using Encoding = QTextCodec*;
 using Encoding = std::optional<QStringConverter::Encoding>;
 #endif
 
-#ifdef COPYQ_WS_X11
-# include "platform/x11/x11platform.h"
-# include <QTimer>
-#endif
-
 #include <algorithm>
 #include <memory>
 
@@ -44,37 +39,12 @@ namespace {
 
 const int maxElidedTextLineLength = 512;
 
-#ifdef COPYQ_WS_X11
-// WORKAROUND: This fixes stuck clipboard access by creating dummy X11 events
-//             when accessing clipboard takes too long.
-class WakeUpThread final {
-public:
-    WakeUpThread()
-    {
-        m_timerWakeUp.setInterval(100);
-        QObject::connect( &m_timerWakeUp, &QTimer::timeout, []() {
-            sendDummyX11Event();
-        });
-
-        m_timerWakeUp.moveToThread(&m_wakeUpThread);
-        QObject::connect( &m_wakeUpThread, &QThread::started,
-                          &m_timerWakeUp, [this]() { m_timerWakeUp.start(); } );
-        QObject::connect( &m_wakeUpThread, &QThread::finished,
-                          &m_timerWakeUp, &QTimer::stop );
-        m_wakeUpThread.start();
-    }
-
-    ~WakeUpThread()
-    {
-        m_wakeUpThread.quit();
-        m_wakeUpThread.wait();
-    }
-
-private:
-    QTimer m_timerWakeUp;
-    QThread m_wakeUpThread;
-};
-#endif
+int clipboardCopyTimeoutMs()
+{
+    static bool ok = false;
+    static int ms = qgetenv("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS").toInt(&ok);
+    return ok ? ms : 5000;
+}
 
 class MimeData final : public QMimeData {
 protected:
@@ -123,7 +93,7 @@ public:
         // (https://bugzilla.redhat.com/show_bug.cgi?id=2320093).
         m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
             m_data = nullptr;
-            log( QStringLiteral("Clipboard data deleted"), LogWarning );
+            log( QByteArrayLiteral("Clipboard data deleted"), LogWarning );
         });
         m_timerExpire.start();
     }
@@ -209,7 +179,7 @@ public:
         if ( format == mimeText && !hasFormat(mimeText) )
             return text().toUtf8();
 
-        if ( format.startsWith("text/") )
+        if ( format.startsWith(QLatin1String("text/")) )
             return dataToText( data(format), format ).toUtf8();
 
         return data(format);
@@ -225,8 +195,8 @@ private:
             return false;
 
         const auto elapsed = m_timerExpire.elapsed();
-        if (elapsed > 5000) {
-            log(QStringLiteral("Clipboard data expired, refusing to access old data"), LogWarning);
+        if (elapsed > clipboardCopyTimeoutMs()) {
+            log(QByteArrayLiteral("Clipboard data expired, refusing to access old data"), LogWarning);
             m_data = nullptr;
             return false;
         }
@@ -241,10 +211,6 @@ private:
     QElapsedTimer m_timerExpire;
     bool *m_abort = nullptr;
     QMetaObject::Connection m_connection;
-
-#ifdef COPYQ_WS_X11
-    WakeUpThread m_wakeUpThread;
-#endif
 };
 
 QString getImageFormatFromMime(const QString &mime)
