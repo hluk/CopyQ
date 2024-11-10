@@ -11,10 +11,6 @@
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
 
-#ifdef COPYQ_WS_X11
-#   include "platform/x11/x11info.h"
-#endif
-
 #include <QApplication>
 #include <QClipboard>
 
@@ -50,15 +46,6 @@ bool isClipboardDataSecret(const QVariantMap &data)
     return data.value(mimeSecret).toByteArray() == "1";
 }
 
-int defaultOwnerUpdateInterval()
-{
-#ifdef COPYQ_WS_X11
-    if ( X11Info::isPlatformX11() )
-        return 150;
-#endif
-    return 0;
-}
-
 } // namespace
 
 ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
@@ -71,8 +58,7 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_clipboardTab = config.option<Config::clipboard_tab>();
 
     const int ownerUpdateInterval = config.option<Config::update_clipboard_owner_delay_ms>();
-    m_ownerMonitor.setUpdateInterval(
-        ownerUpdateInterval < 0 ? defaultOwnerUpdateInterval() : ownerUpdateInterval);
+    m_ownerMonitor.setUpdateInterval(std::max(ownerUpdateInterval, 0));
 
     m_formats.append({mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden, mimeSecret});
     m_formats.removeDuplicates();
