@@ -149,24 +149,14 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
         QCoreApplication::processEvents();
         DummyClipboard::setData(mode, dataMap);
-    } else {
+    } else if (qobject_cast<QApplication*>(qApp) == nullptr) {
+        // WORKAROUND: QClipboard::setMimeData() with a simple windowless
+        // QGuiAplication on Wayland does not work.
         const auto data = createMimeData(dataMap);
         const auto qmode = modeToQClipboardMode(mode);
         WaylandClipboard::instance()->setMimeData(data, qmode);
-
-        // This makes pasting the clipboard work in own widgets.
-        const auto data2 = createMimeData(dataMap);
-        QGuiApplication::clipboard()->setMimeData(data2, qmode);
-    }
-}
-
-void X11PlatformClipboard::setRawData(ClipboardMode mode, QMimeData *mimeData)
-{
-    if ( X11Info::isPlatformX11() ) {
-        DummyClipboard::setRawData(mode, mimeData);
     } else {
-        const auto qmode = modeToQClipboardMode(mode);
-        WaylandClipboard::instance()->setMimeData(mimeData, qmode);
+        DummyClipboard::setData(mode, dataMap);
     }
 }
 
