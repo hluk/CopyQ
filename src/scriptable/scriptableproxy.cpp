@@ -2549,7 +2549,7 @@ QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode 
     if (mime == "?")
         return data->formats().join("\n").toUtf8() + '\n';
 
-    return cloneData(*data, QStringList(mime)).value(mime).toByteArray();
+    return cloneData(data, QStringList(mime)).value(mime).toByteArray();
 }
 
 bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode)

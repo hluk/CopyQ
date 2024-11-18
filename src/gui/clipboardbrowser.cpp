@@ -1019,7 +1019,7 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
     if (event->dropAction() == Qt::MoveAction && event->source() == this)
         return; // handled in mouseMoveEvent()
 
-    const QVariantMap data = cloneData( *event->mimeData() );
+    const QVariantMap data = cloneData( event->mimeData() );
     addAndSelect(data, m_dragTargetRow);
     m_dragTargetRow = -1;
 }

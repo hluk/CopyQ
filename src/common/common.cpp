@@ -2,6 +2,7 @@
 
 #include "common/common.h"
 
+#include "common/clipboarddataguard.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -39,19 +40,6 @@ namespace {
 
 const int maxElidedTextLineLength = 512;
 
-int clipboardCopyTimeoutMs()
-{
-    static bool ok = false;
-    static int ms = qgetenv("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS").toInt(&ok);
-    return ok ? ms : 5000;
-}
-
-const QMimeData *dummyMimeData()
-{
-    static QMimeData mimeData;
-    return &mimeData;
-}
-
 class MimeData final : public QMimeData {
 protected:
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
@@ -63,170 +51,6 @@ protected:
         COPYQ_LOG_VERBOSE( QStringLiteral("Providing \"%1\"").arg(mimeType) );
         return QMimeData::retrieveData(mimeType, preferredType);
     }
-};
-
-// Avoids accessing old clipboard/drag'n'drop data.
-class ClipboardDataGuard final {
-public:
-    class ElapsedGuard {
-    public:
-        explicit ElapsedGuard(const QString &type, const QString &format)
-            : m_type(type)
-            , m_format(format)
-        {
-            COPYQ_LOG_VERBOSE( QStringLiteral("Accessing [%1:%2]").arg(type, format) );
-            m_elapsed.start();
-        }
-
-        ~ElapsedGuard()
-        {
-            const auto t = m_elapsed.elapsed();
-            if (t > 500)
-                log( QStringLiteral("ELAPSED %1 ms accessing [%2:%3]").arg(t).arg(m_type, m_format), LogWarning );
-        }
-    private:
-        QString m_type;
-        QString m_format;
-        QElapsedTimer m_elapsed;
-    };
-
-    explicit ClipboardDataGuard(const QMimeData &data, const long int *clipboardSequenceNumber = nullptr)
-        : m_data(&data)
-        , m_clipboardSequenceNumber(clipboardSequenceNumber)
-        , m_clipboardSequenceNumberOriginal(clipboardSequenceNumber ? *clipboardSequenceNumber : 0)
-    {
-        // This uses simple connection to ensure pointer is not destroyed
-        // instead of QPointer to work around a possible Qt bug
-        // (https://bugzilla.redhat.com/show_bug.cgi?id=2320093).
-        m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
-            m_data = nullptr;
-            log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
-        });
-        m_timerExpire.start();
-    }
-
-    ~ClipboardDataGuard()
-    {
-        QObject::disconnect(m_connection);
-    }
-
-    QStringList formats()
-    {
-        ElapsedGuard _(QStringLiteral(), QStringLiteral("formats"));
-        return mimeData()->formats();
-    }
-
-    bool hasFormat(const QString &mime)
-    {
-        ElapsedGuard _(QStringLiteral("hasFormat"), mime);
-        return mimeData()->hasFormat(mime);
-    }
-
-    QByteArray data(const QString &mime)
-    {
-        ElapsedGuard _(QStringLiteral("data"), mime);
-        return mimeData()->data(mime);
-    }
-
-    QList<QUrl> urls()
-    {
-        ElapsedGuard _(QStringLiteral(), QStringLiteral("urls"));
-        return mimeData()->urls();
-    }
-
-    QString text()
-    {
-        ElapsedGuard _(QStringLiteral(), QStringLiteral("text"));
-        return mimeData()->text();
-    }
-
-    bool hasText()
-    {
-        ElapsedGuard _(QStringLiteral(), QStringLiteral("hasText"));
-        return mimeData()->hasText();
-    }
-
-    QImage getImageData()
-    {
-        ElapsedGuard _(QStringLiteral(), QStringLiteral("imageData"));
-
-        // NOTE: Application hangs if using multiple sessions and
-        //       calling QMimeData::hasImage() on X11 clipboard.
-        QImage image = mimeData()->imageData().value<QImage>();
-        if ( image.isNull() ) {
-            image.loadFromData( data(QStringLiteral("image/png")), "png" );
-            if ( image.isNull() ) {
-                image.loadFromData( data(QStringLiteral("image/bmp")), "bmp" );
-            }
-        }
-        COPYQ_LOG_VERBOSE(
-            QStringLiteral("Image is %1")
-            .arg(image.isNull() ? QStringLiteral("invalid") : QStringLiteral("valid")) );
-        return image;
-    }
-
-    QByteArray getUtf8Data(const QString &format)
-    {
-        ElapsedGuard _(QStringLiteral("UTF8"), format);
-
-        if (format == mimeUriList) {
-            QByteArray bytes;
-            for ( const auto &url : urls() ) {
-                if ( !bytes.isEmpty() )
-                    bytes += '\n';
-                bytes += url.toString().toUtf8();
-            }
-            return bytes;
-        }
-
-        if ( format == mimeText && !hasFormat(mimeText) )
-            return text().toUtf8();
-
-        if ( format.startsWith(QLatin1String("text/")) )
-            return dataToText( data(format), format ).toUtf8();
-
-        return data(format);
-    }
-
-    bool isExpired() {
-        if (!m_data)
-            return true;
-
-        if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal) {
-            m_data = nullptr;
-            log( QByteArrayLiteral("Aborting clipboard cloning: Clipboard changed again"), LogWarning );
-            return true;
-        }
-
-        if (m_timerExpire.elapsed() > clipboardCopyTimeoutMs()) {
-            m_data = nullptr;
-            log( QByteArrayLiteral("Aborting clipboard cloning: Data access took too long"), LogWarning );
-            return true;
-        }
-
-        return false;
-    }
-
-private:
-    const QMimeData *mimeData()
-    {
-        if (isExpired())
-            return dummyMimeData();
-
-        if (m_timerExpire.elapsed() > 100) {
-            QCoreApplication::processEvents();
-            if (isExpired())
-                return dummyMimeData();
-        }
-
-        return m_data;
-    }
-
-    const QMimeData *m_data;
-    QElapsedTimer m_timerExpire;
-    const long int *m_clipboardSequenceNumber;
-    long int m_clipboardSequenceNumberOriginal;
-    QMetaObject::Connection m_connection;
 };
 
 QString getImageFormatFromMime(const QString &mime)
@@ -343,7 +167,9 @@ bool isBinaryImageFormat(const QString &format)
            && !format.contains(QStringLiteral("svg"));
 }
 
-QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
+} // namespace
+
+QVariantMap cloneData(ClipboardDataGuard &data, const QStringList &formats)
 {
     QVariantMap newdata;
 
@@ -356,16 +182,13 @@ QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
      Images in SVG and other XML formats are expected to be relatively small
      so these doesn't have to be ignored.
      */
-    if ( formats.contains(mimeText) && data.hasText() ) {
-        const auto first = std::remove_if(
-            std::begin(formats), std::end(formats), isBinaryImageFormat);
-        formats.erase(first, std::end(formats));
-    }
+    const bool skipBinaryImageFormats = formats.contains(mimeText) && data.hasText();
 
     QStringList imageFormats;
     for (const auto &mime : formats) {
         if (isBinaryImageFormat(mime)) {
-            imageFormats.append(mime);
+            if (!skipBinaryImageFormats)
+                imageFormats.append(mime);
         } else {
             const QByteArray bytes = data.getUtf8Data(mime);
             if ( bytes.isEmpty() )
@@ -397,15 +220,13 @@ QVariantMap cloneData(ClipboardDataGuard &data, QStringList &formats)
     return newdata;
 }
 
-} // namespace
-
-QVariantMap cloneData(const QMimeData &rawData, QStringList formats, const long int *clipboardSequenceNumber)
+QVariantMap cloneData(const QMimeData *rawData, const QStringList &formats, const long int *clipboardSequenceNumber)
 {
     ClipboardDataGuard data(rawData, clipboardSequenceNumber);
     return cloneData(data, formats);
 }
 
-QVariantMap cloneData(const QMimeData &rawData)
+QVariantMap cloneData(const QMimeData *rawData)
 {
     ClipboardDataGuard data(rawData);
 

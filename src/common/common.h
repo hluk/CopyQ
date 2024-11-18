@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QVariantMap>
 
+class ClipboardDataGuard;
 class QByteArray;
 class QDropEvent;
 class QFont;
@@ -20,10 +21,11 @@ bool isMainThread();
 QByteArray makeClipboardOwnerData();
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */
-QVariantMap cloneData(const QMimeData &data, QStringList formats, const long int *clipboardSequenceNumber = nullptr);
+QVariantMap cloneData(ClipboardDataGuard &data, const QStringList &formats);
+QVariantMap cloneData(const QMimeData *data, const QStringList &formats, const long int *clipboardSequenceNumber = nullptr);
 
 /** Clone all data as is. */
-QVariantMap cloneData(const QMimeData &data);
+QVariantMap cloneData(const QMimeData *data);
 
 QString cloneText(const QMimeData &data);
 
