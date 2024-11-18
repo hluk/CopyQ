@@ -374,6 +374,8 @@ class ClipboardBrowser final : public QListView
 
         void dragDropScroll();
 
+        int currentRowFromSearch(const QString &search, int fallback);
+
         ItemSaverPtr m_itemSaver;
 
         QString m_tabName;
@@ -399,8 +401,6 @@ class ClipboardBrowser final : public QListView
 
         int m_dragTargetRow;
         QPoint m_dragStartPosition;
-
-        int m_filterRow = -1;
 
         bool m_selectNewItems = false;
 };
