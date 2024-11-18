@@ -324,8 +324,7 @@ bool ClipboardBrowser::isFiltered(int row) const
         return true;
 
     const QModelIndex ind = m.index(row);
-    return m_filterRow != row
-            && m_sharedData->itemFactory
+    return m_sharedData->itemFactory
             && !m_sharedData->itemFactory->matches(ind, *filter);
 }
 
@@ -1303,36 +1302,43 @@ void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
 
     d.setItemFilter(filter);
 
-    // If search string is a number, highlight item in that row.
-    bool filterByRowNumber = !m_sharedData->numberSearch;
-    if (filterByRowNumber) {
-        m_filterRow = newSearch.toInt(&filterByRowNumber);
-        if (m_filterRow > 0 && m_sharedData->rowIndexFromOne)
-            --m_filterRow;
-    }
-    if (!filterByRowNumber)
-        m_filterRow = -1;
-
     int row = 0;
+    for ( ; row < length() && hideFiltered(row); ++row ) {}
+
+    const int firstVisibleRow = row;
+
+    for ( ; row < length(); ++row )
+        hideFiltered(row);
 
     if ( !filter || filter->matchesAll() ) {
-        for ( ; row < length(); ++row )
-            hideFiltered(row);
-
         scrollTo(currentIndex(), PositionAtCenter);
     } else {
-        for ( ; row < length() && hideFiltered(row); ++row ) {}
-
-        setCurrent(row);
-
-        for ( ; row < length(); ++row )
-            hideFiltered(row);
-
-        if ( filterByRowNumber && m_filterRow >= 0 && m_filterRow < m.rowCount() )
-            setCurrent(m_filterRow);
+        const int currentRow = currentRowFromSearch(newSearch, firstVisibleRow);
+        setCurrent(currentRow);
     }
 
     d.updateAllRows();
+}
+
+int ClipboardBrowser::currentRowFromSearch(const QString &search, int fallback)
+{
+    if (m_sharedData->numberSearch)
+        return fallback;
+
+    // If search string is a number, highlight item in that row.
+    bool ok;
+    int maybeRow = search.toInt(&ok);
+    if (!ok)
+        return fallback;
+
+    if (maybeRow > 0 && m_sharedData->rowIndexFromOne)
+        --maybeRow;
+
+    if (maybeRow < 0 || maybeRow >= m.rowCount())
+        return fallback;
+
+    setRowHidden(maybeRow, false);
+    return maybeRow;
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)

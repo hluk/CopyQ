@@ -3575,9 +3575,7 @@ void MainWindow::enterSearchMode()
     if ( !ui->searchBar->text().isEmpty() ) {
         auto c = browserOrNull();
         if (c) {
-            const int currentRow = c->currentIndex().row();
             c->filterItems( ui->searchBar->filter() );
-            c->setCurrent(currentRow);
         }
     }
 }
