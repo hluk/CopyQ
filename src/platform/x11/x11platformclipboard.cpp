@@ -6,6 +6,7 @@
 
 #include "x11info.h"
 
+#include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/log.h"
@@ -242,10 +243,10 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
     }
 
-    const QPointer<const QMimeData> data( mimeData(clipboardData->mode) );
+    ClipboardDataGuard data( mimeData(clipboardData->mode), &clipboardData->sequenceNumber );
 
     // Retry to retrieve clipboard data few times.
-    if (!data) {
+    if (data.isExpired()) {
         if ( !X11Info::isPlatformX11() )
             return;
 
@@ -266,7 +267,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     }
     clipboardData->retry = 0;
 
-    const QByteArray newDataTimestampData = data->data(QStringLiteral("TIMESTAMP"));
+    const QByteArray newDataTimestampData = data.data(QStringLiteral("TIMESTAMP"));
     quint32 newDataTimestamp = 0;
     if ( !newDataTimestampData.isEmpty() ) {
         QDataStream stream(newDataTimestampData);
@@ -279,20 +280,20 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     // In case there is a valid timestamp, omit update if the timestamp and
     // text did not change.
     if ( newDataTimestamp != 0 && clipboardData->newDataTimestamp == newDataTimestamp ) {
-        const QVariantMap newData = cloneData(*data, {mimeText});
-        if (!data || newData.value(mimeText) == clipboardData->newData.value(mimeText))
+        const QVariantMap newData = cloneData(data, {mimeText});
+        if (data.isExpired() || newData.value(mimeText) == clipboardData->newData.value(mimeText))
             return;
     }
 
     clipboardData->timerEmitChange.stop();
     clipboardData->cloningData = true;
-    const bool isDataSecret = isHidden(*data);
-    const auto sequenceNumberOrig = clipboardData->sequenceNumber;
-    clipboardData->newData = cloneData(*data, clipboardData->formats, &clipboardData->sequenceNumber);
+    const bool isDataSecret = isHidden(*data.mimeData());
+    clipboardData->newData = cloneData(data, clipboardData->formats);
     if (isDataSecret)
         clipboardData->newData[mimeSecret] = QByteArrayLiteral("1");
     clipboardData->cloningData = false;
-    if (sequenceNumberOrig != clipboardData->sequenceNumber) {
+
+    if (data.isExpired()) {
         m_timerCheckAgain.setInterval(0);
         m_timerCheckAgain.start();
         return;

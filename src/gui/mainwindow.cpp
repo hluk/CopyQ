@@ -1126,7 +1126,7 @@ void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction,
     if (data == nullptr)
         return;
 
-    auto actionData = cloneData(*data);
+    auto actionData = cloneData(data);
     if ( !triggeredShortcut.isEmpty() )
         actionData.insert(mimeShortcut, triggeredShortcut);
 
@@ -1141,7 +1141,7 @@ void MainWindow::onTabWidgetDropItems(const QString &tabName, const QMimeData *d
 
     if (browser) {
         const QVariantMap dataMap = data->hasFormat(mimeItems)
-                ? cloneData(*data, QStringList() << mimeItems) : cloneData(*data);
+                ? cloneData(data, QStringList() << mimeItems) : cloneData(data);
         browser->addAndSelect(dataMap, 0);
     }
 }
@@ -3818,7 +3818,7 @@ void MainWindow::pasteItems()
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
-    c->addAndSelect( cloneData(*data), row );
+    c->addAndSelect( cloneData(data), row );
 }
 
 void MainWindow::copyItems()
