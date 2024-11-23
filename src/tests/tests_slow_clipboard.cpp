@@ -68,7 +68,7 @@ void Tests::slowClipboard()
 
     auto clipboard = platformNativeInterface()->clipboard();
     for (int i = 0; i < 3; ++i) {
-        QMimeData *data = new SlowMimeData(QByteArray::number(i), i == 2 ? 100 : 501);
+        QMimeData *data = new SlowMimeData(QByteArray::number(i), i == 2 ? 100 : 1000);
         clipboard->setRawData(ClipboardMode::Clipboard, data);
         waitFor(50);
     }
