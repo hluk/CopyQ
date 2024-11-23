@@ -572,6 +572,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
     ui->dockWidgetItemPreview->setFocusProxy(ui->scrollAreaItemPreview);
     ui->dockWidgetItemPreview->hide();
+    ui->scrollAreaItemPreview->viewport()->setObjectName("item_preview");
 
     WindowGeometryGuard::create(this);
     restoreState( mainWindowState(objectName()) );

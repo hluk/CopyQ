@@ -118,6 +118,13 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 
 QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
 {
+    auto widget = createPreviewNoEmit(data, parent);
+    emit itemWidgetCreated(PersistentDisplayItem(this, data, widget));
+    return widget;
+}
+
+QWidget *ItemDelegate::createPreviewNoEmit(const QVariantMap &data, QWidget *parent)
+{
     const bool antialiasing = m_sharedData->theme.isAntialiasingEnabled();
     ItemWidget *itemWidget =
             m_sharedData->itemFactory->createItem(data, parent, antialiasing, false, true);
@@ -130,8 +137,6 @@ QWidget *ItemDelegate::createPreview(const QVariantMap &data, QWidget *parent)
     highlightMatches(itemWidget);
 
     parent->setFocusProxy( itemWidget->widget() );
-
-    emit itemWidgetCreated(PersistentDisplayItem(this, data, itemWidget->widget()));
 
     return itemWidget->widget();
 }
@@ -173,7 +178,7 @@ void ItemDelegate::updateWidget(QObject *widget, const QVariantMap &data)
         if (!scrollArea)
             return;
 
-        auto newPreview = createPreview(data, scrollArea);
+        auto newPreview = createPreviewNoEmit(data, scrollArea);
         scrollArea->setWidget(newPreview);
         newPreview->show();
         return;
