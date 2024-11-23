@@ -127,6 +127,8 @@ class ItemDelegate final : public QItemDelegate
             QSize size = QSize(0, defaultItemHeight);
         };
 
+        QWidget *createPreviewNoEmit(const QVariantMap &data, QWidget *parent);
+
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
         /// Updates style for selected/unselected widgets.
