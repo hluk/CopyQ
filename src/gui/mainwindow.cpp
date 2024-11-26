@@ -1136,14 +1136,15 @@ void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction,
     action( actionData, command, QModelIndex() );
 }
 
-void MainWindow::onTabWidgetDropItems(const QString &tabName, const QMimeData *data)
+void MainWindow::onTabWidgetDropItems(const QString &tabName, const QMimeData *data, bool *accepted)
 {
     auto browser = tab(tabName);
 
     if (browser) {
         const QVariantMap dataMap = data->hasFormat(mimeItems)
                 ? cloneData(data, QStringList() << mimeItems) : cloneData(data);
-        browser->addAndSelect(dataMap, 0);
+        if ( browser->addAndSelect(dataMap, 0) )
+            *accepted = true;
     }
 }
 

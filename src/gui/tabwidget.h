@@ -90,7 +90,7 @@ signals:
     void tabRenamed(const QString &newName, int index);
     void currentChanged(int tabIndex, int oldTabIndex);
     void tabCloseRequested(int);
-    void dropItems(const QString &tabName, const QMimeData *data);
+    void dropItems(const QString &tabName, const QMimeData *data, bool *accepted);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;

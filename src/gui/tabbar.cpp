@@ -184,8 +184,10 @@ void TabBar::dropEvent(QDropEvent *event)
     int tabIndex = dropItemsTabIndex(*event, *this);
 
     if ( tabIndex != -1 ) {
-        acceptDrag(event);
-        emit dropItems( tabName(tabIndex), event->mimeData() );
+        bool accepted = false;
+        emit dropItems( tabName(tabIndex), event->mimeData(), &accepted );
+        if (accepted)
+            acceptDrag(event);
     } else {
         QTabBar::dropEvent(event);
     }
