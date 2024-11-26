@@ -486,7 +486,7 @@ private:
     void onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
     void onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut);
 
-    void onTabWidgetDropItems(const QString &tabName, const QMimeData *data);
+    void onTabWidgetDropItems(const QString &tabName, const QMimeData *data, bool *accepted);
 
     void showContextMenuAt(QPoint position);
 

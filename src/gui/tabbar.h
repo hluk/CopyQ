@@ -49,7 +49,7 @@ public:
 signals:
     void tabBarMenuRequested(const QPoint &pos, int tab);
     void tabRenamed(const QString &newName, int index);
-    void dropItems(const QString &tabName, const QMimeData *data);
+    void dropItems(const QString &tabName, const QMimeData *data, bool *accepted);
 
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
