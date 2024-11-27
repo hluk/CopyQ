@@ -6,32 +6,32 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre l&apos;eina</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="84"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrador de portapapers</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="91"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="92"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Correu electrònic</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="93"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Col·labora</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Quadre de diàleg d&apos;acció</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
