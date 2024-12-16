@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=CopyQ
-Exec=copyq --start-server show
+Exec=env QT_QPA_PLATFORM=xcb /usr/bin/copyq
 Icon=${ICON_NAME}
 GenericName=Clipboard Manager
 # Workaround / fix for issue #1526 that prevents a proper autostart of the tray icon in GNOME
