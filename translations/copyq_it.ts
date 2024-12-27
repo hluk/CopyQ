@@ -3804,7 +3804,7 @@ Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&g
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Il nome della scheda non deve essere vuoto e univoco.&lt;br /&gt;
 La scheda &lt;b&gt;No&amp;amp;te&lt;/b&gt; può essere aperta utilizzando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
-Utilizza &lt;b&gt;/&lt;/b&gt; come separatore di percorso nella visualizzazione ad albero della scheda.</translation>
+Usa &lt;b&gt;/&lt;/b&gt; come separatore di percorso nella visualizzazione ad albero della scheda.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
