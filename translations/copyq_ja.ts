@@ -635,7 +635,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>入力文字列がこの正規表現に一致しない場合、コマンドをスキップします。(空ならすべてに一致)
+
+コマンドとフィルターの %2 から %9 (スクリプトでは引数[1]以上) は、一致する文字列に置換されます。
+
+例:
+
+- URL に一致: ^(https?|ftp)://
+- PDFファイルに一致: \.pdf$に一致
+- 1文字に一致: ^.$
+- メディアファイルに一致: http://.*.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -783,7 +792,7 @@ Command と Filter 内の %2 から %9 は、参照された文字列に置換�
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;この正規表現に一致するタイトルのウィンドウからクリップボードにコピーされたアイテムにのみ、コマンドを使用します (空のままにすると任意のウィンドウが対象になります)。macOS では、ウィンドウタイトルの内容は、アプリケーション名、ダッシュ (&amp;quot;-&amp;quot;)、ウィンドウタイトル、の順になっています (例: &amp;quot;Safari - GitHub&amp;quot;)。&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;この正規表現に一致するタイトルのウィンドウからクリップボードにコピーされたアイテムにのみ、コマンドを使用します (空のままにすると任意のウィンドウが対象になります)。macOS では、ウィンドウタイトルの内容は、アプリ名、ダッシュ (&amp;quot;-&amp;quot;)、ウィンドウタイトル、の順になっています (例: &amp;quot;Safari - GitHub&amp;quot;)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -1057,7 +1066,7 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
         <source>Close main window when other application has focus</source>
-        <translation>他のアプリケーションにフォーカスが移ればメインウィンドウを閉じます</translation>
+        <translation>他のアプリにフォーカスが移ればメインウィンドウを閉じます</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
@@ -1078,7 +1087,7 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation>アプリケーション終了時に確認します</translation>
+        <translation>アプリ終了時に確認します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
@@ -1088,7 +1097,7 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
         <source>Run the application on system startup</source>
-        <translation>システム起動時にアプリケーションを実行します</translation>
+        <translation>システム起動時にアプリを実行します</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
@@ -1106,22 +1115,22 @@ F2 キーを押すと編集できます。</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>ナビゲーション方法 / キー割当:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi 風 (キー H J K L / など) 、Emacs 風 (Ctrl+N P V など) に対応</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation>デフォルト</translation>
+        <translation>標準</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished">Vi</translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
@@ -1717,7 +1726,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="595"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation>言語設定はアプリケーションを再起動した後に変更されます。</translation>
+        <translation>言語設定はアプリを再起動した後に変更されます。</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
@@ -3261,7 +3270,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
         <translation>現在のウィンドウにクリップボードを貼り付けます
-(アプリケーションによっては動作しない場合があります)。</translation>
+(アプリによっては動作しない場合があります)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
@@ -3428,7 +3437,7 @@ ECMAScript プログラムを診断します。
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>アプリケーションのテストを実行します (詳細を知りたい場合はコマンド引数に --help を追加してください)。</translation>
+        <translation>アプリのテストを実行します (詳細を知りたい場合はコマンド引数に --help を追加してください)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="55"/>
@@ -3448,7 +3457,7 @@ ECMAScript プログラムを診断します。
         <source>Copy clipboard from current window
 (may not work with some applications).</source>
         <translation>現在のウィンドウからクリップボードにコピーします
-(アプリケーションによっては動作しない可能性があります)。</translation>
+(アプリによっては動作しない可能性があります)。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="83"/>
@@ -3560,7 +3569,7 @@ PROGRAM に引数としてテキストを渡す場合は %1 を使用します�
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="175"/>
         <source>Starts or connects to application instance with given session name.</source>
-        <translation>指定したセッション名でアプリケーションのインスタンスを起動、または接続します。</translation>
+        <translation>指定したセッション名でアプリのインスタンスを起動、または接続します。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="178"/>
@@ -3769,17 +3778,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>グローバルショートカットは、どのアプリケーションがアクティブでも使用できます。</translation>
+        <translation>グローバルショートカットは、すべてのアプリ上で使用できます。</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation>アプリケーション(&amp;P)</translation>
+        <translation>アプリ(&amp;P)</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
         <source>Application shortcuts can only be triggered from the main window.</source>
-        <translation>アプリケーションショートカットは、メインウィンドウがアクティブな場合のみ使用できます。</translation>
+        <translation>アプリのショートカットは、メインウィンドウがアクティブな場合のみ使用できます。</translation>
     </message>
     <message>
         <source>Application shortcuts can be triggered only from the main window.</source>
