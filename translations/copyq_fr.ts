@@ -747,7 +747,15 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passer la commande si le texte d&apos;entré ne correspond pas à l&apos;expression régulière (laisser vide pour correspondre à tout).
+
+%2 au travers %9 (ou argument[1] et haut dans le script) dans Commande et Filtre sera remplacé par le texte capturé.
+
+Exemples&#xa0;:
+— Correspondance d&apos;URL&#xa0;: ^(https?|ftp)://
+— Correspondance de nom de PDF&#xa0;: \.pdf$
+— Correspondance d&apos;un caractère&#xa0;: ^.$
+— Correspondance d&apos;un fichier multimédia distant&#xa0;: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -1113,22 +1121,22 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Prise en charge de la navigation Vi (touches H, J, K, L, / et autres) et navigation Emacs (Ctrl+N, P, V et autres)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1953,7 +1961,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour partager des éléments chiffrés à d&apos;autres ordinateurs ou sessions, vous aurez besoin de ces fichiers de clés secrètes (conservez-les dans un endroit sécurisé)&#xa0;:</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -3714,7 +3722,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2388"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Stockage du presse-papier désactivé*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
