@@ -3802,8 +3802,8 @@ Visualizza programma e librerie.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Il nome della scheda non deve essere vuoto e univoco.&lt;br /&gt;
-La scheda &lt;b&gt;No&amp;amp;te&lt;/b&gt; può essere aperta utilizzando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+        <translation>Il nome scheda non deve essere vuoto e deve essere univoco.&lt;br /&gt;
+La scheda&lt;b&gt; No&amp;amp;te&lt;/b&gt; può essere aperta usando &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Usa &lt;b&gt;/&lt;/b&gt; come separatore di percorso nella visualizzazione struttura della scheda.</translation>
     </message>
     <message>
