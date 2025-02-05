@@ -1,7 +1,7 @@
 # Ref: https://github.com/codespell-project/codespell#using-a-config-file
 [codespell]
-skip = .git,*.pdf,*.svg,go.sum,*.css,.codespellrc,translations
+skip = .git,*.pdf,*.svg,go.sum,*.css,.codespellrc,translations,./plugins/itemfakevim/fakevim/*
 check-hidden = true
 # ignore translations, names, Some&amp;annotations, etc
-ignore-regex = (Comment|GenericName)\[.*|\bSimon Ser\b|DoubleClick|{0xf.*, (true|false),.*|\b\S+&(amp;)?\S+\b|.*codespell-ignore.*
+ignore-regex = (Comment|GenericName)\[.*|\bSimon Ser\b|DoubleClick|{0xf.*, (true|false),.*|\b\S+&(amp;)?\S+\b|.*codespell-ignore.*|\bonTop\b|readLine\(\)=INE
 # ignore-words-list =
