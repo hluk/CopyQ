@@ -1103,6 +1103,8 @@ unlike in GUI, where row numbers start from 1 by default.
    -  '.style' - Qt style sheet for dialog
    -  '.height', '.width', '.x', '.y' - dialog geometry
    -  '.label' - dialog message (can contain basic HTML)
+   -  '.modal' - set to true to make the dialog modal (to avoid other CopyQ windows to get input focus)
+   -  '.onTop' - set to true for the dialog to stay above other windows
 
    :returns: Value or values from accepted dialog or ``undefined`` if dialog
              was canceled.
