@@ -2118,6 +2118,10 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             createAndSetWidget<QLabel>("text", value.value, parent);
         else if (value.name == ".defaultChoice")
             inputDialog.defaultChoice = value.value.toString();
+        else if (value.name == ".modal")
+            dialog.setModal(value.value.toBool());
+        else if (value.name == ".onTop")
+            dialog.setWindowFlag(Qt::WindowStaysOnTopHint, value.value.toBool());
         else
             widgets.append( createWidget(value.name, value.value, &inputDialog) );
     }
