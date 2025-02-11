@@ -168,7 +168,7 @@ Source: "{#Root}\tls\*.dll"; DestDir: "{app}\tls"; Components: program; Flags: i
 Source: "{#Root}\*.dll"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 
 [Icons]
-Name: "{group}\CopyQ"; Filename: "{app}\copyq.exe"
+Name: "{group}\CopyQ"; Filename: "{app}\copyq.exe"; Parameters: "--start-server show"
 Name: "{commondesktop}\CopyQ"; Filename: "{app}\copyq.exe"; Tasks: desktopicon
 Name: "{userstartup}\CopyQ"; Filename: "{app}\copyq.exe"; Tasks: startup
 
