@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             buildname: Linux-GCC
             compiler: g++
             compiler_package: g++
@@ -20,7 +20,7 @@ jobs:
             with_native_notifications: true
             cmake_preset: Debug
 
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             buildname: Linux-Clang
             compiler: clang++
             compiler_package: clang
