@@ -12,7 +12,7 @@
 
 void Tests::commandExit()
 {
-    RUN("exit", "Terminating server.\n");
+    RUN("exit", "");
 
     TEST( m_test->waitForServerToStop() );
 
