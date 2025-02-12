@@ -818,7 +818,8 @@ void Tests::startServerAndRunCommand()
     // The sleep() call ensures that the server finishes and terminates the
     // client connection.
     QCOMPARE( run(Args("--start-server") << "exit();sleep(10000)", &stdoutActual, &stderrActual), 0 );
-    QCOMPARE(stdoutActual, "Terminating server.\n");
+    QCOMPARE(stdoutActual, "");
+    QCOMPARE(stderrActual, "Terminating server.\n");
 
     // Try to start new client.
     SleepTimer t(10000);

@@ -861,7 +861,7 @@ void Scriptable::exit()
 {
     m_skipArguments = 0;
     QByteArray message = fromString( tr("Terminating server.\n") );
-    print(message);
+    printError(message);
     m_proxy->exit();
 }
 
