@@ -195,7 +195,7 @@
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Poista leikepöydälle tallentaminen käytöstä</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
