@@ -44,22 +44,22 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation>Ko&amp;mento:</translation>
+        <translation>&amp;Komento::</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Standarti &amp;syöttö:</translation>
+        <translation>Vakio &amp;syöttö:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Tallenna standarti t&amp;uloste:</translation>
+        <translation>Tallenna vakio &amp;lähtö:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Lähetä tietyn mediatyypin tiedot komennon vakiona (jätä tyhjä sammuttamiseksi)</translation>
+        <translation>Lähetä tietyn mediatyypin tiedot komennon vakiosyötteeseen (jätä tyhjäksi sammuttaaksesi)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
@@ -75,12 +75,13 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Säännöllinen lauseke tulosteen jakamiseen useiksi kohteiksi.&lt;\p&gt;
+&lt;p&gt;Käytä &lt;b&gt;\n&lt;/b&gt;:ta jokaisen rivin tallentamiseen ja erottamiseen.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -103,12 +104,12 @@
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="128"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Poistumiskoodi: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="158"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Komento &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -116,17 +117,17 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Prosessien hallinta</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Suodata</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Lopeta valittu</translation>
     </message>
 </context>
 <context>
@@ -134,67 +135,67 @@
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Lisää komentoja</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="63"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä/piilota pääikkuna</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä lokerovalikko</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä pääikkuna hiiren kohdistimen alla</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Muokkaa leikepöytää</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Muokkaa ensimmäistä kohdetta</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopioi toinen kohde</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Näytä toimintavalintaikkuna</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Luo uusi kohde</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopioi seuraava kohde</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopioi edellinen kohde</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Liitä leikepöytä pelkkänä tekstinä</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Poista leikepöydälle tallentaminen käytöstä</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
@@ -731,7 +732,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="610"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished">&amp;välilehti:</translation>
+        <translation>Lähtö&amp;välilehti:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="620"/>
@@ -1752,7 +1753,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Virhe: %1</translation>
+        <translation>Virhe: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -3419,7 +3420,9 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Välilehden nimi ei saa olla tyhjä ja yksilöllinen.&lt;br /&gt;
+Välilehti &lt;b&gt;Ei&amp;amp;tes&lt;/b&gt; voidaan avata painamalla &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+Käytä &lt;b&gt;/&lt;/b&gt;-polun erottimena puunäkymän välilehtiasettelussa.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
