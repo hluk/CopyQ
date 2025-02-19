@@ -595,25 +595,12 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
     });
 
     m_manager->instantiate();
+    m_deviceRequestedTimer.start();
 }
 
 WaylandClipboard *WaylandClipboard::createInstance()
 {
-    qInfo() << "Using Wayland clipboard access";
-    auto clipboard = new WaylandClipboard(qApp);
-
-    QElapsedTimer timer;
-    timer.start();
-    while ( !clipboard->isActive() && timer.elapsed() < 5000 ) {
-        QCoreApplication::processEvents();
-    }
-    if ( timer.elapsed() > 100 ) {
-        qWarning() << "Activating Wayland clipboard took" << timer.elapsed() << "ms";
-    }
-    if ( !clipboard->isActive() ) {
-        qCritical() << "Failed to activate Wayland clipboard";
-    }
-    return clipboard;
+    return new WaylandClipboard(qApp);
 }
 
 void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
@@ -661,6 +648,30 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
         }
         return m_device->receivedPrimarySelection();
     }
+    return nullptr;
+}
+
+DataControlDevice *WaylandClipboard::device() const
+{
+    if (m_device)
+        return m_device.get();
+
+    if (m_deviceRequestedTimer.elapsed() > 5000)
+        return nullptr;
+
+    while (!m_device && m_deviceRequestedTimer.elapsed() < 5000) {
+        QCoreApplication::processEvents();
+    }
+
+    if (m_device) {
+        if (m_deviceRequestedTimer.elapsed() > 200) {
+            qWarning() << "Activating Wayland clipboard took"
+                << m_deviceRequestedTimer.elapsed() << "ms";
+        }
+        return m_device.get();
+    }
+
+    qCritical() << "Failed to activate Wayland clipboard";
     return nullptr;
 }
 
