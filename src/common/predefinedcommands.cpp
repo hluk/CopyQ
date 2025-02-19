@@ -48,8 +48,8 @@ QVector<Command> predefinedCommands()
     c->icon = QString(QChar(IconCircleExclamation));
     c->cmd  = R"(function hasEmptyOrSingleCharText() {
     if (dataFormats().includes(mimeText)) {
-        var text = str(data(mimeText));
-        if (text.match(/^\s*.?\s*$/)) {
+        const text = str(data(mimeText));
+        if (/^\s*.?\s*$/.test(text)) {
             serverLog('Ignoring text with single or no character');
             return true;
         }
@@ -57,26 +57,18 @@ QVector<Command> predefinedCommands()
     return false;
 }
 
-var onClipboardChanged_ = onClipboardChanged;
-onClipboardChanged = function() {
-    if (!hasEmptyOrSingleCharText()) {
-        onClipboardChanged_();
+function overrideFunction(fn) {
+    const oldFn = global[fn];
+    global[fn] = function() {
+        if (!hasEmptyOrSingleCharText()) {
+            oldFn();
+        }
     }
 }
 
-var synchronizeFromSelection_ = synchronizeFromSelection;
-synchronizeFromSelection = function() {
-    if (!hasEmptyOrSingleCharText()) {
-        synchronizeFromSelection_();
-    }
-}
-
-var synchronizeToSelection_ = synchronizeToSelection;
-synchronizeToSelection = function() {
-    if (!hasEmptyOrSingleCharText()) {
-        synchronizeToSelection_();
-    }
-}
+overrideFunction('onClipboardChanged');
+overrideFunction('provideClipboard');
+overrideFunction('provideSelection');
     )";
     c->isScript = true;
 
