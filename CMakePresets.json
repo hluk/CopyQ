@@ -9,6 +9,7 @@
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "PEDANTIC": "TRUE",
+                "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
             }
