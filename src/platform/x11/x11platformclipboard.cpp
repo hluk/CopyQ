@@ -52,7 +52,7 @@ bool isSelectionIncomplete()
 
     return event.state & (Button1Mask | ShiftMask);
 #else
-    return true;
+    return false;
 #endif
 }
 
