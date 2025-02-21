@@ -3472,8 +3472,9 @@ bool Scriptable::canSynchronizeSelection(ClipboardMode targetMode)
     // Avoid changing clipboard after a text is selected just before it's copied
     // with a keyboard shortcut.
     SleepTimer t(5000);
-    while ( QGuiApplication::queryKeyboardModifiers() != Qt::NoModifier ) {
-        if ( !t.sleep() && !canContinue() ) {
+    const auto waitForReleased = Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier;
+    while ( QGuiApplication::queryKeyboardModifiers() & waitForReleased ) {
+        if ( !t.sleep() || !canContinue() ) {
             COPYQ_LOG("Sync: Cancelled - keyboard modifiers still being held");
             return false;
         }
