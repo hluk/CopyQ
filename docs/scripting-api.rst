@@ -1099,6 +1099,10 @@ unlike in GUI, where row numbers start from 1 by default.
    -  '.style' - Qt style sheet for dialog
    -  '.height', '.width', '.x', '.y' - dialog geometry
    -  '.label' - dialog message (can contain basic HTML)
+   -  '.modal' - set to true to make the dialog modal (to avoid other windows to get input focus)
+   -  '.onTop' - set to true for the dialog to stay above other windows
+   -  '.noParent' - set to true to avoid attaching the dialog to the main window
+   -  '.popupWindow', '.sheetWindow', '.toolWindow', '.foreignWindow' - set/unset the type of dialog window (see `Qt::WindowFlags <https://doc.qt.io/qt-6/qt.html#WindowType-enum>`__ for details)
 
    :returns: Value or values from accepted dialog or ``undefined`` if dialog
              was canceled.
