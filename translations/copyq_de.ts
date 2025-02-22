@@ -706,7 +706,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Überspringt den Befehl, wenn der Eingabtext nicht mit diesem regulären Ausdruck übereinstimmt (leer lassen, wenn alles übereinstimmen soll).
+
+%2 bis %9 (oder Argument[1] und in Skript) im Befehl und Filter werden durch die erfassten Texte ersetzt.
+
+Beispiele:
+
+- URL: ^(https?|ftp)://
+- PDF-Dateinamen: \.pdf$
+- Einzelcharakter: ^.$
+- Multimedia im Web: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -1106,27 +1115,27 @@ F2 zum Bearbeiten drücken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigationsstil / Tastenbelegung:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterstützung für Vi-Navigation (Tasten H, J, K, L, / und mehr) und Emacs-Navigation (Strg+N, P, V und mehr)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1950,7 +1959,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Um verschlüsselte Elemente auf einem anderen Computer oder einer anderen Sitzung zu teilen, benötigen Sie diese geheimen Schlüsseldateien (bewahren Sie sie an einem sicheren Ort auf):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
@@ -2380,7 +2389,7 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag %1 umschalten</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -3708,7 +3717,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2388"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Zwischenablagenspeicherung deaktiviert*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
