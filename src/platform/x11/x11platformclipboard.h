@@ -22,7 +22,7 @@ public:
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
 
-    bool isSelectionSupported() const override { return m_selectionSupported; }
+    bool isSelectionSupported() const override { return true; }
 
     void setClipboardOwner(const QString &owner) override { m_clipboardOwner = owner; }
 
@@ -63,7 +63,6 @@ private:
     ClipboardData m_selectionData;
 
     bool m_monitoring = false;
-    bool m_selectionSupported = true;
 
     QString m_clipboardOwner;
 };

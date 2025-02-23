@@ -65,7 +65,7 @@ X11PlatformClipboard::X11PlatformClipboard()
 
     // Create Wayland clipboard instance so it can start receiving new data.
     if ( !X11Info::isPlatformX11() ) {
-        m_selectionSupported = WaylandClipboard::instance()->isSelectionSupported();
+        WaylandClipboard::instance();
     }
 }
 
@@ -150,23 +150,22 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
         QCoreApplication::processEvents();
         DummyClipboard::setData(mode, dataMap);
-    } else if (qobject_cast<QApplication*>(qApp) == nullptr) {
-        // WORKAROUND: QClipboard::setMimeData() with a simple windowless
-        // QGuiAplication on Wayland does not work.
+    } else {
+        DummyClipboard::setData(mode, dataMap);
         const auto data = createMimeData(dataMap);
         const auto qmode = modeToQClipboardMode(mode);
         WaylandClipboard::instance()->setMimeData(data, qmode);
-    } else {
-        DummyClipboard::setData(mode, dataMap);
     }
 }
 
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
-    if ( X11Info::isPlatformX11() )
-        return DummyClipboard::rawMimeData(mode);
-
-    return WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
+    if ( !X11Info::isPlatformX11() ) {
+        const auto data = WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
+        if (data != nullptr)
+            return data;
+    }
+    return DummyClipboard::rawMimeData(mode);
 }
 
 void X11PlatformClipboard::onChanged(int mode)
