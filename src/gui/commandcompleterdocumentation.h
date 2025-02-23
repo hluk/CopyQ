@@ -167,6 +167,9 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("setTitle", "setTitle([title])", "Set main window title and tool tip.");
     addDocumentation("synchronizeToSelection", "synchronizeToSelection(text)", "Synchronize current data from clipboard to `Linux mouse selection`_.");
     addDocumentation("synchronizeFromSelection", "synchronizeFromSelection(text)", "Synchronize current data from `Linux mouse selection`_ to clipboard.");
+    addDocumentation("provideClipboard", "provideClipboard()", "Starts a process provides a data for clipboard.");
+    addDocumentation("provideSelection", "provideSelection()", "Starts a process that provides a data for `Linux mouse selection`_.");
+    addDocumentation("monitorClipboard", "monitorClipboard()", "Starts a clipboard monitor process.");
     addDocumentation("clipboardFormatsToSave", "clipboardFormatsToSave() -> array of strings", "Returns list of clipboard format to save automatically.");
     addDocumentation("saveData", "saveData()", "Save current data (depends on `mimeOutputTab`).");
     addDocumentation("hasData", "hasData() -> bool", "Returns true only if some non-empty data can be returned by data().");
