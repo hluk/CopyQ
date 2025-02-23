@@ -257,7 +257,7 @@ QGuiApplication *X11Platform::createClipboardProviderApplication(int &argc, char
     // WORKAROUND: On GNOME Wayland session, run clipboard monitor/provider
     // processes in XWayland mode, because GNOME does not support the
     // wlr-data-control protocol required for clipboard access.
-    if ( !qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")
+    if ( qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")
          && qgetenv("XAUTHORITY").contains("mutter-Xwayland") )
     {
         qputenv("QT_QPA_PLATFORM", "xcb");
