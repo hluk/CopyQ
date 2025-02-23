@@ -3331,6 +3331,17 @@ void MainWindow::setClipboard(const QVariantMap &data)
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     m_clipboard->setData(mode, data);
+
+    auto act = new Action();
+    act->setData(data);
+    act->setCommand({
+        QStringLiteral("copyq"),
+        QStringLiteral("--clipboard-access"),
+        mode == ClipboardMode::Clipboard
+          ? QStringLiteral("provideClipboard")
+          : QStringLiteral("provideSelection")
+    });
+    runInternalAction(act);
 }
 
 void MainWindow::setClipboardAndSelection(const QVariantMap &data)

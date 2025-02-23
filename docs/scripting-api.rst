@@ -1594,6 +1594,28 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Default implementation calls :js:func:`provideClipboard`.
 
+.. js:function:: provideClipboard()
+
+   Starts a process provides a data for clipboard.
+
+   The data can be set using :js:func:`setData`.
+
+   The script must be started with ``--clipboard-access`` command line flag.
+
+.. js:function:: provideSelection()
+
+   Starts a process that provides a data for `Linux mouse selection`_.
+
+   The data can be set using :js:func:`setData`.
+
+   The script must be started with ``--clipboard-access`` command line flag.
+
+.. js:function:: monitorClipboard()
+
+   Starts a clipboard monitor process.
+
+   The script must be started with ``--clipboard-access`` command line flag.
+
 .. js:function:: clipboardFormatsToSave()
 
    Returns list of clipboard format to save automatically.
