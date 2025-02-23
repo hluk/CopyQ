@@ -623,7 +623,7 @@ WaylandClipboard *WaylandClipboard::createInstance()
 
 void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
 {
-    if (!m_device) {
+    if (!waitForDevice(1000)) {
         return;
     }
     std::unique_ptr<DataControlSource> source(new DataControlSource(m_manager->create_data_source(), mime));
@@ -634,23 +634,9 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
     }
 }
 
-void WaylandClipboard::clear(QClipboard::Mode mode)
-{
-    if (!m_device) {
-        return;
-    }
-    if (mode == QClipboard::Clipboard) {
-        m_device->set_selection(nullptr);
-    } else if (mode == QClipboard::Selection) {
-        if (zwlr_data_control_device_v1_get_version(m_device->object()) >= ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION) {
-            m_device->set_primary_selection(nullptr);
-        }
-    }
-}
-
 const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
 {
-    if (!m_device) {
+    if (!waitForDevice(1000)) {
         return nullptr;
     }
 
@@ -669,15 +655,18 @@ const QMimeData *WaylandClipboard::mimeData(QClipboard::Mode mode) const
     return nullptr;
 }
 
-DataControlDevice *WaylandClipboard::device() const
+bool WaylandClipboard::waitForDevice(int timeoutMs) const
 {
     if (m_device)
-        return m_device.get();
+        return true;
 
-    if (m_deviceRequestedTimer.elapsed() > 5000)
-        return nullptr;
+    if (m_deviceRequestedTimer.elapsed() > timeoutMs)
+        return false;
 
-    while (!m_device && m_deviceRequestedTimer.elapsed() < 5000) {
+    qWarning() << "Waiting for Wayland clipboard for"
+        << timeoutMs - m_deviceRequestedTimer.elapsed() << "ms";
+
+    while (!m_device && m_deviceRequestedTimer.elapsed() < timeoutMs) {
         QCoreApplication::processEvents();
     }
 
@@ -686,17 +675,11 @@ DataControlDevice *WaylandClipboard::device() const
             qWarning() << "Activating Wayland clipboard took"
                 << m_deviceRequestedTimer.elapsed() << "ms";
         }
-        return m_device.get();
+        return true;
     }
 
     qCritical() << "Failed to activate Wayland clipboard";
-    return nullptr;
-}
-
-bool WaylandClipboard::isSelectionSupported() const
-{
-    return m_device && zwlr_data_control_device_v1_get_version(m_device->object())
-            >= ZWLR_DATA_CONTROL_DEVICE_V1_SET_PRIMARY_SELECTION_SINCE_VERSION;
+    return false;
 }
 
 WaylandClipboard *WaylandClipboard::instance()

@@ -24,10 +24,8 @@ public:
     ~WaylandClipboard();
 
     void setMimeData(QMimeData *mime, QClipboard::Mode mode);
-    void clear(QClipboard::Mode mode);
     const QMimeData *mimeData(QClipboard::Mode mode) const;
-    DataControlDevice *device() const;
-    bool isSelectionSupported() const;
+    bool waitForDevice(int timeoutMs = 5000) const;
 
 signals:
     void changed(QClipboard::Mode mode);
