@@ -262,6 +262,7 @@ protected:
 
 private:
     QStringList m_receivedFormats;
+    mutable QHash<QString, QVariant> m_data;
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -271,6 +272,10 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
 #endif
 {
     Q_UNUSED(type);
+
+    auto it = m_data.constFind(mimeType);
+    if (it != m_data.constEnd())
+        return *it;
 
     QString mime;
     if (!m_receivedFormats.contains(mimeType)) {
@@ -330,10 +335,23 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     if (!data.isEmpty() && mimeType == applicationQtXImageLiteral()) {
         QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
         if (!img.isNull()) {
+            m_data.insert(mimeType, img);
             return img;
         }
+    } else if (data.size() > 1 && mimeType == u"text/uri-list") {
+        const auto urls = data.split('\n');
+        QVariantList list;
+        list.reserve(urls.size());
+        for (const QByteArray &s : urls) {
+            QUrl url(QUrl::fromEncoded(s.trimmed()));
+            if (url.isValid()) {
+                list.append(url);
+            }
+        }
+        m_data.insert(mimeType, list);
+        return list;
     }
-
+    m_data.insert(mimeType, data);
     return data;
 }
 
