@@ -235,11 +235,6 @@ QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
     return createGuiApplication(argc, argv);
 }
 
-QGuiApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
-{
-    return createApplication<QGuiApplication>(argc, argv);
-}
-
 QGuiApplication *WinPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
     return createApplication<QGuiApplication>(argc, argv);

@@ -27,11 +27,6 @@ QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
-QGuiApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
-{
-    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
-}
-
 QGuiApplication *DummyPlatform::createClipboardProviderApplication(int &argc, char **argv)
 {
     return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
