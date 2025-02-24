@@ -170,7 +170,7 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
 
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
-    if ( !X11Info::isPlatformX11() ) {
+    if ( !X11Info::isPlatformX11() && WaylandClipboard::instance()->waitForDevice(1000) ) {
         const auto data = WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
         if (data != nullptr)
             return data;
@@ -193,7 +193,7 @@ void X11PlatformClipboard::onChanged(int mode)
 
     if (mode == QClipboard::Selection) {
         // Omit checking selection too fast.
-        if ( mode == QClipboard::Selection && m_timerCheckAgain.isActive() ) {
+        if ( m_timerCheckAgain.isActive() ) {
             COPYQ_LOG("Postponing fast selection change");
             return;
         }
@@ -220,8 +220,7 @@ void X11PlatformClipboard::onChanged(int mode)
 void X11PlatformClipboard::check()
 {
     if (m_clipboardData.cloningData || m_selectionData.cloningData) {
-        m_timerCheckAgain.setInterval(minCheckAgainIntervalMs);
-        m_timerCheckAgain.start();
+        m_timerCheckAgain.start(minCheckAgainIntervalMs);
         return;
     }
 
@@ -303,8 +302,7 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
     clipboardData->cloningData = false;
 
     if (data.isExpired()) {
-        m_timerCheckAgain.setInterval(0);
-        m_timerCheckAgain.start();
+        m_timerCheckAgain.start(0);
         return;
     }
 
@@ -329,20 +327,13 @@ void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardDa
 
 void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
 {
-    m_timerCheckAgain.setInterval(interval);
     if (interval < maxCheckAgainIntervalMs)
-        m_timerCheckAgain.start();
+        m_timerCheckAgain.start(interval);
     else if (clipboardChanged)
         m_timerCheckAgain.start(maxCheckAgainIntervalMs);
-    else
-        m_timerCheckAgain.setInterval(0);
 
-    COPYQ_LOG( QString("Clipboard %1, selection %2.%3")
-               .arg(
-                   QString::fromLatin1(m_clipboardData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged"),
-                   QString::fromLatin1(m_selectionData.timerEmitChange.isActive() ? "*CHANGED*" : "unchanged"),
-                   m_timerCheckAgain.isActive()
-                    ? QString(" Test again in %1ms.").arg(m_timerCheckAgain.interval())
-                    : QString()
-               ) );
+    if (m_clipboardData.timerEmitChange.isActive())
+        COPYQ_LOG( QStringLiteral("Clipboard CHANGED, owner: '%1'").arg(m_clipboardData.newOwner) );
+    if (m_selectionData.timerEmitChange.isActive())
+        COPYQ_LOG( QStringLiteral("Selection CHANGED, owner: '%1'").arg(m_selectionData.newOwner) );
 }

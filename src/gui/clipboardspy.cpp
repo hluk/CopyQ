@@ -16,12 +16,13 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
     , m_clipboard(platformNativeInterface()->clipboard())
 {
     m_oldOwnerData = owner.isEmpty() ? currentOwnerData() : owner;
-    connect( m_clipboard.get(), &PlatformClipboard::changed, this,
-        [this](ClipboardMode changedMode) {
-            if (changedMode == m_mode)
-                check();
-        }
-    );
+
+    // Disable checking the selection/clipboard unnecessarily
+    m_clipboard->setMonitoringEnabled(
+        mode == ClipboardMode::Clipboard ? ClipboardMode::Selection : ClipboardMode::Clipboard,
+        false);
+
+    connect(m_clipboard.get(), &PlatformClipboard::changed, this, &ClipboardSpy::check);
     m_clipboard->startMonitoring( QStringList(mimeOwner) );
 }
 
