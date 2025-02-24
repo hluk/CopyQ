@@ -15,7 +15,7 @@ public:
     explicit ClipboardSpy(ClipboardMode mode, const QByteArray &owner);
 
     /// Actively wait for clipboard/selection to change.
-    void wait(int ms = 2000, int checkIntervalMs = 100);
+    void wait(int ms = 2000, int checkIntervalMs = 8000);
 
     bool setClipboardData(const QVariantMap &data);
 
@@ -28,11 +28,12 @@ signals:
     void stopped();
 
 private:
-    bool check();
+    void emitChangeIfChanged();
 
     ClipboardMode m_mode;
     PlatformClipboardPtr m_clipboard;
     QByteArray m_oldOwnerData;
+    bool m_settingClipboard = false;
 };
 
 #endif // CLIPBOARDSPY_H

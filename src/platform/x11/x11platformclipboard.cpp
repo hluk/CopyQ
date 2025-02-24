@@ -316,6 +316,10 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
 
 void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
+    COPYQ_LOG( QStringLiteral("%1 CHANGED, owner=%2")
+            .arg(clipboardData->mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
+            .arg(clipboardData->newOwner) );
+
     clipboardData->data = clipboardData->newData;
     clipboardData->owner = clipboardData->newOwner;
     clipboardData->timerEmitChange.stop();
@@ -331,9 +335,4 @@ void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
         m_timerCheckAgain.start(interval);
     else if (clipboardChanged)
         m_timerCheckAgain.start(maxCheckAgainIntervalMs);
-
-    if (m_clipboardData.timerEmitChange.isActive())
-        COPYQ_LOG( QStringLiteral("Clipboard CHANGED, owner: '%1'").arg(m_clipboardData.newOwner) );
-    if (m_selectionData.timerEmitChange.isActive())
-        COPYQ_LOG( QStringLiteral("Selection CHANGED, owner: '%1'").arg(m_selectionData.newOwner) );
 }
