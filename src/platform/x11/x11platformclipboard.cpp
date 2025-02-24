@@ -149,12 +149,22 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
     if ( X11Info::isPlatformX11() ) {
         // WORKAROUND: Avoid getting X11 warning "QXcbClipboard: SelectionRequest too old".
         QCoreApplication::processEvents();
-        DummyClipboard::setData(mode, dataMap);
+
+        // WORKAROUND: XWayland on GNOME does not handle UTF-8 text properly.
+        if ( dataMap.contains(mimeTextUtf8) && qgetenv("XAUTHORITY").contains("mutter-Xwayland") ) {
+            auto dataMap2 = dataMap;
+            dataMap2[mimeText] = dataMap[mimeTextUtf8];
+            DummyClipboard::setData(mode, dataMap2);
+        } else {
+            DummyClipboard::setData(mode, dataMap);
+        }
     } else {
         DummyClipboard::setData(mode, dataMap);
-        const auto data = createMimeData(dataMap);
-        const auto qmode = modeToQClipboardMode(mode);
-        WaylandClipboard::instance()->setMimeData(data, qmode);
+        if ( WaylandClipboard::instance()->waitForDevice(1000) ) {
+            const auto data = createMimeData(dataMap);
+            const auto qmode = modeToQClipboardMode(mode);
+            WaylandClipboard::instance()->setMimeData(data, qmode);
+        }
     }
 }
 
