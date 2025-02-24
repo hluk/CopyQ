@@ -247,11 +247,6 @@ QApplication *X11Platform::createServerApplication(int &argc, char **argv)
     return new ApplicationExceptionHandler<QApplication>(argc, argv);
 }
 
-QGuiApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
-{
-    return new ApplicationExceptionHandler<QGuiApplication>(argc, argv);
-}
-
 QGuiApplication *X11Platform::createClipboardProviderApplication(int &argc, char **argv)
 {
     // WORKAROUND: On GNOME Wayland session, run clipboard monitor/provider

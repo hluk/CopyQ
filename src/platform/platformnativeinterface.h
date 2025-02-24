@@ -70,12 +70,7 @@ public:
     virtual QApplication *createServerApplication(int &argc, char **argv) = 0;
 
     /**
-     * Create QGuiApplication object for clipboard monitor.
-     */
-    virtual QGuiApplication *createMonitorApplication(int &argc, char **argv) = 0;
-
-    /**
-     * Create QGuiApplication object that provides clipboard.
+     * Create QGuiApplication object that monitors or provides clipboard.
      */
     virtual QGuiApplication *createClipboardProviderApplication(int &argc, char **argv) = 0;
 
