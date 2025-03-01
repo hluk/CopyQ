@@ -112,6 +112,8 @@ private slots:
     void commandScreenshot();
 
     void commandNotification();
+    void commandNotificationUrgency();
+    void commandNotificationPersistent();
 
     void commandIcon();
     void commandIconTag();

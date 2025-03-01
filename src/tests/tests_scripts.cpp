@@ -891,13 +891,41 @@ void Tests::commandNotification()
             '.id', 'test',
             '.icon', 'copyq',
             '.button', 'OK', '', '',
-            '.button', 'CANCEL', '', ''
+            '.button', 'CANCEL', '', '',
+            '.urgency', 'critical',
+            '.persistent', true,
         )
         )";
     RUN(script, "");
 
     RUN_EXPECT_ERROR_WITH_STDERR(
                 "notification('.message', 'message', 'BAD')", CommandException, "Unknown argument: BAD");
+}
+
+void Tests::commandNotificationUrgency()
+{
+    RUN("notification('.urgency', 'low')", "");
+    RUN("notification('.urgency', 'normal')", "");
+    RUN("notification('.urgency', 'high')", "");
+    RUN("notification('.urgency', 'critical')", "");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "notification('.urgency', 'unknown')",
+        CommandException,
+        "Unknown value for '.urgency' notification field: unknown");
+}
+
+void Tests::commandNotificationPersistent()
+{
+    RUN("notification('.persistent', true)", "");
+    RUN("notification('.persistent', false)", "");
+    RUN("notification('.persistent', 1)", "");
+    RUN("notification('.persistent', 0)", "");
+    RUN("notification('.persistent', 'true')", "");
+    RUN("notification('.persistent', 'false')", "");
+    RUN_EXPECT_ERROR_WITH_STDERR(
+        "notification('.persistent', 'unknown')",
+        CommandException,
+        "Unknown value for '.persistent' notification field: unknown");
 }
 
 void Tests::commandIcon()

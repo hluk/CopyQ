@@ -92,6 +92,7 @@ void registerMetaTypes() {
     qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
     qRegisterMetaTypeStreamOperators<VariantMapList>("VariantMapList");
     qRegisterMetaTypeStreamOperators<KeyboardModifierList>("KeyboardModifierList");
+    qRegisterMetaTypeStreamOperators<MessageData>("MessageData");
 #else
     qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
     qRegisterMetaType<ClipboardMode>("ClipboardMode");
@@ -102,6 +103,7 @@ void registerMetaTypes() {
     qRegisterMetaType<QVector<Command>>("QVector<Command>");
     qRegisterMetaType<VariantMapList>("VariantMapList");
     qRegisterMetaType<KeyboardModifierList>("KeyboardModifierList");
+    qRegisterMetaType<MessageData>("MessageData");
 #endif
 
     registered = true;
@@ -269,6 +271,32 @@ QDataStream &operator>>(QDataStream &in, KeyboardModifierList &value)
     in >> valueInt;
     Q_ASSERT(in.status() == QDataStream::Ok);
     value.items = static_cast<Qt::KeyboardModifiers>(valueInt);
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const MessageData &value)
+{
+    out << value.title
+        << value.message
+        << value.timeoutMs
+        << value.icon
+        << value.notificationId
+        << value.buttons
+        << value.urgency
+        << value.persistency;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, MessageData &value)
+{
+    in >> value.title
+       >> value.message
+       >> value.timeoutMs
+       >> value.icon
+       >> value.notificationId
+       >> value.buttons
+       >> value.urgency
+       >> value.persistency;
     return in;
 }
 
@@ -1232,21 +1260,18 @@ void ScriptableProxy::runInternalAction(const QVariantMap &data, const QString &
     m_wnd->runInternalAction(action);
 }
 
-void ScriptableProxy::showMessage(const QString &title,
-        const QString &msg,
-        const QString &icon,
-        int msec,
-        const QString &notificationId,
-        const NotificationButtonList &buttons)
+void ScriptableProxy::showMessage(const MessageData &messageData)
 {
-    INVOKE2(showMessage, (title, msg, icon, msec, notificationId, buttons));
+    INVOKE2(showMessage, (messageData));
 
-    auto notification = m_wnd->createNotification(notificationId);
-    notification->setTitle(title);
-    notification->setMessage(msg, Qt::AutoText);
-    notification->setIcon(icon);
-    notification->setInterval(msec);
-    notification->setButtons(buttons.items);
+    auto notification = m_wnd->createNotification(messageData.notificationId);
+    notification->setTitle(messageData.title);
+    notification->setMessage(messageData.message, Qt::AutoText);
+    notification->setIcon(messageData.icon);
+    notification->setInterval(messageData.timeoutMs);
+    notification->setButtons(messageData.buttons.items);
+    notification->setUrgency(messageData.urgency);
+    notification->setPersistency(messageData.persistency);
 }
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
@@ -2472,6 +2497,9 @@ void ScriptableProxy::showDataNotification(const QVariantMap &data)
     }
 
     notification->setTitle(title);
+
+    notification->setUrgency(Notification::Urgency::Normal);
+    notification->setPersistency(Notification::Persistency::NonPersistent);
 }
 
 bool ScriptableProxy::enableMenuItem(int actionId, int currentRun, int menuItemMatchCommandIndex, const QVariantMap &menuItem)

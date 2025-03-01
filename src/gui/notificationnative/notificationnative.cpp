@@ -66,6 +66,8 @@ public:
     void setInterval(int msec) override;
     void setOpacity(qreal) override {}
     void setButtons(const NotificationButtons &buttons) override;
+    void setUrgency(Urgency urgency) override;
+    void setPersistency(Persistency persistency) override;
     void adjust() override {}
     QWidget *widget() override { return nullptr; }
     void show() override;
@@ -97,6 +99,8 @@ private:
     ushort m_iconId;
     QPixmap m_pixmap;
     bool m_closed = false;
+    Urgency m_urgency = Urgency::Default;
+    Persistency m_persistency = Persistency::Default;
 };
 
 } // namespace
@@ -163,6 +167,16 @@ void NotificationNative::setInterval(int msec)
 void NotificationNative::setButtons(const NotificationButtons &buttons)
 {
     m_buttons = buttons;
+}
+
+void NotificationNative::setUrgency(Urgency urgency)
+{
+    m_urgency = urgency;
+}
+
+void NotificationNative::setPersistency(Persistency persistency)
+{
+    m_persistency = persistency;
 }
 
 void NotificationNative::show()
@@ -308,21 +322,34 @@ void NotificationNative::update()
     m_notification->setActions(actions);
 #endif
 
+#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,58,0)
+    m_notification->setUrgency(static_cast<KNotification::Urgency>(m_urgency));
+#endif
+
+    if (m_persistency == Persistency::Persistent)
+        m_notification->setFlags(KNotification::Persistent);
+    else
+        m_notification->setFlags({});
+
     if (m_intervalMsec < 0) {
         m_timer.stop();
-        m_notification->setFlags(KNotification::Persistent);
+        if (m_persistency == Persistency::Default)
+            m_notification->setFlags(KNotification::Persistent);
 #if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,58,0)
-        m_notification->setUrgency(KNotification::HighUrgency);
+        if (m_urgency == Urgency::Default)
+            m_notification->setUrgency(KNotification::HighUrgency);
 #endif
     } else {
         // Specific timeout is not supported by KNotifications.
         m_timer.start(m_intervalMsec);
         m_notification->setFlags(KNotification::CloseOnTimeout);
 #if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5,58,0)
-        const KNotification::Urgency urgency = m_intervalMsec <= 10000
-            ? KNotification::LowUrgency
-            : KNotification::NormalUrgency;
-        m_notification->setUrgency(urgency);
+        if (m_urgency == Urgency::Default) {
+            const KNotification::Urgency urgency = m_intervalMsec <= 10000
+                ? KNotification::LowUrgency
+                : KNotification::NormalUrgency;
+            m_notification->setUrgency(urgency);
+        }
 #endif
     }
 }
