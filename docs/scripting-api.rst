@@ -606,6 +606,10 @@ unlike in GUI, where row numbers start from 1 by default.
    -  '.time' - duration of notification in milliseconds (default is -1,
       i.e. waits for mouse click)
    -  '.button' - adds button (three arguments: name, script and data)
+   -  '.urgency' - sets notification urgency if it is supported; value can be:
+      'low', 'normal', 'high', 'critical'
+   -  '.persistent' - enables/disables persistent notification if it is
+      supported; value can be ``true`` or ``false``
 
    Example:
 

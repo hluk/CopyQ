@@ -2498,6 +2498,8 @@ void MainWindow::showError(const QString &msg)
     notification->setTitle( tr("CopyQ Error", "Notification error message title") );
     notification->setMessage(msg);
     notification->setIcon(IconCircleXmark);
+    notification->setUrgency(Notification::Urgency::High);
+    notification->setPersistency(Notification::Persistency::Persistent);
 }
 
 Notification *MainWindow::createNotification(const QString &id)

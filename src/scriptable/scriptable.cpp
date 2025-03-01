@@ -4,6 +4,7 @@
 
 #include "app/clipboardmonitor.h"
 #include "common/action.h"
+#include "common/appconfig.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
@@ -1271,51 +1272,82 @@ void Scriptable::popup()
 {
     m_skipArguments = 3;
 
-    const QString title = arg(0);
-    const QString message = arg(1);
-    int msec;
-    if ( !toInt(argument(2), &msec) )
-        msec = 8000;
-    m_proxy->showMessage(title, message, QString(), msec);
+    MessageData messageData;
+    messageData.urgency = Notification::Urgency::Normal;
+    messageData.title = arg(0);
+    messageData.message = arg(1);
+    if ( !toInt(argument(2), &messageData.timeoutMs) )
+        messageData.timeoutMs = 8000;
+    m_proxy->showMessage(messageData);
 }
 
 QJSValue Scriptable::notification()
 {
     m_skipArguments = -1;
 
-    QString title;
-    QString message;
-    int msec = -1;
-    QString icon;
-    QString notificationId;
-    NotificationButtonList buttons;
+    MessageData messageData;
+    messageData.urgency = Notification::Urgency::Normal;
 
     for ( int i = 0; i < argumentCount(); ++i ) {
         const auto name = arg(i++);
         if ( name == QLatin1String(".title") ) {
-            title = arg(i);
+            messageData.title = arg(i);
         } else if ( name == QLatin1String(".message") ) {
-            message = arg(i);
+            messageData.message = arg(i);
         } else if ( name == QLatin1String(".time") ) {
-            if ( !toInt(argument(i), &msec) ) {
+            if ( !toInt(argument(i), &messageData.timeoutMs) ) {
                 return throwError("Expected number after .time argument");
             }
         } else if ( name == QLatin1String(".id") ) {
-            notificationId = arg(i);
+            messageData.notificationId = arg(i);
         } else if ( name == QLatin1String(".icon") ) {
-            icon = arg(i);
+            messageData.icon = arg(i);
         } else if ( name == QLatin1String(".button") ) {
             NotificationButton button;
             button.name = arg(i);
             button.script = arg(++i);
             button.data = makeByteArray( argument(++i) );
-            buttons.items.append(button);
+            messageData.buttons.items.append(button);
+        } else if ( name == QLatin1String(".urgency") ) {
+            const QString urgencyName = arg(i).toLower();
+            if (urgencyName == QLatin1String("low")) {
+                messageData.urgency = Notification::Urgency::Low;
+            } else if (urgencyName == QLatin1String("normal")) {
+                messageData.urgency = Notification::Urgency::Normal;
+            } else if (urgencyName == QLatin1String("high")) {
+                messageData.urgency = Notification::Urgency::High;
+            } else if (urgencyName == QLatin1String("critical")) {
+                messageData.urgency = Notification::Urgency::Critical;
+            } else {
+                return throwError(
+                    QStringLiteral("Unknown value for '.urgency' notification field: %1")
+                    .arg(urgencyName)
+                );
+            }
+        } else if ( name == QLatin1String(".persistent") ) {
+            const QJSValue persistent = argument(i);
+            if (persistent.isBool()) {
+                messageData.persistency = persistent.toBool()
+                    ? Notification::Persistency::Persistent
+                    : Notification::Persistency::NonPersistent;
+            } else {
+                const QString name = toString(persistent);
+                if (name == QLatin1String("true") || name == QLatin1String("1"))
+                    messageData.persistency = Notification::Persistency::Persistent;
+                else if (name == QLatin1String("false") || name == QLatin1String("0"))
+                    messageData.persistency = Notification::Persistency::NonPersistent;
+                else
+                    return throwError(
+                        QStringLiteral("Unknown value for '.persistent' notification field: %1")
+                        .arg(name)
+                    );
+            }
         } else {
             return throwError("Unknown argument: " + name);
         }
     }
 
-    m_proxy->showMessage(title, message, icon, msec, notificationId, buttons);
+    m_proxy->showMessage(messageData);
     return QJSValue();
 }
 
@@ -2910,9 +2942,15 @@ void Scriptable::showExceptionMessage(const QString &message)
         : tr("Exception in %1").arg( quoteString(m_actionName) );
 
     QtPrivate::QHashCombine hash;
+    MessageData messageData;
     const auto id = hash(hash(0, title), message);
-    const auto notificationId = QString::number(id);
-    m_proxy->showMessage(title, message, QString(QChar(IconCircleExclamation)), 8000, notificationId);
+    messageData.notificationId = QString::number(id);
+    messageData.message = message;
+    messageData.title = title;
+    messageData.icon = QString(QChar(IconCircleExclamation));
+    messageData.timeoutMs = 8000;
+    messageData.urgency = Notification::Urgency::High;
+    m_proxy->showMessage(messageData);
 }
 
 QVector<int> Scriptable::getRows() const

@@ -141,6 +141,9 @@ public:
         m_widget.setButtons(buttons);
     }
 
+    void setUrgency(Urgency) override {}
+    void setPersistency(Persistency) override {}
+
     void adjust() override {
         m_widget.updateIcon();
         m_widget.adjust();
