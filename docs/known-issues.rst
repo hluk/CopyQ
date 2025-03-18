@@ -93,6 +93,9 @@ If CopyQ autostarts, you can change ``Exec=...`` line in
 
     Exec=env QT_QPA_PLATFORM=xcb copyq
 
+For **Flatpak** application, see `this workaround
+<https://github.com/hluk/CopyQ/issues/2948#issuecomment-2614271330>`__.
+
 .. note::
 
     Mouse selection will still work only if the source application itself
