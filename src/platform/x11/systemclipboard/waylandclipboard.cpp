@@ -27,6 +27,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "qwayland-wayland.h"
 #include "qwayland-wlr-data-control-unstable-v1.h"
 
 static inline QString applicationQtXImageLiteral()
@@ -104,6 +105,81 @@ private:
 
 } // namespace
 
+class Keyboard;
+// We are binding to Seat/Keyboard manually because we want to react to gaining focus but inside Qt the events are Qt and arrive to late
+class KeyboardFocusWatcher : public QWaylandClientExtensionTemplate<KeyboardFocusWatcher>, public QtWayland::wl_seat
+{
+    Q_OBJECT
+public:
+    KeyboardFocusWatcher()
+        : QWaylandClientExtensionTemplate(5)
+    {
+#if QTWAYLANDCLIENT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+        initialize();
+#else
+        // QWaylandClientExtensionTemplate invokes this with a QueuedConnection but we want shortcuts
+        // to be have access to data_control immediately.
+        QMetaObject::invokeMethod(this, "addRegistryListener");
+#endif
+        QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
+        auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
+        // so we get capabilities
+        wl_display_roundtrip(display);
+    }
+    ~KeyboardFocusWatcher() override
+    {
+        if (isActive()) {
+            release();
+        }
+    }
+    void seat_capabilities(uint32_t capabilities) override
+    {
+        const bool hasKeyboard = capabilities & capability_keyboard;
+        if (hasKeyboard && !m_keyboard) {
+            m_keyboard = std::make_unique<Keyboard>(get_keyboard(), *this);
+        } else if (!hasKeyboard && m_keyboard) {
+            m_keyboard.reset();
+        }
+    }
+    bool hasFocus() const
+    {
+        return m_focus;
+    }
+Q_SIGNALS:
+    void keyboardEntered();
+
+private:
+    friend Keyboard;
+    bool m_focus = false;
+    std::unique_ptr<Keyboard> m_keyboard;
+};
+
+class Keyboard : public QtWayland::wl_keyboard
+{
+public:
+    Keyboard(::wl_keyboard *keyboard, KeyboardFocusWatcher &seat)
+        : wl_keyboard(keyboard)
+        , m_seat(seat)
+    {
+    }
+    ~Keyboard()
+    {
+        release();
+    }
+
+private:
+    void keyboard_enter([[maybe_unused]] uint32_t serial, [[maybe_unused]] wl_surface *surface, [[maybe_unused]] wl_array *keys) override
+    {
+        m_seat.m_focus = true;
+        Q_EMIT m_seat.keyboardEntered();
+    }
+    void keyboard_leave([[maybe_unused]] uint32_t serial, [[maybe_unused]] wl_surface *surface) override
+    {
+        m_seat.m_focus = false;
+    }
+    KeyboardFocusWatcher &m_seat;
+};
+
 class DataControlDeviceManager : public QWaylandClientExtensionTemplate<DataControlDeviceManager>
         , public QtWayland::zwlr_data_control_manager_v1
 {
@@ -137,8 +213,11 @@ class DataControlOffer : public QMimeData, public QtWayland::zwlr_data_control_o
 {
     Q_OBJECT
 public:
-    DataControlOffer(struct ::zwlr_data_control_offer_v1 *id)
+    QClipboard::Mode clipboardMode = QClipboard::Clipboard;
+
+    DataControlOffer(struct ::zwlr_data_control_offer_v1 *id, const std::shared_ptr<KeyboardFocusWatcher> &keyboardFocusWatcher)
         : QtWayland::zwlr_data_control_offer_v1(id)
+        , m_keyboardFocusWatcher(keyboardFocusWatcher)
     {
     }
 
@@ -214,6 +293,7 @@ private:
     static bool readData(int fd, QByteArray &data);
     QStringList m_receivedFormats;
     mutable QHash<QString, QVariant> m_data;
+    std::shared_ptr<KeyboardFocusWatcher> m_keyboardFocusWatcher;
 };
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -223,6 +303,13 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
 #endif
 {
     Q_UNUSED(type);
+
+    if (m_keyboardFocusWatcher->hasFocus()) {
+        const auto mimeData = QGuiApplication::clipboard()->mimeData(clipboardMode);
+        if (mimeData)
+            return mimeData->data(mimeType);
+        return {};
+    }
 
     auto it = m_data.constFind(mimeType);
     if (it != m_data.constEnd())
@@ -293,11 +380,13 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
                 for (const QByteArray &s : urls) {
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
                     if (QUrl url(QUrl::fromEncoded(QByteArrayView(s).trimmed())); url.isValid()) {
-#else
-                    if (QUrl url(QUrl::fromEncoded(QByteArrayView(s).trimmed().toByteArray())); url.isValid()) {
-#endif
                         list.emplace_back(std::move(url));
                     }
+#else
+                    if (QUrl url(QUrl::fromEncoded(s.trimmed())); url.isValid()) {
+                        list.push_back(std::move(url));
+                    }
+#endif
                 }
                 m_data.insert(mimeType, list);
                 return list;
@@ -351,17 +440,17 @@ public:
 
     ~DataControlSource()
     {
-        if (m_mimeData) {
-            m_mimeData->deleteLater();
-            m_mimeData = nullptr;
-        }
         if ( isInitialized() )
             destroy();
     }
 
     QMimeData *mimeData()
     {
-        return m_mimeData;
+        return m_mimeData.get();
+    }
+    std::unique_ptr<QMimeData> releaseMimeData()
+    {
+        return std::move(m_mimeData);
     }
 
     bool isCancelled() const { return m_cancelled; }
@@ -374,7 +463,7 @@ protected:
     void zwlr_data_control_source_v1_cancelled() override;
 
 private:
-    QMimeData *m_mimeData = nullptr;
+    std::unique_ptr<QMimeData> m_mimeData;
     bool m_cancelled = false;
 };
 
@@ -447,8 +536,9 @@ class DataControlDevice : public QObject, public QtWayland::zwlr_data_control_de
 {
     Q_OBJECT
 public:
-    DataControlDevice(struct ::zwlr_data_control_device_v1 *id)
+    DataControlDevice(struct ::zwlr_data_control_device_v1 *id, const std::shared_ptr<KeyboardFocusWatcher> &keyboardFocusWatcher)
         : QtWayland::zwlr_data_control_device_v1(id)
+        , m_keyboardFocusWatcher(keyboardFocusWatcher)
     {
     }
 
@@ -490,7 +580,7 @@ protected:
     {
         // this will become memory managed when we retrieve the selection event
         // a compositor calling data_offer without doing that would be a bug
-        new DataControlOffer(id);
+        new DataControlOffer(id, m_keyboardFocusWatcher);
     }
 
     void zwlr_data_control_device_v1_selection(struct ::zwlr_data_control_offer_v1 *id) override
@@ -504,6 +594,8 @@ protected:
             auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
 #endif
             auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
+            if (offer)
+                offer->clipboardMode = QClipboard::Clipboard;
             m_receivedSelection.reset(offer);
         }
         Q_EMIT receivedSelectionChanged();
@@ -520,17 +612,22 @@ protected:
             auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
 #endif
             auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
+            if (offer)
+                offer->clipboardMode = QClipboard::Selection;
             m_receivedPrimarySelection.reset(offer);
         }
         Q_EMIT receivedPrimarySelectionChanged();
     }
 
 private:
+    std::shared_ptr<KeyboardFocusWatcher> m_keyboardFocusWatcher;
+
     std::unique_ptr<DataControlSource> m_selection; // selection set locally
     std::unique_ptr<DataControlOffer> m_receivedSelection; // latest selection set from externally to here
 
     std::unique_ptr<DataControlSource> m_primarySelection; // selection set locally
     std::unique_ptr<DataControlOffer> m_receivedPrimarySelection; // latest selection set from externally to here
+    friend WaylandClipboard;
 };
 
 void DataControlDevice::setSelection(std::unique_ptr<DataControlSource> selection)
@@ -560,6 +657,7 @@ void DataControlDevice::setPrimarySelection(std::unique_ptr<DataControlSource> s
 
 WaylandClipboard::WaylandClipboard(QObject *parent)
     : QObject(parent)
+    , m_keyboardFocusWatcher(new KeyboardFocusWatcher)
     , m_manager(new DataControlDeviceManager)
 {
     connect(m_manager.get(), &DataControlDeviceManager::activeChanged, this, [this]() {
@@ -573,7 +671,7 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
                 return;
             }
 
-            m_device.reset(new DataControlDevice(m_manager->get_data_device(seat)));
+            m_device.reset(new DataControlDevice(m_manager->get_data_device(seat), m_keyboardFocusWatcher));
 
             connect(m_device.get(), &DataControlDevice::receivedSelectionChanged, this, [this]() {
                 // When our source is still valid, so the offer is for setting it or we emit changed when it is cancelled
@@ -614,11 +712,44 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
     if (!waitForDevice(1000)) {
         return;
     }
+
+    // roundtrip to have accurate focus state when losing focus but setting mime data before processing wayland events.
+    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
+    auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
+    wl_display_roundtrip(display);
+
+    // If the application is focused, use the normal mechanism so a future paste will not deadlock itself
+    if (m_keyboardFocusWatcher->hasFocus()) {
+        QGuiApplication::clipboard()->setMimeData(mime, mode);
+        // if we short-circuit the wlr_data_device, when we receive the data
+        // we cannot identify ourselves as the owner
+        // because of that we act like it's a synchronous action to not confuse klipper.
+        wl_display_roundtrip(display);
+        return;
+    }
+    // If not, set the clipboard once the app receives focus to avoid the deadlock
+    connect(m_keyboardFocusWatcher.get(), &KeyboardFocusWatcher::keyboardEntered, this, &WaylandClipboard::gainedFocus, Qt::UniqueConnection);
     std::unique_ptr<DataControlSource> source(new DataControlSource(m_manager->create_data_source(), mime));
     if (mode == QClipboard::Clipboard) {
         m_device->setSelection(std::move(source));
     } else if (mode == QClipboard::Selection) {
         m_device->setPrimarySelection(std::move(source));
+    }
+}
+
+void WaylandClipboard::gainedFocus()
+{
+    disconnect(m_keyboardFocusWatcher.get(), &KeyboardFocusWatcher::keyboardEntered, this, nullptr);
+    // QClipboard takes ownership of the QMimeData so we need to transfer and unset our selections
+    if (auto &selection = m_device->m_selection) {
+        std::unique_ptr<QMimeData> data = selection->releaseMimeData();
+        selection.reset();
+        QGuiApplication::clipboard()->setMimeData(data.release(), QClipboard::Clipboard);
+    }
+    if (auto &primarySelection = m_device->m_primarySelection) {
+        std::unique_ptr<QMimeData> data = primarySelection->releaseMimeData();
+        primarySelection.reset();
+        QGuiApplication::clipboard()->setMimeData(data.release(), QClipboard::Selection);
     }
 }
 

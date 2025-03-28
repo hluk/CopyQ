@@ -11,12 +11,22 @@ if(WITH_QT6)
     qt_generate_wayland_protocol_client_sources(systemclipboard
         FILES
             "${CMAKE_CURRENT_SOURCE_DIR}/wlr-data-control-unstable-v1.xml"
+            "${CMAKE_CURRENT_SOURCE_DIR}/keyboard-shortcuts-inhibit-unstable-v1.xml"
+            "${Wayland_DATADIR}/wayland.xml"
     )
 else()
     find_package(QtWaylandScanner REQUIRED)
     ecm_add_qtwayland_client_protocol(systemclipboard_SRCS
         PROTOCOL wlr-data-control-unstable-v1.xml
         BASENAME wlr-data-control-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(systemclipboard_SRCS
+        PROTOCOL keyboard-shortcuts-inhibit-unstable-v1.xml
+        BASENAME keyboard-shortcuts-inhibit-unstable-v1
+    )
+    ecm_add_qtwayland_client_protocol(systemclipboard_SRCS
+        PROTOCOL "${Wayland_DATADIR}/wayland.xml"
+        BASENAME wayland
     )
     add_library(systemclipboard STATIC ${systemclipboard_SRCS})
 endif()
