@@ -102,59 +102,6 @@ private:
     int m_fd;
 };
 
-class ReceiveThread : public QThread {
-public:
-    ReceiveThread(int fd)
-        : m_fd(fd)
-    {}
-
-    QByteArray data() const { return m_data; }
-
-protected:
-    void run() override {
-        QFile readPipe;
-        if (readPipe.open(m_fd, QIODevice::ReadOnly, QFile::AutoCloseHandle)) {
-            readData();
-            close(m_fd);
-        }
-    }
-
-private:
-    void readData() {
-        pollfd pfds[1];
-        pfds[0].fd = m_fd;
-        pfds[0].events = POLLIN;
-
-        while (true) {
-            const int ready = poll(pfds, 1, 1000);
-            if (ready < 0) {
-                if (errno != EINTR) {
-                    qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
-                    return;
-                }
-            } else if (ready == 0) {
-                qWarning("DataControlOffer: timeout reading from pipe");
-                return;
-            } else {
-                char buf[4096];
-                int n = read(m_fd, buf, sizeof buf);
-
-                if (n < 0) {
-                    qWarning("DataControlOffer: read() failed: %s", strerror(errno));
-                    return;
-                } else if (n == 0) {
-                    return;
-                } else if (n > 0) {
-                    m_data.append(buf, n);
-                }
-            }
-        }
-    }
-
-    QByteArray m_data;
-    int m_fd;
-};
-
 } // namespace
 
 class DataControlDeviceManager : public QWaylandClientExtensionTemplate<DataControlDeviceManager>
@@ -261,6 +208,10 @@ protected:
 #endif
 
 private:
+    /** reads data from a file descriptor with a timeout of 1 second
+     *  true if data is read successfully
+     */
+    static bool readData(int fd, QByteArray &data);
     QStringList m_receivedFormats;
     mutable QHash<QString, QVariant> m_data;
 };
@@ -323,36 +274,73 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
     auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
     wl_display_flush(display);
 
-    ReceiveThread thread(pipeFds[0]);
-    QEventLoop loop;
-    connect(&thread, &QThread::finished, &loop, &QEventLoop::quit);
-    thread.start();
-    if (thread.isRunning())
-        loop.exec();
+    QFile readPipe;
+    if (readPipe.open(pipeFds[0], QIODevice::ReadOnly)) {
+        QByteArray data;
+        if (readData(pipeFds[0], data)) {
+            close(pipeFds[0]);
 
-    const auto data = thread.data();
-
-    if (!data.isEmpty() && mimeType == applicationQtXImageLiteral()) {
-        QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
-        if (!img.isNull()) {
-            m_data.insert(mimeType, img);
-            return img;
+            if (mimeType == applicationQtXImageLiteral()) {
+                QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
+                if (!img.isNull()) {
+                    m_data.insert(mimeType, img);
+                    return img;
+                }
+            } else if (data.size() > 1 && mimeType == u"text/uri-list") {
+                const auto urls = data.split('\n');
+                QVariantList list;
+                list.reserve(urls.size());
+                for (const QByteArray &s : urls) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+                    if (QUrl url(QUrl::fromEncoded(QByteArrayView(s).trimmed())); url.isValid()) {
+#else
+                    if (QUrl url(QUrl::fromEncoded(QByteArrayView(s).trimmed().toByteArray())); url.isValid()) {
+#endif
+                        list.emplace_back(std::move(url));
+                    }
+                }
+                m_data.insert(mimeType, list);
+                return list;
+            }
+            m_data.insert(mimeType, data);
+            return data;
         }
-    } else if (data.size() > 1 && mimeType == u"text/uri-list") {
-        const auto urls = data.split('\n');
-        QVariantList list;
-        list.reserve(urls.size());
-        for (const QByteArray &s : urls) {
-            QUrl url(QUrl::fromEncoded(s.trimmed()));
-            if (url.isValid()) {
-                list.append(url);
+        close(pipeFds[0]);
+    }
+
+    return QVariant();
+}
+
+bool DataControlOffer::readData(int fd, QByteArray &data)
+{
+    pollfd pfds[1];
+    pfds[0].fd = fd;
+    pfds[0].events = POLLIN;
+
+    while (true) {
+        const int ready = poll(pfds, 1, 1000);
+        if (ready < 0) {
+            if (errno != EINTR) {
+                qWarning("DataControlOffer: poll() failed: %s", strerror(errno));
+                return false;
+            }
+        } else if (ready == 0) {
+            qWarning("DataControlOffer: timeout reading from pipe");
+            return false;
+        } else {
+            char buf[4096];
+            int n = read(fd, buf, sizeof buf);
+
+            if (n < 0) {
+                qWarning("DataControlOffer: read() failed: %s", strerror(errno));
+                return false;
+            } else if (n == 0) {
+                return true;
+            } else if (n > 0) {
+                data.append(buf, n);
             }
         }
-        m_data.insert(mimeType, list);
-        return list;
     }
-    m_data.insert(mimeType, data);
-    return data;
 }
 
 class DataControlSource : public QObject, public QtWayland::zwlr_data_control_source_v1
