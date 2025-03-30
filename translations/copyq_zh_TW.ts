@@ -793,7 +793,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>若輸入文字不符合此正規表示式，則略過指令（留空則會匹配所有內容）。
+
+在「指令」與「過濾器」中的 %2 至 %9（或指令碼中的 argument[1] 及以上）將被替換為捕獲的文字。
+
+範例：
+
+- 匹配網址：^(https?|ftp)://
+- 匹配 PDF 檔案名稱：\.pdf$
+- 匹配單一字元：^.$
+- 匹配遠端多媒體：^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -1105,27 +1114,27 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>導覽風格 / 鍵位對應：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>支援 Vi 導航模式（按鍵 H、J、K、L、/ 及其他按鍵）及 Emacs 導航模式（Ctrl+N、P、V 及其他按鍵）</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>預設</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
