@@ -16,7 +16,7 @@ Bump the version:
 
 Verify and push the changes:
 
-    for r in origin gitlab bitbucket; do git push --follow-tags $r master || break; done
+    for r in origin gitlab; do git push --follow-tags $r master || break; done
 
 # Launchpad: Build Ubuntu Packages
 

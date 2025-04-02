@@ -1,5 +1,5 @@
 ---
-image: ubuntu:20.04
+image: ubuntu:24.04
 
 variables:
   BUILD_DIR: "build"
