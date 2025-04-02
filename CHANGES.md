@@ -62,6 +62,10 @@
   consistently for all clipboard changes with properly set formats
   `mimeClipboardMode`, `mimeOutputTab` and `mimeCurrentTab`.
 
+- Adds support for setting urgency and persistency to notifications. Script
+  function `notification()` takes new arguments: '.urgency' (low, normal, high,
+  critical), '.persistent' (toggle persistent notification)
+
 ## Fixed
 
 - Fixes editing multiple items (#2810).
@@ -79,6 +83,10 @@
   (#2837).
 
 - Avoids sharing execute() state in case it is launched recursively.
+
+- Wayland: Fixes crash if getting owned clipboard data.
+
+- Wayland: Fixes setting UTF-8 text on broken GNOME's XWayland.
 
 # 9.0.0
 

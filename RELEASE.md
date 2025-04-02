@@ -32,7 +32,7 @@ Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt
 
     osc co home:lukho:copyq
     cd home:lukho:copyq/CopyQ-Qt5
-    ./create_beta_package.sh
+    bash create_beta_package.sh
     $EDITOR debian.changelog
     osc commit
 

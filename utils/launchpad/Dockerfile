@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 LABEL \
     name="CopyQ Launchpad Environment" \
     description="Environment for submitting CopyQ to Launchpad" \
@@ -18,9 +18,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 
 # gpg2 --export-secret-keys $EMAIL > launchpad.key
 COPY launchpad.key /tmp/gpg.key
-
-# cp ~/.gitconfig .
-COPY .gitconfig /root/.gitconfig
 
 RUN git clone https://github.com/hluk/CopyQ.git /root/copyq
 
