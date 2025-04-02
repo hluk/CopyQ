@@ -1073,7 +1073,7 @@ void ScriptableProxy::exit()
 void ScriptableProxy::close()
 {
     INVOKE2(close, ());
-    m_wnd->close();
+    m_wnd->hideWindow();
 }
 
 bool ScriptableProxy::focusPrevious()

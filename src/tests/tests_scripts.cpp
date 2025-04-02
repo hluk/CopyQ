@@ -137,14 +137,7 @@ void Tests::commandToggle()
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
-void Tests::commandHide()
-{
-    RUN("visible", "true\n");
-    RUN("hide", "");
-    WAIT_ON_OUTPUT("visible", "false\n");
-}
-
-void Tests::commandShow()
+void Tests::commandShowHide()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
