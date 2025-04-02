@@ -24,7 +24,7 @@ following commands (for details, see `issue #2652
     xattr -d com.apple.quarantine /Applications/CopyQ.app
     codesign --force --deep --sign - /Applications/CopyQ.app
 
-On Debian unstable, **Debian 10+**, **Ubuntu 18.04+** and later derivatives can
+On Debian unstable, **Debian 11+**, **Ubuntu 22.04+** and later derivatives can
 install stable version from official repositories:
 
 .. code-block:: bash

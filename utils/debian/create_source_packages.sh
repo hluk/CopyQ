@@ -2,7 +2,6 @@
 set -e
 
 distros=(
-    focal
     jammy
     noble
     oracular

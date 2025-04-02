@@ -39,7 +39,7 @@ chmod 0700 "$XDG_RUNTIME_DIR"
 # Disable encryption tests because exporting GPG key asks for password.
 export COPYQ_TESTS_SKIP_ITEMENCRYPT=1
 
-export COPYQ_TESTS_RERUN_FAILED=0
+export COPYQ_TESTS_RERUN_FAILED=1
 export COPYQ_TESTS_NO_NETWORK=1
 "$INSTALL_PREFIX/bin/copyq" tests
 

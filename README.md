@@ -90,7 +90,7 @@ xattr -d com.apple.quarantine /Applications/CopyQ.app
 codesign --force --deep --sign - /Applications/CopyQ.app
 ```
 
-### Debian 10+, Ubuntu 18.04+, and their derivatives
+### Debian 11+, Ubuntu 22.04+, and their derivatives
 
 Install `copyq` and `copyq-plugins` packages.
 

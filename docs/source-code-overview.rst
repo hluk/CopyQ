@@ -196,7 +196,7 @@ CI servers.
     -  Builds and runs tests for Linux binaries.
 
 -  `GitLab CI <https://gitlab.com/CopyQ/CopyQ/builds>`__
-    -  Builds and runs tests for Ubuntu 16.04 binaries.
+    -  Builds and runs tests for Ubuntu 22.04 binaries.
     -  Screenshots are taken while GUI tests are running. These are
        available if a test fails.
 
