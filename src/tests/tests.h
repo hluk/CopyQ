@@ -48,8 +48,7 @@ private slots:
 
     void commandVisible();
     void commandToggle();
-    void commandHide();
-    void commandShow();
+    void commandShowHide();
     void commandShowAt();
     void commandFocused();
 
