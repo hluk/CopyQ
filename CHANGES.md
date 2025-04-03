@@ -4,6 +4,10 @@
 
 - Emacs navigation key-bindings support.
 
+- Adds support for setting urgency and persistency to notifications. Script
+  function `notification()` takes new arguments: '.urgency' (low, normal, high,
+  critical), '.persistent' (toggle persistent notification)
+
 ## Changed
 
 - Updates icon font from Font-Awesome 6.7.2.
@@ -51,6 +55,10 @@
 
 - Avoids removing items if drag'n'drop action fails.
 
+- Wayland: Fixes crash if getting owned clipboard data.
+
+- Wayland: Fixes setting UTF-8 text on broken GNOME's XWayland.
+
 # 9.1.0
 
 ## Added
@@ -61,10 +69,6 @@
   `mimeSecret` format set to `1`. Also ensures that callbacks are called
   consistently for all clipboard changes with properly set formats
   `mimeClipboardMode`, `mimeOutputTab` and `mimeCurrentTab`.
-
-- Adds support for setting urgency and persistency to notifications. Script
-  function `notification()` takes new arguments: '.urgency' (low, normal, high,
-  critical), '.persistent' (toggle persistent notification)
 
 ## Fixed
 
@@ -83,10 +87,6 @@
   (#2837).
 
 - Avoids sharing execute() state in case it is launched recursively.
-
-- Wayland: Fixes crash if getting owned clipboard data.
-
-- Wayland: Fixes setting UTF-8 text on broken GNOME's XWayland.
 
 # 9.0.0
 
