@@ -13,6 +13,7 @@
 #include "common/textdata.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
+#include "gui/fromiconid.h"
 #include "item/serialize.h"
 
 #ifdef HAS_TESTS
@@ -859,7 +860,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     Command c;
     c.internalId = QStringLiteral("copyq_encrypted_encrypt");
     c.name = ItemEncryptedLoader::tr("Encrypt (needs GnuPG)");
-    c.icon = QString(QChar(IconLock));
+    c.icon = fromIconId(IconLock);
     c.input = "!OUTPUT";
     c.output = mimeEncryptedData;
     c.inMenu = true;
@@ -870,7 +871,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c = Command();
     c.internalId = QStringLiteral("copyq_encrypted_decrypt");
     c.name = ItemEncryptedLoader::tr("Decrypt");
-    c.icon = QString(QChar(IconUnlock));
+    c.icon = fromIconId(IconUnlock);
     c.input = mimeEncryptedData;
     c.output = mimeItems;
     c.inMenu = true;
@@ -881,7 +882,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c = Command();
     c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_copy");
     c.name = ItemEncryptedLoader::tr("Decrypt and Copy");
-    c.icon = QString(QChar(IconUnlockKeyhole));
+    c.icon = fromIconId(IconUnlockKeyhole);
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.copyEncryptedItems()";
@@ -891,7 +892,7 @@ QVector<Command> ItemEncryptedLoader::commands() const
     c = Command();
     c.internalId = QStringLiteral("copyq_encrypted_decrypt_and_paste");
     c.name = ItemEncryptedLoader::tr("Decrypt and Paste");
-    c.icon = QString(QChar(IconUnlockKeyhole));
+    c.icon = fromIconId(IconUnlockKeyhole);
     c.input = mimeEncryptedData;
     c.inMenu = true;
     c.cmd = "copyq: plugins.itemencrypted.pasteEncryptedItems()";

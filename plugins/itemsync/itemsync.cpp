@@ -15,6 +15,7 @@
 #include "gui/icons.h"
 #include "gui/iconfont.h"
 #include "gui/iconwidget.h"
+#include "gui/fromiconid.h"
 #include "item/itemfilter.h"
 
 #ifdef HAS_TESTS
@@ -100,7 +101,7 @@ void writeConfiguration(QIODevice *file, const QStringList &savedFiles)
 
 QString iconFromId(int id)
 {
-    return id != -1 ? QString(QChar(id)) : QString();
+    return id != -1 ? fromIconId(id) : QString();
 }
 
 QPushButton *createBrowseButton()

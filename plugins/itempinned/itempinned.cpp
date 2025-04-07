@@ -5,6 +5,7 @@
 #include "common/command.h"
 #include "common/contenttype.h"
 #include "common/display.h"
+#include "gui/fromiconid.h"
 
 #ifdef HAS_TESTS
 #   include "tests/itempinnedtests.h"
@@ -32,7 +33,7 @@ bool isPinned(const QModelIndex &index)
 Command dummyPinCommand()
 {
     Command c;
-    c.icon = QString(QChar(IconThumbtack));
+    c.icon = fromIconId(IconThumbtack);
     c.inMenu = true;
     return c;
 }

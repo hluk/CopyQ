@@ -7,7 +7,7 @@
 #include "gui/fix_icon_id.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectdialog.h"
-#include "gui/icons.h"
+#include "gui/fromiconid.h"
 
 #include <QApplication>
 #include <QIcon>
@@ -40,7 +40,7 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
     if ( iconString.size() == 1 ) {
         const QChar c = iconString[0];
         const ushort id = fixIconId( c.unicode() );
-        m_currentIcon = QString(QChar(id));
+        m_currentIcon = fromIconId(id);
         setFont(iconFont());
         setText(m_currentIcon);
     } else if ( !iconString.isEmpty() ) {

@@ -3,8 +3,8 @@
 #include "iconfactory.h"
 
 #include "gui/fix_icon_id.h"
-#include "gui/icons.h"
 #include "gui/iconfont.h"
+#include "gui/fromiconid.h"
 #include "gui/pixelratio.h"
 
 #include <QBitmap>
@@ -265,7 +265,7 @@ QPixmap drawFontIcon(ushort id, int w, int h, const QColor &color)
 
     // Center the icon to whole pixels so it stays sharp.
     const auto flags = Qt::AlignTop | Qt::AlignLeft;
-    const auto iconText = QString(QChar(id));
+    const auto iconText = fromIconId(id);
     auto boundingRect = painter.boundingRect(0, 0, w, h, flags, iconText);
     const auto x = w - boundingRect.width();
     // If icon is wider, assume that a tag will be rendered and align image to the right.

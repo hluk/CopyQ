@@ -3,6 +3,7 @@
 #include "globalshortcutcommands.h"
 
 #include "common/command.h"
+#include "gui/fromiconid.h"
 
 #include <QCoreApplication>
 #include <QLocale>
@@ -50,7 +51,7 @@ Command createGlobalShortcut(const QString &name, const QString &script, IconId 
     c.internalId = internalId;
     c.name = name;
     c.cmd = "copyq: " + script;
-    c.icon = QString(QChar(icon));
+    c.icon = fromIconId(icon);
     c.isGlobalShortcut = true;
     return c;
 }
