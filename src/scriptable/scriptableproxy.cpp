@@ -533,7 +533,6 @@ QWidget *createListWidget(const QString &name, const QStringList &items, InputDi
     w->setCurrentIndex(items.indexOf(currentText));
     w->lineEdit()->setText(currentText);
     w->lineEdit()->selectAll();
-    w->setMaximumWidth( pointsToPixels(400, w) );
     installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
     installShortcutToCloseDialog(parent, w, Qt::Key_Return);
 
@@ -2078,10 +2077,10 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     InputDialog inputDialog;
     inputDialog.dialog = new QDialog(m_wnd);
     QDialog &dialog = *inputDialog.dialog;
+    dialog.setLayout(new QVBoxLayout(&dialog));
 
     QString dialogTitle;
     QIcon icon;
-    QVBoxLayout layout(&dialog);
     QWidgetList widgets;
     widgets.reserve(values.items.size());
 
@@ -2133,7 +2132,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     QObject::connect( buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
     QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
-    layout.addWidget(buttons);
+    dialog.layout()->addWidget(buttons);
 
     installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Enter);
     installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Return);
