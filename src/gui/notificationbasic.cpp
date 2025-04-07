@@ -8,7 +8,7 @@
 #include "common/textdata.h"
 #include "common/timer.h"
 #include "gui/iconfactory.h"
-#include "gui/icons.h"
+#include "gui/fromiconid.h"
 #include "gui/pixelratio.h"
 
 #include <QApplication>
@@ -233,7 +233,7 @@ void NotificationBasicWidget::setIcon(const QString &icon)
 
 void NotificationBasicWidget::setIcon(ushort icon)
 {
-    m_icon = QString(QChar(icon));
+    m_icon = fromIconId(icon);
 }
 
 void NotificationBasicWidget::setInterval(int msec)

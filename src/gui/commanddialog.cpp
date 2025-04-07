@@ -13,6 +13,7 @@
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/fromiconid.h"
 #include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 
@@ -48,7 +49,7 @@ QIcon getCommandIcon(const QString &iconString, int commandType)
           : commandType & CommandType::Menu ? QColor(100,220,255)
           : QColor(255,100,100);
 
-    return iconFromFile(iconString, QString(QChar(icon)), color);
+    return iconFromFile(iconString, fromIconId(icon), color);
 }
 
 bool hasCommandsToPaste(const QString &text)

@@ -15,6 +15,7 @@
 #include "common/textdata.h"
 #include "gui/clipboardspy.h"
 #include "gui/icons.h"
+#include "gui/fromiconid.h"
 #include "item/itemfactory.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
@@ -2947,7 +2948,7 @@ void Scriptable::showExceptionMessage(const QString &message)
     messageData.notificationId = QString::number(id);
     messageData.message = message;
     messageData.title = title;
-    messageData.icon = QString(QChar(IconCircleExclamation));
+    messageData.icon = fromIconId(IconCircleExclamation);
     messageData.timeoutMs = 8000;
     messageData.urgency = Notification::Urgency::High;
     m_proxy->showMessage(messageData);

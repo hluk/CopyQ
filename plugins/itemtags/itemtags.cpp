@@ -10,6 +10,7 @@
 #include "common/textdata.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
+#include "gui/fromiconid.h"
 #include "gui/pixelratio.h"
 #include "item/itemfilter.h"
 
@@ -153,7 +154,7 @@ QString removeTagText()
 Command dummyTagCommand()
 {
     Command c;
-    c.icon = QString(QChar(IconTag));
+    c.icon = fromIconId(IconTag);
     c.inMenu = true;
     return c;
 }
