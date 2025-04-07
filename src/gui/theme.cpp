@@ -17,9 +17,16 @@
 #include <QSettings>
 #include <QStyleFactory>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+#include <QStyleHints>
+#endif
+
 #include <cmath>
 
 namespace {
+
+/// Up to this value of background lightness, window title style would be light.
+const int lightThreshold = 100;
 
 const QLatin1String defaultColorVarBase("default_bg");
 const QLatin1String defaultColorVarText("default_text");
@@ -291,13 +298,25 @@ void Theme::decorateMainWindow(QWidget *mainWindow) const
     mainWindow->setStyleSheet(QString());
     mainWindow->setPalette(palette);
 
+    const auto bg = color("bg");
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+    // Change window dark/light title scheme if supported.
+    QStyleHints *styleHints = QGuiApplication::styleHints();
+    if ( !isMainWindowThemeEnabled() )
+        styleHints->unsetColorScheme();
+    else if (bg.lightness() < lightThreshold)
+        styleHints->setColorScheme(Qt::ColorScheme::Dark);
+    else
+        styleHints->setColorScheme(Qt::ColorScheme::Light);
+#endif
+
     if ( !isMainWindowThemeEnabled() ) {
         const QString cssTemplate = QStringLiteral("main_window_simple");
         mainWindow->setStyleSheet(getStyleSheet(cssTemplate));
         return;
     }
 
-    const auto bg = color("bg");
     const auto fg = color("fg");
     palette.setColor( QPalette::Base, bg );
     palette.setColor( QPalette::AlternateBase, color("alt_bg") );
