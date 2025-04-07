@@ -50,6 +50,7 @@
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 #include "scriptable/scriptoverrides.h"
+#include <qnamespace.h>
 
 #ifdef Q_OS_MAC
 #  include "platform/mac/foregroundbackgroundfilter.h"
@@ -219,47 +220,52 @@ std::pair<QMenu*, QMenu*> createSubMenus(QString *name, QMenu *menu)
     return {rootMenu, parentMenu};
 }
 
-// WORKAROUND: setWindowFlags() hides the window.
-// See: https://doc.qt.io/qt-5/qwidget.html#windowFlags-prop
-void setWindowFlag(QPointer<QWidget> window, Qt::WindowType flag, bool enable)
+class WindowFlags
 {
-    if (!window)
-        return;
+public:
+    explicit WindowFlags(QWidget *window)
+        : m_window(window)
+        , m_flags(window->windowFlags())
+    {
+    }
 
-    const Qt::WindowFlags flags = window->windowFlags();
-    const bool wasEnabled = flags.testFlag(flag);
-    if (wasEnabled == enable)
-        return;
+    void apply()
+    {
+        if (!m_window || m_window->windowFlags() == m_flags)
+            return;
 
-    const bool wasVisible = window->isVisible();
-    const bool wasActive = window->isActiveWindow();
+        // WORKAROUND: setWindowFlags() hides the window.
+        // See: https://doc.qt.io/qt-6/qwidget.html#windowFlags-prop
+        const bool wasVisible = m_window->isVisible();
+        const bool wasActive = m_window->isActiveWindow();
 
-    window->setWindowFlags(flags ^ flag);
+        m_window->setWindowFlags(m_flags);
 
-    if (wasVisible) {
-        if (wasActive) {
-            window->show();
-            window->activateWindow();
-            QApplication::setActiveWindow(window);
-            raiseWindow(window);
-        } else {
-            const bool showWithoutActivating = window->testAttribute(Qt::WA_ShowWithoutActivating);
-            window->setAttribute(Qt::WA_ShowWithoutActivating);
-            window->show();
-            window->setAttribute(Qt::WA_ShowWithoutActivating, showWithoutActivating);
+        if (wasVisible) {
+            if (wasActive) {
+                m_window->show();
+                m_window->activateWindow();
+                QApplication::setActiveWindow(m_window);
+                raiseWindow(m_window);
+            } else {
+                const bool showWithoutActivating = m_window->testAttribute(Qt::WA_ShowWithoutActivating);
+                m_window->setAttribute(Qt::WA_ShowWithoutActivating);
+                m_window->show();
+                m_window->setAttribute(Qt::WA_ShowWithoutActivating, showWithoutActivating);
+            }
         }
     }
-}
 
-void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
-{
-    setWindowFlag(window, Qt::WindowStaysOnTopHint, alwaysOnTop);
-}
+    void set(Qt::WindowType flag, bool enable)
+    {
+        if (m_flags.testFlag(flag) != enable)
+            m_flags.setFlag(flag, enable);
+    }
 
-void setHideInTaskBar(QWidget *window, bool hideInTaskBar)
-{
-    setWindowFlag(window, Qt::Tool, hideInTaskBar);
-}
+private:
+    QPointer<QWidget> m_window;
+    Qt::WindowFlags m_flags;
+};
 
 template<typename Dialog, typename ...Ts>
 Dialog *openDialog(Ts... arguments)
@@ -555,12 +561,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     ui->setupUi(this);
 
     m_sharedData->menuItems = menuItems();
-
-#if defined(Q_OS_MAC) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    // Open above fullscreen windows on macOS and Qt 5.
-    setWindowModality(Qt::WindowModal);
-    setWindowFlag(Qt::Sheet);
-#endif
 
     setWindowRole(QStringLiteral("main"));
 
@@ -2713,11 +2713,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_options.confirmExit = appConfig->option<Config::confirm_exit>();
 
-    // always on top window hint
-    bool alwaysOnTop = appConfig->option<Config::always_on_top>();
-    setAlwaysOnTop(this, alwaysOnTop);
-    setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
-
     m_options.navigationStyle = appConfig->option<Config::navigation_style>();
     m_trayMenu->setNavigationStyle(m_options.navigationStyle);
     m_menu->setNavigationStyle(m_options.navigationStyle);
@@ -2772,8 +2767,17 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_timerHideWindowIfNotActive.setInterval(
         appConfig->option<Config::close_on_unfocus_delay_ms>());
 
-    const bool hideInTaskBar = appConfig->option<Config::hide_main_window_in_task_bar>();
-    setHideInTaskBar(this, hideInTaskBar);
+    WindowFlags flags(this);
+    const bool alwaysOnTop = appConfig->option<Config::always_on_top>();
+    flags.set(Qt::WindowStaysOnTopHint, alwaysOnTop);
+    if (m_commandDialog) {
+        WindowFlags dialogFlags(m_commandDialog.data());
+        dialogFlags.set(Qt::WindowStaysOnTopHint, alwaysOnTop);
+        dialogFlags.apply();
+    }
+    flags.set(Qt::Tool, appConfig->option<Config::hide_main_window_in_task_bar>());
+    flags.set(Qt::FramelessWindowHint, appConfig->option<Config::frameless_window>());
+    flags.apply();
 
     Q_ASSERT( ui->tabWidget->count() > 0 );
 
