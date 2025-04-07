@@ -525,6 +525,14 @@ struct native_notifications : Config<bool> {
     static Value defaultValue() { return true; }
 };
 
+struct frameless_window : Config<bool> {
+    static QString name() { return QStringLiteral("frameless_window"); }
+    static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Hide the main window frame and title if supported by the window manager";
+    }
+};
+
 } // namespace Config
 
 class AppConfig final
