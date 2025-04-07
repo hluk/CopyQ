@@ -226,67 +226,59 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
     const int key = event->key();
     m_omitPaste = false;
 
-    bool not_searching = m_searchText.isEmpty();
-
-    if ( not_searching && m_navigationStyle == NavigationStyle::Vi && handleViKey(event, this) ) {
+    // Movement in tray menu.
+    switch (key) {
+    case Qt::Key_PageDown:
+    case Qt::Key_End: {
+        QAction *action = lastEnabledAction(this);
+        if (action != nullptr)
+            setActiveAction(action);
+        break;
+    }
+    case Qt::Key_PageUp:
+    case Qt::Key_Home: {
+        QAction *action = firstEnabledAction(this);
+        if (action != nullptr)
+            setActiveAction(action);
+        break;
+    }
+    case Qt::Key_Escape:
+        close();
+        break;
+    case Qt::Key_Backspace:
+        search( m_searchText.left(m_searchText.size() - 1) );
+        break;
+    case Qt::Key_Delete:
+        search(QString());
+        break;
+    case Qt::Key_Alt:
         return;
-    } else if ( not_searching && m_navigationStyle == NavigationStyle::Emacs && handleEmacsKey(event, this) ) {
-        return;
-    } else {
-        // Movement in tray menu.
-        switch (key) {
-        case Qt::Key_PageDown:
-        case Qt::Key_End: {
-            QAction *action = lastEnabledAction(this);
-            if (action != nullptr)
-                setActiveAction(action);
-            break;
-        }
-        case Qt::Key_PageUp:
-        case Qt::Key_Home: {
-            QAction *action = firstEnabledAction(this);
-            if (action != nullptr)
-                setActiveAction(action);
-            break;
-        }
-        case Qt::Key_Escape:
-            close();
-            break;
-        case Qt::Key_Backspace:
-            search( m_searchText.left(m_searchText.size() - 1) );
-            break;
-        case Qt::Key_Delete:
-            search(QString());
-            break;
-        case Qt::Key_Alt:
-            return;
-        default:
-            // Type text for search.
-            if ( (m_clipboardItemActionCount > 0 || !m_searchText.isEmpty())
-                 && (m_navigationStyle != NavigationStyle::Vi || !m_searchText.isEmpty() || key == Qt::Key_Slash)
-                 && !event->modifiers().testFlag(Qt::AltModifier)
-                 && !event->modifiers().testFlag(Qt::ControlModifier) )
-            {
-                const QString txt = event->text();
-                if ( !txt.isEmpty() && txt[0].isPrint() ) {
-                    // Activate item at row when number is entered.
-                    if ( !m_numberSearch && m_searchText.isEmpty() ) {
-                        bool ok;
-                        const int row = txt.toInt(&ok);
-                        const int start = static_cast<int>(m_rowIndexFromOne);
-                        if (ok && start <= row && row < start + m_clipboardItemActionCount) {
-                            // Allow keypad digit to activate appropriate item in context menu.
-                            if (event->modifiers() == Qt::KeypadModifier)
-                                event->setModifiers(Qt::NoModifier);
-                            break;
-                        }
+    default:
+        // Type text for search.
+        if ( (m_clipboardItemActionCount > 0 || !m_searchText.isEmpty())
+                && (m_navigationStyle != NavigationStyle::Vi || !m_searchText.isEmpty() || key == Qt::Key_Slash)
+                && !event->modifiers().testFlag(Qt::AltModifier)
+                && !event->modifiers().testFlag(Qt::ControlModifier) )
+        {
+            const QString txt = event->text();
+            if ( !txt.isEmpty() && txt[0].isPrint() ) {
+                // Activate item at row when number is entered.
+                if ( !m_numberSearch && m_searchText.isEmpty() ) {
+                    bool ok;
+                    const int row = txt.toInt(&ok);
+                    const int start = static_cast<int>(m_rowIndexFromOne);
+                    if (ok && start <= row && row < start + m_clipboardItemActionCount) {
+                        // Allow keypad digit to activate appropriate item in context menu.
+                        if (event->modifiers() == Qt::KeypadModifier)
+                            event->setModifiers(Qt::NoModifier);
+                        break;
                     }
-                    search(m_searchText + txt);
-                    return;
                 }
+                search(m_searchText + txt);
+                return;
             }
-            break;
         }
+        break;
     }
 
     QMenu::keyPressEvent(event);
@@ -349,6 +341,7 @@ void TrayMenu::search(const QString &text)
         return;
 
     m_searchText = text;
+    setProperty("copyq_disable_navigation", !text.isEmpty());
     emit searchRequest((m_navigationStyle == NavigationStyle::Vi) ? m_searchText.mid(1) : m_searchText);
 }
 

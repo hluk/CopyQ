@@ -35,6 +35,7 @@
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
 #include "gui/logdialog.h"
+#include "gui/navigation.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
 #include "gui/selectiondata.h"
@@ -441,6 +442,25 @@ QList<QKeySequence> getUniqueShortcuts(const QStringList &shortcuts, QList<QKeyS
     }
 
     return uniqueShortcuts;
+}
+
+bool hadleKeyOverride(QObject *object, QEvent *ev, KeyMods keyMods)
+{
+    if (keyMods.key <= 0)
+        return false;
+
+    if (ev->type() == QEvent::ShortcutOverride) {
+        ev->accept();
+        return true;
+    }
+
+    QKeyEvent event2(QEvent::KeyPress, keyMods.key, keyMods.mods);
+    if ( QCoreApplication::sendEvent(object, &event2) ) {
+        ev->accept();
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace
@@ -2514,6 +2534,65 @@ void MainWindow::addCommands(const QVector<Command> &commands)
         m_commandDialog->addCommands(commands);
 }
 
+bool MainWindow::eventFilter(QObject *object, QEvent *ev)
+{
+    const QEvent::Type type = ev->type();
+    if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
+        return false;
+
+    QKeyEvent *event = static_cast<QKeyEvent *>(ev);
+    const int key = event->key();
+    const Qt::KeyboardModifiers modifiers = event->modifiers();
+
+    // Navigation styles can override shortcuts with Ctrl, because of some
+    // conflict with default shortcuts.
+    // User should be able to override at least the shortcuts without Ctrl.
+    if (type == QEvent::ShortcutOverride && !modifiers.testFlag(Qt::ControlModifier))
+        return false;
+
+    const auto isEscape = (m_options.navigationStyle == NavigationStyle::Vi)
+        ? isViEscape : isEmacsEscape;
+    if (isEscape({key, modifiers})) {
+        return hadleKeyOverride(object, ev, {Qt::Key_Escape});
+    }
+
+    const auto translate = (m_options.navigationStyle == NavigationStyle::Vi)
+        ? translateToVi : translateToEmacs;
+
+    if (object == this || object == browser()) {
+        const KeyMods keyMods = translate({key, modifiers});
+        if ( hadleKeyOverride(object, ev, keyMods) )
+            return true;
+
+        if (m_options.navigationStyle == NavigationStyle::Vi) {
+            switch(key) {
+            case Qt::Key_Slash:
+                if (type != QEvent::ShortcutOverride)
+                    enterSearchMode();
+                event->accept();
+                return true;
+            case Qt::Key_H:
+                if (type != QEvent::ShortcutOverride)
+                    previousTab();
+                event->accept();
+                return true;
+            case Qt::Key_L:
+                if (type != QEvent::ShortcutOverride)
+                    nextTab();
+                event->accept();
+                return true;
+            }
+        }
+    } else if (qobject_cast<QMenu*>(object)
+        && !object->property("copyq_disable_navigation").toBool()
+    ) {
+        const KeyMods keyMods = translate({key, modifiers});
+        return hadleKeyOverride(object, ev, keyMods);
+    }
+
+    return false;
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     const int key = event->key();
@@ -2533,45 +2612,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     if (m_options.hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
-
-    if (m_options.navigationStyle == NavigationStyle::Vi) {
-        if (modifiers == Qt::ControlModifier && key == Qt::Key_BracketLeft) {
-            onEscape();
-            return;
-        }
-
-        if (browseMode()) {
-            if (c && handleViKey(event, c))
-                return;
-
-            switch(key) {
-            case Qt::Key_Slash:
-                enterSearchMode();
-                event->accept();
-                return;
-            case Qt::Key_H:
-                previousTab();
-                event->accept();
-                return;
-            case Qt::Key_L:
-                nextTab();
-                event->accept();
-                return;
-            }
-        }
-    }
-
-    if (m_options.navigationStyle == NavigationStyle::Emacs) {
-        if ((modifiers == Qt::ControlModifier && key == Qt::Key_G)
-            || (key == Qt::Key_Escape)) {
-            onEscape();
-            return;
-        }
-
-        if (browseMode() && c && handleEmacsKey(event, c)) {
-                return;
-        }
-    }
 
     if ( event->matches(QKeySequence::NextChild) ) {
          nextTab();
@@ -2716,6 +2756,10 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_options.navigationStyle = appConfig->option<Config::navigation_style>();
     m_trayMenu->setNavigationStyle(m_options.navigationStyle);
     m_menu->setNavigationStyle(m_options.navigationStyle);
+    if (m_options.navigationStyle == NavigationStyle::Default)
+        qApp->removeEventFilter(this);
+    else
+        qApp->installEventFilter(this);
 
     // Number search
     m_trayMenu->setNumberSearchEnabled(m_sharedData->numberSearch);

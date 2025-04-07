@@ -662,7 +662,7 @@ public:
     {
     }
 
-    void keyClicksRetry(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    void keyClicksRetry(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
     {
         if (retry > 0)
             sendKeyClicks(expectedWidgetName, keys, delay + 100, retry - 1);
@@ -670,7 +670,7 @@ public:
             keyClicksFailed(expectedWidgetName);
     }
 
-    void keyClicksFailed(const QString &expectedWidgetName)
+    void keyClicksFailed(const QRegularExpression &expectedWidgetName)
     {
         auto actual = keyClicksTarget();
         auto popup = QApplication::activePopupWidget();
@@ -681,7 +681,7 @@ public:
         const auto currentWindowTitle = currentWindow ? currentWindow->getTitle() : QString();
         log( QString("Failed to send key press to target widget")
             + QLatin1String(qApp->applicationState() == Qt::ApplicationActive ? "" : "\nApp is INACTIVE!")
-            + "\nExpected: " + (expectedWidgetName.isEmpty() ? "Any" : expectedWidgetName)
+            + "\nExpected: /" + expectedWidgetName.pattern() + "/"
             + "\nActual:   " + keyClicksTargetDescription(actual)
             + "\nPopup:    " + keyClicksTargetDescription(popup)
             + "\nWidget:   " + keyClicksTargetDescription(widget)
@@ -693,7 +693,7 @@ public:
         m_failed = true;
     }
 
-    void keyClicks(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    void keyClicks(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
     {
         auto widget = keyClicksTarget();
         if (!widget) {
@@ -712,7 +712,9 @@ public:
         }
 
         auto widgetName = keyClicksTargetDescription(widget);
-        if ( !expectedWidgetName.isEmpty() && !widgetName.contains(expectedWidgetName) ) {
+        if ( !expectedWidgetName.pattern().isEmpty()
+             && !expectedWidgetName.match(widgetName).hasMatch() )
+        {
             keyClicksRetry(expectedWidgetName, keys, delay, retry);
             return;
         }
@@ -768,7 +770,7 @@ public:
                    .arg(keys, widgetName) );
     }
 
-    void sendKeyClicks(const QString &expectedWidgetName, const QString &keys, int delay, int retry)
+    void sendKeyClicks(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
     {
         m_succeeded = false;
         m_failed = false;
@@ -2010,7 +2012,8 @@ void ScriptableProxy::sendKeys(const QString &expectedWidgetName, const QString 
 {
     INVOKE2(sendKeys, (expectedWidgetName, keys, delay));
     Q_ASSERT( keyClicker()->succeeded() || keyClicker()->failed() );
-    keyClicker()->sendKeyClicks(expectedWidgetName, keys, delay, 10);
+    keyClicker()->sendKeyClicks(
+        QRegularExpression(expectedWidgetName), keys, delay, 10);
 }
 
 bool ScriptableProxy::sendKeysSucceeded()
