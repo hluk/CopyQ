@@ -153,6 +153,10 @@ private slots:
 
     void keysAndFocusing();
 
+    void navigationDefault();
+    void navigationVi();
+    void navigationEmacs();
+
     void selectItems();
 
     void moveItems();
@@ -319,6 +323,12 @@ private slots:
     void clipboardUriList();
 
 private:
+    void navigationTestInit();
+    void navigationTestDownUp(const QString &down, const QString &up);
+    void navigationTestEndHome(const QString &end, const QString &home);
+    void navigationTestEscapeEditor(const QString &esc, const QString &editor);
+    void navigationTestEscapeSearch(const QString &esc, const QString &search);
+
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
             QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray(),

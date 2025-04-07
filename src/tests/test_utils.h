@@ -16,7 +16,7 @@ constexpr auto clipboardTabName = "CLIPBOARD";
 constexpr auto defaultSessionColor = "#ff8800";
 constexpr auto defaultTagColor = "#000000";
 
-constexpr auto clipboardBrowserId = "focus:ClipboardBrowser";
+constexpr auto clipboardBrowserId = "focus:^ClipboardBrowser";
 constexpr auto clipboardBrowserRefreshButtonId = "focus:ClipboardBrowserRefreshButton";
 constexpr auto filterEditId = "focus:Utils::FilterLineEdit";
 constexpr auto trayMenuId = "focus:TrayMenu";

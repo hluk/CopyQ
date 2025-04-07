@@ -1383,16 +1383,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     if ( isInternalEditorOpen() )
         return;
 
-    // translate keys for vi mode
-    if (m_sharedData->navigationStyle == NavigationStyle::Vi && handleViKey(event, this)) {
-        d.updateIfNeeded();
-        return;
-    }
-
-    // translate keys for emacs mode
-    if (m_sharedData->navigationStyle == NavigationStyle::Emacs && handleEmacsKey(event, this))
-        return;
-
     const Qt::KeyboardModifiers mods = event->modifiers();
 
     if (mods == Qt::AltModifier)
