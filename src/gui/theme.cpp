@@ -18,7 +18,7 @@
 #include <QStyleFactory>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
-#include <QStyleHints>
+#   include <QStyleHints>
 #endif
 
 #include <cmath>
