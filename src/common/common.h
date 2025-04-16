@@ -11,12 +11,9 @@ class ClipboardDataGuard;
 class QByteArray;
 class QDropEvent;
 class QFont;
-class QKeyEvent;
 class QMimeData;
 class QProcess;
 class QString;
-
-bool isMainThread();
 
 QByteArray makeClipboardOwnerData();
 
@@ -74,16 +71,6 @@ void renameToUnique(QString *name, const QStringList &names);
 QString dataToText(const QByteArray &bytes, const QString &mime = QString());
 
 bool isClipboardData(const QVariantMap &data);
-
-/**
- * Handle key for Vi mode.
- */
-bool handleViKey(QKeyEvent *event, QObject *eventReceiver);
-
-/**
- * Handle key for Emacs mode.
- */
-bool handleEmacsKey(QKeyEvent *event, QObject *eventReceiver);
 
 /**
  * Return true only if tabs can accept the drag'n'drop event.

@@ -431,6 +431,7 @@ signals:
     void sendActionData(int actionId, const QByteArray &bytes);
 
 protected:
+    bool eventFilter(QObject *object, QEvent *ev) override;
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
     bool event(QEvent *event) override;
