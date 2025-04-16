@@ -2114,14 +2114,16 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     if (!widgets.isEmpty())
         widgets.first()->setFocus();
 
-    dialog.adjustSize();
-
     if (geometry.height() == 0)
         geometry.setHeight(dialog.height());
     if (geometry.width() == 0)
         geometry.setWidth(dialog.width());
+
     if (geometry.isValid())
         dialog.resize(geometry.size());
+    else
+        dialog.adjustSize();
+
     if (geometry.x() >= 0 && geometry.y() >= 0)
         dialog.move(geometry.topLeft());
 
