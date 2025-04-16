@@ -3443,7 +3443,7 @@ Oletus on ensimmäinen välilehti.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>Laajamittaiset pikanäppäimet voidaan laukaista mistä tahansa sovelluksesta.</translation>
+        <translation>Yleisesti pätevät pikanäppäimet voidaan laukaista mistä tahansa sovelluksesta.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
