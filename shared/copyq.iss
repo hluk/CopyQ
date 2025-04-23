@@ -28,7 +28,7 @@ VersionInfoProductName={#MyAppName} {#AppVersion}
 VersionInfoVersion={#AppVersion}
 
 UninstallDisplayName={#MyAppName} {#AppVersion}
-UninstallDisplayIcon={#Root}\copyq.exe
+UninstallDisplayIcon={app}\copyq.exe
 
 WizardStyle=Modern
 UsePreviousLanguage=no
