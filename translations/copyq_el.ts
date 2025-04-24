@@ -711,7 +711,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Παραλείπει την εντολή αν το κείμενο εισόδου δεν ταιριάζει με αυτή την κανονική έκφραση (αφήστε την κενή για να ταιριάζει με τα πάντα).
+
+Τα %2 έως %9 (ή argument[1] και πάνω στη δέσμη ενεργειών) στις εντολές και το φίλτρο θα αντικατασταθούν με τα κείμενα που συλλαμβάνονται.
+
+Παραδείγματα:
+
+- Αντιστοίχιση URL: ^(https?|ftp)://
+- Αντιστοίχιση ονομάτων αρχείων PDF: \.pdf$
+- Αντιστοίχιση μεμονωμένου χαρακτήρα: ^.$
+- Αντιστοίχιση απομακρυσμένων πολυμέσων: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -1092,27 +1101,27 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Στυλ πλοήγησης / Keymap:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη πλοήγησης στο Vi (πλήκτρα H, J, K, L, / και άλλα) και πλοήγησης στον Emacs (Ctrl+N, P, V και άλλα)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Προεπιλογή</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1882,7 +1891,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
-        <translation type="unfinished"></translation>
+        <translation>Για να μοιραστείτε κρυπτογραφημένα στοιχεία σε άλλο υπολογιστή ή συνεδρία, θα χρειαστείτε αυτά τα αρχεία μυστικών κλειδιών (κρατήστε τα σε ασφαλές μέρος):</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
@@ -2348,7 +2357,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Εναλλαγή ετικέτας %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
@@ -3598,7 +3607,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2388"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished"></translation>
+        <translation>*Απενεργοποιημένη αποθήκευση σε πρόχειρο *</translation>
     </message>
 </context>
 <context>
