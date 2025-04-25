@@ -2113,6 +2113,12 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             widgets.append( createWidget(value.name, value.value, &inputDialog) );
     }
 
+    if ( !dialogTitle.isNull() ) {
+        dialog.setWindowTitle(dialogTitle);
+        dialog.setObjectName(QStringLiteral("dialog_") + dialogTitle);
+        WindowGeometryGuard::create(&dialog);
+    }
+
     // WORKAROUND for broken initial focus in Qt 6.6 (QTBUG-121514)
     if (!widgets.isEmpty())
         widgets.first()->setFocus();
@@ -2177,12 +2183,6 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     // Connecting this directly to QEventLoop::quit() doesn't seem to work always.
     connect(this, &ScriptableProxy::abortEvaluation, &dialog, &QDialog::reject);
-
-    if ( !dialogTitle.isNull() ) {
-        dialog.setWindowTitle(dialogTitle);
-        dialog.setObjectName(QStringLiteral("dialog_") + dialogTitle);
-        WindowGeometryGuard::create(&dialog);
-    }
 
     dialog.show();
 
