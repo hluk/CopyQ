@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Ɣef</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="84"/>
@@ -16,22 +16,22 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="91"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Ameskar</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="92"/>
         <source>E-mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Imayl</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="93"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Aswel Web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Mudd tawsa</translation>
     </message>
 </context>
 <context>
@@ -80,7 +80,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -121,7 +121,7 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Imsizdeg</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -292,7 +292,7 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="154"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Awal n uɛeddi</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="162"/>
@@ -356,7 +356,7 @@
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"></translation>
+        <translation>Agb&amp;ur:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
@@ -395,7 +395,7 @@
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="373"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmet tuffɣa</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="374"/>
@@ -417,7 +417,7 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Inezḍayen</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -427,7 +427,7 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"></translation>
+        <translation>A&amp;f-d:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
@@ -516,7 +516,7 @@
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"></translation>
+        <translation>ta&amp;cfawit</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="115"/>
@@ -529,7 +529,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Isem:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
@@ -539,7 +539,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="56"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anaw&#xa0;:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="63"/>
@@ -550,7 +550,7 @@
         <location filename="../src/ui/commandwidget.ui" line="66"/>
         <source>Auto&amp;matic</source>
         <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Awur&amp;man</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="79"/>
@@ -573,7 +573,7 @@
         <location filename="../src/ui/commandwidget.ui" line="108"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Askript</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="121"/>
@@ -584,7 +584,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ane&amp;gzum:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
@@ -609,7 +609,7 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="346"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Agb&amp;ur:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="356"/>
@@ -628,7 +628,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"></translation>
+        <translation>Asfa&amp;ylu:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
@@ -659,7 +659,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Tigawt</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -726,7 +726,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="603"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="610"/>
@@ -769,57 +769,57 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="62"/>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Agilal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilillac n telɣut</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Yettwaf</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Yettwafren</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
         <source>Number</source>
-        <translation type="unfinished"></translation>
+        <translation>Amḍan</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Amagnu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Amaẓrag</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasefsit</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>Awliwal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Aɣawas amezwaru</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Alɣu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
@@ -864,7 +864,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Asentel:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
@@ -889,7 +889,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"></translation>
+        <translation>Taskant:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="164"/>
@@ -915,13 +915,13 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="394"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Abc</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="476"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>aferdis</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="478"/>
@@ -937,7 +937,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="481"/>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Amedya n uferdis %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="486"/>
@@ -950,7 +950,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tut&amp;layt:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -995,12 +995,12 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="133"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sentem tuffɣa n usnas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="136"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sentem &amp;tuffɣa n usnas</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="146"/>
@@ -1010,7 +1010,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>Asekker awurman</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="161"/>
@@ -1025,17 +1025,17 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="175"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Amezwer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="180"/>
         <source>Vi</source>
-        <translation type="unfinished"></translation>
+        <translation>Vi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Emacs</source>
-        <translation type="unfinished"></translation>
+        <translation>Emacs</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="208"/>
@@ -1249,7 +1249,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Senk-d/Ffer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -1264,7 +1264,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="78"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ffer afeggag n ifecka</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="81"/>
@@ -1543,7 +1543,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="160"/>
         <source>Layout</source>
-        <translation type="unfinished"></translation>
+        <translation>Tamudemt</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="161"/>
@@ -1768,7 +1768,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="990"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="993"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmet</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="992"/>
@@ -2319,7 +2319,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="871"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tallalt</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="896"/>
@@ -2620,7 +2620,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>Cancel Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Semmet aseẓreg</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
@@ -2849,7 +2849,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tallalt</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2864,7 +2864,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="150"/>
         <source>&amp;About</source>
-        <translation type="unfinished"></translation>
+        <translation>Ɣ&amp;ef</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
