@@ -241,6 +241,11 @@ struct ScriptValueFactory<Command> {
         value.setProperty(QStringLiteral("outputTab"), command.outputTab);
         value.setProperty(QStringLiteral("internalId"), command.internalId);
 
+        QVariantMap nameLocalization;
+        for (auto it = command.nameLocalization.constBegin(); it != command.nameLocalization.constEnd(); ++it)
+            nameLocalization[it.key()] = it.value();
+        value.setProperty(QStringLiteral("nameLocalization"), ::toScriptValue(nameLocalization, engine));
+
         return value;
     }
 
@@ -272,6 +277,13 @@ struct ScriptValueFactory<Command> {
         ::fromScriptValueIfValid( value.property("tab"), engine, &command.tab );
         ::fromScriptValueIfValid( value.property("outputTab"), engine, &command.outputTab );
         ::fromScriptValueIfValid( value.property("internalId"), engine, &command.internalId );
+
+        QJSValue nameLocalization = value.property("nameLocalization");
+        QJSValueIterator it(nameLocalization);
+        while (it.hasNext()) {
+            it.next();
+            command.nameLocalization[it.name()] = it.value().toString();
+        }
 
         return command;
     }
@@ -338,4 +350,3 @@ struct ScriptValueFactory<QVariant> {
         return variant;
     }
 };
-

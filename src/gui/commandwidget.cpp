@@ -145,6 +145,7 @@ Command CommandWidget::command() const
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
     c.internalId = m_internalId;
+    c.nameLocalization = m_nameLocalization;
 
     return c;
 }
@@ -153,6 +154,8 @@ void CommandWidget::setCommand(const Command &c)
 {
     m_internalId = c.internalId;
     const bool isEditable = !m_internalId.startsWith(QLatin1String("copyq_"));
+
+    m_nameLocalization = c.nameLocalization;
 
     ui->scrollAreaWidgetContents->setEnabled(isEditable);
     ui->commandEdit->setReadOnly(!isEditable);
