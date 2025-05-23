@@ -1346,7 +1346,7 @@ void MainWindow::onActionDialogAccepted(const Command &command, const QStringLis
     auto act = new Action();
     act->setCommand(command.cmd, arguments);
     act->setInputWithFormat(data, command.input);
-    act->setName(command.name);
+    act->setName(command.localizedName());
     act->setData(data);
 
     if ( !command.output.isEmpty() ) {
@@ -1582,7 +1582,7 @@ void MainWindow::addCommandsToItemMenu(ClipboardBrowser *c)
     const auto commands = commandsForMenu(data, c->tabName(), m_menuCommands);
 
     for (const auto &command : commands) {
-        QString name = command.name;
+        QString name = command.localizedName();
         QMenu *_rootMenu, *currentMenu;
         std::tie(_rootMenu, currentMenu) = createSubMenus(&name, m_menuItem);
         auto act = new CommandAction(command, name, currentMenu);
@@ -1617,7 +1617,7 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
     QList<QKeySequence> usedShortcuts;
 
     for (const auto &command : commands) {
-        QString name = command.name;
+        QString name = command.localizedName();
         QMenu *rootMenu, *currentMenu;
         std::tie(rootMenu, currentMenu) = createSubMenus(&name, m_trayMenu);
         auto act = new CommandAction(command, name, currentMenu);
@@ -4071,7 +4071,7 @@ Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QM
         auto act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
         act->setInputWithFormat(data, cmd.input);
-        act->setName(cmd.name);
+        act->setName(cmd.localizedName());
         act->setData(data);
 
         if ( !cmd.output.isEmpty() ) {

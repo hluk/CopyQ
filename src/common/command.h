@@ -3,6 +3,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include <QMap>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
@@ -35,6 +36,8 @@ struct Command {
     bool operator!=(const Command &other) const;
 
     int type() const;
+
+    QString localizedName() const;
 
     /** Name or short description. Used for menu item. */
     QString name;
@@ -117,6 +120,8 @@ struct Command {
     QString outputTab;
 
     QString internalId;
+
+    QMap<QString, QString> nameLocalization;
 };
 
 QDataStream &operator<<(QDataStream &out, const Command &command);

@@ -17,6 +17,7 @@ namespace {
 
 const QLatin1String falseString("false");
 const QLatin1String trueString("true");
+const QRegularExpression nameLocalizationRe(R"(^Name(?:_(.*))?$)");
 
 void normalizeLineBreaks(QString &cmd)
 {
@@ -32,51 +33,70 @@ void normalizeLineBreaks(QString &cmd)
 void loadCommand(const QSettings &settings, Commands *commands)
 {
     Command c;
-    c.enable = settings.value(QStringLiteral("Enable"), true).toBool();
 
-    c.name = settings.value(QStringLiteral("Name")).toString();
-    c.re   = QRegularExpression( settings.value(QStringLiteral("Match")).toString() );
-    c.wndre = QRegularExpression( settings.value(QStringLiteral("Window")).toString() );
-    c.matchCmd = settings.value(QStringLiteral("MatchCommand")).toString();
-    c.cmd = settings.value(QStringLiteral("Command")).toString();
-    c.sep = settings.value(QStringLiteral("Separator")).toString();
-
-    c.input = settings.value(QStringLiteral("Input")).toString();
-    if (c.input == falseString || c.input == trueString)
-        c.input = c.input == trueString ? mimeText : QLatin1String();
-
-    c.output = settings.value(QStringLiteral("Output")).toString();
-    if (c.output == falseString || c.output == trueString)
-        c.output = c.output == trueString ? mimeText : QLatin1String();
-
-    c.wait = settings.value(QStringLiteral("Wait")).toBool();
-    c.automatic = settings.value(QStringLiteral("Automatic")).toBool();
-    c.display = settings.value(QStringLiteral("Display")).toBool();
-    c.transform = settings.value(QStringLiteral("Transform")).toBool();
-    c.hideWindow = settings.value(QStringLiteral("HideWindow")).toBool();
-    c.icon = settings.value(QStringLiteral("Icon")).toString();
-    c.shortcuts = settings.value(QStringLiteral("Shortcut")).toStringList();
-    c.globalShortcuts = settings.value(QStringLiteral("GlobalShortcut")).toStringList();
-    c.tab = settings.value(QStringLiteral("Tab")).toString();
-    c.outputTab = settings.value(QStringLiteral("OutputTab")).toString();
-    c.internalId = settings.value(QStringLiteral("InternalId")).toString();
-    c.inMenu = settings.value(QStringLiteral("InMenu")).toBool();
-    c.isScript = settings.value(QStringLiteral("IsScript")).toBool();
-
-    const auto globalShortcutsOption = settings.value(QStringLiteral("IsGlobalShortcut"));
-    if ( globalShortcutsOption.isValid() ) {
-        c.isGlobalShortcut = globalShortcutsOption.toBool();
-    } else {
-        // Backwards compatibility with v3.1.2 and below.
-        if ( c.globalShortcuts.contains(QLatin1String("DISABLED")) )
-            c.globalShortcuts.clear();
-        c.isGlobalShortcut = !c.globalShortcuts.isEmpty();
+    for (auto &&key : settings.childKeys()) {
+        if (key == QLatin1String("Enable")) {
+            c.enable = settings.value(key).toBool();
+        } else if (auto match = nameLocalizationRe.match(key); match.hasMatch()) {
+            const QString languageCode = match.captured(1);
+            const QString value = settings.value(key).toString();
+            if (languageCode.isEmpty())
+                c.name = value;
+            else
+                c.nameLocalization[languageCode] = value;
+        } else if (key == QLatin1String("Match")) {
+            c.re = QRegularExpression( settings.value(key).toString() );
+        } else if (key == QLatin1String("Window")) {
+            c.wndre = QRegularExpression( settings.value(key).toString() );
+        } else if (key == QLatin1String("MatchCommand")) {
+            c.matchCmd = settings.value(key).toString();
+        } else if (key == QLatin1String("Command")) {
+            c.cmd = settings.value(key).toString();
+        } else if (key == QLatin1String("Separator")) {
+            c.sep = settings.value(key).toString();
+        } else if (key == QLatin1String("Input")) {
+            c.input = settings.value(key).toString();
+            if (c.input == falseString || c.input == trueString)
+                c.input = c.input == trueString ? mimeText : QLatin1String();
+        } else if (key == QLatin1String("Output")) {
+            c.output = settings.value(key).toString();
+            if (c.output == falseString || c.output == trueString)
+                c.output = c.output == trueString ? mimeText : QLatin1String();
+        } else if (key == QLatin1String("Wait")) {
+            c.wait = settings.value(key).toBool();
+        } else if (key == QLatin1String("Automatic")) {
+            c.automatic = settings.value(key).toBool();
+        } else if (key == QLatin1String("Display")) {
+            c.display = settings.value(key).toBool();
+        } else if (key == QLatin1String("Transform")) {
+            c.transform = settings.value(key).toBool();
+        } else if (key == QLatin1String("HideWindow")) {
+            c.hideWindow = settings.value(key).toBool();
+        } else if (key == QLatin1String("Icon")) {
+            c.icon = settings.value(key).toString();
+        } else if (key == QLatin1String("Shortcut")) {
+            c.shortcuts = settings.value(key).toStringList();
+        } else if (key == QLatin1String("GlobalShortcut")) {
+            c.globalShortcuts = settings.value(key).toStringList();
+        } else if (key == QLatin1String("Tab")) {
+            c.tab = settings.value(key).toString();
+        } else if (key == QLatin1String("OutputTab")) {
+            c.outputTab = settings.value(key).toString();
+        } else if (key == QLatin1String("InternalId")) {
+            c.internalId = settings.value(key).toString();
+        } else if (key == QLatin1String("InMenu")) {
+            c.inMenu = settings.value(key).toBool();
+        } else if (key == QLatin1String("IsScript")) {
+            c.isScript = settings.value(key).toBool();
+        } else if (key == QLatin1String("IsGlobalShortcut")) {
+            c.isGlobalShortcut = settings.value(key).toBool();
+        } else if (key == QLatin1String("Remove")) {
+            c.remove = settings.value(key).toBool();
+        } else if (key == QLatin1String("Ignore")) {
+            if (settings.value(key).toBool())
+                c.remove = c.automatic = true;
+        }
     }
-
-    if (settings.value(QStringLiteral("Ignore")).toBool())
-        c.remove = c.automatic = true;
-    else
-        c.remove = settings.value(QStringLiteral("Remove")).toBool();
 
     commands->append(c);
 }
@@ -130,6 +150,11 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue(QStringLiteral("Tab"), c, &Command::tab, settings);
     saveNewValue(QStringLiteral("OutputTab"), c, &Command::outputTab, settings);
     saveNewValue(QStringLiteral("InternalId"), c, &Command::internalId, settings);
+
+    for (auto it = c.nameLocalization.constBegin(); it != c.nameLocalization.constEnd(); ++it) {
+        const auto key = QStringLiteral("Name_%1").arg(it.key());
+        saveValue(key, it.value(), settings);
+    }
 }
 
 Commands importCommands(QSettings *settings)

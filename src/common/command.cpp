@@ -3,6 +3,7 @@
 #include "command.h"
 
 #include <QDataStream>
+#include <QLocale>
 
 bool Command::operator==(const Command &other) const
 {
@@ -29,7 +30,8 @@ bool Command::operator==(const Command &other) const
         && globalShortcuts == other.globalShortcuts
         && tab == other.tab
         && outputTab == other.outputTab
-        && internalId == other.internalId;
+        && internalId == other.internalId
+        && nameLocalization == other.nameLocalization;
 }
 
 bool Command::operator!=(const Command &other) const {
@@ -57,6 +59,23 @@ int Command::type() const
     return type;
 }
 
+QString Command::localizedName() const
+{
+    static const QLocale locale;
+    static const QString code1 = locale.name();
+    static const int i = code1.indexOf('_');
+    static const QString code2 = i == -1 ? QString() : code1.mid(0, i);
+
+    const auto value = nameLocalization.value(code1);
+    if (!value.isEmpty())
+        return value;
+
+    if (code2.isEmpty())
+        return name;
+
+    return nameLocalization.value(code2, name);
+}
+
 QDataStream &operator<<(QDataStream &out, const Command &command)
 {
     out << command.name
@@ -82,7 +101,8 @@ QDataStream &operator<<(QDataStream &out, const Command &command)
         << command.globalShortcuts
         << command.tab
         << command.outputTab
-        << command.internalId;
+        << command.internalId
+        << command.nameLocalization;
     Q_ASSERT(out.status() == QDataStream::Ok);
     return out;
 }
@@ -112,7 +132,8 @@ QDataStream &operator>>(QDataStream &in, Command &command)
        >> command.globalShortcuts
        >> command.tab
        >> command.outputTab
-       >> command.internalId;
+       >> command.internalId
+       >> command.nameLocalization;
     Q_ASSERT(in.status() == QDataStream::Ok);
     return in;
 }
