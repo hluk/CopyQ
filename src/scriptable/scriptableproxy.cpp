@@ -34,6 +34,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QScrollArea>
 
 #include <QApplication>
 #include <QBuffer>
@@ -307,6 +308,7 @@ const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
 struct InputDialog {
     QPointer<QDialog> dialog;
+    QWidget *parent;
     QVariant defaultChoice; /// Default text for list widgets.
 };
 
@@ -508,33 +510,31 @@ void installShortcutToCloseDialog(QDialog *dialog, QWidget *shortcutParent, int 
 
 QWidget *createListWidget(const QString &name, const QStringList &items, InputDialog *inputDialog)
 {
-    QDialog *parent = inputDialog->dialog;
-
     const QString currentText = inputDialog->defaultChoice.isValid()
             ? inputDialog->defaultChoice.toString()
             : items.value(0);
 
     const QLatin1String listPrefix(".list:");
     if ( name.startsWith(listPrefix) ) {
-        QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), parent);
+        QListWidget *w = createAndSetWidget<QListWidget>("currentRow", QVariant(), inputDialog->parent);
         w->addItems(items);
         const int i = items.indexOf(currentText);
         if (i != -1)
             w->setCurrentRow(i);
         w->setAlternatingRowColors(true);
-        installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
-        installShortcutToCloseDialog(parent, w, Qt::Key_Return);
+        installShortcutToCloseDialog(inputDialog->dialog, w, Qt::Key_Enter);
+        installShortcutToCloseDialog(inputDialog->dialog, w, Qt::Key_Return);
         return label(Qt::Vertical, name.mid(listPrefix.size()), w);
     }
 
-    QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
+    QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), inputDialog->parent);
     w->setEditable(true);
     w->addItems(items);
     w->setCurrentIndex(items.indexOf(currentText));
     w->lineEdit()->setText(currentText);
     w->lineEdit()->selectAll();
-    installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
-    installShortcutToCloseDialog(parent, w, Qt::Key_Return);
+    installShortcutToCloseDialog(inputDialog->dialog, w, Qt::Key_Enter);
+    installShortcutToCloseDialog(inputDialog->dialog, w, Qt::Key_Return);
 
     const QLatin1String comboPrefix(".combo:");
     if ( name.startsWith(comboPrefix) ) {
@@ -595,13 +595,13 @@ QWidget *createTextEdit(const QString &name, const QVariant &value, QWidget *par
 
 QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *inputDialog)
 {
-    QDialog *parent = inputDialog->dialog;
+    QWidget *parent = inputDialog->parent;
 
     switch ( value.type() ) {
     case QVariant::Bool:
         return label(name, createAndSetWidget<QCheckBox>("checked", value, parent));
     case QVariant::Int:
-        return createSpinBox("value", value, parent);
+        return createSpinBox(name, value, parent);
     case QVariant::Date:
         return createDateTimeEdit(name, "date", value, parent);
     case QVariant::Time:
@@ -2090,6 +2090,17 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     QString styleSheet;
     QRect geometry(-1, -1, 0, 0);
 
+    auto area = new QScrollArea(&dialog);
+    area->setFocusPolicy(Qt::NoFocus);
+    area->setBackgroundRole(QPalette::Window);
+    area->setFrameShape(QFrame::NoFrame);
+    area->setWidgetResizable(true);
+    dialog.layout()->addWidget(area);
+    auto parent = new QWidget(area);
+    parent->setLayout(new QVBoxLayout(parent));
+    area->setWidget(parent);
+    inputDialog.parent = parent;
+
     for (const auto &value : values.items) {
         if (value.name == ".title")
             dialogTitle = value.value.toString();
@@ -2106,7 +2117,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
         else if (value.name == ".y")
             geometry.setY(value.value.toInt());
         else if (value.name == ".label")
-            createAndSetWidget<QLabel>("text", value.value, &dialog);
+            createAndSetWidget<QLabel>("text", value.value, parent);
         else if (value.name == ".defaultChoice")
             inputDialog.defaultChoice = value.value.toString();
         else
