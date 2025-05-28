@@ -107,6 +107,6 @@ For **Flatpak** application, see `this workaround
     <https://github.com/hluk/copyq-commands/tree/master/Scripts#wayland-support>`__
     command reimplements some features on Wayland through external tools (see
     `README <https://github.com/hluk/copyq-commands/blob/master/README.md>`__
-    for details on how to add the command.
+    for details on how to add the command).
 
     `Issue #27 <https://github.com/hluk/CopyQ/issues/27>`__
