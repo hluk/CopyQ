@@ -30,43 +30,55 @@ const QLatin1String configMaxImageHeight("max_image_height");
 const QLatin1String configImageEditor("image_editor");
 const QLatin1String configSvgEditor("svg_editor");
 
-QString findImageFormat(const QList<QString> &formats)
+bool getImageData(
+    const QVariantMap &dataMap, const QString &format, QByteArray *data, QString *mime, QPixmap *pix = nullptr)
 {
-    // Check formats in this order.
-    static const auto imageFormats = QList<QLatin1String>()
-            << QLatin1String("image/png")
-            << QLatin1String("image/bmp")
-            << QLatin1String("image/jpeg")
-            << QLatin1String("image/gif");
+    *data = dataMap.value(format).toByteArray();
+    if (data->isEmpty())
+        return false;
 
-    for (const auto &format : imageFormats) {
-        if ( formats.contains(format) )
-            return format;
+    if (!pix) {
+        *mime = format;
+        return true;
     }
 
-    return QString();
+    if (pix->loadFromData(*data, format.toLatin1())) {
+        *mime = format;
+        return true;
+    }
+
+    return false;
 }
 
-bool getImageData(const QVariantMap &dataMap, QByteArray *data, QString *mime)
+bool getPrefferedImageData(
+    const QVariantMap &dataMap, QByteArray *data, QString *mime, QPixmap *pix = nullptr)
 {
-    *mime = findImageFormat(dataMap.keys());
-    if ( mime->isEmpty() )
-        return false;
-
-    *data = dataMap[*mime].toByteArray();
-
-    return true;
+    return getImageData(dataMap, QStringLiteral("image/png"), data, mime, pix)
+        || getImageData(dataMap, QStringLiteral("image/bmp"), data, mime, pix)
+        || getImageData(dataMap, QStringLiteral("image/jpeg"), data, mime, pix)
+        || getImageData(dataMap, QStringLiteral("image/gif"), data, mime, pix);
 }
 
-bool getSvgData(const QVariantMap &dataMap, QByteArray *data, QString *mime)
+bool getFallbackImageData(
+    const QVariantMap &dataMap, QByteArray *data, QString *mime, QPixmap *pix = nullptr)
 {
-    const QString svgMime("image/svg+xml");
-    if ( !dataMap.contains(svgMime) )
-        return false;
+    // Fallback to any other supported image format.
+    const QLatin1String prefix("image/");
+    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
+        if (!it.key().startsWith(prefix))
+            continue;
 
-    *mime = svgMime;
-    *data = dataMap[*mime].toByteArray();
-    return true;
+        if (getImageData(dataMap, it.key(), data, mime, pix))
+            return true;
+    }
+
+    return false;
+}
+
+bool getSvgData(
+    const QVariantMap &dataMap, QByteArray *data, QString *mime, QPixmap *pix = nullptr)
+{
+    return getImageData(dataMap, QStringLiteral("image/svg+xml"), data, mime, pix);
 }
 
 bool getAnimatedImageData(const QVariantMap &dataMap, QByteArray *data, QByteArray *format)
@@ -87,12 +99,9 @@ bool getPixmapFromData(const QVariantMap &dataMap, QPixmap *pix)
 {
     QString mime;
     QByteArray data;
-    if ( !getImageData(dataMap, &data, &mime) && !getSvgData(dataMap, &data, &mime) )
-        return false;
-
-    pix->loadFromData( data, mime.toLatin1() );
-
-    return true;
+    return getPrefferedImageData(dataMap, &data, &mime, pix)
+        || getSvgData(dataMap, &data, &mime, pix)
+        || getFallbackImageData(dataMap, &data, &mime, pix);
 }
 
 } // namespace
@@ -192,7 +201,6 @@ ItemWidget *ItemImageLoader::create(const QVariantMap &data, QWidget *parent, bo
     if ( data.value(mimeHidden).toBool() )
         return nullptr;
 
-    // TODO: Just check if image provided and load it in different thread.
     QPixmap pix;
     if ( !getPixmapFromData(data, &pix) )
         return nullptr;
@@ -267,7 +275,7 @@ QObject *ItemImageLoader::createExternalEditor(const QModelIndex &, const QVaria
 {
     QString mime;
     QByteArray imageData;
-    if ( !m_imageEditor.isEmpty() && getImageData(data, &imageData, &mime) )
+    if ( !m_imageEditor.isEmpty() && getPrefferedImageData(data, &imageData, &mime) )
         return new ItemEditor(imageData, mime, m_imageEditor, parent);
 
     if ( !m_svgEditor.isEmpty() && getSvgData(data, &imageData, &mime) )
