@@ -115,7 +115,7 @@ Install `copyq` package.
 
 ### Other Linux Distributions
 
-Install [Flatpak](https://www.flatpak.org/) and `com.github.hluk.copyq` from
+Install [Flatpak](https://flatpak.org/) and `com.github.hluk.copyq` from
 [Flathub](https://flathub.org/).
 
 ```bash
