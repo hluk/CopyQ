@@ -189,9 +189,10 @@ void getBaseNameAndExtension(const QString &fileName, QString *baseName, QString
     }
 }
 
-const std::array<Ext, 12> &fileExtensionsAndFormats()
+using ExtensionsAndFormats = std::array<Ext, 14>;
+const ExtensionsAndFormats &fileExtensionsAndFormats()
 {
-    static const std::array<Ext, 12> exts = {
+    static const ExtensionsAndFormats exts = {
         Ext(noteFileSuffix, mimeItemNotes),
         Ext(".txt", mimeText),
         Ext(".html", mimeHtml),
@@ -202,6 +203,8 @@ const std::array<Ext, 12> &fileExtensionsAndFormats()
         Ext(".bmp", "image/bmp"),
         Ext(".gif", "image/gif"),
         Ext(".jpg", "image/jpeg"),
+        Ext(".ico", "image/x-icon"),
+        Ext(".webp", "image/webp"),
         Ext(".xml", "application/xml"),
         Ext(".xml", "text/xml"),
     };
