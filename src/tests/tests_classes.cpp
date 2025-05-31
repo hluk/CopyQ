@@ -332,8 +332,8 @@ void Tests::classItemSelectionGetCurrent()
     RUN("ItemSelection().tab", "CLIPBOARD\n");
     RUN(args << "ItemSelection().tab", tab1 + "\n");
 
-    RUN(args << "ItemSelection().current().tab", "CLIPBOARD\n");
-    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"CLIPBOARD\", rows=[])\n");
+    RUN(args << "ItemSelection().current().tab", tab1 + "\n");
+    RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"" + tab1 + "\", rows=[])\n");
     RUN("setCurrentTab" << tab1, "");
     RUN(args << "ItemSelection().current().tab", tab1 + "\n");
     RUN(args << "ItemSelection().current().str()", "ItemSelection(tab=\"" + tab1 + "\", rows=[])\n");

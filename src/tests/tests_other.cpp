@@ -637,10 +637,11 @@ void Tests::selectedItems()
     RUN(args << "add" << "D" << "C" << "B" << "A", "");
     RUN(args << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
     RUN("selectedTab", tab1 + "\n");
-    RUN("selectedItems", "1\n2\n");
-    RUN("currentItem", "2\n");
+    RUN(args << "selectedItems", "1\n2\n");
+    RUN(args << "currentItem", "2\n");
 
     const auto print = R"(
+        tab(selectedTab());
         print([selectedTab(), "c:" + currentItem(), "s:" + selectedItems()]);
         print("\\n")
     )";
@@ -661,7 +662,7 @@ void Tests::selectedItems()
     // underlying data needs to be loaded again using plugins.
     const QString tab2 = testTab(2);
     const auto rename = QString("renameTab('%1', '%2')").arg(tab1, tab2);
-    RUN(print << rename << print, tab1 + ",c:2,s:1,2\n" + tab1 + ",c:-1,s:-1,-1\n");
+    RUN(print << rename << print, tab1 + ",c:2,s:1,2\n" + tab1 + ",c:-1,s:\n");
 
     RUN(print, tab2 + ",c:0,s:0\n");
 }
