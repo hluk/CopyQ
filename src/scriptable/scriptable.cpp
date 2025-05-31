@@ -1123,7 +1123,7 @@ QJSValue Scriptable::move()
         return throwError(argumentError());
     }
 
-    m_proxy->browserMoveSelected(row);
+    m_proxy->browserMoveSelected(row, m_tabName);
     return QJSValue();
 }
 
@@ -1675,7 +1675,7 @@ QJSValue Scriptable::setData()
         return false;
 
     if (!m_modifyDisplayDataOnly)
-        m_proxy->setSelectedItemsData(mime, m_data.value(mime));
+        m_proxy->setSelectedItemsData(mime, m_data.value(mime), m_tabName);
 
     return true;
 }
@@ -1688,7 +1688,7 @@ QJSValue Scriptable::removeData()
     m_data.remove(mime);
 
     if (!m_modifyDisplayDataOnly)
-        m_proxy->setSelectedItemsData(mime, QVariant());
+        m_proxy->setSelectedItemsData(mime, QVariant(), m_tabName);
 
     return true;
 }
@@ -1816,13 +1816,13 @@ QJSValue Scriptable::selectedTab()
 QJSValue Scriptable::selectedItems()
 {
     m_skipArguments = 0;
-    return toScriptValue( m_proxy->selectedItems(), m_engine );
+    return toScriptValue( m_proxy->selectedItems(m_tabName), m_engine );
 }
 
 QJSValue Scriptable::currentItem()
 {
     m_skipArguments = 0;
-    return m_proxy->currentItem();
+    return m_proxy->currentItem(m_tabName);
 }
 
 QJSValue Scriptable::selectedItemData()
@@ -1831,7 +1831,7 @@ QJSValue Scriptable::selectedItemData()
     if ( !toInt(argument(0), &selectedIndex) )
         return throwError(argumentError());
 
-    return toScriptValue( m_proxy->selectedItemData(selectedIndex), m_engine );
+    return toScriptValue( m_proxy->selectedItemData(selectedIndex, m_tabName), m_engine );
 }
 
 QJSValue Scriptable::setSelectedItemData()
@@ -1841,19 +1841,19 @@ QJSValue Scriptable::setSelectedItemData()
         return throwError(argumentError());
 
     const auto data = toDataMap( argument(1) );
-    return toScriptValue( m_proxy->setSelectedItemData(selectedIndex, data), m_engine );
+    return toScriptValue( m_proxy->setSelectedItemData(selectedIndex, data, m_tabName), m_engine );
 }
 
 QJSValue Scriptable::selectedItemsData()
 {
-    return toScriptValue( m_proxy->selectedItemsData().items, m_engine );
+    return toScriptValue( m_proxy->selectedItemsData(m_tabName).items, m_engine );
 }
 
 void Scriptable::setSelectedItemsData()
 {
     m_skipArguments = 1;
     const VariantMapList dataList{fromScriptValue<QVector<QVariantMap>>( argument(0), m_engine )};
-    m_proxy->setSelectedItemsData(dataList);
+    m_proxy->setSelectedItemsData(dataList, m_tabName);
 }
 
 QJSValue Scriptable::escapeHtml()

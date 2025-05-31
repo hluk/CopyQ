@@ -147,7 +147,7 @@ public slots:
     void browserMoveToClipboard(const QString &tabName, int row);
     void browserSetCurrent(const QString &tabName, int arg1);
     QString browserRemoveRows(const QString &tabName, QVector<int> rows);
-    void browserMoveSelected(int targetRow);
+    void browserMoveSelected(int targetRow, const QString &tabName);
 
     void browserEditRow(const QString &tabName, int arg1, const QString &format);
     void browserEditNew(const QString &tabName, const QString &format, const QByteArray &content, bool changeClipboard);
@@ -186,17 +186,17 @@ public slots:
 
     QString tab(const QString &tabName);
 
-    int currentItem();
+    int currentItem(const QString &tabName);
     bool selectItems(const QString &tabName, const QVector<int> &rows);
 
-    QVector<int> selectedItems();
+    QVector<int> selectedItems(const QString &tabName);
     QString selectedTab();
 
-    QVariantMap selectedItemData(int selectedIndex);
-    bool setSelectedItemData(int selectedIndex, const QVariantMap &data);
+    QVariantMap selectedItemData(int selectedIndex, const QString &tabName);
+    bool setSelectedItemData(int selectedIndex, const QVariantMap &data, const QString &tabName);
 
-    VariantMapList selectedItemsData();
-    void setSelectedItemsData(const VariantMapList &dataList);
+    VariantMapList selectedItemsData(const QString &tabName);
+    void setSelectedItemsData(const VariantMapList &dataList, const QString &tabName);
 
     int createSelection(const QString &tabName);
     int selectionCopy(int id);
@@ -234,7 +234,7 @@ public slots:
 
     int inputDialog(const NamedValueList &values);
 
-    void setSelectedItemsData(const QString &mime, const QVariant &value);
+    void setSelectedItemsData(const QString &mime, const QVariant &value, const QString &tabName);
 
     void filter(const QString &text);
     QString filter();
@@ -299,6 +299,8 @@ signals:
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
 
+    ClipboardBrowser *selectedBrowser();
+
     QVariantMap itemData(const QString &tabName, int i);
     QByteArray itemData(const QString &tabName, int i, const QString &mime);
 
@@ -308,8 +310,8 @@ private:
     template<typename T>
     T getSelectionData(const QString &mime);
 
-    QPersistentModelIndex currentIndex();
-    QList<QPersistentModelIndex> selectedIndexes();
+    QPersistentModelIndex currentIndex(ClipboardBrowser *c = nullptr);
+    QList<QPersistentModelIndex> selectedIndexes(ClipboardBrowser *c = nullptr);
 
     ClipboardBrowser *browserForIndexes(const QList<QPersistentModelIndex> &indexes) const;
 
