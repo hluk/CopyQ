@@ -817,3 +817,66 @@ void ItemSyncTests::saveLargeItem()
     RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
     RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
 }
+
+void ItemSyncTests::sortItemsSimple()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "tab" << tab1 << "separator" << ",";
+
+    RUN("config" << "maxitems" << "4", "4\n");
+    const QString initScript = R"(
+        add(1,2,0,3);
+        read(0,1,2,3);
+    )";
+    RUN(args << initScript, "3,0,2,1");
+    RUN(args << "size", "4\n");
+
+    const QString sortScript = R"(
+        let sel = ItemSelection().selectAll();
+        let items = sel.itemsFormat(mimeText);
+        serverLog("SORT BEGIN");
+        sel.sort((i, j) => items[i] < items[j]);
+        serverLog("SORT END");
+        read(0,1,2,3);
+    )";
+    RUN(args << sortScript, "0,1,2,3");
+    RUN(args << "size", "4\n");
+}
+
+void ItemSyncTests::sortItems()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "tab" << tab1 << "separator" << ",";
+
+    RUN("config" << "maxitems" << "4", "4\n");
+    const QString initScript = R"(
+        add(
+            {[mimeText]: 1, [mimeHtml]: "I"},
+            {[mimeText]: 2, [mimeHtml]: "II"},
+            {[mimeText]: 0, [mimeHtml]: "O"},
+            {[mimeText]: 3, [mimeHtml]: "III"},
+        );
+        read(0,1,2,3);
+    )";
+    RUN(args << initScript, "3,0,2,1");
+    RUN(args << "read(mimeHtml,0,1,2,3)", "III,O,II,I");
+    RUN(args << "size", "4\n");
+
+    const QString sortScript = R"(
+        let sel = ItemSelection().selectAll();
+        let items = sel.itemsFormat(mimeText);
+        serverLog("SORT BEGIN");
+        sel.sort((i, j) => items[i] < items[j]);
+        serverLog("SORT END");
+        read(0,1,2,3);
+    )";
+    RUN(args << sortScript, "0,1,2,3");
+    RUN(args << "read(mimeHtml,0,1,2,3)", "O,I,II,III");
+    RUN(args << "size", "4\n");
+}
