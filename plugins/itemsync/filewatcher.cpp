@@ -314,10 +314,10 @@ BaseNameExtensionsList listFiles(const QStringList &files,
             int i = fileMap.value(baseName, -1);
             if (i == -1) {
                 i = fileList.size();
+                if (i >= maxItemCount)
+                    break;
                 fileList.append( BaseNameExtensions(baseName, {ext}) );
                 fileMap.insert(baseName, i);
-                if (fileList.size() >= maxItemCount)
-                    break;
             } else {
                 fileList[i].exts.push_back(ext);
             }

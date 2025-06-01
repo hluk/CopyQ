@@ -2009,7 +2009,7 @@ Types
        :returns: self
        :rtype: ItemSelection
 
-   .. js:method:: sort(row)
+   .. js:method:: sort(comparisonFunction)
 
        Sort items with a comparison function.
 

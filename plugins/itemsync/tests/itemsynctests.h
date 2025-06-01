@@ -54,6 +54,9 @@ private slots:
 
     void saveLargeItem();
 
+    void sortItemsSimple();
+    void sortItems();
+
 private:
     TestInterfacePtr m_test;
 };

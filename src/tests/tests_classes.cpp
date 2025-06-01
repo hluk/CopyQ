@@ -368,8 +368,17 @@ void Tests::classItemSelectionSort()
     const QString outRows("ItemSelection(tab=\"" + tab1 + "\", rows=[%1])\n");
     RUN("setCurrentTab" << tab1, "");
 
-    RUN(args << "add(2,5,1,3,4)", "");
-    RUN(args << "read(0,1,2,3,4)", "4,3,1,5,2");
+    const QString initScript = R"(
+        add(
+            {[mimeText]: 2, [mimeHtml]: "two"},
+            {[mimeText]: 5, [mimeHtml]: "five"},
+            {[mimeText]: 1, [mimeHtml]: "one"},
+            {[mimeText]: 3, [mimeHtml]: "three"},
+            {[mimeText]: 4, [mimeHtml]: "four"},
+        );
+        read(0,1,2,3,4);
+    )";
+    RUN(args << initScript, "4,3,1,5,2");
 
     const auto script = R"(
         var sel = ItemSelection().selectAll();
@@ -381,6 +390,7 @@ void Tests::classItemSelectionSort()
     )";
     RUN(args << script, outRows.arg("3,2,0,4,1"));
     RUN(args << "read(0,1,2,3,4)", "1,2,3,4,5");
+    RUN(args << "read(mimeHtml,0,1,2,3,4)", "one,two,three,four,five");
     RUN(args << "size", "5\n");
 }
 

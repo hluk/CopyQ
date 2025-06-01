@@ -8,7 +8,6 @@
 #include <QStringList>
 
 #include <algorithm>
-#include <functional>
 
 namespace {
 
