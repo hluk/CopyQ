@@ -3645,15 +3645,9 @@ void MainWindow::enterSearchMode()
 
 void MainWindow::enterSearchMode(const QString &txt)
 {
-    const bool searchModeActivated = !ui->searchBar->isVisible();
-
     ui->searchBar->show();
     ui->searchBar->setFocus(Qt::ShortcutFocusReason);
-
-    if (searchModeActivated)
-        ui->searchBar->setText(txt);
-    else
-        ui->searchBar->setText( ui->searchBar->text() + txt );
+    ui->searchBar->setText(txt);
 
     auto c = browser();
     if (c)

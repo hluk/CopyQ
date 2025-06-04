@@ -1024,6 +1024,8 @@ void Tests::commandFilter()
     RUN("filter", "\n");
     RUN("filter" << "test", "");
     RUN("filter", "test\n");
+    RUN("filter" << "another", "");
+    RUN("filter", "another\n");
     RUN("filter" << "", "");
     RUN("filter", "\n");
 
