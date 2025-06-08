@@ -1266,7 +1266,7 @@ void ClipboardBrowser::editNotes()
     if ( !ind.isValid() )
         return;
 
-    scrollTo(ind, PositionAtTop);
+    scrollTo(ind, PositionAtCenter);
     emit requestShow(this);
 
     editItem(ind, mimeItemNotes);
