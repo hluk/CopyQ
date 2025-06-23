@@ -496,7 +496,7 @@
     </message>
     <message>
         <source>Global Shortcut</source>
-        <translation>Aicearra Domhanda:</translation>
+        <translation>Aicearra Domhanda</translation>
     </message>
     <message>
         <source>Script</source>
