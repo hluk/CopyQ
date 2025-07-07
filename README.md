@@ -257,7 +257,8 @@ sudo apt install \
   qttools5-dev \
   qttools5-dev-tools \
   qtwayland5 \
-  qtwayland5-dev-tools
+  qtwayland5-dev-tools \
+  libkf5notifications-dev
 ```
 #### RHEL / CentOS / Oracle Linux
 
