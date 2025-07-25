@@ -100,9 +100,11 @@ Install and keep CopyQ always up to date by running the following commands from
 the terminal (the package from PPA contains all plugins and documentation):
 
 ```bash
+sudo apt install software-properties-common python-software-properties
 sudo add-apt-repository ppa:hluk/copyq
 sudo apt update
 sudo apt install copyq
+# this package contains all plugins and documentation
 ```
 
 ### Fedora
