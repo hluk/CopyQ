@@ -1241,6 +1241,8 @@ void Scriptable::action()
             text.append(m_inputSeparator);
         else
             anyRows = true;
+        if (row < 0)
+            text.append( getClipboardData(mimeText) );
         text.append( getTextData(m_proxy->browserItemData(m_tabName, row, mimeText)) );
     }
 
@@ -1248,7 +1250,7 @@ void Scriptable::action()
 
     m_skipArguments = i + 2;
 
-    if (!anyRows) {
+    if (!anyRows && cmd.contains(QLatin1String("%1"))) {
         text = getTextData( getClipboardData(mimeText) );
     }
 
