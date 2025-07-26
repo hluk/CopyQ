@@ -3240,7 +3240,7 @@ bool Scriptable::runAction(Action *action)
     action->start();
     loop.exec();
 
-    if ( action->isRunning() && !action->waitForFinished(5000) ) {
+    if ( !action->waitForFinished() ) {
         action->terminate();
         return false;
     }
