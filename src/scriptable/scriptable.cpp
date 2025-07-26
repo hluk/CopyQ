@@ -30,6 +30,8 @@
 #include "scriptable/scriptabletemporaryfile.h"
 #include "scriptable/scriptoverrides.h"
 #include "scriptable/scriptvaluefactory.h"
+#include "scriptable/scriptablenetworkrequest.h"
+#include "scriptable/scriptablenetworkreply.h"
 
 #include <QApplication>
 #include <QCryptographicHash>
@@ -428,6 +430,10 @@ Scriptable::Scriptable(
         &ScriptableItemSelection::staticMetaObject, QStringLiteral("ItemSelection"), m_engine);
     m_settingsPrototype = addScriptableClass(
         &ScriptableSettings::staticMetaObject, QStringLiteral("Settings"), m_engine);
+    m_networkRequestPrototype = addScriptableClass(
+        &ScriptableNetworkRequest::staticMetaObject, QStringLiteral("NetworkRequest"), m_engine);
+    m_networkReplyPrototype = addScriptableClass(
+        &ScriptableNetworkReply::staticMetaObject, QStringLiteral("NetworkReply"), m_engine);
 }
 
 QJSValue Scriptable::argumentsArray() const
@@ -711,6 +717,16 @@ QJSValue Scriptable::Settings() const
         return newQObject(new ScriptableSettings(), m_settingsPrototype);
 
     return newQObject(new ScriptableSettings(toString(arg)), m_settingsPrototype);
+}
+
+QJSValue Scriptable::NetworkReply() const
+{
+    return newQObject(new ScriptableNetworkReply(), m_networkReplyPrototype);
+}
+
+QJSValue Scriptable::NetworkRequest() const
+{
+    return newQObject(new ScriptableNetworkRequest(), m_networkRequestPrototype);
 }
 
 QJSValue Scriptable::version()
@@ -2158,28 +2174,32 @@ QJSValue Scriptable::exportCommands()
 
 QJSValue Scriptable::networkGet()
 {
-    NetworkReply *reply = networkGetHelper();
-    reply->data();
-    return reply->toScriptValue();
+    QJSValue reply = networkGetAsync();
+    reply.property("data");
+    return reply;
 }
 
 QJSValue Scriptable::networkPost()
 {
-    NetworkReply *reply = networkPostHelper();
-    reply->data();
-    return reply->toScriptValue();
+    QJSValue reply = networkPostAsync();
+    reply.property("data");
+    return reply;
 }
 
 QJSValue Scriptable::networkGetAsync()
 {
-    NetworkReply *reply = networkGetHelper();
-    return reply->toScriptValue();
+    m_skipArguments = 1;
+    auto requestJs = this->NetworkRequest();
+    auto request = qobject_cast<ScriptableNetworkRequest *>(requestJs.toQObject());
+    return request->request(newByteArray("GET"), argument(0), {});
 }
 
 QJSValue Scriptable::networkPostAsync()
 {
-    NetworkReply *reply = networkPostHelper();
-    return reply->toScriptValue();
+    m_skipArguments = 2;
+    auto requestJs = this->NetworkRequest();
+    auto request = qobject_cast<ScriptableNetworkRequest *>(requestJs.toQObject());
+    return request->request(newByteArray("POST"), argument(0), argument(1));
 }
 
 QJSValue Scriptable::env()
@@ -3651,21 +3671,6 @@ void Scriptable::interruptibleSleep(int msec)
     loop.exec();
 }
 
-NetworkReply *Scriptable::networkGetHelper()
-{
-    m_skipArguments = 1;
-    const QString url = arg(0);
-    return NetworkReply::get(url, this);
-}
-
-NetworkReply *Scriptable::networkPostHelper()
-{
-    m_skipArguments = 2;
-    const QString url = arg(0);
-    const QByteArray postData = makeByteArray(argument(1));
-    return NetworkReply::post(url, postData, this);
-}
-
 QJSValue Scriptable::newQObject(QObject *obj, const QJSValue &prototype) const
 {
     auto value = m_engine->newQObject(obj);
@@ -3713,120 +3718,6 @@ void Scriptable::installObject(QObject *fromObj, const QMetaObject *metaObject, 
             Q_ASSERT(false);
         }
     }
-}
-
-NetworkReply *NetworkReply::get(const QString &url, Scriptable *scriptable)
-{
-    return new NetworkReply(url, QByteArray(), scriptable);
-}
-
-NetworkReply *NetworkReply::post(const QString &url, const QByteArray &postData, Scriptable *scriptable)
-{
-    return new NetworkReply(url, postData, scriptable);
-}
-
-NetworkReply::~NetworkReply()
-{
-    if (m_reply)
-        m_reply->deleteLater();
-}
-
-QJSValue NetworkReply::data()
-{
-    if ( !m_data.isUndefined() )
-        return m_data;
-
-    if ( !m_reply->isFinished() && m_scriptable->canContinue() ) {
-        QEventLoop loop;
-        connect(m_scriptable, &Scriptable::finished, &loop, &QEventLoop::quit);
-        connect(m_reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-        loop.exec();
-    }
-
-    if ( !m_reply->isFinished() )
-        return QJSValue();
-
-    m_data = m_scriptable->newByteArray(m_rawData);
-
-    return m_data;
-}
-
-QJSValue NetworkReply::error()
-{
-    data();
-
-    if (m_reply->error() != QNetworkReply::NoError)
-        return m_reply->errorString();
-
-    return QJSValue();
-}
-
-QJSValue NetworkReply::status()
-{
-    data();
-
-    const QVariant v = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if (v.isValid())
-        return v.toInt();
-    return QJSValue();
-}
-
-QJSValue NetworkReply::redirect()
-{
-    data();
-
-    const QVariant v = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if (v.isValid())
-        return v.toUrl().resolved(m_reply->url()).toString();
-    return QJSValue();
-}
-
-QJSValue NetworkReply::headers()
-{
-    data();
-
-    QJSValue headers = m_scriptable->engine()->newArray();
-    int i = 0;
-    for ( const auto &header : m_reply->rawHeaderList() ) {
-        QJSValue pair = m_scriptable->engine()->newArray();
-        pair.setProperty( 0, m_scriptable->newByteArray(header) );
-        pair.setProperty( 1, m_scriptable->newByteArray(m_reply->rawHeader(header)) );
-        headers.setProperty( static_cast<quint32>(i), pair );
-        ++i;
-    }
-
-    return headers;
-}
-
-QJSValue NetworkReply::finished()
-{
-    return m_reply->isFinished();
-}
-
-NetworkReply::NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable)
-    : QObject(scriptable)
-    , m_scriptable(scriptable)
-    , m_manager(new QNetworkAccessManager(this))
-    , m_reply(nullptr)
-{
-    if (postData.isEmpty())
-        m_reply = m_manager->get(QNetworkRequest(url));
-    else
-        m_reply = m_manager->post(QNetworkRequest(url), postData);
-
-    connect(m_reply, &QNetworkReply::readyRead, this, [this](){
-        const qint64 available = m_reply->bytesAvailable();
-        m_rawData.append( m_reply->read(available) );
-    });
-    const qint64 available = m_reply->bytesAvailable();
-    m_rawData.append( m_reply->read(available) );
-}
-
-QJSValue NetworkReply::toScriptValue()
-{
-    if ( m_self.isUndefined() )
-        m_self = m_scriptable->engine()->newQObject(this);
-    return m_self;
 }
 
 ScriptablePlugins::ScriptablePlugins(Scriptable *scriptable, ItemFactory *factory)

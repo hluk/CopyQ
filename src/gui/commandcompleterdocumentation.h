@@ -190,6 +190,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("Item", "Item", "Object with MIME types of an item.");
     addDocumentation("ItemSelection", "ItemSelection", "List of items from given tab.");
     addDocumentation("FinishedCommand", "FinishedCommand", "Properties of finished command.");
+    addDocumentation("NetworkRequest", "NetworkRequest", "Make HTTP requests.");
     addDocumentation("NetworkReply", "NetworkReply", "Received network reply object.");
     addDocumentation("Command", "Command", "Wrapper for a command (from Command dialog).");
     addDocumentation("arguments", "arguments", "Array for accessing arguments passed to current function or the script (`arguments[0]` is the script itself).");

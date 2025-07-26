@@ -19,13 +19,10 @@ class Action;
 class ScriptableByteArray;
 class ClipboardBrowser;
 class ItemFactory;
-class NetworkReply;
 class ScriptableProxy;
 
 class QFile;
 class QMimeData;
-class QNetworkReply;
-class QNetworkAccessManager;
 class QJSEngine;
 
 enum class ClipboardOwnership;
@@ -162,6 +159,8 @@ public slots:
     QJSValue Dir() const;
     QJSValue ItemSelection() const;
     QJSValue Settings() const;
+    QJSValue NetworkRequest() const;
+    QJSValue NetworkReply() const;
 
     QJSValue version();
     QJSValue help();
@@ -470,9 +469,6 @@ private:
 
     void interruptibleSleep(int msec);
 
-    NetworkReply *networkGetHelper();
-    NetworkReply *networkPostHelper();
-
     QJSValue newQObject(QObject *obj, const QJSValue &prototype) const;
 
     ScriptableProxy *m_proxy;
@@ -517,44 +513,8 @@ private:
     QJSValue m_dirPrototype;
     QJSValue m_itemSelectionPrototype;
     QJSValue m_settingsPrototype;
-};
-
-class NetworkReply final : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(QJSValue data READ data CONSTANT)
-    Q_PROPERTY(QJSValue error READ error CONSTANT)
-    Q_PROPERTY(QJSValue status READ status CONSTANT)
-    Q_PROPERTY(QJSValue redirect READ redirect CONSTANT)
-    Q_PROPERTY(QJSValue headers READ headers CONSTANT)
-    Q_PROPERTY(QJSValue finished READ finished CONSTANT)
-
-public:
-    static NetworkReply *get(const QString &url, Scriptable *scriptable);
-    static NetworkReply *post(const QString &url, const QByteArray &postData, Scriptable *scriptable);
-
-    ~NetworkReply();
-
-    QJSValue data();
-
-    QJSValue error();
-
-    QJSValue status();
-    QJSValue redirect();
-    QJSValue headers();
-
-    QJSValue finished();
-
-    QJSValue toScriptValue();
-
-private:
-    explicit NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable);
-
-    Scriptable *m_scriptable;
-    QNetworkAccessManager *m_manager;
-    QNetworkReply *m_reply;
-    QJSValue m_data;
-    QJSValue m_self;
-    QByteArray m_rawData;
+    QJSValue m_networkRequestPrototype;
+    QJSValue m_networkReplyPrototype;
 };
 
 class ScriptablePlugins final : public QObject {
