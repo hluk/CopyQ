@@ -571,13 +571,13 @@ unlike in GUI, where row numbers start from 1 by default.
    Runs command for items in current tab.
 
    If rows arguments is specified, ``%1`` in the command will be replaced with
-   concatenated text of the rows.
+   concatenated text of the rows. If a row is negative, the text is taken from
+   the clipboard.
 
    If no rows are specified, ``%1`` in the command will be replaced with
    clipboard text.
 
-   The concatenated text (if rows are defined) or clipboard text is also passed
-   on standard input of the command.
+   The concatenated text is also passed on standard input of the command.
 
 .. js:function:: popup(title, message, [time=8000])
 
