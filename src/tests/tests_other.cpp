@@ -7,9 +7,15 @@
 #include "common/commandstatus.h"
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
+#include "common/version.h"
 #include "platform/platformnativeinterface.h"
 
 namespace {
+
+QString copyqUserAgent()
+{
+    return QStringLiteral("CopyQ/%1").arg(versionString);
+}
 
 bool waitWhileFileExists(const QFile &file)
 {
@@ -776,7 +782,47 @@ void Tests::networkGet()
 {
     SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
 
-    RUN("r = networkGet('https://example.com'); r.data; r.status", "200\n");
+    RUN("r = networkGet('https://www.example.com'); r.status", "200\n");
+}
+
+void Tests::networkPost()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
+
+    const auto script = R"(
+        r = NetworkRequest();
+        r.headers['Content-Type'] = 'text/plain';
+        s = r.request('POST', 'https://httpbin.org/post?hello=1', 'Hello');
+        json = s.data;
+        try {
+            data = JSON.parse(str(json));
+            [data.data, JSON.stringify(data.args), data.headers['User-Agent'], s.status];
+        } catch (e) {
+            [`Error parsing JSON response: ${e}\n`, json, s.status];
+        }
+    )";
+    RUN(script, "Hello\n{\"hello\":\"1\"}\n" + copyqUserAgent() + "\n200\n");
+}
+
+void Tests::networkHeaders()
+{
+    // Default user-agent is "CopyQ/<version>"
+    RUN("print(NetworkRequest().headers['User-Agent'])", copyqUserAgent());
+    RUN("r = NetworkRequest(); r.headers['X'] = 'Y'; r.headers['X']", "Y\n");
+}
+
+void Tests::networkRedirects()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
+
+    RUN("r = networkGet('https://google.com'); r.status", "301\n");
+    const auto script = R"(
+        r = NetworkRequest();
+        r.maxRedirects = 1;
+        s = r.request('GET', 'https://google.com');
+        [s.status, s.url]
+    )";
+    RUN(script, "200\nhttps://www.google.com/\n");
 }
 
 void Tests::networkGetPostAsync()
