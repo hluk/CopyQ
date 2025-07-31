@@ -110,3 +110,24 @@ For **Flatpak** application, see `this workaround
     for details on how to add the command).
 
     `Issue #27 <https://github.com/hluk/CopyQ/issues/27>`__
+
+Scripting command "copy()" fails
+--------------------------------
+
+The command ``copy()`` sends the Ctrl+C shortcut to the current window.
+This can fail depending on the active application.
+If CopyQ won't detect a clipboard change, it throws an exception.
+The execution then fails with the message ``Failed to copy to clipboard!``.
+
+An alternative under Windows is to use a Powershell script as a command:
+  .. code-block:: powershell
+
+    powershell:
+      Add-Type -AssemblyName System.Windows.Forms;
+      Start-Sleep -Milliseconds 300;
+      [System.Windows.Forms.SendKeys]::SendWait("^c");
+      Start-Sleep -Milliseconds 300;
+
+The delay is added to make sure the text is copied to the clipboard.
+
+Beware that necessary **permissions** for Powershell independent of CopyQ need to have been setup.
