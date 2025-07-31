@@ -124,8 +124,9 @@ An alternative under Windows is to use a Powershell script as a command:
 
     powershell:
       Add-Type -AssemblyName System.Windows.Forms;
+      Start-Sleep -Milliseconds 300;
       [System.Windows.Forms.SendKeys]::SendWait("^c");
-      Start-Sleep -Milliseconds 150;
+      Start-Sleep -Milliseconds 300;
 
 The delay is added to make sure the text is copied to the clipboard.
 
