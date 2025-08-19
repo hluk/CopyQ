@@ -162,6 +162,16 @@ struct close_on_unfocus_delay_ms : Config<int> {
     }
 };
 
+struct close_on_unfocus_extra_delay_ms : Config<int> {
+    static QString name() { return QStringLiteral("close_on_unfocus_extra_delay_ms"); }
+    static Value defaultValue() { return 2000; }
+    static const char *description() {
+        return "Delay to close the main window when unfocused/deactivated"
+               " after being moved/resized, or items are dragged"
+               " (workaround for some window managers)";
+    }
+};
+
 struct open_windows_on_current_screen : Config<bool> {
     static QString name() { return QStringLiteral("open_windows_on_current_screen"); }
     static Value defaultValue() { return true; }

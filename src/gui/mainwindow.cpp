@@ -2432,6 +2432,15 @@ void MainWindow::hideWindowIfNotActive()
     }
 }
 
+void MainWindow::hideWindowOnUnfocus(int intervalMsec)
+{
+    const int currentDelay = m_timerHideWindowIfNotActive.remainingTime();
+    if (currentDelay > intervalMsec)
+        return;
+
+    m_timerHideWindowIfNotActive.start(intervalMsec);
+}
+
 const Theme &MainWindow::theme() const
 {
     return m_sharedData->theme;
@@ -2708,6 +2717,22 @@ bool MainWindow::event(QEvent *event)
 {
     QEvent::Type type = event->type();
 
+    if (m_options.closeOnUnfocus) {
+        if (
+            type == QEvent::WindowDeactivate
+        ) {
+            hideWindowOnUnfocus(AppConfig().option<Config::close_on_unfocus_delay_ms>());
+        } else if (
+            type == QEvent::Move ||
+            type == QEvent::Resize ||
+            type == QEvent::DragEnter ||
+            type == QEvent::DragLeave ||
+            type == QEvent::DragMove
+        ) {
+            hideWindowOnUnfocus(AppConfig().option<Config::close_on_unfocus_extra_delay_ms>());
+        }
+    }
+
     if (type == QEvent::Enter) {
         if ( !isActiveWindow() )
             updateFocusWindows();
@@ -2808,8 +2833,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
     m_options.closeOnUnfocus = appConfig->option<Config::close_on_unfocus>();
-    m_timerHideWindowIfNotActive.setInterval(
-        appConfig->option<Config::close_on_unfocus_delay_ms>());
 
     WindowFlags flags(this);
     const bool alwaysOnTop = appConfig->option<Config::always_on_top>();
@@ -3584,9 +3607,6 @@ void MainWindow::updateFocusWindows()
             m_windowForMenuPaste = lastWindow;
         }
     }
-
-    if (m_options.closeOnUnfocus)
-        m_timerHideWindowIfNotActive.start();
 }
 
 void MainWindow::updateShortcuts()
