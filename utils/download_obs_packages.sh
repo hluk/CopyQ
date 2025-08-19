@@ -40,6 +40,7 @@ fetch_package "${pkg}_openSUSE_Tumbleweed${xrpm}" "$url/openSUSE_Tumbleweed/${pk
 fetch_package "${pkg}_openSUSE_Leap_15.4${xrpm}"  "$url/15.4/x86_64/${project}-${version}-lp154.${rpm_version}${xrpm}"
 fetch_package "${pkg}_Debian_11${xdeb}"           "$url/Debian_11/${pkg_deb}"
 fetch_package "${pkg}_Debian_12${xdeb}"           "$url/Debian_12/${pkg_deb}"
+fetch_package "${pkg}_Debian_13${xdeb}"           "$url/Debian_13/${pkg_deb}"
 fetch_package "${pkg}_Raspbian_12${xdeb_armhf}"   "$url/Raspbian_12/${pkg_deb_armhf}"
 fetch_package "${pkg}_Raspbian_12${xdeb_arm64}"   "$url/Raspbian_12/${pkg_deb_arm64}"
 
