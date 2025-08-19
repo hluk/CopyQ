@@ -65,8 +65,8 @@ Clients and Scripting
 ~~~~~~~~~~~~~~~~~~~~~
 
 Scripting language is `Qt
-Script <https://doc.qt.io/qt-5/qtscript-index.html>`__ (mostly same
-syntax and functions as JavaScript).
+Script <https://doc.qt.io/qt-6/qtqml-javascript-functionlist.html>`__ (mostly
+same syntax and functions as JavaScript).
 
 API is described in :ref:`scripting-api`.
 

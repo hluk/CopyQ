@@ -6,10 +6,10 @@ Scripting API
 CopyQ provides scripting capabilities to automatically handle clipboard
 changes, organize items, change settings and much more.
 
-Supported language features and base function can be found at `ECMAScript
-Reference <http://doc.qt.io/qt-5/ecmascript.html>`__. The language is mostly
-equivalent to modern JavaScript. Some features may be missing but feel free to
-use for example `JavaScript reference on MDN
+Supported language features and functions can be found at `ECMAScript Reference
+<https://doc.qt.io/qt-6/qtqml-javascript-functionlist.html>`__. The language is
+mostly equivalent to modern JavaScript. Some features may be missing but feel
+free to use for example `JavaScript reference on MDN
 <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/>`__.
 
 CopyQ-specific features described in this document:
@@ -1242,9 +1242,8 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns text representation of current date and time.
 
-   See `Date QML Type
-   <https://doc.qt.io/qt-5/qml-qtqml-date.html#format-strings>`__ for details
-   on formatting date and time.
+   See `Date QML Type <https://doc.qt.io/qt-6/qdatetime.html#toString>`__ for
+   details on formatting date and time.
 
    :returns: Current date and time as string.
    :rtype: string
@@ -1739,7 +1738,7 @@ Types
 
    Wrapper for QByteArray Qt class.
 
-   See `QByteArray <http://doc.qt.io/qt-5/qbytearray.html>`__.
+   See `QByteArray <http://doc.qt.io/qt-6/qbytearray.html>`__.
 
    ``ByteArray`` is used to store all item data (image data, HTML and even
    plain text).
@@ -1756,7 +1755,7 @@ Types
 
    Wrapper for QFile Qt class.
 
-   See `QFile <http://doc.qt.io/qt-5/qfile.html>`__.
+   See `QFile <http://doc.qt.io/qt-6/qfile.html>`__.
 
    To open file in different modes use:
 
@@ -1795,13 +1794,13 @@ Types
 
    Use forward slash as path separator, for example "D:/Documents/".
 
-   See `QDir <http://doc.qt.io/qt-5/qdir.html>`__.
+   See `QDir <http://doc.qt.io/qt-6/qdir.html>`__.
 
 .. js:class:: TemporaryFile
 
    Wrapper for QTemporaryFile Qt class.
 
-   See `QTemporaryFile <https://doc.qt.io/qt-5/qtemporaryfile.html>`__.
+   See `QTemporaryFile <https://doc.qt.io/qt-6/qtemporaryfile.html>`__.
 
    .. code-block:: js
 
@@ -1816,7 +1815,7 @@ Types
 
    Reads and writes INI configuration files. Wrapper for QSettings Qt class.
 
-   See `QSettings <https://doc.qt.io/qt-5/qsettings.html>`__.
+   See `QSettings <https://doc.qt.io/qt-6/qsettings.html>`__.
 
    .. code-block:: js
 
