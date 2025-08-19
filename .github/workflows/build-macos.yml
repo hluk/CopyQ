@@ -28,13 +28,13 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           submodules: false
           fetch-depth: 1
 
       - name: Enable ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@63069e3931dedbf3b63792097479563182fe70d1 # v1.2
         with:
           key: ${{ github.job }}-${{ matrix.os }}
 
@@ -50,7 +50,7 @@ jobs:
         run: '${{github.workspace}}/utils/github/install-macos.sh'
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v10
+        uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
         with:
           configurePreset: '${{ matrix.cmake_preset }}'
           buildPreset: '${{ matrix.cmake_preset }}'
@@ -64,7 +64,7 @@ jobs:
         run: '${{github.workspace}}/utils/github/bundle-macos.sh'
 
       - name: Upload macOS bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: 'CopyQ${{ matrix.bundle_suffix }}.dmg'
           path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ.dmg'
