@@ -30,6 +30,21 @@
             }
         },
         {
+            "name": "macOS-13",
+            "generator": "Ninja",
+            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "cacheVariables": {
+                "WITH_QT6": "TRUE",
+                "WITH_TESTS": "TRUE",
+                "CMAKE_PREFIX_PATH": "/usr/local/opt/qt/lib/cmake",
+                "CMAKE_OSX_DEPLOYMENT_TARGET": "13.0",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_FLAGS": "-Wno-deprecated-declarations"
+            }
+        },
+        {
             "name": "macOS-12-m1",
             "generator": "Ninja",
             "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
@@ -60,6 +75,12 @@
             "targets": "install"
         },
         {
+            "name": "macOS-13",
+            "configurePreset": "macOS-13",
+            "configuration": "Release",
+            "targets": "install"
+        },
+        {
             "name": "macOS-12-m1",
             "configurePreset": "macOS-12-m1",
             "configuration": "Release",
@@ -70,6 +91,10 @@
         {
             "name": "macOS-10",
             "configurePreset": "macOS-10"
+        },
+        {
+            "name": "macOS-13",
+            "configurePreset": "macOS-13"
         },
         {
             "name": "macOS-12-m1",

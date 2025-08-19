@@ -7,7 +7,7 @@ Alternatively, you can install the app with one of the following methods:
 
 On **Windows**, you can install `Chocolatey package <https://chocolatey.org/packages/copyq>`__.
 
-On **macOS**, you can use `Homebrew <https://brew.sh/>`__ to install the app
+On **macOS** (13 and above), you can use `Homebrew <https://brew.sh/>`__ to install the app
 (also see the problem in the next section):
 
 .. code-block:: bash

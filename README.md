@@ -24,7 +24,7 @@ CopyQ is an advanced clipboard manager with powerful editing and scripting featu
 
 ## Features
 
-* Support for Linux, Windows, and [OS X 10.15+](https://doc.qt.io/qt-5/macos.html#supported-versions)
+* Support for Linux, Windows, and [macOS 13+](https://doc.qt.io/qt-6/macos.html)
 * Store text, HTML, images, and any other custom formats
 * Quickly browse and filter items in clipboard history
 * Sort, create, edit, remove, copy/paste, drag'n'drop items in tabs
@@ -71,11 +71,14 @@ Using Chocolatey:
 choco install copyq
 ```
 
-### OS X
+### macOS
+
+macOS 13 and above are supported (this mainly depends on [Qt in
+Homebrew](https://github.com/Homebrew/homebrew-core/blob/main/Formula/q/qt.rb)).
 
 [![Homebrew package](https://repology.org/badge/version-for-repo/homebrew_casks/copyq.svg)](https://repology.org/metapackage/copyq)
 
-On OS X you can use [Homebrew](https://brew.sh/) to install CopyQ:
+On macOS you can use [Homebrew](https://brew.sh/) to install CopyQ:
 
 ```bash
 brew install --cask copyq
