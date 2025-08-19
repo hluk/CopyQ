@@ -33,7 +33,7 @@ E.g. ``.*`` (any tag), ``Important: .*`` (match prefix),
 
 -  "Style Sheet"
 
-Simple style sheet (https://doc.qt.io/qt-5/stylesheet-reference.html).
+Simple style sheet (https://doc.qt.io/qt-6/stylesheet-reference.html).
 
 E.g. ``border: 1px solid white; border-radius: 3px; font-size: 7pt``.
 

@@ -22,7 +22,7 @@ copy('image/png', imageData)
 )";
 
 constexpr auto commandPasteDateTimeTemplate = R"(
-// http://doc.qt.io/qt-5/qdatetime.html#toString
+// http://doc.qt.io/qt-6/qdatetime.html#toString
 var format = '%1'
 var dateTime = dateString(format)
 copy(dateTime)
