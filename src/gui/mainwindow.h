@@ -520,6 +520,7 @@ private:
     void disableHideWindowOnUnfocus();
     void enableHideWindowOnUnfocus();
     void hideWindowIfNotActive();
+    void hideWindowOnUnfocus(int intervalMsec);
 
     template <typename SlotReturnType>
     using MainWindowActionSlot = SlotReturnType (MainWindow::*)();
