@@ -2691,10 +2691,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             QMainWindow::keyPressEvent(event);
             break;
 
-#ifndef Q_OS_MAC
-        case Qt::Key_Backspace:
-            // fallthrough
-#endif // Q_OS_MAC
         case Qt::Key_Escape:
             onEscape();
             break;
