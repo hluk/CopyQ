@@ -5,6 +5,8 @@ set -xeuo pipefail
 # Create repository for Homebrew.
 (
     cd utils/github/homebrew/
+    git config --global user.email "noreply@github.com"
+    git config --global user.name "GitHub Actions"
     git init .
     git add .
     git commit -m "Initial"
