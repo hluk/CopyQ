@@ -2,9 +2,7 @@
 
 #include "app.h"
 
-#include "common/command.h"
 #include "common/commandstore.h"
-#include "common/log.h"
 #include "common/settings.h"
 #include "common/textdata.h"
 #include "item/serialize.h"
@@ -130,9 +128,6 @@ App::App(QCoreApplication *application,
     startUnixSignalHandler();
 #endif
 
-    QString session("copyq");
-    if ( !sessionName.isEmpty() )
-        session += "-" + sessionName;
     m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
 
     qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
@@ -146,9 +141,6 @@ App::App(QCoreApplication *application,
         // Setting the NativeFormat paths on Windows, macOS, and iOS has no effect.
         QSettings::setDefaultFormat(QSettings::IniFormat);
     }
-
-    QCoreApplication::setOrganizationName(session);
-    QCoreApplication::setApplicationName(session);
 
     if ( qEnvironmentVariableIsEmpty("COPYQ_ITEM_DATA_PATH") ) {
         if ( !m_app->property("CopyQ_item_data_path").isValid() ) {
@@ -171,8 +163,6 @@ App::App(QCoreApplication *application,
 #ifdef HAS_TESTS
     initTests();
 #endif
-
-    initLogging();
 }
 
 App::~App()

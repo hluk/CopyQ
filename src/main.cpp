@@ -30,6 +30,8 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
+const QString defaultSessionName = QStringLiteral("copyq");
+
 int evaluate(
         const QString &functionName,
         const QStringList &arguments, int argc, char **argv,
@@ -207,8 +209,16 @@ QString getSessionName(const QStringList &arguments, int *skipArguments)
     return getTextData( qgetenv("COPYQ_SESSION_NAME") );
 }
 
+void setSessionName(const QString &sessionName)
+{
+    QCoreApplication::setOrganizationName(sessionName);
+    QCoreApplication::setApplicationName(sessionName);
+}
+
 int startApplication(int argc, char **argv)
 {
+    setSessionName(defaultSessionName);
+
     installMessageHandlerForQt();
 
 #ifdef Q_OS_UNIX
@@ -227,6 +237,12 @@ int startApplication(int argc, char **argv)
         log( QObject::tr("Session name must contain at most 16 characters\n"
                          "which can be letters, digits, '-' or '_'!"), LogError );
         return 2;
+    }
+
+    if ( !sessionName.isEmpty() ) {
+        const QString session = QStringLiteral("%1-%2").arg(defaultSessionName, sessionName);
+        QCoreApplication::setOrganizationName(session);
+        QCoreApplication::setApplicationName(session);
     }
 
     // Print version, help or run tests.

@@ -15,8 +15,6 @@ enum LogLevel {
     LogTrace
 };
 
-void initLogging();
-
 const QString &logFileName();
 
 QByteArray readLogFile(int maxReadSize);
