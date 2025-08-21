@@ -15,11 +15,6 @@
 
 namespace {
 
-QString &logFileNameVariable() {
-    static QString logFileName;
-    return logFileName;
-}
-
 /// System-wide mutex
 class SystemMutex final {
 public:
@@ -237,16 +232,17 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
 
 } // namespace
 
-void initLogging()
-{
-    logFileNameVariable() = getLogFileName();
-}
-
 const QString &logFileName()
 {
-    if ( logFileNameVariable().isEmpty() )
-        logFileNameVariable() = getLogFileName();
-    return logFileNameVariable();
+    static QCoreApplication *app = QCoreApplication::instance();
+    static QString logFileName = getLogFileName();
+    // If the application instance got set later, assume that org and
+    // application names also changed and update the log file path.
+    if (app != QCoreApplication::instance()) {
+        app = QCoreApplication::instance();
+        logFileName = getLogFileName();
+    }
+    return logFileName;
 }
 
 QByteArray readLogFile(int maxReadSize)

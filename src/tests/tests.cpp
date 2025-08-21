@@ -663,7 +663,6 @@ int runTests(int argc, char *argv[])
     const QString session = "copyq.test";
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
-    initLogging();
 
     // Set higher default tests timeout.
     // The default value is 5 minutes (in Qt 5.15) which is not enough to run
