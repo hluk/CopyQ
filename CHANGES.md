@@ -1,3 +1,77 @@
+# 11.0.0
+
+## Added
+
+- Adds support for dark/light window title scheme.
+
+- New `frameless_window` option (#2570) toggles the main window frame and title
+  bar (if supported by the window manager):
+
+      copyq toggleConfig frameless_window
+
+- Adds support for localizing command names in the command INI files (#3032):
+
+      [Command]
+      Name = ...
+      Name_cs = ...
+      Name_fr = ...
+      Name_pt_BR = ...
+      Name_pt = ...
+
+- Adds support for showing preview for more image formats
+  (namely ico and webp).
+
+- Adds support for more complex network requests in scripts. New
+  `NetworkRequest` class can be used to set custom headers, HTTP method, number
+  of allowed redirects and timeout.
+
+## Changed
+
+- Avoids hiding the main window on backspace (#3107).
+
+- Enables Vi/Emacs navigation (#3012) in menus, and `Ctrl+[` in Vi and `Ctrl+G`
+  in Emacs to work in many other places as `Esc` key (for example, to hide menus,
+  dialogs). Users can override shortcuts, but not some reserved ones in
+  specific cases (mainly, if the item list or a menu has focus).
+
+- Selections and current items/rows/data in scripts now only relate to the
+  tab selected with `tab(...)` in scripts (this is still by default the
+  selected tab when the command started). Affected script functions:
+  - `move()`
+  - `setData()`
+  - `removeData()`
+  - `selectedItems()`
+  - `selectedItemData()`
+  - `setSelectedItemData()`
+  - `setSelectedItemsData()`
+  - `currentItem()`
+  - `ItemSelection().current()`
+
+- Drops unnecessary timeouts when executing commands and actions from scripts.
+
+- Avoids fetching and passing clipboard to `action()`/`execute()` if the
+  commands do not contains `%1` placeholder. This can improve performance.
+
+## Fixed
+
+- Fixes `dialog()`: custom size, layout and resizing (#3003).
+
+- Fixes overriding filter/search string with `filter()` (previously the new
+  value was appended to the current filter).
+
+- Fixes refocusing the item after editing its notes.
+
+- Synchronize plugin: Fixes missing data in the last item when tab is full.
+
+- Windows: Fixes the icon for uninstaller (#2864).
+
+- Fixes build for Qt 6.9 and above.
+
+- Fixes potentially misconfigured log file path at app start (#3087).
+
+- Linux: Avoids auto-hiding the main window when moved on some window managers
+  (#3119).
+
 # 10.0.0
 
 ## Added
