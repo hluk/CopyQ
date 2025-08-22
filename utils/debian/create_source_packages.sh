@@ -4,7 +4,7 @@ set -e
 distros=(
     jammy
     noble
-    oracular
+    plucky
 )
 
 sed -i 's/quilt/native/' 'debian/source/format'
