@@ -33,7 +33,7 @@ using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>
 
 using TestInterfacePtr = std::shared_ptr<TestInterface>;
 
-#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/10.0.0"
+#define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/11.0.0"
 
 /**
  * Handles item in list.
