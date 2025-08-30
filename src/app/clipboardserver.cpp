@@ -313,11 +313,13 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
     } else {
         m_wnd->saveTabs();
 
+#ifdef Q_OS_WIN
         // WORKAROUND: This is required to exit application from
         //             installer, otherwise main window is only
         //             minimized after this when tray is disabled.
         m_wnd->hide();
         exit();
+#endif
     }
 }
 
