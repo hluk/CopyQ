@@ -87,7 +87,7 @@ void Tests::classDir()
     RUN(args << "d.exists('a/b/c')", "true\n");
     RUN(args << "d.filePath('a/b/c')", dir.filePath("a/b/c") + "\n");
     RUN(args << "d.relativeFilePath('" + path + "/a/b/c')", "a/b/c\n");
-    RUN("Dir('" + path + "/test/../a//b/c/..').canonicalPath()", dir.filePath("a/b") + "\n");
+    RUN("Dir('" + path + "/test/../a//b/c/..').canonicalPath()", QDir(path + "/a/b").canonicalPath() + "\n");
     RUN(args << "d.setPath('" + path + "/a/b/c')" << "d.path()", dir.filePath("a/b/c") + "\n");
 
     RUN(args << "d.cd('a')" << "d.cd('b')", "true\n");
