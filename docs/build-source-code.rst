@@ -142,7 +142,7 @@ In older versions, create solution manually by running ``cmake -G "Visual Studio
 Building and Packaging for OS X
 -------------------------------
 
-On OS X, required Qt 5 libraries and utilities can be easily installed with `Homebrew <https://brew.sh/>`__.
+On OS X, required Qt 6 libraries and utilities can be easily installed with `Homebrew <https://brew.sh/>`__.
 
 ::
 
@@ -164,9 +164,19 @@ Build with the following commands:
 
 ::
 
-    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" .
+    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt6)" .
     cmake --build .
     cpack
+
+To build with Qt 5 (make sure to install qt@5 yourself):
+
+::
+
+
+    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" -DWITH_QT6=OFF .
+    cmake --build .
+    cpack
+
 
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
