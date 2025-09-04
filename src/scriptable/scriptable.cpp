@@ -948,7 +948,7 @@ void Scriptable::ignore()
 QJSValue Scriptable::clipboard()
 {
     m_skipArguments = 1;
-    const QString &mime = arg(0, mimeText);
+    const QString &mime = arg(0);
     return newByteArray( getClipboardData(mime) );
 }
 
@@ -956,7 +956,7 @@ QJSValue Scriptable::selection()
 {
     m_skipArguments = 1;
 #ifdef HAS_MOUSE_SELECTIONS
-    const QString &mime = arg(0, mimeText);
+    const QString &mime = arg(0);
     return newByteArray( getClipboardData(mime, ClipboardMode::Selection) );
 #else
     return QJSValue();
@@ -1160,9 +1160,14 @@ void Scriptable::edit()
         if ( toInt(value, &row) ) {
             editRow = (i == 0) ? row : -1;
             changeClipboard = i == 0 && row < 0;
-            const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(m_tabName, row, mimeText)
-                                              : getClipboardData(mimeText);
-            content.append(bytes);
+
+            const QByteArray bytes = row >= 0
+                ? m_proxy->browserItemData(m_tabName, row, QString())
+                : getClipboardData();
+            if ( !bytes.isEmpty() ) {
+                content.append(bytes);
+                break;
+            }
         } else {
             content.append( toByteArray(value) );
         }
@@ -1179,7 +1184,7 @@ QJSValue Scriptable::editItem()
     if ( !toInt(argument(0), &editRow) )
         return throwError(argumentError());
 
-    const auto format = arg(1, mimeText);
+    const auto format = arg(1);
     const bool changeClipboard = editRow < 0;
 
     QByteArray content;
@@ -1199,7 +1204,7 @@ QJSValue Scriptable::read()
     m_skipArguments = -1;
 
     QByteArray result;
-    QString mime(mimeText);
+    QString mime;
     QJSValue value;
 
     bool used = false;
@@ -1258,8 +1263,8 @@ void Scriptable::action()
         else
             anyRows = true;
         if (row < 0)
-            text.append( getClipboardData(mimeText) );
-        text.append( getTextData(m_proxy->browserItemData(m_tabName, row, mimeText)) );
+            text.append( getClipboardData() );
+        text.append( getTextData(m_proxy->browserItemData(m_tabName, row, QString())) );
     }
 
     QString cmd = toString(value);
@@ -1267,7 +1272,7 @@ void Scriptable::action()
     m_skipArguments = i + 2;
 
     if (!anyRows && cmd.contains(QLatin1String("%1"))) {
-        text = getTextData( getClipboardData(mimeText) );
+        text = getTextData( getClipboardData() );
     }
 
     const QVariantMap data = createDataMap(mimeText, text);

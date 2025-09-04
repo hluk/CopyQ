@@ -77,6 +77,9 @@ QString getTextData(const QByteArray &bytes)
 
 QString getTextData(const QVariantMap &data, const QString &mime)
 {
+    if (mime.isEmpty())
+        return getTextData(data);
+
     const auto it = data.find(mime);
     if ( it != data.constEnd() )
         return getTextData( it->toByteArray() );

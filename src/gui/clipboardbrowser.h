@@ -329,7 +329,7 @@ class ClipboardBrowser final : public QListView
 
         void setEditorWidget(ItemEditorWidget *editor, bool changeClipboard = false);
 
-        void editItem(const QModelIndex &index, const QString &format, bool changeClipboard = false);
+        void editItem(const QModelIndex &index, const QString &format = QString(), bool changeClipboard = false);
 
         void updateEditorGeometry();
 

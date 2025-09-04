@@ -136,7 +136,7 @@ bool canPaste()
     return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
 }
 
-bool matchData(const QRegularExpression &re, const QVariantMap &data, const QString &format)
+bool matchData(const QRegularExpression &re, const QVariantMap &data, const QString &format = QString())
 {
     if ( re.pattern().isEmpty() )
         return true;
@@ -166,7 +166,7 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
     }
 
     // Verify that and text matches given regexp.
-    if ( !matchData(command.re, data, mimeText) )
+    if ( !matchData(command.re, data) )
         return false;
 
     // Verify that window title matches given regexp.
