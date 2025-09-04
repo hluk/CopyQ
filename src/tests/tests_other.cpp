@@ -792,7 +792,7 @@ void Tests::networkPost()
     const auto script = R"(
         r = NetworkRequest();
         r.headers['Content-Type'] = 'text/plain';
-        s = r.request('POST', 'https://httpbin.org/post?hello=1', 'Hello');
+        s = r.request('POST', 'https://httpbun.org/post?hello=1', 'Hello');
         json = s.data;
         try {
             data = JSON.parse(str(json));
