@@ -1540,7 +1540,7 @@ void ClipboardBrowser::editSelected()
         QModelIndex ind = currentIndex();
         if ( ind.isValid() ) {
             emit requestShow(this);
-            editItem(ind, mimeText);
+            editItem(ind);
         }
     }
 }

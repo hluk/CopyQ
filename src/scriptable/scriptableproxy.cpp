@@ -2590,6 +2590,11 @@ QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode 
     if (mime == "?")
         return data->formats().join("\n").toUtf8() + '\n';
 
+    if (mime.isEmpty()) {
+        const auto dataMap = cloneData(data, {mimeTextUtf8, mimeText, mimeUriList});
+        return getTextData(dataMap).toUtf8();
+    }
+
     return cloneData(data, QStringList(mime)).value(mime).toByteArray();
 }
 
@@ -2652,6 +2657,9 @@ QByteArray ScriptableProxy::itemData(const QString &tabName, int i, const QStrin
 
     if (mime == mimeItems)
         return serializeData(data);
+
+    if (mime.isEmpty())
+        return getTextData(data).toUtf8();
 
     return data.value(mime).toByteArray();
 }

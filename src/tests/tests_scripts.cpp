@@ -227,6 +227,13 @@ void Tests::commandsWriteRead()
         CommandException, "Unexpected uneven number of mimeType/data arguments");
 }
 
+void Tests::commandsReadUtf8ByDefault()
+{
+    RUN("add({[mimeText]: 'A', [mimeTextUtf8]: 'B'})", "");
+    RUN("read(mimeText, 0)", "A");
+    RUN("read(0)", "B");
+}
+
 void Tests::commandChange()
 {
     RUN("add" << "C" << "B" << "A", "");

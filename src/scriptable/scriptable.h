@@ -456,7 +456,7 @@ private:
     void getActionData(int actionId);
     void setActionData();
 
-    QByteArray getClipboardData(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
+    QByteArray getClipboardData(const QString &mime = QString(), ClipboardMode mode = ClipboardMode::Clipboard);
     bool hasClipboardFormat(const QString &mime, ClipboardMode mode = ClipboardMode::Clipboard);
 
     bool canSynchronizeSelection(ClipboardMode targetMode);

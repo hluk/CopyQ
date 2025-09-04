@@ -27,8 +27,6 @@ enum {
      */
     removeFormats,
 
-    hasText,
-    hasHtml,
     text,
     html,
     notes,
