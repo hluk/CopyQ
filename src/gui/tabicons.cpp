@@ -122,14 +122,6 @@ void setDefaultTabItemCounterStyle(QWidget *widget)
     else
         font.setPixelSize( static_cast<int>(font.pixelSize() * 0.7) );
     widget->setFont(font);
-
-    QPalette pal = widget->palette();
-    const QPalette::ColorRole role = widget->foregroundRole();
-    QColor color = pal.color(role);
-    color.setAlpha( qMax(50, color.alpha() - 100) );
-    color.setRed( qMin(255, color.red() + 120) );
-    pal.setColor(role, color);
-    widget->setPalette(pal);
 }
 
 void setComboBoxItems(QComboBox *comboBox, const QList<QString> &items)
