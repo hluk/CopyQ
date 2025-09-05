@@ -5,7 +5,6 @@
 #include "common/client_server.h"
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
-#include "common/sanitize_text_document.h"
 #include "common/textdata.h"
 #include "common/timer.h"
 #include "gui/clipboardbrowser.h"
@@ -264,7 +263,6 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
     if ( format == mimeText && data.contains(mimeHtml) ) {
         const QString html = getTextData(data, mimeHtml);
         editor->setHtml(html);
-        sanitizeTextDocument(editor->document());
     } else {
         const QString text = getTextData(data, format);
         editor->setPlainText(text);

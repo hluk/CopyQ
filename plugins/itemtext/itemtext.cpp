@@ -4,7 +4,6 @@
 #include "ui_itemtextsettings.h"
 
 #include "common/mimetypes.h"
-#include "common/sanitize_text_document.h"
 #include "common/textdata.h"
 
 #include <QAbstractTextDocumentLayout>
@@ -135,9 +134,6 @@ ItemText::ItemText(
             }
         }
     }
-
-    if (m_isRichText)
-        sanitizeTextDocument(&m_textDocument);
 
     connect( this, &QTextEdit::selectionChanged,
              this, &ItemText::onSelectionChanged );
