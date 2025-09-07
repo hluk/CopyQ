@@ -11,6 +11,7 @@
 #include "common/timer.h"
 #include "gui/pixelratio.h"
 #include "gui/theme.h"
+#include "item/indexes.h"
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
@@ -130,20 +131,6 @@ void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *li
     if ( !lines->isEmpty() )
         lines->append('\n');
     lines->append(text.toUtf8());
-}
-
-
-QList<QPersistentModelIndex> toPersistentModelIndexList(const QList<QModelIndex> &indexes)
-{
-    QList<QPersistentModelIndex> result;
-    result.reserve( indexes.size() );
-
-    for (const auto &index : indexes) {
-        if ( index.isValid() )
-            result.append(index);
-    }
-
-    return result;
 }
 
 void moveIndexes(QList<QPersistentModelIndex> &indexesToMove, int targetRow, ClipboardModel *model, MoveType moveType)
@@ -527,31 +514,18 @@ void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 
 void ClipboardBrowser::dropIndexes(const QModelIndexList &indexes)
 {
-    auto toRemove = toPersistentModelIndexList(indexes);
-    std::sort( std::begin(toRemove), std::end(toRemove) );
-    dropIndexes(toRemove);
+    const QPersistentModelIndex current = currentIndex();
+    const int first = ::dropIndexes(indexes, &m);
+
+    // If current item was removed, select next visible.
+    if ( !current.isValid() )
+        setCurrent( findVisibleRowFrom(first) );
 }
 
-void ClipboardBrowser::dropIndexes(const QList<QPersistentModelIndex> &indexes)
+void ClipboardBrowser::dropIndexes(QList<QPersistentModelIndex> &indexes)
 {
     const QPersistentModelIndex current = currentIndex();
-    const int first = indexes.value(0).row();
-
-    // Remove ranges of rows instead of a single rows.
-    for (auto it1 = std::begin(indexes); it1 != std::end(indexes); ) {
-        if ( it1->isValid() ) {
-            const auto firstRow = it1->row();
-            auto rowCount = 0;
-
-            for ( ++it1, ++rowCount; it1 != std::end(indexes)
-                  && it1->isValid()
-                  && it1->row() == firstRow + rowCount; ++it1, ++rowCount ) {}
-
-            m.removeRows(firstRow, rowCount);
-        } else {
-            ++it1;
-        }
-    }
+    const int first = ::dropIndexes(indexes, &m);
 
     // If current item was removed, select next visible.
     if ( !current.isValid() )

@@ -2143,9 +2143,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         QDataStream tabIn(tabBytes);
         tabIn.setVersion(QDataStream::Qt_4_7);
 
-        // Don't read items based on current value of "maxitems" option since
-        // the option can be later also imported.
-        if ( !deserializeData( c->model(), &tabIn, Config::maxItems ) ) {
+        if ( !deserializeData(c->model(), &tabIn) ) {
             log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
@@ -2269,10 +2267,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         QDataStream tabIn(tabBytes);
         tabIn.setVersion(QDataStream::Qt_4_7);
 
-        // Don't read items based on current value of "maxitems" option since
-        // the option can be later also imported.
-        const int maxItems = importConfiguration ? Config::maxItems : m_sharedData->maxItems;
-        if ( !deserializeData( c->model(), &tabIn, maxItems ) ) {
+        if ( !deserializeData(c->model(), &tabIn) ) {
             log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
             return false;
         }
@@ -3995,7 +3990,7 @@ bool MainWindow::loadTab(const QString &fileName)
     if (!c)
         return false;
 
-    deserializeData(c->model(), &in, m_sharedData->maxItems);
+    deserializeData(c->model(), &in);
 
     c->loadItems();
     c->saveItems();

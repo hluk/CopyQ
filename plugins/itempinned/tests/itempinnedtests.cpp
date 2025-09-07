@@ -147,3 +147,18 @@ void ItemPinnedTests::fullTab()
     RUN("separator" << " " << "read" << "0" << "1" << "2", "a b c");
     RUN("size", "3\n");
 }
+
+void ItemPinnedTests::keepPinnedIfMaxItemsChanges()
+{
+    const auto read = Args() << "separator" << " " << "read";
+
+    RUN("config" << "maxitems" << "3", "3\n");
+    RUN("add" << "pin2" << "no-pin" << "pin1", "");
+    RUN("-e" << "plugins.itempinned.pin(0,2)", "");
+
+    RUN("config" << "maxitems" << "2", "2\n");
+    RUN(read << "0" << "1" << "2", "pin1 pin2 ");
+
+    RUN("config" << "maxitems" << "1", "1\n");
+    RUN(read << "0" << "1" << "2", "pin1 pin2 ");
+}

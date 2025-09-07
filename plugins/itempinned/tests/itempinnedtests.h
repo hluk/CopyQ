@@ -31,6 +31,8 @@ private slots:
 
     void fullTab();
 
+    void keepPinnedIfMaxItemsChanges();
+
 private:
     TestInterfacePtr m_test;
 };

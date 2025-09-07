@@ -22,6 +22,8 @@
 
 #include <unordered_map>
 
+constexpr const int MAX_ITEMS = 100'000;
+
 class DataFile {
 public:
     DataFile() {}
@@ -360,7 +362,7 @@ bool serializeData(const QAbstractItemModel &model, QDataStream *stream, int ite
     return stream->status() == QDataStream::Ok;
 }
 
-bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItems)
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
 {
     qint32 length;
     if ( !readOrError(stream, &length, "Failed to read length") )
@@ -373,7 +375,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItem
     }
 
     // Limit the loaded number of items to model's maximum.
-    length = qMin(length, maxItems) - model->rowCount();
+    length = qMin(length, MAX_ITEMS) - model->rowCount();
 
     if ( length != 0 && !model->insertRows(0, length) )
         return false;
@@ -400,11 +402,11 @@ bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDat
     return serializeData(model, &stream, itemDataThreshold);
 }
 
-bool deserializeData(QAbstractItemModel *model, QIODevice *file, int maxItems)
+bool deserializeData(QAbstractItemModel *model, QIODevice *file)
 {
     QDataStream stream(file);
     stream.setVersion(QDataStream::Qt_4_7);
-    return deserializeData(model, &stream, maxItems);
+    return deserializeData(model, &stream);
 }
 
 bool itemDataFiles(QIODevice *file, QStringList *files)

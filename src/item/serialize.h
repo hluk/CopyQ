@@ -21,9 +21,9 @@ QByteArray serializeData(const QVariantMap &data);
 bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 
 bool serializeData(const QAbstractItemModel &model, QDataStream *stream, int itemDataThreshold = -1);
-bool deserializeData(QAbstractItemModel *model, QDataStream *stream, int maxItems);
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream);
 bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDataThreshold = -1);
-bool deserializeData(QAbstractItemModel *model, QIODevice *file, int maxItems);
+bool deserializeData(QAbstractItemModel *model, QIODevice *file);
 
 QString itemDataPath();
 bool itemDataFiles(QIODevice *file, QStringList *files);
