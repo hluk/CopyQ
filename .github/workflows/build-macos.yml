@@ -1,5 +1,5 @@
 ---
-name: macOS Build
+name: macOS
 
 # yamllint disable-line rule:truthy
 on:

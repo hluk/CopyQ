@@ -1,5 +1,5 @@
 ---
-name: Linux Build
+name: Linux
 
 # yamllint disable-line rule:truthy
 on:
@@ -9,6 +9,58 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  common_packages: >-
+    ninja-build
+
+    libxfixes-dev
+    libxtst-dev
+
+    extra-cmake-modules
+    libwayland-dev
+
+    gnupg2
+
+    xvfb
+    openbox
+  qt6_packages: >-
+    libegl-dev
+
+    qt6-base-private-dev
+    qt6-base-dev
+    qt6-base-dev-tools
+    qt6-tools-dev
+    qt6-tools-dev-tools
+    qt6-l10n-tools
+    qt6-declarative-dev
+
+    libqt6svg6-dev
+    libqt6svg6
+
+    libqt6waylandclient6
+    qt6-wayland
+    qt6-wayland-dev
+    qt6-wayland-dev-tools
+  qt5_packages: >-
+    qtbase5-dev
+    qtbase5-dev-tools
+    qtbase5-private-dev
+    qtdeclarative5-dev
+    qttools5-dev
+    qttools5-dev-tools
+
+    libqt5x11extras5-dev
+
+    libqt5svg5-dev
+    libqt5svg5
+
+    libqt5waylandclient5-dev
+    qtwayland5
+    qtwayland5-dev-tools
+
+    libkf5notifications-dev
+    extra-cmake-modules
+
 jobs:
   build:
     name: ${{matrix.buildname}}
@@ -17,17 +69,9 @@ jobs:
       matrix:
         include:
           - os: ubuntu-22.04
-            buildname: Linux-GCC
+            buildname: Qt 5
             compiler: g++
             compiler_package: g++
-            with_qt6: false
-            with_native_notifications: true
-            cmake_preset: Debug
-
-          - os: ubuntu-22.04
-            buildname: Linux-Clang
-            compiler: clang++
-            compiler_package: clang
             with_qt6: false
             with_native_notifications: true
             cmake_preset: Debug
@@ -46,6 +90,14 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
 
+          - os: ubuntu-latest
+            buildname: Qt 6 Clang
+            compiler: clang++
+            compiler_package: clang
+            with_qt6: true
+            with_native_notifications: false
+            cmake_preset: Debug
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
@@ -62,17 +114,14 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
-      - name: Install dependencies
-        uses: nick-invision/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3
-        env:
-          WITH_QT6: '${{matrix.with_qt6}}'
+      - name: Install Qt 6 dependencies
+        uses: awalsh128/cache-apt-pkgs-action@2c09a5e66da6c8016428a2172bd76e5e4f14bb17 # v1
         with:
-          timeout_minutes: 10
-          retry_wait_seconds: 30
-          max_attempts: 3
-          command: >-
-            '${{github.workspace}}/utils/github/install-linux.sh'
-            '${{matrix.compiler_package}}'
+          version: 1.0
+          packages: >-
+            ${{ matrix.compiler_package }}
+            ${{ env.common_packages }}
+            ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
