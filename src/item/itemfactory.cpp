@@ -10,6 +10,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "item/indexes.h"
 #include "item/itemfilter.h"
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
@@ -229,10 +230,10 @@ public:
 
     bool canSaveItems(const QString &) const override { return true; }
 
-    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems) override
+    ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int) override
     {
         if ( file->size() > 0 ) {
-            if ( !deserializeData(model, file, maxItems) ) {
+            if ( !deserializeData(model, file) ) {
                 const int itemsLoadedCount = model->rowCount();
                 if ( itemsLoadedCount > 0 && askToKeepCorruptedTab(tabName) ) {
                     log(QStringLiteral("Keeping corrupted tab on user request"));
@@ -312,6 +313,22 @@ std::pair<ItemSaverPtr, ItemLoaderPtr> saveWithOther(
     }
 
     return {newSaver, newLoader};
+}
+
+void cropToSize(const ItemSaverPtr &saver, QAbstractItemModel *model, int maxItems)
+{
+    const auto toRemove = model->rowCount() - maxItems;
+    if (toRemove <= 0)
+        return;
+
+    QList<QPersistentModelIndex> indexesToRemove;
+    for (int row = model->rowCount() - 1; row >= 0 && indexesToRemove.size() < toRemove; --row) {
+        const auto index = model->index(row, 0);
+        if ( saver->canDropItem(index) )
+            indexesToRemove.append(index);
+    }
+
+    dropIndexes(indexesToRemove, model);
 }
 
 } // namespace
@@ -429,7 +446,9 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
             file->close();
             ItemLoaderPtr newLoader;
             std::tie(saver, newLoader) = saveWithOther(tabName, model, saver, loader, m_loaders, maxItems);
-            return transformSaver(model, saver, newLoader, m_loaders);
+            saver = transformSaver(model, saver, newLoader, m_loaders);
+            cropToSize(saver, model, maxItems);
+            return saver;
         }
     }
 
