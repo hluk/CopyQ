@@ -344,6 +344,9 @@ void ConfigurationManager::initOptions()
     bind<Config::close_on_unfocus_delay_ms>();
 
     bind<Config::frameless_window>();
+
+    bind<Config::wastebin_enabled>(m_tabGeneral->checkBoxWastebinEnabled);
+    bind<Config::wastebin_endpoint>(m_tabGeneral->lineEditWastebinEndpoint);
 }
 
 template <typename Config, typename Widget>

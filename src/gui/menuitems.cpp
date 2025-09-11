@@ -128,6 +128,9 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Item_MoveToBottom, QObject::tr("Move to Bottom"),
                   QStringLiteral("move_to_bottom"),  QObject::tr("Ctrl+End"), QStringLiteral("go-bottom"), IconAnglesDown );
 
+    addMenuItem( items, Actions::Item_CreateWastebinSecret, QObject::tr("Create &Burner Secret in Wastebin"),
+                  QStringLiteral("create_wastebin_secret"), QKeySequence(), QStringLiteral(""), IconGlobe );
+
     addMenuItem( items, Actions::Tabs_NewTab, QObject::tr("&New Tab"),
                   QStringLiteral("new_tab"), QObject::tr("Ctrl+T"), QStringLiteral(":/images/tab_new") );
     addMenuItem( items, Actions::Tabs_RenameTab, QObject::tr("R&ename Tab"),

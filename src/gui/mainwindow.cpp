@@ -52,6 +52,12 @@
 #include "platform/platformwindow.h"
 #include "scriptable/scriptoverrides.h"
 #include <qnamespace.h>
+#include <QRandomGenerator>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 #ifdef Q_OS_MAC
 #  include "platform/mac/foregroundbackgroundfilter.h"
@@ -997,6 +1003,12 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
 
+    // Add wastebin action only if enabled
+    AppConfig appConfig;
+    if (appConfig.option<Config::wastebin_enabled>()) {
+        addItemAction( Actions::Item_CreateWastebinSecret, this, &MainWindow::createWastebinSecret );
+    }
+
     updateToolBar();
     updateActionShortcuts();
 }
@@ -1226,6 +1238,193 @@ void MainWindow::moveToBottom()
     auto c = browser();
     if (c)
         c->move(Qt::Key_End);
+}
+
+void MainWindow::createWastebinSecret()
+{
+    auto c = browser();
+    if (!c)
+        return;
+
+    const auto data = selectionData(*c);
+    if (data.isEmpty())
+        return;
+
+    // Get the text content to upload
+    const QString text = getTextData(data);
+    if (text.isEmpty()) {
+        showError(tr("No text content to upload to wastebin"));
+        return;
+    }
+
+    AppConfig appConfig;
+    const QString endpoint = appConfig.option<Config::wastebin_endpoint>();
+    
+    // Validate endpoint URL
+    if (endpoint.isEmpty() || !QUrl(endpoint).isValid()) {
+        showError(tr("Invalid wastebin endpoint URL. Please check your configuration."));
+        return;
+    }
+    
+    // Generate a random password
+    const QString password = generateRandomPassword();
+    
+    // Create the wastebin upload request
+    uploadToWastebin(text, endpoint, password);
+}
+
+QString MainWindow::generateRandomPassword()
+{
+    // Use a safer charset without special URL characters that might cause issues
+    static const QString charset = QStringLiteral("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    QString password;
+    password.reserve(16);
+    
+    const int charsetLength = charset.length();
+    for (int i = 0; i < 16; ++i) {
+        const int index = QRandomGenerator::global()->bounded(charsetLength);
+        password.append(charset.at(index));
+    }
+    
+    return password;
+}
+
+void MainWindow::uploadToWastebin(const QString &text, const QString &endpoint, const QString &password)
+{
+    // Show notification that upload is starting
+    auto notification = createNotification("wastebin_upload");
+    notification->setTitle(tr("Wastebin Upload"));
+    notification->setMessage(tr("Uploading text to wastebin..."));
+    notification->setIcon(IconGlobe);
+    notification->show();
+
+    // Create network access manager
+    auto manager = new QNetworkAccessManager(this);
+    
+    // Prepare the request
+    QNetworkRequest request;
+    const QString url = endpoint + "/new";
+    request.setUrl(QUrl(url));
+    
+    // Enable automatic redirect following
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy);
+    
+    // Set headers similar to the curl example
+    request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0");
+    request.setRawHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+    request.setRawHeader("Accept-Language", "en-US,en;q=0.5");
+    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.setRawHeader("Origin", endpoint.toUtf8());
+    request.setRawHeader("DNT", "1");
+    request.setRawHeader("Sec-GPC", "1");
+    request.setRawHeader("Connection", "keep-alive");
+    request.setRawHeader("Upgrade-Insecure-Requests", "1");
+    request.setRawHeader("Sec-Fetch-Dest", "document");
+    request.setRawHeader("Sec-Fetch-Mode", "navigate");
+    request.setRawHeader("Sec-Fetch-Site", "same-origin");
+    request.setRawHeader("Sec-Fetch-User", "?1");
+    
+    // For raw form data where we need to preserve existing encoding,
+    // Qt's proper approach is to use QByteArray directly and avoid QUrlQuery
+    // which would interpret/decode the content
+    
+    // Use QUrl::toPercentEncoding with empty reserved chars to only encode
+    // the minimal characters needed for form structure
+    QByteArray postData;
+    postData.append("text=");
+    postData.append(QUrl::toPercentEncoding(text, QByteArray(), QByteArray()));
+    postData.append("&burn-after-reading=on&password=");
+    postData.append(QUrl::toPercentEncoding(password, QByteArray(), QByteArray()));
+    postData.append("&title=");
+    
+    // Make the POST request
+    auto reply = manager->post(request, postData);
+    
+    // Set timeout for the request (30 seconds)
+    QTimer::singleShot(30000, reply, [this, reply, manager]() {
+        if (reply && !reply->isFinished()) {
+            showError(tr("Wastebin upload timed out"));
+            reply->abort();
+            reply->deleteLater();
+            manager->deleteLater();
+        }
+    });
+    
+    // Connect to handle the response
+    connect(reply, &QNetworkReply::finished, this, [this, password, reply, manager]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            handleWastebinResponse(reply, password);
+        }
+        reply->deleteLater();
+        manager->deleteLater();
+    });
+    
+    // Handle network errors
+    connect(reply, &QNetworkReply::errorOccurred, this, [this, reply](QNetworkReply::NetworkError error) {
+        Q_UNUSED(error)
+        if (reply->error() != QNetworkReply::OperationCanceledError) {
+            showError(tr("Network error occurred while uploading to wastebin: %1").arg(reply->errorString()));
+        }
+    });
+}
+
+void MainWindow::handleWastebinResponse(QNetworkReply *reply, const QString &password)
+{
+    if (!reply) {
+        showError(tr("No response from wastebin server"));
+        return;
+    }
+    
+    const int status = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (status != 200 && status != 302 && status != 303) {
+        showError(tr("Wastebin upload failed with status: %1").arg(status));
+        reply->deleteLater();
+        return;
+    }
+    
+    // Get the final URL after redirects
+    QString finalUrl = reply->url().toString();
+    
+    // If we got a redirect, try to get the Location header
+    if (status == 302 || status == 303) {
+        const QVariant redirectUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+        if (redirectUrl.isValid()) {
+            QUrl redirectedUrl = redirectUrl.toUrl();
+            if (redirectedUrl.isRelative()) {
+                redirectedUrl = reply->url().resolved(redirectedUrl);
+            }
+            finalUrl = redirectedUrl.toString();
+        }
+    }
+    
+    // Remove "burn/" from the URL if present and clean up any extra characters
+    QString cleanUrl = finalUrl.trimmed();
+    if (cleanUrl.contains("/burn/")) {
+        cleanUrl = cleanUrl.replace("/burn/", "/");
+    }
+    
+    // Remove any trailing slashes or unwanted characters
+    while (cleanUrl.endsWith('/')) {
+        cleanUrl.chop(1);
+    }
+    
+    // Create the result text with URL and password on separate lines using explicit newlines
+    const QString result = QString("%1\n\nPassword: %2").arg(cleanUrl).arg(password);
+    
+    // Copy to clipboard
+    QVariantMap clipboardData;
+    clipboardData.insert(mimeText, result);
+    setClipboard(clipboardData);
+    
+    // Show success notification
+    auto notification = createNotification("wastebin_success");
+    notification->setTitle(tr("Wastebin Upload Successful"));
+    notification->setMessage(tr("Secret uploaded successfully! URL and password copied to clipboard."));
+    notification->setIcon(IconCheck);
+    notification->setInterval(5000); // Show for 5 seconds
+    notification->show();
+    
+    reply->deleteLater();
 }
 
 void MainWindow::onBrowserCreated(ClipboardBrowser *browser)

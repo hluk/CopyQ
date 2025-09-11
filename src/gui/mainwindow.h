@@ -35,6 +35,7 @@ class Theme;
 class TrayMenu;
 class ToolBar;
 class QModelIndex;
+class QNetworkReply;
 struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
@@ -497,6 +498,11 @@ private:
     void moveDown();
     void moveToTop();
     void moveToBottom();
+
+    void createWastebinSecret();
+    QString generateRandomPassword();
+    void uploadToWastebin(const QString &text, const QString &endpoint, const QString &password);
+    void handleWastebinResponse(QNetworkReply *reply, const QString &password);
 
     void onBrowserCreated(ClipboardBrowser *browser);
     void onBrowserLoaded(ClipboardBrowser *browser);

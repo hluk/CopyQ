@@ -288,6 +288,49 @@
        </widget>
       </item>
       <item>
+       <widget class="QGroupBox" name="groupBoxWastebin">
+        <property name="title">
+         <string>Wastebin</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayoutWastebin">
+         <item>
+          <widget class="QCheckBox" name="checkBoxWastebinEnabled">
+           <property name="toolTip">
+            <string>Enable 'Create burner secret in wastebin' feature in context menu</string>
+           </property>
+           <property name="text">
+            <string>Enable Wastebin Feature</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayoutWastebinEndpoint">
+           <item>
+            <widget class="QLabel" name="labelWastebinEndpoint">
+             <property name="text">
+              <string>Wastebin Endpoint:</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditWastebinEndpoint</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEditWastebinEndpoint">
+             <property name="toolTip">
+              <string>Wastebin endpoint URL for uploading burner secrets</string>
+             </property>
+             <property name="text">
+              <string>https://bin.rso.dev</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>

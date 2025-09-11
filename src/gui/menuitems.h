@@ -56,6 +56,8 @@ enum Id {
     Item_MoveToTop,
     Item_MoveToBottom,
 
+    Item_CreateWastebinSecret,
+
     Tabs_NewTab,
     Tabs_RenameTab,
     Tabs_RemoveTab,

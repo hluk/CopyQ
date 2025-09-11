@@ -543,6 +543,22 @@ struct frameless_window : Config<bool> {
     }
 };
 
+struct wastebin_enabled : Config<bool> {
+    static QString name() { return QStringLiteral("wastebin_enabled"); }
+    static Value defaultValue() { return false; }
+    static const char *description() {
+        return "Enable 'Create burner secret in wastebin' feature in context menu";
+    }
+};
+
+struct wastebin_endpoint : Config<QString> {
+    static QString name() { return QStringLiteral("wastebin_endpoint"); }
+    static Value defaultValue() { return QStringLiteral("https://bin.rso.dev"); }
+    static const char *description() {
+        return "Wastebin endpoint URL for uploading burner secrets";
+    }
+};
+
 } // namespace Config
 
 class AppConfig final
