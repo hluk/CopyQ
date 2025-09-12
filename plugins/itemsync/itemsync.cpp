@@ -768,17 +768,19 @@ void ItemSyncLoader::onBrowseButtonClicked()
 ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model, const QStringList &files, int maxItems)
 {
     const auto tabPath = m_tabPaths.value(tabName);
-    const auto path = files.isEmpty() ? tabPath : QFileInfo(files.first()).absolutePath();
-    if ( path.isEmpty() )
+    if ( tabPath.isEmpty() )
         return std::make_shared<ItemSyncSaver>(tabPath, nullptr);
 
-    QDir dir(path);
-    if ( !dir.mkpath(".") ) {
+    QDir dir(tabPath);
+    if ( !dir.mkpath(QStringLiteral(".")) ) {
         emit error( tr("Failed to create synchronization directory"));
         return nullptr;
     }
 
+    const bool canUseFiles = !files.isEmpty()
+        && QFileInfo(files.first()).dir() == dir;
     auto *watcher = new FileWatcher(
-        path, files, model, maxItems, m_formatSettings, m_itemDataThreshold);
+        tabPath, canUseFiles ? files : QStringList(),
+        model, maxItems, m_formatSettings, m_itemDataThreshold);
     return std::make_shared<ItemSyncSaver>(tabPath, watcher);
 }
