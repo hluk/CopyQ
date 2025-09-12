@@ -754,7 +754,7 @@ void ItemSyncLoader::onBrowseButtonClicked()
 
     int row = 0;
     for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::browse) != button; ++row ) {}
-    Q_ASSERT( row == t->rowCount() );
+    Q_ASSERT( row != t->rowCount() );
     if ( row == t->rowCount() )
         return;
 
