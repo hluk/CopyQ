@@ -25,6 +25,7 @@ class Server;
 class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
+class QDBusObjectPath;
 struct NotificationButton;
 
 /**
@@ -64,6 +65,13 @@ signals:
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
 
+private slots:
+    void onPortalGlobalShortcutActivated(
+        const QDBusObjectPath &session_handle,
+        const QString &shortcutName,
+        qulonglong timestamp,
+        const QVariantMap &options);
+
 private:
     void onClientNewConnection(const ClientSocketPtr &client);
     void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
@@ -74,6 +82,8 @@ private:
     void onMonitorFinished();
 
     void onNotificationButtonClicked(const NotificationButton &button);
+
+    void triggerGlobalShortcut(const Command &command, const QString &shortcutText);
 
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);

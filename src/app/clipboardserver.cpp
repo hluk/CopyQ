@@ -86,12 +86,13 @@ void setTabWidth(QTextEdit *editor, int spaces)
 } // namespace
 
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
-    : QObject()
+    : QObject(app)
     , App(app, sessionName)
     , m_wnd(nullptr)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
+    setObjectName("CopyQClipboardServer");
     setLogLabel("Server");
 
     m_server = new Server(clipboardServerName(), this);
@@ -747,6 +748,21 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     COPYQ_LOG("Configuration loaded");
 }
 
+void ClipboardServer::triggerGlobalShortcut(
+    const Command &command, const QString &shortcutText)
+{
+    // If global shortcut for a menu command is triggered when the main window
+    // is active, the command will be executed as if it has been trigger from
+    // menu - i.e. with item selection and item data available.
+    if ( command.inMenu && m_wnd->isActiveWindow() && m_wnd->triggerMenuCommand(command, shortcutText) ) {
+        COPYQ_LOG("Global shortcut command triggered as a menu command");
+    } else {
+        QVariantMap data;
+        data.insert(mimeShortcut, shortcutText.toUtf8());
+        m_wnd->action(data, command, QModelIndex());
+    }
+}
+
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
 #ifndef COPYQ_GLOBAL_SHORTCUTS
@@ -759,17 +775,21 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
     if ( it != m_shortcutActions.constEnd() ) {
         const QString shortcutText = portableShortcutText(shortcut->shortcut());
         const Command &command = it.value();
-
-        // If global shortcut for a menu command is triggered when the main window
-        // is active, the command will be executed as if it has been trigger from
-        // menu - i.e. with item selection and item data available.
-        if ( command.inMenu && m_wnd->isActiveWindow() && m_wnd->triggerMenuCommand(command, shortcutText) ) {
-            COPYQ_LOG("Global shortcut command triggered as a menu command");
-        } else {
-            QVariantMap data;
-            data.insert(mimeShortcut, shortcutText.toUtf8());
-            m_wnd->action(data, command, QModelIndex());
-        }
+        triggerGlobalShortcut(command, shortcutText);
     }
 #endif
+}
+
+void ClipboardServer::onPortalGlobalShortcutActivated(
+    const QDBusObjectPath &,
+    const QString &shortcutName,
+    qulonglong ,
+    const QVariantMap &)
+{
+    for (auto &cmd : loadAllCommands()) {
+        if (cmd.type() & CommandType::GlobalShortcut && cmd.localizedName() == shortcutName) {
+            triggerGlobalShortcut(cmd, QString());
+            return;
+        }
+    }
 }

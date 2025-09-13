@@ -52,6 +52,9 @@ public:
 signals:
     void commandsSaved();
 
+private slots:
+    void onPortalSessionCreated(uint responseCode, const QVariantMap& results);
+
 protected:
     void showEvent(QShowEvent *event) override;
 
@@ -69,6 +72,8 @@ private:
 
     QVector<MenuAction> m_actions;
     QList<QKeySequence> m_shortcuts;
+
+    QString m_portalSessionHandle;
 };
 
 #endif // SHORTCUTSWIDGET_H
