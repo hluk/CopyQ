@@ -3789,7 +3789,9 @@ void MainWindow::openPreferences()
 #endif
 
     cm = &configurationManager;
+    emit requestGlobalShortcutsEnabled(false);
     configurationManager.exec();
+    emit requestGlobalShortcutsEnabled(true);
     cm = nullptr;
 }
 

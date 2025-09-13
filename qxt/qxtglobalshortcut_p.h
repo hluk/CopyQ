@@ -58,6 +58,7 @@ public:
     quint32 nativeKey;
     quint32 nativeMods;
     bool registered;
+    QString name;
 
     bool setShortcut(const QKeySequence& shortcut);
     bool unsetShortcut();
@@ -72,6 +73,9 @@ public:
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);
 
 private:
+    bool setShortcutFallback(const QKeySequence& shortcut);
+    bool unsetShortcutFallback();
+
     QxtGlobalShortcut *q_ptr;
 
     static quint32 nativeKeycode(Qt::Key keycode, Qt::KeyboardModifiers mods);

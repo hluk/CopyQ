@@ -81,7 +81,7 @@ QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
 #endif // Q_OS_MAC
 }
 
-bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
+bool QxtGlobalShortcutPrivate::setShortcutFallback(const QKeySequence& shortcut)
 {
     unsetShortcut();
 
@@ -105,7 +105,7 @@ bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
     return registered;
 }
 
-bool QxtGlobalShortcutPrivate::unsetShortcut()
+bool QxtGlobalShortcutPrivate::unsetShortcutFallback()
 {
     if (registered
             && shortcuts.value(qMakePair(nativeKey, nativeMods)) == q_ptr
@@ -163,10 +163,12 @@ QxtGlobalShortcut::QxtGlobalShortcut(QObject* parent)
 /*!
     Constructs a new QxtGlobalShortcut with \a shortcut and \a parent.
  */
-QxtGlobalShortcut::QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent)
+QxtGlobalShortcut::QxtGlobalShortcut(
+    const QKeySequence& shortcut, const QString &name, QObject* parent)
     : QxtGlobalShortcut(parent)
 {
     setShortcut(shortcut);
+    setName(name);
 }
 
 /*!
@@ -209,6 +211,16 @@ bool QxtGlobalShortcut::setShortcut(const QKeySequence& shortcut)
     return d_ptr->setShortcut(shortcut);
 }
 
+QString QxtGlobalShortcut::name() const
+{
+    return d_ptr->name;
+}
+
+void QxtGlobalShortcut::setName(const QString& name)
+{
+    d_ptr->name = name;
+}
+
 /*!
     \property QxtGlobalShortcut::enabled
     \brief whether the shortcut is enabled
@@ -231,6 +243,17 @@ bool QxtGlobalShortcut::isEnabled() const
 bool QxtGlobalShortcut::isValid() const
 {
     return d_ptr->registered;
+}
+
+/*!
+    Activates the shortcut if enabled.
+
+    \sa activated()
+ */
+void QxtGlobalShortcut::activate()
+{
+    if (d_ptr->enabled)
+        emit activated(this);
 }
 
 /*!

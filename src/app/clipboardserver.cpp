@@ -164,6 +164,9 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
+    connect( m_wnd, &MainWindow::requestGlobalShortcutsEnabled,
+             this, &ClipboardServer::setGlobalShortcutsEnabled );
+
     m_server->start();
 
     {
@@ -250,6 +253,9 @@ void ClipboardServer::removeGlobalShortcuts()
 
 void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
 {
+    if (!m_globalShortcutsEnabled)
+        return;
+
 #ifdef COPYQ_GLOBAL_SHORTCUTS
     removeGlobalShortcuts();
 
@@ -575,7 +581,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     Q_UNUSED(shortcut)
     Q_UNUSED(command)
 #else
-    auto s = new QxtGlobalShortcut(shortcut, this);
+    auto s = new QxtGlobalShortcut(shortcut, command.localizedName(), this);
     if (!s->isValid()) {
         log(QStringLiteral("Failed to set global shortcut \"%1\" for command \"%2\".")
             .arg(shortcut.toString(),
@@ -745,6 +751,19 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_updateThemeTimer.stop();
 
     COPYQ_LOG("Configuration loaded");
+}
+
+void ClipboardServer::setGlobalShortcutsEnabled(bool enabled)
+{
+    if (m_globalShortcutsEnabled == enabled)
+        return;
+
+    m_globalShortcutsEnabled = enabled;
+
+    if (enabled)
+        onCommandsSaved(loadAllCommands());
+    else
+        removeGlobalShortcuts();
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
