@@ -29,8 +29,19 @@
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
 
+#include "qxtglobalshortcut.h"
+
 #include "platform/x11/x11info.h"
 
+#include <QApplication>
+#include <QDBusInterface>
+#include <QDBusMetaType>
+#include <QDebug>
+#include <QDBusObjectPath>
+#include <QPointer>
+#include <QRandomGenerator>
+#include <QRegularExpression>
+#include <QTimer>
 #include <QVector>
 #include <QWidget>
 #include <X11/keysym.h>
@@ -39,6 +50,353 @@
 #include <xcb/xcb.h>
 
 #include "xcbkeyboard.h"
+
+class GlobalShortcutsPortal : public QObject
+{
+    Q_OBJECT
+public:
+    using PortalShortcut = QPair<QString, QVariantMap>;
+    using PortalShortcuts = QList<PortalShortcut>;
+
+    virtual ~GlobalShortcutsPortal()
+    {
+        disconnectPortal();
+    }
+
+    static GlobalShortcutsPortal *instance()
+    {
+        static GlobalShortcutsPortal portal;
+        return &portal;
+    }
+
+    bool isValid() const
+    {
+        return !m_objPathCreateSession.path().isEmpty();
+    }
+
+    void addShortcut(QxtGlobalShortcut *shortcut)
+    {
+        m_shortcuts.removeAll(nullptr);
+        if ( !m_shortcuts.contains(shortcut) ) {
+            m_shortcuts.append(shortcut);
+            m_timerBind.start();
+        }
+    }
+
+    void removeShortcut(QxtGlobalShortcut *shortcut)
+    {
+        m_shortcuts.removeAll(nullptr);
+        if ( m_shortcuts.contains(shortcut) ) {
+            m_shortcuts.removeAll(shortcut);
+            m_timerBind.start();
+        }
+    }
+
+private:
+    static QString normalizeShortcutString(const QString &shortcut)
+    {
+        return shortcut.toUpper().replace("SUPER", "LOGO").replace("META", "LOGO");
+    }
+
+    QString handleToken()
+    {
+        return QStringLiteral("%1_%2")
+            .arg(m_portalToken)
+            .arg(QRandomGenerator::global()->generate());
+    }
+
+    QDBusObjectPath initPortalGlobalShortcuts()
+    {
+        qDBusRegisterMetaType<PortalShortcut>();
+        qDBusRegisterMetaType<PortalShortcuts>();
+
+        QDBusMessage message = m_globalShortcutInterface.call(
+            QStringLiteral("CreateSession"),
+            QMap<QString, QVariant>{
+                {QStringLiteral("handle_token"), handleToken()},
+                {QStringLiteral("session_handle_token"), m_portalToken}
+            }
+        );
+
+        if (message.type() == QDBusMessage::ErrorMessage) {
+            qWarning() << "QxtGlobalShortcut: Failed to create portal global shortcuts session:"
+                << message.errorMessage();
+            return {};
+        }
+
+        return message.arguments().first().value<QDBusObjectPath>();
+    }
+
+    void connectPortal()
+    {
+        m_objPathCreateSession = initPortalGlobalShortcuts();
+        if (!m_objPathCreateSession.path().isEmpty()) {
+            QDBusConnection::sessionBus().connect(
+                QStringLiteral("org.freedesktop.portal.Desktop"),
+                m_objPathCreateSession.path(),
+                QStringLiteral("org.freedesktop.portal.Request"),
+                QStringLiteral("Response"),
+                this,
+                SLOT(onPortalSessionCreated(uint,QVariantMap))
+            );
+        }
+    }
+
+    void disconnectPortal()
+    {
+        if (!m_objPathCreateSession.path().isEmpty()) {
+            QDBusConnection::sessionBus().disconnect(
+                QStringLiteral("org.freedesktop.portal.Desktop"),
+                m_objPathCreateSession.path(),
+                QStringLiteral("org.freedesktop.portal.Request"),
+                QStringLiteral("Response"),
+                this,
+                SLOT(onPortalSessionCreated(uint,QVariantMap))
+            );
+        }
+
+        if (!m_objPathListShortcuts.path().isEmpty()) {
+            QDBusConnection::sessionBus().disconnect(
+                QStringLiteral("org.freedesktop.portal.Desktop"),
+                m_objPathListShortcuts.path(),
+                QStringLiteral("org.freedesktop.portal.Request"),
+                QStringLiteral("Response"),
+                this,
+                SLOT(onListShortcuts(uint,QVariantMap))
+            );
+        }
+
+        if (!m_objPathGlobalShortcuts.path().isEmpty()) {
+            QDBusConnection::sessionBus().disconnect(
+                QStringLiteral("org.freedesktop.portal.Desktop"),
+                QStringLiteral("/org/freedesktop/portal/desktop"),
+                QStringLiteral("org.freedesktop.portal.GlobalShortcuts"),
+                QStringLiteral("Activated"),
+                this,
+                SLOT(onPortalGlobalShortcutActivated(QDBusObjectPath,QString,qulonglong,QVariantMap))
+            );
+        }
+    }
+
+    void bindPortalGlobalShortcuts()
+    {
+        const QString descriptionPrefix = QCoreApplication::applicationName()
+            .replace(QStringLiteral("copyq"), QStringLiteral("CopyQ"));
+        PortalShortcuts shortcuts;
+        m_shortcuts.removeAll(nullptr);
+        for (const auto &shortcut : m_shortcuts) {
+            if (!shortcut->isEnabled())
+                continue;
+            const QString name = shortcut->name();
+            const QString description = QStringLiteral("%1 - %2")
+                .arg(descriptionPrefix, name);
+            const QString preferredTrigger = shortcut->shortcut()
+                .toString(QKeySequence::PortableText)
+                .toUpper()
+                .replace("SUPER", "LOGO")
+                .replace("META", "LOGO");
+            // WORKAROUND: Include the shortcut in ID so it can be overridden.
+            // Works at least in KDE.
+            const QString shortcutId = QStringLiteral("%1||%2").arg(preferredTrigger, name);
+            shortcuts.append({shortcutId, {
+                {QStringLiteral("description"), description},
+                {QStringLiteral("preferred_trigger"), preferredTrigger},
+            }});
+        }
+
+        std::sort(shortcuts.begin(), shortcuts.end(), [](const auto &a, const auto &b) {
+            return a.first < b.first;
+        });
+
+        if (shortcuts.isEmpty() || shortcuts == m_boundShortcuts)
+            return;
+
+        // Shortcuts can be bound only once per session.
+        // Notify user to restart the app.
+        if (m_bound) {
+            qDebug() << "QxtGlobalShortcut: Can bind portal global shortcuts only once per session";
+            if (m_notifyRestart) {
+                m_notifyRestart = false;
+                QxtGlobalShortcut::notifyRestartNeeded();
+            }
+            return;
+        }
+
+        // WORKAROUND: Reset old shortcuts if they are not available anymore.
+        // There is no API to unbind old shortcuts.
+        // This works in KDE: Changing ID to some unused value and keeping the
+        // description allows to override the old shortcut.
+        for (const auto &oldShortcut : m_boundShortcuts) {
+            auto it = std::find_if(shortcuts.begin(), shortcuts.end(),
+                [&oldShortcut](const auto &s) { return s.first == oldShortcut.first; });
+            if (it == shortcuts.cend()) {
+                const QString shortcutId = QStringLiteral("OBSOLETE||%1").arg(oldShortcut.first);
+                shortcuts.append({shortcutId, {
+                    {QStringLiteral("description"), oldShortcut.second.value(QStringLiteral("description"))},
+                    {QStringLiteral("preferred_trigger"), QString()},
+                }});
+            }
+        }
+
+        qDebug() << "QxtGlobalShortcut: Binding portal global shortcuts:" << shortcuts;
+
+        const QDBusMessage message = m_globalShortcutInterface.call(
+            QStringLiteral("BindShortcuts"),
+            m_objPathGlobalShortcuts,
+            QVariant::fromValue(shortcuts),
+            QString(),
+            QMap<QString, QVariant>{
+                {QStringLiteral("handle_token"), handleToken()},
+            }
+        );
+
+        if (message.type() == QDBusMessage::ErrorMessage) {
+            qWarning() << "QxtGlobalShortcut: Failed to bind portal global shortcuts:"
+                << message.errorMessage();
+        }
+
+        m_boundShortcuts = shortcuts;
+        m_bound = true;
+    }
+
+    GlobalShortcutsPortal()
+        : m_globalShortcutInterface(
+            QStringLiteral("org.freedesktop.portal.Desktop"),
+            QStringLiteral("/org/freedesktop/portal/desktop"),
+            QStringLiteral("org.freedesktop.portal.GlobalShortcuts")
+        )
+        , m_portalToken(
+            // Use only valid token name characters.
+            QCoreApplication::applicationName().replace(
+                QRegularExpression(QStringLiteral("[^A-Za-z0-9_]+")), QStringLiteral("_"))
+        )
+    {
+        m_timerBind.setSingleShot(true);
+        m_timerBind.setInterval(0);
+        connectPortal();
+    }
+
+    void listShortcuts()
+    {
+        const QDBusMessage message = m_globalShortcutInterface.call(
+            QStringLiteral("ListShortcuts"),
+            m_objPathGlobalShortcuts,
+            QMap<QString, QVariant>{
+                {QStringLiteral("handle_token"), handleToken()},
+            }
+        );
+
+        if (message.type() == QDBusMessage::ErrorMessage) {
+            qWarning() << "QxtGlobalShortcut: Failed to list portal global shortcuts:"
+                << message.errorMessage();
+            return;
+        }
+
+        m_objPathListShortcuts = message.arguments().first().value<QDBusObjectPath>();
+
+        QDBusConnection::sessionBus().connect(
+            QStringLiteral("org.freedesktop.portal.Desktop"),
+            m_objPathListShortcuts.path(),
+            QStringLiteral("org.freedesktop.portal.Request"),
+            QStringLiteral("Response"),
+            this,
+            SLOT(onListShortcuts(uint,QVariantMap))
+        );
+    }
+
+private slots:
+    void onListShortcuts(uint responseCode, const QVariantMap& results)
+    {
+        if (responseCode != 0) {
+            qWarning() << "QxtGlobalShortcut: Failed to list portal global shortcuts:"
+                << responseCode << results;
+            return;
+        }
+
+        const auto arg = results.value(QStringLiteral("shortcuts")).value<QDBusArgument>();
+        arg >> m_boundShortcuts;
+        const auto it = std::remove_if(m_boundShortcuts.begin(), m_boundShortcuts.end(),
+            [](const auto &shortcut) {
+                return shortcut.second.value(QStringLiteral("trigger_description")).toString().isEmpty();
+            });
+        m_boundShortcuts.erase(it, m_boundShortcuts.end());
+        for (auto &shortcut : m_boundShortcuts) {
+            const auto trigger = shortcut.second.take(QStringLiteral("trigger_description")).toString();
+            shortcut.second[QStringLiteral("preferred_trigger")] = normalizeShortcutString(trigger);
+        }
+        std::sort(m_boundShortcuts.begin(), m_boundShortcuts.end(), [](const auto &a, const auto &b) {
+            return a.first < b.first;
+        });
+        qDebug() << "QxtGlobalShortcut: Previously registered shortcuts:" << m_boundShortcuts;
+
+        connect(
+            &m_timerBind, &QTimer::timeout,
+            this, &GlobalShortcutsPortal::bindPortalGlobalShortcuts);
+
+        QDBusConnection::sessionBus().connect(
+            QStringLiteral("org.freedesktop.portal.Desktop"),
+            QStringLiteral("/org/freedesktop/portal/desktop"),
+            QStringLiteral("org.freedesktop.portal.GlobalShortcuts"),
+            QStringLiteral("Activated"),
+            this,
+            SLOT(onPortalGlobalShortcutActivated(QDBusObjectPath,QString,qulonglong,QVariantMap))
+        );
+
+        m_timerBind.start();
+    }
+
+    void onPortalSessionCreated(uint responseCode, const QVariantMap& results)
+    {
+        if (responseCode != 0) {
+            qWarning() << "QxtGlobalShortcut: Failed to create portal global shortcuts session:"
+                << responseCode << results;
+            return;
+        }
+
+        m_objPathGlobalShortcuts = QDBusObjectPath(
+            results.value(QStringLiteral("session_handle")).value<QString>());
+        if (m_objPathGlobalShortcuts.path().isEmpty()) {
+            qWarning() << "QxtGlobalShortcut: Failed to get portal global shortcuts session path:" << results;
+            return;
+        }
+
+        qDebug() << "QxtGlobalShortcut: Portal global shortcut session:"
+            << m_objPathGlobalShortcuts.path();
+
+        disconnectPortal();
+
+        listShortcuts();
+    }
+
+    void onPortalGlobalShortcutActivated(
+        const QDBusObjectPath &,
+        const QString &shortcutId,
+        qulonglong ,
+        const QVariantMap &)
+    {
+        const QString shortcutName = shortcutId.section("||", 1, 1);
+        for (const auto &shortcut : m_shortcuts) {
+            if (shortcut && shortcut->name() == shortcutName) {
+                qDebug() << "QxtGlobalShortcut: Portal global shortcut activated:" << shortcutId;
+                shortcut->activate();
+                return;
+            }
+        }
+        qWarning() << "QxtGlobalShortcut: Portal global shortcut failed to activate:" << shortcutName;
+    }
+
+private:
+    bool m_bound = false;
+    PortalShortcuts m_boundShortcuts;
+    bool m_notifyRestart = true;
+    QDBusInterface m_globalShortcutInterface;
+    QString m_portalToken;
+    QDBusObjectPath m_objPathCreateSession;
+    QDBusObjectPath m_objPathListShortcuts;
+    QDBusObjectPath m_objPathGlobalShortcuts;
+    QTimer m_timerBind;
+    QList<QPointer<QxtGlobalShortcut>> m_shortcuts;
+};
 
 namespace {
 
@@ -248,8 +606,49 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(
     return false;
 }
 
+void QxtGlobalShortcutPrivate::init()
+{
+    if ( X11Info::isPlatformX11() )
+        initFallback();
+}
+
+void QxtGlobalShortcutPrivate::destroy()
+{
+    if ( X11Info::isPlatformX11() )
+        destroyFallback();
+}
+
+bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
+{
+    if ( X11Info::isPlatformX11() )
+        return setShortcutFallback(shortcut);
+
+    auto portal = GlobalShortcutsPortal::instance();
+    if (!portal->isValid())
+        return false;
+
+    setKeySequence(shortcut);
+    portal->addShortcut(q_ptr);
+    registered = true;
+    return true;
+}
+
+bool QxtGlobalShortcutPrivate::unsetShortcut()
+{
+    if ( X11Info::isPlatformX11() )
+        return unsetShortcutFallback();
+
+    auto portal = GlobalShortcutsPortal::instance();
+    portal->removeShortcut(q_ptr);
+    registered = false;
+    return true;
+}
+
 quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers)
 {
+    if ( X11Info::isPlatformX11() )
+        return 0;
+
     // ShiftMask, LockMask, ControlMask, Mod1Mask, Mod2Mask, Mod3Mask, Mod4Mask, and Mod5Mask
     quint32 native = 0;
     if (modifiers & Qt::ShiftModifier)
@@ -289,3 +688,5 @@ bool QxtGlobalShortcutPrivate::unregisterShortcut(quint32 nativeKey, quint32 nat
     QxtX11Data x11;
     return x11.isValid() && x11.ungrabKey(nativeKey, nativeMods, x11.rootWindow());
 }
+
+#include "qxtglobalshortcut_x11.moc"

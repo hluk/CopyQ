@@ -58,13 +58,12 @@ public:
     quint32 nativeKey;
     quint32 nativeMods;
     bool registered;
+    QString name;
 
+    void init();
+    void destroy();
     bool setShortcut(const QKeySequence& shortcut);
     bool unsetShortcut();
-
-#   ifndef Q_OS_MAC
-    static int ref;
-#   endif // Q_OS_MAC
 
     bool nativeEventFilter(
         const QByteArray &eventType, void *message, NativeEventResult *result) override;
@@ -72,6 +71,12 @@ public:
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);
 
 private:
+    void initFallback();
+    void destroyFallback();
+    void setKeySequence(const QKeySequence& shortcut);
+    bool setShortcutFallback(const QKeySequence& shortcut);
+    bool unsetShortcutFallback();
+
     QxtGlobalShortcut *q_ptr;
 
     static quint32 nativeKeycode(Qt::Key keycode, Qt::KeyboardModifiers mods);
@@ -79,8 +84,6 @@ private:
 
     static bool registerShortcut(quint32 nativeKey, quint32 nativeMods);
     static bool unregisterShortcut(quint32 nativeKey, quint32 nativeMods);
-
-    static QHash<QPair<quint32, quint32>, QxtGlobalShortcut*> shortcuts;
 };
 
 #endif // QXTGLOBALSHORTCUT_P_H

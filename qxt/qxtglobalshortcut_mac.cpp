@@ -55,6 +55,24 @@ OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event,
     return noErr;
 }
 
+void QxtGlobalShortcutPrivate::init()
+{
+}
+
+void QxtGlobalShortcutPrivate::destroy()
+{
+}
+
+bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
+{
+    return setShortcutFallback(shortcut);
+}
+
+bool QxtGlobalShortcutPrivate::unsetShortcut()
+{
+    return unsetShortcutFallback();
+}
+
 quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers)
 {
     quint32 native = 0;

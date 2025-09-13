@@ -40,20 +40,28 @@ class QxtGlobalShortcut final : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled)
+    Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(bool valid READ isValid CONSTANT)
     Q_PROPERTY(QKeySequence shortcut READ shortcut WRITE setShortcut)
 
 public:
     explicit QxtGlobalShortcut(QObject* parent = nullptr);
-    explicit QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent = nullptr);
+    explicit QxtGlobalShortcut(const QKeySequence& shortcut, const QString &name = {}, QObject* parent = nullptr);
     ~QxtGlobalShortcut();
 
     QKeySequence shortcut() const;
     bool setShortcut(const QKeySequence& shortcut);
 
+    QString name() const;
+    void setName(const QString& name);
+
     bool isEnabled() const;
 
     bool isValid() const;
+
+    void activate();
+
+    static void notifyRestartNeeded();
 
 public Q_SLOTS:
     void setEnabled(bool enabled = true);
