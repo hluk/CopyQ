@@ -32,6 +32,7 @@ if (WITH_X11)
         platform/x11/x11platformwindow.cpp
         ../qxt/qxtglobalshortcut_x11.cpp
         )
+    list(APPEND copyq_qt_modules DBus)
 
     set(USE_QXT TRUE)
 

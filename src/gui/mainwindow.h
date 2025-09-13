@@ -430,6 +430,8 @@ signals:
 
     void sendActionData(int actionId, const QByteArray &bytes);
 
+    void requestGlobalShortcutsEnabled(bool enabled);
+
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
     void keyPressEvent(QKeyEvent *event) override;

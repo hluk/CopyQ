@@ -58,6 +58,8 @@ public:
     /** Load settings. */
     void loadSettings(AppConfig *appConfig);
 
+    void setGlobalShortcutsEnabled(bool enabled);
+
 signals:
     void closeClients();
 
@@ -132,6 +134,7 @@ private:
     uint m_monitorCommandsStateHash = 0;
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
+    bool m_globalShortcutsEnabled = true;
 
     ClipboardBrowserSharedPtr m_sharedData;
 

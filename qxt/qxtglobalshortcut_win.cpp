@@ -31,6 +31,15 @@
 
 #include <qt_windows.h>
 
+bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
+{
+    return setShortcutFallback(shortcut);
+}
+
+bool QxtGlobalShortcutPrivate::unsetShortcut()
+{
+    return unsetShortcutFallback();
+}
 
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     void * message, NativeEventResult * result)
