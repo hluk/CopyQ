@@ -117,6 +117,7 @@ if (PEDANTIC)
             -Wno-unknown-warning-option
             -Wno-used-but-marked-unused
             -Wno-weak-vtables
+            -Wno-switch-default
             -fcomment-block-commands=retval
             )
     endif()

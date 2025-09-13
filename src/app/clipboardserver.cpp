@@ -575,7 +575,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     Q_UNUSED(shortcut)
     Q_UNUSED(command)
 #else
-    auto s = new QxtGlobalShortcut(shortcut, this);
+    auto s = new QxtGlobalShortcut(shortcut, command.localizedName(), this);
     if (!s->isValid()) {
         log(QStringLiteral("Failed to set global shortcut \"%1\" for command \"%2\".")
             .arg(shortcut.toString(),
