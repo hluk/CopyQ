@@ -2743,6 +2743,8 @@ bool MainWindow::event(QEvent *event)
         m_timerUpdateFocusWindows.start();
     } else if (type == QEvent::Hide) {
         m_wasMaximized = isMaximized();
+    } else if (type == QEvent::Show && m_showItemPreview) {
+        updateItemPreviewAfterMs(0);
     }
 
     return QMainWindow::event(event);
