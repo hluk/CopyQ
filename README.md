@@ -5,7 +5,7 @@
 [![Linux Build Status](https://github.com/hluk/CopyQ/workflows/Linux%20Build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22Linux+Build%22)
 [![macOS Build Status](https://github.com/hluk/CopyQ/workflows/macOS%20Build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22macOS+Build%22)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
-[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.svg?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
+[![Coverage Status](https://codecov.io/gh/hluk/CopyQ/branch/master/graph/badge.svg)](https://codecov.io/gh/hluk/CopyQ)
 
 CopyQ is an advanced clipboard manager with powerful editing and scripting features.
 

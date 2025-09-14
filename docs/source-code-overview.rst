@@ -212,5 +212,5 @@ CI servers.
 -  `Beta OBS Linux Packages <https://build.opensuse.org/project/show/home:lukho:copyq-beta>`__
     -  Builds beta and unstable packages for various Linux distributions.
 
--  `Coveralls <https://coveralls.io/github/hluk/CopyQ>`__
+-  `Codecov <https://app.codecov.io/gh/hluk/CopyQ>`__
     -  Contains coverage report from tests run with GitHub Actions.
