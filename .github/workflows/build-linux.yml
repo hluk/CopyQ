@@ -122,6 +122,7 @@ jobs:
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+            ${{ matrix.coverage && 'lcov' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
@@ -146,8 +147,23 @@ jobs:
 
       - name: Update coverage
         if: matrix.coverage
-        env:
-          COVERALLS_REPO_TOKEN: '${{secrets.COVERALLS_REPO_TOKEN}}'
-        run: >-
-          '${{github.workspace}}/utils/github/coverage-linux.sh'
-          '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
+        working-directory: >-
+          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        run: |
+          lcov --capture --directory . --output-file coverage-full.info
+          # Remove system and 3rd party files
+          lcov --remove coverage-full.info \
+              '/usr/*' \
+              '*/qxt/*' \
+              '*/plugins/itemfakevim/fakevim/*' \
+              '*/src/gui/fix_icon_id.h' \
+              --output-file coverage.info
+
+      - name: Upload coverage to Codecov
+        if: matrix.coverage
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5
+        with:
+          files: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
+          fail_ci_if_error: true
+          verbose: true
+          token: ${{ secrets.CODECOV_TOKEN }}
