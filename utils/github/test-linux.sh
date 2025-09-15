@@ -1,5 +1,5 @@
 #!/bin/bash
-# Runs tests.
+# Runs tests for console and X11.
 set -xeuo pipefail
 
 # Enable verbose logging.
