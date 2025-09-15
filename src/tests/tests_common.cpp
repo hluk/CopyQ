@@ -49,6 +49,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("QtWarning: Wayland does not support QWindow::requestActivate()"),
         plain("QtWarning: Unexpected wl_keyboard.enter event"),
         plain("QtWarning: The compositor sent a wl_pointer.enter"),
+        plain("QtWarning: QObject::connect: No such signal QPlatformNativeInterface::systemTrayWindowChanged(QScreen*)"),
 
         // Windows
         plain("QtWarning: QWindowsWindow::setGeometry: Unable to set geometry"),

@@ -82,6 +82,7 @@ jobs:
             compiler_package: g++
             with_qt6: true
             with_native_notifications: false
+            test_wayland: true
             coverage: true
             cmake_preset: Debug
             compiler_flags: >-
@@ -114,7 +115,7 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
-      - name: Install Qt 6 dependencies
+      - name: Install dependencies
         uses: awalsh128/cache-apt-pkgs-action@2c09a5e66da6c8016428a2172bd76e5e4f14bb17 # v1
         with:
           version: 1.0
@@ -123,6 +124,7 @@ jobs:
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
             ${{ matrix.coverage && 'lcov' || '' }}
+            ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
@@ -141,7 +143,12 @@ jobs:
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
-      - name: Run tests
+      - name: Test on Wayland
+        working-directory: '${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin'
+        if: matrix.test_wayland
+        run: '${{github.workspace}}/utils/github/test-linux-wayland.sh'
+
+      - name: Test on X11
         working-directory: '${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin'
         run: '${{github.workspace}}/utils/github/test-linux.sh'
 

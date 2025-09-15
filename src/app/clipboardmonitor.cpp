@@ -2,7 +2,6 @@
 
 #include "clipboardmonitor.h"
 
-#include "common/action.h"
 #include "common/appconfig.h"
 #include "common/common.h"
 #include "common/log.h"
