@@ -12,6 +12,9 @@
 
 constexpr int maxReadLogSize = 1 * 1024 * 1024;
 
+const QString sessionName = QStringLiteral("__COPYQ_TEST");
+const QString appName = QStringLiteral("copyq-%1").arg(sessionName);
+
 constexpr auto clipboardTabName = "CLIPBOARD";
 constexpr auto defaultSessionColor = "#ff8800";
 constexpr auto defaultTagColor = "#000000";

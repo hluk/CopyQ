@@ -4,6 +4,7 @@ set -xeuo pipefail
 
 # Enable verbose logging.
 export COPYQ_LOG_LEVEL=DEBUG
+export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
 
 # Test command line arguments that don't need GUI.
 DISPLAY="" ./copyq --help
@@ -17,8 +18,8 @@ sleep 5
 openbox &
 sleep 8
 
-# Clean up old configuration.
-rm -rf ~/.config/copyq.test
+# Smoke test the default session
+./copyq --start-server exit
 
 # Run tests.
 export COPYQ_TESTS_RERUN_FAILED=1

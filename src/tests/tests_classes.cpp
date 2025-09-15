@@ -215,7 +215,7 @@ void Tests::classTemporaryFile()
     QVERIFY( !QFile::exists(QString::fromUtf8(fileName)) );
 
     RUN("TemporaryFile().autoRemove()", "true\n");
-    RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath("copyq.test.XXXXXX") + "\n");
+    RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath(QStringLiteral("%1.XXXXXX").arg(appName)) + "\n");
 }
 
 void Tests::classItemSelection()
