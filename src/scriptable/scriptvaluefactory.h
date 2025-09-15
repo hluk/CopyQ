@@ -336,6 +336,9 @@ struct ScriptValueFactory<QVariant> {
             return QVariant::fromValue( QUrl::fromLocalFile(path) );
         }
 
+        if (value.isCallable())
+            return {};
+
         if (value.isArray())
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, engine);
 
