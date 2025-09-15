@@ -280,7 +280,20 @@ void Tests::createNewItem()
 
 void Tests::editNotes()
 {
-    RUN("add" << "B" << "A", "");
+    const auto script = R"(
+        add(
+          {
+            [mimeText]: 'B',
+            // https://stackoverflow.com/a/13139830
+            [mimeIcon]: frombase64("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"),
+          },
+          {
+            [mimeText]: 'A',
+            [mimeIcon]: String.fromCharCode(0xf188),
+          }
+        )
+    )";
+    RUN(script, "");
 
     RUN("config" << "editor" << "", "\n");
     RUN("keys" << "SHIFT+F2" << ":A Note" << "F2", "");

@@ -25,8 +25,6 @@
 #include <QVariantMap>
 #include <QtPlugin>
 
-#include <cmath>
-
 namespace {
 
 // Limit number of characters for performance reasons.
@@ -40,24 +38,22 @@ const QLatin1String configShowTooltip("show_tooltip");
 
 QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 {
-    if (!icon.isEmpty()) {
-        QPixmap p;
-        if (p.loadFromData(icon)) {
-            const auto ratio = pixelRatio(parent);
-            p.setDevicePixelRatio(ratio);
+    QPixmap p;
+    if (p.loadFromData(icon)) {
+        const auto ratio = pixelRatio(parent);
+        p.setDevicePixelRatio(ratio);
 
-            const int side = ratio * (iconFontSizePixels() + 2);
-            p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-            QLabel *label = new QLabel(parent);
-            const auto m = side / 4;
-            label->setFixedSize( p.size() / ratio + QSize(m, m) );
-            label->setAlignment(Qt::AlignCenter);
-            label->setPixmap(p);
-            return label;
-        }
+        const int side = ratio * (iconFontSizePixels() + 2);
+        p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QLabel *label = new QLabel(parent);
+        const auto m = side / 4;
+        label->setFixedSize( p.size() / ratio + QSize(m, m) );
+        label->setAlignment(Qt::AlignCenter);
+        label->setPixmap(p);
+        return label;
     }
 
-    return new IconWidget(IconPenToSquare, parent);
+    return new IconWidget(QString::fromUtf8(icon), parent);
 }
 
 } // namespace
