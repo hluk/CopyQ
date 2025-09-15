@@ -185,6 +185,7 @@ void X11PlatformClipboard::onChanged(int mode)
         return;
 
     ++clipboardData.sequenceNumber;
+    clipboardData.ignoreNext = false;
 
     // Store the current window title right after the clipboard/selection changes.
     // This makes sure that the title points to the correct clipboard/selection
