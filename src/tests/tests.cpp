@@ -38,6 +38,9 @@
 
 namespace {
 
+const QString defaultTestId = QStringLiteral("CORE");
+const QString defaultTestPlugins = QStringLiteral("itemtext,itemnotes");
+
 class PerformanceTimer final {
 public:
     PerformanceTimer() {
@@ -71,7 +74,7 @@ public:
     {
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
-        m_env.insert("COPYQ_SESSION_NAME", "TEST");
+        m_env.insert("COPYQ_SESSION_NAME", sessionName);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
     }
 
@@ -410,7 +413,7 @@ public:
         const auto settingsPath = settingsDirectoryPath();
         Q_ASSERT( !settingsPath.isEmpty() );
         QDir settingsDir(settingsPath);
-        const QStringList settingsFileFilters("copyq.test*");
+        const QStringList settingsFileFilters(QStringLiteral("%1*").arg(appName));
         // Omit using dangerous QDir::removeRecursively().
         for ( const auto &fileName : settingsDir.entryList(settingsFileFilters) ) {
             const auto path = settingsDir.absoluteFilePath(fileName);
@@ -428,6 +431,7 @@ public:
             settings.clear();
 
             settings.beginGroup("Options");
+            settings.setValue( QStringLiteral("language"), QStringLiteral("en") );
             settings.setValue( Config::clipboard_tab::name(), clipboardTabName );
             settings.setValue( Config::close_on_unfocus::name(), false );
             // Hide the main window even if there is no tray or minimize support.
@@ -437,7 +441,7 @@ public:
             settings.endGroup();
 
             if ( !m_settings.isEmpty() ) {
-                const bool pluginsTest = m_testId != "CORE";
+                const bool pluginsTest = m_testId != defaultTestId;
 
                 if (pluginsTest) {
                     settings.beginGroup("Plugins");
@@ -500,11 +504,11 @@ public:
         return true;
     }
 
-    void setupTest(const QString &id, const QVariant &settings)
+    void setupTest(const QString &id, const QString &allowPlugins, const QVariant &settings)
     {
         m_testId = id;
         m_settings = settings.toMap();
-        m_env.insert("COPYQ_TEST_ID", id);
+        m_env.insert("COPYQ_ALLOW_PLUGINS", allowPlugins);
     }
 
     int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
@@ -541,7 +545,7 @@ private:
         QCOMPARE( appConfig.option<Config::close_on_unfocus>(), false );
         QCOMPARE( appConfig.option<Config::clipboard_tab>(), QString(clipboardTabName) );
         QCOMPARE( appConfig.option<Config::maxitems>(), Config::maxitems::defaultValue() );
-        QCOMPARE( savedTabs(), QStringList(clipboardTabName) );
+        QCOMPARE( savedTabs().join(QStringLiteral(", ")), clipboardTabName );
         QCOMPARE( AppConfig().option<Config::tabs>(), QStringList() );
     }
 
@@ -660,9 +664,8 @@ int runTests(int argc, char *argv[])
     std::unique_ptr<QGuiApplication> app( platform->createTestApplication(argc, argv) );
     Q_UNUSED(app)
 
-    const QString session = "copyq.test";
-    QCoreApplication::setOrganizationName(session);
-    QCoreApplication::setApplicationName(session);
+    QCoreApplication::setOrganizationName(appName);
+    QCoreApplication::setApplicationName(appName);
 
     // Set higher default tests timeout.
     // The default value is 5 minutes (in Qt 5.15) which is not enough to run
@@ -676,13 +679,13 @@ int runTests(int argc, char *argv[])
     std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
     const auto runTests = [&](QObject *tests){
         exitCode = std::max(exitCode, test->runTests(tests, argc, argv));
+        test->stopServer();
     };
 
     if (onlyPlugins.pattern().isEmpty()) {
-        test->setupTest("CORE", QVariant());
+        test->setupTest("CORE", defaultTestPlugins, QVariant());
         Tests tc(test);
         runTests(&tc);
-        test->stopServer();
     }
 
     if (runPluginTests) {
@@ -692,9 +695,10 @@ int runTests(int argc, char *argv[])
             if ( loader->id().contains(onlyPlugins) ) {
                 std::unique_ptr<QObject> pluginTests( loader->tests(test) );
                 if ( pluginTests != nullptr ) {
-                    test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
+                    const auto pluginId = loader->id();
+                    const auto settings = pluginTests->property("CopyQ_test_settings");
+                    test->setupTest(pluginId, pluginId, settings);
                     runTests(pluginTests.get());
-                    test->stopServer();
                 }
             }
         }

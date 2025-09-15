@@ -23,35 +23,6 @@
 
 namespace {
 
-#ifdef HAS_TESTS
-/**
- * Return true only this session was started from tests.
- */
-bool isTesting()
-{
-    return !qEnvironmentVariableIsEmpty("COPYQ_TEST_ID");
-}
-
-/**
- * Change application name for tests and set "CopyQ_test_id" property of application
- * to current test ID. The ID is "CORE" for core tests and ItemLoaderInterface::id() for plugins.
- *
- * This function does nothing if isTesting() returns false.
- */
-void initTests()
-{
-    if ( !isTesting() )
-        return;
-
-    const QString session = QStringLiteral("copyq.test");
-    QCoreApplication::setOrganizationName(session);
-    QCoreApplication::setApplicationName(session);
-
-    const QString testId = getTextData( qgetenv("COPYQ_TEST_ID") );
-    qApp->setProperty("CopyQ_test_id", testId);
-}
-#endif // HAS_TESTS
-
 void installTranslator(const QString &filename, const QString &directory)
 {
     std::unique_ptr<QTranslator> translator( new QTranslator(qApp) );
@@ -101,12 +72,6 @@ void installTranslator()
 #endif
 
     qApp->setProperty("CopyQ_translation_directories", translationDirectories);
-
-#ifdef HAS_TESTS
-    // Keep texts and shortcuts untranslated for tests.
-    if ( isTesting() )
-        return;
-#endif
 
     QLocale::setDefault(QLocale(locale));
 }
@@ -159,10 +124,6 @@ App::App(QCoreApplication *application,
 #endif
         );
     }
-
-#ifdef HAS_TESTS
-    initTests();
-#endif
 }
 
 App::~App()

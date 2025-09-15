@@ -660,11 +660,8 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 
     settings->endGroup();
 
-#ifdef HAS_TESTS
-    // For tests, enable only the tested plugin.
-    const QString testId = qApp->property("CopyQ_test_id").toString();
-    if ( !testId.isEmpty() )
-        return loader->id() == testId;
-#endif
-    return enabled;
+    static const QStringList plugins =
+        getTextData( qgetenv("COPYQ_ALLOW_PLUGINS") )
+        .split(QChar(','), Qt::SkipEmptyParts);
+    return plugins.isEmpty() ? enabled : plugins.contains(loader->id());
 }

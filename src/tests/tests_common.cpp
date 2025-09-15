@@ -148,8 +148,8 @@ QString appWindowTitle(const QString &text)
 #ifdef Q_OS_MAC
     return QStringLiteral("CopyQ - %1\n").arg(text);
 #elif defined(Q_OS_WIN)
-    return QStringLiteral("%1 - CopyQ-TEST\n").arg(text);
+    return QStringLiteral("%1 - CopyQ-%2\n").arg(text, sessionName);
 #else
-    return QStringLiteral("%1 — CopyQ-TEST\n").arg(text);
+    return QStringLiteral("%1 — CopyQ-%2\n").arg(text, sessionName);
 #endif
 }
