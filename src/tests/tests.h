@@ -326,6 +326,8 @@ private slots:
     void slowClipboard();
     void clipboardUriList();
 
+    void handleUnexpectedTypes();
+
 private:
     void navigationTestInit();
     void navigationTestDownUp(const QString &down, const QString &up);

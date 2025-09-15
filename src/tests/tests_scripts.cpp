@@ -1174,3 +1174,10 @@ void Tests::insertRemoveItems()
     QCOMPARE( run(Args(args) << "insert" << "1" << "-", nullptr, nullptr, in), 0);
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "abc,ABC,ghi,,");
 }
+
+void Tests::handleUnexpectedTypes()
+{
+    RUN("add(version)", "");
+    RUN("add([version])", "");
+    RUN("add({version: version})", "");
+}
