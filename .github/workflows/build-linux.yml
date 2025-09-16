@@ -124,7 +124,7 @@ jobs:
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
             ${{ matrix.coverage && 'lcov' || '' }}
-            ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual' || '' }}
+            ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10

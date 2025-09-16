@@ -28,6 +28,10 @@ export WAYLAND_DISPLAY=copyq-wayland
 # Smoke test the default session
 ./copyq --start-server exit
 
+# Test handling Unix signals.
+script_root="$(dirname "$(readlink -f "$0")")"
+"$script_root/test-signals.sh"
+
 if [[ $# == 0 ]]; then
     ./copyq tests "${default_wayland_tests[@]}"
 else

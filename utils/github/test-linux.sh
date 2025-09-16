@@ -21,6 +21,10 @@ sleep 8
 # Smoke test the default session
 ./copyq --start-server exit
 
+# Test handling Unix signals.
+script_root="$(dirname "$(readlink -f "$0")")"
+"$script_root/test-signals.sh"
+
 # Run tests.
 export COPYQ_TESTS_RERUN_FAILED=1
 ./copyq tests "$@"
