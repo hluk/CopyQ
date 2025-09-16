@@ -63,10 +63,10 @@ else
 fi
 
 if wait $copyq_pid; then
-    echo "✅ PASSED: Server exited without error as expected"
-else
-    echo "❌ FAILED: Server did not exit with error"
+    echo "❌ FAILED: Server should exit with a non-zero code"
     exit_code=1
+else
+    echo "✅ PASSED: Server exited with a non-zero code as expected"
 fi
 
 exit $exit_code
