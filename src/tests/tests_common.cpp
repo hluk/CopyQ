@@ -72,6 +72,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         // macOS
         plain("QtWarning: Failed to get QCocoaScreen for NSObject(0x0)"),
         plain("ERROR: Failed to open session mutex: QSystemSemaphore::handle:: ftok failed"),
+        plain("Warning: [qt.tlsbackend.ossl] QtWarning: Failed to load libssl/libcrypto."),
         regex(R"(QtWarning: Window position.* outside any known screen.*)"),
         regex(R"(QtWarning: Populating font family aliases took .* ms. Replace uses of missing font family "Font Awesome.*" with one that exists to avoid this cost.)"),
 

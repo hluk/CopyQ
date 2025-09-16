@@ -5,8 +5,8 @@
 #include "common/appconfig.h"
 #include "common/action.h"
 #include "common/actiontablemodel.h"
+#include "common/commandstatus.h"
 #include "common/common.h"
-#include "common/contenttype.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -15,7 +15,6 @@
 #include "gui/icons.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
-#include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
 
@@ -112,7 +111,7 @@ void ActionHandler::terminateAction(int id)
 void ActionHandler::closeAction(Action *action)
 {
     m_actions.remove(action->id());
-    m_internalActions.remove(action->id());
+    const bool isInternal = m_internalActions.remove(action->id());
 
     if ( action->actionFailed() ) {
         const auto msg = tr("Error: %1").arg(action->errorString());
@@ -124,6 +123,9 @@ void ActionHandler::closeAction(Action *action)
                    .arg(action->exitCode())
                    .arg(action->commandLine()) );
 #endif
+    } else if ( isInternal && action->exitCode() == CommandStop ) {
+        COPYQ_LOG( QStringLiteral("Internal action interrupted: %1")
+                  .arg(actionDescription(*action)) );
     } else if ( action->exitCode() != 0 ) {
         const auto msg = tr("Exit code: %1").arg(action->exitCode());
         showActionErrors(action, msg, IconCircleXmark);

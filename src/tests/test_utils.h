@@ -44,8 +44,6 @@ constexpr auto clipboardDialogFormatListId = "focus:listWidgetFormats";
 constexpr auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
 constexpr auto itemPreviewId = "focus:in dockWidgetItemPreviewContents";
 
-#define KEEP_STDIN_OPEN "KEEP_STDIN_OPEN"
-
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 
 /**

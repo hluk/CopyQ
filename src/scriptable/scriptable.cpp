@@ -598,11 +598,17 @@ void Scriptable::clearExceptions()
     m_hasUncaughtException = false;
     m_uncaughtException = QJSValue();
     m_uncaughtExceptionStack.clear();
+
+    if (m_abort == Abort::CurrentEvaluation) {
+        m_engine->setInterrupted(false);
+        m_abort = Abort::None;
+        m_abortWithSuccess = false;
+    }
 }
 
 void Scriptable::setUncaughtException(const QJSValue &exc)
 {
-    if (m_hasUncaughtException)
+    if (m_abort != Abort::None || m_hasUncaughtException)
         return;
 
     m_uncaughtException = exc;
@@ -880,6 +886,7 @@ void Scriptable::exit()
     m_skipArguments = 0;
     QByteArray message = fromString( tr("Terminating server.\n") );
     printError(message);
+    m_abortWithSuccess = true;
     m_proxy->exit();
 }
 
@@ -1725,13 +1732,13 @@ void Scriptable::print()
 void Scriptable::abort()
 {
     m_skipArguments = 0;
-    abortEvaluation(m_action ? Abort::CurrentEvaluation : Abort::AllEvaluations);
+    m_abortWithSuccess = true;
+    abortEvaluation(Abort::CurrentEvaluation);
 }
 
 void Scriptable::fail()
 {
     m_skipArguments = 0;
-    m_failed = true;
     abortEvaluation(Abort::CurrentEvaluation);
 }
 
@@ -2911,29 +2918,21 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
         result = call( label2, &result, fnArgs.mid(skipArguments) );
     }
 
-    int exitCode;
+    if (m_abort != Abort::None)
+        return m_abortWithSuccess ? CommandFinished : CommandStop;
 
-    if (m_failed) {
-        exitCode = CommandError;
-    } else if (m_abort != Abort::None) {
-        exitCode = CommandFinished;
-    } else if ( hasUncaughtException() ) {
+    if ( hasUncaughtException() ) {
         processUncaughtException(QString());
-        exitCode = CommandException;
-    } else {
-        const auto message = serializeScriptValue(result, this);
-        print(message);
-        exitCode = CommandFinished;
+        return CommandException;
     }
 
-    return exitCode;
+    const auto message = serializeScriptValue(result, this);
+    print(message);
+    return CommandFinished;
 }
 
 void Scriptable::processUncaughtException(const QString &cmd)
 {
-    if ( !hasUncaughtException() )
-        return;
-
     const auto exceptionName = m_uncaughtException.toString()
             .remove(QRegularExpression("^Error: "))
             .trimmed();
@@ -3094,15 +3093,20 @@ QJSValue Scriptable::copy(ClipboardMode mode)
 
 void Scriptable::abortEvaluation(Abort abort)
 {
-    m_abort = abort;
-    throwError("Evaluation aborted");
+    if (m_abort >= abort)
+        return;
 
-    if (m_abort == Abort::AllEvaluations)
-        m_proxy->clientDisconnected();
-    else
-        m_proxy->abortEvaluation();
+    m_abort = abort;
+    m_engine->setInterrupted(true);
+    m_proxy->abortEvaluation();
 
     emit finished();
+
+    // This effectively stops all QEventLoop.
+    // In some cases connecting the Scriptable::finished signal to
+    // QEventLoop::quit does not work well.
+    if (abort == Abort::AllEvaluations)
+        QCoreApplication::exit(m_abortWithSuccess ? CommandFinished : CommandStop);
 }
 
 QJSValue Scriptable::changeItem(bool create)
@@ -3191,17 +3195,6 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
     const auto result = m_safeEval.call({QJSValue(script)});
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
-
-    if (m_abort != Abort::None) {
-        clearExceptions();
-        if (m_abort == Abort::AllEvaluations)
-            abortEvaluation(Abort::AllEvaluations);
-        else
-            m_abort = Abort::None;
-
-        return QJSValue();
-    }
-
     return result;
 }
 
@@ -3243,12 +3236,7 @@ bool Scriptable::runAction(Action *action)
 
         const auto exitCode = executeArgumentsSimple(cmd1.mid(1));
         action->setExitCode(exitCode);
-        m_failed = false;
         clearExceptions();
-        if (m_abort == Abort::AllEvaluations)
-            abortEvaluation(Abort::AllEvaluations);
-        else
-            m_abort = Abort::None;
 
         m_action = oldAction;
         m_input = oldInput;
@@ -3648,7 +3636,9 @@ QJSValue Scriptable::readInput()
     }
 
     inputReaderThread->deleteLater();
-    COPYQ_LOG(QStringLiteral("Read Input %1 bytes").arg(inputReaderThread->input.length()));
+    COPYQ_LOG_VERBOSE(
+        QStringLiteral("Read Input %1 bytes")
+        .arg(inputReaderThread->input.length()));
     return newByteArray(inputReaderThread->input);
 }
 
