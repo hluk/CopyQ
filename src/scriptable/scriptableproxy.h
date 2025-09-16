@@ -103,6 +103,9 @@ public:
 
     void safeDeleteLater();
 
+    void disconnectClient();
+    void abortEvaluation();
+
 public slots:
     QVariantMap getActionData(int id);
     void setActionData(int id, const QVariantMap &data);
@@ -293,8 +296,7 @@ signals:
     void functionCallFinished(int functionCallId, const QVariant &returnValue);
     void inputDialogFinished(int dialogId, const NamedValueList &result);
     void sendMessage(const QByteArray &message, int messageCode);
-    void clientDisconnected();
-    void abortEvaluation();
+    void abortEvaluationRequest();
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);

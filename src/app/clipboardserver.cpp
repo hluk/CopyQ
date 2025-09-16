@@ -493,7 +493,7 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
     connect( client.get(), &ClientSocket::disconnected,
              this, &ClipboardServer::onClientDisconnected );
     connect( client.get(), &ClientSocket::disconnected,
-             proxy, &ScriptableProxy::clientDisconnected );
+             proxy, &ScriptableProxy::disconnectClient );
     connect( client.get(), &ClientSocket::connectionFailed,
              this, &ClipboardServer::onClientConnectionFailed );
     client->start();

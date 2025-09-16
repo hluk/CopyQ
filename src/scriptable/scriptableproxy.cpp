@@ -857,12 +857,6 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     : QObject(parent)
     , m_wnd(mainWindow)
 {
-    connect( this, &ScriptableProxy::clientDisconnected,
-             this, [this]() {
-                 m_disconnected = true;
-                 emit abortEvaluation();
-             } );
-
     registerMetaTypes();
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     Q_ASSERT(QMetaType::fromType<Command>().hasRegisteredDataStreamOperators());
@@ -1045,6 +1039,17 @@ void ScriptableProxy::safeDeleteLater()
     m_shouldBeDeleted = true;
     if (m_functionCallStack == 0)
         deleteLater();
+}
+
+void ScriptableProxy::disconnectClient()
+{
+    m_disconnected = true;
+    abortEvaluation();
+}
+
+void ScriptableProxy::abortEvaluation()
+{
+    emit abortEvaluationRequest();
 }
 
 QVariantMap ScriptableProxy::getActionData(int id)
@@ -2195,7 +2200,7 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     });
 
     // Connecting this directly to QEventLoop::quit() doesn't seem to work always.
-    connect(this, &ScriptableProxy::abortEvaluation, &dialog, &QDialog::reject);
+    connect(this, &ScriptableProxy::abortEvaluationRequest, &dialog, &QDialog::reject);
 
     dialog.show();
 
@@ -2741,7 +2746,7 @@ QVariant ScriptableProxy::waitForFunctionCallFinished(int functionCallId)
                 result = returnValue;
                 loop.quit();
             });
-    connect(this, &ScriptableProxy::abortEvaluation, &loop, &QEventLoop::quit);
+    connect(this, &ScriptableProxy::abortEvaluationRequest, &loop, &QEventLoop::quit);
 
     connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit);
     loop.exec();

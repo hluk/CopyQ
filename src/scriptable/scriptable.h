@@ -114,7 +114,7 @@ public:
 
     QJSEngine *engine() const { return m_engine; }
 
-    bool canContinue() const { return m_abort == Abort::None && !m_failed; }
+    bool canContinue() const { return m_abort == Abort::None; }
 
     void installObject(QObject *fromObj, const QMetaObject *metaObject, QJSValue &toObject);
 
@@ -482,6 +482,7 @@ private:
     int m_actionId = -1;
     QString m_actionName;
     Abort m_abort = Abort::None;
+    bool m_abortWithSuccess = false;
     int m_skipArguments = 0;
 
     bool m_modifyDisplayDataOnly = false;
@@ -489,7 +490,6 @@ private:
     QJSValue m_plugins;
 
     Action *m_action = nullptr;
-    bool m_failed = false;
 
     QString m_tabName;
 

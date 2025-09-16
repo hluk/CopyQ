@@ -79,7 +79,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
     }
 
     case CommandStop: {
-        exit(0);
+        emit stop();
         break;
     }
 
@@ -132,16 +132,15 @@ void ClipboardClient::start(const QStringList &arguments)
 
     connect( &scriptableProxy, &ScriptableProxy::sendMessage,
              &socket, &ClientSocket::sendMessage );
+    connect( &socket, &ClientSocket::disconnected,
+             &scriptableProxy, &ScriptableProxy::disconnectClient );
 
     connect( this, &ClipboardClient::functionCallResultReceived,
              &scriptableProxy, &ScriptableProxy::setFunctionCallReturnValue );
     connect( this, &ClipboardClient::inputDialogFinished,
              &scriptableProxy, &ScriptableProxy::setInputDialogResult );
-
-    connect( &socket, &ClientSocket::disconnected,
-             &scriptable, &Scriptable::abort );
-    connect( &socket, &ClientSocket::disconnected,
-             &scriptableProxy, &ScriptableProxy::clientDisconnected );
+    connect( this, &ClipboardClient::stop,
+             &scriptable, [&](){scriptable.abortEvaluation();} );
 
     connect( this, &ClipboardClient::dataReceived,
              &scriptable, &Scriptable::dataReceived, Qt::QueuedConnection );
@@ -160,7 +159,8 @@ void ClipboardClient::start(const QStringList &arguments)
         scriptable.setActionName(actionName);
 
         const int exitCode = scriptable.executeArguments(arguments);
-        socket.disconnect(&scriptable);
+        socket.disconnect(&scriptableProxy);
+        scriptableProxy.disconnect(&scriptable);
         exit(exitCode);
     }
 }

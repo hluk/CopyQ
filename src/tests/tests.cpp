@@ -76,6 +76,9 @@ public:
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
         m_env.insert("COPYQ_SESSION_NAME", sessionName);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
+        m_env.insert(
+            "QT_LOGGING_RULES",
+            "*.debug=true;qt.*.debug=false;qt.*.warning=true");
     }
 
     ~TestInterfaceImpl()
@@ -165,12 +168,10 @@ public:
         if (!startTestProcess(&p, arguments, QIODevice::ReadWrite, environment))
             return -1;
 
-        if (in != KEEP_STDIN_OPEN) {
-            if ( p.write(in) != in.size() )
-                return -2;
+        if ( p.write(in) != in.size() )
+            return -2;
 
-            p.closeWriteChannel();
-        }
+        p.closeWriteChannel();
 
         if (stdoutData == nullptr)
             p.closeReadChannel(QProcess::StandardOutput);

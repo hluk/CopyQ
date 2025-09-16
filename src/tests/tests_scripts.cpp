@@ -90,6 +90,7 @@ void Tests::commandPrint()
 
 void Tests::commandAbort()
 {
+    RUN("abort(); 1", "");
     RUN("eval" << "abort(); 1", "");
     RUN("eval" << "eval('abort(); print(1)'); 2", "");
     RUN("eval" << "execute('copyq', 'eval', '--', 'abort(); print(1)'); 2", "2\n");
@@ -99,7 +100,7 @@ void Tests::commandFail()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
-    QCOMPARE( run(Args("fail"), &stdoutActual, &stderrActual), 1 );
+    QCOMPARE( run(Args("fail"), &stdoutActual, &stderrActual), 10 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QCOMPARE( stdoutActual, QByteArray() );
 }
