@@ -101,11 +101,7 @@ struct GpgVersion {
 GpgVersion parseVersion(const QString &versionOutput)
 {
     const int lineEndIndex = versionOutput.indexOf('\n');
-#if QT_VERSION < QT_VERSION_CHECK(5,15,2)
-    const QStringRef firstLine = versionOutput.midRef(0, lineEndIndex);
-#else
     const auto firstLine = QStringView{versionOutput}.mid(0, lineEndIndex);
-#endif
     const QRegularExpression versionRegex(QStringLiteral(R"( (\d+)\.(\d+))"));
     const QRegularExpressionMatch match = versionRegex.match(firstLine);
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)

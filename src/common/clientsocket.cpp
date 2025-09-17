@@ -147,11 +147,7 @@ bool ClientSocket::start()
 
     connect( m_socket.get(), &QLocalSocket::stateChanged,
              this, &ClientSocket::onStateChanged );
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     connect( m_socket.get(), &QLocalSocket::errorOccurred,
-#else
-    connect( m_socket.get(), static_cast<void (QLocalSocket::*)(QLocalSocket::LocalSocketError)>(&QLocalSocket::error),
-#endif
              this, &ClientSocket::onError );
     connect( m_socket.get(), &QLocalSocket::readyRead,
              this, &ClientSocket::onReadyRead );

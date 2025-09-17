@@ -569,13 +569,8 @@ QJSValue Scriptable::throwError(const QString &errorMessage)
         "(function(text) {throw new Error(text);})"
     ));
     const auto exc = throwFn.call({errorMessage});
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
     m_engine->throwError(QJSValue::GenericError, errorMessage);
     return exc;
-#else
-    setUncaughtException(exc);
-    return m_uncaughtException;
-#endif
 }
 
 QJSValue Scriptable::throwSaveError(const QString &filePath)
@@ -620,27 +615,11 @@ QJSValue Scriptable::getPlugins()
 {
     // Load plugins on demand.
     if ( m_plugins.isUndefined() && m_factory ) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
         m_plugins = m_engine->newQObject(new ScriptablePlugins(this, m_factory));
         m_engine->globalObject().setProperty(QStringLiteral("_copyqPlugins"), m_plugins);
         m_plugins = evaluateStrict(m_engine, QStringLiteral(
             "new Proxy({}, { get: function(_, name, _) { return _copyqPlugins.load(name); } });"
         ));
-#else
-        m_plugins = m_engine->newObject();
-        m_engine->globalObject().setProperty(QStringLiteral("_copyqPlugins"), m_plugins);
-        for (const ItemLoaderPtr &loader : m_factory->loaders()) {
-            const auto obj = loader->scriptableObject();
-            if (!obj)
-                continue;
-
-            auto plugin = m_engine->newObject();
-            m_plugins.setProperty(loader->id(), plugin);
-            installObject(obj, obj->metaObject(), plugin);
-            obj->setScriptable(this);
-            obj->start();
-        }
-#endif
     }
 
     return m_plugins;

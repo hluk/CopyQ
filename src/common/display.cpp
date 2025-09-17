@@ -16,10 +16,8 @@ namespace {
 QScreen *screenForWidget(QWidget *w)
 {
     if (w) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
         if ( w->screen() )
             return w->screen();
-#endif
 
         const int i = screenNumberAt(w->pos());
         const auto screens = QGuiApplication::screens();

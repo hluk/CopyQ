@@ -853,13 +853,9 @@ static QString fromLocalEncoding(const QByteArray &data)
 static QString getProcessOutput(const QString &command, const QString &input)
 {
     QProcess proc;
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     QStringList arguments = QProcess::splitCommand(command);
     QString executable = arguments.takeFirst();
     proc.start(executable, arguments);
-#else
-    proc.start(command);
-#endif
     proc.waitForStarted();
     proc.write(toLocalEncoding(input));
     proc.closeWriteChannel();

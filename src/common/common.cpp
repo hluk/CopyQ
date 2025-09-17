@@ -367,11 +367,7 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     lines = lines.mid(firstLine, lastLine - firstLine + 1);
 
     QFontMetrics fm(font);
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     const int formatWidth = format.isEmpty() ? 0 : fm.horizontalAdvance(format.arg(QString()));
-#else
-    const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
-#endif
 
     // Remove redundant spaces from single line text.
     if (lines.size() == 1) {
@@ -503,12 +499,7 @@ void acceptDrag(QDropEvent *event)
     // Default drop action in item list and tab bar/tree should be "move."
     if ( event->possibleActions().testFlag(Qt::MoveAction)
          && event->mimeData()->hasFormat(mimeOwner)
-#if QT_VERSION < QT_VERSION_CHECK(5,12,0)
-         // WORKAROUND: Test currently pressed modifiers instead of the ones in event (QTBUG-57168).
-         && !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier)
-#else
          && !event->keyboardModifiers().testFlag(Qt::ControlModifier)
-#endif
         )
     {
         event->setDropAction(Qt::MoveAction);

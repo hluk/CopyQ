@@ -69,18 +69,8 @@ void setTabWidth(QTextEdit *editor, int spaces)
 {
     const QLatin1Char space(' ');
     const QFontMetricsF metrics(editor->fontMetrics());
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
     const qreal width = metrics.horizontalAdvance(QString(spaces, space));
-#else
-    const qreal width = metrics.width(space) * spaces;
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
     editor->setTabStopDistance(width);
-#else
-    editor->setTabStopWidth(width);
-#endif
 }
 
 } // namespace

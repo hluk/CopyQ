@@ -588,11 +588,7 @@ protected:
         if (!id) {
             m_receivedSelection.reset();
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
             auto derivated = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
-#else
-            auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
-#endif
             auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
             if (offer)
                 offer->clipboardMode = QClipboard::Clipboard;
@@ -606,11 +602,7 @@ protected:
         if (!id) {
             m_receivedPrimarySelection.reset();
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,5)
             auto derivated = QtWayland::zwlr_data_control_offer_v1::fromObject(id);
-#else
-            auto derivated = static_cast<QtWayland::zwlr_data_control_offer_v1 *>(zwlr_data_control_offer_v1_get_user_data(id));
-#endif
             auto offer = dynamic_cast<DataControlOffer *>(derivated); // dynamic because of the dual inheritance
             if (offer)
                 offer->clipboardMode = QClipboard::Selection;

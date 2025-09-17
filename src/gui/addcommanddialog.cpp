@@ -108,13 +108,8 @@ void AddCommandDialog::accept()
 
 void AddCommandDialog::onLineEditFilterTextChanged(const QString &text)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
     const QRegularExpression re(text, QRegularExpression::CaseInsensitiveOption);
     m_filterModel->setFilterRegularExpression(re);
-#else
-    const QRegExp re(text, Qt::CaseInsensitive);
-    m_filterModel->setFilterRegExp(re);
-#endif
 }
 
 void AddCommandDialog::onListViewCommandsActivated()
