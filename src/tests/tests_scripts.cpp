@@ -709,16 +709,15 @@ void Tests::commandEditItem()
     TEST( m_test->setClipboard("TEST", mimeHtml) );
     RUN("editItem" << "-1" << mimeHtml, "");
     RUN("keys" << "END" << ":LINE 1" << "F2", "");
-#ifdef Q_OS_WIN
-#   define FRAG_START "<!--StartFragment-->"
-#   define FRAG_END "<!--EndFragment-->"
-    const auto expected = QByteArrayLiteral(FRAG_START "TEST" FRAG_END "LINE 1");
-#else
     const auto expected = QByteArrayLiteral("TESTLINE 1");
+#ifdef Q_OS_WIN
+    const auto expectedClipboard = QByteArrayLiteral("<!--StartFragment-->TESTLINE 1<!--EndFragment-->", mimeHtml);
+#else
+    const auto expectedClipboard = expected;
 #endif
     RUN("read" << mimeHtml << "0", expected);
     RUN("read" << "0", "");
-    WAIT_FOR_CLIPBOARD2(expected, mimeHtml);
+    WAIT_FOR_CLIPBOARD2(expectedClipboard, mimeHtml);
     WAIT_FOR_CLIPBOARD("");
 
     // Edit existing item.
@@ -726,7 +725,7 @@ void Tests::commandEditItem()
     RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
     RUN("read" << mimeHtml << "0", expected + "\nLINE 2");
     RUN("read" << "0", "");
-    WAIT_FOR_CLIPBOARD2(expected, mimeHtml);
+    WAIT_FOR_CLIPBOARD2(expectedClipboard, mimeHtml);
     WAIT_FOR_CLIPBOARD("");
 
     // Edit clipboard (ignore existing data) and new item.
@@ -734,11 +733,7 @@ void Tests::commandEditItem()
     RUN("keys" << "END" << ":LINE 1" << "F2", "");
     RUN("read" << mimeHtml << "0", "TESTLINE 1");
     RUN("read" << "0", "");
-#ifdef Q_OS_WIN
-    WAIT_FOR_CLIPBOARD2(FRAG_START "TESTLINE 1" FRAG_END, mimeHtml);
-#else
-    WAIT_FOR_CLIPBOARD2("TESTLINE 1", mimeHtml);
-#endif
+    WAIT_FOR_CLIPBOARD2(expectedClipboard, mimeHtml);
     WAIT_FOR_CLIPBOARD("");
 }
 
