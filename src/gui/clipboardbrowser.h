@@ -216,8 +216,6 @@ class ClipboardBrowser final : public QListView
 
         void emitItemCount();
 
-        bool eventFilter(QObject *watched, QEvent *event) override;
-
         using QListView::isIndexHidden;
         using QListView::isRowHidden;
         using QListView::verticalOffset;
@@ -263,7 +261,6 @@ class ClipboardBrowser final : public QListView
         void focusInEvent(QFocusEvent *event) override;
         void focusOutEvent(QFocusEvent *event) override;
 
-        void dragEnterEvent(QDragEnterEvent *event) override;
         void dragLeaveEvent(QDragLeaveEvent *event) override;
         void dragMoveEvent(QDragMoveEvent *event) override;
         void dropEvent(QDropEvent *event) override;

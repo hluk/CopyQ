@@ -58,13 +58,8 @@ ActionHandlerDialog::ActionHandlerDialog(ActionHandler *actionHandler, QAbstract
 
     connect( ui->filterLineEdit, &QLineEdit::textChanged, proxyModel,
              [proxyModel](const QString &pattern) {
-#if QT_VERSION >= QT_VERSION_CHECK(5,12,0)
                  const QRegularExpression re(pattern, QRegularExpression::CaseInsensitiveOption);
                  proxyModel->setFilterRegularExpression(re);
-#else
-                 const QRegExp re(pattern, Qt::CaseInsensitive);
-                 proxyModel->setFilterRegExp(re);
-#endif
              } );
 
     const auto selectionModel = ui->tableView->selectionModel();

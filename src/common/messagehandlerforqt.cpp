@@ -27,7 +27,7 @@ private:
     QByteArray m_message;
 };
 
-void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+void messageHandlerForQt(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QString message = msg;
     if (context.file && context.file[0]) {
@@ -61,5 +61,5 @@ void messageHandlerForQt5(QtMsgType type, const QMessageLogContext &context, con
 
 void installMessageHandlerForQt()
 {
-    qInstallMessageHandler(messageHandlerForQt5);
+    qInstallMessageHandler(messageHandlerForQt);
 }

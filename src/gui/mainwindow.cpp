@@ -717,13 +717,7 @@ void MainWindow::exit()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     hideWindow();
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     event->accept();
-#else
-    // This is needed in older versions of Qt (tested in Qt 5.12.8),
-    // otherwise focusing is somewhat broken (test pasteFromMainWindow()).
-    event->ignore();
-#endif
     COPYQ_LOG("Got main window close event.");
 }
 
@@ -3782,11 +3776,6 @@ void MainWindow::openPreferences()
              this, &MainWindow::configurationChanged );
     connect( &configurationManager, &ConfigurationManager::error,
              this, &MainWindow::showError );
-
-#if QT_VERSION < QT_VERSION_CHECK(5,9,3)
-    // WORKAROUND: Fix drag'n'drop in list in modal dialog for Qt 5.9.2 (QTBUG-63846).
-    configurationManager.setWindowModality(Qt::WindowModal);
-#endif
 
     cm = &configurationManager;
     configurationManager.exec();

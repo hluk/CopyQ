@@ -6,7 +6,6 @@
 #include "filewatcher.h"
 
 #include "common/appconfig.h"
-#include "common/compatibility.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -560,7 +559,7 @@ void ItemSyncLoader::applySettings(QSettings &settings)
     for (int row = 0; row < t->rowCount(); ++row) {
         FileFormat fileFormat;
         fileFormat.extensions = t->item(row, formatSettingsTableColumns::formats)->text()
-                .split( QRegularExpression("[,;\\s]"), SKIP_EMPTY_PARTS );
+                .split( QRegularExpression("[,;\\s]"), Qt::SkipEmptyParts );
         fileFormat.itemMime = t->item(row, formatSettingsTableColumns::itemMime)->text();
         if ( fileFormat.extensions.isEmpty() && fileFormat.itemMime.isEmpty() )
             continue;

@@ -40,11 +40,7 @@ void appendAndClearNonEmpty(Entry &entry, Container &container)
 bool getScriptFromLabel(const char *labelStr, const QString &cmd, int i, QString *script)
 {
     const QLatin1String label(labelStr);
-#if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    const auto mid = cmd.midRef(i, label.size());
-#else
     const auto mid = QStringView(cmd).mid(i, label.size());
-#endif
     if (mid == label) {
         *script = cmd.mid(i + label.size());
         return true;

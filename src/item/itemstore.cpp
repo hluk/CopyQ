@@ -190,11 +190,7 @@ void cleanDataFiles(const QStringList &tabNames)
         }
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
     const QSet<QString> fileSet(files.constBegin(), files.constEnd());
-#else
-    const QSet<QString> fileSet = files.toSet();
-#endif
     for ( const auto &i1 : dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot) ) {
         QDir d1(i1.absoluteFilePath());
         for ( const auto &i2 : d1.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot) ) {

@@ -486,14 +486,10 @@ static const unsigned int KeyTbl[] = {
     XF86XK_MenuKB,              Qt::Key_MenuKB,
     XF86XK_MenuPB,              Qt::Key_MenuPB,
     XF86XK_MySites,             Qt::Key_MySites,
-#if QT_VERSION >= 0x050400
     XF86XK_New,                 Qt::Key_New,
-#endif
     XF86XK_News,                Qt::Key_News,
     XF86XK_OfficeHome,          Qt::Key_OfficeHome,
-#if QT_VERSION >= 0x050400
     XF86XK_Open,                Qt::Key_Open,
-#endif
     XF86XK_Option,              Qt::Key_Option,
     XF86XK_Paste,               Qt::Key_Paste,
     XF86XK_Phone,               Qt::Key_Phone,
@@ -535,21 +531,17 @@ static const unsigned int KeyTbl[] = {
     XF86XK_Select,              Qt::Key_Select,
     XF86XK_View,                Qt::Key_View,
     XF86XK_TopMenu,             Qt::Key_TopMenu,
-#if QT_VERSION >= 0x050400
     XF86XK_Red,                 Qt::Key_Red,
     XF86XK_Green,               Qt::Key_Green,
     XF86XK_Yellow,              Qt::Key_Yellow,
     XF86XK_Blue,                Qt::Key_Blue,
-#endif
     XF86XK_Bluetooth,           Qt::Key_Bluetooth,
     XF86XK_Suspend,             Qt::Key_Suspend,
     XF86XK_Hibernate,           Qt::Key_Hibernate,
-#if QT_VERSION >= 0x050400
     XF86XK_TouchpadToggle,      Qt::Key_TouchpadToggle,
     XF86XK_TouchpadOn,          Qt::Key_TouchpadOn,
     XF86XK_TouchpadOff,         Qt::Key_TouchpadOff,
     XF86XK_AudioMicMute,        Qt::Key_MicMute,
-#endif
     XF86XK_Launch0,             Qt::Key_Launch2, // ### Qt 6: remap properly
     XF86XK_Launch1,             Qt::Key_Launch3,
     XF86XK_Launch2,             Qt::Key_Launch4,

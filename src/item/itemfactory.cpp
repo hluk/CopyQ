@@ -175,11 +175,7 @@ public:
 private:
     bool hasPixmap() const
     {
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
         return !pixmap(Qt::ReturnByValue).isNull();
-#else
-        return pixmap() != nullptr;
-#endif
     }
 
     bool m_hasText;

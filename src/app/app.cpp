@@ -117,11 +117,7 @@ App::App(QCoreApplication *application,
     } else {
         m_app->setProperty(
             "CopyQ_item_data_path",
-#if QT_VERSION >= QT_VERSION_CHECK(5,10,0)
             qEnvironmentVariable("COPYQ_ITEM_DATA_PATH")
-#else
-            QString::fromLocal8bit(qgetenv("COPYQ_ITEM_DATA_PATH"))
-#endif
         );
     }
 }
