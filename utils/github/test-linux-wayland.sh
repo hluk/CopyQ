@@ -13,20 +13,27 @@ default_wayland_tests=(
     avoidStoringPasswords
 )
 
+kwin_wayland --virtual --socket=copyq-wayland &
+trap "kill $!" QUIT TERM INT HUP EXIT
+export WAYLAND_DISPLAY=copyq-wayland
+
 # Enable verbose logging.
 export COPYQ_LOG_LEVEL=DEBUG
 export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
 
 export QT_QPA_PLATFORM=wayland
 
-env QT_LOGGING_RULES="" \
-    kwin_wayland --virtual --socket=copyq-wayland &
-trap "kill $!" QUIT TERM INT HUP EXIT
-sleep 10
-export WAYLAND_DISPLAY=copyq-wayland
-
 # Smoke test the default session
-./copyq --start-server exit
+for i in {1..5}; do
+    echo "Trying to start CopyQ server ($i)"
+    if ./copyq --start-server exit; then
+        break
+    elif [[ $i == 5 ]]; then
+        echo "❌ FAILED: Could not start CopyQ server"
+        exit 1
+    fi
+    sleep $((i * 2))
+done
 
 # Test handling Unix signals.
 script_root="$(dirname "$(readlink -f "$0")")"
