@@ -260,7 +260,9 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
     connect(editor, &QObject::destroyed, editorParent, &QObject::deleteLater);
 
     // Prefer editing rich text
-    if ( format == mimeText && data.contains(mimeHtml) ) {
+    if ( (format == mimeText || format == mimeTextUtf8 || format == mimeHtml)
+         && data.contains(mimeHtml) )
+    {
         const QString html = getTextData(data, mimeHtml);
         editor->setHtml(html);
     } else {
