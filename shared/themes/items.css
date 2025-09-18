@@ -57,6 +57,7 @@ ${hsv_value_factor = 1}
 #editor_status_bar * {
     ;background: ${edit_bg}
     ;color: ${edit_fg}
+    ;border: none
 }
 
 ${css:tooltip}
