@@ -21,9 +21,6 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
     m_clipboard->setMonitoringEnabled(
         mode == ClipboardMode::Clipboard ? ClipboardMode::Selection : ClipboardMode::Clipboard,
         false);
-
-    connect(m_clipboard.get(), &PlatformClipboard::changed, this, &ClipboardSpy::emitChangeIfChanged);
-    m_clipboard->startMonitoring( QStringList(mimeOwner) );
 }
 
 void ClipboardSpy::wait(int ms, int checkIntervalMs)
@@ -54,6 +51,10 @@ bool ClipboardSpy::setClipboardData(const QVariantMap &data)
 {
     m_settingClipboard = true;
     m_oldOwnerData = currentOwnerData();
+
+    m_clipboard->startMonitoring( QStringList(mimeOwner) );
+    connect(m_clipboard.get(), &PlatformClipboard::changed, this, &ClipboardSpy::emitChangeIfChanged);
+
     m_clipboard->setData(m_mode, data);
     wait();
     m_oldOwnerData = data.value(mimeOwner).toByteArray();
