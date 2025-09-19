@@ -1934,8 +1934,20 @@ bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
         return false;
     }
 
+#ifdef Q_OS_MAC
+    // On macOS, add a small delay to ensure proper menu display
+    // and avoid focus-related crashes
+    QTimer::singleShot(50, [=]() {
+        menu->popup( toScreen(pos, menu) );
+        raiseWindow(menu);
+        // Ensure menu gets proper focus on macOS
+        menu->activateWindow();
+        menu->raise();
+    });
+#else
     menu->popup( toScreen(pos, menu) );
     raiseWindow(menu);
+#endif
     return true;
 }
 
@@ -3045,10 +3057,27 @@ bool MainWindow::toggleMenu()
 {
     m_trayMenu->search(QString());
 
+#ifdef Q_OS_MAC
+    // On macOS, improve menu visibility detection
+    // Force close any existing menu and always show fresh
+    if ( m_trayMenu->isVisible() ) {
+        m_trayMenu->close();
+        return false;
+    }
+    
+    updateTrayMenuItemsTimeout();
+    
+    // Add small delay to prevent double-execution issues on macOS
+    QTimer::singleShot(10, [this]() {
+        toggleMenu(m_trayMenu);
+    });
+    return true;
+#else
     if ( !m_trayMenu->isVisible() )
         updateTrayMenuItemsTimeout();
 
     return toggleMenu(m_trayMenu);
+#endif
 }
 
 bool MainWindow::toggleMenu(const QString &tabName, int itemCount, QPoint position)
