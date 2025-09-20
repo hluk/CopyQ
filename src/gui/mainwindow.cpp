@@ -655,7 +655,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     initSingleShotTimer( &m_timerUpdateFocusWindows, 100, this, &MainWindow::updateFocusWindows );
     initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, &MainWindow::updateContextMenuTimeout );
     initSingleShotTimer( &m_timerUpdatePreview, 0, this, &MainWindow::updateItemPreviewTimeout );
-    initSingleShotTimer( &m_timerSaveTabPositions, 1000, this, &MainWindow::onSaveTabPositionsTimer );
+    initSingleShotTimer( &m_timerSaveTabPositions, 0, this, &MainWindow::onSaveTabPositionsTimer );
     initSingleShotTimer( &m_timerRaiseLastWindowAfterMenuClosed, 50, this, &MainWindow::raiseLastWindowAfterMenuClosed);
     enableHideWindowOnUnfocus();
 
@@ -3147,12 +3147,7 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 
         if ( (oldTabName == oldPrefix || oldTabName.startsWith(prefix)) && newPrefix != oldPrefix) {
             const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
-            updateTabIcon(newName, placeholder->tabName());
-            if ( placeholder->setTabName(newName) ) {
-                auto c = placeholder->browser();
-                if (c)
-                    ui->tabWidget->setTabItemCount( newName, c->length() );
-            }
+            setTabName(placeholder, newName);
         }
     }
 
@@ -3483,6 +3478,35 @@ void MainWindow::onItemDoubleClicked()
 {
     if (!m_singleClickActivate)
         activateCurrentItem();
+}
+
+bool MainWindow::setTabName(ClipboardBrowserPlaceholder *placeholder, const QString &newName)
+{
+    const QString oldName = placeholder->tabName();
+    if ( !placeholder->setTabName(newName) )
+        return false;
+
+    updateTabIcon(newName, oldName);
+    const int tabIndex = findTabIndex(oldName);
+    Q_ASSERT(tabIndex != -1);
+    ui->tabWidget->setTabName(tabIndex, newName);
+
+    Tabs tabs;
+    TabProperties tabProperties = tabs.tabProperties(oldName);
+    tabProperties.name = newName;
+    tabs.setTabProperties(tabProperties);
+    Settings settings;
+    const QStringList tabNames = ui->tabWidget->tabs();
+    tabs.save(&settings, tabNames);
+    settings.setValue("Options/tabs", tabNames);
+
+    if (oldName == m_options.clipboardTab)
+        settings.setValue("Options/clipboard_tab", newName);
+
+    if (oldName == m_options.trayTabName)
+        settings.setValue("Options/tray_tab", newName);
+
+    return true;
 }
 
 void MainWindow::disableClipboardStoring(bool disable)
@@ -4187,26 +4211,8 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
         return;
 
     auto placeholder = getPlaceholder(tabIndex);
-    if (placeholder) {
-        const QString oldName = placeholder->tabName();
-        if ( placeholder->setTabName(name) ) {
-            updateTabIcon(name, oldName);
-            ui->tabWidget->setTabName(tabIndex, name);
-            saveTabPositions();
-
-            QVariantList optionsAndValues;
-            if (oldName == m_options.clipboardTab) {
-                optionsAndValues.append(QStringLiteral("clipboard_tab"));
-                optionsAndValues.append(name);
-            }
-            if (oldName == m_options.trayTabName) {
-                optionsAndValues.append(QStringLiteral("tray_tab"));
-                optionsAndValues.append(name);
-            }
-            if ( !optionsAndValues.isEmpty() )
-                config(optionsAndValues);
-        }
-    }
+    if (placeholder)
+        setTabName(placeholder, name);
 }
 
 void MainWindow::removeTabGroup(const QString &name)

@@ -640,6 +640,8 @@ private:
     void onItemClicked();
     void onItemDoubleClicked();
 
+    bool setTabName(ClipboardBrowserPlaceholder *placeholder, const QString &newName);
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
