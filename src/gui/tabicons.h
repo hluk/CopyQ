@@ -14,7 +14,7 @@ QList<QString> savedTabs();
 
 QString getIconNameForTabName(const QString &tabName);
 
-void setIconNameForTabName(const QString &name, const QString &icon);
+void setIconNameForTabName(const QString &tabName, const QString &icon);
 
 QIcon getIconForTabName(const QString &tabName);
 
