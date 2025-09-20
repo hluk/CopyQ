@@ -122,6 +122,11 @@ void ActionHandler::closeAction(Action *action)
         COPYQ_LOG( QStringLiteral("Exit code %1 (on logout?) with command: %2")
                    .arg(action->exitCode())
                    .arg(action->commandLine()) );
+#elif defined(Q_OS_UNIX)
+    // Ignore SIGINT (2) exit code for internal actions.
+    } else if ( isInternal && action->exitCode() == 128 + 2 ) {
+        COPYQ_LOG( QStringLiteral("Internal action interrupted on SIGINT: %1")
+                  .arg(actionDescription(*action)) );
 #endif
     } else if ( isInternal && action->exitCode() == CommandStop ) {
         COPYQ_LOG( QStringLiteral("Internal action interrupted: %1")
