@@ -2468,4 +2468,3 @@ Use ``plugins`` object to access functionality of plugins.
 .. js:data:: plugins.itempinned.mimePinned (application/x-copyq-item-pinned)
 
    Presence of the format in an item indicates that it is pinned.
-

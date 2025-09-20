@@ -1507,7 +1507,7 @@ Note: This is not supported on all systems.</source>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>クリップボードの内容が新しくなった時、またはアイテムをクリップボードにコピーした時 
+        <translation>クリップボードの内容が新しくなった時、またはアイテムをクリップボードにコピーした時
 (ただしメインウィンドウが閉じている場合) に、通知を表示する時間を秒単位で指定します。
 
 無効にする場合は値を 0 にしてください。

@@ -12,4 +12,3 @@ set(copyq_plugin_itemencrypted_SOURCES
     )
 
 copyq_add_plugin(itemencrypted)
-

@@ -3624,7 +3624,7 @@ Skriv ut version på program och bibliotek.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - Använd argument med dubbelt bindestreck (--) för att läsa alla följande 
+        <translation>  - Använd argument med dubbelt bindestreck (--) för att läsa alla följande
     argument utan att expandera kontrollsekvenser (d.v.s. \n, \t med mera).</translation>
     </message>
     <message>

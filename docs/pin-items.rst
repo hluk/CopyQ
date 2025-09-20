@@ -55,4 +55,3 @@ Unpin action is available if an pinned item is selected.
 
 Pinned items also will stay in same rows unless you **move them with mouse or
 using keyboard shortcuts** (``Ctrl+Up/Down/Home/End``).
-

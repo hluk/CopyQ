@@ -184,4 +184,3 @@ void ItemEditor::onTimer()
         m_modified = wasFileModified();
     }
 }
-

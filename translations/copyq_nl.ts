@@ -75,7 +75,7 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Reguliere uitdrukking voor het splitsen van de uitvoer in meerdere items. &lt;\p&gt; 
+        <translation>&lt;p&gt;Reguliere uitdrukking voor het splitsen van de uitvoer in meerdere items. &lt;\p&gt;
 &lt;p&gt;Gebruik &lt;b&gt;\n&lt;/b&gt; voor het opslaan van elke regel van een item.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -1519,7 +1519,7 @@ Let op: niet alle systemen ondersteunen dit.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Tussenpoos in seconden dat de een melding bij nieuwe klembordinhoud wordt getoond. (alleen als het hoofdscherm gesloten is.) 
+        <translation>Tussenpoos in seconden dat de een melding bij nieuwe klembordinhoud wordt getoond. (alleen als het hoofdscherm gesloten is.)
 
 Stel in op 0 om uit te schakelen.
 

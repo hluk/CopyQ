@@ -2783,7 +2783,7 @@ Set to 0 to disable.</source>
         <location filename="../src/main.cpp" line="227"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
-        <translation>会话名称至少包含 16 个字符: 
+        <translation>会话名称至少包含 16 个字符:
 必须为字母、数字、&quot;-&quot; 或 &quot;_&quot;！</translation>
     </message>
     <message>

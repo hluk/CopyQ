@@ -194,7 +194,7 @@ Insert some text in the history:
     copyq add -- 'first item' 'second item' 'third item'
 
 Omitting the double-dash (`--`) in the command above would mean that slashes
-(`\`) in arguments will be treated as special characters.  For example, `\n` will be treated as 
+(`\`) in arguments will be treated as special characters.  For example, `\n` will be treated as
 the new line character, `\t` as tab, `\\` as slash, `\x` as `x`, etc.
 
 Create a single item containing two lines:

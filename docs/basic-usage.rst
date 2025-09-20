@@ -13,7 +13,7 @@ Click the tray icon to show application window or right-click the tray icon and 
 .. image:: images/copyq-show.png
   :width: 400
   :alt: copyq show
-  
+
 The central element in the application window is **item list** containing
 **clipboard history**. By default, the application **stores any new clipboard
 content** in the list.

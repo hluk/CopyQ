@@ -704,11 +704,11 @@ Deixe em branco para desabilitar esta.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt; Use comandos apenas se comando de filtro bem-sucedido. &lt;/p&gt; 
+        <translation type="vanished">&lt;p&gt; Use comandos apenas se comando de filtro bem-sucedido. &lt;/p&gt;
 
-&lt;p&gt; item de texto é passado para &lt;b&gt; entrada padrão &lt;/b&gt; do comando de filtro. O item é &lt;b&gt; igualado apenas se o código de saída de comando do filtro é 0 &lt;/b&gt;. &lt;/p&gt; 
+&lt;p&gt; item de texto é passado para &lt;b&gt; entrada padrão &lt;/b&gt; do comando de filtro. O item é &lt;b&gt; igualado apenas se o código de saída de comando do filtro é 0 &lt;/b&gt;. &lt;/p&gt;
 
-&lt;p&gt; Use &lt;b&gt;%1 &lt;/b&gt; para o item de texto passado como argumento e &lt;b&gt; %2 &lt;/b&gt; para &lt;b&gt;%9 &lt;/b&gt; para argumentos capturados por expressão regular (peças entre parênteses) &lt;/p&gt; 
+&lt;p&gt; Use &lt;b&gt;%1 &lt;/b&gt; para o item de texto passado como argumento e &lt;b&gt; %2 &lt;/b&gt; para &lt;b&gt;%9 &lt;/b&gt; para argumentos capturados por expressão regular (peças entre parênteses) &lt;/p&gt;
 
 &lt;p&gt; Use &lt;b&gt; |. &lt;/b&gt; a comandos de cadeia (passe de saída padrão para o próximo comando). &lt;/p&gt;</translation>
     </message>

@@ -703,7 +703,7 @@ Lad være tom for at deaktivere.</translation>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>Fjern matchende element 
+        <translation>Fjern matchende element
 
 Bemærk: Hvis dette anvendes automatisk, udføres ingen andre automatiske kommandoer.</translation>
     </message>
@@ -3756,8 +3756,8 @@ Udskriv programversion og biblioteker.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Fanenavn skal være unik og ikke-tom.&lt;br/&gt; 
-Fanen &lt;b&gt; No&amp;amp;ter&lt;/b&gt; kan åbnes ved hjælp &lt;b&gt; Alt+T&lt;/b&gt;&lt;br/&gt; 
+        <translation>Fanenavn skal være unik og ikke-tom.&lt;br/&gt;
+Fanen &lt;b&gt; No&amp;amp;ter&lt;/b&gt; kan åbnes ved hjælp &lt;b&gt; Alt+T&lt;/b&gt;&lt;br/&gt;
 Brug &lt;b&gt;/&lt;/b&gt; som sti separator i trævisningen under fanen layout.</translation>
     </message>
     <message>

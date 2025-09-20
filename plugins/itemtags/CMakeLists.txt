@@ -14,4 +14,3 @@ set(copyq_plugin_itemtags_SOURCES
     )
 
 copyq_add_plugin(itemtags)
-

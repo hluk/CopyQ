@@ -150,7 +150,7 @@ On OS X, required Qt 6 libraries and utilities can be easily installed with `Hom
     git -C "utils/github/homebrew" init .
     git -C "utils/github/homebrew" add .
     git -C "utils/github/homebrew" commit -m "Initial"
-    
+
     brew tap copyq/kde utils/github/homebrew/
     # if the above "brew tap" command produces an error like
     #     "Error: Tap copyq/kde remote mismatch"
@@ -193,4 +193,3 @@ In that case you may codesign the CopyQ app again using the following command,
 un-install the previous CopyQ app, and install the re-signed ``CopyQ.app``::
 
     codesign --force --deep --sign - $PWD/_CPack_Packages/Darwin/DragNDrop/copyq-*-Darwin/CopyQ.app
-
