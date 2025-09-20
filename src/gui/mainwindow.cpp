@@ -340,7 +340,7 @@ void deleteSubMenus(QObject *parent)
 {
     for (auto subMenu : parent->findChildren<QMenu*>()) {
         if (subMenu->parent() == parent)
-            delete subMenu;
+            subMenu->deleteLater();
     }
 }
 
