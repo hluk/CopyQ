@@ -10,13 +10,11 @@
 
 void logException(const char *what)
 {
-    if ( canUseStandardOutput() ) {
-        QFile f;
-        f.open(stderr, QIODevice::WriteOnly);
-        f.write(what ? what : "Unknown exception");
-        f.write("\n");
-        f.close();
-    }
+    QFile f;
+    f.open(stderr, QIODevice::WriteOnly);
+    f.write(what ? what : "Unknown exception");
+    f.write("\n");
+    f.close();
 
     log( QString("Exception: ") + what, LogError );
 }

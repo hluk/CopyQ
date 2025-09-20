@@ -36,6 +36,3 @@ void log(const QByteArray &text, LogLevel level = LogNote);
 void setLogLabel(const QByteArray &name);
 
 QByteArray &logLabel();
-
-/// True if stdout and stderr can be used.
-bool canUseStandardOutput();

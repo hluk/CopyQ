@@ -54,7 +54,7 @@ int evaluate(
     const bool hasUncaughtException = result.isError() || scriptable.hasUncaughtException();
 
     const auto output = scriptable.fromString(result.toString());
-    if ( !output.isEmpty() && canUseStandardOutput() ) {
+    if ( !output.isEmpty() ) {
         QFile f;
         if (hasUncaughtException)
             f.open(stderr, QIODevice::WriteOnly);
@@ -126,15 +126,8 @@ int startServer(int argc, char *argv[], QString sessionName)
 
 void startServerInBackground(const QString &applicationPath, QString sessionName)
 {
-    const bool couldUseStandardOutput = canUseStandardOutput();
-    if (couldUseStandardOutput)
-        qputenv("COPYQ_NO_OUTPUT", QByteArrayLiteral("1"));
-
     const QStringList arguments{QStringLiteral("-s"), sessionName};
     const bool started = QProcess::startDetached(applicationPath, arguments);
-
-    if (!couldUseStandardOutput)
-        qunsetenv("COPYQ_NO_OUTPUT");
 
     if (!started)
         log("Failed to start the server", LogError);
