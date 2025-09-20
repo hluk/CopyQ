@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef NOTIFICATIONBUTTON_H
-#define NOTIFICATIONBUTTON_H
+#pragma once
+
 
 #include <QByteArray>
 #include <QList>
@@ -18,5 +18,3 @@ struct NotificationButton
 Q_DECLARE_METATYPE(NotificationButton)
 
 using NotificationButtons = QList<NotificationButton>;
-
-#endif // NOTIFICATIONBUTTON_H

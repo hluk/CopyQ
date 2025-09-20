@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDSTATUS_H
-#define COMMANDSTATUS_H
+#pragma once
+
 
 /** Command status. */
 enum CommandStatus {
@@ -28,5 +28,3 @@ enum CommandStatus {
 
     CommandReceiveData = 13,
 };
-
-#endif // COMMANDSTATUS_H

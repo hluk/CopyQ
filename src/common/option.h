@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef OPTION_H
-#define OPTION_H
+#pragma once
+
 
 #include <QVariant>
 
@@ -52,5 +52,3 @@ private:
     const char *m_description = nullptr;
     QObject *m_obj = nullptr;
 };
-
-#endif // OPTION_H

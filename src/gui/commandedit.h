@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDEDIT_H
-#define COMMANDEDIT_H
+#pragma once
+
 
 #include <QWidget>
 
@@ -33,5 +33,3 @@ private:
 
     Ui::CommandEdit *ui;
 };
-
-#endif // COMMANDEDIT_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef IMPORTEXPORTDIALOG_H
-#define IMPORTEXPORTDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 
@@ -37,5 +37,3 @@ private:
 
     Ui::ImportExportDialog *ui;
 };
-
-#endif // IMPORTEXPORTDIALOG_H

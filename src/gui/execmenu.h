@@ -27,9 +27,7 @@
 ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 **
 ****************************************************************************/
-
-#ifndef EXECMENU_H
-#define EXECMENU_H
+#pragma once
 
 class QAction;
 class QMenu;
@@ -40,5 +38,3 @@ namespace Utils {
 QAction *execMenuAtWidget(QMenu *menu, QWidget *widget);
 
 } // namespace Utils
-
-#endif // EXECMENU_H

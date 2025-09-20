@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDSYNTAXHIGHLIGHTER_H
-#define COMMANDSYNTAXHIGHLIGHTER_H
+#pragma once
+
 
 #include <QtContainerFwd>
 
@@ -16,5 +16,3 @@ QList<QString> scriptableObjects();
 
 void installCommandSyntaxHighlighter(QTextEdit *editor);
 void installCommandSyntaxHighlighter(QPlainTextEdit *editor);
-
-#endif // COMMANDSYNTAXHIGHLIGHTER_H

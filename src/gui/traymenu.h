@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TRAYMENU_H
-#define TRAYMENU_H
+#pragma once
+
 
 #include "common/navigationstyle.h"
 
@@ -95,5 +95,3 @@ private:
     QList<QAction*> m_clipboardActions;
     QList<QAction*> m_customActions;
 };
-
-#endif // TRAYMENU_H

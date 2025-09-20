@@ -5,6 +5,7 @@
 #include "common/log.h"
 #include "common/temporaryfile.h"
 
+#include <QSettings>
 #include <QTemporaryFile>
 
 namespace {

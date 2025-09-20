@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ABOUTDIALOG_H
-#define ABOUTDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 
@@ -21,5 +21,3 @@ private:
 
     Ui::AboutDialog *ui;
 };
-
-#endif // ABOUTDIALOG_H

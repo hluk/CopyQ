@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef X11PLATFORM_H
-#define X11PLATFORM_H
+#pragma once
+
 
 #include "platform/platformnativeinterface.h"
 
@@ -59,5 +59,3 @@ public:
 
     QString themePrefix() override { return QString(); }
 };
-
-#endif // X11PLATFORM_H

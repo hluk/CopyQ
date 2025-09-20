@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef ITEMSTORE_H
-#define ITEMSTORE_H
+#pragma once
 
-#include "item/itemwidget.h"
+#include <QtContainerFwd>
+#include <memory>
 
-class QAbstractItemModel;
 class ItemFactory;
+class ItemSaverInterface;
+class QAbstractItemModel;
 class QString;
+using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
 /** Load items from configuration file. */
 ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model //!< Model for items.
@@ -27,5 +29,3 @@ bool moveItems(
         );
 
 void cleanDataFiles(const QStringList &tabNames);
-
-#endif // ITEMSTORE_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMEDITOR_H
-#define ITEMEDITOR_H
+#pragma once
+
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -81,5 +81,3 @@ class ItemEditor final : public QObject
 
         QPersistentModelIndex m_index;
 };
-
-#endif // ITEMEDITOR_H

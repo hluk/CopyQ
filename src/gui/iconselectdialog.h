@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ICONSELECTDIALOG_H
-#define ICONSELECTDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 
@@ -35,5 +35,3 @@ private:
     IconListWidget *m_iconList;
     QString m_selectedIcon;
 };
-
-#endif // ICONSELECTDIALOG_H

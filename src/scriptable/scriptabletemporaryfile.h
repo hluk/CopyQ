@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLETEMPORARYFILE_H
-#define SCRIPTABLETEMPORARYFILE_H
+#pragma once
+
 
 #include "scriptablefile.h"
 
@@ -27,5 +27,3 @@ private:
 
     QTemporaryFile *m_self = nullptr;
 };
-
-#endif // SCRIPTABLETEMPORARYFILE_H

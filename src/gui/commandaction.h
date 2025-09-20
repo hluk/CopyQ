@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDACTION_H
-#define COMMANDACTION_H
+#pragma once
+
 
 #include "common/command.h"
 
@@ -31,5 +31,3 @@ private:
     Command m_command;
     QString m_triggeredShortcut;
 };
-
-#endif // COMMANDACTION_H

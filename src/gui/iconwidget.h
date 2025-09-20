@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ICONWIDGET_H
-#define ICONWIDGET_H
+#pragma once
+
 
 #include <QWidget>
 
@@ -22,5 +22,3 @@ protected:
 private:
     QString m_icon;
 };
-
-#endif // ICONWIDGET_H

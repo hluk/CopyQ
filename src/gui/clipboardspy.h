@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDSPY_H
-#define CLIPBOARDSPY_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "platform/platformnativeinterface.h"
@@ -35,5 +35,3 @@ private:
     QByteArray m_oldOwnerData;
     bool m_settingClipboard = false;
 };
-
-#endif // CLIPBOARDSPY_H

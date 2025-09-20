@@ -27,9 +27,7 @@
 ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 **
 ****************************************************************************/
-
-#ifndef FANCYLINEEDIT_H
-#define FANCYLINEEDIT_H
+#pragma once
 
 #include <QAbstractButton>
 #include <QLineEdit>
@@ -105,5 +103,3 @@ private:
 };
 
 } // namespace Utils
-
-#endif // FANCYLINEEDIT_H

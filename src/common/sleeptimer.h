@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SLEEPTIMER_H
-#define SLEEPTIMER_H
+#pragma once
+
 
 #include <QCoreApplication>
 #include <QElapsedTimer>
@@ -37,6 +37,3 @@ inline void waitFor(int ms)
     SleepTimer t(ms);
     while (t.sleep()) {}
 }
-
-#endif // SLEEPTIMER_H
-

@@ -36,6 +36,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
+#pragma once
 
 // Following definitions and table are taken from
 // "qt5/qtbase/src/plugins/platforms/xcb/qxcbkeyboard.cpp".

@@ -1,10 +1,11 @@
 #pragma once
 
-#include <QList>
-#include <QModelIndex>
-#include <QPersistentModelIndex>
+#include <QtContainerFwd>
 
 class QAbstractItemModel;
+class QModelIndex;
+class QPersistentModelIndex;
+typedef QList<QModelIndex> QModelIndexList;
 
 QList<QPersistentModelIndex> toPersistentModelIndexList(const QList<QModelIndex> &indexes);
 

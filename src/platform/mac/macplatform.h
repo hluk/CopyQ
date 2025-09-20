@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef MACPLATFORM_H
-#define MACPLATFORM_H
+#pragma once
+
 
 #include "platform/platformnativeinterface.h"
 
@@ -43,5 +43,3 @@ public:
 
     QString themePrefix() override;
 };
-
-#endif // MACPLATFORM_H

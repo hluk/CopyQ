@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SHORTCUTBUTTON_H
-#define SHORTCUTBUTTON_H
+#pragma once
+
 
 #include <QKeySequence>
 #include <QList>
@@ -69,5 +69,3 @@ private:
     QKeySequence m_defaultShortcut;
     QAction *m_actionAddShortcut;
 };
-
-#endif // SHORTCUTBUTTON_H

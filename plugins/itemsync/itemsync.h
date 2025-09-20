@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMSYNC_H
-#define ITEMSYNC_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
@@ -161,5 +161,3 @@ private:
     QList<FileFormat> m_formatSettings;
     int m_itemDataThreshold = -1;
 };
-
-#endif // ITEMSYNC_H

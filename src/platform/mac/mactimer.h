@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef MACTIMER_H
-#define MACTIMER_H
+#pragma once
+
 
 #include <QObject>
 
@@ -54,5 +54,3 @@ private:
 
     NSTimer *m_nsTimer;
 };
-
-#endif // MACTIMER_H

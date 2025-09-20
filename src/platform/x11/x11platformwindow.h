@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef X11PLATFORMWINDOW_H
-#define X11PLATFORMWINDOW_H
+#pragma once
+
 
 #include "platform/platformwindow.h"
 
@@ -34,5 +34,3 @@ private:
 
     quintptr m_window;
 };
-
-#endif // X11PLATFORMWINDOW_H

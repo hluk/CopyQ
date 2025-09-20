@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TESTINTERFACE_H
-#define TESTINTERFACE_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 
@@ -104,5 +104,3 @@ public:
 };
 
 using TestInterfacePtr = std::shared_ptr<TestInterface>;
-
-#endif // TESTINTERFACE_H

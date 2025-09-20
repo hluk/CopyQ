@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABS_H
-#define TABS_H
+#pragma once
+
 
 #include <QString>
-#include <QStringList>
+#include <QtContainerFwd>
 
 #include <memory>
 
@@ -35,5 +35,3 @@ private:
     struct PrivateData;
     std::unique_ptr<PrivateData> m_data;
 };
-
-#endif // TABS_H

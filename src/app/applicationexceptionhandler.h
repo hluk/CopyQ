@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef APPLICATIONEXCEPTIONHANDLER_H
-#define APPLICATIONEXCEPTIONHANDLER_H
+#pragma once
+
 
 #include <QObject>
 
@@ -51,5 +51,3 @@ public:
         return true;
     }
 };
-
-#endif // APPLICATIONEXCEPTIONHANDLER_H

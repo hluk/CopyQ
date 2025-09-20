@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDBROWSERPLACEHOLDER_H
-#define CLIPBOARDBROWSERPLACEHOLDER_H
+#pragma once
+
 
 #include "gui/clipboardbrowsershared.h"
 
@@ -83,5 +83,3 @@ private:
 
     QTimer m_timerExpire;
 };
-
-#endif // CLIPBOARDBROWSERPLACEHOLDER_H

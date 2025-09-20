@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ADDCOMMANDDIALOG_H
-#define ADDCOMMANDDIALOG_H
+#pragma once
+
 
 #include "common/command.h"
 
@@ -34,5 +34,3 @@ private:
     Ui::AddCommandDialog *ui;
     QSortFilterProxyModel *m_filterModel;
 };
-
-#endif // ADDCOMMANDDIALOG_H

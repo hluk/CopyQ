@@ -34,7 +34,7 @@ def write_header_file_preamble(header_file):
     script_name = os.path.basename(script)
     comment = (
             f'// This file is generated with "{script_name}"'
-            + ' from FontAwesome\'s metadata.\n\n')
+            + ' from FontAwesome\'s metadata.\n#pragma once\n\n')
     header_file.write(comment)
 
 

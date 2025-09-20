@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef FIX_ICON_ID_H
-#define FIX_ICON_ID_H
+#pragma once
+
 
 #include "gui/icons.h"
 
@@ -243,5 +243,3 @@ inline unsigned short fixIconId(unsigned short id)
         return id;
     }
 }
-
-#endif // FIX_ICON_ID_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTION_H
-#define ACTION_H
+#pragma once
+
 
 #include <QStringList>
 #include <QVariantMap>
@@ -126,5 +126,3 @@ private:
 
     int m_id = -1;
 };
-
-#endif // ACTION_H

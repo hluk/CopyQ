@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTIONTABLEMODEL_H
-#define ACTIONTABLEMODEL_H
+#pragma once
+
 
 #include <QAbstractTableModel>
 #include <QDateTime>
@@ -50,5 +50,3 @@ private:
     std::vector<ActionData> m_actions;
     uint m_maxRowCount = 1000;
 };
-
-#endif // ACTIONTABLEMODEL_H

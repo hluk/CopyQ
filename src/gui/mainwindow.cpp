@@ -53,10 +53,6 @@
 #include "scriptable/scriptoverrides.h"
 #include <qnamespace.h>
 
-#ifdef Q_OS_MAC
-#  include "platform/mac/foregroundbackgroundfilter.h"
-#endif
-
 #ifdef WITH_NATIVE_NOTIFICATIONS
 #include <KStatusNotifierItem>
 #endif

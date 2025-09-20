@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef MACACTIVITY_H
-#define MACACTIVITY_H
+#pragma once
+
 
 class QString;
 
@@ -16,5 +16,3 @@ public:
 private:
     void *m_activity;
 };
-
-#endif // MACACTIVITY_H

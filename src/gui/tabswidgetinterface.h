@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABSWIDGETINTERFACE_H
-#define TABSWIDGETINTERFACE_H
+#pragma once
+
 
 #include <QtContainerFwd>
 
@@ -49,5 +49,3 @@ public:
     TabsWidgetInterface(const TabsWidgetInterface &) = delete;
     TabsWidgetInterface &operator=(const TabsWidgetInterface &) = delete;
 };
-
-#endif // TABSWIDGETINTERFACE_H

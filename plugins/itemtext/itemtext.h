@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMTEXT_H
-#define ITEMTEXT_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidget.h"
@@ -80,5 +80,3 @@ private:
     QString m_defaultStyleSheet;
     std::unique_ptr<Ui::ItemTextSettings> ui;
 };
-
-#endif // ITEMTEXT_H

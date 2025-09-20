@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLEBYTEARRAY_H
-#define SCRIPTABLEBYTEARRAY_H
+#pragma once
+
 
 #include <QByteArray>
 #include <QJSValue>
@@ -64,5 +64,3 @@ const QByteArray *getByteArray(const QJSValue &value);
 QByteArray toByteArray(const QJSValue &value);
 
 QString toString(const QJSValue &value);
-
-#endif // SCRIPTABLEBYTEARRAY_H

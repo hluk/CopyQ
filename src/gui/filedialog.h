@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef FILEDIALOG_H
-#define FILEDIALOG_H
+#pragma once
+
 
 #include <QObject>
 #include <QString>
@@ -27,5 +27,3 @@ private:
     QString m_caption;
     QString m_defaultPath;
 };
-
-#endif // FILEDIALOG_H

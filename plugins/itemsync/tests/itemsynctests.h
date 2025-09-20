@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMSYNCTESTS_H
-#define ITEMSYNCTESTS_H
+#pragma once
+
 
 #include "tests/testinterface.h"
 
@@ -60,5 +60,3 @@ private slots:
 private:
     TestInterfacePtr m_test;
 };
-
-#endif // ITEMSYNCTESTS_H

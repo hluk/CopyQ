@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef APPCONFIG_H
-#define APPCONFIG_H
+#pragma once
+
 
 #include "common/navigationstyle.h"
 #include "common/settings.h"
@@ -573,5 +573,3 @@ public:
 private:
     Settings m_settings;
 };
-
-#endif // APPCONFIG_H

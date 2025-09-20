@@ -1,4 +1,3 @@
-#ifndef QXTGLOBALSHORTCUT_H
 /****************************************************************************
 ** Copyright (c) 2006 - 2011, the LibQxt project.
 ** See the Qxt AUTHORS file for a list of authors and copyright holders.
@@ -28,8 +27,7 @@
 **
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
-
-#define QXTGLOBALSHORTCUT_H
+#pragma once
 
 #include <QObject>
 #include <QKeySequence>
@@ -74,5 +72,3 @@ private:
     friend class QxtGlobalShortcutPrivate;
     QxtGlobalShortcutPrivate *d_ptr;
 };
-
-#endif // QXTGLOBALSHORTCUT_H

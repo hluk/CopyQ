@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef MENUITEMS_H
-#define MENUITEMS_H
+#pragma once
+
 
 #include <QList>
 #include <QKeySequence>
@@ -88,5 +88,3 @@ using MenuItems = std::array<MenuItem, Actions::Count>;
 MenuItems menuItems();
 
 void loadShortcuts(MenuItems *items, const QSettings &settings);
-
-#endif // MENUITEMS_H

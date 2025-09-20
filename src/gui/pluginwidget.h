@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PLUGINWIDGET_H
-#define PLUGINWIDGET_H
+#pragma once
+
 
 #include "item/itemwidget.h"
 
@@ -27,5 +27,3 @@ private:
     Ui::PluginWidget *ui;
     ItemLoaderPtr m_loader;
 };
-
-#endif // PLUGINWIDGET_H

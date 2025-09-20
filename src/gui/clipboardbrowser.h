@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDBROWSER_H
-#define CLIPBOARDBROWSER_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "gui/clipboardbrowsershared.h"
@@ -401,5 +401,3 @@ class ClipboardBrowser final : public QListView
 
         bool m_selectNewItems = false;
 };
-
-#endif // CLIPBOARDBROWSER_H

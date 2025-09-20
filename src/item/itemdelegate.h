@@ -1,24 +1,24 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMDELEGATE_H
-#define ITEMDELEGATE_H
+#pragma once
 
-#include "item/itemfilter.h"
+
 #include "gui/clipboardbrowsershared.h"
 
 #include <QItemDelegate>
-#include <QRegularExpression>
 #include <QTimer>
 
 #include <memory>
 #include <vector>
 
+class ClipboardBrowser;
 class Item;
 class ItemEditorWidget;
 class ItemFactory;
+class ItemFilter;
 class ItemWidget;
-class ClipboardBrowser;
 class PersistentDisplayItem;
+using ItemFilterPtr = std::shared_ptr<ItemFilter>;
 
 constexpr int defaultItemHeight = 100;
 
@@ -156,5 +156,3 @@ class ItemDelegate final : public QItemDelegate
 
         std::vector<Item> m_items;
 };
-
-#endif // ITEMDELEGATE_H

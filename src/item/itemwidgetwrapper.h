@@ -1,5 +1,5 @@
-#ifndef ITEMWIDGETWRAPPER_H
-#define ITEMWIDGETWRAPPER_H
+#pragma once
+
 
 #include "itemwidget.h"
 
@@ -22,5 +22,3 @@ protected:
 private:
     std::unique_ptr<ItemWidget> m_childItem;
 };
-
-#endif // ITEMWIDGETWRAPPER_H

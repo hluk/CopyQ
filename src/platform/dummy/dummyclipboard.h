@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef DUMMYCLIPBOARD_H
-#define DUMMYCLIPBOARD_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "platform/platformclipboard.h"
@@ -36,5 +36,3 @@ protected:
     void onClipboardChanged(QClipboard::Mode mode);
     virtual const long int *clipboardSequenceNumber(ClipboardMode) const { return nullptr; }
 };
-
-#endif // DUMMYCLIPBOARD_H

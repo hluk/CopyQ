@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTIONHANDLERDIALOG_H
-#define ACTIONHANDLERDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 
@@ -21,5 +21,3 @@ public:
 private:
     Ui::ActionHandlerDialog *ui;
 };
-
-#endif // ACTIONHANDLERDIALOG_H

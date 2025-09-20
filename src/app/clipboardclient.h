@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDCLIENT_H
-#define CLIPBOARDCLIENT_H
+#pragma once
+
 
 #include "app.h"
 
@@ -37,5 +37,3 @@ private:
 
     void start(const QStringList &arguments);
 };
-
-#endif // CLIPBOARDCLIENT_H

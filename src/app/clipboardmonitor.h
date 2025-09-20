@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDMONITOR_H
-#define CLIPBOARDMONITOR_H
+#pragma once
+
 
 #include "app/clipboardownermonitor.h"
 #include "common/clipboardmode.h"
@@ -53,5 +53,3 @@ private:
 
     QString m_clipboardOwner;
 };
-
-#endif // CLIPBOARDMONITOR_H

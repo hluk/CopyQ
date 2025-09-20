@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef WINDOWGEOMETRYGUARD_H
-#define WINDOWGEOMETRYGUARD_H
+#pragma once
+
 
 #include <QObject>
 #include <QTimer>
@@ -35,5 +35,3 @@ private:
     QTimer m_timerRestoreGeometry;
     QTimer m_timerUnlockGeometry;
 };
-
-#endif // WINDOWGEOMETRYGUARD_H

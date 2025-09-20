@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTIONDIALOG_H
-#define ACTIONDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 #include <QModelIndex>
@@ -71,5 +71,3 @@ private:
 
     int m_currentCommandIndex;
 };
-
-#endif // ACTIONDIALOG_H

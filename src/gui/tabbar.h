@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABBAR_H
-#define TABBAR_H
+#pragma once
+
 
 #include "gui/tabswidgetinterface.h"
 
@@ -64,5 +64,3 @@ private:
 
     void updateTabStyle(int index);
 };
-
-#endif // TABBAR_H

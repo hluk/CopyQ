@@ -1,5 +1,5 @@
-#ifndef ACTIONHANDLERENUMS_H
-#define ACTIONHANDLERENUMS_H
+#pragma once
+
 
 #include <QtGlobal>
 
@@ -29,5 +29,3 @@ enum {
     id
 };
 }
-
-#endif // ACTIONHANDLERENUMS_H

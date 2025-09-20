@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SHORTCUTSWIDGET_H
-#define SHORTCUTSWIDGET_H
+#pragma once
+
 
 #include "common/command.h"
 
@@ -70,5 +70,3 @@ private:
     QVector<MenuAction> m_actions;
     QList<QKeySequence> m_shortcuts;
 };
-
-#endif // SHORTCUTSWIDGET_H

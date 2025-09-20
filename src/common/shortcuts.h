@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SHORTCUTS_H
-#define SHORTCUTS_H
+#pragma once
+
 
 class QString;
 class QKeySequence;
@@ -20,5 +20,3 @@ bool hasKeyHint(const QString &name);
 
 /// Removes key hint (first unescaped '&') from UI name.
 QString &removeKeyHint(QString *name);
-
-#endif // SHORTCUTS_H

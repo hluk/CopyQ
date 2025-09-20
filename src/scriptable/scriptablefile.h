@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLEFILE_H
-#define SCRIPTABLEFILE_H
+#pragma once
+
 
 #include <QJSValue>
 #include <QObject>
@@ -62,5 +62,3 @@ private:
     QFile *m_self = nullptr;
     QString m_path;
 };
-
-#endif // SCRIPTABLEFILE_H

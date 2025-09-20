@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TEMPORARYSETTINGS_H
-#define TEMPORARYSETTINGS_H
+#pragma once
 
-#include <QSettings>
+
+class QByteArray;
+class QSettings;
 
 /**
  * Temporary ini settings which is removed after destroyed.
@@ -14,7 +15,7 @@ class TemporarySettings final
 {
 public:
     /// Creates temporary settings file.
-    explicit TemporarySettings(const QByteArray &content = QByteArray());
+    explicit TemporarySettings(const QByteArray &content);
 
     /// Destroys underlying settings and removes settings file.
     ~TemporarySettings();
@@ -31,6 +32,3 @@ public:
 private:
     QSettings *m_settings;
 };
-
-
-#endif // TEMPORARYSETTINGS_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDHELPBUTTON_H
-#define COMMANDHELPBUTTON_H
+#pragma once
+
 
 #include <QWidget>
 
@@ -24,5 +24,3 @@ private:
     QToolButton *m_button;
     QDialog *m_help;
 };
-
-#endif // COMMANDHELPBUTTON_H

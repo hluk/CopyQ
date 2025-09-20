@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TESTS_H
-#define TESTS_H
+#pragma once
+
 
 #include "tests/testinterface.h"
 
@@ -345,5 +345,3 @@ private:
 };
 
 int runTests(int argc, char *argv[]);
-
-#endif // TESTS_H

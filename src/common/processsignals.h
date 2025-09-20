@@ -1,5 +1,5 @@
-#ifndef PROCESSSIGNALS_H
-#define PROCESSSIGNALS_H
+#pragma once
+
 
 #include <QObject>
 #include <QProcess>
@@ -27,5 +27,3 @@ void connectProcessError(QProcess *process, Receiver receiver, Slot slot)
 {
     QObject::connect( process, &QProcess::errorOccurred, receiver, slot );
 }
-
-#endif // PROCESSSIGNALS_H

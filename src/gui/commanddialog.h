@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDDIALOG_H
-#define COMMANDDIALOG_H
+#pragma once
+
 
 #include "common/command.h"
 #include "common/commandstore.h"
@@ -80,5 +80,3 @@ private:
     Commands m_pluginCommands;
     QStringList m_formats;
 };
-
-#endif // COMMANDDIALOG_H

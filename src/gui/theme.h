@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef THEME_H
-#define THEME_H
+#pragma once
+
 
 #include "common/option.h"
 
@@ -139,5 +139,3 @@ QString findThemeFile(const QString &fileName);
 QString defaultUserThemePath();
 
 QStringList themePaths();
-
-#endif // THEME_H

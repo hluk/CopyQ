@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDDIALOG_H
-#define CLIPBOARDDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 #include <QPersistentModelIndex>
@@ -66,5 +66,3 @@ private:
 
     PlatformClipboardPtr m_clipboard;
 };
-
-#endif // CLIPBOARDDIALOG_H
