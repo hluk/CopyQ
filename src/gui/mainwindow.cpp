@@ -1530,13 +1530,6 @@ QAction *MainWindow::addTrayAction(Actions::Id id)
     return act;
 }
 
-void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
-{
-    const QString icon = getIconNameForTabName(oldName);
-    if ( !icon.isEmpty() )
-        setIconNameForTabName(newName, icon);
-}
-
 template <typename Receiver, typename ReturnType>
 QAction *MainWindow::addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
@@ -3486,10 +3479,9 @@ bool MainWindow::setTabName(ClipboardBrowserPlaceholder *placeholder, const QStr
     if ( !placeholder->setTabName(newName) )
         return false;
 
-    updateTabIcon(newName, oldName);
     const int tabIndex = findTabIndex(oldName);
-    Q_ASSERT(tabIndex != -1);
-    ui->tabWidget->setTabName(tabIndex, newName);
+    if (tabIndex != -1)
+        ui->tabWidget->setTabName(tabIndex, newName);
 
     Tabs tabs;
     TabProperties tabProperties = tabs.tabProperties(oldName);

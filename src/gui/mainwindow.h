@@ -588,8 +588,6 @@ private:
 
     QAction *addTrayAction(Actions::Id id);
 
-    void updateTabIcon(const QString &newName, const QString &oldName);
-
     template <typename Receiver, typename ReturnType>
     QAction *addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)());
 
