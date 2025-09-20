@@ -1530,13 +1530,6 @@ QAction *MainWindow::addTrayAction(Actions::Id id)
     return act;
 }
 
-void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
-{
-    const QString icon = getIconNameForTabName(oldName);
-    if ( !icon.isEmpty() )
-        setIconNameForTabName(newName, icon);
-}
-
 template <typename Receiver, typename ReturnType>
 QAction *MainWindow::addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)())
 {
@@ -3134,24 +3127,25 @@ void MainWindow::doSaveTabPositions(AppConfig *appConfig)
 
 void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 {
-    const QStringList tabs = ui->tabWidget->tabs();
-    Q_ASSERT( oldPrefix == newPrefix || !tabs.contains(oldPrefix) );
-    Q_ASSERT( !tabs.contains(QString()) );
+    const QStringList newTabNames = ui->tabWidget->tabs();
+    Q_ASSERT( oldPrefix == newPrefix || !newTabNames.contains(oldPrefix) );
+    Q_ASSERT( !newTabNames.contains(QString()) );
 
-    const QString prefix = oldPrefix + '/';
+    AppConfig appConfig;
+    Tabs tabs;
 
     // Rename tabs if needed.
-    for (int i = 0 ; i < tabs.size(); ++i) {
+    for (int i = 0 ; i < newTabNames.size(); ++i) {
+        const QString &newTabName = newTabNames[i];
         auto placeholder = getPlaceholder(i);
         const QString oldTabName = placeholder->tabName();
-
-        if ( (oldTabName == oldPrefix || oldTabName.startsWith(prefix)) && newPrefix != oldPrefix) {
-            const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
-            setTabName(placeholder, newName);
-        }
+        if (newTabName != oldTabName)
+            updateTabName(placeholder, newTabName, &appConfig, &tabs);
     }
 
-    saveTabPositions();
+    const QStringList tabNames = ui->tabWidget->tabs();
+    tabs.save(&appConfig.settings(), tabNames);
+    appConfig.setOption(Config::tabs::name(), tabNames);
 }
 
 void MainWindow::tabBarMenuRequested(QPoint pos, int tab)
@@ -3480,31 +3474,34 @@ void MainWindow::onItemDoubleClicked()
         activateCurrentItem();
 }
 
-bool MainWindow::setTabName(ClipboardBrowserPlaceholder *placeholder, const QString &newName)
+bool MainWindow::updateTabName(
+    ClipboardBrowserPlaceholder *placeholder,
+    const QString &newName,
+    AppConfig *appConfig,
+    Tabs *tabs)
 {
     const QString oldName = placeholder->tabName();
     if ( !placeholder->setTabName(newName) )
         return false;
 
-    updateTabIcon(newName, oldName);
-    const int tabIndex = findTabIndex(oldName);
-    Q_ASSERT(tabIndex != -1);
-    ui->tabWidget->setTabName(tabIndex, newName);
-
-    Tabs tabs;
-    TabProperties tabProperties = tabs.tabProperties(oldName);
+    TabProperties tabProperties = tabs->tabProperties(oldName);
     tabProperties.name = newName;
-    tabs.setTabProperties(tabProperties);
-    Settings settings;
-    const QStringList tabNames = ui->tabWidget->tabs();
-    tabs.save(&settings, tabNames);
-    settings.setValue("Options/tabs", tabNames);
+    tabs->setTabProperties(tabProperties);
 
-    if (oldName == m_options.clipboardTab)
-        settings.setValue("Options/clipboard_tab", newName);
+    if (oldName == m_options.clipboardTab) {
+        m_options.clipboardTab = newName;
+        appConfig->setOption(Config::clipboard_tab::name(), newName);
+        // Restart clipboard monitoring to apply new clipboard tab configuration.
+        if (!m_clipboardStoringDisabled) {
+            emit disableClipboardStoring(true);
+            emit disableClipboardStoring(false);
+        }
+    }
 
-    if (oldName == m_options.trayTabName)
-        settings.setValue("Options/tray_tab", newName);
+    if (oldName == m_options.trayTabName) {
+        m_options.trayTabName = newName;
+        appConfig->setOption(Config::tray_tab::name(), newName);
+    }
 
     return true;
 }
@@ -4211,8 +4208,19 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
         return;
 
     auto placeholder = getPlaceholder(tabIndex);
-    if (placeholder)
-        setTabName(placeholder, name);
+    if (!placeholder)
+        return;
+
+    AppConfig appConfig;
+    Tabs tabs;
+    if ( !updateTabName(placeholder, name, &appConfig, &tabs) )
+        return;
+
+    ui->tabWidget->setTabName(tabIndex, name);
+
+    const QStringList tabNames = ui->tabWidget->tabs();
+    tabs.save(&appConfig.settings(), tabNames);
+    appConfig.setOption(Config::tabs::name(), tabNames);
 }
 
 void MainWindow::removeTabGroup(const QString &name)
