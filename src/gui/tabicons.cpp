@@ -15,20 +15,7 @@
 
 namespace {
 
-QHash<QString, QString> tabIcons()
-{
-    QHash<QString, QString> icons;
-
-    Settings settings;
-    const int size = settings.beginReadArray("Tabs");
-    for(int i = 0; i < size; ++i) {
-        settings.setArrayIndex(i);
-        icons.insert(settings.value("name").toString(),
-                     settings.value("icon").toString());
-    }
-
-    return icons;
-}
+const QString tabsGroup = QStringLiteral("Tabs");
 
 QByteArray tabNameFromFileSuffix(QByteArray base64Suffix)
 {
@@ -68,7 +55,7 @@ QList<QString> savedTabs()
 QString getIconNameForTabName(const QString &tabName)
 {
     Settings settings;
-    const int size = settings.beginReadArray("Tabs");
+    const int size = settings.beginReadArray(tabsGroup);
     for(int i = 0; i < size; ++i) {
         settings.setArrayIndex(i);
         if (settings.value("name").toString() == tabName)
@@ -78,21 +65,23 @@ QString getIconNameForTabName(const QString &tabName)
     return QString();
 }
 
-void setIconNameForTabName(const QString &name, const QString &icon)
+void setIconNameForTabName(const QString &tabName, const QString &icon)
 {
-    QHash<QString, QString> icons = tabIcons();
-    icons[name] = icon;
-
     Settings settings;
-    settings.beginWriteArray("Tabs");
-    int i = 0;
-
-    for (auto it = icons.constBegin(); it != icons.constEnd(); ++it) {
-        settings.setArrayIndex(i++);
-        settings.setValue("name", it.key());
-        settings.setValue("icon", it.value());
+    const int size = settings.beginReadArray(tabsGroup);
+    for(int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        if (settings.value("name").toString() == tabName) {
+            settings.setValue("icon", icon);
+            return;
+        }
     }
+    settings.endArray();
 
+    settings.beginWriteArray(tabsGroup, size + 1);
+    settings.setArrayIndex(size);
+    settings.setValue("name", tabName);
+    settings.setValue("icon", icon);
     settings.endArray();
 }
 

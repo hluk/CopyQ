@@ -74,7 +74,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
         if ( !m_browser->setTabName(tabName) )
             return false;
         reloadBrowser();
-    } else {
+    } else if (m_storeItems) {
         unloadBrowser();
         if ( !moveItems(m_tabName, tabName) ) {
             if ( isVisible() )
