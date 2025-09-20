@@ -591,11 +591,12 @@ void TabTree::dropEvent(QDropEvent *event)
 
         QList<QTreeWidgetItem*> newTabs;
         QList<int> indexes;
+        QList<QPersistentModelIndex> toDelete;
         for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
             auto item = *it;
             // Remove empty groups.
             if ( isEmptyTabGroup(item) ) {
-                deleteItem(item);
+                toDelete.append(indexFromItem(item));
             } else {
                 const int oldIndex = getTabIndex(item);
                 if (oldIndex != -1) {
@@ -605,10 +606,19 @@ void TabTree::dropEvent(QDropEvent *event)
             }
         }
 
-        m_tabs = std::move(newTabs);
-        emit tabsMoved(oldPrefix, newPrefix, indexes);
+        for (const auto &index : toDelete) {
+            if (!index.isValid())
+                continue;
+
+            QTreeWidgetItem *item = itemFromIndex(index);
+            if (item)
+                deleteItem(item);
+        }
 
         updateSize();
+
+        m_tabs = std::move(newTabs);
+        emit tabsMoved(oldPrefix, newPrefix, indexes);
     } else {
         event->ignore();
     }
