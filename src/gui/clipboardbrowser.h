@@ -181,7 +181,7 @@ class ClipboardBrowser final : public QListView
          * This function does nothing if model is disabled (e.g. loading failed previously).
          * @see setID, saveItems
          */
-        bool loadItems();
+        bool loadItems(const QByteArray &itemData = QByteArray());
 
         /**
          * Return true only if row is filtered and should be hidden.

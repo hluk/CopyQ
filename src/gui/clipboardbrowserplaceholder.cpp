@@ -6,10 +6,13 @@
 #include "common/log.h"
 #include "common/timer.h"
 #include "item/itemstore.h"
+#include "item/serialize.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 
+#include <QDataStream>
+#include <QIODevice>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -41,7 +44,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
     c->setStoreItems(m_storeItems);
     c->setMaxItemCount(m_maxItemCount);
 
-    if ( !c->loadItems() ) {
+    if ( !c->loadItems(m_data) ) {
         createLoadButton();
         return nullptr;
     }
@@ -71,7 +74,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
         if ( !m_browser->setTabName(tabName) )
             return false;
         reloadBrowser();
-    } else {
+    } else if (m_storeItems) {
         unloadBrowser();
         if ( !moveItems(m_tabName, tabName) ) {
             if ( isVisible() )
@@ -199,6 +202,14 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
         return;
 
     COPYQ_LOG( QString("Tab \"%1\": Unloading").arg(m_tabName) );
+
+    // Keep unsaved items in memory until expiration.
+    m_data.clear();
+    if ( !m_storeItems && m_browser->isLoaded() ) {
+        QDataStream stream(&m_data, QIODevice::WriteOnly);
+        if ( !serializeData(*m_browser->model(), &stream) )
+            m_data.clear();
+    }
 
     // WORKAROUND: This is needed on macOS, to fix refocusing correct widget later.
     m_browser->clearFocus();

@@ -588,8 +588,6 @@ private:
 
     QAction *addTrayAction(Actions::Id id);
 
-    void updateTabIcon(const QString &newName, const QString &oldName);
-
     template <typename Receiver, typename ReturnType>
     QAction *addItemAction(Actions::Id id, Receiver *receiver, ReturnType (Receiver::* slot)());
 
@@ -639,6 +637,8 @@ private:
     void activateCurrentItemHelper();
     void onItemClicked();
     void onItemDoubleClicked();
+
+    bool setTabName(ClipboardBrowserPlaceholder *placeholder, const QString &newName);
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;

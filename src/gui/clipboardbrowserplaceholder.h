@@ -5,6 +5,7 @@
 
 #include "gui/clipboardbrowsershared.h"
 
+#include <QByteArray>
 #include <QString>
 #include <QTimer>
 #include <QWidget>
@@ -82,4 +83,5 @@ private:
     ClipboardBrowserSharedPtr m_sharedData;
 
     QTimer m_timerExpire;
+    QByteArray m_data;
 };

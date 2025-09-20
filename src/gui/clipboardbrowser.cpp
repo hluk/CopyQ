@@ -18,6 +18,7 @@
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/persistentdisplayitem.h"
+#include "item/serialize.h"
 
 #include <QApplication>
 #include <QDrag>
@@ -35,7 +36,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
 #include <memory>
 
 namespace {
@@ -1658,7 +1658,7 @@ void ClipboardBrowser::setItemsData(const QMap<QPersistentModelIndex, QVariantMa
         m.setItemsData(itemsData);
 }
 
-bool ClipboardBrowser::loadItems()
+bool ClipboardBrowser::loadItems(const QByteArray &itemData)
 {
     if ( isLoaded() )
         return true;
@@ -1671,6 +1671,11 @@ bool ClipboardBrowser::loadItems()
 
     if ( !isLoaded() )
         return false;
+
+    if ( !itemData.isEmpty() ) {
+        QDataStream stream(itemData);
+        deserializeData(&m, &stream);
+    }
 
     d.rowsInserted(QModelIndex(), 0, m.rowCount());
     if ( hasFocus() )
