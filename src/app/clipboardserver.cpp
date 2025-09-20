@@ -91,9 +91,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         qApp->setLayoutDirection(QLocale().textDirection());
     } else {
         App::installTranslator();
-        if ( canUseStandardOutput() ) {
-            log( tr("CopyQ server is already running."), LogWarning );
-        }
+        log( tr("CopyQ server is already running."), LogWarning );
         exit(0);
         return;
     }

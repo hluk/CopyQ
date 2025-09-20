@@ -220,9 +220,7 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
     const bool writtenToLogFile = writeLogFile(msg);
 
     // Log to file and if needed to stderr.
-    if ( (!writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug))
-            && canUseStandardOutput() )
-    {
+    if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
         QFile ferr;
         ferr.open(stderr, QIODevice::WriteOnly);
         const auto simpleMsg = createSimpleLogMessage(msgText, level);
@@ -327,10 +325,4 @@ QByteArray &logLabel()
 {
     static QByteArray label;
     return label;
-}
-
-bool canUseStandardOutput()
-{
-    static const bool useOutput = qEnvironmentVariableIsEmpty("COPYQ_NO_OUTPUT");
-    return useOutput;
 }

@@ -869,7 +869,7 @@ void Tests::startServerAndRunCommand()
     // client connection.
     QCOMPARE( run(Args("--start-server") << "exit();sleep(10000)", &stdoutActual, &stderrActual), 0 );
     QCOMPARE(stdoutActual, "");
-    QCOMPARE(stderrActual, "Terminating server.\n");
+    QVERIFY2( stderrActual.contains("Terminating server.\n"), stderrActual );
 
     // Try to start new client.
     SleepTimer t(10000);

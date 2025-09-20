@@ -38,6 +38,8 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         plain("Event handler maximum recursion reached"),
 
+        plain("Warning: CopyQ server is already running"),
+
         // X11 (Linux)
         plain("QtWarning: QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom"),
         plain("QtWarning: QXcbConnection: XCB error:"),
