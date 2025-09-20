@@ -328,6 +328,8 @@ private slots:
 
     void handleUnexpectedTypes();
 
+    void expireTabs();
+
 private:
     void navigationTestInit();
     void navigationTestDownUp(const QString &down, const QString &up);
