@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDITEM_H
-#define CLIPBOARDITEM_H
+#pragma once
+
 
 #include <QVariant>
 
@@ -66,5 +66,3 @@ private:
     QVariantMap m_data;
     mutable unsigned int m_hash;
 };
-
-#endif // CLIPBOARDITEM_H

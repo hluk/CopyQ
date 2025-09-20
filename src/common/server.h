@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SERVER_H
-#define SERVER_H
+#pragma once
+
 
 #include <QMetaType>
 #include <QObject>
@@ -39,5 +39,3 @@ private:
     struct PrivateData;
     std::unique_ptr<PrivateData> m_data;
 };
-
-#endif // SERVER_H

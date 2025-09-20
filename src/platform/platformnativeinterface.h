@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PLATFORMNATIVEINTERFACE_H
-#define PLATFORMNATIVEINTERFACE_H
+#pragma once
+
 
 #include <QWidget> // WId
 
@@ -130,5 +130,3 @@ public:
 };
 
 PlatformNativeInterface *platformNativeInterface();
-
-#endif // PLATFORMNATIVEINTERFACE_H

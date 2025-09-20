@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMORDERLIST_H
-#define ITEMORDERLIST_H
+#pragma once
+
 
 #include <QListWidgetItem>
 #include <QPointer>
@@ -142,5 +142,3 @@ private:
 
     QRegularExpression m_dragAndDropRe;
 };
-
-#endif // ITEMORDERLIST_H

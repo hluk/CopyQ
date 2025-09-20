@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CONFIGURATIONMANAGER_H
-#define CONFIGURATIONMANAGER_H
+#pragma once
+
 
 #include "item/itemwidget.h"
 
@@ -129,5 +129,3 @@ private:
 
     QHash<QString, Option> m_options;
 };
-
-#endif // CONFIGURATIONMANAGER_H

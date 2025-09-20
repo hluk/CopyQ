@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMPINNED_H
-#define ITEMPINNED_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
@@ -107,5 +107,3 @@ public:
 private:
     ItemLoaderPtr m_transformedLoader;
 };
-
-#endif // ITEMPINNED_H

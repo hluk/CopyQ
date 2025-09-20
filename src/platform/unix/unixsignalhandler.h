@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef UNIXSIGNALHANDLER_H
-#define UNIXSIGNALHANDLER_H
+#pragma once
+
 
 /**
  * Gracefully exit application on Unix signals SIGHUP, SIGINT and SIGTERM.
@@ -11,5 +11,3 @@
 
 bool initUnixSignalHandler();
 void startUnixSignalHandler();
-
-#endif // UNIXSIGNALHANDLER_H

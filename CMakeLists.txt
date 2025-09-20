@@ -81,7 +81,6 @@ if (PEDANTIC)
             -Wlogical-op
             -Wnoexcept
             -Wstrict-null-sentinel
-            -Wno-unknown-pragmas
             )
     else()
         list(APPEND copyq_pedantic_flags

@@ -191,7 +191,7 @@ void ConfigTabAppearance::onPushButtonEditThemeClicked()
         return;
     }
 
-    TemporarySettings settings;
+    TemporarySettings settings({});
     saveTheme(settings.settings());
 
     QByteArray data = settings.content();

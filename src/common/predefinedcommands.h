@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PREDEFINEDCOMMANDS_H
-#define PREDEFINEDCOMMANDS_H
+#pragma once
 
-#include "common/command.h"
 
 #include <QtContainerFwd>
 
-QVector<Command> predefinedCommands();
+struct Command;
 
-#endif // PREDEFINEDCOMMANDS_H
+QVector<Command> predefinedCommands();

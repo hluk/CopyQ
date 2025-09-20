@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PLATFORMWINDOW_H
-#define PLATFORMWINDOW_H
+#pragma once
+
 
 #include <QByteArray>
 
@@ -40,5 +40,3 @@ public:
     PlatformWindow(const PlatformWindow &) = delete;
     PlatformWindow &operator=(const PlatformWindow &) = delete;
 };
-
-#endif // PLATFORMWINDOW_H

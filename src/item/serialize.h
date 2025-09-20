@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SERIALIZE_H
-#define SERIALIZE_H
+#pragma once
 
+
+#include <QtContainerFwd>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QVariantMap>
+#endif
 
 class QAbstractItemModel;
 class QByteArray;
@@ -27,5 +30,3 @@ bool deserializeData(QAbstractItemModel *model, QIODevice *file);
 
 QString itemDataPath();
 bool itemDataFiles(QIODevice *file, QStringList *files);
-
-#endif // SERIALIZE_H

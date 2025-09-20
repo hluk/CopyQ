@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef MACPLATFORMWINDOW_H
-#define MACPLATFORMWINDOW_H
+#pragma once
+
 
 #include "platform/platformwindow.h"
 
@@ -44,5 +44,3 @@ private:
     NSWindow *m_window;
     NSRunningApplication *m_runningApplication;
 };
-
-#endif // MACPLATFORMWINDOW_H

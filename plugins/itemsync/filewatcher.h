@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef FILEWATCHER_H
-#define FILEWATCHER_H
+#pragma once
+
 
 #include "common/mimetypes.h"
 
@@ -149,5 +149,3 @@ private:
 
     QLockFile m_lock;
 };
-
-#endif // FILEWATCHER_H

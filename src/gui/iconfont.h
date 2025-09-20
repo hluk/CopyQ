@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ICONFONT_H
-#define ICONFONT_H
+#pragma once
+
 
 class QFont;
 class QString;
@@ -15,5 +15,3 @@ int iconFontSizePixels();
 QFont iconFont();
 
 QFont iconFontFitSize(int w, int h);
-
-#endif // ICONFONT_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef X11PLATFORMCLIPBOARD_H
-#define X11PLATFORMCLIPBOARD_H
+#pragma once
+
 
 #include "platform/dummy/dummyclipboard.h"
 
@@ -66,5 +66,3 @@ private:
 
     QString m_clipboardOwner;
 };
-
-#endif // X11PLATFORMCLIPBOARD_H

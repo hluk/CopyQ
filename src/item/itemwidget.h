@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMWIDGET_H
-#define ITEMWIDGET_H
+#pragma once
+
 
 #include "tests/testinterface.h"
 
@@ -400,5 +400,3 @@ private:
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)
-
-#endif // ITEMWIDGET_H

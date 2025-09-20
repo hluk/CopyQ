@@ -250,7 +250,7 @@ Commands importCommandsFromText(const QString &commands)
 
 QString exportCommands(const Commands &commands)
 {
-    TemporarySettings temporarySettings;
+    TemporarySettings temporarySettings({});
     saveCommands( commands, temporarySettings.settings() );
 
     // Replace ugly '\n' with indented lines.

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
@@ -707,5 +707,3 @@ private:
     int m_maxEventHandlerScripts = 10;
     QPointer<Action> m_actionCollectOverrides;
 };
-
-#endif // MAINWINDOW_H

@@ -49,8 +49,6 @@ KeyMods translateToVi(KeyMods keyMods)
     default:
         return {};
     }
-
-    return {key, mods};
 }
 
 KeyMods translateToEmacs(KeyMods keyMods)
@@ -95,7 +93,5 @@ KeyMods translateToEmacs(KeyMods keyMods)
     default:
         return {};
     }
-
-    return {key, mods};
 }
 

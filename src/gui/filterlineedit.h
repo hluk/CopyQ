@@ -26,9 +26,7 @@
 ** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
 **
 ****************************************************************************/
-
-#ifndef FILTERLINEEDIT_H
-#define FILTERLINEEDIT_H
+#pragma once
 
 #include "fancylineedit.h"
 
@@ -67,5 +65,3 @@ private:
 };
 
 } // namespace Utils
-
-#endif // FILTERLINEEDIT_H

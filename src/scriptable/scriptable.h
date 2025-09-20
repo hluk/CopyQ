@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLE_H
-#define SCRIPTABLE_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
@@ -531,5 +531,3 @@ private:
     ItemFactory *m_factory;
     QMap<QString, QJSValue> m_plugins;
 };
-
-#endif // SCRIPTABLE_H

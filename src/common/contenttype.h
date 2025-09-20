@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CONTENTTYPE_H
-#define CONTENTTYPE_H
+#pragma once
+
 
 #include <Qt>
 
@@ -39,5 +39,3 @@ enum {
 };
 
 }
-
-#endif // CONTENTTYPE_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CONFIGTABAPPEARANCE_H
-#define CONFIGTABAPPEARANCE_H
+#pragma once
+
 
 #include "gui/theme.h"
 
@@ -78,5 +78,3 @@ private:
 
     QTimer m_timerPreview;
 };
-
-#endif // CONFIGTABAPPEARANCE_H

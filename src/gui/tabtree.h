@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABTREE_H
-#define TABTREE_H
+#pragma once
+
 
 #include "gui/tabswidgetinterface.h"
 
@@ -92,5 +92,3 @@ private:
     QTimer m_timerUpdate;
     QList<QTreeWidgetItem*> m_tabs;
 };
-
-#endif // TABTREE_H

@@ -1,5 +1,5 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
+
 
 class QPoint;
 class QRect;
@@ -12,5 +12,3 @@ int screenNumberAt(const QPoint &pos);
 QRect screenGeometry(int i);
 
 QRect screenAvailableGeometry(const QWidget &w);
-
-#endif // SCREEN_H

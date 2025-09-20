@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMFAKEVIM_H
-#define ITEMFAKEVIM_H
+#pragma once
+
 
 #include "item/itemwidgetwrapper.h"
 
@@ -56,5 +56,3 @@ private:
 
     int m_oldCursorFlashTime = -1;
 };
-
-#endif // ITEMFAKEVIM_H

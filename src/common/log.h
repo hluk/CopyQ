@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
+#pragma once
 
-#ifndef LOG_H
-#define LOG_H
 
 class QByteArray;
 class QString;
@@ -40,5 +39,3 @@ QByteArray &logLabel();
 
 /// True if stdout and stderr can be used.
 bool canUseStandardOutput();
-
-#endif // LOG_H

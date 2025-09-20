@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef LOGDIALOG_H
-#define LOGDIALOG_H
+#pragma once
+
 
 #include "common/log.h"
 
@@ -43,5 +43,3 @@ private:
     bool m_showDebug;
     bool m_showTrace;
 };
-
-#endif // LOGDIALOG_H

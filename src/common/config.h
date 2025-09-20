@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CONFIG_H
-#define CONFIG_H
+#pragma once
+
 
 class QByteArray;
 class QPoint;
@@ -34,5 +34,3 @@ void moveWindowOnScreen(QWidget *w, QPoint pos);
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked);
 bool isGeometryGuardBlockedUntilHidden(const QWidget *w);
-
-#endif // CONFIG_H

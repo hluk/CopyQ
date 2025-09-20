@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTIONOUTPUT_H
-#define ACTIONOUTPUT_H
+#pragma once
+
 
 class Action;
 class MainWindow;
@@ -30,5 +30,3 @@ void actionOutput(
         const QString &outputItemFormat,
         const QModelIndex &index
         );
-
-#endif // ACTIONOUTPUT_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMAND_H
-#define COMMAND_H
+#pragma once
+
 
 #include <QMap>
 #include <QString>
@@ -142,5 +142,3 @@ static_assert(testCommandMetaTypeOk, "");
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 Q_DECLARE_METATYPE(Command)
 #endif
-
-#endif // COMMAND_H

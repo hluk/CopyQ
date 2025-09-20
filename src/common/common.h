@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMON_H
-#define COMMON_H
+#pragma once
 
-#include <QtGlobal> // Q_WS_*
-#include <QStringList>
+
+#include <QtContainerFwd>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QVariantMap>
+#endif
 
 class ClipboardDataGuard;
 class QByteArray;
@@ -68,7 +69,7 @@ QString textLabelForData(const QVariantMap &data);
 
 void renameToUnique(QString *name, const QStringList &names);
 
-QString dataToText(const QByteArray &bytes, const QString &mime = QString());
+QString dataToText(const QByteArray &bytes, const QString &mime);
 
 bool isClipboardData(const QVariantMap &data);
 
@@ -81,5 +82,3 @@ bool canDropToTab(const QDropEvent &event);
  * Accept any proposed drop action, preferably "move" if items data available.
  */
 void acceptDrag(QDropEvent *event);
-
-#endif // COMMON_H

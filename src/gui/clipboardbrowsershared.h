@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef CLIPBOARDBROWSERSHARED_H
-#define CLIPBOARDBROWSERSHARED_H
+#pragma once
+
 
 #include "common/navigationstyle.h"
 #include "gui/menuitems.h"
@@ -38,5 +38,3 @@ struct ClipboardBrowserShared {
 };
 
 using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;
-
-#endif // CLIPBOARDBROWSERSHARED_H

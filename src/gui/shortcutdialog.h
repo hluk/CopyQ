@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SHORTCUTDIALOG_H
-#define SHORTCUTDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 
@@ -27,5 +27,3 @@ private:
 
     Ui::ShortcutDialog *ui;
 };
-
-#endif // SHORTCUTDIALOG_H

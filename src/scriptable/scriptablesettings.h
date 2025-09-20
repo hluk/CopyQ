@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLESETTINGS_H
-#define SCRIPTABLESETTINGS_H
+#pragma once
+
 
 #include <QJSValue>
 #include <QObject>
@@ -37,5 +37,3 @@ public slots:
 private:
     QSettings m_settings;
 };
-
-#endif // SCRIPTABLESETTINGS_H

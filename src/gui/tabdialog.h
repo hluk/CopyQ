@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABDIALOG_H
-#define TABDIALOG_H
+#pragma once
+
 
 #include <QDialog>
 #include <QStringList>
@@ -60,5 +60,3 @@ private:
     QString m_tabGroupName;
     QStringList m_tabs;
 };
-
-#endif // TABDIALOG_H

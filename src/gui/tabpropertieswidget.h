@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABPROPERTIESWIDGET_H
-#define TABPROPERTIESWIDGET_H
+#pragma once
+
 
 #include <QWidget>
 
@@ -30,5 +30,3 @@ signals:
 private:
     Ui::TabPropertiesWidget *ui;
 };
-
-#endif // TABPROPERTIESWIDGET_H

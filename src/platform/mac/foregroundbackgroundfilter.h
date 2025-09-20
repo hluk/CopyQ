@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef FOREGROUNDBACKGROUNDFILTER_H
-#define FOREGROUNDBACKGROUNDFILTER_H
+#pragma once
+
 
 #include <QObject>
 
@@ -26,5 +26,3 @@ protected:
     bool eventFilter(QObject *obj, QEvent *ev);
     ForegroundBackgroundFilter(QObject *parent);
 };
-
-#endif // FOREGROUNDBACKGROUNDFILTER_H

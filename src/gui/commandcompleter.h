@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDCOMPLETER_H
-#define COMMANDCOMPLETER_H
+#pragma once
+
 
 #include <QObject>
 
@@ -30,5 +30,3 @@ private:
     QPlainTextEdit *m_editor;
     QCompleter *m_completer;
 };
-
-#endif // COMMANDCOMPLETER_H

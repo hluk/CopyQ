@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDWIDGET_H
-#define COMMANDWIDGET_H
+#pragma once
+
 
 #include <QMap>
 #include <QWidget>
@@ -67,5 +67,3 @@ private:
     QString m_internalId;
     QMap<QString, QString> m_nameLocalization;
 };
-
-#endif // COMMANDWIDGET_H

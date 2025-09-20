@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef NOTIFICATIONDAEMON_H
-#define NOTIFICATIONDAEMON_H
+#pragma once
+
 
 #include "gui/notificationbutton.h"
 
@@ -85,5 +85,3 @@ private:
     QTimer m_timerUpdate;
     bool m_nativeNotificationsEnabled = true;
 };
-
-#endif // NOTIFICATIONDAEMON_H

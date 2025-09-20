@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMEDITORWIDGET_H
-#define ITEMEDITORWIDGET_H
+#pragma once
+
 
 #include "item/itemfilter.h"
-#include "item/itemwidget.h"
 #include "gui/menuitems.h"
 
 #include <QPersistentModelIndex>
 #include <QTextEdit>
-
-#include <memory>
 
 class ItemWidget;
 class QAbstractItemModel;
@@ -80,5 +77,3 @@ private:
     QString m_format;
     ItemFilterPtr m_filter;
 };
-
-#endif // ITEMEDITORWIDGET_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PERSISTENTDISPLAYITEM_H
-#define PERSISTENTDISPLAYITEM_H
+#pragma once
+
 
 #include <QMetaType>
 #include <QPointer>
@@ -56,5 +56,3 @@ private:
 };
 
 Q_DECLARE_METATYPE(PersistentDisplayItem)
-
-#endif // PERSISTENTDISPLAYITEM_H

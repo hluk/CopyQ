@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CONFIGTABTABS_H
-#define CONFIGTABTABS_H
+#pragma once
+
 
 #include <QWidget>
 
@@ -19,5 +19,3 @@ public:
 private:
     ItemOrderList *m_list;
 };
-
-#endif // CONFIGTABTABS_H

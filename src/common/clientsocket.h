@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIENTSOCKET_H
-#define CLIENTSOCKET_H
+#pragma once
+
 
 #include <QLocalSocket>
 #include <QObject>
@@ -73,5 +73,3 @@ private:
     quint32 m_messageLength = 0;
     QByteArray m_message;
 };
-
-#endif // CLIENTSOCKET_H

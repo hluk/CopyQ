@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-#ifndef TABICONS_H
-#define TABICONS_H
+#pragma once
+
 
 #include <QtContainerFwd>
 
@@ -23,5 +23,3 @@ void initTabComboBox(QComboBox *comboBox);
 void setDefaultTabItemCounterStyle(QWidget *widget);
 
 void setComboBoxItems(QComboBox *comboBox, const QList<QString> &items);
-
-#endif // TABICONS_H

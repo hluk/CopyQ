@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ICONSELECTBUTTON_H
-#define ICONSELECTBUTTON_H
+#pragma once
+
 
 #include <QPushButton>
 
@@ -26,5 +26,3 @@ private:
 
     QString m_currentIcon;
 };
-
-#endif // ICONSELECTBUTTON_H

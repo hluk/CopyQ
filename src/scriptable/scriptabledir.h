@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLEDIR_H
-#define SCRIPTABLEDIR_H
+#pragma once
+
 
 #include <QDir>
 #include <QObject>
@@ -74,5 +74,3 @@ private:
     QDir *m_self = nullptr;
     QString m_path;
 };
-
-#endif // SCRIPTABLEDIR_H

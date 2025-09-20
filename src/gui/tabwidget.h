@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef TABWIDGET_H
-#define TABWIDGET_H
+#pragma once
+
 
 #include <QHash>
 #include <QTabBar>
@@ -124,5 +124,3 @@ private:
 
     bool m_ignoreCurrentTabChanges = false;
 };
-
-#endif // TABWIDGET_H

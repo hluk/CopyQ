@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include <QTimer>
 
@@ -17,5 +16,3 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const Receiver *receiv
     const auto flags = std::is_invocable<Slot&>() ? Qt::AutoConnection : Qt::UniqueConnection;
     QObject::connect(timer, &QTimer::timeout, receiver, slot, flags);
 }
-
-#endif // TIMER_H

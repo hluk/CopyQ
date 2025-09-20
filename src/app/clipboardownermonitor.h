@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDOWNERMONITOR_H
-#define CLIPBOARDOWNERMONITOR_H
+#pragma once
+
 
 #include <QAbstractNativeEventFilter>
 #include <QByteArray>
@@ -35,5 +35,3 @@ private:
     QTimer m_timerSetOwner;
     QTimer m_timerUpdateAfterEvent;
 };
-
-#endif // CLIPBOARDOWNERMONITOR_H

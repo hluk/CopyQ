@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef FILTERCOMPLETER_H
-#define FILTERCOMPLETER_H
+#pragma once
+
 
 #include <QCompleter>
 #include <QStringList>
@@ -34,5 +34,3 @@ private:
     QLineEdit *m_lineEdit;
     QString m_lastText;
 };
-
-#endif // FILTERCOMPLETER_H

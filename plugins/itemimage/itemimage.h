@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMIMAGE_H
-#define ITEMIMAGE_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidget.h"
@@ -86,5 +86,3 @@ private:
     QString m_svgEditor;
     std::unique_ptr<Ui::ItemImageSettings> ui;
 };
-
-#endif // ITEMIMAGE_H

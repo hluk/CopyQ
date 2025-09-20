@@ -1,4 +1,3 @@
-#ifndef QXTGLOBALSHORTCUT_P_H
 /****************************************************************************
 ** Copyright (c) 2006 - 2011, the LibQxt project.
 ** See the Qxt AUTHORS file for a list of authors and copyright holders.
@@ -28,8 +27,7 @@
 **
 ** <http://libqxt.org>  <foundation@libqxt.org>
 *****************************************************************************/
-
-#define QXTGLOBALSHORTCUT_P_H
+#pragma once
 
 #include <QAbstractEventDispatcher>
 #include <QHash>
@@ -85,5 +83,3 @@ private:
     static bool registerShortcut(quint32 nativeKey, quint32 nativeMods);
     static bool unregisterShortcut(quint32 nativeKey, quint32 nativeMods);
 };
-
-#endif // QXTGLOBALSHORTCUT_P_H

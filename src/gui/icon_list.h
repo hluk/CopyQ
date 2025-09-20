@@ -1,4 +1,5 @@
 // This file is generated with "update_icon_font.py" from FontAwesome's metadata.
+#pragma once
 
 struct Icon {
     unsigned short unicode;

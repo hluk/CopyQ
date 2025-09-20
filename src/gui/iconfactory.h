@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ICONFACTORY_H
-#define ICONFACTORY_H
+#pragma once
+
 
 class QColor;
 class QIcon;
@@ -48,5 +48,3 @@ QString sessionIconTag();
 QColor sessionIconTagColor();
 
 void setUseSystemIcons(bool useSystemIcons);
-
-#endif // ICONFACTORY_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef WINPLATFORMWINDOW_H
-#define WINPLATFORMWINDOW_H
+#pragma once
+
 
 #include "platform/platformwindow.h"
 
@@ -29,5 +29,3 @@ private:
 
     HWND m_window;
 };
-
-#endif // WINPLATFORMWINDOW_H

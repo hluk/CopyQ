@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef APP_H
-#define APP_H
+#pragma once
+
 
 class QCoreApplication;
 class QString;
@@ -44,5 +44,3 @@ private:
     bool m_started;
     bool m_closed;
 };
-
-#endif // APP_H

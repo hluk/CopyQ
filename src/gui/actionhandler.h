@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ACTIONHANDLER_H
-#define ACTIONHANDLER_H
+#pragma once
+
 
 #include <QObject>
 #include <QSet>
@@ -47,5 +47,3 @@ private:
     QSet<int> m_internalActions;
     int m_lastActionId = -1;
 };
-
-#endif // ACTIONHANDLER_H

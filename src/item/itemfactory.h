@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMFACTORY_H
-#define ITEMFACTORY_H
+#pragma once
 
-#include "common/command.h"
+
 #include "item/itemwidget.h"
 
 #include <QMap>
@@ -136,5 +135,3 @@ private:
     ItemLoaderPtr m_dummyLoader;
     QMap<QObject *, ItemLoaderPtr> m_loaderChildren;
 };
-
-#endif // ITEMFACTORY_H

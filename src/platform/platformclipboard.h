@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef PLATFORMCLIPBOARD_H
-#define PLATFORMCLIPBOARD_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 
@@ -47,5 +47,3 @@ signals:
     /// Notifies about clipboard changes.
     void changed(ClipboardMode mode);
 };
-
-#endif // PLATFORMCLIPBOARD_H

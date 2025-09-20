@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMTAGS_H
-#define ITEMTAGS_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
@@ -159,5 +159,3 @@ private:
 
     bool m_blockDataChange;
 };
-
-#endif // ITEMTAGS_H

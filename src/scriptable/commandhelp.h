@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef COMMANDHELP_H
-#define COMMANDHELP_H
+#pragma once
+
 
 #include <QList>
 #include <QString>
@@ -21,5 +21,3 @@ struct CommandHelp {
 };
 
 QList<CommandHelp> commandHelp();
-
-#endif // COMMANDHELP_H

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDMODEL_H
-#define CLIPBOARDMODEL_H
+#pragma once
+
 
 #include "item/clipboarditem.h"
 
@@ -125,5 +125,3 @@ public:
 private:
     ClipboardItemList m_clipboardList;
 };
-
-#endif // CLIPBOARDMODEL_H

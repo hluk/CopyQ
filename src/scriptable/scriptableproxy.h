@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef SCRIPTABLEPROXY_H
-#define SCRIPTABLEPROXY_H
+#pragma once
+
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
@@ -350,5 +350,3 @@ QString translationsPath();
 
 void setClipboardMonitorRunning(bool running);
 bool isClipboardMonitorRunning();
-
-#endif // SCRIPTABLEPROXY_H

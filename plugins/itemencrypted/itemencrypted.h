@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMENCRYPTED_H
-#define ITEMENCRYPTED_H
+#pragma once
+
 
 #include "item/itemwidget.h"
 #include "gui/icons.h"
@@ -142,5 +142,3 @@ private:
     mutable GpgProcessStatus m_gpgProcessStatus;
     QProcess *m_gpgProcess;
 };
-
-#endif // ITEMENCRYPTED_H

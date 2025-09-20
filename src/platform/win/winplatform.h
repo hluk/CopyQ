@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef WINPLATFORM_H
-#define WINPLATFORM_H
+#pragma once
+
 
 #include "platform/platformnativeinterface.h"
 
@@ -45,5 +45,3 @@ public:
 
     QString themePrefix() override;
 };
-
-#endif // WINPLATFORM_H

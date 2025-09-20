@@ -1,7 +1,7 @@
 // This file is generated with "update_icon_font.py" from FontAwesome's metadata.
 
-#ifndef ICONS_H
-#define ICONS_H
+#pragma once
+
 
 enum IconId {
     Icon0 = 0x30,
@@ -1900,5 +1900,3 @@ enum IconId {
     IconZ = 0x5a,
     IconZhihu = 0xf63f,
 };
-
-#endif // ICONS_H

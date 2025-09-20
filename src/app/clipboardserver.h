@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef CLIPBOARDSERVER_H
-#define CLIPBOARDSERVER_H
+#pragma once
+
 
 #include "app.h"
 #include "common/clipboardmode.h"
@@ -157,5 +157,3 @@ private:
     };
     QMap<ClientSocketId, ClientData> m_clients;
 };
-
-#endif // CLIPBOARDSERVER_H

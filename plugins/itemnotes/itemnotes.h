@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-#ifndef ITEMNOTES_H
-#define ITEMNOTES_H
+#pragma once
+
 
 #include "gui/icons.h"
 #include "item/itemwidgetwrapper.h"
@@ -83,5 +83,3 @@ private:
     bool m_showTooltip = false;
     std::unique_ptr<Ui::ItemNotesSettings> ui;
 };
-
-#endif // ITEMNOTES_H
