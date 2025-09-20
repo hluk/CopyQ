@@ -17,7 +17,7 @@ public:
 protected:
     void onChanged(int) override;
     const long int *clipboardSequenceNumber(ClipboardMode) const override {
-        return &m_lastClipboardSequenceNumber; 
+        return &m_lastClipboardSequenceNumber;
     }
 
 private:

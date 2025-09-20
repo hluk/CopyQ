@@ -18,4 +18,3 @@ args=(
     )
 
 exec convert "${args[@]}"
-

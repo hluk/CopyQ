@@ -8,4 +8,3 @@ set(copyq_plugin_itemimage_SOURCES
     )
 
 copyq_add_plugin(itemimage)
-

@@ -290,4 +290,3 @@ QObject *ItemLoaderInterface::createExternalEditor(const QModelIndex &, const QV
 {
     return nullptr;
 }
-

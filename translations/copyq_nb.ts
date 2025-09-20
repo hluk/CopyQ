@@ -3817,8 +3817,8 @@ Skriv ut programversjon og biblioteker.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Fanenavn skal være unike og ikke tomme.&lt;br/&gt; 
-Fanen &lt;b&gt;No&amp;amp;tater&lt;/b&gt;&amp;amp; kan åpnes ved hjelp av &lt;b&gt;Alt+T&lt;/b&gt;&lt;br/&gt; 
+        <translation>Fanenavn skal være unike og ikke tomme.&lt;br/&gt;
+Fanen &lt;b&gt;No&amp;amp;tater&lt;/b&gt;&amp;amp; kan åpnes ved hjelp av &lt;b&gt;Alt+T&lt;/b&gt;&lt;br/&gt;
 Bruk &lt;b&gt;/&lt;/b&gt; som sti-separator i faneoppsett med trevisning.</translation>
     </message>
     <message>

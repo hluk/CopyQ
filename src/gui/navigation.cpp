@@ -94,4 +94,3 @@ KeyMods translateToEmacs(KeyMods keyMods)
         return {};
     }
 }
-

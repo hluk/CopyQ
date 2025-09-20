@@ -60,4 +60,3 @@ fi
 if has_step 4; then
     ./copyq -s test1 "$@"
 fi
-

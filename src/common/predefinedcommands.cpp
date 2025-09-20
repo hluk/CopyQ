@@ -174,4 +174,3 @@ overrideFunction('provideSelection');
 
     return commands;
 }
-
