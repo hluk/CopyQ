@@ -330,6 +330,9 @@ private slots:
 
     void expireTabs();
 
+    void dragNDropTreeTab();
+    void dragNDropTreeTabNested();
+
 private:
     void navigationTestInit();
     void navigationTestDownUp(const QString &down, const QString &up);

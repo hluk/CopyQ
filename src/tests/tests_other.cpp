@@ -546,14 +546,14 @@ void Tests::pasteFromMainWindow()
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
         [&]() {
-            RUN("keys" << "focus::QLineEdit in :QDialog", "");
+            RUN("keys" << "focus::QLineEdit<.*:QDialog", "");
             RUN("show", "");
             RUN("keys" << clipboardBrowserId << "ENTER", "");
 
             WAIT_FOR_CLIPBOARD("TEST");
             waitFor(waitMsPasteClipboard);
 
-            RUN("keys" << "focus::QLineEdit in :QDialog" << "ENTER", "");
+            RUN("keys" << "focus::QLineEdit<.*:QDialog" << "ENTER", "");
         }
     );
 }

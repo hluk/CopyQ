@@ -18,7 +18,9 @@ using FilePtr = std::shared_ptr<QFile>;
 
 const char sep[] = " ;; ";
 
-const auto confirmRemoveDialogId = "focus::QPushButton in :QMessageBox";
+const auto confirmRemoveDialogId =
+    "focus::QPushButton'Yes'<qt_msgbox_buttonbox:QDialogButtonBox<:QMessageBox"
+    "'Do you really want to remove items and associated files\\\\?'";
 
 class TestDir final {
 public:

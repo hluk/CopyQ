@@ -310,31 +310,31 @@ void Tests::commandDialog()
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << ":TEST" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << ":TEST" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text') === undefined", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ESCAPE", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ESCAPE", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('list', [0, 1, 2])", "0\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
     );
 
     // Can't focus configuration checkboxes on OS X
@@ -342,7 +342,7 @@ void Tests::commandDialog()
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('boolean', true) === true", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QCheckBox in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QCheckBox<:QDialog" << "ENTER", ""); }
     );
 #endif
 
@@ -351,7 +351,7 @@ void Tests::commandDialog()
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'test', 'text')", ""); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in dialog_test:QDialog" << "ESCAPE", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<dialog_test:QDialog" << "ESCAPE", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
@@ -369,13 +369,13 @@ void Tests::commandDialog()
     )";
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT + script, "DEFAULT\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QPushButton in dialog_Remove Items:QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QPushButton<dialog_Remove Items:QDialog" << "ENTER", ""); }
     );
 
     RUN(Args() << "keys" << clipboardBrowserId, "");
@@ -388,7 +388,7 @@ void Tests::commandDialog()
     )";
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT + script2, "DEFAULT\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit in :QDialog" << "ENTER", ""); }
+        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ENTER", ""); }
     );
 }
 

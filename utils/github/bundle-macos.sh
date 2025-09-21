@@ -34,6 +34,7 @@ defaults write -g NSWindowResizeTime -float 0.001
     # Run tests (retry once on error).
     export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
     export COPYQ_TESTS_SKIP_CONFIG_MOVE=1
+    export COPYQ_TESTS_SKIP_DRAG_AND_DROP=1
     export COPYQ_TESTS_RERUN_FAILED=1
     "$executable" tests
 )

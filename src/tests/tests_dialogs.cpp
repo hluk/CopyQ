@@ -277,6 +277,6 @@ void Tests::exitStopCommands()
     RUN("config" << "confirm_exit" << "false", "false\n");
     RUN("action" << "copyq sleep 999999", "");
     RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
-    RUN("keys" << confirmExitDialogId << "ENTER", "");
+    RUN("keys" << runningCommandsExitDialogId << "ENTER", "");
     TEST( m_test->waitForServerToStop() );
 }
