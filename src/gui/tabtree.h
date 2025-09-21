@@ -89,6 +89,8 @@ private:
     void requestTabMenu(QPoint itemPosition, QPoint menuPosition);
     void deleteItem(QTreeWidgetItem *item);
 
+    void setTabItemCount(QTreeWidgetItem *item, const QString &itemCount);
+
     QTimer m_timerUpdate;
     QList<QTreeWidgetItem*> m_tabs;
 };

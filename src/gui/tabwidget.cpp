@@ -68,8 +68,6 @@ TabWidget::TabWidget(QWidget *parent)
 
     addTabAction(this, QKeySequence::PreviousChild, this, &TabWidget::previousTab);
     addTabAction(this, QKeySequence::NextChild, this, &TabWidget::nextTab);
-
-    loadTabInfo();
 }
 
 QString TabWidget::getCurrentTabPath() const
@@ -108,24 +106,24 @@ QString TabWidget::tabName(int tabIndex) const
     return m_tabs->tabName(tabIndex);
 }
 
+int TabWidget::tabIndex(const QString &tabName) const
+{
+    for (int i = 0; i < count(); ++i) {
+        if ( tabName == this->tabName(i) )
+            return i;
+    }
+    return -1;
+}
+
 void TabWidget::setTabName(int tabIndex, const QString &tabName)
 {
-    const QString oldTabName = this->tabName(tabIndex);
-    if ( m_tabItemCounters.contains(oldTabName) )
-        m_tabItemCounters.insert( tabName, m_tabItemCounters.take(oldTabName) );
-
     m_tabs->setTabName(tabIndex, tabName);
-
     m_tabs->adjustSize();
 }
 
 void TabWidget::setTabItemCountVisible(bool visible)
 {
     m_showTabItemCount = visible;
-    for (int i = 0; i < count(); ++i)
-        updateTabItemCount( tabName(i) );
-
-    m_tabs->adjustSize();
 }
 
 void TabWidget::setTabIcon(const QString &tabName, const QString &icon)
@@ -153,13 +151,12 @@ void TabWidget::removeTab(int tabIndex)
     if (tabIndex == currentIndex())
         setCurrentIndex(tabIndex == 0 ? 1 : 0);
 
-    const QString tabName = this->tabName(tabIndex);
-    m_tabItemCounters.remove(tabName);
-
     // Item count must be updated If tab is removed but tab group remains.
+    const QString tabName = this->tabName(tabIndex);
     m_tabs->setTabItemCount(tabName, QString());
 
     QWidget *w = m_stackedWidget->widget(tabIndex);
+    m_tabItemCounters.remove(w);
     m_stackedWidget->removeWidget(w);
     delete w;
 
@@ -186,21 +183,16 @@ void TabWidget::addToolBars(QMainWindow *mainWindow)
 
 void TabWidget::saveTabInfo()
 {
-    QStringList tabs;
-    tabs.reserve( count() );
-    for ( int i = 0; i < count(); ++i )
-        tabs.append( tabName(i) );
-
     QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
 
     m_tabs->updateCollapsedTabs(&m_collapsedTabs);
     settings.setValue("TabWidget/collapsed_tabs", m_collapsedTabs);
 
     QVariantMap tabItemCounters;
-    for (const auto &key : tabs) {
-        const int count = m_tabItemCounters.value(key, -1);
+    for (int i = 0; i < count(); ++i) {
+        const int count = m_tabItemCounters.value(widget(i), -1);
         if (count >= 0)
-            tabItemCounters[key] = count;
+            tabItemCounters[tabName(i)] = count;
     }
     settings.setValue("TabWidget/tab_item_counters", tabItemCounters);
 }
@@ -211,14 +203,25 @@ void TabWidget::loadTabInfo()
 
     m_collapsedTabs = settings.value("TabWidget/collapsed_tabs").toStringList();
 
-    QVariantMap tabItemCounters = settings.value("TabWidget/tab_item_counters").toMap();
-    m_tabItemCounters.clear();
-    for (auto it = tabItemCounters.constBegin(); it != tabItemCounters.constEnd(); ++it)
-        m_tabItemCounters[it.key()] = it.value().toInt();
+    const QVariantMap tabItemCounters = settings.value("TabWidget/tab_item_counters").toMap();
+    for (int i = 0; i < count(); ++i) {
+        const QVariant count = tabItemCounters.value(tabName(i));
+        if (count.isValid())
+            m_tabItemCounters[widget(i)] = count.toInt();
+    }
 }
 
 void TabWidget::updateTabs(QSettings &settings)
 {
+    loadTabInfo();
+
+    for (auto it = m_tabItemCounters.constBegin(); it != m_tabItemCounters.constEnd(); ++it) {
+        QWidget *w = it.key();
+        const int i = m_stackedWidget->indexOf(w);
+        if (i != -1)
+            m_tabs->setTabItemCount(m_tabs->tabName(i), itemCountLabel(m_tabs->tabName(i)));
+    }
+
     m_tabs->setCollapsedTabs(m_collapsedTabs);
 
     QHash<QString, QString> tabIcons;
@@ -231,6 +234,8 @@ void TabWidget::updateTabs(QSettings &settings)
     }
     settings.endArray();
     m_tabs->updateTabIcons(tabIcons);
+
+    m_tabs->adjustSize();
 }
 
 void TabWidget::setCurrentIndex(int tabIndex)
@@ -288,10 +293,11 @@ void TabWidget::setTreeModeEnabled(bool enabled)
 
 void TabWidget::setTabItemCount(const QString &tabName, int itemCount)
 {
-    if ( m_tabItemCounters.value(tabName, -1) == itemCount)
+    QWidget *w = m_stackedWidget->widget(tabIndex(tabName));
+    if ( m_tabItemCounters.value(w, -1) == itemCount)
         return;
 
-    m_tabItemCounters[tabName] = itemCount;
+    m_tabItemCounters[w] = itemCount;
 
     updateTabItemCount(tabName);
 }
@@ -359,6 +365,8 @@ void TabWidget::onTabsMoved(const QString &oldPrefix, const QString &newPrefix, 
     m_stackedWidget->setCurrentIndex(newCurrentIndex);
 
     m_stackedWidget->show();
+
+    saveTabInfo();
 
     emit tabsMoved(oldPrefix, newPrefix);
 }
@@ -469,8 +477,9 @@ QString TabWidget::itemCountLabel(const QString &name)
     if (!m_showTabItemCount)
         return QString();
 
-    const int count = m_tabItemCounters.value(name, -1);
-    return count > 0 ? QString::number(count) : count == 0 ? QString() : QLatin1String("?");
+    QWidget *w = m_stackedWidget->widget(tabIndex(name));
+    const int count = m_tabItemCounters.value(w, -1);
+    return count >= 0 ? QString::number(count) : QLatin1String("?");
 }
 
 void TabWidget::setTreeModeEnabled(bool enabled, const QStringList &tabs)
@@ -484,7 +493,6 @@ void TabWidget::setTreeModeEnabled(bool enabled, const QStringList &tabs)
     for (int i = 0; i < tabs.size(); ++i) {
         const QString &tabName = tabs[i];
         m_tabs->insertTab(i, tabName);
-        m_tabs->setTabItemCount(tabName, itemCountLabel(tabName));
     }
     m_tabs->setCurrentTab( currentIndex() );
     m_ignoreCurrentTabChanges = false;
