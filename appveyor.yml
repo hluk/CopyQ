@@ -24,6 +24,7 @@ environment:
       # https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators
       CMAKE_GENERATOR: Visual Studio 17 2022
       CMAKE_GENERATOR_ARCH: x64
+      CMAKE_POLICY_VERSION_MINIMUM: "3.5"
       BUILD_SUB_DIR: Release
       # https://wiki.qt.io/Qt_6.8_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
