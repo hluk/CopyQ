@@ -28,11 +28,12 @@ constexpr auto customMenuId = "focus:CustomMenu";
 constexpr auto editorId = "focus::ItemEditorWidget";
 constexpr auto tabDialogLineEditId = "focus:lineEditTabName";
 constexpr auto commandDialogId = "focus:CommandDialog";
-constexpr auto commandDialogSaveButtonId = "focus::QPushButton in :QMessageBox";
+constexpr auto commandDialogSaveButtonId =
+    "focus::QPushButton'Save'<:QMessageBox'Command dialog has unsaved changes.'";
 constexpr auto commandDialogListId = "focus:listWidgetItems";
 constexpr auto configurationDialogId = "focus:ConfigurationManager";
-constexpr auto shortcutButtonId = "focus::QToolButton in CommandDialog";
-constexpr auto shortcutDialogId = "focus::QKeySequenceEdit in ShortcutDialog";
+constexpr auto shortcutButtonId = "focus::QToolButton<CommandDialog";
+constexpr auto shortcutDialogId = "focus::QKeySequenceEdit<ShortcutDialog";
 constexpr auto actionDialogId = "focus:ActionDialog";
 constexpr auto aboutDialogId = "focus:AboutDialog";
 constexpr auto logDialogId = "focus:LogDialog";
@@ -41,8 +42,11 @@ constexpr auto actionHandlerFilterId = "focus:filterLineEdit";
 constexpr auto actionHandlerTableId = "focus:tableView";
 constexpr auto clipboardDialogId = "focus:ClipboardDialog";
 constexpr auto clipboardDialogFormatListId = "focus:listWidgetFormats";
-constexpr auto confirmExitDialogId = "focus::QPushButton in :QMessageBox";
-constexpr auto itemPreviewId = "focus:in dockWidgetItemPreviewContents";
+constexpr auto confirmExitDialogId =
+    "focus::QPushButton'Yes'<:QMessageBox'Do you want to exit CopyQ\\\\?'";
+constexpr auto runningCommandsExitDialogId =
+    "focus::QPushButton'Exit Anyway'<:QMessageBox'Cancel active commands and exit\\\\?'";
+constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
 
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 

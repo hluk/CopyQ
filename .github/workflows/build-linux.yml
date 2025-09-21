@@ -151,6 +151,9 @@ jobs:
       - name: Test on X11
         working-directory: '${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin'
         run: '${{github.workspace}}/utils/github/test-linux.sh'
+        env:
+          COPYQ_TESTS_SKIP_DRAG_AND_DROP: >-
+            ${{ matrix.with_qt6 && '0' || '1' }}
 
       - name: Update coverage
         if: matrix.coverage
