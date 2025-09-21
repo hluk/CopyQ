@@ -3,11 +3,9 @@
 #pragma once
 
 
-#include <QHash>
+#include <QMap>
 #include <QTabBar>
 #include <QWidget>
-
-#include <memory>
 
 class QMainWindow;
 class QMimeData;
@@ -45,6 +43,8 @@ public:
 
     /** Return path of tab in tree or label in tab bar. */
     QString tabName(int tabIndex) const;
+
+    int tabIndex(const QString &tabName) const;
 
     void setTabName(int tabIndex, const QString &tabName);
 
@@ -118,7 +118,7 @@ private:
     bool m_hideTabBar;
 
     QStringList m_collapsedTabs;
-    QHash<QString, int> m_tabItemCounters;
+    QMap<QWidget*, int> m_tabItemCounters;
 
     bool m_showTabItemCount;
 
