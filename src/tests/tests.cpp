@@ -74,11 +74,15 @@ public:
     {
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
-        m_env.insert("COPYQ_SESSION_NAME", sessionName);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
-        m_env.insert(
-            "QT_LOGGING_RULES",
-            "*.debug=true;qt.*.debug=false;qt.*.warning=true");
+        const auto loggingRules = qgetenv("COPYQ_TESTS_LOGGING_RULES");
+        if ( loggingRules.isEmpty() ) {
+            m_env.insert(
+                "QT_LOGGING_RULES",
+                "*.debug=true;qt.*.debug=false;qt.*.warning=true");
+        } else {
+            m_env.insert("QT_LOGGING_RULES", loggingRules);
+        }
     }
 
     ~TestInterfaceImpl()
@@ -644,6 +648,8 @@ bool Tests::hasTab(const QString &tabName)
 
 int runTests(int argc, char *argv[])
 {
+    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
+
     QRegularExpression onlyPlugins;
     bool runPluginTests = true;
 

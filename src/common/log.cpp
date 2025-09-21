@@ -217,7 +217,7 @@ QString getLogFileName()
 void logAlways(const QByteArray &msgText, const LogLevel level)
 {
     const auto msg = createLogMessage(msgText, level);
-    const bool writtenToLogFile = writeLogFile(msg);
+    const bool writtenToLogFile = qApp && writeLogFile(msg);
 
     // Log to file and if needed to stderr.
     if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {

@@ -19,7 +19,7 @@ export WAYLAND_DISPLAY=copyq-wayland
 
 # Enable verbose logging.
 export COPYQ_LOG_LEVEL=DEBUG
-export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
+export QT_LOGGING_RULES=${QT_LOGGING_RULES:-"*.debug=true;qt.*.debug=false;qt.*.warning=true"}
 
 export QT_QPA_PLATFORM=wayland
 
@@ -35,11 +35,11 @@ for i in {1..5}; do
     sleep $((i * 2))
 done
 
-# Test handling Unix signals.
-script_root="$(dirname "$(readlink -f "$0")")"
-"$script_root/test-signals.sh"
-
 if [[ $# == 0 ]]; then
+    # Test handling Unix signals.
+    script_root="$(dirname "$(readlink -f "$0")")"
+    "$script_root/test-signals.sh"
+
     ./copyq tests "${default_wayland_tests[@]}"
 else
     ./copyq tests "$@"
