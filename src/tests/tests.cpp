@@ -95,7 +95,7 @@ public:
         if ( isServerRunning() )
             return "Server is already running.";
 
-        if ( !removeLogFiles() )
+        if ( !dropLogsToFileCountAndSize(0, 0) )
             return "Failed to remove log files";
 
         m_server.reset(new QProcess);

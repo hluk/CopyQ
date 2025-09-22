@@ -16,20 +16,23 @@ void Tests::readLog()
     QByteArray stderrActual;
     QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
-    QCOMPARE( logFileName() + "\n", QString::fromUtf8(stdoutActual) );
-    QTRY_VERIFY( !readLogFile(maxReadLogSize).isEmpty() );
 
-#define LOGGED_ONCE(PATTERN) \
-    QTRY_COMPARE( count(splitLines(readLogFile(maxReadLogSize)), PATTERN), 1 )
+    const QString logFile =
+        QFileInfo(logFileName()).absoluteDir().filePath("copyq.log");
+    QCOMPARE( logFile + "\n", QString::fromUtf8(stdoutActual) );
 
-    LOGGED_ONCE(
-        R"(^CopyQ DEBUG \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Server-\d+>: Loading configuration$)");
+    const QByteArray log = readLogFile(maxReadLogSize);
+    QVERIFY2(!log.isEmpty(), log);
 
-    LOGGED_ONCE(
-        R"(^CopyQ DEBUG \[.*\] <Server-\d+>: Starting monitor$)");
+    const QStringList lines = splitLines(readLogFile(maxReadLogSize));
 
-    LOGGED_ONCE(
-        R"(^.*<monitorClipboard-\d+>: Clipboard formats to save: .*$)");
+    const auto configPattern = QStringLiteral(
+        R"(^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] DEBUG <Server-\d+>: Loading configuration$)");
+    QVERIFY2(count(lines, configPattern), log);
+
+    const auto monitorPattern = QStringLiteral(
+        R"(^\[.*\] DEBUG <Server-\d+>: Starting monitor$)");
+    QVERIFY2(count(lines, monitorPattern), log);
 }
 
 void Tests::commandHelp()

@@ -1482,11 +1482,14 @@ QJSValue Scriptable::info()
 {
     m_skipArguments = 1;
 
+    const QString logFile =
+        QFileInfo(logFileName()).absoluteDir().filePath("copyq.log");
+
     using InfoMap = QMap<QString, QString>;
     InfoMap info;
     info.insert("config", QSettings().fileName());
     info.insert("exe", QCoreApplication::applicationFilePath());
-    info.insert("log", logFileName());
+    info.insert("log", logFile);
     info.insert("data", itemDataPath());
 
     info.insert("plugins",

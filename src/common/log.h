@@ -18,7 +18,7 @@ const QString &logFileName();
 
 QByteArray readLogFile(int maxReadSize);
 
-bool removeLogFiles();
+bool dropLogsToFileCountAndSize(int maxFileCount, int keepMaxSize);
 
 void createSessionMutex();
 

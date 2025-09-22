@@ -5,54 +5,15 @@
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDir>
-#include <QLockFile>
 #include <QFile>
 #include <QString>
 #include <QtGlobal>
 #include <QVariant>
 
 #include <QStandardPaths>
+#include <functional>
 
 namespace {
-
-/// System-wide mutex
-class SystemMutex final {
-public:
-    SystemMutex()
-        : m_lockFile(logFileName() + QLatin1String(".lock"))
-    {
-    }
-
-    /// Lock mutex (blocking).
-    bool lock()
-    {
-        ++m_selfLocked;
-        return m_selfLocked > 1 || m_lockFile.lock();
-    }
-
-    /// Unlock mutex.
-    void unlock()
-    {
-        --m_selfLocked;
-        if (m_selfLocked == 0)
-            m_lockFile.unlock();
-    }
-
-    QString error() const
-    {
-        if (m_lockFile.error() == QLockFile::NoError)
-            return {};
-
-        if (m_lockFile.error() == QLockFile::PermissionError)
-            return QStringLiteral("Insufficient permissions to create lock file");
-
-        return QStringLiteral("Unknown error");
-    }
-
-private:
-    int m_selfLocked = 0;
-    QLockFile m_lockFile;
-};
 
 const int logFileSize = 512 * 1024;
 const int logFileCount = 10;
@@ -102,7 +63,7 @@ void rotateLogFiles()
     }
 }
 
-bool writeLogFileNoLock(const QByteArray &message)
+bool writeLogFile(const QByteArray &message)
 {
     QFile f( ::logFileName() );
     if ( !f.open(QIODevice::Append) )
@@ -118,63 +79,9 @@ bool writeLogFileNoLock(const QByteArray &message)
     return true;
 }
 
-/// Lock guard for SystemMutex.
-class SystemMutexLocker final {
-public:
-    /// Locks mutex (it's possible that the mutex won't be locked because of errors).
-    explicit SystemMutexLocker(SystemMutex &mutex)
-        : m_mutex(mutex)
-        , m_locked( m_mutex.lock() )
-    {
-        if (!m_locked) {
-            writeLogFileNoLock(
-                "Failed to lock logs: " + m_mutex.error().toUtf8());
-        }
-    }
-
-    /// Unlocks mutex.
-    ~SystemMutexLocker()
-    {
-        if (m_locked)
-            m_mutex.unlock();
-    }
-
-    SystemMutexLocker(const SystemMutexLocker &) = delete;
-    SystemMutexLocker &operator=(const SystemMutexLocker &) = delete;
-
-private:
-    SystemMutex &m_mutex;
-    bool m_locked;
-};
-
-SystemMutex &getSessionMutex()
-{
-    static SystemMutex mutex;
-    return mutex;
-}
-
 QString getDefaultLogFilePath()
 {
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-}
-
-QByteArray readLogFile(const QString &fileName, int maxReadSize)
-{
-    QFile f(fileName);
-    if ( !f.open(QIODevice::ReadOnly) )
-        return {};
-
-    const auto seek = f.size() - maxReadSize;
-    if (seek > 0)
-        f.seek(seek);
-
-    return f.readAll();
-}
-
-bool writeLogFile(const QByteArray &message)
-{
-    SystemMutexLocker lock(getSessionMutex());
-    return writeLogFileNoLock(message);
 }
 
 QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
@@ -196,8 +103,8 @@ QByteArray createSimpleLogMessage(const QByteArray &text, const LogLevel level)
 QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 {
     const auto timeStamp =
-        QDateTime::currentDateTime().toString(QStringLiteral(" [yyyy-MM-dd hh:mm:ss.zzz] ")).toLatin1();
-    const auto label = "CopyQ " + logLevelLabel(level) + timeStamp + logLabel() + ": ";
+        QDateTime::currentDateTime().toString(QStringLiteral("[yyyy-MM-dd hh:mm:ss.zzz] ")).toLatin1();
+    const auto label = timeStamp + logLevelLabel(level) + " " + logLabel() + ": ";
     return createLogMessage(label, text);
 }
 
@@ -211,7 +118,13 @@ QString getLogFileName()
     QDir dir(path);
     dir.mkpath(QStringLiteral("."));
 
-    return path + QStringLiteral("/copyq.log");
+    if (logLabel() == "Server")
+        return QStringLiteral("%1/copyq.log").arg(path);
+
+    const QString dateTime = QDateTime::currentDateTime()
+        .toString(QStringLiteral("yyyyMMdd"));
+    return QStringLiteral("%3/copyq-%1-%2.log")
+        .arg(dateTime).arg(QCoreApplication::applicationPid()).arg(path);
 }
 
 void logAlways(const QByteArray &msgText, const LogLevel level)
@@ -226,6 +139,23 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
         const auto simpleMsg = createSimpleLogMessage(msgText, level);
         ferr.write(simpleMsg);
     }
+}
+
+QFileInfoList logFileNames()
+{
+    const QDir logDir = QFileInfo(::logFileName()).absoluteDir();
+    return logDir.entryInfoList({QStringList("copyq*.log*")}, QDir::Files, QDir::Time);
+}
+
+bool removeLogFile(const QFileInfo &logFileInfo)
+{
+    QFile logFile(logFileInfo.absoluteFilePath());
+    if (logFile.remove())
+        return true;
+
+    log( QStringLiteral("Failed to remove log file \"%1\": %2")
+        .arg(logFile.fileName(), logFile.errorString()), LogError );
+    return false;
 }
 
 } // namespace
@@ -245,30 +175,87 @@ const QString &logFileName()
 
 QByteArray readLogFile(int maxReadSize)
 {
-    SystemMutexLocker lock(getSessionMutex());
+    /*
+     * Read all log files (from newest to oldest) and sort lines by timestamp.
+     */
+    std::vector<QByteArray> sortedLogLines;
+    int currentSize = 0;
 
-    QByteArray content;
-    for (int i = 0; i < logFileCount; ++i) {
-        const int toRead = maxReadSize - content.size();
-        content.prepend( readLogFile(logFileName(i), toRead) );
-        if ( maxReadSize <= content.size() )
-            break;
+    for (const QFileInfo &logFile : logFileNames()) {
+        QFile f(logFile.absoluteFilePath());
+        if ( !f.open(QIODevice::ReadOnly) )
+            continue;
+
+        const auto seek = f.size() - maxReadSize;
+        if (seek > 0) {
+            f.seek(seek);
+            f.readLine();  // Skip first partial line.
+        }
+
+        while (!f.atEnd()) {
+            const QByteArray line = f.readLine();
+            const auto it = std::upper_bound(
+                sortedLogLines.begin(), sortedLogLines.end(), line, std::greater<>());
+            if (it == sortedLogLines.end() && currentSize >= maxReadSize)
+                continue;
+
+            currentSize += line.size();
+            sortedLogLines.insert(it, line);
+
+            while (currentSize > maxReadSize && !sortedLogLines.empty()) {
+                currentSize -= sortedLogLines.back().size();
+                sortedLogLines.pop_back();
+            }
+        }
     }
 
-    return content;
+    QByteArray result;
+    while( !sortedLogLines.empty() ) {
+        result += sortedLogLines.back();
+        sortedLogLines.pop_back();
+    }
+
+    return result;
 }
 
-bool removeLogFiles()
+bool dropLogsToFileCountAndSize(int maxFileCount, int keepMaxSize)
 {
-    SystemMutexLocker lock(getSessionMutex());
+    QFileInfoList logFiles = logFileNames();
+    bool success = true;
 
-    for (int i = 0; i < logFileCount; ++i) {
-        QFile logFile( logFileName(i) );
-        if ( logFile.exists() && !logFile.remove() )
-            return false;
+    if (maxFileCount > 0 && maxFileCount < logFiles.size()) {
+        const auto begin = logFiles.cbegin() + maxFileCount;
+        for (auto it = begin; it != logFiles.cend(); ++it)
+            success = removeLogFile(*it) && success;
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+        logFiles.erase(begin);
+#else
+        logFiles.erase(logFiles.begin() + maxFileCount);
+#endif
     }
 
-    return true;
+    if (keepMaxSize < 0)
+        return success;
+
+    int totalSize = 0;
+    for (const QFileInfo &logFile : logFiles)
+        totalSize += logFile.size();
+
+    if (totalSize <= keepMaxSize)
+        return success;
+
+    for (auto it = logFiles.crbegin(); it != logFiles.crend(); ++it) {
+        const auto fileSize = it->size();
+        if (removeLogFile(*it)) {
+            totalSize -= fileSize;
+            if (totalSize <= keepMaxSize)
+                break;
+        } else {
+            success = false;
+        }
+    }
+
+    return success;
 }
 
 bool hasLogLevel(LogLevel level)
