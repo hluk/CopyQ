@@ -73,6 +73,20 @@ void setTabWidth(QTextEdit *editor, int spaces)
     editor->setTabStopDistance(width);
 }
 
+void cleanUpLogFilesAfterMs(int ms)
+{
+    QTimer::singleShot(ms, qApp, [](){
+        bool okSize;
+        bool okFiles;
+        const int maxLogSize = qgetenv("COPYQ_MAX_LOG_SIZE").toInt(&okSize);
+        const int maxFiles = qgetenv("COPYQ_MAX_LOG_FILES").toInt(&okFiles);
+        dropLogsToFileCountAndSize(
+            okFiles ? maxFiles : 50,
+            okSize ? maxLogSize : 10 * 1024 * 1024
+        );
+    });
+}
+
 } // namespace
 
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
@@ -83,6 +97,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_ignoreKeysTimer()
 {
     setLogLabel("Server");
+    cleanUpLogFilesAfterMs(30000);
 
     m_server = new Server(clipboardServerName(), this);
 

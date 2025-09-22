@@ -34,7 +34,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
     static const std::array ignoreList{
-        regex(R"(CopyQ Note \[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] <Client-[^\n]*)"),
+        regex(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] Note <Client-[^\n]*)"),
 
         plain("Event handler maximum recursion reached"),
 

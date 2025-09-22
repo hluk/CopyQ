@@ -1118,7 +1118,7 @@ void Tests::commandForceUnload()
 void Tests::commandServerLogAndLogs()
 {
     const QByteArray data1 = generateData();
-    QRegularExpression re("CopyQ Note \\[[^]]+\\] <Server-[0-9]+>: " + QRegularExpression::escape(data1));
+    QRegularExpression re("\\[[^]]+\\] Note <Server-[0-9]+>: " + QRegularExpression::escape(data1));
 
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -1133,7 +1133,7 @@ void Tests::commandServerLogAndLogs()
     QCOMPARE( run(Args("logs"), &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !stdoutActual.isEmpty() );
-    QVERIFY( QString::fromUtf8(stdoutActual).contains(re) );
+    QVERIFY2( QString::fromUtf8(stdoutActual).contains(re), stdoutActual );
 }
 
 void Tests::chainingCommands()
