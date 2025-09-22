@@ -855,7 +855,7 @@ unlike in GUI, where row numbers start from 1 by default.
    Returns application logs.
 
    :returns: Application logs.
-   :rtype: string
+   :rtype: ByteArray
 
 .. js:function:: abort()
 

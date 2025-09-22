@@ -53,7 +53,7 @@ int evaluate(
     const auto result = function.call(functionArguments);
     const bool hasUncaughtException = result.isError() || scriptable.hasUncaughtException();
 
-    const auto output = scriptable.fromString(result.toString());
+    const auto output = scriptable.serializeScriptValue(result);
     if ( !output.isEmpty() ) {
         QFile f;
         if (hasUncaughtException)
