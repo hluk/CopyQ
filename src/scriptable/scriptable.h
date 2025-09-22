@@ -399,6 +399,8 @@ public slots:
     void onItemsLoaded() {}
     void collectScriptOverrides();
 
+    QByteArray serializeScriptValue(const QJSValue &value);
+
 signals:
     void finished();
     void dataReceived(const QByteArray &data);

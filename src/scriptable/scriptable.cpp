@@ -1802,7 +1802,7 @@ void Scriptable::serverLog()
 QJSValue Scriptable::logs()
 {
     m_skipArguments = 0;
-    return QString::fromUtf8(readLogFile(50 * 1024 * 1024));
+    return newByteArray(readLogFile(50 * 1024 * 1024));
 }
 
 void Scriptable::setCurrentTab()
@@ -2755,6 +2755,11 @@ void Scriptable::collectScriptOverrides()
     m_proxy->setScriptOverrides(overrides);
 }
 
+QByteArray Scriptable::serializeScriptValue(const QJSValue &value)
+{
+    return ::serializeScriptValue(value, this);
+}
+
 void Scriptable::onMonitorClipboardChanged(const QVariantMap &data)
 {
     COPYQ_LOG("onClipboardChanged");
@@ -2908,7 +2913,7 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
         return CommandException;
     }
 
-    const auto message = serializeScriptValue(result, this);
+    const auto message = serializeScriptValue(result);
     print(message);
     return CommandFinished;
 }
