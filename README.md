@@ -2,8 +2,8 @@
 
 [![Documentation Status](https://readthedocs.org/projects/copyq/badge/?version=latest)](https://copyq.readthedocs.io/en/latest/?badge=latest)
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
-[![Linux Build Status](https://github.com/hluk/CopyQ/workflows/Linux%20Build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22Linux+Build%22)
-[![macOS Build Status](https://github.com/hluk/CopyQ/workflows/macOS%20Build/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22macOS+Build%22)
+[![Linux Build Status](https://github.com/hluk/CopyQ/actions/workflows/build-linux.yml/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3ALinux)
+[![macOS Build Status](https://github.com/hluk/CopyQ/actions/workflows/build-macos.yml/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3AmacOS)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
 [![Coverage Status](https://codecov.io/gh/hluk/CopyQ/branch/master/graph/badge.svg)](https://codecov.io/gh/hluk/CopyQ)
 
