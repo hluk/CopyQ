@@ -18,14 +18,15 @@
     MOVE_TO(TARGET); \
     RUN("keys" << "mouse|RELEASE|" TARGET, ""); \
 } while(false)
-#define DRAG_FROM_TO(SOURCE, TARGET) do { \
+#define DRAG(SOURCE, TARGET) do { \
     RUN("keys" << "mouse|PRESS|" SOURCE, ""); \
     waitFor(dragDelay()); \
     DROP_TO(TARGET); \
 } while(false)
 
-#define DRAG_TAB(SOURCE, TARGET) \
-    DRAG_FROM_TO("tab_tree_item|text=" SOURCE, "tab_tree_item|text=" TARGET)
+#define ITEM(TEXT) "item|text=" TEXT
+
+#define TAB(TEXT) "tab_tree_item|text=" TEXT
 
 namespace {
 
@@ -37,6 +38,24 @@ int dragDelay()
 
 } // namespace
 
+void Tests::dragNDropItemOrder()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
+
+    RUN("config" << "show_simple_items" << "true", "true\n");
+
+    RUN("add" << "ITEM3" << "ITEM2" << "ITEM1", "");
+    RUN("read(0,1,2,3)", "ITEM1\nITEM2\nITEM3\n");
+
+    DRAG(ITEM("ITEM1"), ITEM("ITEM1"));
+    RUN("read(0,1,2,3)", "ITEM1\nITEM2\nITEM3\n");
+
+    DRAG(ITEM("ITEM1"), ITEM("ITEM2"));
+    RUN("read(0,1,2,3)", "ITEM1\nITEM2\nITEM3\n");
+
+    DRAG(ITEM("ITEM1"), ITEM("ITEM3"));
+    RUN("read(0,1,2,3)", "ITEM2\nITEM1\nITEM3\n");
+}
 
 void Tests::dragNDropTreeTab()
 {
@@ -46,7 +65,7 @@ void Tests::dragNDropTreeTab()
     RUN("config('tabs', ['TAB1','TAB2'])", "TAB1\nTAB2\n");
     WAIT_ON_OUTPUT("tab", "TAB1\nTAB2\nCLIPBOARD\n");
 
-    DRAG_TAB("TAB2", "TAB1");
+    DRAG(TAB("TAB2"), TAB("TAB1"));
     RUN("keys" << "mouse|RELEASE|tab_tree_item|text=TAB1", "");
 
     WAIT_ON_OUTPUT("tab", "TAB1\nTAB1/TAB2\nCLIPBOARD\n");
@@ -60,7 +79,7 @@ void Tests::dragNDropTreeTabNested()
     RUN("config('tabs', ['a/b/c/d','a/b/c'])", "a/b/c/d\na/b/c\n");
     WAIT_ON_OUTPUT("tab", "a/b/c/d\na/b/c\nCLIPBOARD\n");
 
-    DRAG_TAB("c", "a");
+    DRAG(TAB("c"), TAB("a"));
 
     WAIT_ON_OUTPUT("tab", "a/c\na/c/d\nCLIPBOARD\n");
 }

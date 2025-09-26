@@ -832,7 +832,7 @@ public:
                 mousePress, mouseRelease, mouseClick, mouseMove};
             if ( properties.isEmpty() || !validActions.contains(action) ) {
                 log( QStringLiteral("Failed to match mouse action: %1").arg(keys), LogError );
-                log("Mouse action format must be: " "mouse|{PRESS|RELEASE}|OBJECT_PATH");
+                log("Mouse action format must be: " "mouse|{PRESS|RELEASE|CLICK|MOVE}|OBJECT_PATH");
                 m_failed = true;
                 return;
             }

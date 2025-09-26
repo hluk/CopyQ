@@ -46,6 +46,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("QtWarning: QXcbClipboard: SelectionRequest too old"),
         plain("QtWarning: libpng warning: iCCP: known incorrect sRGB profile"),
         plain("QtWarning: QMime::convertToMime: unhandled mimetype: text/plain"),
+        plain("[kf.notifications] QtWarning: Failed to notify \"Created too many similar notifications in quick succession\""),
 
         // Wayland (Linux)
         plain("QtWarning: Wayland does not support QWindow::requestActivate()"),
