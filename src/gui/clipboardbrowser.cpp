@@ -936,6 +936,11 @@ void ClipboardBrowser::focusOutEvent(QFocusEvent *event)
         m_itemSaver->setFocus(false);
 }
 
+void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
+{
+    dragMoveEvent(event);
+}
+
 void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
 {
     QListView::dragLeaveEvent(event);
