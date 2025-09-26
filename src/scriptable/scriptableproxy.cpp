@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QDataStream>
+#include <QDrag>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QCursor>
@@ -701,9 +702,9 @@ bool matchesProperties(QObject *object, const QStringList &properties)
     return true;
 }
 
-QWidget *findWidgetWithProperties(const QString &definition, QWidget *parent)
+QWidget *findWidgetWithProperties(const QString &properties, QWidget *parent)
 {
-    QStringList names = definition.split('<');
+    QStringList names = properties.split('<');
     return std::accumulate(
         names.cbegin(), names.cend(), parent,
         [](QWidget *parent, const QString &name) -> QWidget* {
@@ -814,6 +815,7 @@ public:
 
         static const auto keyClicksPrefix = QLatin1String(":");
         static const auto mousePrefix = QLatin1String("mouse|");
+        static const auto dragPrefix = QLatin1String("isDraggingFrom|");
         if ( keys.startsWith(keyClicksPrefix) ) {
             const auto text = keys.mid(keyClicksPrefix.size());
 
@@ -828,11 +830,13 @@ public:
             static const auto mouseRelease = QStringLiteral("RELEASE");
             static const auto mouseClick = QStringLiteral("CLICK");
             static const auto mouseMove = QStringLiteral("MOVE");
+            static const auto mouseDrag = QStringLiteral("DRAG");
             static const QStringList validActions = {
-                mousePress, mouseRelease, mouseClick, mouseMove};
-            if ( properties.isEmpty() || !validActions.contains(action) ) {
+                mousePress, mouseRelease, mouseClick, mouseMove, mouseDrag};
+            if ( !validActions.contains(action) ) {
                 log( QStringLiteral("Failed to match mouse action: %1").arg(keys), LogError );
-                log("Mouse action format must be: " "mouse|{PRESS|RELEASE|CLICK|MOVE}|OBJECT_PATH");
+                log( QStringLiteral("Valid mouse actions are: %1")
+                     .arg(validActions.join(", ")), LogError );
                 m_failed = true;
                 return;
             }
@@ -841,7 +845,7 @@ public:
                 m_failed = true;
                 return;
             }
-            // Don't stop when modal window is open.
+            // Don't block while processing the events.
             runAfterInterval(delay, [=](){
                 if (!source) {
                     log("Target widget was destroyed", LogError);
@@ -851,15 +855,52 @@ public:
                     log("Target widget is no longer visible", LogError);
                     return;
                 }
-                if (action == mousePress)
-                    QTest::mousePress(source, Qt::LeftButton);
-                else if (action == mouseRelease)
-                    QTest::mouseRelease(source, Qt::LeftButton);
-                else if (action == mouseClick)
-                    QTest::mouseClick(source, Qt::LeftButton);
-                else if (action == mouseMove)
-                    QTest::mouseMove(source);
+
+                // Send the event to window instead - it works better.
+                QWidget *windowWidget = source->window();
+                if (!windowWidget || !source->window()->windowHandle()) {
+                    log("Target widget has no window handle", LogError);
+                    return;
+                }
+                QWindow *window = windowWidget->windowHandle();
+                const QPoint pos = source->mapTo(windowWidget, source->rect().center());
+
+                if (action == mousePress) {
+                    QTest::mousePress(window, Qt::LeftButton, {}, pos);
+                } else if (action == mouseRelease) {
+                    QTest::mouseRelease(window, Qt::LeftButton, {}, pos);
+                } else if (action == mouseClick) {
+                    QTest::mouseClick(window, Qt::LeftButton, {}, pos);
+                } else if (action == mouseDrag) {
+                    // This should trigger creating a QDrag in a parent widget.
+                    QTest::mouseMove(source, source->rect().topLeft());
+                    QTest::mouseMove(source, source->rect().bottomRight());
+                }
             });
+            m_succeeded = true;
+        } else if ( keys.startsWith(dragPrefix) ) {
+            const QObject *drag = m_wnd->findChild<QDrag*>();
+            if (!drag) {
+                log("QDrag not started", LogError);
+                m_failed = true;
+                return;
+            }
+            COPYQ_LOG(
+                QStringLiteral("QDrag started with parent: %1")
+                    .arg(objectAddress(drag->parent()))
+            );
+            const QString properties = keys.section('|', 1);
+            QWidget* source = findWidgetWithProperties(properties, m_wnd);
+            if (!source) {
+                m_failed = true;
+                return;
+            }
+            if (drag->parent() != source) {
+                log( QStringLiteral("Unexpected QDrag parent; Expected: %1; Actual: %2")
+                     .arg(properties, objectAddress(drag->parent())), LogError );
+                m_failed = true;
+                return;
+            }
             m_succeeded = true;
         } else {
             const QKeySequence shortcut(keys, QKeySequence::PortableText);
