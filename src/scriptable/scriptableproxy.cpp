@@ -830,13 +830,14 @@ public:
             static const auto mouseMove = QStringLiteral("MOVE");
             static const QStringList validActions = {
                 mousePress, mouseRelease, mouseClick, mouseMove};
-            if ( properties.isEmpty() || !validActions.contains(action) ) {
+            if ( !validActions.contains(action) ) {
                 log( QStringLiteral("Failed to match mouse action: %1").arg(keys), LogError );
                 log("Mouse action format must be: " "mouse|{PRESS|RELEASE|CLICK|MOVE}|OBJECT_PATH");
                 m_failed = true;
                 return;
             }
-            QPointer<QWidget> source = findWidgetWithProperties(properties, m_wnd);
+            const bool noSource = properties.isEmpty();
+            QPointer<QWidget> source = noSource ? m_wnd : findWidgetWithProperties(properties, m_wnd);
             if (!source) {
                 m_failed = true;
                 return;
@@ -851,14 +852,28 @@ public:
                     log("Target widget is no longer visible", LogError);
                     return;
                 }
+
+                // Send the event to window instead - it works better.
+                QWidget *windowWidget = source->window();
+                if (!windowWidget || !source->window()->windowHandle()) {
+                    log("Target widget has no window handle", LogError);
+                    return;
+                }
+                QWindow *window = windowWidget->windowHandle();
+                const QPoint pos = source->mapTo(windowWidget, source->rect().center());
+
                 if (action == mousePress)
-                    QTest::mousePress(source, Qt::LeftButton);
+                    QTest::mousePress(window, Qt::LeftButton, {}, pos);
                 else if (action == mouseRelease)
-                    QTest::mouseRelease(source, Qt::LeftButton);
+                    QTest::mouseRelease(window, Qt::LeftButton, {}, pos);
                 else if (action == mouseClick)
-                    QTest::mouseClick(source, Qt::LeftButton);
-                else if (action == mouseMove)
-                    QTest::mouseMove(source);
+                    QTest::mouseClick(window, Qt::LeftButton, {}, pos);
+                else if (action == mouseMove) {
+                    // Send the mouse move to both window and widget - this
+                    // allows the dock widgets to receive the event.
+                    QTest::mouseMove(windowWidget, pos);
+                    QTest::mouseMove(window, pos);
+                }
             });
             m_succeeded = true;
         } else {

@@ -57,6 +57,24 @@ void Tests::dragNDropItemOrder()
     RUN("read(0,1,2,3)", "ITEM2\nITEM1\nITEM3\n");
 }
 
+void Tests::dragNDropItemToTabTree()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
+
+    RUN("config" << "tab_tree" << "true", "true\n");
+    RUN("config" << "show_simple_items" << "true", "true\n");
+    RUN("config('tabs', ['TAB1','TAB2'])", "TAB1\nTAB2\n");
+
+    RUN("tab" << "TAB1" << "add" << "ITEM0", "");
+    RUN("tab" << "TAB2" << "add" << "ITEM3" << "ITEM2" << "ITEM1", "");
+    RUN("show('TAB2')", "");
+    RUN("tab" << "TAB2" << "selectItems" << "1" << "2", "true\n");
+
+    DRAG(ITEM("ITEM2"), TAB("TAB1"));
+    RUN("tab" << "TAB1" << "read(0,1,2,3)", "ITEM2\nITEM3\nITEM0\n");
+    RUN("tab" << "TAB2" << "read(0,1,2,3)", "ITEM1\n\n\n");
+}
+
 void Tests::dragNDropTreeTab()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
