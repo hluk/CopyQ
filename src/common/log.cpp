@@ -65,25 +65,16 @@ void rotateLogFiles()
 
 bool writeLogFile(const QByteArray &message)
 {
-    static QFile f;
-    const auto fileName = ::logFileName();
-    const bool isOpen = f.isOpen();
-    if ( f.fileName() != fileName || !isOpen ) {
-        if (isOpen)
-            f.close();
-        f.setFileName(fileName);
-        if ( !f.open(QIODevice::Append) )
-            return false;
-    }
+    QFile f( ::logFileName() );
+    if ( !f.open(QIODevice::Append) )
+        return false;
 
     if ( f.write(message) <= 0 )
         return false;
 
-    f.flush();
-    if ( f.size() > logFileSize ) {
-        f.close();
+    f.close();
+    if ( f.size() > logFileSize )
         rotateLogFiles();
-    }
 
     return true;
 }
@@ -143,12 +134,10 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
 
     // Log to file and if needed to stderr.
     if ( !writtenToLogFile || level <= LogWarning || hasLogLevel(LogDebug) ) {
-        static QFile ferr;
-        if (!ferr.isOpen())
-            ferr.open(stderr, QIODevice::WriteOnly);
+        QFile ferr;
+        ferr.open(stderr, QIODevice::WriteOnly);
         const auto simpleMsg = createSimpleLogMessage(msgText, level);
         ferr.write(simpleMsg);
-        ferr.flush();
     }
 }
 
