@@ -184,7 +184,7 @@ class ThreadNameDecorator final : public Decorator
 {
 public:
     explicit ThreadNameDecorator(const QFont &font, QObject *parent)
-        : Decorator(QRegularExpression("<[A-Za-z]+-[0-9-]+>"), parent)
+        : Decorator(QRegularExpression("<[A-Za-z/]+-[0-9-]+>"), parent)
     {
         QFont boldFont = font;
         boldFont.setBold(true);
@@ -203,9 +203,9 @@ private:
 
         const auto bg =
                 text.startsWith("<Server-") ? QColor::fromRgb(255, 255, 200)
-              : text.startsWith("<monitor") ? QColor::fromRgb(220, 240, 255)
-              : text.startsWith("<provide") ? QColor::fromRgb(220, 255, 220)
-              : text.startsWith("<synchronize") ? QColor::fromRgb(220, 255, 240)
+              : text.startsWith("<cmd/monitor") ? QColor::fromRgb(220, 240, 255)
+              : text.startsWith("<cmd/provide") ? QColor::fromRgb(220, 255, 220)
+              : text.startsWith("<cmd/synchronize") ? QColor::fromRgb(220, 255, 240)
               : QColor(Qt::white);
         m_format.setBackground(bg);
 

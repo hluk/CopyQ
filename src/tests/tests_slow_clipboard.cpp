@@ -80,7 +80,7 @@ void Tests::slowClipboard()
     QMimeData *data = new SlowMimeData("X", 1500);
     clipboard->setRawData(ClipboardMode::Clipboard, data);
     waitFor(2000);
-    const auto expectedLog = R"(^.*<monitorClipboard-\d+>: Aborting clipboard cloning: Data access took too long$)";
+    const auto expectedLog = R"(^.*<cmd/monitorClipboard-\d+>: Aborting clipboard cloning: Data access took too long$)";
     QTRY_COMPARE( count(splitLines(readLogFile(maxReadLogSize)), expectedLog), 1 );
 
     TEST( m_test->setClipboard("B", "a/a") );
