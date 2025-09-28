@@ -191,8 +191,15 @@ QByteArray readLogFile(int maxReadSize)
 
         while (!f.atEnd()) {
             const QByteArray line = f.readLine();
+            // Sort only by timestamp to preserve the relative order of records
+            // with the same timestamp.
+            constexpr auto timestampSize =
+                std::char_traits<char>::length("yyyy-MM-dd hh:mm:ss.zzz");
             const auto it = std::upper_bound(
-                sortedLogLines.begin(), sortedLogLines.end(), line, std::greater<>());
+                sortedLogLines.begin(), sortedLogLines.end(), line,
+                [](const QByteArray &a, const QByteArray &b) {
+                    return a.mid(1, timestampSize) >= b.mid(1, timestampSize);
+                });
             if (it == sortedLogLines.end() && currentSize >= maxReadSize)
                 continue;
 
