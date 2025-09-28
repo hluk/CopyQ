@@ -118,9 +118,6 @@ QString getLogFileName()
     QDir dir(path);
     dir.mkpath(QStringLiteral("."));
 
-    if (logLabel() == "Server")
-        return QStringLiteral("%1/copyq.log").arg(path);
-
     const QString dateTime = QDateTime::currentDateTime()
         .toString(QStringLiteral("yyyyMMdd"));
     return QStringLiteral("%3/copyq-%1-%2.log")

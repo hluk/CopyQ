@@ -44,12 +44,10 @@ QCoreApplication *createClientApplication(int &argc, char **argv, const QStringL
     if ( arguments.size() > 1 && arguments[0] == QLatin1String("--clipboard-access") ) {
         const auto app = platformNativeInterface()
                 ->createClipboardProviderApplication(argc, argv);
-        setLogLabel(arguments[1].toUtf8());
         return app;
     }
 
     const auto app = platformNativeInterface()->createClientApplication(argc, argv);
-    setLogLabel("Client");
     return app;
 }
 
