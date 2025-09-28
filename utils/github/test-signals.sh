@@ -11,9 +11,18 @@ exit_code=0
 
 ./copyq &
 copyq_pid=$!
-sleep 2
-# Run simple command to ensure server fully started.
-./copyq 'serverLog("Server started")'
+
+# Wait for server to start
+for i in {1..3}; do
+    echo "Trying to start CopyQ server ($i)"
+    if ./copyq 'serverLog("Server started")'; then
+        break
+    elif [[ $i == 5 ]]; then
+        echo "❌ FAILED: Could not start CopyQ server"
+        exit 1
+    fi
+    sleep $((i * 2))
+done
 
 sigterm=15
 expected_exit_code=$((128 + sigterm))
