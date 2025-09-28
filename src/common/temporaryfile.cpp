@@ -2,9 +2,8 @@
 
 #include "temporaryfile.h"
 
-#include "common/log.h"
-
 #include <QDir>
+#include <QDebug>
 #include <QTemporaryFile>
 
 bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
@@ -14,15 +13,14 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
     file->setFileTemplate(tmpPath);
 
     if ( !file->open() ) {
-        log( QString("Failed to open temporary file \"%1\" (template \"%2\")")
-             .arg(file->fileName(), tmpPath),
-             LogError );
+        qCritical() << "Failed to open temporary file"
+            << file->fileName() << "template" << tmpPath << ":" << file->errorString();
         return false;
     }
 
     if ( !file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner) ) {
-        log( QString("Failed set permissions to temporary file \"%1\"")
-             .arg(file->fileName()), LogError );
+        qCritical() << "Failed set permissions to temporary file"
+            << file->fileName() << ":" << file->errorString();
         return false;
     }
 

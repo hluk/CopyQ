@@ -4,17 +4,14 @@
 
 #include "common/action.h"
 #include "common/mimetypes.h"
-#include "common/log.h"
-#include "common/processsignals.h"
 #include "common/temporaryfile.h"
 
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QHash>
 #include <QTemporaryFile>
 #include <QTimer>
-
-#include <cstdio>
 
 namespace {
 
@@ -68,8 +65,9 @@ ItemEditor::~ItemEditor()
 
     QString tmpPath = m_info.filePath();
     if ( !tmpPath.isEmpty() ) {
-        if ( !QFile::remove(tmpPath) )
-            log( QString("Failed to remove temporary file (%1)").arg(tmpPath), LogError );
+        QFile f(tmpPath);
+        if ( !f.remove() )
+            qCritical() << "Failed to remove editor temporary file:" << f.errorString();
     }
 }
 
@@ -84,7 +82,7 @@ bool ItemEditor::start()
     QTemporaryFile tmpfile;
     const auto suffix = getFileSuffixFromMime(m_mime);
     if ( !openTemporaryFile(&tmpfile, suffix) ) {
-        log("Failed to create temporary file for external editor", LogError);
+        qCritical() << "Failed to create editor temporary file";
         return false;
     }
 
@@ -114,7 +112,7 @@ bool ItemEditor::start()
 
     // execute editor
     m_editor->setCommand(m_editorcmd, {nativeFilePath});
-    COPYQ_LOG( QString("Starting editor command: %1").arg(m_editor->commandLine()) );
+    qDebug() << "Starting editor command:" << m_editor->commandLine();
     m_editor->start();
 
     return true;
@@ -125,15 +123,15 @@ void ItemEditor::close()
     if (m_editor && (m_editor->actionFailed() || m_editor->exitCode() != 0) ) {
         const QString errorString = m_editor->errorString();
         if ( !errorString.isEmpty() )
-            log( QString("Editor command error: %1").arg(errorString), LogWarning );
+            qWarning() << "Editor command error:" << errorString;
 
         const int exitCode = m_editor->exitCode();
         if (exitCode != 0)
-            log( QString("Editor command exit code: %1").arg(exitCode), LogWarning );
+            qWarning() << "Editor command exit code:" << exitCode;
 
         const QString errorOutput = QString::fromUtf8(m_editor->errorOutput());
         if ( !errorOutput.isEmpty() )
-            log( QString("Editor command stderr: %1").arg(errorOutput), LogWarning );
+            qWarning() << "Editor command stderr:" << errorOutput;
 
         if ( m_editor->actionFailed() )
             emit error( tr("Editor command failed (see logs)") );
@@ -158,8 +156,7 @@ bool ItemEditor::wasFileModified()
             m_data = file.readAll();
             file.close();
         } else {
-            log( QString("Failed to read temporary file (%1)!").arg(m_info.fileName()),
-                 LogError );
+            qCritical() << "Failed to read editor temporary file:" << file.errorString();
         }
 
         // new hash

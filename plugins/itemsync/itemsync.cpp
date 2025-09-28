@@ -7,7 +7,6 @@
 
 #include "common/appconfig.h"
 #include "common/contenttype.h"
-#include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/regexp.h"
 #include "gui/iconselectbutton.h"
@@ -22,6 +21,7 @@
 #endif
 
 #include <QBoxLayout>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileDialog>
@@ -424,9 +424,8 @@ bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &
     QStringList savedFiles;
 
     if ( !m_watcher->isValid() ) {
-        log( tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
-             .arg(tabName, path),
-             LogError );
+        qCritical() << tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
+             .arg(tabName, path);
         return false;
     }
 
