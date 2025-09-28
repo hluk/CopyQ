@@ -41,6 +41,15 @@ screenshot() {
     "$Executable" screenshot > "$file"
 }
 
+"$Executable" menu
+
+"$Executable" config prevent_screen_cature true
+screenshot "App - Preventing screenshots"
+"$Executable" config prevent_screen_cature false
+
+screenshot "App and menu"
+"$Executable" keys "focus:TrayMenu" "ESCAPE" "focus:ClipboardBrowser"
+
 screenshot "App"
 
 "$Executable" keys "Ctrl+P" "focus:ConfigurationManager"

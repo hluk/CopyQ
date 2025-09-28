@@ -95,8 +95,7 @@ private:
 
     void initLanguages();
 
-    /** Update autostarting the application. */
-    void updateAutostart();
+    void updateOptionsVisibility();
 
     void initOptions();
 

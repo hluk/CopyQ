@@ -120,6 +120,8 @@ private:
 
     void cleanDataFiles();
 
+    void setPreventScreenCapture(bool prevent);
+
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
@@ -132,6 +134,7 @@ private:
     uint m_monitorCommandsStateHash = 0;
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
+    bool m_prevertScreenCapture = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
 

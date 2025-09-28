@@ -37,6 +37,9 @@ public:
      */
     void setAutostartEnabled(bool) override;
 
+    bool setPreventScreenCapture(WId, bool) override { return false; }
+    bool canPreventScreenCapture() override { return false; }
+
     QCoreApplication *createConsoleApplication(int &argc, char **argv) override;
 
     QApplication *createServerApplication(int &argc, char **argv) override;

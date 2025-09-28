@@ -28,6 +28,11 @@ struct autostart : Config<bool> {
     static Value defaultValue();
 };
 
+struct prevent_screen_cature : Config<bool> {
+    static QString name() { return QStringLiteral("prevent_screen_cature"); }
+    static Value defaultValue() { return true; }
+};
+
 struct maxitems : Config<int> {
     static QString name() { return QStringLiteral("maxitems"); }
     static Value defaultValue() { return 200; }

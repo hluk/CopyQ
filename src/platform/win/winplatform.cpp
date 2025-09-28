@@ -225,6 +225,13 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
     return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : nullptr );
 }
 
+bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
+{
+    HWND window = reinterpret_cast<HWND>(winId);
+    return window && SetWindowDisplayAffinity(
+        window, prevent ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE);
+}
+
 QCoreApplication *WinPlatform::createConsoleApplication(int &argc, char **argv)
 {
     return createApplication<QCoreApplication>(argc, argv);
