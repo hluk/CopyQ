@@ -97,6 +97,11 @@ void cleanUpLogFilesTimer()
     QObject::connect(timer, &QTimer::timeout, qApp, callback);
 }
 
+void setPreventScreenCapture(QWindow *window, bool prevent)
+{
+    platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
+}
+
 } // namespace
 
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
@@ -491,17 +496,12 @@ void ClipboardServer::cleanDataFiles()
 
 void ClipboardServer::setPreventScreenCapture(bool prevent)
 {
-    auto platform = platformNativeInterface();
-    const bool canPreventScreenCapture = platform->canPreventScreenCapture();
-    const bool reallyPrevent = canPreventScreenCapture && prevent;
-    if (m_prevertScreenCapture == reallyPrevent)
+    if (m_preventScreenCapture == prevent)
         return;
 
-    m_prevertScreenCapture = reallyPrevent;
+    m_preventScreenCapture = prevent;
     for (QWindow *window : qApp->allWindows()) {
-        qDebug() << "Prevent screen capture for window" << window
-                 << "to" << m_prevertScreenCapture;
-        platform->setPreventScreenCapture(window->winId(), m_prevertScreenCapture);
+        ::setPreventScreenCapture(window, m_preventScreenCapture);
     }
 }
 
@@ -681,12 +681,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
         if ( !m_updateThemeTimer.isActive() )
             COPYQ_LOG("Got theme change event");
         m_updateThemeTimer.start();
-    } else if (m_prevertScreenCapture && type == QEvent::Expose) {
-        auto window = qobject_cast<QWindow*>(object);
-        if (window) {
-            platformNativeInterface()->setPreventScreenCapture(
-                window->winId(), m_prevertScreenCapture);
-        }
+    } else if (m_preventScreenCapture && type == QEvent::Show) {
+        auto widget = qobject_cast<QWidget*>(object);
+        if (widget && widget->windowHandle())
+            ::setPreventScreenCapture(widget->windowHandle(), m_preventScreenCapture);
     }
 
     return false;
@@ -742,7 +740,8 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_textTabSize = appConfig->option<Config::text_tab_width>();
     m_saveOnDeactivate = appConfig->option<Config::save_on_app_deactivated>();
 
-    setPreventScreenCapture(appConfig->option<Config::prevent_screen_cature>());
+    if ( platformNativeInterface()->canPreventScreenCapture() )
+        setPreventScreenCapture(appConfig->option<Config::prevent_screen_cature>());
 
     if (m_monitor) {
         stopMonitoring();

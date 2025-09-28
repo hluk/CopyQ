@@ -41,9 +41,14 @@ screenshot() {
     "$Executable" screenshot > "$file"
 }
 
+prevent_screen_cature=$("$Executable" config prevent_screen_cature)
+if [[ $prevent_screen_cature != "true" ]]; then
+    echo "ERROR: Option 'prevent_screen_cature' must be true by default"
+    exit 1
+fi
+
 "$Executable" menu
 
-"$Executable" config prevent_screen_cature true
 screenshot "App - Preventing screenshots"
 "$Executable" config prevent_screen_cature false
 
