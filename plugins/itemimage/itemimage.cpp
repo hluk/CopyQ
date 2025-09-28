@@ -3,7 +3,6 @@
 #include "itemimage.h"
 #include "ui_itemimagesettings.h"
 
-#include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "item/itemeditor.h"
 #include "gui/pixelratio.h"

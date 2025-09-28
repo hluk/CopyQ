@@ -6,7 +6,6 @@
 #include "common/command.h"
 #include "common/config.h"
 #include "common/contenttype.h"
-#include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/shortcuts.h"
 #include "common/processsignals.h"
@@ -21,6 +20,7 @@
 #endif
 
 #include <QAbstractItemModel>
+#include <QDebug>
 #include <QDir>
 #include <QIODevice>
 #include <QLabel>
@@ -59,22 +59,19 @@ bool waitOrTerminate(QProcess *p, int timeoutMs)
 bool verifyProcess(QProcess *p, int timeoutMs = 30000)
 {
     if ( !waitOrTerminate(p, timeoutMs) ) {
-        log( QStringLiteral("ItemEncrypt: Process timed out; stderr: %1")
-             .arg(QString::fromUtf8(p->readAllStandardError())), LogError );
+        qCritical() << "ItemEncrypt: Process timed out; stderr:" << p->readAllStandardError();
         return false;
     }
 
     const int exitCode = p->exitCode();
     if ( p->exitStatus() != QProcess::NormalExit ) {
-        log( QStringLiteral("ItemEncrypt: Failed to run GnuPG: %1")
-             .arg(p->errorString()), LogError );
+        qCritical() << "ItemEncrypt: Failed to run GnuPG:" << p->errorString();
         return false;
     }
 
     if (exitCode != 0) {
         if (const QString errors = p->readAllStandardError(); !errors.isEmpty()) {
-            log( QStringLiteral("ItemEncrypt: GnuPG stderr:\n%1")
-                 .arg(errors), LogError );
+            qCritical() << "ItemEncrypt: GnuPG stderr:" << errors;
         }
         return false;
     }
@@ -123,16 +120,14 @@ public:
     {
         const auto versionOutput = getGpgVersionOutput(executable);
         if ( !versionOutput.isEmpty() ) {
-            COPYQ_LOG_VERBOSE(
-                QStringLiteral("ItemEncrypt INFO: '%1 --version' output: %2")
-                .arg(executable, versionOutput) );
+            qDebug().nospace()
+                << "ItemEncrypt INFO: '" << executable << " --version' output: " << versionOutput;
 
             const GpgVersion version = parseVersion(versionOutput);
             m_isSupported = version.major >= 2;
-            COPYQ_LOG( QStringLiteral("ItemEncrypt INFO: %1 gpg version: %2.%3")
-                    .arg(m_isSupported ? "Supported" : "Unsupported")
-                    .arg(version.major)
-                    .arg(version.minor) );
+            qDebug().nospace() << "ItemEncrypt INFO: "
+                << (m_isSupported ? "Supported" : "Unsupported")
+                << " gpg version: " << version.major << "." << version.minor;
 
             const bool needsSecring = version.major == 2 && version.minor == 0;
 
@@ -377,7 +372,7 @@ bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &mo
     bytes = readGpgOutput(QStringList("--encrypt"), bytes);
     if ( bytes.isEmpty() ) {
         emitEncryptFailed();
-        log("ItemEncrypt: Failed to read encrypted data", LogError);
+        qCritical() << "ItemEncrypt: Failed to read encrypted data";
         return false;
     }
 
@@ -388,7 +383,7 @@ bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &mo
 
     if ( stream.status() != QDataStream::Ok ) {
         emitEncryptFailed();
-        log("ItemEncrypt: Failed to write encrypted data", LogError);
+        qCritical() << "ItemEncrypt: Failed to write encrypted data";
         return false;
     }
 
@@ -766,7 +761,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
         const int bytesRead = stream.readRawData(encryptedBytes, 4096);
         if (bytesRead == -1) {
             emitDecryptFailed();
-            log("ItemEncrypted: Failed to read encrypted data", LogError);
+            qCritical() << "ItemEncrypted: Failed to read encrypted data";
             return nullptr;
         }
         p.write(encryptedBytes, bytesRead);
@@ -785,7 +780,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     const QByteArray bytes = p.readAllStandardOutput();
     if ( bytes.isEmpty() ) {
         emitDecryptFailed();
-        log("ItemEncrypt: Failed to read encrypted data", LogError);
+        qCritical() << "ItemEncrypt: Failed to read encrypted data";
         verifyProcess(&p);
         return nullptr;
     }
@@ -796,7 +791,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     stream2 >> length;
     if ( stream2.status() != QDataStream::Ok ) {
         emitDecryptFailed();
-        log("ItemEncrypt: Failed to parse item count", LogError);
+        qCritical() << "ItemEncrypt: Failed to parse item count";
         return nullptr;
     }
     length = qMin(length, static_cast<quint64>(maxItems)) - static_cast<quint64>(model->rowCount());
@@ -805,7 +800,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
     for ( int i = 0; i < count && stream2.status() == QDataStream::Ok; ++i ) {
         if ( !model->insertRow(i) ) {
             emitDecryptFailed();
-            log("ItemEncrypt: Failed to insert item", LogError);
+            qCritical() << "ItemEncrypt: Failed to insert item";
             return nullptr;
         }
         QVariantMap dataMap;
@@ -815,7 +810,7 @@ ItemSaverPtr ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel 
 
     if ( stream2.status() != QDataStream::Ok ) {
         emitDecryptFailed();
-        log("ItemEncrypt: Failed to decrypt item", LogError);
+        qCritical() << "ItemEncrypt: Failed to decrypt item";
         return nullptr;
     }
 

@@ -3,13 +3,13 @@
 #include "filewatcher.h"
 
 #include "common/contenttype.h"
-#include "common/log.h"
 #include "item/serialize.h"
 
 #include <QAbstractItemModel>
 #include <QCryptographicHash>
 #include <QDataStream>
 #include <QDateTime>
+#include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QMimeData>
@@ -60,8 +60,6 @@ public:
 
     QByteArray readAll() const
     {
-        COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Reading file: %1").arg(m_path) );
-
         QFile f(m_path);
         if ( !f.open(QIODevice::ReadOnly) )
             return QByteArray();
@@ -72,8 +70,7 @@ public:
         QDataStream stream(&f);
         QVariantMap dataMap;
         if ( !deserializeData(&stream, &dataMap) ) {
-            log( QStringLiteral("ItemSync: Failed to read file \"%1\": %2")
-                    .arg(m_path, f.errorString()), LogError );
+            qCritical() << "ItemSync: Failed to read file" << m_path << f.errorString();
             return QByteArray();
         }
 
@@ -270,7 +267,7 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
     if ( !existingFiles->removeOne(filePath) || hashChanged ) {
         QFile f(filePath);
         if ( !f.open(QIODevice::WriteOnly) || f.write(bytes) == -1 ) {
-            log( QStringLiteral("ItemSync: %1").arg(f.errorString()), LogError );
+            qCritical() << "ItemSync: Failed to save item file:" << f.errorString();
             return false;
         }
     }
@@ -452,9 +449,7 @@ bool renameToUnique(
             return true;
     }
 
-    log( QStringLiteral(
-                "ItemSync: Failed to find unique base name with prefix: %1")
-            .arg(baseName), LogError);
+    qCritical() << "ItemSync: Failed to find unique base name with prefix:" << baseName;
     return false;
 }
 
@@ -574,12 +569,13 @@ bool FileWatcher::lock()
     // Create path if doesn't exist.
     QDir dir(m_path);
     if ( !dir.mkpath(QStringLiteral(".")) ) {
-        log( tr("Failed to create synchronization directory \"%1\"!").arg(m_path), LogError );
+        qCritical() << tr("Failed to create synchronization directory \"%1\"!").arg(m_path);
         return false;
     }
 
     if ( !m_lock.lock() ) {
-        log( QStringLiteral("Failed to create lock file in \"%1\"!").arg(m_path), LogError );
+        qCritical() << "Failed to create lock file in"
+            << m_path << "error code:" << m_lock.error();
         return false;
     }
 
@@ -694,13 +690,11 @@ void FileWatcher::updateItems()
             const QModelIndex index = m_model->index(row, 0);
             if ( !oldBaseName(index).isEmpty() )
                 m_batchIndexData.append(index);
-            else
-                COPYQ_LOG_VERBOSE("Would create item");
         }
 
         m_lastBatchIndex = -1;
         if ( t.elapsed() > 100 )
-            log( QStringLiteral("ItemSync: Files listed in %1 ms").arg(t.elapsed()) );
+            qInfo() << "ItemSync: Files listed in" << t.elapsed() << "ms";
     }
 
     for ( int i = m_lastBatchIndex + 1; i < m_batchIndexData.size(); ++i ) {
@@ -734,10 +728,6 @@ void FileWatcher::updateItems()
         }
 
         if ( t.elapsed() > 20 ) {
-            COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Items updated in %1 ms, last row %2/%3")
-                 .arg(t.elapsed())
-                 .arg(i + 1)
-                 .arg(m_batchIndexData.size()) );
             m_lastBatchIndex = i;
             unlock();
             m_updateTimer.start(batchItemUpdateIntervalMs);
@@ -750,7 +740,7 @@ void FileWatcher::updateItems()
     insertItemsFromFiles(dir, m_fileList);
 
     if ( t.elapsed() > 100 )
-        log( QStringLiteral("ItemSync: Items created in %1 ms").arg(t.elapsed()) );
+        qInfo() << "ItemSync: Items created in" << t.elapsed() << "ms";
 
     m_fileList.clear();
     m_batchIndexData.clear();
@@ -949,10 +939,8 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
     if ( !lock() )
         return;
 
-    if ( !m_batchIndexData.isEmpty() ) {
-        COPYQ_LOG_VERBOSE( QStringLiteral("ItemSync: Batch updates interrupted") );
+    if ( !m_batchIndexData.isEmpty() )
         m_batchIndexData.clear();
-    }
 
     const auto indexList = this->indexList(first, last);
 

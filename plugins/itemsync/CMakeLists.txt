@@ -1,7 +1,6 @@
 set(copyq_plugin_itemsync_SOURCES
     ../../src/item/itemwidgetwrapper.cpp
     ../../src/common/config.cpp
-    ../../src/common/log.cpp
     ../../src/common/mimetypes.cpp
     ../../src/gui/iconfont.cpp
     ../../src/gui/iconselectbutton.cpp

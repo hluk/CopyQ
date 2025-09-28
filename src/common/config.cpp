@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "config.h"
-#include "log.h"
 
 #include "gui/screen.h"
 
 #include <QApplication>
 #include <QByteArray>
+#include <QDebug>
 #include <QDir>
 #include <QScreen>
 #include <QSettings>
@@ -15,8 +15,8 @@
 #include <QWidget>
 #include <QWindow>
 
-#define GEOMETRY_LOG(window, message) \
-    COPYQ_LOG( QStringLiteral("Geometry: Window \"%1\": %2").arg(window->objectName(), message) )
+#define GEOMETRY_LOG(window) \
+    qDebug() << "Geometry: Window \"" << window->objectName() << "\": "
 
 namespace {
 
@@ -131,17 +131,12 @@ void ensureWindowOnScreen(QWidget *widget)
     }
 
     if ( frame != QSize(w, h) ) {
-        GEOMETRY_LOG(
-            widget, QStringLiteral("Resize window: %1x%2 -> %3x%4")
-            .arg(frame.width())
-            .arg(frame.height())
-            .arg(w)
-            .arg(h) );
+        GEOMETRY_LOG(widget) << "Resize window: " << frame << " -> " << QSize(w, h);
         widget->resize(w, h);
     }
 
     if ( widget->pos() != QPoint(x, y) ) {
-        GEOMETRY_LOG( widget, QStringLiteral("Move window: %1, %2").arg(x).arg(y) );
+        GEOMETRY_LOG(widget) << "Move window: " << widget->pos() << QPoint(x, y);
         widget->move(x, y);
     }
 }
@@ -161,10 +156,8 @@ bool ensureSettingsDirectoryExists()
 {
     QDir settingsDir( settingsDirectoryPath() );
     if ( !settingsDir.mkpath(QStringLiteral(".")) ) {
-        log( QStringLiteral("Failed to create the directory for settings: %1")
-             .arg(settingsDir.path()),
-             LogError );
-
+        qCritical() << "Failed to create the directory for settings:"
+            << settingsDir.path();
         return false;
     }
 
@@ -233,14 +226,10 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
     ensureWindowOnScreen(w);
 
-    const QRect newGeometry = w->geometry();
-    GEOMETRY_LOG( w,
-        QStringLiteral("%5 geometry \"%1%2\": %3 -> %4").arg(
-            optionName,
-            restoreUntaggedGeometry ? QString() : tag,
-            toString(oldGeometry),
-            toString(newGeometry),
-            geometry.isEmpty() ? QLatin1String("New") : QLatin1String("Restore")) );
+    GEOMETRY_LOG(w)
+        << (geometry.isEmpty() ? "New" : "Restore") << " geometry \""
+        << optionName << (restoreUntaggedGeometry ? QString() : tag) << "\": "
+        << toString(oldGeometry) << " -> " << toString(w->geometry());
 }
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
@@ -252,8 +241,8 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
     geometrySettings.setValue(optionName + tag, geometry);
     geometrySettings.setValue(optionName, geometry);
     geometrySettings.setValue(geometryOptionName(*w), geometry);
-    GEOMETRY_LOG( w, QStringLiteral("Save geometry \"%1%2\": %3")
-                  .arg(optionName, tag, toString(w->geometry())) );
+    GEOMETRY_LOG(w) << "Save geometry \""
+        << optionName << tag << "\": " << toString(w->geometry());
 }
 
 QByteArray mainWindowState(const QString &mainWindowObjectName)
@@ -273,7 +262,7 @@ void moveToCurrentWorkspace(QWidget *w)
 #ifdef COPYQ_MOVE_TO_WORKSPACE
     /* Re-initialize window in window manager so it can popup on current workspace. */
     if (w->isVisible()) {
-        GEOMETRY_LOG( w, QLatin1String("Move to current workspace") );
+        GEOMETRY_LOG(w) << "Move to current workspace";
         const bool blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
         if (blockUntilHide)
@@ -293,7 +282,7 @@ void moveWindowOnScreen(QWidget *w, QPoint pos)
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked)
 {
-    GEOMETRY_LOG( w, QStringLiteral("Geometry blocked until hidden: %1").arg(blocked) );
+    GEOMETRY_LOG(w) << "Geometry blocked until hidden: " << blocked;
     w->setProperty(propertyGeometryLockedUntilHide, blocked);
 }
 

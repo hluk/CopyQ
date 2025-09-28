@@ -4,13 +4,13 @@
 
 #include "common/appconfig.h"
 #include "common/config.h"
-#include "common/log.h"
 #include "common/timer.h"
 #include "gui/screen.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
 #include <QApplication>
+#include <QDebug>
 #include <QEvent>
 #include <QMoveEvent>
 #include <QScreen>
@@ -92,7 +92,7 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
             if ( !isWindowGeometryLocked() && openOnCurrentScreen() && isMousePositionSupported() ) {
                 QScreen *screen = currentScreen();
                 if (screen && window->screen() != screen) {
-                    COPYQ_LOG(QStringLiteral("Geometry: Moving to screen: %1").arg(screen->name()));
+                    qDebug() << "Geometry: Moving to screen:" << screen->name();
                     m_window->move(screen->availableGeometry().topLeft());
                 }
             }
@@ -183,11 +183,11 @@ void WindowGeometryGuard::onScreenChanged()
     if (!screen)
         return;
 
-    COPYQ_LOG(QStringLiteral("Geometry: Screen changed: %1").arg(screen->name()));
+    qDebug() << "Geometry: Screen changed:" << screen->name();
 
     const bool isMousePositionSupported = ::isMousePositionSupported();
     if ( window && isMousePositionSupported && screen != currentScreen() ) {
-        COPYQ_LOG(QStringLiteral("Geometry: Avoiding geometry-restore on incorrect screen"));
+        qDebug() << "Geometry: Avoiding geometry-restore on incorrect screen";
         return;
     }
 
