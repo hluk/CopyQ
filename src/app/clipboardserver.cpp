@@ -73,18 +73,28 @@ void setTabWidth(QTextEdit *editor, int spaces)
     editor->setTabStopDistance(width);
 }
 
-void cleanUpLogFilesAfterMs(int ms)
+void cleanUpLogFilesTimer()
 {
-    QTimer::singleShot(ms, qApp, [](){
-        bool okSize;
-        bool okFiles;
-        const int maxLogSize = qgetenv("COPYQ_MAX_LOG_SIZE").toInt(&okSize);
-        const int maxFiles = qgetenv("COPYQ_MAX_LOG_FILES").toInt(&okFiles);
-        dropLogsToFileCountAndSize(
-            okFiles ? maxFiles : 50,
-            okSize ? maxLogSize : 10 * 1024 * 1024
-        );
-    });
+    bool ok;
+    int maxLogSize = qgetenv("COPYQ_MAX_LOG_SIZE").toInt(&ok);
+    if (!ok)
+        maxLogSize = 10 * 1024 * 1024;
+
+    int maxFiles = qgetenv("COPYQ_MAX_LOG_FILES").toInt(&ok);
+    if (!ok)
+        maxFiles = 100;
+
+    constexpr int startIntervalMs = 30 * 1000;
+    constexpr int cleanUpIntervalMs = 1 * 60 * 60 * 1000;
+
+    auto timer = new QTimer(qApp);
+    timer->setSingleShot(false);
+    timer->setInterval(cleanUpIntervalMs);
+    timer->start();
+
+    auto callback = [=](){ dropLogsToFileCountAndSize(maxFiles, maxLogSize); };
+    QTimer::singleShot(startIntervalMs, qApp, callback);
+    QObject::connect(timer, &QTimer::timeout, qApp, callback);
 }
 
 } // namespace
@@ -96,7 +106,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
-    cleanUpLogFilesAfterMs(30000);
+    cleanUpLogFilesTimer();
 
     m_server = new Server(clipboardServerName(), this);
 

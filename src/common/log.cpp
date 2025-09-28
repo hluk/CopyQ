@@ -11,7 +11,6 @@
 #include <QVariant>
 
 #include <QStandardPaths>
-#include <functional>
 
 namespace {
 
