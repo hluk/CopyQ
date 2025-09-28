@@ -218,7 +218,7 @@ void ConfigurationManager::initLanguages()
     m_tabGeneral->comboBoxLanguage->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 }
 
-void ConfigurationManager::updateAutostart()
+void ConfigurationManager::updateOptionsVisibility()
 {
     auto platform = platformNativeInterface();
 
@@ -226,6 +226,12 @@ void ConfigurationManager::updateAutostart()
         bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
     } else {
         m_tabGeneral->checkBoxAutostart->hide();
+    }
+
+    if ( platform->canPreventScreenCapture() ) {
+        bind<Config::prevent_screen_cature>(m_tabGeneral->checkBoxPreventScreenCapture);
+    } else {
+        m_tabGeneral->checkBoxPreventScreenCapture->hide();
     }
 }
 
@@ -239,6 +245,7 @@ void ConfigurationManager::initOptions()
 {
     /* general options */
     bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
+    bind<Config::prevent_screen_cature>(m_tabGeneral->checkBoxPreventScreenCapture);
     bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
     bind<Config::maxitems>(m_tabHistory->spinBoxItems);
     bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
@@ -466,7 +473,7 @@ void ConfigurationManager::loadSettings(AppConfig *appConfig)
 
     updateTabComboBoxes();
 
-    updateAutostart();
+    updateOptionsVisibility();
 }
 
 void ConfigurationManager::onButtonBoxClicked(QAbstractButton* button)

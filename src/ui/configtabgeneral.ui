@@ -151,6 +151,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBoxPreventScreenCapture">
+        <property name="toolTip">
+         <string>Prevent capturing app windows in screenshots and recordings</string>
+        </property>
+        <property name="text">
+         <string>&amp;Hide from screenshots and recordings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayoutNavigationStyle">
         <property name="bottomMargin">
          <number>0</number>
