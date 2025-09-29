@@ -646,7 +646,7 @@ bool QxtGlobalShortcutPrivate::unsetShortcut()
 
 quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers)
 {
-    if ( X11Info::isPlatformX11() )
+    if ( !X11Info::isPlatformX11() )
         return 0;
 
     // ShiftMask, LockMask, ControlMask, Mod1Mask, Mod2Mask, Mod3Mask, Mod4Mask, and Mod5Mask
