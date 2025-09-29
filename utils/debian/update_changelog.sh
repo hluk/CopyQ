@@ -7,7 +7,7 @@ version="$(git describe|sed 's/^v//;s/-/./;s/-/~/')~$distro"
 sed -i "s/^set(copyq_version .*)$/set(copyq_version \"$version\")/" src/version.cmake
 grep -Fq "\"$version\"" src/version.cmake
 
-git checkout HEAD debian/control debian/rules
+git checkout HEAD debian/control
 sed -i 's/debhelper .*,/debhelper (>= 9),/' 'debian/control'
 sed -i 's/Standards-Version:.*/Standards-Version: 3.9.7/' 'debian/control'
 
