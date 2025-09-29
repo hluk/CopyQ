@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-14
+          - os: macos-15-intel
             buildname: macOS 13
             bundle_suffix: '-macos-13'
             cmake_preset: macOS-13
