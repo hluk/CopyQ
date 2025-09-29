@@ -14,6 +14,8 @@ jobs:
     name: ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
+      # Avoid canceling all jobs on transient failures.
+      fail-fast: false
       matrix:
         include:
           - os: macos-15-intel
