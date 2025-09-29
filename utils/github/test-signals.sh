@@ -2,46 +2,40 @@
 # Tests for handling Unix signals.
 set -xeuo pipefail
 
-# Enable verbose logging.
-export COPYQ_LOG_LEVEL=DEBUG
-export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
 export COPYQ_SESSION_NAME=__COPYQ_SIGTEST
+
+source "$(dirname "$0")/test-start-server.sh"
 
 exit_code=0
 
-./copyq &
-copyq_pid=$!
+# Test interrupting a long sleep command
+if [[ ${COPYQ_TESTS_SKIP_SIGNAL:-0} == "1" ]]; then
+    echo "⚠️ Skipping signal test"
+else
+    ./copyq 'sleep(100000)' &
+    copyq_sleep_pid=$!
 
-# Wait for server to start
-for i in {1..3}; do
-    echo "Trying to start CopyQ server ($i)"
-    if ./copyq 'serverLog("Server started")'; then
-        break
-    elif [[ $i == 5 ]]; then
-        echo "❌ FAILED: Could not start CopyQ server"
-        exit 1
-    fi
-    sleep $((i * 2))
-done
+    sigterm=15
+    expected_exit_code=$((128 + sigterm))
 
-sigterm=15
-expected_exit_code=$((128 + sigterm))
-script_pid=$$
-{
     sleep 2
     if ! pkill -$sigterm -f '^\./copyq sleep\(100000\)$'; then
         echo "❌ FAILED: Could not send SIGTERM to the command"
-        kill $script_pid $copyq_pid
+        kill $copyq_sleep_pid
+        exit_code=1
     fi
-} &
-if ./copyq 'sleep(100000)'; then
-    echo "❌ FAILED: Interrupt sleep: should exit with an error"
-else
-    actual_exit_code=$?
-    if [[ $actual_exit_code == $expected_exit_code ]]; then
-        echo "✅ PASSED: Interrupt sleep: exited with an error as expected"
+
+    if wait $copyq_sleep_pid; then
+        echo "❌ FAILED: Interrupt sleep: should exit with an error"
+        exit_code=1
     else
-        echo "❌ FAILED: Interrupt sleep: expected exit code $expected_exit_code, got $actual_exit_code"
+        actual_exit_code=$?
+        if [[ $actual_exit_code == $expected_exit_code ]]; then
+            echo "✅ PASSED: Interrupt sleep: exited with an error as expected"
+        else
+            echo "❌ FAILED: Interrupt sleep: expected exit code $expected_exit_code, got $actual_exit_code"
+            exit_code=1
+        fi
     fi
 fi
 
@@ -51,7 +45,7 @@ copyq_sleep_pid=$!
 ./copyq 'while(true){read(9999999);}' &
 copyq_loop_pid=$!
 
-trap "kill -9 $copyq_sleep_pid $copyq_loop_pid" TERM INT
+trap "kill -9 $copyq_sleep_pid $copyq_loop_pid || true" TERM INT
 
 sleep 2
 echo "⏱️ Sending SIGTERM to server"
