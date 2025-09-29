@@ -22,8 +22,10 @@ sleep 8
 ./copyq --start-server exit
 
 # Test handling Unix signals.
-script_root="$(dirname "$(readlink -f "$0")")"
-"$script_root/test-signals.sh"
+"$(dirname "$0")/test-signals.sh"
+
+# Test global shortcuts on X11.
+"$(dirname "$0")/test-linux-global-shortcuts.sh"
 
 # Run tests.
 export COPYQ_TESTS_RERUN_FAILED=1
