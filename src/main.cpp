@@ -101,7 +101,7 @@ bool containsOnlyValidCharacters(const QString &sessionName)
 bool isValidSessionName(const QString &sessionName)
 {
     return !sessionName.isNull() &&
-           sessionName.length() < 16 &&
+           sessionName.length() <= 16 &&
            containsOnlyValidCharacters(sessionName);
 }
 
