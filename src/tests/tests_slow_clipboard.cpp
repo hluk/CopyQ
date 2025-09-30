@@ -52,6 +52,8 @@ private:
 
 void Tests::slowClipboard()
 {
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_SLOW_CLIPBOARD");
+
     const auto script = R"(
         setCommands([
             {
