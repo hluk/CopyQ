@@ -1,3 +1,14 @@
+# 12.0.1
+
+## Fixed
+
+- X11: Fixes registering global shortcuts with modifiers (#3212).
+
+- macOS: Fixes providing builds for Intel architecture.
+
+- Fixes maximum length for session name (it is 16 characters as the error
+  message says, not 15).
+
 # 12.0.0
 
 ## Added
