@@ -41,7 +41,7 @@ MenuItems menuItems()
     MenuItems items;
     addMenuItem( items, Actions::File_New, QObject::tr("&New Item"), QStringLiteral("new"), QKeySequence::New,
                   QStringLiteral("document-new"), IconFileLines );
-    addMenuItem( items, Actions::File_Import, QObject::tr("&Import..."), QStringLiteral("import"), QObject::tr("Ctrl+I"),
+    addMenuItem( items, Actions::File_Import, QObject::tr("&Import..."), QStringLiteral("import"), QObject::tr("Ctrl+Shift+I"),
                   QStringLiteral("document-open"), IconFolderOpen );
     addMenuItem( items, Actions::File_Export, QObject::tr("&Export..."), QStringLiteral("export"), QKeySequence::Save,
                   QStringLiteral("document-save"), IconFloppyDisk );

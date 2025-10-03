@@ -7,6 +7,9 @@
 #include "common/mimetypes.h"
 #include "common/commandstatus.h"
 
+#include <QKeySequence>
+#include <QRegularExpression>
+
 void Tests::configMaxitems()
 {
     RUN("config" << "maxitems" << "3", "3\n");
@@ -305,4 +308,66 @@ void Tests::editNotes()
     RUN("keys" << "SHIFT+F2" << ":B Note" << "F2", "");
     RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\nB Note");
     RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
+}
+
+void Tests::editHtml()
+{
+    // Create new item with bold text
+    RUN("keys" << "CTRL+N" << editorId << ":BOLD"
+        << QKeySequence(QKeySequence::SelectAll).toString()
+        << QKeySequence(QKeySequence::Bold).toString()
+        << "F2" << clipboardBrowserId, "");
+
+    const auto readHtmlItem = [this](){
+        QByteArray out;
+        run(Args() << "read(mimeHtml, 0)", &out);
+        return QString::fromUtf8(out);
+    };
+
+    QRegularExpression re("font-weight: *[67]00[^>]*>BOLD</[^>]*>");
+    QString html = readHtmlItem();
+    QVERIFY2( html.contains(re), html.toUtf8() );
+
+    // Append normal text
+    RUN("keys" << "F2" << editorId << "END"
+        << QKeySequence(QKeySequence::Bold).toString()
+        << ":,NORMAL" << "F2" << clipboardBrowserId, "");
+    html = readHtmlItem();
+    QVERIFY2( html.contains(re), html.toUtf8() );
+    re.setPattern( re.pattern() + ",NORMAL" );
+    QVERIFY2( html.contains(re), html.toUtf8() );
+
+    // Append italic text
+    RUN("keys" << "F2" << editorId << "END"
+        << QKeySequence(QKeySequence::Italic).toString()
+        << ":,ITALIC" << "F2" << clipboardBrowserId, "");
+    html = readHtmlItem();
+    QVERIFY2( html.contains(re), html.toUtf8() );
+    re.setPattern( re.pattern() + "<[^>]*font-style: *italic[^>]*>,ITALIC</[^>]*>" );
+    QVERIFY2( html.contains(re), html.toUtf8() );
+
+    // Append underline text
+    RUN("keys" << "F2" << editorId << "END"
+        << QKeySequence(QKeySequence::Underline).toString()
+        << ":,ULINE" << "F2" << clipboardBrowserId, "");
+    html = readHtmlItem();
+    QVERIFY2( html.contains(re), html.toUtf8() );
+    re.setPattern( re.pattern() + "<[^>]*text-decoration: *underline[^>]*>,ULINE</[^>]*>" );
+    QVERIFY2( html.contains(re), html.toUtf8() );
+
+    // Append strike-through text
+    RUN("keys" << "F2" << editorId << "END"
+        << "mouse|CLICK|text=Strikethrough"
+        << ":,XXX" << "F2" << clipboardBrowserId, "");
+    html = readHtmlItem();
+    QVERIFY2( html.contains(re), html.toUtf8() );
+    re.setPattern( re.pattern() + "<[^>]*text-decoration: *underline line-through[^>]*>,XXX</[^>]*>" );
+    QVERIFY2( html.contains(re), html.toUtf8() );
+
+    // Erase style
+    RUN("keys" << "F2" << editorId << "END"
+        << QKeySequence(QKeySequence::SelectAll).toString()
+        << "mouse|CLICK|text=Erase Style"
+        << "F2" << clipboardBrowserId, "");
+    RUN("read(0)", "BOLD,NORMAL,ITALIC,ULINE,XXX");
 }
