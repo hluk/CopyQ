@@ -85,6 +85,7 @@ To build with Qt 6:
       extra-cmake-modules \
       gcc-c++ \
       git \
+      kf6-kguiaddons-devel \
       kf6-knotifications-devel \
       kf6-kstatusnotifieritem-devel \
       libSM-devel \

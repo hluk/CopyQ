@@ -38,6 +38,9 @@ env:
     libqt6svg6-dev
     libqt6svg6
 
+    libkf6guiaddons-dev
+    libkf6guiaddons
+
     libqt6waylandclient6
     qt6-wayland
     qt6-wayland-dev
@@ -60,7 +63,6 @@ env:
     qtwayland5-dev-tools
 
     libkf5notifications-dev
-    extra-cmake-modules
   # FIXME: Sending signal to client process does not cause the process
   # to exit with non-zero code with GitHub Actions. Why?
   COPYQ_TESTS_SKIP_SIGNAL: '1'

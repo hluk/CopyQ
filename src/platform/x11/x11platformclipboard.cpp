@@ -12,7 +12,12 @@
 #include "common/log.h"
 #include "common/timer.h"
 
-#include "systemclipboard/waylandclipboard.h"
+#ifdef HAS_KGUIADDONS
+#   include <KSystemClipboard>
+#else
+#   include "systemclipboard/waylandclipboard.h"
+using KSystemClipboard = WaylandClipboard;
+#endif
 
 #include <QDataStream>
 
@@ -65,7 +70,7 @@ X11PlatformClipboard::X11PlatformClipboard()
 
     // Create Wayland clipboard instance so it can start receiving new data.
     if ( !X11Info::isPlatformX11() ) {
-        WaylandClipboard::instance();
+        KSystemClipboard::instance();
     }
 }
 
@@ -88,7 +93,7 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     }
 
     if ( !X11Info::isPlatformX11() ) {
-        connect(WaylandClipboard::instance(), &WaylandClipboard::changed,
+        connect(KSystemClipboard::instance(), &KSystemClipboard::changed,
                 this, [this](QClipboard::Mode mode){ onClipboardChanged(mode); });
     }
 
@@ -160,18 +165,16 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         }
     } else {
         DummyClipboard::setData(mode, dataMap);
-        if ( WaylandClipboard::instance()->waitForDevice(1000) ) {
-            const auto data = createMimeData(dataMap);
-            const auto qmode = modeToQClipboardMode(mode);
-            WaylandClipboard::instance()->setMimeData(data, qmode);
-        }
+        const auto data = createMimeData(dataMap);
+        const auto qmode = modeToQClipboardMode(mode);
+        KSystemClipboard::instance()->setMimeData(data, qmode);
     }
 }
 
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
 {
-    if ( !X11Info::isPlatformX11() && WaylandClipboard::instance()->waitForDevice(1000) ) {
-        const auto data = WaylandClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
+    if ( !X11Info::isPlatformX11() ) {
+        const auto data = KSystemClipboard::instance()->mimeData( modeToQClipboardMode(mode) );
         if (data != nullptr)
             return data;
     }

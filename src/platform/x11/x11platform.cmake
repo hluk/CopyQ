@@ -47,8 +47,20 @@ endif()
 
 # Wayland clipboard
 find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)
-add_subdirectory(platform/x11/systemclipboard)
-set_target_properties(systemclipboard PROPERTIES COMPILE_FLAGS "-Wno-old-style-cast")
-list(APPEND copyq_LIBRARIES systemclipboard)
+list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+if (WITH_QT6 AND ECM_VERSION VERSION_GREATER "6.2.0")
+    message(STATUS "Using clipboard support from KGuiAddons.")
+    find_package(KF6GuiAddons REQUIRED)
+    list(APPEND copyq_DEFINITIONS HAS_KGUIADDONS)
+    list(APPEND copyq_LIBRARIES KF6::GuiAddons)
+else()
+    message(WARNING
+        "Using built-in clipboard support."
+        " Requires Qt 6 and 'kf6-guiaddons', 'libkf6guiaddons' or similar"
+        " for better Wayland clipboard integration.")
+    set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+    include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)
+    add_subdirectory(platform/x11/systemclipboard)
+    set_target_properties(systemclipboard PROPERTIES COMPILE_FLAGS "-Wno-old-style-cast")
+    list(APPEND copyq_LIBRARIES systemclipboard)
+endif()

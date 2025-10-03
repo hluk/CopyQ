@@ -15,9 +15,7 @@ if (WITH_NATIVE_NOTIFICATIONS)
         list(APPEND copyq_LIBRARIES KF5::Notifications)
     endif()
 
-    list(APPEND copyq_SOURCES
-        gui/notificationnative/notificationnative.cpp
-        gui/notificationnative/notificationdaemonnative.cpp)
+    list(APPEND copyq_SOURCES gui/notificationnative/notificationnative.cpp)
 
     list(APPEND copyq_DEFINITIONS WITH_NATIVE_NOTIFICATIONS)
 endif()
