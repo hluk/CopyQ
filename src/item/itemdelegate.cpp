@@ -488,12 +488,7 @@ void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
         return;
 
     ww->setProperty(propertySelectedItem, selected);
-
-    QStyle *style = m_view->style();
-    ww->setStyle(style);
-    for (auto child : ww->findChildren<QWidget *>())
-        child->setStyle(style);
-    ww->update();
+    ww->setStyleSheet(m_view->styleSheet());
 }
 
 int ItemDelegate::findWidgetRow(const QObject *obj) const
