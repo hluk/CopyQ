@@ -239,7 +239,7 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(
     // If format is empty, try to find most suitable text format to edit.
     if ( format.isEmpty() ) {
         const QVariantMap data = m_sharedData->itemFactory->data(index);
-        for (const auto &format2 : {mimeHtml, mimeTextUtf8, mimeText, mimeUriList}) {
+        for (const auto &format2 : {mimeTextUtf8, mimeText, mimeUriList, mimeHtml}) {
             if ( data.contains(format2) )
                 return createCustomEditor(parent, index, format2);
         }

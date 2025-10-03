@@ -174,6 +174,7 @@ void ItemEditorWidget::changeSelectionFont()
         const QFont font = dialog.selectedFont();
         format.setFont(font);
         tc.setCharFormat(format);
+        setTextCursor(tc);
     }
 }
 
@@ -184,6 +185,7 @@ void ItemEditorWidget::toggleBoldText()
     const int weight = format.fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold;
     format.setFontWeight(weight);
     tc.setCharFormat(format);
+    setTextCursor(tc);
 }
 
 void ItemEditorWidget::toggleItalicText()
@@ -192,6 +194,7 @@ void ItemEditorWidget::toggleItalicText()
     QTextCharFormat format = tc.charFormat();
     format.setFontItalic( !format.fontItalic() );
     tc.setCharFormat(format);
+    setTextCursor(tc);
 }
 
 void ItemEditorWidget::toggleUnderlineText()
@@ -200,6 +203,7 @@ void ItemEditorWidget::toggleUnderlineText()
     QTextCharFormat format = tc.charFormat();
     format.setFontUnderline( !format.fontUnderline() );
     tc.setCharFormat(format);
+    setTextCursor(tc);
 }
 
 void ItemEditorWidget::toggleStrikethroughText()
@@ -208,6 +212,7 @@ void ItemEditorWidget::toggleStrikethroughText()
     QTextCharFormat format = tc.charFormat();
     format.setFontStrikeOut( !format.fontStrikeOut() );
     tc.setCharFormat(format);
+    setTextCursor(tc);
 }
 
 void ItemEditorWidget::setForeground()
@@ -223,6 +228,7 @@ void ItemEditorWidget::setForeground()
         const QColor color = dialog.selectedColor();
         format.setForeground(color);
         tc.setCharFormat(format);
+        setTextCursor(tc);
     }
 }
 
@@ -239,12 +245,15 @@ void ItemEditorWidget::setBackground()
         const QColor color = dialog.selectedColor();
         format.setBackground(color);
         tc.setCharFormat(format);
+        setTextCursor(tc);
     }
 }
 
 void ItemEditorWidget::eraseStyle()
 {
-    textCursor().setCharFormat( QTextCharFormat() );
+    QTextCursor tc = textCursor();
+    tc.setCharFormat( QTextCharFormat() );
+    setTextCursor(tc);
 }
 
 QWidget *ItemEditorWidget::createToolbar(QWidget *parent, const MenuItems &menuItems)

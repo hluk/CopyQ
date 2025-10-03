@@ -179,6 +179,7 @@ private slots:
     void editItems();
     void createNewItem();
     void editNotes();
+    void editHtml();
 
     void toggleClipboardMonitoring();
 
