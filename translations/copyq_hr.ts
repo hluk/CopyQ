@@ -711,7 +711,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Preskače naredbu ako ulazni tekst ne odgovara ovom regularnom izrazu (ostavi prazno kako bi odgovaralo svemu).
+
+%2 do %9 (ili argument[1] i nadalje u skripti) u Naredbi i Filtru će se zamijeniti s uhvaćenim tekstovima.
+
+Primjeri:
+
+- Podudaranje URL-a: ^(https?|ftp)://
+- Podudaranje imena PDF datoteka: .pdf$
+- Podudaranje jednog znaka: ^.$
+- Podudaranje udaljenog multimedijskog sadržaja: ^http://.*.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
