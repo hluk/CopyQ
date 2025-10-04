@@ -652,6 +652,10 @@ void Tests::commandCopy()
     RUN_EXPECT_ERROR_WITH_STDERR(
         "copy([{}, {}])",
         CommandException, "Expected single item");
+
+    // Test copying UTF-8 text.
+    RUN("--" << "copy({[mimeText]: '\\\\u2705', [mimeTextUtf8]: '✅'})", "true\n");
+    WAIT_FOR_CLIPBOARD2("✅", mimeTextUtf8);
 }
 
 void Tests::commandClipboard()

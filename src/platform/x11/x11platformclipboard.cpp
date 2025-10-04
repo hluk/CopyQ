@@ -165,8 +165,14 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
         }
     } else {
         DummyClipboard::setData(mode, dataMap);
-        const auto data = createMimeData(dataMap);
+        auto data = createMimeData(dataMap);
         const auto qmode = modeToQClipboardMode(mode);
+        // WORKAROUND: KGuiAddons does not handle UTF-8 text properly.
+        // This unfortunately overrides "text/plain" with
+        // "text/plain;charset=utf-8" (these can differ).
+        // See: https://invent.kde.org/frameworks/kguiaddons/-/merge_requests/184
+        if (dataMap.contains(mimeTextUtf8))
+            data->setText(dataMap.value(mimeTextUtf8).toString());
         KSystemClipboard::instance()->setMimeData(data, qmode);
     }
 }
