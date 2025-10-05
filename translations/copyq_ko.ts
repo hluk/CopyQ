@@ -107,17 +107,17 @@ You can set up the command in preferences.</source>
 <context>
     <name>ActionHandler</name>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="118"/>
+        <location filename="../src/gui/actionhandler.cpp" line="117"/>
         <source>Error: %1</source>
         <translation>오류: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="128"/>
+        <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Exit code: %1</source>
         <translation>종료 코드: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="158"/>
+        <location filename="../src/gui/actionhandler.cpp" line="165"/>
         <source>Command %1</source>
         <translation>명령 %1</translation>
     </message>
@@ -148,175 +148,175 @@ You can set up the command in preferences.</source>
         <translation>명령 추가</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="63"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show/hide main window</source>
         <translation>기본 창 표시/숨기기</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show the tray menu</source>
         <translation>트레이 메뉴 표시</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Show main window under mouse cursor</source>
         <translation>마우스 커서 아래에 기본 창 표시</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
         <source>Edit clipboard</source>
         <translation>클립보드 편집</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
         <source>Edit first item</source>
         <translation>첫 번째 항목 편집</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
         <source>Copy second item</source>
         <translation>두 번째 항목 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Show action dialog</source>
         <translation>작업 대화창 표시</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
         <source>Create new item</source>
         <translation>새 항목 만들기</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
         <source>Copy next item</source>
         <translation>다음 항목 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
         <source>Copy previous item</source>
         <translation>이전 항목 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Paste clipboard as plain text</source>
         <translation>클립보드를 일반 텍스트로 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
         <source>Disable clipboard storing</source>
         <translation>클립보드 저장 사용 안 함</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="76"/>
         <source>Enable clipboard storing</source>
         <translation>클립보드 저장 사용</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="76"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="77"/>
         <source>Paste and copy next</source>
         <translation>붙여넣고 다음 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="77"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Paste and copy previous</source>
         <translation>붙여넣고 이전 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Take screenshot</source>
         <translation>스크린샷 찍기</translation>
     </message>
     <message>
-        <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
+        <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Paste current date and time</source>
         <translation>현재 날짜 및 시간 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="40"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="41"/>
         <source>New command</source>
         <translation>새 명령</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="47"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="48"/>
         <source>Ignore items with no or single character</source>
         <translation>문자가 없거나 단일인 항목 무시</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="84"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="77"/>
         <source>Open in &amp;Browser</source>
         <translation>브라우저에서 열기(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="92"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
         <source>Paste as Plain Text</source>
         <translation>일반 텍스트로 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="100"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>비디오 자동 재생</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="109"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="102"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>URL (웹 주소)을 다른 탭으로 복사</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="116"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="109"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>미리보기 만들기 (ImageMagick 필요)</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="124"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="117"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>URL에서 QR 코드 생성 (qrencode 필요)</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="132"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="125"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
         <translation>작업</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="135"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="128"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
         <translation>%1 탭에 추가</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="143"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="136"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
         <translation>%1 탭으로 이동</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="151"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="144"/>
         <source>Ignore copied files</source>
         <translation>복사된 파일 무시</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="160"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="153"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>*&quot;암호&quot;* 창 무시</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="161"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="154"/>
         <source>Password</source>
         <translation>암호</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="169"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="162"/>
         <source>Move to Trash</source>
         <translation>휴지통으로 이동</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="172"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>(trash)</source>
         <translation>(휴지통)</translation>
     </message>
     <message>
-        <location filename="../src/common/predefinedcommands.cpp" line="176"/>
+        <location filename="../src/common/predefinedcommands.cpp" line="169"/>
         <source>Clear Current Tab</source>
         <translation>현재 탭 지우기</translation>
     </message>
@@ -324,17 +324,17 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1591"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1532"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>%1 탭에 새 항목을 추가할 수 없습니다. 공간을 확보하려면 항목을 수동으로 제거하십시오.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1910"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1856"/>
         <source>Discard Changes?</source>
         <translation>변경 사항을 폐기하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1911"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1857"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>정말로 &lt;strong&gt;변경 사항을 폐기&lt;/strong&gt;하시겠습니까?</translation>
     </message>
@@ -342,12 +342,12 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="101"/>
+        <location filename="../src/app/clipboardclient.cpp" line="99"/>
         <source>Connection lost!</source>
         <translation>연결이 끊어졌습니다!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="108"/>
+        <location filename="../src/app/clipboardclient.cpp" line="106"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>서버에 연결할 수 없습니다! 먼저 CopyQ 서버를 시작합니다.</translation>
     </message>
@@ -389,27 +389,27 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="105"/>
+        <location filename="../src/app/clipboardserver.cpp" line="123"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ 서버가 이미 실행중입니다.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="369"/>
+        <location filename="../src/app/clipboardserver.cpp" line="388"/>
         <source>Cancel Active Commands</source>
         <translation>활성 명령 취소</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="370"/>
+        <location filename="../src/app/clipboardserver.cpp" line="389"/>
         <source>Cancel active commands and exit?</source>
         <translation>활성 명령을 취소하고 종료하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="373"/>
+        <location filename="../src/app/clipboardserver.cpp" line="392"/>
         <source>Cancel Exiting</source>
         <translation>종료 취소</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="374"/>
+        <location filename="../src/app/clipboardserver.cpp" line="393"/>
         <source>Exit Anyway</source>
         <translation>무조건 종료</translation>
     </message>
@@ -462,32 +462,32 @@ You can set up the command in preferences.</source>
         <translation>명령 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="177"/>
+        <location filename="../src/gui/commanddialog.cpp" line="178"/>
         <source>Unsaved Changes</source>
         <translation>저장되지 않은 변경 사항</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="177"/>
+        <location filename="../src/gui/commanddialog.cpp" line="178"/>
         <source>Command dialog has unsaved changes.</source>
         <translation>명령 대화 상자에 저장되지 않은 변경 사항이 있습니다.</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="255"/>
+        <location filename="../src/gui/commanddialog.cpp" line="256"/>
         <source>Open Files with Commands</source>
         <translation>명령으로 파일 열기</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="256"/>
+        <location filename="../src/gui/commanddialog.cpp" line="257"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>명령 (*.ini);; CopyQ 구성 (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="267"/>
+        <location filename="../src/gui/commanddialog.cpp" line="268"/>
         <source>Save Selected Commands</source>
         <translation>선택된 명령 저장</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="268"/>
+        <location filename="../src/gui/commanddialog.cpp" line="269"/>
         <source>Commands (*.ini)</source>
         <translation>명령 (*.ini)</translation>
     </message>
@@ -947,58 +947,58 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation>미리보기:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="164"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="160"/>
         <source>Open Theme File</source>
         <translation>테마 파일 열기</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="174"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="170"/>
         <source>Save Theme File As</source>
         <translation>다음으로 테마 파일 저장</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="193"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="189"/>
         <source>No External Editor</source>
         <translation>외부 편집기 없음</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="194"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="190"/>
         <source>Set external editor command first!</source>
         <translation>외부 편집기 명령을 먼저 설정하십시오!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="394"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="390"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translatorcomment>모양 대화상자에서 글꼴 설정에 대한 텍스트를 미리 봅니다</translatorcomment>
         <translation>가나다</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="476"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
         <translatorcomment>모양 탭의 미리 보기에서 식을 검색합니다.</translatorcomment>
         <translation>항목</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="478"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="474"/>
         <source>Search string is %1.</source>
         <translation>검색 문자열은 %1 입니다.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="479"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="475"/>
         <source>Select an item and
 press F2 to edit.</source>
         <translation>항목을 선택하고
 F2 키를 눌러 편집합니다.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="481"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="477"/>
         <source>Example item %1</source>
         <translation>예제 항목 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="486"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="482"/>
         <source>Some random notes (Shift+F2 to edit)</source>
         <translation>일부 임의 노트 (편집하려면 Shift+F2)</translation>
     </message>
@@ -1079,99 +1079,109 @@ F2 키를 눌러 편집합니다.</translation>
         <translation type="vanished">Vi 스타일 탐색(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="161"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="156"/>
+        <source>Prevent capturing app windows in screenshots and recordings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="159"/>
+        <source>&amp;Hide from screenshots and recordings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Navigation style / Keymap:</source>
         <translation>내비게이션 스타일 / 키맵:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="171"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="181"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
         <translation>Vi 내비게이션 (키 H, J, K, L, / 등) 및 Emacs 내비게이션 (Ctrl+N, P, V 등) 지원</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="175"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Default</source>
         <translation>기본값</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="180"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="190"/>
         <source>Vi</source>
         <translation>Vi</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="185"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="195"/>
         <source>Emacs</source>
         <translation>Emacs</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="208"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="218"/>
         <source>Save and restore history of item filters</source>
         <translation>항목 필터 기록 저장 및 복원</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="211"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>Save Filter History</source>
         <translation>필터 기록 저장</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="218"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="228"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
         <translation>팝업을 자동으로 표시하여 명령에서 함수, 유형 및 변수 이름을 완료합니다</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="221"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Auto-complete Commands</source>
         <translation>자동 완성 명령</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="228"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="238"/>
         <source>Clipboard Manipulation</source>
         <translation>클립보드 조작</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="240"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="250"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
         <translation>일반적으로 마우스 가운데 버튼을 눌러 복사한 내용을 마우스 선택과 동일한 방법으로 붙여넣을 수 있습니다</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="243"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="253"/>
         <source>(&amp;3) Paste clipboard with mouse</source>
         <translatorcomment>(&amp;3) 마우스로 클립보드 붙여넣기</translatorcomment>
         <translation>(&amp;3) 마우스로 클립보드 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="250"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="260"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
         <translation>바로가기를 사용하여 마우스 선택 항목을 붙여넣을 수 있습니다 (일반적으로 Ctrl+V 또는 Shift+Insert)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="253"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="263"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
         <translatorcomment>(&amp;4) 키보드로 마우스 선택 항목 붙여넣기</translatorcomment>
         <translation>(&amp;4) 키보드로 마우스 선택 항목 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="260"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="270"/>
         <source>Save clipboard in history</source>
         <translation>내역에 클립보드 저장</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="263"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="273"/>
         <source>(&amp;1) Store clipboard</source>
         <translation>(&amp;1) 클립보드 저장</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="273"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="283"/>
         <source>Save text selected with mouse (primary selection) in history</source>
         <translation>마우스로 선택한 텍스트 (기본 선택)를 기록에 저장</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="276"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="286"/>
         <source>(&amp;2) Store text selected using mouse</source>
         <translation>(&amp;2) 마우스로 선택한 텍스트 저장</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabgeneral.ui" line="283"/>
+        <location filename="../src/ui/configtabgeneral.ui" line="293"/>
         <source>(&amp;5) Run automatic commands on selection</source>
         <translation>(&amp;5) 선택 시 자동 명령 실행</translation>
     </message>
@@ -1670,27 +1680,27 @@ Set to 0 to disable.</source>
         <translation>모양</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="446"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="455"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>&quot;%1&quot; 옵션에 대한 값이 잘못되었습니다</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="491"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
         <source>Reset preferences?</source>
         <translation>환경 설정을 재설정하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="492"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>이 작업을 수행하면 모든 탭의 모든 기본 설정이 기본값으로 재설정됩니다.&lt;br /&gt;&lt;br /&gt;모든 기본 설정을 &lt;strong&gt; 재설정하시겠습니까&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="594"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="603"/>
         <source>Restart Required</source>
         <translation>재시작 필요</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="595"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="604"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>응용 프로그램을 다시 시작한 후 언어가 변경됩니다.</translation>
     </message>
@@ -1703,7 +1713,7 @@ Set to 0 to disable.</source>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="574"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="572"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>동기화 디렉터리 &quot;%1&quot;을(를) 만들지 못했습니다!</translation>
     </message>
@@ -1780,7 +1790,7 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="139"/>
+        <location filename="../src/item/itemeditor.cpp" line="137"/>
         <source>Editor command failed (see logs)</source>
         <translation>편집기 명령 실패 (로그 참조)</translation>
     </message>
@@ -1803,7 +1813,7 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="403"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="395"/>
         <source>Encryption failed!</source>
         <translation>암호화에 실패했습니다!</translation>
     </message>
@@ -1812,99 +1822,99 @@ Set to 0 to disable.</source>
         <translation type="vanished">암호화된 항목을 다른 컴퓨터 또는 세션에서 공유하려면 다음과 같은 공용 및 비밀 키 파일이 필요합니다:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(이 비밀키는 안전한 곳에 보관하십시오)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="681"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
         <translation>암호화된 항목을 다른 컴퓨터나 세션에서 공유하려면 다음과 같은 비밀 키 파일이 필요합니다 (안전한 장소에 보관):</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="756"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>암호화된 탭을 보려면 GnuPG를 설치해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="861"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="853"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>암호화 (GnuPG 필요)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="878"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="859"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
         <source>Decrypt</source>
         <translation>복호화</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="883"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
         <source>Decrypt and Copy</source>
         <translation>복호화 및 복사</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="888"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="893"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
         <source>Decrypt and Paste</source>
         <translation>복화화 및 붙여넣기</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="898"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="955"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="947"/>
         <source>Failed to generate keys.</source>
         <translation>키 생성 실패함.키를 생성하지 못했습니다.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="959"/>
         <source>Error: %1</source>
         <translation>오류: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="972"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="964"/>
         <source>Done</source>
         <translation>완료</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="988"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="980"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>새 키를 만드는 중 (몇 분 정도 걸릴 수 있음)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="992"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="981"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
         <source>Cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="983"/>
         <source>Setting new password...</source>
         <translation>새 암호를 설정하는 중...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="994"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="986"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>항목 암호화를 사용하려면 먼저 암호화 키을 &lt;strong&gt;생성해야&lt;/strong&gt; 합니다.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
         <source>Generate New Keys...</source>
         <translation>새 키 생성...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="999"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
         <source>Change Password...</source>
         <translation>암호 변경...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="1005"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
         <source>Decryption failed!</source>
         <translation>복호화에 실패했습니다!</translation>
     </message>
@@ -1947,12 +1957,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemFactory</name>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="75"/>
+        <location filename="../src/item/itemfactory.cpp" line="76"/>
         <source>Corrupted Tab</source>
         <translation>손상된 탭</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="76"/>
+        <location filename="../src/item/itemfactory.cpp" line="77"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; 탭의 일부 항목이 로드되지 않았습니다. 여전히 탭을 로드하고 일부 항목을 손실하시겠습니까?</translation>
     </message>
@@ -2130,22 +2140,22 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="182"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>고정된 항목을 제거할 수 없음</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="184"/>
         <source>Unpin items first to remove them.</source>
         <translation>먼저 항목을 고정 해제하고 제거합니다.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="347"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="348"/>
         <source>Pin</source>
         <translation>고정</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="355"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="356"/>
         <source>Unpin</source>
         <translation>고정 해제</translation>
     </message>
@@ -2170,12 +2180,12 @@ Set to 0 to disable.</source>
         <translation>찾아보기...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="762"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="761"/>
         <source>Open Directory for Synchronization</source>
         <translation>동기화를 위한 디렉토리 열기</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="776"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="774"/>
         <source>Failed to create synchronization directory</source>
         <translation>동기화 디렉터리를 만들지 못했습니다</translation>
     </message>
@@ -2198,12 +2208,12 @@ Set to 0 to disable.</source>
         <translation>&quot;%1&quot; 탭을 &quot;%2&quot; 디렉터리와 동기화하지 못했습니다!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="461"/>
         <source>Remove Items?</source>
         <translation>항목을 제거하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="463"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;항목 및 연결된 파일을 제거&lt;/strong&gt;하시겠습니까?</translation>
     </message>
@@ -2258,12 +2268,12 @@ Set to 0 to disable.</source>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="144"/>
         <source>Add a Tag</source>
         <translation>태그 추가</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="150"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
         <source>Remove a Tag</source>
         <translation>태그 제거</translation>
     </message>
@@ -2276,29 +2286,29 @@ Set to 0 to disable.</source>
         <translation type="vanished">%1 태그 제거</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="171"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="170"/>
         <source>Toggle Tag %1</source>
         <translation>태그 %1 전환</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="604"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>잠긴 태그가 있는 항목을 제거할 수 없음</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="606"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
         <source>Untag items first to remove them.</source>
         <translation>먼저 항목의 태그를 해제하여 제거합니다.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="742"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translatorcomment>예제 명령의 태그 이름</translatorcomment>
         <translation>중요</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="772"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
         <source>Clear all tags</source>
         <translation>모든 태그 지우기</translation>
     </message>
@@ -2415,82 +2425,82 @@ Set to 0 to disable.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="286"/>
+        <location filename="../src/gui/mainwindow.cpp" line="289"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ 항목 (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="648"/>
+        <location filename="../src/gui/mainwindow.cpp" line="665"/>
         <source>&amp;Show/Hide</source>
         <translation>표시/숨기기(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="686"/>
+        <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>Exit?</source>
         <translation>종료?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="687"/>
+        <location filename="../src/gui/mainwindow.cpp" line="704"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>CopyQ를 &lt;strong&gt;종료&lt;/strong&gt;하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="751"/>
+        <location filename="../src/gui/mainwindow.cpp" line="762"/>
         <source>&amp;File</source>
         <translation>파일(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="797"/>
+        <location filename="../src/gui/mainwindow.cpp" line="808"/>
         <source>&amp;Edit</source>
         <translation>편집(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="821"/>
+        <location filename="../src/gui/mainwindow.cpp" line="832"/>
         <source>&amp;Item</source>
         <translation>항목(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="825"/>
+        <location filename="../src/gui/mainwindow.cpp" line="836"/>
         <source>&amp;Tabs</source>
         <translation>탭(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="850"/>
+        <location filename="../src/gui/mainwindow.cpp" line="861"/>
         <source>&amp;Help</source>
         <translation>도움말(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="875"/>
+        <location filename="../src/gui/mainwindow.cpp" line="886"/>
         <source>&amp;New Tab</source>
         <translation>새 탭(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="877"/>
+        <location filename="../src/gui/mainwindow.cpp" line="888"/>
         <source>Rename &amp;Group %1</source>
         <translation>그룹 %1 이름 바꾸기(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="879"/>
+        <location filename="../src/gui/mainwindow.cpp" line="890"/>
         <source>Re&amp;name Tab %1</source>
         <translation>탭 %1 이름 바꾸기(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="881"/>
+        <location filename="../src/gui/mainwindow.cpp" line="892"/>
         <source>Re&amp;move Tab %1</source>
         <translation>%1 탭 제거(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="883"/>
+        <location filename="../src/gui/mainwindow.cpp" line="894"/>
         <source>Remove Group %1</source>
         <translation>그룹 %1 제거</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="885"/>
+        <location filename="../src/gui/mainwindow.cpp" line="896"/>
         <source>&amp;Change Tab Icon</source>
         <translation>탭 아이콘 변경(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="928"/>
+        <location filename="../src/gui/mainwindow.cpp" line="939"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translatorcomment>트레이 메뉴 클립보드 항목 형식</translatorcomment>
@@ -2505,60 +2515,60 @@ Set to 0 to disable.</source>
         <translation type="vanished">클립보드 저장 사용 안 함(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2086"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2208"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2091"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2211"/>
         <source>Options for Import</source>
         <translation>가져오기 옵션</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2496"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2505"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translatorcomment>알림 오류 메시지 제목</translatorcomment>
         <translation>CopyQ 오류</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3863"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3937"/>
         <source>Options for Export</source>
         <translation>내보내기 옵션</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3884"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3958"/>
         <source>Export Error</source>
         <translation>내보내기 오류</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3885"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3959"/>
         <source>Failed to export file %1!</source>
         <translation>%1 파일을 내보내지 못했습니다!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3977"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4051"/>
         <source>Import Error</source>
         <translation>가져오기 오류</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3978"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4052"/>
         <source>Failed to import file %1!</source>
         <translation>%1 파일을 가져오지 못했습니다!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4163"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4230"/>
         <source>Remove All Tabs in Group?</source>
         <translation>그룹의 모든 탭을 제거하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4164"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4231"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>그룹 &lt;strong&gt;%1&lt;/strong&gt;에서 &lt;strong&gt;모든 탭&lt;/strong&gt;을 제거하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4211"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4278"/>
         <source>Remove Tab?</source>
         <translation>탭을 제거하시겠습니까?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4212"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4279"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>탭 &lt;strong&gt;%1&lt;/strong&gt;을(를) 제거하시겠습니까?</translation>
     </message>
@@ -2581,13 +2591,13 @@ Set to 0 to disable.</source>
         <translation>클립보드(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="600"/>
+        <location filename="../src/common/common.cpp" line="414"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
         <translation>&lt;숨김&gt;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="606"/>
+        <location filename="../src/common/common.cpp" line="420"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translatorcomment>클립보드의 다중 줄 텍스트 레이블</translatorcomment>
@@ -2596,25 +2606,25 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="616"/>
+        <location filename="../src/common/common.cpp" line="430"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;이미지&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="618"/>
+        <location filename="../src/common/common.cpp" line="432"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
         <translation>&lt;항목&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="620"/>
+        <location filename="../src/common/common.cpp" line="434"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;비어있음&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="622"/>
+        <location filename="../src/common/common.cpp" line="436"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;데이터&gt;</translation>
@@ -2644,9 +2654,8 @@ Set to 0 to disable.</source>
         <translation>가져오기(&amp;I)...</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="vanished">Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="46"/>
@@ -2666,6 +2675,11 @@ Set to 0 to disable.</source>
     <message>
         <source>C&amp;ommands/Global Shortcuts...</source>
         <translation type="vanished">명령/전역 바로가기(&amp;O)...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="44"/>
+        <source>Ctrl+Shift+I</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="51"/>
@@ -3039,12 +3053,12 @@ Set to 0 to disable.</source>
         <translation>Shift+F10</translation>
     </message>
     <message>
-        <location filename="../src/item/itemfactory.cpp" line="437"/>
+        <location filename="../src/item/itemfactory.cpp" line="452"/>
         <source>Tab %1 is corrupted or some CopyQ plugins are missing!</source>
         <translation>%1 탭이 손상되었거나 일부 CopyQ 플러그인이 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="227"/>
+        <location filename="../src/main.cpp" line="321"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>세션 이름은 최대 16자를 포함해야 합니다
@@ -3056,7 +3070,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation type="vanished">%1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2450"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2616"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translatorcomment>클립보드의 다중 줄 텍스트에 대한 알림 제목</translatorcomment>
@@ -3065,14 +3079,14 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2453"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2619"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translatorcomment>클립보드의 한 줄 텍스트에 대한 알림 제목</translatorcomment>
         <translation>텍스트 복사</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2469"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2635"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translatorcomment>클립보드의 복사된 데이터에 대한 통지 제목</translatorcomment>
@@ -3313,7 +3327,7 @@ Default is the first tab.</source>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="111"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>COMMAND</source>
         <translation>명령</translation>
     </message>
@@ -3420,92 +3434,92 @@ Default is the first tab.</source>
         <translation>명령을 실행하기 전에 백그라운드에서 서버를 시작합니다.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="111"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>Usage: copyq [%1]</source>
         <translation>사용량: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
         <source>Starts server if no command is specified.</source>
         <translation>명령이 지정되지 않은 경우 서버를 시작합니다.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="117"/>
         <source>  COMMANDs:</source>
         <translation>  명령:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>NOTES:</source>
         <translation>노트:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - 표준 입력에서 데이터를 읽으려면 대시 인수(-)를 사용합니다.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="124"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - 이스케이프 시퀀스 (즉, \n, \t 및 기타)를 확장하지 않고
     모든 다음 인수를 읽으려면 이중 대시 인수(--)를 사용합니다.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - MIME에서 사용 가능한 MIME 유형 (기본값은 &quot;text/plain&quot;)을 인쇄하려면 ?를 사용합니다.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="127"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
         <source>Invalid number of arguments!</source>
         <translation>잘못된 인수 개수입니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="575"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>%1 파일에 저장할 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="580"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>%1 파일을 가져올 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="717"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="752"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="720"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="755"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ 클립보드 관리자</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="764"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="767"/>
         <source>Command not found!</source>
         <translation>명령을 찾을 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="863"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="866"/>
         <source>Terminating server.
 </source>
         <translation>서버를 종료하는 중입니다.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1396"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1438"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; 옵션이 잘못되었습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2909"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
         <source>Exception</source>
         <translation>예외</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2910"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2956"/>
         <source>Exception in %1</source>
         <translation>%1의 예외</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3014"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3066"/>
         <source>Failed to copy to clipboard!</source>
         <translation>클립보드에 복사하지 못했습니다!</translation>
     </message>
@@ -3513,22 +3527,22 @@ Default is the first tab.</source>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="619"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="647"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>지정한 이름의 탭이 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="624"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="652"/>
         <source>Tab name cannot be empty!</source>
         <translation>탭 이름은 비워 둘 수 없습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1152"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="1313"/>
         <source>Tab with given name already exists!</source>
         <translation>지정한 이름의 탭이 이미 있습니다!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2388"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2554"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
         <translation>*클립보드 저장 사용 안 함*</translation>
@@ -3669,12 +3683,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>Utils::FilterLineEdit</name>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="375"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="374"/>
         <source>Regular Expression</source>
         <translation>정규 표현식</translation>
     </message>
     <message>
-        <location filename="../src/gui/filterlineedit.cpp" line="378"/>
+        <location filename="../src/gui/filterlineedit.cpp" line="377"/>
         <source>Case Insensitive</source>
         <translation>대소문자 구분 안 함</translation>
     </message>
