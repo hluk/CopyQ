@@ -14,6 +14,7 @@
 #include "common/sleeptimer.h"
 #include "common/timer.h"
 #include "common/textdata.h"
+#include "common/version.h"
 #include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
@@ -111,11 +112,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
-    cleanUpLogFilesTimer();
-
     m_server = new Server(clipboardServerName(), this);
 
     if ( m_server->isListening() ) {
+        log( QStringLiteral("Starting server: CopyQ %1").arg(versionString) );
         App::installTranslator();
         qApp->setLayoutDirection(QLocale().textDirection());
     } else {
@@ -125,9 +125,12 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
         return;
     }
 
+    cleanUpLogFilesTimer();
+
     if ( sessionName.isEmpty() ) {
         QGuiApplication::setApplicationDisplayName(QStringLiteral("CopyQ"));
     } else {
+        log( QStringLiteral("Session: %1").arg(sessionName) );
         QGuiApplication::setApplicationDisplayName(
             QStringLiteral("CopyQ-%1").arg(sessionName));
     }
