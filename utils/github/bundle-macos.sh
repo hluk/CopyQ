@@ -2,7 +2,9 @@
 # Creates macOS bundle.
 set -xeuo pipefail
 
-cpack
+# WORKAROUND for transient errors: "hdiutil: create failed - Resource busy"
+# https://github.com/actions/runner-images/issues/7522#issuecomment-1564467252
+cpack -DCPACK_COMMAND_HDIUTIL="/usr/bin/sudo /usr/bin/hdiutil"
 
 app_bundle_path="CopyQ.app"
 executable="${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ"
