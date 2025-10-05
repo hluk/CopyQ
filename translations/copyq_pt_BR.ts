@@ -1136,12 +1136,12 @@ pressione F2 para editar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevenir capturar janelas de aplicativos em capturas de tela e gravações</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ocultar de capturas de tela e gravações</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
@@ -3117,7 +3117,7 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
