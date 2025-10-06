@@ -266,19 +266,19 @@
         <location filename="../src/common/predefinedcommands.cpp" line="125"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished">Tascanna</translation>
+        <translation>Tascanna</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="128"/>
         <source>Add to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Cuir le cluaisín %1</translation>
+        <translation>Cuir le cluaisín %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="136"/>
         <source>Move to %1 tab</source>
         <comment>%1 is quoted Tasks tab name</comment>
-        <translation type="unfinished">Bog go dtí cluaisín %1</translation>
+        <translation>Bog go dtí cluaisín %1</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="144"/>
@@ -385,7 +385,7 @@
         <location filename="../src/gui/clipboarddialog.cpp" line="151"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of clipboard/item data in bytes</comment>
-        <translation type="unfinished">&lt;strong&gt;Méid:&lt;/strong&gt; %1 beart</translation>
+        <translation>&lt;strong&gt;Méid:&lt;/strong&gt; %1 beart</translation>
     </message>
     <message>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
@@ -430,7 +430,7 @@
         <location filename="../src/gui/commandcompleter.cpp" line="221"/>
         <source>Ctrl+Space</source>
         <comment>Shortcut to show completion menu</comment>
-        <translation type="unfinished">Ctrl+Spás</translation>
+        <translation>Ctrl+Spás</translation>
     </message>
 </context>
 <context>
@@ -537,7 +537,7 @@
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished">&amp;gearrthaisce</translation>
+        <translation>&amp;gearrthaisce</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="115"/>
@@ -937,13 +937,13 @@ Tabhair faoi deara: Má chuirtear é seo i bhfeidhm go huathoibríoch, ní fhorg
         <location filename="../src/gui/configtabappearance.cpp" line="390"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished">Abc</translation>
+        <translation>Abc</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished">mír</translation>
+        <translation>mír</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="474"/>
@@ -1061,12 +1061,12 @@ brúigh F2 le cur in eagar.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Cosc a chur ar fhuinneoga aipeanna a ghabháil i nglacadh scáileáin agus i dtaifeadtaí</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Folaigh ó scáileáin agus taifeadtaí</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
@@ -1703,7 +1703,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/filtercompleter.cpp" line="172"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished">Alt+Síos</translation>
+        <translation>Alt+Síos</translation>
     </message>
 </context>
 <context>
@@ -1717,7 +1717,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/iconselectbutton.cpp" line="56"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <source>...</source>
@@ -2135,7 +2135,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="111"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished">Brabhsáil...</translation>
+        <translation>Brabhsáil...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="761"/>
@@ -2258,7 +2258,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished">Tábhachtach</translation>
+        <translation>Tábhachtach</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
@@ -2433,7 +2433,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="939"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished">&amp;gearrthaisce: %1</translation>
+        <translation>&amp;Gearrthaisce: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2091"/>
@@ -2445,7 +2445,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="2505"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished">Earráid CopyQ</translation>
+        <translation>Earráid CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3937"/>
@@ -2548,7 +2548,7 @@ Socraigh go 0 le díchumasú.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="46"/>
@@ -2669,7 +2669,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
@@ -2680,7 +2680,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Éalú</translation>
+        <translation>Éalú</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
@@ -2726,7 +2726,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation type="unfinished">G&amp;níomhachtaigh Míreanna</translation>
+        <translation>G&amp;níomhachtaigh Míreanna</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -2852,7 +2852,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation type="unfinished">Ar dheis</translation>
+        <translation>Ar dheis</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="142"/>
@@ -2863,7 +2863,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation type="unfinished">Ar chlé</translation>
+        <translation>Ar chlé</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2889,7 +2889,7 @@ Socraigh go 0 le díchumasú.</translation>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation type="unfinished">Shift+F10</translation>
+        <translation>Shift+F10</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="452"/>
@@ -3015,81 +3015,81 @@ a d&apos;fhéadfadh a bheith ina litreacha, digití, &apos;-&apos; nó &apos;_&a
         <location filename="../src/common/appconfig.cpp" line="22"/>
         <source>&amp;clipboard</source>
         <comment>Default name of the tab that automatically stores new clipboard content</comment>
-        <translation type="unfinished">&amp;gearrthaisce</translation>
+        <translation>&amp;gearrthaisce</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="414"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished">&lt;HIDDEN&gt;</translation>
+        <translation>&lt;FOLACH&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="420"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%1 (%n líne)</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%1 (%n línte)</numerusform>
+            <numerusform>%1 (%n línte)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="430"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished">&lt;IMAGE&gt;</translation>
+        <translation>&lt;ÍOMHÁ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="432"/>
         <source>&lt;ITEMS&gt;</source>
         <comment>Label for copied items in clipboard</comment>
-        <translation type="unfinished">&lt;ITEMS&gt;</translation>
+        <translation>&lt;MÍREANNA&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="434"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished">&lt;EMPTY&gt;</translation>
+        <translation>&lt;FOLAMH&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="436"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished">&lt;DATA&gt;</translation>
+        <translation>&lt;SONRAÍ&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="32"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation type="unfinished">Cúlspás</translation>
+        <translation>Cúlspás</translation>
     </message>
     <message>
         <location filename="../src/common/shortcuts.cpp" line="34"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished">Scrios</translation>
+        <translation>Scrios</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2616"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform>Téacs Cóipeáilte (%n líne)</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Téacs Cóipeáilte (%n línte)</numerusform>
+            <numerusform>Téacs Cóipeáilte (%n línte)</numerusform>
+            <numerusform>Téacs Cóipeáilte (%n línte)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2619"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation type="unfinished">Téacs Cóipeáilte</translation>
+        <translation>Téacs Cóipeáilte</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2635"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation type="unfinished">Sonraí Cóipeáilte</translation>
+        <translation>Sonraí Cóipeáilte</translation>
     </message>
 </context>
 <context>
@@ -3544,7 +3544,7 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2554"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation type="unfinished">*Stóráil ar an nGearrthaisce Díchumasaithe*</translation>
+        <translation>*Stóráil ar an nGearrthaisce Díchumasaithe*</translation>
     </message>
     <message>
         <source>*Clipboard Storing Disabled*</source>
@@ -3671,7 +3671,7 @@ Bain úsáid &lt;b&gt;as /&lt;/b&gt; mar dheighilteoir cosáin i leagan amach cl
         <location filename="../src/gui/traymenu.cpp" line="127"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished">&amp;%1. %2</translation>
+        <translation>&amp;%1. %2</translation>
     </message>
     <message>
         <source>&amp;%1. %2</source>
