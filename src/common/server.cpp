@@ -39,7 +39,7 @@ QString lockFilePath()
 
 struct Server::PrivateData {
     QLocalServer server;
-    QLockFile lockFile = lockFilePath();
+    QLockFile lockFile{lockFilePath()};
     int socketCount = 0;
     QEventLoop *loop = nullptr;
 };

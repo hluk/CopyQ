@@ -36,3 +36,7 @@ target_link_libraries(systemclipboard
                       ${copyq_qt}::WaylandClient
                       Wayland::Client
 )
+if (TARGET ${copyq_qt}::GuiPrivate)
+    # for native interface to get wl_seat
+    target_link_libraries(systemclipboard ${copyq_qt}::GuiPrivate)
+endif()
