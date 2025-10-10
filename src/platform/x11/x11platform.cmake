@@ -39,6 +39,7 @@ if (WITH_X11)
     set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
     if(WITH_QT6)
+        find_package(${copyq_qt} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS GuiPrivate)
         list(APPEND copyq_LIBRARIES Qt::GuiPrivate)
     else()
         list(APPEND copyq_qt_modules X11Extras)
