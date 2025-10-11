@@ -36,23 +36,23 @@ void messageHandlerForQt(QtMsgType type, const QMessageLogContext &context, cons
                 .arg(context.file, QString::number(context.line), context.function));
     }
 
-    const QString format = QStringLiteral("[%1] %3: %2");
+    const QString format = QStringLiteral("[%1] %2");
     const QLatin1String category(context.category);
     switch (type) {
     case QtDebugMsg:
-        log( format.arg(category, message, QStringLiteral("QtDebug")), LogDebug);
+        log( format.arg(category, message), LogDebug);
         break;
     case QtInfoMsg:
-        log( format.arg(category, message, QStringLiteral("QtInfo")), LogDebug);
+        log( format.arg(category, message), LogDebug);
         break;
     case QtWarningMsg:
-        log( format.arg(category, message, QStringLiteral("QtWarning")), LogWarning);
+        log( format.arg(category, message), LogWarning);
         break;
     case QtCriticalMsg:
-        log( format.arg(category, message, QStringLiteral("QtCritical")), LogError);
+        log( format.arg(category, message), LogError);
         break;
     case QtFatalMsg:
-        log( format.arg(category, message, QStringLiteral("QtFatal")), LogError);
+        log( format.arg(category, message), LogError);
         throw ExceptionQtFatal( message.toUtf8() );
     }
 }
