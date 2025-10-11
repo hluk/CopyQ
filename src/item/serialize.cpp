@@ -10,12 +10,12 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QDataStream>
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QIODevice>
 #include <QList>
+#include <QLoggingCategory>
 #include <QPair>
 #include <QSaveFile>
 #include <QStringList>
@@ -23,6 +23,13 @@
 #include <unordered_map>
 
 constexpr const int MAX_ITEMS = 100'000;
+
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(serializeCategory)
+Q_LOGGING_CATEGORY(serializeCategory, "copyq.serialize")
+
+} // namespace
 
 class DataFile {
 public:
@@ -46,7 +53,7 @@ public:
     {
         QFile f(m_path);
         if ( !f.open(QIODevice::ReadOnly) ) {
-            qCritical() << "Failed to read file" << m_path << ":" << f.errorString();
+            qCCritical(serializeCategory) << "Failed to read file" << m_path << ":" << f.errorString();
             return QByteArray();
         }
         return f.readAll();
@@ -85,7 +92,7 @@ bool readOrError(QDataStream *out, T *value, const char *error)
     if ( out->status() == QDataStream::Ok )
         return true;
 
-    qCritical() << "Corrupted data:" << error;
+    qCCritical(serializeCategory) << "Corrupted data:" << error;
     return false;
 }
 
@@ -123,7 +130,7 @@ QString decompressMime(QDataStream *out)
     const int id = QStringView(mime).mid(0, 1).toInt(&ok, 16);
 #endif
     if (!ok) {
-        qCritical() << "Corrupted data: Failed to parse MIME type ID";
+        qCCritical(serializeCategory) << "Corrupted data: Failed to parse MIME type ID";
         out->setStatus(QDataStream::ReadCorruptData);
         return QString();
     }
@@ -135,7 +142,7 @@ QString decompressMime(QDataStream *out)
     if ( it != std::end(idToMime()) )
         return it->second + mime.mid(1);
 
-    qCritical() << "Corrupted data: Failed to decompress MIME type";
+    qCCritical(serializeCategory) << "Corrupted data: Failed to decompress MIME type";
     out->setStatus(QDataStream::ReadCorruptData);
     return QString();
 }
@@ -176,7 +183,7 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data)
         if (compress) {
             tmpBytes = qUncompress(tmpBytes);
             if ( tmpBytes.isEmpty() ) {
-                qCritical() << "Corrupted data: Failed to decompress data (v2)";
+                qCCritical(serializeCategory) << "Corrupted data: Failed to decompress data (v2)";
                 out->setStatus(QDataStream::ReadCorruptData);
                 return false;
             }
@@ -210,7 +217,7 @@ QString dataFilePath(const QByteArray &bytes, bool create = false)
             sha.mid(32, 16)
     );
     if (create && !dir.mkpath(subpath)) {
-        qCritical() << "Failed to create data directory:"
+        qCCritical(serializeCategory) << "Failed to create data directory:"
             << dir.absoluteFilePath(subpath);
         return QString();
     }
@@ -262,7 +269,7 @@ void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThr
                     QSaveFile f(path);
                     f.setDirectWriteFallback(false);
                     if ( !f.open(QIODevice::WriteOnly) || !f.write(bytes) || !f.commit() ) {
-                        qCritical() << "Failed to create data file" << path << ":"
+                        qCCritical(serializeCategory) << "Failed to create data file" << path << ":"
                             << f.errorString();
                         stream->setStatus(QDataStream::WriteFailed);
                         f.cancelWriting();
@@ -298,7 +305,7 @@ bool deserializeData(QDataStream *stream, QVariantMap *data)
             return deserializeDataV2(stream, data);
 
         if (length < 0) {
-            qCritical() << "Corrupted data: Invalid length (v1)";
+            qCCritical(serializeCategory) << "Corrupted data: Invalid length (v1)";
             stream->setStatus(QDataStream::ReadCorruptData);
             return false;
         }
@@ -317,7 +324,7 @@ bool deserializeData(QDataStream *stream, QVariantMap *data)
             if( !tmpBytes.isEmpty() ) {
                 tmpBytes = qUncompress(tmpBytes);
                 if ( tmpBytes.isEmpty() ) {
-                    qCritical() << "Corrupted data: Failed to decompress data (v1)";
+                    qCCritical(serializeCategory) << "Corrupted data: Failed to decompress data (v1)";
                     stream->setStatus(QDataStream::ReadCorruptData);
                     return false;
                 }
@@ -325,7 +332,7 @@ bool deserializeData(QDataStream *stream, QVariantMap *data)
             data->insert(mime, tmpBytes);
         }
     } catch (const std::exception &e) {
-        qCritical() << "Data deserialization failed:" << e.what();
+        qCCritical(serializeCategory) << "Data deserialization failed:" << e.what();
         stream->setStatus(QDataStream::ReadCorruptData);
         return false;
     }
@@ -367,7 +374,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
         return false;
 
     if (length < 0) {
-        qCritical() << "Corrupted data: Invalid length";
+        qCCritical(serializeCategory) << "Corrupted data: Invalid length";
         stream->setStatus(QDataStream::ReadCorruptData);
         return false;
     }
@@ -384,7 +391,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
             return false;
 
         if ( !model->setData(model->index(i, 0), data, contentType::data) ) {
-            qCritical() << "Failed to set model data";
+            qCCritical(serializeCategory) << "Failed to set model data";
             stream->setStatus(QDataStream::ReadCorruptData);
             return false;
         }
@@ -417,7 +424,7 @@ bool itemDataFiles(QIODevice *file, QStringList *files)
         return false;
 
     if (length < 0) {
-        qCritical() << "Corrupted data: Invalid length";
+        qCCritical(serializeCategory) << "Corrupted data: Invalid length";
         return false;
     }
 

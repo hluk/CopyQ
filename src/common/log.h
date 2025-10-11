@@ -22,6 +22,8 @@ bool dropLogsToFileCountAndSize(int maxFileCount, int keepMaxSize);
 
 void createSessionMutex();
 
+int getLogLevel();
+
 bool hasLogLevel(LogLevel level);
 
 QByteArray logLevelLabel(LogLevel level);

@@ -36,8 +36,8 @@
 #include <QApplication>
 #include <QDBusInterface>
 #include <QDBusMetaType>
-#include <QDebug>
 #include <QDBusObjectPath>
+#include <QLoggingCategory>
 #include <QPointer>
 #include <QRandomGenerator>
 #include <QRegularExpression>
@@ -50,6 +50,13 @@
 #include <xcb/xcb.h>
 
 #include "xcbkeyboard.h"
+
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(qxtCategory)
+Q_LOGGING_CATEGORY(qxtCategory, "copyq.globalshortcut")
+
+} // namespace
 
 class GlobalShortcutsPortal : public QObject
 {
@@ -119,7 +126,8 @@ private:
         );
 
         if (message.type() == QDBusMessage::ErrorMessage) {
-            qWarning() << "QxtGlobalShortcut: Failed to create portal global shortcuts session:"
+            qCWarning(qxtCategory)
+                << "Failed to create portal global shortcuts session:"
                 << message.errorMessage();
             return {};
         }
@@ -214,7 +222,7 @@ private:
         // Shortcuts can be bound only once per session.
         // Notify user to restart the app.
         if (m_bound) {
-            qDebug() << "QxtGlobalShortcut: Can bind portal global shortcuts only once per session";
+            qCDebug(qxtCategory) << "Can bind portal global shortcuts only once per session";
             if (m_notifyRestart) {
                 m_notifyRestart = false;
                 QxtGlobalShortcut::notifyRestartNeeded();
@@ -238,7 +246,7 @@ private:
             }
         }
 
-        qDebug() << "QxtGlobalShortcut: Binding portal global shortcuts:" << shortcuts;
+        qCDebug(qxtCategory) << "Binding portal global shortcuts:" << shortcuts;
 
         const QDBusMessage message = m_globalShortcutInterface.call(
             QStringLiteral("BindShortcuts"),
@@ -251,7 +259,7 @@ private:
         );
 
         if (message.type() == QDBusMessage::ErrorMessage) {
-            qWarning() << "QxtGlobalShortcut: Failed to bind portal global shortcuts:"
+            qCWarning(qxtCategory) << "Failed to bind portal global shortcuts:"
                 << message.errorMessage();
         }
 
@@ -287,7 +295,7 @@ private:
         );
 
         if (message.type() == QDBusMessage::ErrorMessage) {
-            qWarning() << "QxtGlobalShortcut: Failed to list portal global shortcuts:"
+            qCWarning(qxtCategory) << "Failed to list portal global shortcuts:"
                 << message.errorMessage();
             return;
         }
@@ -308,7 +316,7 @@ private slots:
     void onListShortcuts(uint responseCode, const QVariantMap& results)
     {
         if (responseCode != 0) {
-            qWarning() << "QxtGlobalShortcut: Failed to list portal global shortcuts:"
+            qCWarning(qxtCategory) << "Failed to list portal global shortcuts:"
                 << responseCode << results;
             return;
         }
@@ -327,7 +335,7 @@ private slots:
         std::sort(m_boundShortcuts.begin(), m_boundShortcuts.end(), [](const auto &a, const auto &b) {
             return a.first < b.first;
         });
-        qDebug() << "QxtGlobalShortcut: Previously registered shortcuts:" << m_boundShortcuts;
+        qCDebug(qxtCategory) << "Previously registered shortcuts:" << m_boundShortcuts;
 
         connect(
             &m_timerBind, &QTimer::timeout,
@@ -348,7 +356,7 @@ private slots:
     void onPortalSessionCreated(uint responseCode, const QVariantMap& results)
     {
         if (responseCode != 0) {
-            qWarning() << "QxtGlobalShortcut: Failed to create portal global shortcuts session:"
+            qCWarning(qxtCategory) << "Failed to create portal global shortcuts session:"
                 << responseCode << results;
             return;
         }
@@ -356,11 +364,11 @@ private slots:
         m_objPathGlobalShortcuts = QDBusObjectPath(
             results.value(QStringLiteral("session_handle")).value<QString>());
         if (m_objPathGlobalShortcuts.path().isEmpty()) {
-            qWarning() << "QxtGlobalShortcut: Failed to get portal global shortcuts session path:" << results;
+            qCWarning(qxtCategory) << "Failed to get portal global shortcuts session path:" << results;
             return;
         }
 
-        qDebug() << "QxtGlobalShortcut: Portal global shortcut session:"
+        qCDebug(qxtCategory) << "Portal global shortcut session:"
             << m_objPathGlobalShortcuts.path();
 
         disconnectPortal();
@@ -377,12 +385,12 @@ private slots:
         const QString shortcutName = shortcutId.section("||", 1, 1);
         for (const auto &shortcut : m_shortcuts) {
             if (shortcut && shortcut->name() == shortcutName) {
-                qDebug() << "QxtGlobalShortcut: Portal global shortcut activated:" << shortcutId;
+                qCDebug(qxtCategory) << "Portal global shortcut activated:" << shortcutId;
                 shortcut->activate();
                 return;
             }
         }
-        qWarning() << "QxtGlobalShortcut: Portal global shortcut failed to activate:" << shortcutName;
+        qCWarning(qxtCategory) << "Portal global shortcut failed to activate:" << shortcutName;
     }
 
 private:

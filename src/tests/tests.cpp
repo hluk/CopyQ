@@ -22,12 +22,12 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QClipboard>
-#include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QLoggingCategory>
 #include <QMap>
 #include <QProcess>
 #include <QRegularExpression>
@@ -37,6 +37,9 @@
 #include <memory>
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(testCategory)
+Q_LOGGING_CATEGORY(testCategory, "copyq.tests")
 
 const QString defaultTestId = QStringLiteral("CORE");
 const QString defaultTestPlugins = QStringLiteral("itemtext,itemnotes");
@@ -50,7 +53,7 @@ public:
     void printPerformance(const char *label, const QStringList &arguments = QStringList()) {
         const auto elapsedMs = m_timer.elapsed();
         if (elapsedMs > 500)
-            qWarning() << "--- PERFORMANCE ---" << elapsedMs << "ms:" << label << arguments;
+            qCWarning(testCategory) << "--- PERFORMANCE ---" << elapsedMs << "ms:" << label << arguments;
         m_timer.start();
     }
 
@@ -76,11 +79,7 @@ public:
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
         const auto loggingRules = qgetenv("COPYQ_TESTS_LOGGING_RULES");
-        if ( loggingRules.isEmpty() ) {
-            m_env.insert(
-                "QT_LOGGING_RULES",
-                "*.debug=true;qt.*.debug=false;qt.*.warning=true");
-        } else {
+        if ( !loggingRules.isEmpty() ) {
             m_env.insert("QT_LOGGING_RULES", loggingRules);
         }
     }
@@ -139,11 +138,11 @@ public:
         perf.printPerformance("stopServer");
 
         if ( m_server->state() != QProcess::NotRunning ) {
-            qWarning() << "terminating server process";
+            qCWarning(testCategory) << "terminating server process";
             m_server->terminate();
 
             if ( !m_server->waitForFinished() ) {
-                qWarning() << "killing server process";
+                qCWarning(testCategory) << "killing server process";
                 terminateProcess(m_server.get());
             }
 
@@ -198,7 +197,7 @@ public:
             }
 
             if ( !t.sleep() ) {
-                qWarning() << "Client process timed out" << arguments;
+                qCWarning(testCategory) << "Client process timed out" << arguments;
                 return -1;
             }
         }

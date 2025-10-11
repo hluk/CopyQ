@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QLoggingCategory>
 #include <QMimeData>
 #include <QRegularExpression>
 #include <QUrl>
@@ -30,6 +31,13 @@ const QLatin1String mimeUnknownFormats(COPYQ_MIME_PREFIX_ITEMSYNC "unknown-forma
 const QLatin1String mimePrivateSyncPrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE);
 const QLatin1String mimeOldBaseName(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "old-basename");
 const QLatin1String mimeHashPrefix(COPYQ_MIME_PREFIX_ITEMSYNC_PRIVATE "hash");
+
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(fileWatcher)
+Q_LOGGING_CATEGORY(fileWatcher, "copyq.plugin.itemsync.filewatcher")
+
+} // namespace
 
 class SyncDataFile {
 public:
@@ -70,7 +78,8 @@ public:
         QDataStream stream(&f);
         QVariantMap dataMap;
         if ( !deserializeData(&stream, &dataMap) ) {
-            qCritical() << "ItemSync: Failed to read file" << m_path << f.errorString();
+            qCCritical(fileWatcher)
+                << "Failed to read file" << m_path << f.errorString();
             return QByteArray();
         }
 
@@ -267,7 +276,8 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
     if ( !existingFiles->removeOne(filePath) || hashChanged ) {
         QFile f(filePath);
         if ( !f.open(QIODevice::WriteOnly) || f.write(bytes) == -1 ) {
-            qCritical() << "ItemSync: Failed to save item file:" << f.errorString();
+            qCCritical(fileWatcher)
+                << "Failed to save item file:" << f.errorString();
             return false;
         }
     }
@@ -449,7 +459,8 @@ bool renameToUnique(
             return true;
     }
 
-    qCritical() << "ItemSync: Failed to find unique base name with prefix:" << baseName;
+    qCCritical(fileWatcher)
+        << "Failed to find unique base name with prefix:" << baseName;
     return false;
 }
 
@@ -569,12 +580,13 @@ bool FileWatcher::lock()
     // Create path if doesn't exist.
     QDir dir(m_path);
     if ( !dir.mkpath(QStringLiteral(".")) ) {
-        qCritical() << tr("Failed to create synchronization directory \"%1\"!").arg(m_path);
+        qCCritical(fileWatcher)
+            << tr("Failed to create synchronization directory \"%1\"!").arg(m_path);
         return false;
     }
 
     if ( !m_lock.lock() ) {
-        qCritical() << "Failed to create lock file in"
+        qCCritical(fileWatcher) << "Failed to create lock file in"
             << m_path << "error code:" << m_lock.error();
         return false;
     }
@@ -694,7 +706,7 @@ void FileWatcher::updateItems()
 
         m_lastBatchIndex = -1;
         if ( t.elapsed() > 100 )
-            qInfo() << "ItemSync: Files listed in" << t.elapsed() << "ms";
+            qCInfo(fileWatcher) << "Files listed in" << t.elapsed() << "ms";
     }
 
     for ( int i = m_lastBatchIndex + 1; i < m_batchIndexData.size(); ++i ) {
@@ -740,7 +752,7 @@ void FileWatcher::updateItems()
     insertItemsFromFiles(dir, m_fileList);
 
     if ( t.elapsed() > 100 )
-        qInfo() << "ItemSync: Items created in" << t.elapsed() << "ms";
+        qCInfo(fileWatcher) << "Items created in" << t.elapsed() << "ms";
 
     m_fileList.clear();
     m_batchIndexData.clear();
