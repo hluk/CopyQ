@@ -656,7 +656,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş metni bu düzenli ifadeyle eşleşmezse komutu atlar (her şeyle eşleşmesi için boş bırakın).
+
+Komut ve Filtre&apos;de %2 ile %9 arası (veya betikteki argüman[1] ve sonrası) yakalanan metinlerle değiştirilecektir.
+
+Örnekler:
+
+- URL ile eşleşir: ^(https?|ftp)://
+- PDF dosya adlarıyla eşleşir: \.pdf$
+- Tek karakterle eşleşir: ^.$
+- Uzak çoklu ortamla eşleşir: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
@@ -1127,12 +1136,12 @@ düzenlemek için F2&apos;ye basın.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran görüntülerinde ve kayıtlarda uygulama pencerelerinin yakalanmasını önle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran görüntülerinden ve kayıtlardan &amp;gizle</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
@@ -3087,7 +3096,7 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
