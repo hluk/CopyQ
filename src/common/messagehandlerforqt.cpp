@@ -71,12 +71,12 @@ void installMessageHandlerForQt()
     case LogNote:
     case LogAlways:
         QLoggingCategory::setFilterRules(
-            "copyq.*.info=true;copyq.*.warning=true;copyq.*.critical=true");
+            "copyq.*.info=true\ncopyq.*.warning=true\ncopyq.*.critical=true");
         break;
 
     case LogWarning:
         QLoggingCategory::setFilterRules(
-            "copyq.*.warning=true;copyq.*.critical=true");
+            "copyq.*.warning=true\ncopyq.*.critical=true");
         break;
 
     case LogError:
