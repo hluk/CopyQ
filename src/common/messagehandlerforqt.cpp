@@ -4,6 +4,7 @@
 
 #include "common/log.h"
 
+#include <QLoggingCategory>
 #include <QString>
 #include <QtGlobal>
 
@@ -61,5 +62,26 @@ void messageHandlerForQt(QtMsgType type, const QMessageLogContext &context, cons
 
 void installMessageHandlerForQt()
 {
+    switch(getLogLevel()) {
+    case LogDebug:
+    case LogTrace:
+        QLoggingCategory::setFilterRules("copyq.*=true");
+        break;
+
+    case LogNote:
+    case LogAlways:
+        QLoggingCategory::setFilterRules(
+            "copyq.*.info=true;copyq.*.warning=true;copyq.*.critical=true");
+        break;
+
+    case LogWarning:
+        QLoggingCategory::setFilterRules(
+            "copyq.*.warning=true;copyq.*.critical=true");
+        break;
+
+    case LogError:
+        QLoggingCategory::setFilterRules("copyq.*.critical=true");
+        break;
+    }
     qInstallMessageHandler(messageHandlerForQt);
 }

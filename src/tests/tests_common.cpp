@@ -109,8 +109,6 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         if ( ignoreLog.contains(log) )
             return ignoreLog[log];
 
-        qDebug() << "Failure in logs:" << log;
-
         const bool ignore = std::any_of(
             std::begin(ignoreList), std::end(ignoreList),
                 [&output](const QRegularExpression &reIgnore){

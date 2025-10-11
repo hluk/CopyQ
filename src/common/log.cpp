@@ -17,28 +17,6 @@ namespace {
 const int logFileSize = 512 * 1024;
 const int logFileCount = 10;
 
-int getLogLevel()
-{
-    const QByteArray logLevelString = qgetenv("COPYQ_LOG_LEVEL").toUpper();
-
-    if ( logLevelString.startsWith("TRAC") )
-        return LogTrace;
-    if ( logLevelString.startsWith("DEBUG") )
-        return LogDebug;
-    if ( logLevelString.startsWith("NOT") )
-        return LogNote;
-    if ( logLevelString.startsWith("WARN") )
-        return LogWarning;
-    if ( logLevelString.startsWith("ERR") )
-        return LogError;
-
-#ifdef COPYQ_DEBUG
-    return LogDebug;
-#else
-    return LogNote;
-#endif
-}
-
 QString envString(const char *varName)
 {
     const QByteArray bytes = qgetenv(varName);
@@ -259,6 +237,28 @@ bool dropLogsToFileCountAndSize(int maxFileCount, int keepMaxSize)
     }
 
     return success;
+}
+
+int getLogLevel()
+{
+    const QByteArray logLevelString = qgetenv("COPYQ_LOG_LEVEL").toUpper();
+
+    if ( logLevelString.startsWith("TRAC") )
+        return LogTrace;
+    if ( logLevelString.startsWith("DEBUG") )
+        return LogDebug;
+    if ( logLevelString.startsWith("NOT") )
+        return LogNote;
+    if ( logLevelString.startsWith("WARN") )
+        return LogWarning;
+    if ( logLevelString.startsWith("ERR") )
+        return LogError;
+
+#ifdef COPYQ_DEBUG
+    return LogDebug;
+#else
+    return LogNote;
+#endif
 }
 
 bool hasLogLevel(LogLevel level)

@@ -3,8 +3,15 @@
 #include "temporaryfile.h"
 
 #include <QDir>
-#include <QDebug>
+#include <QLoggingCategory>
 #include <QTemporaryFile>
+
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(tempFileCategory)
+Q_LOGGING_CATEGORY(tempFileCategory, "copyq.temporaryfile")
+
+} // namespace
 
 bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
 {
@@ -13,13 +20,13 @@ bool openTemporaryFile(QTemporaryFile *file, const QString &suffix)
     file->setFileTemplate(tmpPath);
 
     if ( !file->open() ) {
-        qCritical() << "Failed to open temporary file"
+        qCCritical(tempFileCategory) << "Failed to open temporary file"
             << file->fileName() << "template" << tmpPath << ":" << file->errorString();
         return false;
     }
 
     if ( !file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner) ) {
-        qCritical() << "Failed set permissions to temporary file"
+        qCCritical(tempFileCategory) << "Failed set permissions to temporary file"
             << file->fileName() << ":" << file->errorString();
         return false;
     }

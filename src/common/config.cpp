@@ -6,8 +6,8 @@
 
 #include <QApplication>
 #include <QByteArray>
-#include <QDebug>
 #include <QDir>
+#include <QLoggingCategory>
 #include <QScreen>
 #include <QSettings>
 #include <QString>
@@ -16,9 +16,12 @@
 #include <QWindow>
 
 #define GEOMETRY_LOG(window) \
-    qDebug() << "Geometry: Window \"" << window->objectName() << "\": "
+    qCDebug(geometryCategory) << "Window \"" << window->objectName() << "\": "
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(geometryCategory)
+Q_LOGGING_CATEGORY(geometryCategory, "copyq.geometry")
 
 const char propertyGeometryLockedUntilHide[] = "CopyQ_geometry_locked_until_hide";
 
@@ -156,7 +159,8 @@ bool ensureSettingsDirectoryExists()
 {
     QDir settingsDir( settingsDirectoryPath() );
     if ( !settingsDir.mkpath(QStringLiteral(".")) ) {
-        qCritical() << "Failed to create the directory for settings:"
+        qCCritical(geometryCategory)
+            << "Failed to create the directory for settings:"
             << settingsDir.path();
         return false;
     }

@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QLabel>
+#include <QLoggingCategory>
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QPushButton>
@@ -39,6 +40,9 @@
 #include <memory>
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(plugin)
+Q_LOGGING_CATEGORY(plugin, "copyq.plugin.itemsync")
 
 namespace syncTabsTableColumns {
 enum {
@@ -424,7 +428,7 @@ bool ItemSyncSaver::saveItems(const QString &tabName, const QAbstractItemModel &
     QStringList savedFiles;
 
     if ( !m_watcher->isValid() ) {
-        qCritical() << tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
+        qCCritical(plugin) << tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
              .arg(tabName, path);
         return false;
     }
