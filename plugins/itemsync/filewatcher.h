@@ -5,6 +5,7 @@
 
 #include "common/mimetypes.h"
 
+#include <QDir>
 #include <QLockFile>
 #include <QObject>
 #include <QPersistentModelIndex>
@@ -14,7 +15,6 @@
 #include <QVector>
 
 class QAbstractItemModel;
-class QDir;
 
 struct Ext;
 struct BaseNameExtensions;
@@ -78,7 +78,7 @@ public:
         QObject *parent = nullptr
     );
 
-    const QString &path() const { return m_path; }
+    QString path() const { return m_dir.absolutePath(); }
 
     bool isValid() const { return m_valid; }
 
@@ -136,7 +136,7 @@ private:
     int m_moveEnd = -1;
     int m_interval = 0;
     const QList<FileFormat> &m_formatSettings;
-    QString m_path;
+    QDir m_dir;
     bool m_valid;
     int m_maxItems;
     bool m_updatesEnabled = false;

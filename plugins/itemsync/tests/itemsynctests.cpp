@@ -9,6 +9,7 @@
 
 #include <QDir>
 #include <QFile>
+#include <QUrl>
 
 #include <memory>
 
@@ -198,22 +199,79 @@ void ItemSyncTests::filesToItems()
     const QString tab1 = testTab(1);
     RUN(Args() << "show" << tab1, "");
 
-    const Args args = Args() << "tab" << tab1;
+    const Args args = Args()
+        << "tab" << tab1
+        << "read.apply(this, [...Array(size()).keys()])";
 
-    RUN(args << "size", "0\n");
+    RUN(args, "");
 
-    const QByteArray text1 = "Hello world!";
-    createFile(dir1, "test1.txt", text1);
+    QStringList expectedItems;
 
-    QTest::qSleep(1200);
-
-    const QByteArray text2 = "And hello again!";
+    const QByteArray text1 = "TEST1";
+    TEST(createFile(dir1, "test1.txt", text1));
+    // Hidden files (starting with dot) should be ignored
+    const QByteArray hiddenFile = "HIDDEN";
+    TEST(createFile(dir1, ".hidden.txt", hiddenFile));
+    const QByteArray text2 = "TEST2";
     TEST(createFile(dir1, "test2.txt", text2));
+    // Non-owned files are sorted by name
+    expectedItems = QStringList{text1, text2};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
 
-    WAIT_ON_OUTPUT(args << "size", "2\n");
-    // Older files first.
-    RUN(args << "read" << "0", text1);
-    RUN(args << "read" << "1", text2);
+    const QByteArray nested1_1 = "nested 1 item 1";
+    QVERIFY(QDir(dir1.filePath("nested1")).mkpath("."));
+    TEST(createFile(dir1, "nested1/test1.txt", nested1_1));
+    // More nested items come later
+    expectedItems = QStringList{text1, text2, nested1_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray text3 = "TEST3";
+    TEST(createFile(dir1, "test3.txt", text3));
+    expectedItems = QStringList{text1, text2, text3, nested1_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray text0 = "TEST0";
+    TEST(createFile(dir1, "test0.txt", text0));
+    expectedItems = QStringList{text0, text1, text2, text3, nested1_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray nested2_1 = "nested 2 item 1";
+    QVERIFY(QDir(dir1.filePath("nested2")).mkpath("."));
+    TEST(createFile(dir1, "nested2/test1.txt", nested2_1));
+    expectedItems = QStringList{text0, text1, text2, text3, nested1_1, nested2_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray nested1_0 = "nested 1 item 0";
+    TEST(createFile(dir1, "nested1/test0.txt", nested1_0));
+    expectedItems = QStringList{
+        text0, text1, text2, text3, nested1_0, nested1_1, nested2_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray nested2_0 = "nested 2 item 0";
+    TEST(createFile(dir1, "nested2/test0.txt", nested2_0));
+    expectedItems = QStringList{
+        text0, text1, text2, text3, nested1_0, nested1_1, nested2_0, nested2_1};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    const QByteArray nested1_1_0 = "nested 1 nested 1 item 0";
+    QVERIFY(QDir(dir1.filePath("nested1/nested1")).mkpath("."));
+    TEST(createFile(dir1, "nested1/nested1/test0.txt", nested1_1_0));
+    expectedItems = QStringList{
+        text0, text1, text2, text3, nested1_0, nested1_1, nested2_0, nested2_1, nested1_1_0};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
+
+    SKIP_ON_ENV("COPYQ_TESTS_NO_SYMLINKS");
+    // Ignore symlink to already added directory
+    QFile dirLink(dir1.filePath("nested1"));
+    if (!dirLink.link(dir1.filePath("nested3")))
+        QFAIL("Failed to create directory link: " + dirLink.errorString().toUtf8());
+    // Allow other symlinks
+    QFile fileLink(dir1.filePath("test1.txt"));
+    if (!fileLink.link(dir1.filePath("test4.txt")))
+        QFAIL("Failed to create file link: " + fileLink.errorString().toUtf8());
+    expectedItems = QStringList{
+        text0, text1, text2, text3, text1, nested1_0, nested1_1, nested2_0, nested2_1, nested1_1_0};
+    WAIT_ON_OUTPUT(args, expectedItems.join('\n'));
 }
 
 void ItemSyncTests::removeOwnItems()
@@ -881,4 +939,67 @@ void ItemSyncTests::sortItems()
     RUN(args << sortScript, "0,1,2,3");
     RUN(args << "read(mimeHtml,0,1,2,3)", "O,I,II,III");
     RUN(args << "size", "4\n");
+}
+
+void ItemSyncTests::copyFiles()
+{
+    TestDir dir1(1);
+    TestDir dir2(2);
+    TestDir dir3(3);
+    const QString tab1 = testTab(1);
+    const QString tab2 = testTab(2);
+    const QString tab3 = testTab(3);
+    RUN("setCurrentTab" << tab1, "");
+
+    const QString getFirstItemFormats = R"(
+        Object.keys(getItem(0))
+        .filter(x => !x.startsWith('application/x-copyq-'))
+        .join('\\n')
+    )";
+
+    TEST(createFile(dir1, "test.txt", "TEST"));
+    WAIT_ON_OUTPUT("tab" << tab1 << "size", "1\n");
+    RUN("tab" << tab1 << "read(0)", "TEST");
+    QCOMPARE(dir1.files().join(" "), "test.txt");
+
+    // Copying synced item from another tab, creates a new item with the same
+    // content and file name as original - not overwriting existing files.
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Copy), "");
+    WAIT_FOR_CLIPBOARD("TEST");
+    RUN("setCurrentTab" << tab2, "");
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    RUN("tab" << tab2 << "size", "1\n");
+    RUN("tab" << tab2 << "read(0)", "TEST");
+#ifdef Q_OS_MAC
+    RUN("tab" << tab2 << getFirstItemFormats, "public.utf16-plain-text\ntext/plain\n");
+    QCOMPARE(dir2.files().join(" "), "test.txt test_copyq.dat");
+#else
+    RUN("tab" << tab2 << getFirstItemFormats, "text/plain\n");
+    QCOMPARE(dir2.files().join(" "), "test.txt");
+#endif
+
+    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    RUN("tab" << tab2 << "size", "2\n");
+    RUN("tab" << tab2 << "read(0)", "TEST");
+#ifdef Q_OS_MAC
+    RUN("tab" << tab2 << getFirstItemFormats, "public.utf16-plain-text\ntext/plain\n");
+    QCOMPARE(dir2.files().join(" "), "test-0001.txt test-0001_copyq.dat test.txt test_copyq.dat");
+#else
+    RUN("tab" << tab2 << getFirstItemFormats, "text/plain\n");
+    QCOMPARE(dir2.files().join(" "), "test-0001.txt test.txt");
+#endif
+
+    // Adding a local file URI, creates a new item with the file content and
+    // the same file name as original - not overwriting existing files.
+    const QString fileUri = QUrl::fromLocalFile(dir1.filePath("test.txt")).toString();
+    RUN("setCurrentTab" << tab3, "");
+    RUN("tab" << tab3 << "add({[mimeUriList]: '" + fileUri + "'})", "");
+    RUN("tab" << tab3 << "size", "1\n");
+    RUN("tab" << tab3 << getFirstItemFormats, "text/plain\n");
+    QCOMPARE(dir3.files().join(" "), "test.txt");
+
+    RUN("tab" << tab3 << "add({[mimeUriList]: '" + fileUri + "'})", "");
+    RUN("tab" << tab3 << "size", "2\n");
+    RUN("tab" << tab3 << getFirstItemFormats, "text/plain\n");
+    QCOMPARE(dir3.files().join(" "), "test-0001.txt test.txt");
 }
