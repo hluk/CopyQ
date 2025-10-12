@@ -57,6 +57,8 @@ private slots:
     void sortItemsSimple();
     void sortItems();
 
+    void copyFiles();
+
 private:
     TestInterfacePtr m_test;
 };

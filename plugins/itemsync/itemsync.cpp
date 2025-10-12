@@ -779,8 +779,9 @@ ItemSaverPtr ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemMode
         return nullptr;
     }
 
-    const bool canUseFiles = !files.isEmpty()
-        && QFileInfo(files.first()).dir() == dir;
+    const QString parent = dir.absolutePath() + '/';
+    const bool canUseFiles = std::all_of( std::cbegin(files), std::cend(files),
+        [&](const QString &file) { return file.startsWith(parent); } );
     auto *watcher = new FileWatcher(
         tabPath, canUseFiles ? files : QStringList(),
         model, maxItems, m_formatSettings, m_itemDataThreshold);

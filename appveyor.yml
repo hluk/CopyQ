@@ -39,6 +39,7 @@ environment:
         --no-opengl-sw
         --no-quick
       COPYQ_TESTS_SKIP_DRAG_AND_DROP: "1"
+      COPYQ_TESTS_NO_SYMLINKS: "1"
 
 # Parameters for default build commands (build_script is used instead).
 build: false
