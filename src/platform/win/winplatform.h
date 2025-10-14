@@ -16,12 +16,11 @@ public:
 
     bool canGetWindowTitle() override { return true; }
 
-    /** Setting application autostart is not implemented for Windows (works just from installer). */
-    bool canAutostart() override { return false; }
+    bool canAutostart() override { return true; }
 
-    bool isAutostartEnabled() override { return false; }
+    bool isAutostartEnabled() override;
 
-    void setAutostartEnabled(bool) override {}
+    void setAutostartEnabled(bool enable) override;
 
     bool setPreventScreenCapture(WId winId, bool prevent) override;
     bool canPreventScreenCapture() override { return true; }
