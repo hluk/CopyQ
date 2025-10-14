@@ -20,6 +20,10 @@
 #include <QWidget>
 
 #include <qt_windows.h>
+#include <shlobj.h>
+#include <objbase.h>
+#include <objidl.h>
+#include <shlguid.h>
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -53,6 +57,56 @@ QString portableConfigFolder()
         return {};
 
     return fullPath;
+}
+
+QString getStartupFolderPath()
+{
+    wchar_t path[MAX_PATH];
+    if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_STARTUP, nullptr, 0, path))) {
+        return QString::fromWCharArray(path);
+    }
+    return {};
+}
+
+QString getAutostartShortcutPath()
+{
+    const QString startupFolder = getStartupFolderPath();
+    if (startupFolder.isEmpty())
+        return {};
+
+    return QStringLiteral("%1\\%2.lnk")
+           .arg(startupFolder, QCoreApplication::applicationName());
+}
+
+bool createShortcut(const QString &shortcutPath, const QString &targetPath, const QString &workingDir)
+{
+    HRESULT hres = CoInitialize(nullptr);
+    if (FAILED(hres) && hres != RPC_E_CHANGED_MODE)
+        return false;
+
+    IShellLinkW *pShellLink = nullptr;
+    hres = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER,
+                            IID_IShellLinkW, reinterpret_cast<void**>(&pShellLink));
+
+    bool success = false;
+    if (SUCCEEDED(hres)) {
+        pShellLink->SetPath(reinterpret_cast<const wchar_t*>(targetPath.utf16()));
+
+        // Set working directory to the application directory
+        pShellLink->SetWorkingDirectory(reinterpret_cast<const wchar_t*>(workingDir.utf16()));
+
+        IPersistFile *pPersistFile = nullptr;
+        hres = pShellLink->QueryInterface(IID_IPersistFile, reinterpret_cast<void**>(&pPersistFile));
+        if (SUCCEEDED(hres)) {
+            hres = pPersistFile->Save(reinterpret_cast<const wchar_t*>(shortcutPath.utf16()), TRUE);
+            success = SUCCEEDED(hres);
+            pPersistFile->Release();
+        }
+        pShellLink->Release();
+    }
+
+    CoUninitialize();
+    return success;
 }
 
 void uninstallControlHandler();
@@ -294,4 +348,29 @@ QString WinPlatform::translationPrefix()
 QString WinPlatform::themePrefix()
 {
     return QApplication::applicationDirPath() + "/themes";
+}
+
+bool WinPlatform::isAutostartEnabled()
+{
+    const QString shortcutPath = getAutostartShortcutPath();
+    return !shortcutPath.isEmpty() && QFile::exists(shortcutPath);
+}
+
+void WinPlatform::setAutostartEnabled(bool enable)
+{
+    const QString shortcutPath = getAutostartShortcutPath();
+    if (shortcutPath.isEmpty()) {
+        log("Failed to get autostart shortcut path", LogError);
+        return;
+    }
+
+    if (enable) {
+        const QString exePath = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+        const QString dirPath = QDir::toNativeSeparators(QCoreApplication::applicationDirPath());
+        if (!createShortcut(shortcutPath, exePath, dirPath)) {
+            log(QStringLiteral("Failed to create autostart shortcut at \"%1\"").arg(shortcutPath), LogError);
+        }
+    } else if (QFile::exists(shortcutPath) && !QFile::remove(shortcutPath)) {
+        log(QStringLiteral("Failed to remove autostart shortcut at \"%1\"").arg(shortcutPath), LogError);
+    }
 }
