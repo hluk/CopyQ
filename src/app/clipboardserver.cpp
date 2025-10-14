@@ -35,6 +35,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QPixmapCache>
 #include <QPushButton>
 #include <QSessionManager>
 #include <QStyleFactory>
@@ -683,6 +684,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
     } else if (type == QEvent::ThemeChange) {
         if ( !m_updateThemeTimer.isActive() )
             COPYQ_LOG("Got theme change event");
+        QPixmapCache::clear();
         m_updateThemeTimer.start();
     } else if (m_preventScreenCapture && type == QEvent::Show) {
         auto widget = qobject_cast<QWidget*>(object);
