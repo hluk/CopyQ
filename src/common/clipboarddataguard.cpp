@@ -74,7 +74,7 @@ ClipboardDataGuard::~ClipboardDataGuard()
 
 QStringList ClipboardDataGuard::formats()
 {
-    ElapsedGuard _(QStringLiteral(), QStringLiteral("formats"));
+    ElapsedGuard _(QString(), QStringLiteral("formats"));
     return mimeData()->formats();
 }
 
@@ -92,25 +92,25 @@ QByteArray ClipboardDataGuard::data(const QString &mime)
 
 QList<QUrl> ClipboardDataGuard::urls()
 {
-    ElapsedGuard _(QStringLiteral(), QStringLiteral("urls"));
+    ElapsedGuard _(QString(), QStringLiteral("urls"));
     return mimeData()->urls();
 }
 
 QString ClipboardDataGuard::text()
 {
-    ElapsedGuard _(QStringLiteral(), QStringLiteral("text"));
+    ElapsedGuard _(QString(), QStringLiteral("text"));
     return mimeData()->text();
 }
 
 bool ClipboardDataGuard::hasText()
 {
-    ElapsedGuard _(QStringLiteral(), QStringLiteral("hasText"));
+    ElapsedGuard _(QString(), QStringLiteral("hasText"));
     return mimeData()->hasText();
 }
 
 QImage ClipboardDataGuard::getImageData()
 {
-    ElapsedGuard _(QStringLiteral(), QStringLiteral("imageData"));
+    ElapsedGuard _(QString(), QStringLiteral("imageData"));
 
     // NOTE: Application hangs if using multiple sessions and
     //       calling QMimeData::hasImage() on X11 clipboard.
