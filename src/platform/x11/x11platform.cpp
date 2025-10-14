@@ -12,6 +12,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QRegularExpression>
+#include <QStandardPaths>
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
@@ -68,10 +69,14 @@ int copyq_xio_errhandler(Display *display)
 #ifdef COPYQ_DESKTOP_FILE
 QString getDesktopFilename()
 {
-    const char *path = getenv("XDG_CONFIG_HOME");
-    QString filename = path ? getTextData(path) : QDir::homePath() + "/.config";
-    filename.append("/autostart/" + QCoreApplication::applicationName() + ".desktop");
-    return filename;
+    const QString configDir = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
+    const QString path = QStringLiteral("%1/autostart/%2.desktop")
+        .arg( configDir, QCoreApplication::applicationName() );
+    if ( QFile::exists(path) )
+        return path;
+
+    return QStringLiteral("%1/autostart/%2.desktop")
+        .arg( configDir, QGuiApplication::desktopFileName() );
 }
 #endif
 
