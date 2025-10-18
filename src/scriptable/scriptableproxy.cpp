@@ -2177,12 +2177,16 @@ QString ScriptableProxy::testSelected()
     result.reserve( selectedIndexes.size() + 1 );
 
     const QModelIndex currentIndex = browser->currentIndex();
-    result.append(currentIndex.isValid() ? QString::number(currentIndex.row()) : "_");
+    result.append(
+        currentIndex.isValid() && !browser->isIndexHidden(currentIndex)
+        ? QString::number(currentIndex.row()) : "_");
 
     QList<int> selectedRows;
     selectedRows.reserve( selectedIndexes.size() );
-    for (const auto &index : selectedIndexes)
-        selectedRows.append(index.row());
+    for (const auto &index : selectedIndexes) {
+        if ( !browser->isIndexHidden(index) )
+            selectedRows.append(index.row());
+    }
     std::sort( selectedRows.begin(), selectedRows.end() );
 
     for (int row : selectedRows)

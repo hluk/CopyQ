@@ -12,6 +12,7 @@
 
 class ClipboardBrowser;
 class MainWindow;
+class QProgressBar;
 class QPushButton;
 
 class ClipboardBrowserPlaceholder final : public QWidget
@@ -74,8 +75,11 @@ private:
 
     bool isEditorOpen() const;
 
+    void onFilterProgressChanged(int percent);
+
     ClipboardBrowser *m_browser = nullptr;
     QPushButton *m_loadButton = nullptr;
+    QProgressBar *m_filterProgressBar = nullptr;
 
     QString m_tabName;
     int m_maxItemCount = 200;

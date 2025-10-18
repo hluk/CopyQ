@@ -13,6 +13,7 @@
 
 #include <QDataStream>
 #include <QIODevice>
+#include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -27,6 +28,7 @@ ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
 {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     initSingleShotTimer( &m_timerExpire, 0, this, &ClipboardBrowserPlaceholder::expire );
 }
@@ -53,6 +55,8 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
              this, &ClipboardBrowserPlaceholder::restartExpiring);
     connect( c.get(), &ClipboardBrowser::itemsChanged,
              this, &ClipboardBrowserPlaceholder::restartExpiring);
+    connect( c.get(), &ClipboardBrowser::filterProgressChanged,
+             this, &ClipboardBrowserPlaceholder::onFilterProgressChanged);
 
     m_browser = c.release();
 
@@ -219,6 +223,9 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     m_browser->deleteLater();
     m_browser = nullptr;
 
+    if (m_filterProgressBar)
+        m_filterProgressBar->hide();
+
     emit browserDestroyed();
 }
 
@@ -242,4 +249,24 @@ bool ClipboardBrowserPlaceholder::isEditorOpen() const
     return m_browser && (
                 m_browser->isInternalEditorOpen()
                 || m_browser->isExternalEditorOpen() );
+}
+
+void ClipboardBrowserPlaceholder::onFilterProgressChanged(int percent)
+{
+    if (percent >= 100) {
+        if (m_filterProgressBar)
+            m_filterProgressBar->hide();
+        return;
+    }
+
+    if (m_filterProgressBar == nullptr) {
+        m_filterProgressBar = new QProgressBar(this);
+        m_filterProgressBar->setObjectName("ClipboardBrowserFilterProgressBar");
+        m_filterProgressBar->setContentsMargins({});
+        m_filterProgressBar->setTextVisible(false);
+        layout()->addWidget(m_filterProgressBar);
+    }
+
+    m_filterProgressBar->setValue(percent);
+    m_filterProgressBar->show();
 }

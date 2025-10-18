@@ -25,7 +25,6 @@
 #include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMimeData>
-#include <QProgressBar>
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
@@ -1263,6 +1262,7 @@ void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
         for ( int row = 0; row < length(); ++row )
             setRowHidden(row, false);
         scrollTo(currentIndex(), PositionAtCenter);
+        emit filterProgressChanged(100);
     }
 
     d.updateAllRows();
@@ -1286,7 +1286,8 @@ void ClipboardBrowser::filterBatch(int filterId, const QPersistentModelIndex &la
     const QModelIndex current = currentIndex();
     bool noCurrent = !current.isValid() || isRowHidden(current.row());
     const int filterID = ++m_lastFilterId;
-    for ( int row = lastIndex.row(); row < length(); ++row ) {
+    int row = lastIndex.row();
+    for ( ; row < length(); ++row ) {
         const bool shown = !isRowHidden(row) || !hideFiltered(row);
         if (shown && noCurrent) {
             noCurrent = false;
@@ -1297,9 +1298,12 @@ void ClipboardBrowser::filterBatch(int filterId, const QPersistentModelIndex &la
             QTimer::singleShot(0, this, [this, filterID, nextIndex]() {
                 filterBatch(filterID, nextIndex);
             });
-            return;
+            break;
         }
     }
+
+    const int percentCompleted = (row * 100) / length();
+    emit filterProgressChanged(percentCompleted);
 }
 
 int ClipboardBrowser::currentRowFromSearch(const QString &search)
@@ -1313,7 +1317,7 @@ int ClipboardBrowser::currentRowFromSearch(const QString &search)
     if (!ok)
         return -1;
 
-    if (maybeRow > 0 && m_sharedData->rowIndexFromOne)
+    if (m_sharedData->rowIndexFromOne)
         --maybeRow;
 
     if (maybeRow < 0 || maybeRow >= m.rowCount())
