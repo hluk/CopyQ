@@ -829,10 +829,9 @@ public:
             static const auto mousePress = QStringLiteral("PRESS");
             static const auto mouseRelease = QStringLiteral("RELEASE");
             static const auto mouseClick = QStringLiteral("CLICK");
-            static const auto mouseMove = QStringLiteral("MOVE");
             static const auto mouseDrag = QStringLiteral("DRAG");
             static const QStringList validActions = {
-                mousePress, mouseRelease, mouseClick, mouseMove, mouseDrag};
+                mousePress, mouseRelease, mouseClick, mouseDrag};
             if ( !validActions.contains(action) ) {
                 log( QStringLiteral("Failed to match mouse action: %1").arg(keys), LogError );
                 log( QStringLiteral("Valid mouse actions are: %1")
