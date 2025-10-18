@@ -167,16 +167,35 @@ void Tests::searchRowNumber()
 {
     RUN("add" << "d2" << "c" << "b2" << "a", "");
 
-    RUN("keys" << ":2" << "TAB", "");
+    RUN("keys" << ":2", "");
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
     RUN("keys" << "CTRL+A", "");
     RUN("testSelected", QString(clipboardTabName) + " 1 1 3\n");
 
+    RUN("keys" << ":0", "");
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " _\n");
+
     RUN("config" << "row_index_from_one" << "false", "false\n");
-    RUN("keys" << ":2" << "TAB", "");
+    RUN("keys" << ":2", "");
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
     RUN("testSelected", QString(clipboardTabName) + " 2 2\n");
     RUN("keys" << "CTRL+A", "");
     RUN("testSelected", QString(clipboardTabName) + " 2 1 2 3\n");
+
+    RUN("keys" << ":0", "");
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " 0 0\n");
+
+    RUN("keys" << ":5", "");
+    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " _\n");
+
+    RUN("filter" << "-1", "");
+    RUN("filter", "-1\n");
+    RUN("keys" << clipboardBrowserId << "CTRL+A", "");
+    RUN("testSelected", QString(clipboardTabName) + " _\n");
 }
 
 void Tests::searchAccented()
