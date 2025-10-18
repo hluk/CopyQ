@@ -251,6 +251,8 @@ class ClipboardBrowser final : public QListView
 
         void itemWidgetCreated(const PersistentDisplayItem &selection);
 
+        void filterProgressChanged(int percent);
+
     protected:
         void keyPressEvent(QKeyEvent *event) override;
         void contextMenuEvent(QContextMenuEvent *) override;
@@ -372,7 +374,9 @@ class ClipboardBrowser final : public QListView
 
         void dragDropScroll();
 
-        int currentRowFromSearch(const QString &search, int fallback);
+        int currentRowFromSearch(const QString &search);
+
+        void filterBatch(int filterId, const QPersistentModelIndex &lastIndex);
 
         ItemSaverPtr m_itemSaver;
 
@@ -401,4 +405,6 @@ class ClipboardBrowser final : public QListView
         QPoint m_dragStartPosition;
 
         bool m_selectNewItems = false;
+
+        int m_lastFilterId = 0;
 };
