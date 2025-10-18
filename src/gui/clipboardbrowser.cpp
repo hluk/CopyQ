@@ -1247,40 +1247,77 @@ void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
 
     d.setItemFilter(filter);
 
-    int row = 0;
-    for ( ; row < length() && hideFiltered(row); ++row ) {}
+    if ( filter && !filter->matchesAll() ) {
+        // Hide all rows first, then start filtering rows in batches
+        // while processing events regularly to keep UI responsive.
+        for ( int row = 0; row < length(); ++row )
+            setRowHidden(row, true);
 
-    const int firstVisibleRow = row;
+        const int currentRow = currentRowFromSearch(newSearch);
+        if (currentRow != -1)
+            setCurrent(currentRow);
 
-    for ( ; row < length(); ++row )
-        hideFiltered(row);
-
-    if ( !filter || filter->matchesAll() ) {
-        scrollTo(currentIndex(), PositionAtCenter);
+        filterBatch(++m_lastFilterId, index(0));
     } else {
-        const int currentRow = currentRowFromSearch(newSearch, firstVisibleRow);
-        setCurrent(currentRow);
+        // Show all items if filter is cleared or invalid.
+        for ( int row = 0; row < length(); ++row )
+            setRowHidden(row, false);
+        scrollTo(currentIndex(), PositionAtCenter);
     }
 
     d.updateAllRows();
 }
 
-int ClipboardBrowser::currentRowFromSearch(const QString &search, int fallback)
+void ClipboardBrowser::filterBatch(int filterId, const QPersistentModelIndex &lastIndex)
+{
+    if (filterId != m_lastFilterId)
+        return;
+
+    if ( !lastIndex.isValid() ) {
+        const QModelIndex first = index(0);
+        if (first.isValid())
+            filterBatch(filterId, first);
+        return;
+    }
+
+    QElapsedTimer timer;
+    timer.start();
+
+    const QModelIndex current = currentIndex();
+    bool noCurrent = !current.isValid() || isRowHidden(current.row());
+    const int filterID = ++m_lastFilterId;
+    for ( int row = lastIndex.row(); row < length(); ++row ) {
+        const bool shown = !isRowHidden(row) || !hideFiltered(row);
+        if (shown && noCurrent) {
+            noCurrent = false;
+            setCurrent(row);
+        }
+        if (timer.elapsed() > 20) {
+            const QPersistentModelIndex nextIndex = index(row + 1);
+            QTimer::singleShot(0, this, [this, filterID, nextIndex]() {
+                filterBatch(filterID, nextIndex);
+            });
+            return;
+        }
+    }
+}
+
+int ClipboardBrowser::currentRowFromSearch(const QString &search)
 {
     if (m_sharedData->numberSearch)
-        return fallback;
+        return -1;
 
     // If search string is a number, highlight item in that row.
     bool ok;
     int maybeRow = search.toInt(&ok);
     if (!ok)
-        return fallback;
+        return -1;
 
     if (maybeRow > 0 && m_sharedData->rowIndexFromOne)
         --maybeRow;
 
     if (maybeRow < 0 || maybeRow >= m.rowCount())
-        return fallback;
+        return -1;
 
     setRowHidden(maybeRow, false);
     return maybeRow;
