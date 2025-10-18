@@ -251,6 +251,8 @@ class ClipboardBrowser final : public QListView
 
         void itemWidgetCreated(const PersistentDisplayItem &selection);
 
+        void filterProgressChanged(int percent);
+
     protected:
         void keyPressEvent(QKeyEvent *event) override;
         void contextMenuEvent(QContextMenuEvent *) override;
