@@ -226,10 +226,17 @@ void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize
     );
 
     const QSize newSize = QSize(width, height);
-    if (m_items[row].size == newSize)
+    const QSize oldSize = m_items[row].size;
+    if (oldSize == newSize)
         return;
 
-    m_items[row].size = newSize;
+    // Avoid small height changes to make the item positions more stable
+    const int deltaH = oldSize.height() - newSize.height();
+    if (oldSize.isValid() && ((std::abs(deltaH) < 5) || (0 < deltaH && deltaH < 16))) {
+        m_items[row].size = QSize(newSize.width(), oldSize.height());
+    } else {
+        m_items[row].size = newSize;
+    }
     emit sizeHintChanged(index);
 }
 
