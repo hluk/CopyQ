@@ -197,6 +197,7 @@ void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
     const int margin = 2 * margins.width() + 2 * m_view->spacing();
     m_maxWidth = maxWidth - margin;
     m_idealWidth = idealWidth - margin;
+    m_fontHeight = m_view->viewport()->fontMetrics().height();
 
     for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
         if (m_items[row])
@@ -225,18 +226,18 @@ void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize
         rowNumberSize.height()
     );
 
-    const QSize newSize = QSize(width, height);
+    QSize newSize = QSize(width, height);
     const QSize oldSize = m_items[row].size;
     if (oldSize == newSize)
         return;
 
     // Avoid small height changes to make the item positions more stable
-    const int deltaH = oldSize.height() - newSize.height();
-    if (oldSize.isValid() && ((std::abs(deltaH) < 5) || (0 < deltaH && deltaH < 16))) {
-        m_items[row].size = QSize(newSize.width(), oldSize.height());
-    } else {
-        m_items[row].size = newSize;
+    if (oldSize.isValid()) {
+        const int deltaH = newSize.height() - oldSize.height();
+        if ((std::abs(deltaH) < m_fontHeight) || (0 < deltaH && deltaH < m_fontHeight))
+            newSize.setHeight(oldSize.height());
     }
+    m_items[row].size = newSize;
     emit sizeHintChanged(index);
 }
 

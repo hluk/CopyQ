@@ -151,6 +151,7 @@ class ItemDelegate final : public QItemDelegate
         int m_filterId = 0;
         int m_maxWidth;
         int m_idealWidth;
+        int m_fontHeight;
 
         QTimer m_timerInvalidateHidden;
 
