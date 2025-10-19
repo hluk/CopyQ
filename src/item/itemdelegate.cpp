@@ -234,7 +234,7 @@ void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize
     // Avoid small height changes to make the item positions more stable
     if (oldSize.isValid()) {
         const int deltaH = newSize.height() - oldSize.height();
-        if ((std::abs(deltaH) < m_fontHeight) || (0 < deltaH && deltaH < m_fontHeight))
+        if ((-m_fontHeight < deltaH && deltaH < 0) || (0 < deltaH && deltaH < m_fontHeight / 3))
             newSize.setHeight(oldSize.height());
     }
     m_items[row].size = newSize;
