@@ -344,39 +344,23 @@ Replace All Occurrences in Selected Text
 .. code-block:: ini
 
     [Command]
-    Name=Replace in Selection
     Command="
         copyq:
-        // Copy without changing Linux mouse selection (on Windows you can use "copy" instead).
-        function copy2() {
-          try {
-            var x = config('copy_clipboard')
-            config('copy_clipboard', false)
-            try {
-              copy.apply(this, arguments)
-            } finally {
-              config('copy_clipboard', x)
-            }
-          } catch(e) {
-            copy.apply(this, arguments)
-          }
-        }
-
-        copy2()
-        var text = str(clipboard())
-
+        copy();
+        const text = str(clipboard());
         if (text) {
-          var r1 = 'Text'
-          var r2 = 'Replace with'
-          var reply = dialog(r1, '', r2, '')
-
+          const r1 = 'Text';
+          const r2 = 'Replace with';
+          const reply = dialog(r1, '', r2, '');
           if (reply) {
-            copy2(text.replace(new RegExp(reply[r1], 'g'), reply[r2]))
-            paste()
+            copy(text.replace(new RegExp(reply[r1], 'g'), reply[r2]));
+            paste();
           }
         }"
-    Icon=\xf040
-    GlobalShortcut=Meta+Alt+R
+    GlobalShortcut=meta+alt+r
+    Icon=
+    IsGlobalShortcut=true
+    Name=Replace in Selection
 
 Copy Nth Item
 ~~~~~~~~~~~~~
