@@ -7,7 +7,7 @@
 
 ## Changed
 
-- Tabs synchronized with a directory on dist will now include files from
+- Tabs synchronized with a directory on the disk will now include files from
   sub-directories (#2638).
 
 - Filtering/searching items in large tabs no longer blocks UI (#3111, #3261).
