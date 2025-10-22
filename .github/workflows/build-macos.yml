@@ -1,9 +1,11 @@
 ---
 name: macOS
 
-# yamllint disable-line rule:truthy
 on:
-  - push
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
