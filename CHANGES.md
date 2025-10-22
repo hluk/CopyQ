@@ -1,3 +1,26 @@
+# 13.0.0
+
+## Added
+
+- Windows: Preferences now include auto-start option, previously available only
+  in the installer.
+
+## Changed
+
+- Tabs synchronized with a directory on dist will now include files from
+  sub-directories (#2638).
+
+- Filtering/searching items in large tabs no longer blocks UI (#3111, #3261).
+
+## Fixed
+
+- Fixes saving edited HTML and setting style in internal editor (#3227).
+
+- Fixes updating selected item colors (#3219).
+
+- Wayland: Fixes clipboard access in KDE Plasma 6.5 (#3228). This requires
+  KGuiAddons library installed on the system.
+
 # 12.0.1
 
 ## Fixed
