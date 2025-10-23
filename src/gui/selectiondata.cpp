@@ -19,7 +19,6 @@ void addSelectionData(
     selected.reserve(selectedIndexes.size());
     for (const auto &index : selectedIndexes)
         selected.append(index);
-    std::sort(selected.begin(), selected.end());
     addSelectionData(result, selected);
 }
 
