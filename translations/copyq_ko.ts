@@ -1081,12 +1081,12 @@ F2 키를 눌러 편집합니다.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린샷 및 녹화에서 앱 창 캡처 방지</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린샷 및 녹화에서 숨기기(&amp;H)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
@@ -2679,7 +2679,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="51"/>
@@ -3618,7 +3618,7 @@ Default is the first tab.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>탭 이름은 비워 둘 수 없으며 고유해야 합니다.&lt;br /&gt;
-탭 &lt;b&gt;노트&lt;/b&gt;는 &lt;b&gt;Alt+T&lt;/b&gt;를 사용하여 열 수 있습니다(&amp;amp;T).&lt;br/&gt;
+&lt;b&gt;노트&lt;/b&gt; 탭은 &lt;b&gt;Alt+T&lt;/b&gt;를 사용하여 열 수 있습니다(&amp;amp;T).&lt;br/&gt;
 트리 보기 탭 레이아웃에서 경로 구분 기호로 &lt;b&gt;/&lt;/b&gt;를 사용합니다.</translation>
     </message>
     <message>
