@@ -766,11 +766,14 @@ void Tests::commandSelectItems()
     RUN("selectItems" << "0" << "2", "true\n");
     RUN("testSelected", QString(clipboardTabName) + " 2 0 2\n");
 
+    RUN("selectItems" << "2" << "0", "true\n");
+    RUN("testSelected", QString(clipboardTabName) + " 0 2 0\n");
+
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
     RUN(args << "add" << "C" << "B" << "A", "");
     RUN(args << "selectItems" << "1" << "2", "true\n");
-    RUN("testSelected", QString(clipboardTabName) + " 2 0 2\n");
+    RUN("testSelected", QString(clipboardTabName) + " 0 2 0\n");
     RUN("setCurrentTab" << tab, "");
     RUN("testSelected", tab + " 2 1 2\n");
 }

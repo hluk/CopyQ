@@ -84,7 +84,7 @@ void Tests::selectItems()
     RUN("testSelected", tab + " 2 2\n");
 
     RUN("keys" << "SHIFT+UP", "");
-    RUN("testSelected", tab + " 1 1 2\n");
+    RUN("testSelected", tab + " 1 2 1\n");
 
     RUN("keys" << "CTRL+A", "");
     RUN("testSelected", tab + " 1 0 1 2\n");
@@ -266,7 +266,7 @@ void Tests::selectAndCopyOrder()
     RUN("setCurrentTab" << tab, "");
 
     RUN("keys" << "END" << "SHIFT+UP" << "SHIFT+UP" << "SHIFT+UP", "");
-    RUN(args << "testSelected", tab + " 0 0 1 2 3\n");
+    RUN(args << "testSelected", tab + " 0 3 2 1 0\n");
 
     RUN("keys" << keyNameFor(QKeySequence::Copy), "");
     WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");

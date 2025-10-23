@@ -2187,7 +2187,6 @@ QString ScriptableProxy::testSelected()
         if ( !browser->isIndexHidden(index) )
             selectedRows.append(index.row());
     }
-    std::sort( selectedRows.begin(), selectedRows.end() );
 
     for (int row : selectedRows)
         result.append(QString::number(row));

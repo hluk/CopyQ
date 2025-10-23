@@ -345,7 +345,7 @@ void Tests::classItemSelectionGetCurrent()
     RUN("keys" << "CTRL+F1", "");
     WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[0])");
     RUN("keys" << "END" << "SHIFT+UP" << "CTRL+F1", "");
-    WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[2,3])");
+    WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[3,2])");
 }
 
 void Tests::classItemSelectionByteArray()
