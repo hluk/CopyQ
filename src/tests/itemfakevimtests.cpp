@@ -16,6 +16,12 @@ ItemFakeVimTests::ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itemfakevim"));
+    const QVariantMap settings{
+        {QStringLiteral("really_enable"), true},
+        {QStringLiteral("source_file"), QString(ItemFakeVimTests::fileNameToSource())},
+    };
+    setProperty("CopyQ_test_settings", settings);
 }
 
 QString ItemFakeVimTests::fileNameToSource()
@@ -54,14 +60,14 @@ void ItemFakeVimTests::createItem()
     RUN(args << "size", "0\n");
 
     RUN(args << "edit", "");
-    RUN(args << "keys" << ":iABC" << "ENTER" << ":DEF"
-        << "ESC" << "::wq" << "ENTER", "");
+    KEYS(":iABC" << "ENTER" << ":DEF"
+        << "ESC" << "::wq" << "ENTER");
 
     RUN(args << "read" << "0", "ABC\nDEF");
 
-    RUN(args << "keys" << "F2" << ":GccXYZ" << "ESC" << "::w" << "ENTER", "");
+    KEYS("F2" << ":GccXYZ" << "ESC" << "::w" << "ENTER");
     RUN(args << "read" << "0", "ABC\nXYZ");
-    RUN(args << "keys" << ":p:wq" << "ENTER", "");
+    KEYS(":p:wq" << "ENTER");
     RUN(args << "read" << "0", "ABC\nXYZ\nDEF");
 }
 
@@ -71,13 +77,11 @@ void ItemFakeVimTests::blockSelection()
     const Args args = Args() << "tab" << tab1;
 
     RUN(args << "edit", "");
-    RUN(args << "keys"
-        << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
+    KEYS(":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER");
     RUN(args << "read" << "0", "ABC\nDEF\nGHI");
 
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys"
-        << ":ggl" << FAKEVIM_CTRL "+V" << ":jjs_" << "ESC" << "::wq" << "ENTER", "");
+    KEYS(":ggl" << FAKEVIM_CTRL "+V" << ":jjs_" << "ESC" << "::wq" << "ENTER");
     RUN(args << "read" << "0", "A_C\nD_F\nG_I");
 }
 
@@ -87,13 +91,11 @@ void ItemFakeVimTests::search()
     const Args args = Args() << "tab" << tab1;
 
     RUN(args << "edit", "");
-    RUN(args << "keys"
-        << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
+    KEYS(":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER");
     RUN(args << "read" << "0", "ABC\nDEF\nGHI");
 
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys"
-        << ":gg/[EH]" << "ENTER" << ":r_nr_" << "F2", "");
+    KEYS(":gg/[EH]" << "ENTER" << ":r_nr_" << "F2");
     RUN(args << "read" << "0", "ABC\nD_F\nG_I");
 }
 
@@ -104,31 +106,31 @@ void ItemFakeVimTests::incDecNumbers()
 
     RUN(args << "add" << " 0", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << FAKEVIM_CTRL "+a" << "F2", "");
+    KEYS(FAKEVIM_CTRL "+a" << "F2");
     RUN(args << "read" << "0", " 1");
 
     RUN(args << "add" << " -1", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << FAKEVIM_CTRL "+a" << "F2", "");
+    KEYS(FAKEVIM_CTRL "+a" << "F2");
     RUN(args << "read" << "0", " 0");
 
     RUN(args << "add" << " 0xff", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << FAKEVIM_CTRL "+a" << "F2", "");
+    KEYS(FAKEVIM_CTRL "+a" << "F2");
     RUN(args << "read" << "0", " 0x100");
 
     RUN(args << "add" << "9 9 9", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << "l" << FAKEVIM_CTRL "+a" << "l" << FAKEVIM_CTRL "+a" << "F2", "");
+    KEYS("l" << FAKEVIM_CTRL "+a" << "l" << FAKEVIM_CTRL "+a" << "F2");
     RUN(args << "read" << "0", "9 10 10");
 
     RUN(args << "add" << "-1 -1 -1", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << ":ll" << "2" << FAKEVIM_CTRL "+a" << "l" << "3" << FAKEVIM_CTRL "+a" << "F2", "");
+    KEYS(":ll" << "2" << FAKEVIM_CTRL "+a" << "l" << "3" << FAKEVIM_CTRL "+a" << "F2");
     RUN(args << "read" << "0", "-1 1 2");
 
     RUN(args << "add" << "1 1 1", "");
     RUN(args << "edit" << "0", "");
-    RUN(args << "keys" << "l" << "2" << FAKEVIM_CTRL "+x" << "l" << "3" << FAKEVIM_CTRL "+x" << "F2", "");
+    KEYS("l" << "2" << FAKEVIM_CTRL "+x" << "l" << "3" << FAKEVIM_CTRL "+x" << "F2");
     RUN(args << "read" << "0", "1 -1 -2");
 }

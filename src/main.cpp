@@ -20,10 +20,6 @@
 #include <QProcess>
 #include <QSettings>
 
-#ifdef HAS_TESTS
-#  include "tests/tests.h"
-#endif // HAS_TESTS
-
 #include <exception>
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -37,7 +33,6 @@ enum class AppType {
     Help,
     Info,
     Logs,
-    Tests,
     Server,
     StartServerInBackground,
     Client
@@ -186,14 +181,6 @@ bool needsStartServer(const QString &arg)
     return arg == QLatin1String("--start-server");
 }
 
-#ifdef HAS_TESTS
-bool needsTests(const QString &arg)
-{
-    return arg == QLatin1String("--tests") ||
-           arg == QLatin1String("tests");
-}
-#endif
-
 QString takeSessionName(QStringList &arguments)
 {
     if (arguments.size() > 0) {
@@ -222,11 +209,6 @@ AppArguments parseArguments(int argc, char **argv)
 {
     QStringList arguments =
         platformNativeInterface()->getCommandLineArguments(argc, argv);
-
-#ifdef HAS_TESTS
-    if ( !arguments.isEmpty() && needsTests(arguments[0]) )
-        return {AppType::Tests, QString(""), {}};
-#endif
 
     const QString sessionName = takeSessionName(arguments);
 
@@ -359,11 +341,6 @@ int startApplication(int argc, char **argv)
 
     case AppType::Logs:
         return evaluate( QStringLiteral("logs"), args.arguments, argc, argv, args.sessionName );
-
-#ifdef HAS_TESTS
-    case AppType::Tests:
-        return runTests(argc - 1, argv + 1);
-#endif
     }
     return -1;
 }

@@ -15,10 +15,6 @@
 #include "gui/fromiconid.h"
 #include "item/serialize.h"
 
-#ifdef HAS_TESTS
-#   include "tests/itemencryptedtests.h"
-#endif
-
 #include <QAbstractItemModel>
 #include <QDebug>
 #include <QDir>
@@ -406,7 +402,7 @@ bool ItemEncryptedScriptable::isEncrypted()
         bool ok;
         const int row = arg.toInt(&ok);
         if (ok) {
-            const auto result = call("read", QVariantList() << "?" << row);
+            const auto result = call("read", {QStringLiteral("?"), row});
             if ( result.toByteArray().contains(mimeEncryptedData.data()) )
                 return true;
         }
@@ -432,43 +428,43 @@ QByteArray ItemEncryptedScriptable::decrypt()
 void ItemEncryptedScriptable::encryptItem()
 {
     QVariantMap dataMap;
-    const auto formats = call("dataFormats").toList();
+    const auto formats = call("dataFormats", {}).toList();
     for (const auto &formatValue : formats) {
         const auto format = formatValue.toString();
         if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
-            const auto data = call("data", QVariantList() << format).toByteArray();
+            const auto data = call("data", {format}).toByteArray();
             dataMap.insert(format, data);
         }
     }
 
-    const auto bytes = call("pack", QVariantList() << dataMap).toByteArray();
+    const auto bytes = call("pack", {dataMap}).toByteArray();
     const auto encryptedBytes = encrypt(bytes);
     if (encryptedBytes.isEmpty())
         return;
 
-    call("setData", QVariantList() << mimeEncryptedData << encryptedBytes);
+    call("setData", {mimeEncryptedData, encryptedBytes});
 
     for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it)
-        call("removeData", QVariantList() << it.key());
+        call("removeData", {it.key()});
 }
 
 void ItemEncryptedScriptable::decryptItem()
 {
-    const auto encryptedBytes = call("data", QVariantList() << mimeEncryptedData).toByteArray();
+    const auto encryptedBytes = call("data", {mimeEncryptedData}).toByteArray();
     const auto itemData = decrypt(encryptedBytes);
     if (itemData.isEmpty())
         return;
 
-    const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
+    const auto dataMap = call("unpack", {itemData}).toMap();
     for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
         const auto &format = it.key();
-        call("setData", QVariantList() << format << dataMap[format]);
+        call("setData", {format, dataMap[format]});
     }
 }
 
 void ItemEncryptedScriptable::encryptItems()
 {
-    const auto dataValueList = call("selectedItemsData").toList();
+    const auto dataValueList = call("selectedItemsData", {}).toList();
 
     QVariantList dataList;
     for (const auto &itemDataValue : dataValueList) {
@@ -483,7 +479,7 @@ void ItemEncryptedScriptable::encryptItems()
             }
         }
 
-        const auto bytes = call("pack", QVariantList() << itemDataToEncrypt).toByteArray();
+        const auto bytes = call("pack", {itemDataToEncrypt}).toByteArray();
         const auto encryptedBytes = encrypt(bytes);
         if (encryptedBytes.isEmpty())
             return;
@@ -492,12 +488,12 @@ void ItemEncryptedScriptable::encryptItems()
         dataList.append(itemData);
     }
 
-    call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+    call( "setSelectedItemsData", {QVariant(dataList)} );
 }
 
 void ItemEncryptedScriptable::decryptItems()
 {
-    const auto dataValueList = call("selectedItemsData").toList();
+    const auto dataValueList = call("selectedItemsData", {}).toList();
 
     QVariantList dataList;
     for (const auto &itemDataValue : dataValueList) {
@@ -511,7 +507,7 @@ void ItemEncryptedScriptable::decryptItems()
             if (decryptedBytes.isEmpty())
                 return;
 
-            const auto decryptedItemData = call("unpack", QVariantList() << decryptedBytes).toMap();
+            const auto decryptedItemData = call("unpack", {decryptedBytes}).toMap();
             for (auto it = decryptedItemData.constBegin(); it != decryptedItemData.constEnd(); ++it)
                 itemData.insert(it.key(), it.value());
         }
@@ -519,12 +515,12 @@ void ItemEncryptedScriptable::decryptItems()
         dataList.append(itemData);
     }
 
-    call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+    call( "setSelectedItemsData", {QVariant(dataList)} );
 }
 
 void ItemEncryptedScriptable::copyEncryptedItems()
 {
-    const auto dataValueList = call("selectedItemsData").toList();
+    const auto dataValueList = call("selectedItemsData", {}).toList();
     QString text;
     for (const auto &dataValue : dataValueList) {
         if ( !text.isEmpty() )
@@ -540,15 +536,13 @@ void ItemEncryptedScriptable::copyEncryptedItems()
                 const auto itemData = decrypt(encryptedBytes);
                 if (itemData.isEmpty())
                     return;
-                const auto dataMap = call("unpack", QVariantList() << itemData).toMap();
+                const auto dataMap = call("unpack", {itemData}).toMap();
                 text.append( getTextData(dataMap) );
             }
         }
     }
 
-    const auto args = QVariantList()
-            << mimeText << text
-            << mimeHidden << "1";
+    const QVariantList args{mimeText, text, mimeHidden, "1"};
     call("copy", args);
     call("copySelection", args);
 }
@@ -567,7 +561,7 @@ void ItemEncryptedScriptable::pasteEncryptedItems()
         copy('');
         copySelection('');
         )";
-    call("eval", QVariantList() << script);
+    call("eval", {script});
 }
 
 QString ItemEncryptedScriptable::generateTestKeys()
@@ -827,17 +821,6 @@ ItemSaverPtr ItemEncryptedLoader::initializeTab(const QString &, QAbstractItemMo
         return nullptr;
 
     return createSaver();
-}
-
-QObject *ItemEncryptedLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QObject *tests = new ItemEncryptedTests(test);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 ItemScriptable *ItemEncryptedLoader::scriptableObject()

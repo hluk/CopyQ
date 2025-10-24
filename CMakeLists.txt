@@ -18,7 +18,6 @@ endif()
 OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 
 # Options (cmake -LH)
-OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
@@ -128,15 +127,6 @@ if (PEDANTIC)
         -Wno-padded
         -Wno-switch-enum
         )
-endif()
-
-if(WITH_TESTS)
-    message(STATUS "Building with tests.")
-
-    add_definitions( -DHAS_TESTS )
-
-    find_package(${copyq_qt}Test REQUIRED)
-    list(APPEND copyq_LIBRARIES ${copyq_qt}::Test)
 endif()
 
 include(src/version.cmake)

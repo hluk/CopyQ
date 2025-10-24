@@ -4,10 +4,10 @@
 #include "tests.h"
 
 #define DRAG(DRAG_PARENT, SOURCE, TARGET) do { \
-    RUN("keys" << "mouse|PRESS|" SOURCE, ""); \
-    RUN("keys" << "mouse|DRAG|" SOURCE, ""); \
-    RUN("keys" << "isDraggingFrom|" DRAG_PARENT, ""); \
-    RUN("keys" << "mouse|RELEASE|" TARGET, ""); \
+    KEYS("mouse|PRESS|" SOURCE); \
+    KEYS("mouse|DRAG|" SOURCE); \
+    KEYS("isDraggingFrom|" DRAG_PARENT); \
+    KEYS("mouse|RELEASE|" TARGET); \
 } while(false)
 
 #define ITEM(TEXT) "item|text=" TEXT

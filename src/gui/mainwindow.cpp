@@ -1071,6 +1071,18 @@ bool MainWindow::isScriptOverridden(int id) const
         || std::binary_search(m_overrides.begin(), m_overrides.end(), id);
 }
 
+QVariant MainWindow::callPlugin(const QVariantList &arguments)
+{
+    const QString name = arguments.value(0).toString();
+    for (const auto &loader : m_sharedData->itemFactory->loaders()) {
+        if (loader->id() == name) {
+            return loader->isEnabled()
+                ? loader->scriptCallback(arguments.mid(1)) : QVariant();
+        }
+    }
+    return {};
+}
+
 void MainWindow::onAboutToQuit()
 {
     if (cm)

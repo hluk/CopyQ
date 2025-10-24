@@ -19,7 +19,6 @@
 #include <QVector>
 
 class ClipboardBrowser;
-class KeyClicker;
 class MainWindow;
 class QEventLoop;
 class QPersistentModelIndex;
@@ -224,12 +223,9 @@ public slots:
     void selectionMove(int id, int row);
     void selectionSort(int id, const QVector<int> &indexes);
 
-#ifdef HAS_TESTS
-    void sendKeys(const QString &expectedWidgetName, const QString &keys, int delay);
-    bool sendKeysSucceeded();
-    bool sendKeysFailed();
     QString testSelected();
-#endif // HAS_TESTS
+
+    QVariant callPlugin(const QVariantList &arguments);
 
     void serverLog(const QString &text);
 
@@ -322,11 +318,6 @@ private:
     QByteArray callFunctionHelper(const QByteArray &serializedFunctionCall);
 
     bool getSelectionData();
-
-#ifdef HAS_TESTS
-    KeyClicker *keyClicker();
-    KeyClicker *m_keyClicker = nullptr;
-#endif // HAS_TESTS
 
     MainWindow* m_wnd;
     QVariantMap m_actionData;

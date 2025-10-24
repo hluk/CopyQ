@@ -526,6 +526,15 @@ bool ItemFactory::loadPlugins()
         return true;
     pluginsLoaded = true;
 
+    const QStringList plugins = getTextData(qgetenv("COPYQ_PLUGINS")).split(';', Qt::SkipEmptyParts);
+    for (const auto &path : plugins) {
+        auto loader = loadPlugin(path, QString());
+        if (loader)
+            addLoader(loader);
+        else
+            log(QStringLiteral("Failed to load plugin: %1").arg(path), LogError);
+    }
+
     for (const auto &fileName : pluginsDir.entryList(QDir::Files)) {
         const QString path = pluginsDir.absoluteFilePath(fileName);
         auto loader = loadPlugin(path, QString());

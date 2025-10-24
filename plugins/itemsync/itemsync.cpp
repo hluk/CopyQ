@@ -16,10 +16,6 @@
 #include "gui/fromiconid.h"
 #include "item/itemfilter.h"
 
-#ifdef HAS_TESTS
-#   include "tests/itemsynctests.h"
-#endif
-
 #include <QBoxLayout>
 #include <QDebug>
 #include <QDir>
@@ -529,7 +525,7 @@ QString ItemSyncScriptable::getMimeBaseName() const
 
 QString ItemSyncScriptable::selectedTabPath()
 {
-    const auto tab = call("selectedTab", QVariantList()).toString();
+    const auto tab = call("selectedTab", {}).toString();
     return m_tabPaths.value(tab).toString();
 }
 
@@ -701,41 +697,6 @@ bool ItemSyncLoader::matches(const QModelIndex &index, const ItemFilter &filter)
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QString text = dataMap.value(mimeBaseName).toString();
     return filter.matches(text);
-}
-
-QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QStringList tabPaths;
-    for (int i = 0; i < 10; ++i) {
-        tabPaths.append(ItemSyncTests::testTab(i));
-        tabPaths.append(ItemSyncTests::testDir(i));
-    }
-
-    QVariantList formatSettings;
-    QVariantMap format;
-
-    format["formats"] = QStringList() << "xxx";
-    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-xxx");
-    format["icon"] = QString(iconFromId(IconTrash));
-    formatSettings << format;
-
-    format["formats"] = QStringList() << "zzz" << ".yyy";
-    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-zzz");
-    format["icon"] = QString();
-    formatSettings << format;
-
-    QVariantMap settings;
-    settings[configSyncTabs] = tabPaths;
-    settings[configFormatSettings] = formatSettings;
-
-    QObject *tests = new ItemSyncTests(test);
-    tests->setProperty("CopyQ_test_settings", settings);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 ItemScriptable *ItemSyncLoader::scriptableObject()

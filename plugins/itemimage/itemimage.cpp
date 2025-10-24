@@ -7,10 +7,6 @@
 #include "item/itemeditor.h"
 #include "gui/pixelratio.h"
 
-#ifdef HAS_TESTS
-#   include "tests/itemimagetests.h"
-#endif
-
 #include <QBuffer>
 #include <QHBoxLayout>
 #include <QModelIndex>
@@ -229,17 +225,6 @@ QStringList ItemImageLoader::formatsToSave() const
         QLatin1String("image/png"),
         QLatin1String("image/gif")
     };
-}
-
-QObject *ItemImageLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QObject *tests = new ItemImageTests(test);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 void ItemImageLoader::applySettings(QSettings &settings)

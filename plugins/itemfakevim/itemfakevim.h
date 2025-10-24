@@ -37,8 +37,6 @@ public:
 
     QWidget *createSettingsWidget(QWidget *parent) override;
 
-    QObject *tests(const TestInterfacePtr &test) const override;
-
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 signals:

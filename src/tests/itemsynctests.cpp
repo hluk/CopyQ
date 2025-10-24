@@ -6,6 +6,8 @@
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 #include "tests/test_utils.h"
+#include "gui/fromiconid.h"
+#include "gui/icons.h"
 
 #include <QDir>
 #include <QFile>
@@ -104,7 +106,33 @@ ItemSyncTests::ItemSyncTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itemsync"));
     m_test->setEnv("COPYQ_SYNC_UPDATE_INTERVAL_MS", "100");
+
+    QStringList tabPaths;
+    for (int i = 0; i < 10; ++i) {
+        tabPaths.append(ItemSyncTests::testTab(i));
+        tabPaths.append(ItemSyncTests::testDir(i));
+    }
+
+    QVariantList formatSettings;
+    QVariantMap format;
+
+    format["formats"] = QStringList() << "xxx";
+    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-xxx");
+    format["icon"] = QString(fromIconId(IconTrash));
+    formatSettings << format;
+
+    format["formats"] = QStringList() << "zzz" << ".yyy";
+    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-zzz");
+    format["icon"] = QString();
+    formatSettings << format;
+
+    QVariantMap settings;
+    settings["sync_tabs"] = tabPaths;
+    settings["format_settings"] = formatSettings;
+
+    setProperty("CopyQ_test_settings", settings);
 }
 
 QString ItemSyncTests::testTab(int i)
@@ -294,10 +322,10 @@ void ItemSyncTests::removeOwnItems()
     // Move to test tab and select second and third item.
     RUN("setCurrentTab" << tab1, "");
     RUN(args << "selectItems" << "1" << "2", "true\n");
-    RUN(args << "testSelected", tab1.toUtf8() + " 2 1 2\n");
+    TEST_SELECTED(tab1.toUtf8() + " 2 1 2\n");
 
     // Remove selected items.
-    RUN(args << "keys" << m_test->shortcutToRemove(), "");
+    KEYS(m_test->shortcutToRemove());
     RUN(args << "read" << "0" << "1" << "2" << "3", "D,A,,");
     QCOMPARE( dir1.files().join(sep),
               files[0]
@@ -342,11 +370,11 @@ void ItemSyncTests::removeNotOwnedItems()
     // Move to test tab and select second and third item.
     RUN("setCurrentTab" << tab1, "");
     RUN(args << "selectItems" << "1" << "2", "true\n");
-    RUN(args << "testSelected", tab1.toUtf8() + " 2 1 2\n");
+    TEST_SELECTED(tab1.toUtf8() + " 2 1 2\n");
 
     // Accept the "Remove Items?" dialog.
-    RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
-    RUN(args << "keys" << confirmRemoveDialogId << "ENTER" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId);
+    KEYS(confirmRemoveDialogId << "ENTER" << clipboardBrowserId);
     RUN(args << "read" << "0" << "1" << "2" << "3", "A,D,,");
     QCOMPARE( dir1.files().join(sep),
               fileA
@@ -382,15 +410,15 @@ void ItemSyncTests::removeNotOwnedItemsCancel()
     // Move to test tab and select second item.
     RUN("setCurrentTab" << tab1, "");
     RUN(args << "selectItems" << "1", "true\n");
-    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
+    TEST_SELECTED(tab1.toUtf8() + " 1 1\n");
 
     // Don't accept the "Remove Items?" dialog.
-    RUN(args << "keys" << clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId, "");
-    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
-    RUN(args << "keys" << confirmRemoveDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId << m_test->shortcutToRemove() << confirmRemoveDialogId);
+    TEST_SELECTED(tab1.toUtf8() + " 1 1\n");
+    KEYS(confirmRemoveDialogId << "ESCAPE" << clipboardBrowserId);
     RUN(args << "read" << "0" << "1", "A,B");
     QCOMPARE( dir1.files().join(sep), fileA + sep + fileB );
-    RUN(args << "testSelected", tab1.toUtf8() + " 1 1\n");
+    TEST_SELECTED(tab1.toUtf8() + " 1 1\n");
 }
 
 void ItemSyncTests::removeFiles()
@@ -443,7 +471,7 @@ void ItemSyncTests::modifyItems()
     QCOMPARE(file->readAll().data(), QByteArray("C").data());
     file->close();
 
-    RUN(args << "keys" << "HOME" << "DOWN" << "F2" << ":XXX" << "F2", "");
+    KEYS("HOME" << "DOWN" << "F2" << ":XXX" << "F2");
     RUN(args << "size", "4\n");
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D,XXX,B,A,");
 
@@ -465,7 +493,7 @@ void ItemSyncTests::modifyItems()
         }])
         )";
     RUN(script, "");
-    RUN(args << "keys" << "HOME" << "DOWN" << "CTRL+F1", "");
+    KEYS("HOME" << "DOWN" << "CTRL+F1");
     WAIT_ON_OUTPUT(args << "read" << "1", "ZZZ");
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D,ZZZ,B,A,");
     RUN(args << "unload" << tab1, "");
@@ -528,7 +556,7 @@ void ItemSyncTests::itemToClipboard()
     // select second item and move to top
     RUN("config" << "move" << "true", "true\n");
     RUN(args << "selectItems" << "1", "true\n");
-    RUN(args << "keys" << "ENTER", "");
+    KEYS("ENTER");
     RUN(args << "read" << "0" << "1", "TESTING2\nTESTING1");
 
     WAIT_FOR_CLIPBOARD("TESTING2");
@@ -537,7 +565,7 @@ void ItemSyncTests::itemToClipboard()
     // select without moving
     RUN("config" << "move" << "0", "false\n");
     RUN(args << "selectItems" << "1", "true\n");
-    RUN(args << "keys" << "ENTER", "");
+    KEYS("ENTER");
     RUN(args << "read" << "0" << "1", "TESTING2\nTESTING1");
 
     WAIT_FOR_CLIPBOARD("TESTING1");
@@ -554,9 +582,8 @@ void ItemSyncTests::notes()
 
     RUN(args << "add" << "TEST1", "");
 
-    RUN(args << "keys"
-        << "CTRL+N" << ":TEST2" << "F2"
-        << "CTRL+N" << ":TEST3" << "F2", "");
+    KEYS("CTRL+N" << ":TEST2" << "F2"
+      << "CTRL+N" << ":TEST3" << "F2");
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "TEST3;TEST2;TEST1");
 
@@ -566,7 +593,7 @@ void ItemSyncTests::notes()
     QVERIFY2( files[1].startsWith("copyq_"), files[1].toUtf8() );
     QVERIFY2( files[2].startsWith("copyq_"), files[2].toUtf8() );
 
-    RUN(args << "keys" << "HOME" << "DOWN" << "SHIFT+F2" << ":NOTE1" << "F2", "");
+    KEYS("HOME" << "DOWN" << "SHIFT+F2" << ":NOTE1" << "F2");
     RUN(args << "read" << mimeItemNotes << "0" << "1" << "2", ";NOTE1;");
 
     // One new file for notes.
@@ -783,35 +810,35 @@ void ItemSyncTests::moveOwnItemsSortsBaseNames()
     RUN(args << "read(0,1,2,3)", "D,C,B,A");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "END" << "CTRL+UP", "");
+    KEYS("END" << "CTRL+UP");
     RUN(args << "read(0,1,2,3)", "D,C,A,B");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "DOWN" << "CTRL+UP", "");
+    KEYS("DOWN" << "CTRL+UP");
     RUN(args << "read(0,1,2,3)", "D,C,B,A");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "DOWN" << "SHIFT+UP" << "CTRL+UP", "");
+    KEYS("DOWN" << "SHIFT+UP" << "CTRL+UP");
     RUN(args << "read(0,1,2,3)", "D,B,A,C");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "CTRL+UP", "");
+    KEYS("CTRL+UP");
     RUN(args << "read(0,1,2,3)", "B,A,D,C");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "CTRL+DOWN", "");
+    KEYS("CTRL+DOWN");
     RUN(args << "read(0,1,2,3)", "D,B,A,C");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "END" << "CTRL+HOME", "");
+    KEYS("END" << "CTRL+HOME");
     RUN(args << "read(0,1,2,3)", "C,D,B,A");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "END" << "UP" << "CTRL+HOME", "");
+    KEYS("END" << "UP" << "CTRL+HOME");
     RUN(args << "read(0,1,2,3)", "B,C,D,A");
     RUN(args << testScript, "");
 
-    RUN(args << "keys" << "HOME" << "CTRL+END", "");
+    KEYS("HOME" << "CTRL+END");
     RUN(args << "read(0,1,2,3)", "C,D,A,B");
     RUN(args << testScript, "");
 }
@@ -862,7 +889,7 @@ void ItemSyncTests::saveLargeItem()
     }
 
     RUN("show" << tab, "");
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Copy));
     WAIT_ON_OUTPUT("clipboard().left(20)", "12345678901234567890");
     RUN("clipboard('application/x-copyq-test-data').left(26)", "abcdefghijklmnopqrstuvwxyz");
     RUN("clipboard('application/x-copyq-test-data').length", "260000\n");
@@ -871,7 +898,7 @@ void ItemSyncTests::saveLargeItem()
     const auto args2 = Args("tab") << tab2;
     RUN("show" << tab2, "");
     waitFor(waitMsPasteClipboard);
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     RUN(args2 << "read(0).left(20)", "12345678901234567890");
     RUN(args2 << "read(0).length", "100000\n");
     RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");
@@ -964,10 +991,10 @@ void ItemSyncTests::copyFiles()
 
     // Copying synced item from another tab, creates a new item with the same
     // content and file name as original - not overwriting existing files.
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Copy));
     WAIT_FOR_CLIPBOARD("TEST");
     RUN("setCurrentTab" << tab2, "");
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     RUN("tab" << tab2 << "size", "1\n");
     RUN("tab" << tab2 << "read(0)", "TEST");
 #ifdef Q_OS_MAC
@@ -978,7 +1005,7 @@ void ItemSyncTests::copyFiles()
     QCOMPARE(dir2.files().join(" "), "test.txt");
 #endif
 
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     RUN("tab" << tab2 << "size", "2\n");
     RUN("tab" << tab2 << "read(0)", "TEST");
 #ifdef Q_OS_MAC

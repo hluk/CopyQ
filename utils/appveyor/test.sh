@@ -9,6 +9,6 @@ mkdir ~/.gnupg
 chmod go-rwx ~/.gnupg
 gpg --version
 
-"$Executable" tests
+"$Executable"-tests
 
 gpgconf --kill all

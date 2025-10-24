@@ -6,8 +6,8 @@
 namespace {
 
 const QString navigate = QStringLiteral(R"(
-    (function(key, row){
-        keys(str(key), '%1');
+    (function(key){
+        plugins.itemtests.keys(str(key), '%1');
         print(testSelected());
     })
 )").arg(clipboardBrowserId);
@@ -23,7 +23,7 @@ void Tests::navigationTestInit()
 void Tests::navigationTestDownUp(const QString &down, const QString &up)
 {
     RUN("selectItems(0)", "true\n");
-    RUN("keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
 
     RUN(navigate << down, "tab1 1 1");
     RUN(navigate << down, "tab1 2 2");
@@ -42,7 +42,7 @@ void Tests::navigationTestDownUp(const QString &down, const QString &up)
 void Tests::navigationTestEndHome(const QString &end, const QString &home)
 {
     RUN("selectItems(0)", "true\n");
-    RUN("keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
 
     RUN(navigate << end, "tab1 2 2");
     RUN(navigate << end, "tab1 2 2");
@@ -53,15 +53,15 @@ void Tests::navigationTestEndHome(const QString &end, const QString &home)
 
 void Tests::navigationTestEscapeEditor(const QString &esc, const QString &editor)
 {
-    RUN("keys" << editor << editorId, "");
-    RUN("keys" << esc << clipboardBrowserId, "");
+    KEYS(editor << editorId);
+    KEYS(esc << clipboardBrowserId);
 }
 
 void Tests::navigationTestEscapeSearch(const QString &esc, const QString &search)
 {
-    RUN("keys" << search << filterEditId << ":test", "");
+    KEYS(search << filterEditId << ":test");
     RUN("filter", "test\n");
-    RUN("keys" << esc << clipboardBrowserId, "");
+    KEYS(esc << clipboardBrowserId);
     RUN("filter", "\n");
 }
 

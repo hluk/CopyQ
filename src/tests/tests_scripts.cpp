@@ -253,7 +253,7 @@ void Tests::commandSetCurrentTab()
 {
     const auto tab = testTab(1);
     RUN("setCurrentTab" << tab, "");
-    RUN("testSelected", tab + "\n");
+    TEST_SELECTED(tab + "\n");
 }
 
 void Tests::commandConfig()
@@ -307,54 +307,54 @@ void Tests::commandToggleConfig()
 
 void Tests::commandDialog()
 {
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << ":TEST" << "ENTER", ""); }
+        [&]() { KEYS("focus::QLineEdit<:QDialog" << ":TEST" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text') === undefined", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ESCAPE", ""); }
+        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ESCAPE"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('list', [0, 1, 2])", "0\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QComboBox<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
     // Can't focus configuration checkboxes on OS X
 #ifndef Q_OS_MAC
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('boolean', true) === true", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QCheckBox<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QCheckBox<:QDialog" << "ENTER"); }
     );
 #endif
 
     // Verify that special argument ".title" changes dialog's object name
     // so that geometry can be stored.
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'test', 'text')", ""); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<dialog_test:QDialog" << "ESCAPE", ""); }
+        [&]() { KEYS("focus::QLineEdit<dialog_test:QDialog" << "ESCAPE"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     const QByteArray script = R"(
         dialog(
             '.width', 100,
@@ -369,16 +369,16 @@ void Tests::commandDialog()
     )";
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT + script, "DEFAULT\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QPushButton<dialog_Remove Items:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QPushButton<dialog_Remove Items:QDialog" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     const QByteArray script2 = R"(
         dialog(
             '.modal', true,
@@ -388,7 +388,7 @@ void Tests::commandDialog()
     )";
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT + script2, "DEFAULT\n"); },
-        [&]() { RUN(Args() << "keys" << "focus::QLineEdit<:QDialog" << "ENTER", ""); }
+        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
 }
 
@@ -399,40 +399,40 @@ void Tests::commandDialogCloseOnDisconnect()
 
 void Tests::commandMenuItems()
 {
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "a\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << "ENTER", ""); }
+        [&]() { KEYS(customMenuId << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "0\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << "ENTER", ""); }
+        [&]() { KEYS(customMenuId << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << "ESCAPE", ""); }
+        [&]() { KEYS(customMenuId << "ESCAPE"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "-1\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << "ESCAPE", ""); }
+        [&]() { KEYS(customMenuId << "ESCAPE"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "b\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << ":b" << "ENTER", ""); }
+        [&]() { KEYS(customMenuId << ":b" << "ENTER"); }
     );
 
-    RUN(Args() << "keys" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId);
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "1\n"); },
-        [&]() { RUN(Args() << "keys" << customMenuId << ":b" << "ENTER", ""); }
+        [&]() { KEYS(customMenuId << ":b" << "ENTER"); }
     );
 
     RUN("afterMilliseconds(0, abort); menuItems('a', 'b', 'c')", "");
@@ -686,19 +686,19 @@ void Tests::commandEdit()
     // Edit clipboard and new item.
     TEST( m_test->setClipboard("TEST") );
     RUN("edit" << "-1", "");
-    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    KEYS("END" << ":LINE 1" << "F2");
     RUN("read" << "0", "TESTLINE 1");
     WAIT_FOR_CLIPBOARD("TESTLINE 1");
 
     // Edit existing item.
     RUN("edit" << "0", "");
-    RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
+    KEYS("END" << "ENTER" << ":LINE 2" << "F2");
     RUN("read" << "0", "TESTLINE 1\nLINE 2");
     WAIT_FOR_CLIPBOARD("TESTLINE 1");
 
     // Edit clipboard (ignore existing data) and new item.
     RUN("edit", "");
-    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    KEYS("END" << ":LINE 1" << "F2");
     RUN("read" << "0", "LINE 1");
     WAIT_FOR_CLIPBOARD("LINE 1");
 }
@@ -712,7 +712,7 @@ void Tests::commandEditItem()
     // Edit clipboard and new item.
     TEST( m_test->setClipboard("TEST", mimeHtml) );
     RUN("editItem" << "-1" << mimeHtml, "");
-    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    KEYS("END" << ":LINE 1" << "F2");
     const auto expected = QByteArrayLiteral("TESTLINE 1");
 #ifdef Q_OS_WIN
     const auto expectedClipboard = QByteArrayLiteral("<!--StartFragment-->TESTLINE 1<!--EndFragment-->", mimeHtml);
@@ -726,7 +726,7 @@ void Tests::commandEditItem()
 
     // Edit existing item.
     RUN("editItem" << "0" << mimeHtml, "");
-    RUN("keys" << "END" << "ENTER" << ":LINE 2" << "F2", "");
+    KEYS("END" << "ENTER" << ":LINE 2" << "F2");
     RUN("read" << mimeHtml << "0", expected + "\nLINE 2");
     RUN("read" << "0", "");
     WAIT_FOR_CLIPBOARD2(expectedClipboard, mimeHtml);
@@ -734,7 +734,7 @@ void Tests::commandEditItem()
 
     // Edit clipboard (ignore existing data) and new item.
     RUN("editItem" << "-1" << mimeHtml << "TEST", "");
-    RUN("keys" << "END" << ":LINE 1" << "F2", "");
+    KEYS("END" << ":LINE 1" << "F2");
     RUN("read" << mimeHtml << "0", "TESTLINE 1");
     RUN("read" << "0", "");
     WAIT_FOR_CLIPBOARD2(expectedClipboard, mimeHtml);
@@ -761,21 +761,21 @@ void Tests::commandSelectItems()
     RUN("add" << "C" << "B" << "A", "");
 
     RUN("selectItems" << "1", "true\n");
-    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+    TEST_SELECTED(QString(clipboardTabName) + " 1 1\n");
 
     RUN("selectItems" << "0" << "2", "true\n");
-    RUN("testSelected", QString(clipboardTabName) + " 2 0 2\n");
+    TEST_SELECTED(QString(clipboardTabName) + " 2 0 2\n");
 
     RUN("selectItems" << "2" << "0", "true\n");
-    RUN("testSelected", QString(clipboardTabName) + " 0 2 0\n");
+    TEST_SELECTED(QString(clipboardTabName) + " 0 2 0\n");
 
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
     RUN(args << "add" << "C" << "B" << "A", "");
     RUN(args << "selectItems" << "1" << "2", "true\n");
-    RUN("testSelected", QString(clipboardTabName) + " 0 2 0\n");
+    TEST_SELECTED(QString(clipboardTabName) + " 0 2 0\n");
     RUN("setCurrentTab" << tab, "");
-    RUN("testSelected", tab + " 2 1 2\n");
+    TEST_SELECTED(tab + " 2 1 2\n");
 }
 
 void Tests::commandsExportImport()
@@ -884,7 +884,7 @@ void Tests::commandsAddCommandsRegExp()
     RUN("eval" << "importCommands(arguments[1])[0].wndre" << "--" << commands, "/(?:)/\n");
 
     RUN("eval" << "addCommands(importCommands(arguments[1]))" << "--" << commands, "");
-    RUN("keys" << commandDialogListId << "Enter" << clipboardBrowserId, "");
+    KEYS(commandDialogListId << "Enter" << clipboardBrowserId);
 
     RUN("exportCommands(commands())", commands);
     RUN("commands()[0].name", "\n");
@@ -1055,7 +1055,7 @@ void Tests::commandFilter()
     // Empty filter() after ESC.
     RUN("filter" << "test", "");
     RUN("filter", "test\n");
-    RUN("keys" << "ESC", "");
+    KEYS("ESC");
     RUN("filter", "\n");
 }
 
@@ -1106,7 +1106,7 @@ void Tests::commandForceUnload()
     RUN("forceUnload", "");
     RUN_EXPECT_ERROR_WITH_STDERR("add" << "A", CommandException, "ScriptError: Invalid tab");
 
-    RUN("keys" << clipboardBrowserRefreshButtonId << "Space", "");
+    KEYS(clipboardBrowserRefreshButtonId << "Space");
     RUN("add" << "A", "");
 
     const auto tab = testTab(1);
@@ -1118,7 +1118,7 @@ void Tests::commandForceUnload()
     RUN_EXPECT_ERROR_WITH_STDERR(
         "tab" << tab << "add" << "B", CommandException, "ScriptError: Invalid tab");
 
-    RUN("keys" << clipboardBrowserRefreshButtonId << "Space", "");
+    KEYS(clipboardBrowserRefreshButtonId << "Space");
     RUN("add" << "B", "");
 }
 

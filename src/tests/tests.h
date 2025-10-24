@@ -352,5 +352,3 @@ private:
 
     TestInterfacePtr m_test;
 };
-
-int runTests(int argc, char *argv[]);

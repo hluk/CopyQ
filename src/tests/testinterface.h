@@ -42,6 +42,8 @@ public:
     /// Return true if GUI server is not running.
     virtual bool isServerRunning() = 0;
 
+    virtual QString executable() = 0;
+
     /// Run client with given @a arguments and input and read outputs and return exit code.
     virtual int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,
                     QByteArray *stderrData = nullptr, const QByteArray &in = QByteArray(),

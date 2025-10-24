@@ -8,7 +8,6 @@
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 #include "common/version.h"
-#include "platform/platformnativeinterface.h"
 
 #include <QProcess>
 
@@ -74,15 +73,15 @@ void Tests::copyPasteCommands()
             "2\\Name=Test 2\n"
             "size=2";
 
-    RUN("keys" << clipboardBrowserId << "F6", "");
+    KEYS(clipboardBrowserId << "F6");
     TEST( m_test->setClipboard(commands) );
-    RUN("keys" << commandDialogListId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(commandDialogListId << keyNameFor(QKeySequence::Paste));
 
     TEST( m_test->setClipboard(QByteArray()) );
-    RUN("keys" << commandDialogListId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(commandDialogListId << keyNameFor(QKeySequence::Copy));
     WAIT_FOR_CLIPBOARD(commands);
 
-    RUN("keys" << commandDialogListId << "Enter" << clipboardBrowserId, "");
+    KEYS(commandDialogListId << "Enter" << clipboardBrowserId);
     RUN("commands().length", "2\n");
 }
 
@@ -342,7 +341,7 @@ void Tests::removeAllFoundItems()
     RUN("size", "100\n");
 
     RUN("filter" << "a", "");
-    RUN("keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
+    KEYS("CTRL+A" << m_test->shortcutToRemove());
 
     RUN("size", "50\n");
     RUN("read" << "49" << "48" << "47", "b0\nb1\nb2");
@@ -466,17 +465,17 @@ void Tests::nextPreviousTab()
         for (const auto &optionValue : {"false", "true"}) {
             RUN("config" << "tab_tree" << optionValue, QString(optionValue) + "\n");
 
-            RUN("keys" << keyPair.first, "");
-            RUN("testSelected", tab1 + "\n");
-            RUN("keys" << keyPair.first, "");
-            RUN("testSelected", tab2 + "\n");
-            RUN("keys" << keyPair.first, "");
+            KEYS(keyPair.first);
+            TEST_SELECTED(tab1 + "\n");
+            KEYS(keyPair.first);
+            TEST_SELECTED(tab2 + "\n");
+            KEYS(keyPair.first);
 
-            RUN("keys" << keyPair.second, "");
-            RUN("testSelected", tab2 + "\n");
-            RUN("keys" << keyPair.second, "");
-            RUN("testSelected", tab1 + "\n");
-            RUN("keys" << keyPair.second, "");
+            KEYS(keyPair.second);
+            TEST_SELECTED(tab2 + "\n");
+            KEYS(keyPair.second);
+            TEST_SELECTED(tab1 + "\n");
+            KEYS(keyPair.second);
         }
     }
 }
@@ -488,17 +487,17 @@ void Tests::itemPreview()
     RUN("setCurrentTab" << tab1, "");
 
     RUN("preview", "false\n");
-    RUN("keys" << clipboardBrowserId << "F7", "");
+    KEYS(clipboardBrowserId << "F7");
     RUN("preview", "true\n");
 
-    RUN("keys" << clipboardBrowserId << "TAB" << itemPreviewId, "");
-    RUN("keys" << itemPreviewId << "HOME", "");
-    RUN("keys" << itemPreviewId << "RIGHT", "");
-    RUN("keys" << itemPreviewId << "SHIFT+RIGHT", "");
-    RUN("keys" << itemPreviewId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardBrowserId << "TAB" << itemPreviewId);
+    KEYS(itemPreviewId << "HOME");
+    KEYS(itemPreviewId << "RIGHT");
+    KEYS(itemPreviewId << "SHIFT+RIGHT");
+    KEYS(itemPreviewId << keyNameFor(QKeySequence::Copy));
     WAIT_FOR_CLIPBOARD("b");
 
-    RUN("keys" << itemPreviewId << "F7" << clipboardBrowserId, "");
+    KEYS(itemPreviewId << "F7" << clipboardBrowserId);
 
     RUN("preview" << "true", "false\n");
     RUN("preview" << "false", "true\n");
@@ -518,14 +517,14 @@ void Tests::openAndSavePreferences()
     RUN("config" << "check_clipboard" << "false", "false\n");
 
     // Open preferences dialog.
-    RUN("keys" << "Ctrl+P" << configurationDialogId, "");
+    KEYS("Ctrl+P" << configurationDialogId);
 
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
-    RUN("keys" << configurationDialogId << "ALT+1", "");
+    KEYS(configurationDialogId << "ALT+1");
     // Wait for any checkbox animation or delay
     waitFor(1000);
-    RUN("keys" << configurationDialogId << "ENTER" << clipboardBrowserId, "");
+    KEYS(configurationDialogId << "ENTER" << clipboardBrowserId);
     WAIT_ON_OUTPUT("config" << "check_clipboard", "true\n");
 }
 
@@ -546,14 +545,14 @@ void Tests::pasteFromMainWindow()
     runMultiple(
         [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
         [&]() {
-            RUN("keys" << "focus::QLineEdit<.*:QDialog", "");
+            KEYS("focus::QLineEdit<.*:QDialog");
             RUN("show", "");
-            RUN("keys" << clipboardBrowserId << "ENTER", "");
+            KEYS(clipboardBrowserId << "ENTER");
 
             WAIT_FOR_CLIPBOARD("TEST");
             waitFor(waitMsPasteClipboard);
 
-            RUN("keys" << "focus::QLineEdit<.*:QDialog" << "ENTER", "");
+            KEYS("focus::QLineEdit<.*:QDialog" << "ENTER");
         }
     );
 }
@@ -562,28 +561,22 @@ void Tests::pasteNext()
 {
     const auto tab1 = testTab(1);
     RUN("setCurrentTab" << tab1, "");
-    RUN("keys"
-        << clipboardBrowserId << "CTRL+N"
-        << editorId << ":NEW ", "");
+    KEYS(clipboardBrowserId << "CTRL+N" << editorId << ":NEW ");
 
     const auto tab2 = testTab(2);
     RUN("tab" << tab2 << "add" << "test3" << "test2" << "test1", "");
     RUN("tab" << tab2 << "next(); paste(); next()", "");
     waitFor(waitMsPasteClipboard);
 
-    RUN("keys" << editorId, "");
+    KEYS(editorId);
     WAIT_FOR_CLIPBOARD("test3");
-    RUN("keys" << editorId << "F2", "");
+    KEYS(editorId << "F2");
     RUN("tab" << tab1 << "read" << "0", "NEW test2");
 }
 
 void Tests::configAutostart()
 {
-    if ( !platformNativeInterface()->canAutostart() ) {
-        SKIP("Autostart is unsupported on this platform");
-        return;
-    }
-
+    SKIP_ON_ENV("COPYQ_TESTS_NO_AUTOSTART");
     RUN("config" << "autostart" << "true", "true\n");
     RUN("config" << "autostart", "true\n");
     RUN("config" << "autostart" << "false", "false\n");
@@ -661,7 +654,7 @@ void Tests::selectedItems()
     RUN(print << "move(0)" << print, tab1 + ",c:2,s:1,2\n" + tab1 + ",c:1,s:0,1\n");
     RUN(print, tab1 + ",c:1,s:0,1\n");
 
-    RUN(print << "keys('HOME', 'CTRL+DOWN')" << print, tab1 + ",c:1,s:0,1\n" + tab1 + ",c:0,s:1,0\n");
+    RUN(print << "plugins.itemtests.keys('HOME', 'CTRL+DOWN')" << print, tab1 + ",c:1,s:0,1\n" + tab1 + ",c:0,s:1,0\n");
     RUN(print, tab1 + ",c:1,s:1\n");
 
     // Selection stays consistent when removing items
@@ -746,7 +739,7 @@ void Tests::abortInputReader()
 {
     QProcess p;
     p.start(
-        QCoreApplication::applicationFilePath(),
+        m_test->executable(),
         {"afterMilliseconds(250, abort); input(); print('DONE'); 'DONE'"}
     );
     QVERIFY2( p.waitForStarted(10000), "Process failed to start" );
@@ -806,12 +799,13 @@ void Tests::networkPost()
         json = s.data;
         try {
             data = JSON.parse(str(json));
-            [data.data, JSON.stringify(data.args), data.headers['User-Agent'], s.status];
+            userAgent = data.headers['User-Agent'].replace(/\\/.*/, '/xyz');
+            [data.data, JSON.stringify(data.args), userAgent, s.status];
         } catch (e) {
             [`Error parsing JSON response: ${e}\n`, json, s.status];
         }
     )";
-    RUN(script, "Hello\n{\"hello\":\"1\"}\n" + copyqUserAgent() + "\n200\n");
+    RUN(script, "Hello\n{\"hello\":\"1\"}\nCopyQ/xyz\n200\n");
 }
 
 void Tests::networkHeaders()
@@ -886,7 +880,7 @@ void Tests::avoidStoringPasswords()
     RUN("read" << "0" << "1" << "2", "\n\n");
     RUN("count", "0\n");
 
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     waitFor(waitMsPasteClipboard);
     RUN("read" << "0" << "1" << "2", "secret\n\n");
     RUN("count", "1\n");
@@ -983,7 +977,7 @@ void Tests::saveLargeItem()
     }
 
     RUN("show" << tab, "");
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Copy));
     WAIT_ON_OUTPUT("clipboard().left(20)", "12345678901234567890");
     RUN("clipboard('application/x-copyq-test-data').left(26)", "abcdefghijklmnopqrstuvwxyz");
     RUN("clipboard('application/x-copyq-test-data').length", "260000\n");
@@ -992,7 +986,7 @@ void Tests::saveLargeItem()
     const auto args2 = Args("tab") << tab2;
     RUN("show" << tab2, "");
     waitFor(waitMsPasteClipboard);
-    RUN("keys" << clipboardBrowserId << keyNameFor(QKeySequence::Paste), "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     RUN(args2 << "read(0).left(20)", "12345678901234567890");
     RUN(args2 << "read(0).length", "100000\n");
     RUN(args << "getItem(0)['application/x-copyq-test-data'].left(26)", "abcdefghijklmnopqrstuvwxyz");

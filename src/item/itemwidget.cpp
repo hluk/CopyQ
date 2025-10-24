@@ -8,7 +8,6 @@
 #include "item/itemeditor.h"
 
 #include <QAbstractItemModel>
-#include <QApplication>
 #include <QDesktopServices>
 #include <QEvent>
 #include <QMimeData>
@@ -159,7 +158,7 @@ QVariant ItemScriptable::call(const QString &method, const QVariantList &argumen
 
 QVariant ItemScriptable::eval(const QString &script)
 {
-    return call("eval", QVariantList() << script);
+    return call("eval", {script});
 }
 
 QVariantList ItemScriptable::currentArguments()
@@ -256,11 +255,6 @@ bool ItemLoaderInterface::matches(const QModelIndex &, const ItemFilter &) const
     return false;
 }
 
-QObject *ItemLoaderInterface::tests(const TestInterfacePtr &) const
-{
-    return nullptr;
-}
-
 const QObject *ItemLoaderInterface::signaler() const
 {
     return nullptr;
@@ -269,6 +263,11 @@ const QObject *ItemLoaderInterface::signaler() const
 ItemScriptable *ItemLoaderInterface::scriptableObject()
 {
     return nullptr;
+}
+
+QVariant ItemLoaderInterface::scriptCallback(const QVariantList &)
+{
+    return {};
 }
 
 QVector<Command> ItemLoaderInterface::commands() const

@@ -100,8 +100,6 @@ public:
 
     ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *model, int maxItems) override;
 
-    QObject *tests(const TestInterfacePtr &test) const override;
-
     const QObject *signaler() const override { return this; }
 
     ItemScriptable *scriptableObject() override;

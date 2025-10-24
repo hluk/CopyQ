@@ -3,9 +3,6 @@
 #include "itemfakevim.h"
 #include "ui_itemfakevimsettings.h"
 
-#include "tests/itemfakevimtests.h"
-#include "common/contenttype.h"
-
 #include "fakevim/fakevimhandler.h"
 
 using namespace FakeVim::Internal;
@@ -782,21 +779,6 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     ui->lineEditSourceFileName->setText(m_sourceFileName);
 
     return w;
-}
-
-QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QVariantMap settings;
-    settings["really_enable"] = true;
-    settings["source_file"] = QString(ItemFakeVimTests::fileNameToSource());
-    QObject *tests = new ItemFakeVimTests(test);
-    tests->setProperty("CopyQ_test_settings", settings);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 bool ItemFakeVimLoader::eventFilter(QObject *watched, QEvent *event)
