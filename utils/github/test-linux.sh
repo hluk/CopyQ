@@ -6,10 +6,12 @@ set -xeuo pipefail
 export COPYQ_LOG_LEVEL=DEBUG
 export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
 
+export COPYQ_TESTS_EXECUTABLE=${COPYQ_TESTS_EXECUTABLE:-"./copyq"}
+
 # Test command line arguments that don't need GUI.
-DISPLAY="" ./copyq --help
-DISPLAY="" ./copyq --version
-DISPLAY="" ./copyq --info
+DISPLAY="" "$COPYQ_TESTS_EXECUTABLE" --help
+DISPLAY="" "$COPYQ_TESTS_EXECUTABLE" --version
+DISPLAY="" "$COPYQ_TESTS_EXECUTABLE" --info
 
 # Start X11 and window manager.
 export DISPLAY=':99.0'
@@ -19,7 +21,7 @@ openbox &
 sleep 8
 
 # Smoke test the default session
-./copyq --start-server exit
+"$COPYQ_TESTS_EXECUTABLE" --start-server exit
 
 # Test handling Unix signals.
 "$(dirname "$0")/test-signals.sh"
@@ -29,4 +31,4 @@ sleep 8
 
 # Run tests.
 export COPYQ_TESTS_RERUN_FAILED=1
-./copyq tests "$@"
+./copyq-tests "$@"

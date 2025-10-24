@@ -14,10 +14,6 @@ macro (copyq_add_plugin copyq_pkg)
         ${copyq_plugin_${copyq_pkg}_SOURCES} PROPERTIES
         COMPILE_OPTIONS "${copyq_pedantic_flags}")
 
-    if (WITH_TESTS)
-        file(GLOB copyq_plugin_SOURCES ${copyq_plugin_SOURCES} tests/*.cpp)
-    endif (WITH_TESTS)
-
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
     include_directories(${${copyq_qt}Widgets_INCLUDES})

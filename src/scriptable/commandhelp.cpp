@@ -179,10 +179,6 @@ QList<CommandHelp> commandHelp()
                .addArg("[" + Scriptable::tr("COMMAND") + "]...")
             << CommandHelp("version, -v, --version",
                            Scriptable::tr("Print version of program and libraries."))
-#ifdef HAS_TESTS
-            << CommandHelp("tests, --tests",
-                           Scriptable::tr("Run application tests (append --help argument for more info)."))
-#endif
             << CommandHelp("--start-server",
                            Scriptable::tr("Start server in background before running a command."))
                .addArg("[" + Scriptable::tr("COMMAND") + "]")

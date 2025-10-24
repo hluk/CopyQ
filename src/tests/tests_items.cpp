@@ -60,10 +60,10 @@ void Tests::configMaxitems()
 void Tests::keysAndFocusing()
 {
     RUN("disable", "");
-    RUN("keys" << clipboardBrowserId << "CTRL+T", "");
+    KEYS(clipboardBrowserId << "CTRL+T");
     WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("New Tab"));
 
-    RUN("keys" << tabDialogLineEditId << "ESC", "");
+    KEYS(tabDialogLineEditId << "ESC");
     WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("*Clipboard Storing Disabled*"));
 
     RUN("enable", "");
@@ -74,31 +74,31 @@ void Tests::selectItems()
     const auto tab = QString(clipboardTabName);
     RUN("add" << "C" << "B" << "A", "");
 
-    RUN("keys" << "RIGHT" << "SHIFT+DOWN" << "SHIFT+DOWN", "");
-    RUN("testSelected", tab + " 2 0 1 2\n");
+    KEYS("RIGHT" << "SHIFT+DOWN" << "SHIFT+DOWN");
+    TEST_SELECTED(tab + " 2 0 1 2\n");
 
-    RUN("keys" << "SHIFT+UP", "");
-    RUN("testSelected", tab + " 1 0 1\n");
+    KEYS("SHIFT+UP");
+    TEST_SELECTED(tab + " 1 0 1\n");
 
-    RUN("keys" << "END", "");
-    RUN("testSelected", tab + " 2 2\n");
+    KEYS("END");
+    TEST_SELECTED(tab + " 2 2\n");
 
-    RUN("keys" << "SHIFT+UP", "");
-    RUN("testSelected", tab + " 1 2 1\n");
+    KEYS("SHIFT+UP");
+    TEST_SELECTED(tab + " 1 2 1\n");
 
-    RUN("keys" << "CTRL+A", "");
-    RUN("testSelected", tab + " 1 0 1 2\n");
+    KEYS("CTRL+A");
+    TEST_SELECTED(tab + " 1 0 1 2\n");
 
     // CTRL+SPACE toggles current item selection
     RUN("add" << "D", "");
-    RUN("keys" << "PGUP" << "CTRL+SHIFT+DOWN" << "CTRL+SHIFT+DOWN", "");
-    RUN("testSelected", tab + " 2 0\n");
-    RUN("keys" << "CTRL+SPACE", "");
-    RUN("testSelected", tab + " 2 0 2\n");
-    RUN("keys" << "SHIFT+DOWN", "");
-    RUN("testSelected", tab + " 3 0 2 3\n");
-    RUN("keys" << "CTRL+SPACE", "");
-    RUN("testSelected", tab + " 3 0 2\n");
+    KEYS("PGUP" << "CTRL+SHIFT+DOWN" << "CTRL+SHIFT+DOWN");
+    TEST_SELECTED(tab + " 2 0\n");
+    KEYS("CTRL+SPACE");
+    TEST_SELECTED(tab + " 2 0 2\n");
+    KEYS("SHIFT+DOWN");
+    TEST_SELECTED(tab + " 3 0 2 3\n");
+    KEYS("CTRL+SPACE");
+    TEST_SELECTED(tab + " 3 0 2\n");
 }
 
 void Tests::moveItems()
@@ -108,14 +108,14 @@ void Tests::moveItems()
     RUN(args << "add" << "C" << "B" << "A", "");
 
     // move item one down
-    RUN(args << "keys" << "RIGHT" << "CTRL+DOWN", "");
+    KEYS("RIGHT" << "CTRL+DOWN");
     RUN(args << "read" << "0" << "1" << "2", "B A C");
-    RUN(args << "testSelected", tab + " 1 1\n");
+    TEST_SELECTED(tab + " 1 1\n");
 
     // move items to top
-    RUN(args << "keys" << "SHIFT+DOWN" << "CTRL+HOME", "");
+    KEYS("SHIFT+DOWN" << "CTRL+HOME");
     RUN(args << "read" << "0" << "1" << "2", "A C B");
-    RUN(args << "testSelected", tab + " 1 0 1\n");
+    TEST_SELECTED(tab + " 1 0 1\n");
 }
 
 void Tests::deleteItems()
@@ -125,41 +125,41 @@ void Tests::deleteItems()
     RUN(args << "add" << "C" << "B" << "A", "");
 
     // delete first item
-    RUN(args << "keys" << "RIGHT" << m_test->shortcutToRemove(), "");
+    KEYS("RIGHT" << m_test->shortcutToRemove());
     RUN(args << "read" << "0" << "1" << "2", "B,C,");
-    RUN(args << "testSelected", tab + " 0 0\n");
+    TEST_SELECTED(tab + " 0 0\n");
 
     // select all and delete
-    RUN(args << "keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
+    KEYS("CTRL+A" << m_test->shortcutToRemove());
     RUN(args << "size", "0\n");
 }
 
 void Tests::searchItems()
 {
     RUN("add" << "a" << "b" << "c", "");
-    RUN("keys" << ":b" << "TAB", "");
-    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+    KEYS(":b" << "TAB");
+    TEST_SELECTED(QString(clipboardTabName) + " 1 1\n");
 }
 
 void Tests::searchItemsAndSelect()
 {
     RUN("add" << "xx1" << "a" << "xx2" << "c" << "xx3" << "d", "");
-    RUN("keys" << ":xx" << filterEditId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
+    KEYS(":xx" << filterEditId);
+    TEST_SELECTED(QString(clipboardTabName) + " 1 1\n");
 
-    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 3 3\n");
+    KEYS(filterEditId << "DOWN" << filterEditId);
+    TEST_SELECTED(QString(clipboardTabName) + " 3 3\n");
 
-    RUN("keys" << filterEditId << "DOWN" << filterEditId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 5 5\n");
+    KEYS(filterEditId << "DOWN" << filterEditId);
+    TEST_SELECTED(QString(clipboardTabName) + " 5 5\n");
 
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId);
 }
 
 void Tests::searchItemsAndCopy()
 {
     RUN("add" << "TEST_ITEM", "");
-    RUN("keys" << ":test" << "CTRL+C" << filterEditId, "");
+    KEYS(":test" << "CTRL+C" << filterEditId);
     WAIT_FOR_CLIPBOARD("TEST_ITEM");
 }
 
@@ -167,35 +167,35 @@ void Tests::searchRowNumber()
 {
     RUN("add" << "d2" << "c" << "b2" << "a", "");
 
-    RUN("keys" << ":2", "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 1 1\n");
-    RUN("keys" << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " 1 1 3\n");
+    KEYS(":2");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId);
+    TEST_SELECTED(QString(clipboardTabName) + " 1 1\n");
+    KEYS("CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " 1 1 3\n");
 
-    RUN("keys" << ":0", "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " _\n");
+    KEYS(":0");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId << "CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " _\n");
 
     RUN("config" << "row_index_from_one" << "false", "false\n");
-    RUN("keys" << ":2", "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 2 2\n");
-    RUN("keys" << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " 2 1 2 3\n");
+    KEYS(":2");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId);
+    TEST_SELECTED(QString(clipboardTabName) + " 2 2\n");
+    KEYS("CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " 2 1 2 3\n");
 
-    RUN("keys" << ":0", "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " 0 0\n");
+    KEYS(":0");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId << "CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " 0 0\n");
 
-    RUN("keys" << ":5", "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " _\n");
+    KEYS(":5");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId << "CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " _\n");
 
     RUN("filter" << "-1", "");
     RUN("filter", "-1\n");
-    RUN("keys" << clipboardBrowserId << "CTRL+A", "");
-    RUN("testSelected", QString(clipboardTabName) + " _\n");
+    KEYS(clipboardBrowserId << "CTRL+A");
+    TEST_SELECTED(QString(clipboardTabName) + " _\n");
 }
 
 void Tests::searchAccented()
@@ -216,7 +216,7 @@ void Tests::searchManyItems()
     RUN("add.apply(this, [...Array(100000).keys()].reverse())", "");
 
     RUN("filter" << "90001", "");
-    RUN("testSelected", QString(clipboardTabName) + " 90001 90001\n");
+    TEST_SELECTED(QString(clipboardTabName) + " 90001 90001\n");
 
     RUN("filter" << "9 8 7 6 5", "");
     WAIT_ON_OUTPUT("testSelected", QString(clipboardTabName) + " 56789 56789\n");
@@ -225,15 +225,17 @@ void Tests::searchManyItems()
     RUN("filter" << ".*99999", "");
     WAIT_ON_OUTPUT("testSelected", QString(clipboardTabName) + " 99999 99999\n");
 
-    RUN("keys" << ":9" << ":0002" << filterEditId, "");
+    KEYS(":9" << ":0002" << filterEditId);
     RUN("filter", "90002\n");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
-    RUN("testSelected", QString(clipboardTabName) + " 90002 90002\n");
+    KEYS(filterEditId << "TAB" << clipboardBrowserId);
+    TEST_SELECTED(QString(clipboardTabName) + " 90002 90002\n");
 
-    RUN("keys" << ":9" << ":999" << filterEditId, "");
-    RUN("keys" << filterEditId << "TAB" << clipboardBrowserId, "");
+    KEYS(":9" << ":999" << filterEditId);
+    KEYS(filterEditId << "TAB" << clipboardBrowserId);
     WAIT_ON_OUTPUT(
-        QStringLiteral("keys('%1', 'CTRL+A', '%1'); testSelected()")
+        QStringLiteral(
+            "plugins.itemtests.keys('%1', 'CTRL+A', '%1');"
+            "testSelected()")
         .arg(clipboardBrowserId),
         QString(clipboardTabName) + " 9999"
         " 9999 19999 29999 39999 49999 59999 69999 79999 89999"
@@ -247,13 +249,13 @@ void Tests::copyItems()
     RUN("add" << "C" << "B" << "A", "");
 
     // Select and copy all items.
-    RUN("keys" << "CTRL+A" << keyNameFor(QKeySequence::Copy), "");
+    KEYS("CTRL+A" << keyNameFor(QKeySequence::Copy));
 
     // This seems to be required on Windows.
     WAIT_ON_OUTPUT("clipboard", "A\nB\nC");
 
     // Paste all items.
-    RUN("keys" << keyNameFor(QKeySequence::Paste), "");
+    KEYS(keyNameFor(QKeySequence::Paste));
     RUN("separator" << " " << "read" << "0" << "1" << "2" << "3" << "4" << "5", "A B C A B C");
     RUN("size", "6\n");
 }
@@ -265,10 +267,10 @@ void Tests::selectAndCopyOrder()
     RUN(args << "add" << "D" << "C" << "B" << "A", "");
     RUN("setCurrentTab" << tab, "");
 
-    RUN("keys" << "END" << "SHIFT+UP" << "SHIFT+UP" << "SHIFT+UP", "");
-    RUN(args << "testSelected", tab + " 0 3 2 1 0\n");
+    KEYS("END" << "SHIFT+UP" << "SHIFT+UP" << "SHIFT+UP");
+    TEST_SELECTED(tab + " 0 3 2 1 0\n");
 
-    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    KEYS(keyNameFor(QKeySequence::Copy));
     WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
 }
 
@@ -279,24 +281,24 @@ void Tests::sortAndReverse()
     RUN(args << "add" << "D" << "A" << "C" << "B", "");
     RUN("setCurrentTab" << tab, "");
 
-    RUN("keys" << "CTRL+A", "");
-    RUN(args << "testSelected", tab + " 0 0 1 2 3\n");
+    KEYS("CTRL+A");
+    TEST_SELECTED(tab + " 0 0 1 2 3\n");
 
-    RUN("keys" << "CTRL+SHIFT+S", "");
+    KEYS("CTRL+SHIFT+S");
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "A B C D ");
-    RUN(args << "testSelected", tab + " 1 0 1 2 3\n");
-    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    TEST_SELECTED(tab + " 1 0 1 2 3\n");
+    KEYS(keyNameFor(QKeySequence::Copy));
     WAIT_ON_OUTPUT("clipboard", "A\nB\nC\nD");
 
-    RUN("keys" << "CTRL+SHIFT+R", "");
+    KEYS("CTRL+SHIFT+R");
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "D C B A ");
-    RUN(args << "testSelected", tab + " 2 0 1 2 3\n");
-    RUN("keys" << keyNameFor(QKeySequence::Copy), "");
+    TEST_SELECTED(tab + " 2 0 1 2 3\n");
+    KEYS(keyNameFor(QKeySequence::Copy));
     WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
 
-    RUN("keys" << "CTRL+SHIFT+R", "");
+    KEYS("CTRL+SHIFT+R");
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "A B C D ");
-    RUN(args << "testSelected", tab + " 1 0 1 2 3\n");
+    TEST_SELECTED(tab + " 1 0 1 2 3\n");
 }
 
 void Tests::editItems()
@@ -305,21 +307,18 @@ void Tests::editItems()
 
     RUN("add" << "Line 4" << "Line 1", "");
 
-    RUN("keys"
-        << clipboardBrowserId << "F2"
-        << editorId << "END" << "ENTER" << ":Line 2" << "F2", "");
+    KEYS(clipboardBrowserId << "F2"
+        << editorId << "END" << "ENTER" << ":Line 2" << "F2");
     RUN("read" << "0", "Line 1\nLine 2");
 
-    RUN("keys"
-        << clipboardBrowserId << "DOWN" << "F2"
-        << editorId << "HOME" << ":Line 3" << "ENTER" << "F2", "");
+    KEYS(clipboardBrowserId << "DOWN" << "F2"
+        << editorId << "HOME" << ":Line 3" << "ENTER" << "F2");
     RUN("read" << "1", "Line 3\nLine 4");
     RUN("read" << "0", "Line 1\nLine 2");
 
     // Edit multiple items
-    RUN("keys"
-        << clipboardBrowserId << "SHIFT+UP" << "F2"
-        << editorId << "END" << "ENTER" << ":Line 5" << "F2", "");
+    KEYS(clipboardBrowserId << "SHIFT+UP" << "F2"
+        << editorId << "END" << "ENTER" << ":Line 5" << "F2");
     RUN("read" << "0", "Line 3\nLine 4\nLine 1\nLine 2\nLine 5");
     RUN("read" << "1", "Line 1\nLine 2");
     RUN("read" << "2", "Line 3\nLine 4");
@@ -329,10 +328,10 @@ void Tests::createNewItem()
 {
     RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
-    RUN("keys" << "CTRL+N" << editorId << ":Line 1" << "ENTER" << ":Line 2" << "F2", "");
+    KEYS("CTRL+N" << editorId << ":Line 1" << "ENTER" << ":Line 2" << "F2");
     RUN("read" << "0", "Line 1\nLine 2");
 
-    RUN("keys" << "CTRL+N" << editorId << ":Line 3" << "ENTER" << ":Line 4" << "F2", "");
+    KEYS("CTRL+N" << editorId << ":Line 3" << "ENTER" << ":Line 4" << "F2");
     RUN("read" << "0", "Line 3\nLine 4");
 }
 
@@ -354,13 +353,13 @@ void Tests::editNotes()
     RUN(script, "");
 
     RUN("config" << "editor" << "", "\n");
-    RUN("keys" << "SHIFT+F2" << ":A Note" << "F2", "");
+    KEYS("SHIFT+F2" << ":A Note" << "F2");
     RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
     RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\n");
 
-    RUN("keys" << "DOWN", "");
+    KEYS("DOWN");
 
-    RUN("keys" << "SHIFT+F2" << ":B Note" << "F2", "");
+    KEYS("SHIFT+F2" << ":B Note" << "F2");
     RUN("read" << mimeText << "1" << mimeItemNotes << "1" << "F2", "B\nB Note");
     RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
 }
@@ -368,10 +367,10 @@ void Tests::editNotes()
 void Tests::editHtml()
 {
     // Create new item with bold text
-    RUN("keys" << "CTRL+N" << editorId << ":BOLD"
+    KEYS("CTRL+N" << editorId << ":BOLD"
         << QKeySequence(QKeySequence::SelectAll).toString()
         << QKeySequence(QKeySequence::Bold).toString()
-        << "F2" << clipboardBrowserId, "");
+        << "F2" << clipboardBrowserId);
 
     const auto readHtmlItem = [this](){
         QByteArray out;
@@ -384,45 +383,45 @@ void Tests::editHtml()
     QVERIFY2( html.contains(re), html.toUtf8() );
 
     // Append normal text
-    RUN("keys" << "F2" << editorId << "END"
+    KEYS("F2" << editorId << "END"
         << QKeySequence(QKeySequence::Bold).toString()
-        << ":,NORMAL" << "F2" << clipboardBrowserId, "");
+        << ":,NORMAL" << "F2" << clipboardBrowserId);
     html = readHtmlItem();
     QVERIFY2( html.contains(re), html.toUtf8() );
     re.setPattern( re.pattern() + ",NORMAL" );
     QVERIFY2( html.contains(re), html.toUtf8() );
 
     // Append italic text
-    RUN("keys" << "F2" << editorId << "END"
+    KEYS("F2" << editorId << "END"
         << QKeySequence(QKeySequence::Italic).toString()
-        << ":,ITALIC" << "F2" << clipboardBrowserId, "");
+        << ":,ITALIC" << "F2" << clipboardBrowserId);
     html = readHtmlItem();
     QVERIFY2( html.contains(re), html.toUtf8() );
     re.setPattern( re.pattern() + "<[^>]*font-style: *italic[^>]*>,ITALIC</[^>]*>" );
     QVERIFY2( html.contains(re), html.toUtf8() );
 
     // Append underline text
-    RUN("keys" << "F2" << editorId << "END"
+    KEYS("F2" << editorId << "END"
         << QKeySequence(QKeySequence::Underline).toString()
-        << ":,ULINE" << "F2" << clipboardBrowserId, "");
+        << ":,ULINE" << "F2" << clipboardBrowserId);
     html = readHtmlItem();
     QVERIFY2( html.contains(re), html.toUtf8() );
     re.setPattern( re.pattern() + "<[^>]*text-decoration: *underline[^>]*>,ULINE</[^>]*>" );
     QVERIFY2( html.contains(re), html.toUtf8() );
 
     // Append strike-through text
-    RUN("keys" << "F2" << editorId << "END"
+    KEYS("F2" << editorId << "END"
         << "mouse|CLICK|text=Strikethrough"
-        << ":,XXX" << "F2" << clipboardBrowserId, "");
+        << ":,XXX" << "F2" << clipboardBrowserId);
     html = readHtmlItem();
     QVERIFY2( html.contains(re), html.toUtf8() );
     re.setPattern( re.pattern() + "<[^>]*text-decoration: *underline line-through[^>]*>,XXX</[^>]*>" );
     QVERIFY2( html.contains(re), html.toUtf8() );
 
     // Erase style
-    RUN("keys" << "F2" << editorId << "END"
+    KEYS("F2" << editorId << "END"
         << QKeySequence(QKeySequence::SelectAll).toString()
         << "mouse|CLICK|text=Erase Style"
-        << "F2" << clipboardBrowserId, "");
+        << "F2" << clipboardBrowserId);
     RUN("read(0)", "BOLD,NORMAL,ITALIC,ULINE,XXX");
 }

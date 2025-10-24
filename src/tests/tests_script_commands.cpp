@@ -127,7 +127,7 @@ void Tests::scriptPaste()
         )";
     RUN(script, "");
     RUN("add(1)", "");
-    RUN("keys" << clipboardBrowserId << "ENTER", "");
+    KEYS(clipboardBrowserId << "ENTER");
     WAIT_ON_OUTPUT("read(0)", "PASTE");
 }
 

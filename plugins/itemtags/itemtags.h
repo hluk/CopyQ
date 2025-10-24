@@ -127,8 +127,6 @@ public:
 
     bool matches(const QModelIndex &index, const ItemFilter &filter) const override;
 
-    QObject *tests(const TestInterfacePtr &test) const override;
-
     const QObject *signaler() const override { return this; }
 
     ItemScriptable *scriptableObject() override;

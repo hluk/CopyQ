@@ -3,8 +3,6 @@
 #pragma once
 
 
-#include "tests/testinterface.h"
-
 #include <QObject>
 #include <QtContainerFwd>
 
@@ -13,7 +11,6 @@
 struct Command;
 
 class ItemFilter;
-class TestInterface;
 class QAbstractItemModel;
 class QIODevice;
 class QModelIndex;
@@ -30,8 +27,6 @@ using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
 class ItemScriptableFactoryInterface;
 using ItemScriptableFactoryPtr = std::shared_ptr<ItemScriptableFactoryInterface>;
-
-using TestInterfacePtr = std::shared_ptr<TestInterface>;
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "com.github.hluk.copyq.itemloader/13.0.0"
 
@@ -118,7 +113,7 @@ protected:
      *
      * Shouldn't be called before start().
      */
-    QVariant call(const QString &method, const QVariantList &arguments = QVariantList());
+    QVariant call(const QString &method, const QVariantList &arguments);
 
     /**
      * Evaluate script.
@@ -350,16 +345,6 @@ public:
     virtual bool matches(const QModelIndex &index, const ItemFilter &filter) const;
 
     /**
-     * Return object with tests.
-     *
-     * All private slots are executed (see QtTest documentation).
-     *
-     * Property "CopyQ_test_settings" contains configuration for GUI server and
-     * if will be passed to ItemLoaderInterface::loadSettings() for this plugin.
-     */
-    virtual QObject *tests(const TestInterfacePtr &test) const;
-
-    /**
      * Return QObject instance with signals (by default null pointer).
      *
      * Returned QObject can have signal error(QString) for signaling errors.
@@ -370,6 +355,11 @@ public:
      * Return scriptable object.
      */
     virtual ItemScriptable *scriptableObject();
+
+    /**
+     * Callback from scripts/clients, run in the server process.
+     */
+    virtual QVariant scriptCallback(const QVariantList &arguments);
 
     /**
      * Adds commands from scripts for command dialog.

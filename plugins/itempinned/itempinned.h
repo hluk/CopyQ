@@ -96,8 +96,6 @@ public:
 
     ItemSaverPtr transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model) override;
 
-    QObject *tests(const TestInterfacePtr &test) const override;
-
     const QObject *signaler() const override { return this; }
 
     ItemScriptable *scriptableObject() override;

@@ -17,6 +17,11 @@ ItemTagsTests::ItemTagsTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itemtags"));
+    const QVariantMap settings{
+        {QStringLiteral("tags"), ItemTagsTests::testTags()}
+    };
+    setProperty("CopyQ_test_settings", settings);
 }
 
 QStringList ItemTagsTests::testTags()
@@ -181,20 +186,20 @@ void ItemTagsTests::searchTags()
     RUN(args << "-e" << "plugins.itemtags.tags(1)", "tag1\ntag2\n");
     RUN(args << "-e" << "plugins.itemtags.tags(2)", "tag2\ntag3\n");
 
-    RUN(args << "keys" << "RIGHT", "");
-    RUN(args << "keys" << "t" << "a" << "g" << "1", "");
-    RUN(args << "keys" << "TAB" << "CTRL+A", "");
-    RUN(args << "testSelected", tab1 + " 0 0 1\n");
+    KEYS("RIGHT");
+    KEYS("t" << "a" << "g" << "1");
+    KEYS("TAB" << "CTRL+A");
+    TEST_SELECTED(tab1 + " 0 0 1\n");
 
-    RUN(args << "keys" << "ESCAPE", "");
-    RUN(args << "keys" << "t" << "a" << "g" << "2", "");
-    RUN(args << "keys" << "TAB" << "CTRL+A", "");
-    RUN(args << "testSelected", tab1 + " 1 1 2\n");
+    KEYS("ESCAPE");
+    KEYS("t" << "a" << "g" << "2");
+    KEYS("TAB" << "CTRL+A");
+    TEST_SELECTED(tab1 + " 1 1 2\n");
 
-    RUN(args << "keys" << "ESCAPE", "");
-    RUN(args << "keys" << "t" << "a" << "g" << "3", "");
-    RUN(args << "keys" << "TAB" << "CTRL+A", "");
-    RUN(args << "testSelected", tab1 + " 2 2\n");
+    KEYS("ESCAPE");
+    KEYS("t" << "a" << "g" << "3");
+    KEYS("TAB" << "CTRL+A");
+    TEST_SELECTED(tab1 + " 2 2\n");
 }
 
 void ItemTagsTests::tagSelected()
@@ -216,13 +221,13 @@ void ItemTagsTests::tagSelected()
     RUN(script, "");
 
     RUN("add" << "A" << "B" << "C", "");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("plugins.itemtags.tags(0)", "x\n");
     RUN("plugins.itemtags.tags(1)", "");
     RUN("plugins.itemtags.tags(2)", "");
 
     RUN("selectItems(0,1)", "true\n");
-    RUN("keys" << "CTRL+F2", "");
+    KEYS("CTRL+F2");
     WAIT_ON_OUTPUT("plugins.itemtags.tags(0)", "x\ny\n");
     RUN("plugins.itemtags.tags(1)", "y\n");
     RUN("plugins.itemtags.tags(2)", "");
@@ -246,7 +251,7 @@ void ItemTagsTests::untagSelected()
     RUN("plugins.itemtags.tags(0)", "x\n");
 
     RUN("selectItems(0,1,2)", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("plugins.itemtags.tags(0)", "");
     RUN("plugins.itemtags.tags(1)", "y\n");
     RUN("plugins.itemtags.tags(2)", "y\n");

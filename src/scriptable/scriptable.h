@@ -260,7 +260,6 @@ public slots:
     void abort();
     void fail();
 
-    QJSValue keys();
     QJSValue testSelected();
     void serverLog();
     QJSValue logs();
@@ -400,6 +399,8 @@ public slots:
     void collectScriptOverrides();
 
     QByteArray serializeScriptValue(const QJSValue &value);
+
+    QJSValue callPlugin();
 
 signals:
     void finished();

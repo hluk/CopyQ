@@ -8,6 +8,7 @@ ItemEncryptedTests::ItemEncryptedTests(const TestInterfacePtr &test, QObject *pa
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itemencrypted"));
 }
 
 void ItemEncryptedTests::initTestCase()
@@ -62,7 +63,7 @@ void ItemEncryptedTests::encryptDecryptItems()
     RUN("plugins.itemencrypted.generateTestKeys()", "\n");
 
     // Load commands from the plugin generating keys.
-    RUN("keys" << "Ctrl+P" << "ENTER", "");
+    KEYS("Ctrl+P" << "ENTER");
     RUN("commands().length", "4\n");
 
     const auto tab = testTab(1);
@@ -71,22 +72,22 @@ void ItemEncryptedTests::encryptDecryptItems()
     RUN("tab" << tab << "read" << "0", "TEST");
 
     // Encrypt.
-    RUN("keys" << "Ctrl+L", "");
+    KEYS("Ctrl+L");
     WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "application/x-copyq-encrypted\n");
 
     // Decrypt and check text.
-    RUN("keys" << "Ctrl+L", "");
+    KEYS("Ctrl+L");
     WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "text/plain\n");
     RUN("tab" << tab << "read" << "0", "TEST");
 
     // Encrypt and add note.
-    RUN("keys" << "Ctrl+L", "");
+    KEYS("Ctrl+L");
     WAIT_ON_OUTPUT("tab" << tab << "read" << "?" << "0", "application/x-copyq-encrypted\n");
-    RUN("keys" << "Shift+F2" << ":NOTE" << "F2", "");
+    KEYS("Shift+F2" << ":NOTE" << "F2");
     RUN("tab" << tab << "read" << "application/x-copyq-item-notes" << "0", "NOTE");
 
     // Decrypt and check note and text.
-    RUN("keys" << "Ctrl+L", "");
+    KEYS("Ctrl+L");
     WAIT_ON_OUTPUT("tab" << tab << "read" << "0", "TEST");
     RUN("tab" << tab << "read" << "application/x-copyq-item-notes" << "0", "NOTE");
 }

@@ -13,6 +13,7 @@ ItemImageTests::ItemImageTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itemimage"));
 }
 
 void ItemImageTests::initTestCase()
@@ -53,9 +54,8 @@ void ItemImageTests::supportedFormats()
 
 void ItemImageTests::savePng()
 {
-    QImage image(":images/icon");
-    QVERIFY(!image.isNull());
-    image = image.scaled(QSize(16, 16));
+    QImage image({8, 8}, QImage::Format_RGB32);
+    image.fill(Qt::green);
 
     QByteArray data;
     QBuffer buffer(&data);
@@ -70,9 +70,8 @@ void ItemImageTests::savePng()
 
 void ItemImageTests::saveBmp()
 {
-    QImage image(":images/icon");
-    QVERIFY(!image.isNull());
-    image = image.scaled(QSize(16, 16));
+    QImage image({8, 8}, QImage::Format_RGB32);
+    image.fill(Qt::green);
 
     QByteArray data;
     QBuffer buffer(&data);

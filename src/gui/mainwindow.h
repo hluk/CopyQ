@@ -414,6 +414,8 @@ public:
     void setScriptOverrides(const QVector<int> &overrides, int actionId);
     bool isScriptOverridden(int id) const;
 
+    QVariant callPlugin(const QVariantList &arguments);
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, ClipboardMode mode);

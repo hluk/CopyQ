@@ -68,10 +68,6 @@
 #include <QTextEdit>
 #include <QUrl>
 
-#ifdef HAS_TESTS
-#   include <QTest>
-#endif
-
 #include <type_traits>
 
 namespace {
@@ -652,332 +648,7 @@ QString tabNameEmptyError()
     return ScriptableProxy::tr("Tab name cannot be empty!");
 }
 
-#ifdef HAS_TESTS
-QString objectAddress(QObject *object)
-{
-    if (!object)
-        return QStringLiteral("<null>");
-
-    QString result;
-    QObject *current = object;
-    while (current) {
-        const QString className = current->metaObject()->className();
-        const QString objectName = current->objectName();
-        const QString name = className == objectName
-            ? className : QStringLiteral("%1:%2").arg(objectName, className);
-        // Skip some default widgets.
-        if ( name != QLatin1String(":QWidget")
-          && !name.startsWith(QLatin1String("qt_scrollarea_viewport:QWidget")) )
-        {
-            if (!result.isEmpty())
-                result.append('<');
-            result.append(name);
-            const QString text = current->property("text").toString()
-                .remove('&')
-                // Remove HTML tags
-                .remove(QRegularExpression(QStringLiteral("</?[^>]*>")));
-            if ( !text.isEmpty() )
-                result.append(QStringLiteral("'%1'").arg(text));
-        }
-        current = current->parent();
-    }
-    return result;
-}
-
-bool matchesProperties(QObject *object, const QStringList &properties)
-{
-    for (auto it = properties.cbegin(); it != properties.cend(); ++it) {
-        const QString key = it->section('=', 0, 0);
-        const QString value = it->section('=', 1, 1);
-        if ( value.isEmpty() ) {
-            if ( object->objectName() != key && object->metaObject()->className() != key )
-                return false;
-        }
-
-        const QVariant propValue = object->property(key.toUtf8());
-        if ( propValue.toString() != value )
-            return false;
-    }
-
-    return true;
-}
-
-QWidget *findWidgetWithProperties(const QString &properties, QWidget *parent)
-{
-    QStringList names = properties.split('<');
-    return std::accumulate(
-        names.cbegin(), names.cend(), parent,
-        [](QWidget *parent, const QString &name) -> QWidget* {
-            if (parent == nullptr)
-                return nullptr;
-
-            const QStringList props = name.split('|', Qt::SkipEmptyParts);
-            for (QWidget *child : parent->findChildren<QWidget*>()) {
-                if (child->isVisible() && matchesProperties(child, props)) {
-                    COPYQ_LOG( QStringLiteral("Found target: %1").arg(objectAddress(child)) );
-                    return child;
-                }
-            }
-            log( QStringLiteral("Failed to find mouse action target: %1").arg(name), LogError );
-            return nullptr;
-        });
-}
-#endif
-
 } // namespace
-
-#ifdef HAS_TESTS
-class KeyClicker final : public QObject {
-public:
-    KeyClicker(MainWindow *wnd, QObject *parent)
-        : QObject(parent)
-        , m_wnd(wnd)
-    {
-    }
-
-    void keyClicksRetry(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
-    {
-        if (retry > 0)
-            sendKeyClicks(expectedWidgetName, keys, delay + 100, retry - 1);
-        else
-            keyClicksFailed(expectedWidgetName);
-    }
-
-    void keyClicksFailed(const QRegularExpression &expectedWidgetName)
-    {
-        auto actual = keyClicksTarget();
-        auto popup = QApplication::activePopupWidget();
-        auto widget = QApplication::focusWidget();
-        auto window = QApplication::activeWindow();
-        auto modal = QApplication::activeModalWidget();
-        const auto currentWindow = platformNativeInterface()->getCurrentWindow();
-        const auto currentWindowTitle = currentWindow ? currentWindow->getTitle() : QString();
-        log( QString("Failed to send key press to target widget")
-            + QLatin1String(qApp->applicationState() == Qt::ApplicationActive ? "" : "\nApp is INACTIVE!")
-            + "\nExpected: /" + expectedWidgetName.pattern() + "/"
-            + "\nActual:   " + objectAddress(actual)
-            + "\nPopup:    " + objectAddress(popup)
-            + "\nWidget:   " + objectAddress(widget)
-            + "\nWindow:   " + objectAddress(window)
-            + "\nModal:    " + objectAddress(modal)
-            + "\nTitle:    " + currentWindowTitle
-            , LogError );
-
-        m_failed = true;
-    }
-
-    void keyClicks(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
-    {
-        auto widget = keyClicksTarget();
-        if (!widget) {
-            keyClicksRetry(expectedWidgetName, keys, delay, retry);
-            return;
-        }
-
-        if (qApp->applicationState() != Qt::ApplicationActive) {
-#if defined(Q_OS_MAC) && QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-            // WORKAROUND for focusing back to main window on macOS.
-            if (m_wnd->isVisible())
-                m_wnd->activateWindow();
-#endif
-            keyClicksRetry(expectedWidgetName, keys, delay, retry);
-            return;
-        }
-
-        const QString widgetName = objectAddress(widget);
-        if ( !expectedWidgetName.pattern().isEmpty()
-             && !expectedWidgetName.match(widgetName).hasMatch() )
-        {
-            keyClicksRetry(expectedWidgetName, keys, delay, retry);
-            return;
-        }
-
-        // Only verified focused widget.
-        if ( keys.isEmpty() ) {
-            m_succeeded = true;
-            return;
-        }
-
-        // There could be some animation/transition effect on check boxes
-        // so wait for checkbox to be set.
-        if ( qobject_cast<QCheckBox*>(widget) )
-            waitFor(100);
-
-        COPYQ_LOG( QString("Sending event \"%1\" to %2.")
-                   .arg(keys, widgetName) );
-
-        const auto popupMessage = QString::fromLatin1("%1 (%2)")
-                .arg( quoteString(keys), widgetName );
-        auto notification = m_wnd->createNotification(QLatin1String("tests"));
-        notification->setMessage(popupMessage);
-        notification->setIcon(IconKeyboard);
-        notification->setInterval(2000);
-
-        static const auto keyClicksPrefix = QLatin1String(":");
-        static const auto mousePrefix = QLatin1String("mouse|");
-        static const auto dragPrefix = QLatin1String("isDraggingFrom|");
-        if ( keys.startsWith(keyClicksPrefix) ) {
-            const auto text = keys.mid(keyClicksPrefix.size());
-
-            QTest::keyClicks(widget, text, Qt::NoModifier, 0);
-
-            // Increment key clicks sequence number after typing all the text.
-            m_succeeded = true;
-        } else if ( keys.startsWith(mousePrefix) ) {
-            const QString action = keys.section('|', 1, 1);
-            const QString properties = keys.section('|', 2);
-            static const auto mousePress = QStringLiteral("PRESS");
-            static const auto mouseRelease = QStringLiteral("RELEASE");
-            static const auto mouseClick = QStringLiteral("CLICK");
-            static const auto mouseDrag = QStringLiteral("DRAG");
-            static const QStringList validActions = {
-                mousePress, mouseRelease, mouseClick, mouseDrag};
-            if ( !validActions.contains(action) ) {
-                log( QStringLiteral("Failed to match mouse action: %1").arg(keys), LogError );
-                log( QStringLiteral("Valid mouse actions are: %1")
-                     .arg(validActions.join(", ")), LogError );
-                m_failed = true;
-                return;
-            }
-            QPointer<QWidget> source = findWidgetWithProperties(properties, m_wnd);
-            if (!source) {
-                m_failed = true;
-                return;
-            }
-            // Don't block while processing the events.
-            runAfterInterval(delay, [=](){
-                if (!source) {
-                    log("Target widget was destroyed", LogError);
-                    return;
-                }
-                if (!source->isVisible()) {
-                    log("Target widget is no longer visible", LogError);
-                    return;
-                }
-
-                // Send the event to window instead - it works better.
-                QWidget *windowWidget = source->window();
-                if (!windowWidget || !source->window()->windowHandle()) {
-                    log("Target widget has no window handle", LogError);
-                    return;
-                }
-                QWindow *window = windowWidget->windowHandle();
-                const QPoint pos = source->mapTo(windowWidget, source->rect().center());
-
-                if (action == mousePress) {
-                    QTest::mousePress(window, Qt::LeftButton, {}, pos);
-                } else if (action == mouseRelease) {
-                    QTest::mouseRelease(window, Qt::LeftButton, {}, pos);
-                } else if (action == mouseClick) {
-                    QTest::mouseClick(window, Qt::LeftButton, {}, pos);
-                } else if (action == mouseDrag) {
-                    // This should trigger creating a QDrag in a parent widget.
-                    QTest::mouseMove(source, source->rect().topLeft());
-                    QTest::mouseMove(source, source->rect().bottomRight());
-                }
-            });
-            m_succeeded = true;
-        } else if ( keys.startsWith(dragPrefix) ) {
-            const QObject *drag = m_wnd->findChild<QDrag*>();
-            if (!drag) {
-                log("QDrag not started", LogError);
-                m_failed = true;
-                return;
-            }
-            COPYQ_LOG(
-                QStringLiteral("QDrag started with parent: %1")
-                    .arg(objectAddress(drag->parent()))
-            );
-            const QString properties = keys.section('|', 1);
-            QWidget* source = findWidgetWithProperties(properties, m_wnd);
-            if (!source) {
-                m_failed = true;
-                return;
-            }
-            if (drag->parent() != source) {
-                log( QStringLiteral("Unexpected QDrag parent; Expected: %1; Actual: %2")
-                     .arg(properties, objectAddress(drag->parent())), LogError );
-                m_failed = true;
-                return;
-            }
-            m_succeeded = true;
-        } else {
-            const QKeySequence shortcut(keys, QKeySequence::PortableText);
-
-            if ( shortcut.isEmpty() ) {
-                log( QString("Cannot parse shortcut \"%1\"!").arg(keys), LogError );
-                m_failed = true;
-                return;
-            }
-
-            // Increment key clicks sequence number before opening any modal dialogs.
-            m_succeeded = true;
-
-            const auto key = static_cast<uint>(shortcut[0]);
-            QTest::keyClick( widget,
-                             Qt::Key(key & ~Qt::KeyboardModifierMask),
-                             Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
-                             0 );
-        }
-
-        COPYQ_LOG( QString("Event \"%1\" sent to %2.")
-                   .arg(keys, widgetName) );
-    }
-
-    void sendKeyClicks(const QRegularExpression &expectedWidgetName, const QString &keys, int delay, int retry)
-    {
-        m_succeeded = false;
-        m_failed = false;
-
-        // Don't stop when modal window is open.
-        runAfterInterval(delay, [=](){ keyClicks(expectedWidgetName, keys, delay, retry); });
-    }
-
-    bool succeeded() const { return m_succeeded; }
-    bool failed() const { return m_failed; }
-
-private:
-    template <typename Callable>
-    void runAfterInterval(int delay, Callable func)
-    {
-        auto t = new QTimer(m_wnd);
-        t->setSingleShot(true);
-        QObject::connect(t, &QTimer::timeout, m_wnd, func);
-        QObject::connect(t, &QTimer::timeout, t, &QTimer::deleteLater);
-        t->start(delay);
-    }
-
-    QWidget *keyClicksTarget()
-    {
-        auto popup = QApplication::activePopupWidget();
-        if (popup)
-            return popup;
-
-        auto widget = QApplication::focusWidget();
-        if (widget)
-            return widget;
-
-        auto window = QApplication::activeWindow();
-        if (window)
-            return window->focusWidget();
-
-        auto modal = QApplication::activeModalWidget();
-        if (modal)
-            return modal->focusWidget();
-
-#ifdef Q_OS_MAC
-        return m_wnd->focusWidget();
-#else
-        return nullptr;
-#endif
-    }
-
-
-    MainWindow *m_wnd = nullptr;
-    bool m_succeeded = true;
-    bool m_failed = false;
-};
-#endif // HAS_TESTS
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     : QObject(parent)
@@ -2136,28 +1807,10 @@ void ScriptableProxy::selectionSort(int id, const QVector<int> &indexes)
         selection.browser->sortItems(sorted);
 }
 
-#ifdef HAS_TESTS
-void ScriptableProxy::sendKeys(const QString &expectedWidgetName, const QString &keys, int delay)
+QVariant ScriptableProxy::callPlugin(const QVariantList &arguments)
 {
-    INVOKE2(sendKeys, (expectedWidgetName, keys, delay));
-    Q_ASSERT( keyClicker()->succeeded() || keyClicker()->failed() );
-    const QRegularExpression re = QRegularExpression(
-        QString(expectedWidgetName)
-        .replace(QLatin1String("<"), QLatin1String(".*<.*"))
-    );
-    keyClicker()->sendKeyClicks(re, keys, delay, 10);
-}
-
-bool ScriptableProxy::sendKeysSucceeded()
-{
-    INVOKE(sendKeysSucceeded, ());
-    return keyClicker()->succeeded();
-}
-
-bool ScriptableProxy::sendKeysFailed()
-{
-    INVOKE(sendKeysFailed, ());
-    return keyClicker()->failed();
+    INVOKE(callPlugin, (arguments));
+    return m_wnd->callPlugin(arguments);
 }
 
 QString ScriptableProxy::testSelected()
@@ -2193,7 +1846,6 @@ QString ScriptableProxy::testSelected()
 
     return browser->tabName() + " " + result.join(" ");
 }
-#endif // HAS_TESTS
 
 void ScriptableProxy::serverLog(const QString &text)
 {
@@ -2886,15 +2538,6 @@ bool ScriptableProxy::getSelectionData()
         m_actionData[it.key()] = it.value();
     return true;
 }
-
-#ifdef HAS_TESTS
-KeyClicker *ScriptableProxy::keyClicker()
-{
-    if (!m_keyClicker)
-        m_keyClicker = new KeyClicker(m_wnd, this);
-    return m_keyClicker;
-}
-#endif // HAS_TESTS
 
 QString pluginsPath()
 {

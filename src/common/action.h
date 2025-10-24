@@ -10,11 +10,6 @@ class QAction;
 class QProcess;
 
 /**
- * Terminate process or kill if it takes too long.
- */
-void terminateProcess(QProcess *p);
-
-/**
  * Execute external program and emits signals
  * to create or change items from the program's stdout.
  */

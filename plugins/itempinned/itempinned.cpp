@@ -7,10 +7,6 @@
 #include "common/display.h"
 #include "gui/fromiconid.h"
 
-#ifdef HAS_TESTS
-#   include "tests/itempinnedtests.h"
-#endif
-
 #include <QApplication>
 #include <QBoxLayout>
 #include <QMessageBox>
@@ -98,7 +94,7 @@ bool ItemPinnedScriptable::isPinned()
         bool ok;
         const int row = arg.toInt(&ok);
         if (ok) {
-            const auto result = call("read", QVariantList() << "?" << row);
+            const auto result = call("read", {QStringLiteral("?"), row});
             if ( result.toByteArray().contains(mimePinned.data()) )
                 return true;
         }
@@ -117,7 +113,7 @@ void ItemPinnedScriptable::pin()
             bool ok;
             const int row = arg.toInt(&ok);
             if (ok)
-                call("change", QVariantList() << row << mimePinned << QString());
+                call("change", {row, mimePinned, QString()});
         }
     }
 }
@@ -132,19 +128,19 @@ void ItemPinnedScriptable::unpin()
             bool ok;
             const int row = arg.toInt(&ok);
             if (ok)
-                call("change", QVariantList() << row << mimePinned << QVariant());
+                call("change", {row, mimePinned, QVariant()});
         }
     }
 }
 
 void ItemPinnedScriptable::pinData()
 {
-    call("setData", QVariantList() << mimePinned << QString());
+    call("setData", {mimePinned, QString()});
 }
 
 void ItemPinnedScriptable::unpinData()
 {
-    call("removeData", QVariantList() << mimePinned);
+    call("removeData", {mimePinned});
 }
 
 QString ItemPinnedScriptable::getMimePinned() const
@@ -319,17 +315,6 @@ ItemWidget *ItemPinnedLoader::transform(ItemWidget *itemWidget, const QVariantMa
 ItemSaverPtr ItemPinnedLoader::transformSaver(const ItemSaverPtr &saver, QAbstractItemModel *model)
 {
     return std::make_shared<ItemPinnedSaver>(model, saver);
-}
-
-QObject *ItemPinnedLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QObject *tests = new ItemPinnedTests(test);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 ItemScriptable *ItemPinnedLoader::scriptableObject()

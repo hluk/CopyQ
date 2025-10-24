@@ -49,39 +49,42 @@ fi
 
 "$Executable" menu
 
+keys=plugins.itemtests.keys
+export COPYQ_PLUGINS=$BUILD_PATH/src/${BUILD_SUB_DIR:-}/itemtests.dll
+
 screenshot "App - Preventing screenshots"
 "$Executable" config prevent_screen_cature false
 
 screenshot "App and menu"
-"$Executable" keys "focus:TrayMenu" "ESCAPE" "focus:ClipboardBrowser"
+"$Executable" $keys "focus:TrayMenu" "ESCAPE" "focus:ClipboardBrowser"
 
 screenshot "App"
 
-"$Executable" keys "Ctrl+P" "focus:ConfigurationManager"
+"$Executable" $keys "Ctrl+P" "focus:ConfigurationManager"
 for n in $(seq 9); do
     screenshot "Configuration Tab $n"
-    "$Executable" keys "DOWN" "focus:ConfigurationManager"
+    "$Executable" $keys "DOWN" "focus:ConfigurationManager"
 done
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
+"$Executable" $keys "ESCAPE" "focus:ClipboardBrowser"
 
-"$Executable" keys "Shift+F1" "focus:AboutDialog"
+"$Executable" $keys "Shift+F1" "focus:AboutDialog"
 screenshot "About Dialog"
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
+"$Executable" $keys "ESCAPE" "focus:ClipboardBrowser"
 
-"$Executable" keys "Alt+T" "focus:Menu"
+"$Executable" $keys "Alt+T" "focus:Menu"
 screenshot "Tab Menu"
-"$Executable" keys "ESCAPE" "focus:ClipboardBrowser"
+"$Executable" $keys "ESCAPE" "focus:ClipboardBrowser"
 
-"$Executable" keys "Ctrl+N" "focus:ItemEditorWidget"
-"$Executable" keys ":Testing 1 2 3" "focus:ItemEditorWidget"
+"$Executable" $keys "Ctrl+N" "focus:ItemEditorWidget"
+"$Executable" $keys ":Testing 1 2 3" "focus:ItemEditorWidget"
 screenshot "Editor"
-"$Executable" keys "F2" "focus:ClipboardBrowser"
+"$Executable" $keys "F2" "focus:ClipboardBrowser"
 
-"$Executable" keys "Ctrl+N" "focus:ItemEditorWidget" \
+"$Executable" $keys "Ctrl+N" "focus:ItemEditorWidget" \
     ":New Item" "F2" "focus:ClipboardBrowser"
-"$Executable" keys "F2" "focus:ItemEditorWidget" \
+"$Executable" $keys "F2" "focus:ItemEditorWidget" \
     "END" "ENTER" ":with Notes" "F2" "focus:ClipboardBrowser"
-"$Executable" keys "Shift+F2" "focus:ItemEditorWidget" \
+"$Executable" $keys "Shift+F2" "focus:ItemEditorWidget" \
     ":Some Notes" "F2" "focus:ClipboardBrowser"
 screenshot "Items"
 

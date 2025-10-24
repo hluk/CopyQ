@@ -9,14 +9,14 @@
 void Tests::shortcutCommand()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "0", "OK");
 }
 
 void Tests::shortcutCommandOverrideEnter()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Enter'], cmd: 'copyq add OK'}])", "");
-    RUN("keys" << "ENTER" << "ENTER", "");
+    KEYS("ENTER" << "ENTER");
     WAIT_ON_OUTPUT("read" << "0" << "1", "OK\nOK");
 }
 
@@ -39,12 +39,12 @@ void Tests::shortcutCommandMatchInput()
     RUN(script, "");
 
     RUN("write" << "application/x-copyq-test1" << "", "");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "0", "test1");
     RUN("tab" << QString(clipboardTabName) << "size", "2\n");
 
     RUN("write" << "application/x-copyq-test2" << "", "");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "0", "test2");
     RUN("tab" << QString(clipboardTabName) << "size", "4\n");
 }
@@ -73,10 +73,10 @@ void Tests::shortcutCommandMatchCmd()
     RUN("show" << tab, "");
 
     RUN(args << "write" << "application/x-copyq-test1" << "1", "");
-    WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test1");
+    WAIT_ON_OUTPUT(args << "plugins.itemtests.keys('Ctrl+F1'); read(0)", "test1");
 
     RUN(args << "write" << "application/x-copyq-test2" << "2", "");
-    WAIT_ON_OUTPUT(args << "keys('Ctrl+F1'); read(0)", "test2");
+    WAIT_ON_OUTPUT(args << "plugins.itemtests.keys('Ctrl+F1'); read(0)", "test2");
 }
 
 void Tests::shortcutCommandSelectedItemData()
@@ -96,7 +96,7 @@ void Tests::shortcutCommandSelectedItemData()
 
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "C");
 }
 
@@ -114,7 +114,7 @@ void Tests::shortcutCommandSetSelectedItemData()
 
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "2", "X");
     RUN("read" << "DATA" << "2", "TEST");
 }
@@ -137,7 +137,7 @@ void Tests::shortcutCommandSelectedItemsData()
 
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "B,C,");
 }
 
@@ -155,7 +155,7 @@ void Tests::shortcutCommandSetSelectedItemsData()
 
     RUN("add" << "C" << "B" << "A", "");
     RUN("selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "A\nX\nY");
 }
 
@@ -176,7 +176,7 @@ void Tests::shortcutCommandSelectedAndCurrent()
     RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
 
     RUN("tab" << tab1 << "setCurrentTab" << tab1 << "selectItems" << "1" << "2", "true\n");
-    RUN("keys" << "CTRL+F1", "");
+    KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", "1,2|2|" + tab1.toUtf8());
 }
 
@@ -198,7 +198,7 @@ void Tests::shortcutCommandMoveSelected()
     RUN(args << "add" << "4" << "3" << "2" << "1", "");
 
 #define MOVE_SELECTED(EXPECTED_ITEMS) \
-    RUN("settings" << "done" << "0" << "keys" << "CTRL+F1", ""); \
+    RUN("settings" << "done" << "0" << "plugins.itemtests.keys" << "CTRL+F1", ""); \
     WAIT_ON_OUTPUT("settings" << "done", "1\n"); \
     RUN(args << "read(0,1,2,3,4)", EXPECTED_ITEMS)
 
@@ -415,8 +415,8 @@ void Tests::globalCommandInMenu()
     RUN(script, "");
     WAIT_ON_OUTPUT("commands().length", "1\n");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "DOWN" << "ENTER", "");
-    RUN("keys" << clipboardBrowserId, "");
+    KEYS(trayMenuId << "DOWN" << "ENTER");
+    KEYS(clipboardBrowserId);
     WAIT_ON_OUTPUT("read(0)", "test");
 
     RUN("setCommands([])", "");
@@ -431,11 +431,11 @@ void Tests::globalCommandInMenu()
     RUN(script2, "");
     WAIT_ON_OUTPUT("commands().length", "1\n");
     RUN("menu", "");
-    RUN("keys" << trayMenuId << "DOWN" << "DOWN" << "ENTER", "");
+    KEYS(trayMenuId << "DOWN" << "DOWN" << "ENTER");
     waitFor(100);
-    RUN("keys" << trayMenuId << "ENTER", "");
+    KEYS(trayMenuId << "ENTER");
     waitFor(100);
-    RUN("keys" << trayMenuId << "ENTER", "");
-    RUN("keys" << clipboardBrowserId, "");
+    KEYS(trayMenuId << "ENTER");
+    KEYS(clipboardBrowserId);
     WAIT_ON_OUTPUT("read(0)", "test2");
 }

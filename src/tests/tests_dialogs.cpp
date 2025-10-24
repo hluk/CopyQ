@@ -9,34 +9,34 @@
 void Tests::createTabDialog()
 {
     const auto tab1 = testTab(1);
-    RUN("keys"
-        << clipboardBrowserId << "CTRL+T"
-        << tabDialogLineEditId << ":" + tab1 << "ENTER", "");
-    RUN("testSelected", tab1 + "\n");
+    KEYS(
+        clipboardBrowserId << "CTRL+T"
+        << tabDialogLineEditId << ":" + tab1 << "ENTER");
+    TEST_SELECTED(tab1 + "\n");
 }
 
 void Tests::showHideAboutDialog()
 {
     const auto aboutShortcut = keyNameFor(QKeySequence::QKeySequence::WhatsThis);
-    RUN("keys" << clipboardBrowserId << aboutShortcut << aboutDialogId, "");
-    RUN("keys" << aboutDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId << aboutShortcut << aboutDialogId);
+    KEYS(aboutDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
 void Tests::showHideClipboardDialog()
 {
     TEST( m_test->setClipboard("TEST", "test-format") );
-    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+C" << clipboardDialogId, "");
+    KEYS(clipboardBrowserId << "CTRL+SHIFT+C" << clipboardDialogId);
 
-    RUN("keys" << clipboardDialogId << "DOWN" << "HOME" << clipboardDialogFormatListId, "");
+    KEYS(clipboardDialogId << "DOWN" << "HOME" << clipboardDialogFormatListId);
 
-    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy));
 #ifdef Q_OS_WIN
     WAIT_FOR_CLIPBOARD("application/x-qt-windows-mime;value=\"test-format\"");
 #else
     WAIT_FOR_CLIPBOARD("test-format");
 #endif
 
-    RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(clipboardDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
 void Tests::showHideItemDialog()
@@ -44,40 +44,40 @@ void Tests::showHideItemDialog()
     RUN("write" << "test-format" << "TEST", "");
     RUN("selectItems" << "0", "true\n");
 
-    RUN("keys" << clipboardBrowserId << "F4" << clipboardDialogId, "");
+    KEYS(clipboardBrowserId << "F4" << clipboardDialogId);
 
-    RUN("keys" << clipboardDialogId << "DOWN" << clipboardDialogFormatListId, "");
-    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardDialogId << "DOWN" << clipboardDialogFormatListId);
+    KEYS(clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy));
     WAIT_FOR_CLIPBOARD("test-format");
 
-    RUN("keys" << clipboardDialogFormatListId << "DOWN", "");
-    RUN("keys" << clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy), "");
+    KEYS(clipboardDialogFormatListId << "DOWN");
+    KEYS(clipboardDialogFormatListId << keyNameFor(QKeySequence::Copy));
     WAIT_FOR_CLIPBOARD("test-format");
 
-    RUN("keys" << clipboardDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(clipboardDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
 void Tests::showHideLogDialog()
 {
-    RUN("keys" << clipboardBrowserId << "F12" << logDialogId, "");
+    KEYS(clipboardBrowserId << "F12" << logDialogId);
 
-    RUN("keys" << logDialogId << "CTRL+A" << "CTRL+C" << logDialogId, "");
+    KEYS(logDialogId << "CTRL+A" << "CTRL+C" << logDialogId);
     const QByteArray expectedLog = "Starting callback: onStart";
     TEST( m_test->verifyClipboard(expectedLog, mimeHtml, false) );
 
-    RUN("keys" << logDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(logDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
 void Tests::showHideActionHandlerDialog()
 {
-    RUN("keys" << clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId, "");
+    KEYS(clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId);
 
-    RUN("keys" << actionHandlerFilterId << ":onstart" << "TAB" << actionHandlerTableId, "");
+    KEYS(actionHandlerFilterId << ":onstart" << "TAB" << actionHandlerTableId);
 
-    RUN("keys" << actionHandlerTableId << "RIGHT" << "CTRL+C", "");
+    KEYS(actionHandlerTableId << "RIGHT" << "CTRL+C");
     WAIT_FOR_CLIPBOARD("copyq onStart");
 
-    RUN("keys" << actionHandlerDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(actionHandlerDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
 void Tests::shortcutDialogAddShortcut()
@@ -89,13 +89,13 @@ void Tests::shortcutDialogAddShortcut()
     RUN("setCommands([{name: 'test', inMenu: true, cmd: 'copyq add OK'}])", "");
     RUN("commands()[0].shortcuts", "");
 
-    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
-    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "CTRL+F1" << shortcutButtonId, "");
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "CTRL+F1" << shortcutButtonId);
 
-    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
-    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    KEYS(commandDialogId << "ESCAPE" << commandDialogSaveButtonId);
+    KEYS(commandDialogSaveButtonId << "Enter" << clipboardBrowserId);
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
@@ -108,18 +108,18 @@ void Tests::shortcutDialogAddTwoShortcuts()
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 
-    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
-    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
 
-    RUN("keys" << shortcutButtonId << "TAB" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "F1" << shortcutButtonId, "");
+    KEYS(shortcutButtonId << "TAB" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "F1" << shortcutButtonId);
 
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "F2" << shortcutButtonId, "");
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "F2" << shortcutButtonId);
 
-    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
-    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    KEYS(commandDialogId << "ESCAPE" << commandDialogSaveButtonId);
+    KEYS(commandDialogSaveButtonId << "Enter" << clipboardBrowserId);
     RUN("commands()[0].shortcuts", "ctrl+f1\nf1\nf2\n");
 }
 
@@ -132,14 +132,14 @@ void Tests::shortcutDialogChangeShortcut()
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['f1','f2','f3'], cmd: 'copyq add OK'}])", "");
     RUN("commands()[0].shortcuts", "f1\nf2\nf3\n");
 
-    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
-    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
-    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "F4" << shortcutButtonId, "");
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
+    KEYS(commandDialogId << "TAB" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "F4" << shortcutButtonId);
 
-    RUN("keys" << commandDialogId << "ESCAPE" << commandDialogSaveButtonId, "");
-    RUN("keys" << commandDialogSaveButtonId << "Enter" << clipboardBrowserId, "");
+    KEYS(commandDialogId << "ESCAPE" << commandDialogSaveButtonId);
+    KEYS(commandDialogSaveButtonId << "Enter" << clipboardBrowserId);
     RUN("commands()[0].shortcuts", "f1\nf4\nf3\n");
 }
 
@@ -152,13 +152,13 @@ void Tests::shortcutDialogSameShortcut()
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 
-    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
-    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "TAB" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "CTRL+F1" << shortcutButtonId, "");
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
+    KEYS(shortcutButtonId << "TAB" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "CTRL+F1" << shortcutButtonId);
 
-    RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(commandDialogId << "ESCAPE" << clipboardBrowserId);
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
@@ -171,14 +171,14 @@ void Tests::shortcutDialogCancel()
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['ctrl+f1'], cmd: 'copyq add OK'}])", "");
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 
-    RUN("keys" << clipboardBrowserId << "F6" << commandDialogId, "");
-    RUN("keys" << commandDialogId << "ALT+S" << shortcutButtonId, "");
-    RUN("keys" << commandDialogId << "TAB" << shortcutButtonId, "");
-    RUN("keys" << shortcutButtonId << "Space" << shortcutDialogId, "");
-    RUN("keys" << shortcutDialogId << "TAB" << "focus:ShortcutDialog", "");
-    RUN("keys" << "ESCAPE" << shortcutButtonId, "");
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
+    KEYS(commandDialogId << "TAB" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "TAB" << "focus:ShortcutDialog");
+    KEYS("ESCAPE" << shortcutButtonId);
 
-    RUN("keys" << commandDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(commandDialogId << "ESCAPE" << clipboardBrowserId);
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
@@ -195,8 +195,8 @@ void Tests::actionDialogCancel()
         )";
     RUN(script, "");
 
-    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
-    RUN("keys" << actionDialogId << "ESCAPE" << clipboardBrowserId, "");
+    KEYS(clipboardBrowserId << "CTRL+F1" << actionDialogId);
+    KEYS(actionDialogId << "ESCAPE" << clipboardBrowserId);
     RUN("settings" << "test", "");
 }
 
@@ -213,12 +213,12 @@ void Tests::actionDialogAccept()
         )";
     RUN(script, "");
 
-    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    KEYS(clipboardBrowserId << "CTRL+F1" << actionDialogId);
     // Can't focus configuration checkboxes on OS X
 #ifdef Q_OS_MAC
-    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+    KEYS(actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId);
 #else
-    RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
+    KEYS(actionDialogId << "ENTER" << clipboardBrowserId);
 #endif
     WAIT_ON_OUTPUT("settings" << "test", "SHOULD_BE_SET");
 }
@@ -247,12 +247,12 @@ void Tests::actionDialogSelectionInputOutput()
     RUN("setCurrentTab" << tab, "");
     RUN(args << "selectItems" << "0" << "2", "true\n");
 
-    RUN("keys" << clipboardBrowserId << "CTRL+F1" << actionDialogId, "");
+    KEYS(clipboardBrowserId << "CTRL+F1" << actionDialogId);
     // Can't focus configuration checkboxes on OS X
 #ifdef Q_OS_MAC
-    RUN("keys" << actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId, "");
+    KEYS(actionDialogId << "BACKTAB" << "ENTER" << clipboardBrowserId);
 #else
-    RUN("keys" << actionDialogId << "ENTER" << clipboardBrowserId, "");
+    KEYS(actionDialogId << "ENTER" << clipboardBrowserId);
 #endif
     WAIT_ON_OUTPUT("settings" << "test", "A\nC");
     WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
@@ -260,15 +260,15 @@ void Tests::actionDialogSelectionInputOutput()
 
 void Tests::exitConfirm()
 {
-    RUN("keys" << clipboardBrowserId << "CTRL+Q" << confirmExitDialogId, "");
-    RUN("keys" << confirmExitDialogId << "ENTER", "");
+    KEYS(clipboardBrowserId << "CTRL+Q" << confirmExitDialogId);
+    KEYS(confirmExitDialogId << "ENTER");
     TEST( m_test->waitForServerToStop() );
 }
 
 void Tests::exitNoConfirm()
 {
     RUN("config" << "confirm_exit" << "false", "false\n");
-    RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
+    KEYS(clipboardBrowserId << "CTRL+Q");
     TEST( m_test->waitForServerToStop() );
 }
 
@@ -276,7 +276,7 @@ void Tests::exitStopCommands()
 {
     RUN("config" << "confirm_exit" << "false", "false\n");
     RUN("action" << "copyq sleep 999999", "");
-    RUN("keys" << clipboardBrowserId << "CTRL+Q", "");
-    RUN("keys" << runningCommandsExitDialogId << "ENTER", "");
+    KEYS(clipboardBrowserId << "CTRL+Q");
+    KEYS(runningCommandsExitDialogId << "ENTER");
     TEST( m_test->waitForServerToStop() );
 }

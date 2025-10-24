@@ -24,11 +24,6 @@ add_definitions(${${copyq_qt}Widgets_DEFINITIONS})
 include(notifications.cmake)
 include(platform/platform.cmake)
 
-# Compile with tests?
-if (WITH_TESTS)
-    file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
-endif()
-
 set_source_files_properties(
     ${copyq_SOURCES} PROPERTIES
     COMPILE_OPTIONS "${copyq_pedantic_flags}")
@@ -45,10 +40,8 @@ endif()
 # translations
 file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
 
-find_package(${copyq_qt}LinguistTools)
-if (${copyq_qt}LinguistTools_FOUND)
-    qt_add_translation(copyq_QM ${copyq_TRANSLATIONS})
-endif()
+find_package(${copyq_qt}LinguistTools REQUIRED)
+qt_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 
 qt_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
 qt_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
@@ -176,4 +169,10 @@ qt_deploy_runtime_dependencies(
 
     set(CPACK_GENERATOR "DragNDrop")
     include(CPack)
+endif()
+
+# Compile with tests?
+OPTION(WITH_TESTS "Run test cases from command line" OFF)
+if(WITH_TESTS)
+    include(tests/tests.cmake)
 endif()

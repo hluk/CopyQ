@@ -13,10 +13,6 @@
 #include "gui/pixelratio.h"
 #include "item/itemfilter.h"
 
-#ifdef HAS_TESTS
-#   include "tests/itemtagstests.h"
-#endif
-
 #include <QBoxLayout>
 #include <QColorDialog>
 #include <QLabel>
@@ -402,7 +398,7 @@ void ItemTagsScriptable::tag()
     }
 
     if ( args.size() <= 1 ) {
-        const auto dataValueList = call("selectedItemsData").toList();
+        const auto dataValueList = call("selectedItemsData", {}).toList();
 
         QVariantList dataList;
         dataList.reserve( dataValueList.size() );
@@ -414,7 +410,7 @@ void ItemTagsScriptable::tag()
             dataList.append(itemData);
         }
 
-        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+        call("setSelectedItemsData", {QVariant(dataList)});
     } else {
         for ( int row : rows(args, 1) ) {
             auto itemTags = tags(row);
@@ -430,7 +426,7 @@ void ItemTagsScriptable::untag()
     auto tagName = args.value(0).toString();
 
     if ( args.size() <= 1 ) {
-        const auto dataValueList = call("selectedItemsData").toList();
+        const auto dataValueList = call("selectedItemsData", {}).toList();
 
         if ( tagName.isEmpty() ) {
             QStringList allTags;
@@ -454,7 +450,7 @@ void ItemTagsScriptable::untag()
             dataList.append(itemData);
         }
 
-        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+        call("setSelectedItemsData", {QVariant(dataList)});
     } else {
         const auto rows = this->rows(args, 1);
 
@@ -481,7 +477,7 @@ void ItemTagsScriptable::clearTags()
     const auto args = currentArguments();
 
     if ( args.isEmpty() ) {
-        const auto dataValueList = call("selectedItemsData").toList();
+        const auto dataValueList = call("selectedItemsData", {}).toList();
 
         QVariantList dataList;
         for (const auto &itemDataValue : dataValueList) {
@@ -490,7 +486,7 @@ void ItemTagsScriptable::clearTags()
             dataList.append(itemData);
         }
 
-        call( "setSelectedItemsData", QVariantList() << QVariant(dataList) );
+        call("setSelectedItemsData", {QVariant(dataList)});
     } else {
         const auto rows = this->rows(args, 0);
         for (int row : rows)
@@ -504,7 +500,7 @@ bool ItemTagsScriptable::hasTag()
     const auto tagName = args.value(0).toString();
 
     if ( args.size() <= 1 ) {
-        const auto dataValueList = call("selectedItemsData").toList();
+        const auto dataValueList = call("selectedItemsData", {}).toList();
         for (const auto &itemDataValue : dataValueList) {
             const auto itemData = itemDataValue.toMap();
             const auto itemTags = ::tags(itemData);
@@ -520,10 +516,7 @@ bool ItemTagsScriptable::hasTag()
 
 QString ItemTagsScriptable::askTagName(const QString &dialogTitle, const QStringList &tags)
 {
-    const auto value = call( "dialog", QVariantList()
-          << ".title" << dialogTitle
-          << dialogTitle << tags );
-
+    const auto value = call("dialog", {".title", dialogTitle, dialogTitle, tags});
     return value.toString();
 }
 
@@ -554,14 +547,14 @@ QList<int> ItemTagsScriptable::rows(const QVariantList &arguments, int skip)
 
 QStringList ItemTagsScriptable::tags(int row)
 {
-    const auto value = call("read", QVariantList() << mimeTags << row);
+    const auto value = call("read", {mimeTags, row});
     return ::tags(value);
 }
 
 void ItemTagsScriptable::setTags(int row, const QStringList &tags)
 {
     const auto value = tags.join(",");
-    call("change", QVariantList() << row << mimeTags << value);
+    call("change", {row, mimeTags, value});
 }
 
 bool ItemTagsScriptable::addTag(const QString &tagName, QStringList *tags)
@@ -703,29 +696,6 @@ bool ItemTagsLoader::matches(const QModelIndex &index, const ItemFilter &filter)
             index.data(contentType::data).toMap().value(mimeTags).toByteArray();
     const auto tags = getTextData(tagsData);
     return filter.matches(tags) || filter.matches(accentsRemoved(tags));
-}
-
-QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
-{
-#ifdef HAS_TESTS
-    QStringList tags;
-
-    for (const auto &tagName : ItemTagsTests::testTags()) {
-        Tag tag;
-        tag.name = tagName;
-        tags.append(serializeTag(tag));
-    }
-
-    QVariantMap settings;
-    settings[configTags] = tags;
-
-    QObject *tests = new ItemTagsTests(test);
-    tests->setProperty("CopyQ_test_settings", settings);
-    return tests;
-#else
-    Q_UNUSED(test)
-    return nullptr;
-#endif
 }
 
 ItemScriptable *ItemTagsLoader::scriptableObject()

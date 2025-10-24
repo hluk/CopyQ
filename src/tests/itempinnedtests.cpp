@@ -10,6 +10,7 @@ ItemPinnedTests::ItemPinnedTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", QStringLiteral("itempinned"));
 }
 
 void ItemPinnedTests::initTestCase()
