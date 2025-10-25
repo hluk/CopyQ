@@ -1,6 +1,5 @@
 # Project files
 file(GLOB copyq_SOURCES
-    main.cpp
     app/*.cpp
     common/*.cpp
     gui/*.cpp
@@ -17,24 +16,19 @@ file(GLOB copyq_FORMS
 set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
-include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
-include_directories(${${copyq_qt}Widgets_INCLUDES})
-add_definitions(${${copyq_qt}Widgets_DEFINITIONS})
+set(copyq_DEFINITIONS ${${copyq_qt}Widgets_DEFINITIONS})
 
 include(notifications.cmake)
 include(platform/platform.cmake)
 
 set_source_files_properties(
-    ${copyq_SOURCES} PROPERTIES
+    main.cpp ${copyq_SOURCES} PROPERTIES
     COMPILE_OPTIONS "${copyq_pedantic_flags}")
 
 # Qxt - global shortcuts
 if (USE_QXT)
-    set(copyq_SOURCES ${copyq_SOURCES}
-        ../qxt/qxtglobalshortcut.cpp
-        )
-    add_definitions( -DQXT_STATIC )
-    add_definitions( -DCOPYQ_GLOBAL_SHORTCUTS )
+    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut.cpp)
+    list(APPEND copyq_DEFINITIONS QXT_STATIC COPYQ_GLOBAL_SHORTCUTS)
 endif()
 
 # translations
@@ -67,17 +61,22 @@ set(copyq_COMPILE
     ${copyq_COMPILE}
     ${copyq_SOURCES}
     ${copyq_FORMS_HEADERS}
-    ${copyq_RESOURCES_RCC}
-    ${copyq_QM}
     ${copyq_VERSION_FILE}
     )
+add_library(copyq-common OBJECT ${copyq_COMPILE})
 
 if (NOT copyq_version)
     message(FATAL_ERROR "Application version is unset")
 endif()
 
 if (NOT APPLE)
-    add_executable(${COPYQ_EXECUTABLE_NAME} ${copyq_COMPILE})
+    add_executable(${COPYQ_EXECUTABLE_NAME}
+        ${copyq_windows_no_console}
+        main.cpp
+        ${copyq_RESOURCES_RCC}
+        ${copyq_QM}
+        $<TARGET_OBJECTS:copyq-common>
+    )
 else()
     FIND_LIBRARY(CARBON_LIBRARY Carbon REQUIRED)
     FIND_LIBRARY(COCOA_LIBRARY Cocoa REQUIRED)
@@ -109,11 +108,17 @@ else()
     set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     set(copyq_COMPILE ${copyq_COMPILE} "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns")
 
-    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE ${copyq_COMPILE})
+    add_executable(${COPYQ_EXECUTABLE_NAME} MACOSX_BUNDLE
+        main.cpp
+        ${copyq_RESOURCES_RCC}
+        ${copyq_QM}
+        $<TARGET_OBJECTS:copyq-common>
+        "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns"
+    )
 endif()
 
-target_sources(${COPYQ_EXECUTABLE_NAME} PRIVATE ${copyq_SOURCES})
-add_dependencies(${COPYQ_EXECUTABLE_NAME} generate_version_file)
+target_sources(copyq-common PRIVATE ${copyq_SOURCES})
+add_dependencies(copyq-common generate_version_file)
 
 # Qt modules
 list(APPEND copyq_qt_modules Network Svg Xml Qml)
@@ -122,12 +127,12 @@ foreach (copyq_qt_module ${copyq_qt_modules})
     list(APPEND copyq_LIBRARIES ${copyq_qt}::${copyq_qt_module})
 endforeach()
 
-# macros definitions for preprocessor and moc
-set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
-
-# link
+set_target_properties(copyq-common PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
 target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
+target_link_libraries(copyq-common ${copyq_LIBRARIES})
+target_include_directories(copyq-common PRIVATE ${CMAKE_CURRENT_BINARY_DIR} .)
+target_include_directories(${COPYQ_EXECUTABLE_NAME} PRIVATE .)
 
 # install
 if (WIN32)

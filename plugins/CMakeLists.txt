@@ -1,9 +1,7 @@
 macro (copyq_add_plugin copyq_pkg)
     file(GLOB copyq_plugin_SOURCES
-        ${copyq_plugin_${copyq_pkg}_SOURCES}
         ${copyq_plugin_${copyq_pkg}_external_SOURCES}
         *.cpp
-        ../../src/item/itemwidget.cpp
         )
     file(GLOB copyq_plugin_FORMS
         ${copyq_plugin_${copyq_pkg}_FORMS}
@@ -14,10 +12,6 @@ macro (copyq_add_plugin copyq_pkg)
         ${copyq_plugin_${copyq_pkg}_SOURCES} PROPERTIES
         COMPILE_OPTIONS "${copyq_pedantic_flags}")
 
-    include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
-
-    include_directories(${${copyq_qt}Widgets_INCLUDES})
-    add_definitions(${${copyq_qt}Widgets_DEFINITIONS})
     qt_wrap_ui(copyq_plugin_FORMS_HEADERS ${copyq_plugin_FORMS})
     qt_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
 
@@ -25,12 +19,16 @@ macro (copyq_add_plugin copyq_pkg)
         ${copyq_plugin_SOURCES}
         ${copyq_plugin_FORMS_HEADERS}
         ${copyq_plugin_RCC}
+        ${copyq_plugin_${copyq_pkg}_SOURCES}
+        $<TARGET_OBJECTS:copyq-plugin-common>
         )
 
     set_target_properties(${copyq_pkg} PROPERTIES
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
     target_link_libraries(${copyq_pkg} ${copyq_LIBRARIES} ${copyq_plugin_${copyq_pkg}_LIBRARIES})
+
+    target_include_directories(${copyq_pkg} PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
     if (UNIX AND NOT APPLE)
         install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})
@@ -47,6 +45,25 @@ macro (copyq_add_plugin copyq_pkg)
 endmacro()
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/plugins)
+
+macro (copyq_add_plugin_obj copyq_mod)
+    add_library(${copyq_mod} OBJECT ${ARGN})
+    set_target_properties(${copyq_mod} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    target_link_libraries(${copyq_mod} ${copyq_LIBRARIES})
+    target_include_directories(${copyq_mod} PRIVATE ../src)
+endmacro()
+
+copyq_add_plugin_obj(copyq-plugin-common
+    ../src/item/itemwidget.cpp
+    ../src/common/mimetypes.cpp
+)
+copyq_add_plugin_obj(copyq-plugin-wrapper ../src/item/itemwidgetwrapper.cpp)
+copyq_add_plugin_obj(copyq-plugin-textdata ../src/common/textdata.cpp)
+copyq_add_plugin_obj(copyq-plugin-screen ../src/gui/screen.cpp)
+copyq_add_plugin_obj(copyq-plugin-serialize ../src/item/serialize.cpp)
+copyq_add_plugin_obj(copyq-plugin-config ../src/common/config.cpp)
+copyq_add_plugin_obj(copyq-plugin-iconfont ../src/gui/iconfont.cpp)
+copyq_add_plugin_obj(copyq-plugin-iconwidget ../src/gui/iconwidget.cpp)
 
 add_subdirectory("itemencrypted")
 add_subdirectory("itemfakevim")

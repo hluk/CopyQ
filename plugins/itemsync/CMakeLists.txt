@@ -1,13 +1,12 @@
 set(copyq_plugin_itemsync_SOURCES
-    ../../src/item/itemwidgetwrapper.cpp
-    ../../src/common/config.cpp
-    ../../src/common/mimetypes.cpp
-    ../../src/gui/iconfont.cpp
+    $<TARGET_OBJECTS:copyq-plugin-config>
+    $<TARGET_OBJECTS:copyq-plugin-iconfont>
+    $<TARGET_OBJECTS:copyq-plugin-iconwidget>
+    $<TARGET_OBJECTS:copyq-plugin-screen>
+    $<TARGET_OBJECTS:copyq-plugin-serialize>
+    $<TARGET_OBJECTS:copyq-plugin-wrapper>
     ../../src/gui/iconselectbutton.cpp
     ../../src/gui/iconselectdialog.cpp
-    ../../src/gui/iconwidget.cpp
-    ../../src/gui/screen.cpp
-    ../../src/item/serialize.cpp
     )
 
 copyq_add_plugin(itemsync)
