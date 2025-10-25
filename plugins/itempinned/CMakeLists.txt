@@ -1,9 +1,8 @@
 set(copyq_plugin_itempinned_SOURCES
-    ../../src/item/itemwidgetwrapper.cpp
+    $<TARGET_OBJECTS:copyq-plugin-wrapper>
     ../../src/item/itemsaverwrapper.cpp
-    ../../src/common/command.cpp
     ../../src/common/display.cpp
-    ../../src/gui/screen.cpp
+    $<TARGET_OBJECTS:copyq-plugin-screen>
     )
 
 copyq_add_plugin(itempinned)

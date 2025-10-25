@@ -3,8 +3,6 @@
 #include "itemwidget.h"
 
 #include "common/command.h"
-#include "common/contenttype.h"
-#include "common/mimetypes.h"
 #include "item/itemeditor.h"
 
 #include <QAbstractItemModel>

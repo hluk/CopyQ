@@ -13,8 +13,8 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 set(USE_QXT TRUE)
 
 # Omit opening extra console window on Windows.
-set(copyq_COMPILE
-    WIN32
+set(copyq_windows_no_console WIN32)
+list(APPEND copyq_COMPILE
     ${copyq_COMPILE}
     ${copyq_RC}
     )

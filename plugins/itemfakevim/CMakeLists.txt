@@ -1,5 +1,5 @@
 file(GLOB copyq_plugin_itemfakevim_SOURCES
-    ../../src/item/itemwidgetwrapper.cpp
+    $<TARGET_OBJECTS:copyq-plugin-wrapper>
     )
 file(GLOB copyq_plugin_itemfakevim_external_SOURCES
     fakevim/*.cpp
