@@ -113,7 +113,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
 {
-    m_server = new Server(clipboardServerName(), this);
+    m_server = new Server(clipboardServerName(sessionName), this);
 
     if ( m_server->isListening() ) {
         log( QStringLiteral("Starting server: CopyQ %1").arg(versionString) );

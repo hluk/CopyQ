@@ -11,6 +11,7 @@
 #include "itemsynctests.h"
 #include "itemtagstests.h"
 
+#include "app/app.h"
 #include "common/client_server.h"
 #include "common/config.h"
 #include "common/log.h"
@@ -31,6 +32,7 @@
 #include <QMap>
 #include <QProcess>
 #include <QRegularExpression>
+#include <QStandardPaths>
 #include <QTest>
 #include <QTimer>
 
@@ -89,7 +91,8 @@ public:
         : m_server(nullptr)
         , m_env(QProcessEnvironment::systemEnvironment())
     {
-        m_env.insert("COPYQ_PLUGINS", pluginPaths().join(';'));
+        if ( qEnvironmentVariableIsEmpty("COPYQ_PLUGINS") )
+            m_env.insert("COPYQ_PLUGINS", pluginPaths().join(';'));
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
@@ -448,18 +451,23 @@ public:
             RETURN_ON_ERROR( stopServer(), "Failed to stop server" );
 
         // Remove all configuration files and tab data.
-        const auto settingsPath = settingsDirectoryPath();
-        Q_ASSERT( !settingsPath.isEmpty() );
-        QDir settingsDir(settingsPath);
-        const QStringList settingsFileFilters(QStringLiteral("%1*").arg(appName));
-        // Omit using dangerous QDir::removeRecursively().
-        for ( const auto &fileName : settingsDir.entryList(settingsFileFilters) ) {
-            const auto path = settingsDir.absoluteFilePath(fileName);
-            QFile settingsFile(path);
-            if ( settingsFile.exists() && !settingsFile.remove() ) {
-                return QString::fromLatin1("Failed to remove settings file \"%1\": %2")
-                    .arg(settingsPath, settingsFile.errorString())
-                    .toUtf8();
+        const auto settingsPaths = {
+            settingsDirectoryPath(),
+            QString::fromUtf8( qgetenv("COPYQ_SETTINGS_PATH") )
+        };
+        for ( const auto &settingsPath : settingsPaths ) {
+            Q_ASSERT( !settingsPath.isEmpty() );
+            QDir settingsDir(settingsPath);
+            const QStringList settingsFileFilters(QStringLiteral("copyq*"));
+            // Omit using dangerous QDir::removeRecursively().
+            for ( const auto &fileName : settingsDir.entryList(settingsFileFilters, QDir::Files) ) {
+                const auto path = settingsDir.absoluteFilePath(fileName);
+                QFile settingsFile(path);
+                if ( settingsFile.exists() && !settingsFile.remove() ) {
+                    return QString::fromLatin1("Failed to remove settings file \"%1\": %2")
+                        .arg(path, settingsFile.errorString())
+                        .toUtf8();
+                }
             }
         }
 
@@ -680,7 +688,15 @@ bool Tests::hasTab(const QString &tabName)
 
 int main(int argc, char **argv)
 {
-    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
+    const QString appName = QStringLiteral("copyq.test");
+    QCoreApplication::setOrganizationName(appName);
+    QCoreApplication::setApplicationName(appName);
+    const auto configPath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    qCInfo(testCategory) << "Using config directory for tests:" << configPath;
+    QDir configDir(configPath);
+    qputenv("COPYQ_SETTINGS_PATH", configPath.toUtf8());
+    qputenv("COPYQ_LOG_FILE", configDir.absoluteFilePath(QStringLiteral("tests.log")).toUtf8());
+    qputenv("COPYQ_ITEM_DATA_PATH", configDir.absoluteFilePath(QStringLiteral("items")).toUtf8());
 
     QRegularExpression onlyPlugins;
     bool runPluginTests = true;
@@ -699,11 +715,10 @@ int main(int argc, char **argv)
         }
     }
 
-    QGuiApplication app(argc, argv);
-    Q_UNUSED(app)
-
-    QCoreApplication::setOrganizationName(appName);
-    QCoreApplication::setApplicationName(appName);
+    setSessionName(sessionName);
+    const auto platform = platformNativeInterface();
+    std::unique_ptr<QGuiApplication> app( platform->createTestApplication(argc, argv) );
+    initSession(app.get(), sessionName);
 
     // Set higher default tests timeout.
     // The default value is 5 minutes (in Qt 5.15) which is not enough to run

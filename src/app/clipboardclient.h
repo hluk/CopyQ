@@ -35,5 +35,5 @@ private:
     void onDisconnected();
     void onConnectionFailed();
 
-    void start(const QStringList &arguments);
+    void start(const QString &sessionName, const QStringList &arguments);
 };

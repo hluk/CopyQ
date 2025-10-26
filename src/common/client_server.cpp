@@ -3,29 +3,36 @@
 #include "common/client_server.h"
 #include "common/config.h"
 
-#include <QCoreApplication>
 #include <QDir>
-#include <QFile>
+#include <QLoggingCategory>
 #include <QString>
-#include <QStringList>
 #include <QtGlobal>
 
-QString clipboardServerName()
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.client_server")
+
+} // namespace
+
+QString clipboardServerName(const QString &sessionName)
 {
-    // applicationName changes case depending on whether this is a GUI app
-    // or a console app on OS X.
-    const QString appName = QCoreApplication::applicationName().toLower();
+    const QString appName =
+        sessionName.isEmpty()
+        ? QStringLiteral("copyq")
+        : QStringLiteral("copyq-%1").arg(sessionName);
 
 #ifdef Q_OS_UNIX
     const QString socketPath = settingsDirectoryPath();
-    QDir(socketPath).mkpath(".");
+    if ( !QDir(socketPath).mkpath(QStringLiteral(".")) )
+        qCCritical(logCategory) << "Failed to create the settings directory:" << socketPath;
 
     // On Unix, files for local socket are created in temporary path which can be
     // overridden by environment variable. This can lead to having multiple
     // instances that can write simultaneously to same settings and data files.
     // It's ugly but creating socket files in settings directory should fix this.
-    return socketPath + "/." + appName + "_s";
+    return QStringLiteral("%1/.%2_s").arg(socketPath, appName);
 #else
-    return appName + "_" + qgetenv("USERNAME") + "_s";
+    return QStringLiteral("%1_%2_s").arg(appName, qgetenv("USERNAME"));
 #endif
 }

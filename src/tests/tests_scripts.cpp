@@ -710,7 +710,7 @@ void Tests::commandEditItem()
     RUN("config" << "editor" << "", "\n");
 
     // Edit clipboard and new item.
-    TEST( m_test->setClipboard("TEST", mimeHtml) );
+    TEST( m_test->setClipboard("<!--StartFragment-->TEST<!--EndFragment-->", mimeHtml) );
     RUN("editItem" << "-1" << mimeHtml, "");
     KEYS("END" << ":LINE 1" << "F2");
     const auto expected = QByteArrayLiteral("TESTLINE 1");

@@ -6,7 +6,8 @@ source utils/appveyor/env.sh
 
 export PATH=$Destination:$PATH
 
-export QT_FORCE_STDERR_LOGGING=1
+export COPYQ_PLUGINS=$BUILD_PATH/src/${BUILD_SUB_DIR:-}/itemtests.dll
+keys=plugins.itemtests.keys
 
 "$Executable" &
 copyq_pid=$!
@@ -48,9 +49,6 @@ if [[ $prevent_screen_cature != "true" ]]; then
 fi
 
 "$Executable" menu
-
-keys=plugins.itemtests.keys
-export COPYQ_PLUGINS=$BUILD_PATH/src/${BUILD_SUB_DIR:-}/itemtests.dll
 
 screenshot "App - Preventing screenshots"
 "$Executable" config prevent_screen_cature false

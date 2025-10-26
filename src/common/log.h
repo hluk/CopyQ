@@ -14,6 +14,9 @@ enum LogLevel {
     LogTrace
 };
 
+constexpr int logFileSize = 512 * 1024;
+constexpr int logFileCount = 10;
+
 const QString &logFileName();
 
 QByteArray readLogFile(int maxReadSize);

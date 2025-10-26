@@ -14,9 +14,6 @@
 
 namespace {
 
-const int logFileSize = 512 * 1024;
-const int logFileCount = 10;
-
 QString envString(const char *varName)
 {
     const QByteArray bytes = qgetenv(varName);
@@ -87,18 +84,24 @@ QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 
 QString getLogFileName()
 {
-    const QString fileName = envString("COPYQ_LOG_FILE");
-    if (!fileName.isEmpty())
-        return QDir::fromNativeSeparators(fileName);
+    const QString dateTime = QDateTime::currentDateTime()
+        .toString(QStringLiteral("yyyyMMdd"));
+    const QString logSuffix = QStringLiteral("-%1-%2.log")
+        .arg(dateTime).arg(QCoreApplication::applicationPid());
+
+    QString fileName = envString("COPYQ_LOG_FILE");
+    if (!fileName.isEmpty()) {
+        if (fileName.endsWith(QLatin1String(".log"))) {
+            fileName.remove(fileName.length() - 4, 4);
+        }
+        return QDir::fromNativeSeparators(fileName + logSuffix);
+    }
 
     const QString path = getDefaultLogFilePath();
     QDir dir(path);
     dir.mkpath(QStringLiteral("."));
 
-    const QString dateTime = QDateTime::currentDateTime()
-        .toString(QStringLiteral("yyyyMMdd"));
-    return QStringLiteral("%3/copyq-%1-%2.log")
-        .arg(dateTime).arg(QCoreApplication::applicationPid()).arg(path);
+    return QStringLiteral("%1/copyq%2.log").arg(path, logSuffix);
 }
 
 void logAlways(const QByteArray &msgText, const LogLevel level)
@@ -117,8 +120,11 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
 
 QFileInfoList logFileNames()
 {
-    const QDir logDir = QFileInfo(::logFileName()).absoluteDir();
-    return logDir.entryInfoList({QStringList("copyq*.log*")}, QDir::Files, QDir::Time);
+    const QFileInfo logFileInfo(::logFileName());
+    const QDir logDir = logFileInfo.absoluteDir();
+    const QString pattern = QStringLiteral("%1-*.log*").arg(
+        logFileInfo.baseName().section('-', 0, -3) );
+    return logDir.entryInfoList({pattern}, QDir::Files, QDir::Time);
 }
 
 bool removeLogFile(const QFileInfo &logFileInfo)

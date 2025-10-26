@@ -4,6 +4,8 @@ set -xeuo pipefail
 
 # Run only specific tests that are expected to work on Wayland.
 default_wayland_tests=(
+    configPath
+    readLog
     commandShowHide
     commandCopy
     commandClipboard

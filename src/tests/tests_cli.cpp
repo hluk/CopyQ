@@ -5,10 +5,17 @@
 #include "tests_common.h"
 
 #include "common/commandstatus.h"
+#include "common/config.h"
 #include "common/log.h"
 #include "common/version.h"
+#include "common/settings.h"
 
 #include <QRegularExpression>
+
+void Tests::configPath()
+{
+    RUN("print(info('config'))", Settings().fileName());
+}
 
 void Tests::readLog()
 {
@@ -17,12 +24,15 @@ void Tests::readLog()
     QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
 
-    const QString logFile =
-        QFileInfo(logFileName()).absoluteDir().filePath("copyq.log");
-    QCOMPARE( logFile + "\n", QString::fromUtf8(stdoutActual) );
+    QVERIFY2( stdoutActual.endsWith("/tests-*.log*\n"), stdoutActual );
+
+    const QString logFile = logFileName();
+    QCOMPARE(
+        logFile.section('-', 0, -3),
+        QString::fromUtf8(stdoutActual).section('-', 0, -2) );
 
     const QByteArray log = readLogFile(maxReadLogSize);
-    QVERIFY2(!log.isEmpty(), log);
+    QVERIFY2(!log.isEmpty(), logFile.toUtf8());
 
     const QStringList lines = splitLines(readLogFile(maxReadLogSize));
 
@@ -33,6 +43,42 @@ void Tests::readLog()
     const auto monitorPattern = QStringLiteral(
         R"(^\[.*\] DEBUG <Server-\d+>: Starting monitor$)");
     QVERIFY2(count(lines, monitorPattern), log);
+}
+
+void Tests::rotateLog()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    const QString logDirPath = QString::fromUtf8(stdoutActual).section("/", 0, -2);
+    QVERIFY( !logDirPath.isEmpty() );
+
+    const QByteArray logData(logFileSize, '-');
+    const QDir logDir(logDirPath);
+    QVERIFY2( logDir.exists(), logDirPath.toUtf8() );
+    const auto listLogFiles = [&](const int rotateNumber = -1) {
+        const QString pattern = rotateNumber == -1
+            ? QStringLiteral("tests*.log.*")
+            : QStringLiteral("tests*.log.%1").arg(rotateNumber);
+        return logDir.entryList({pattern}, QDir::Files, QDir::Name);
+    };
+    const auto logFilesMessage = [&](int i) {
+        return QStringLiteral("%2 (rotateCount = %1):\n  %3").arg(i).arg(
+            logDirPath.toUtf8(),
+            listLogFiles().join("\n  ")).toUtf8();
+    };
+
+    for (int i = 1; i < logFileCount; ++i) {
+        QCOMPARE( run(Args("serverLog") << "-", &stdoutActual, &stderrActual, logData), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        QVERIFY2( listLogFiles().count() >= i, logFilesMessage(i) );
+        QVERIFY2( !listLogFiles(i).isEmpty(), logFilesMessage(i) );
+    }
+    QCOMPARE( run(Args("serverLog") << "-", &stdoutActual, &stderrActual, logData), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    const auto logFiles = listLogFiles(logFileCount);
+    QVERIFY2( logFiles.isEmpty(), logFilesMessage(logFileCount) );
 }
 
 void Tests::commandHelp()
