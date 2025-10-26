@@ -1,8 +1,5 @@
 #!/bin/bash
-# Creates macOS bundle.
 set -xeuo pipefail
-
-cpack
 
 app_bundle_path="CopyQ.app"
 executable="${PWD}/${app_bundle_path}/Contents/MacOS/CopyQ"
