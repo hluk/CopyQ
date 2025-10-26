@@ -59,7 +59,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
     App::installTranslator();
 
     // Start script after QCoreApplication::exec().
-    QTimer::singleShot(0, this, [&]() { start(arguments); });
+    QTimer::singleShot(0, this, [&]() { start(sessionName, arguments); });
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -107,7 +107,7 @@ void ClipboardClient::onConnectionFailed()
     exit(1);
 }
 
-void ClipboardClient::start(const QStringList &arguments)
+void ClipboardClient::start(const QString &sessionName, const QStringList &arguments)
 {
     ItemFactory itemFactory;
     itemFactory.loadPlugins();
@@ -118,7 +118,7 @@ void ClipboardClient::start(const QStringList &arguments)
     ScriptableProxy scriptableProxy(nullptr, nullptr);
     Scriptable scriptable(&engine, &scriptableProxy, &itemFactory);
 
-    const auto serverName = clipboardServerName();
+    const auto serverName = clipboardServerName(sessionName);
     ClientSocket socket(serverName);
 
     connect( &socket, &ClientSocket::messageReceived,

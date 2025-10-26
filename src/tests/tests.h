@@ -27,7 +27,9 @@ private slots:
     void init();
     void cleanup();
 
+    void configPath();
     void readLog();
+    void rotateLog();
     void commandHelp();
     void commandVersion();
     void badCommand();

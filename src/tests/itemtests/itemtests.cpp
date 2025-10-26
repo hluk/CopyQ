@@ -111,14 +111,20 @@ public:
 
     void keyClicksFailed(const QRegularExpression &expectedWidgetName)
     {
-        auto actual = keyClicksTarget();
-        auto popup = QApplication::activePopupWidget();
-        auto widget = QApplication::focusWidget();
-        auto window = QApplication::activeWindow();
-        auto modal = QApplication::activeModalWidget();
-        qCCritical(plugin).noquote().nospace() << "Failed to send key press to target widget"
-            << (qApp->applicationState() == Qt::ApplicationActive ? "" : "\nApp is INACTIVE!")
-            << "\nExpected: /" + expectedWidgetName.pattern() + "/"
+        qCCritical(plugin) << "Failed to send key press to target widget";
+
+        const auto actual = keyClicksTarget();
+        const auto popup = QApplication::activePopupWidget();
+        const auto widget = QApplication::focusWidget();
+        const auto window = QApplication::activeWindow();
+        const auto modal = QApplication::activeModalWidget();
+        const auto state = qApp->applicationState();
+
+        if (state == Qt::ApplicationActive)
+            qCCritical(plugin) << "App is INACTIVE! State:" << state;
+
+        qCCritical(plugin).noquote().nospace()
+            << "Expected: /" + expectedWidgetName.pattern() + "/"
             << "\nActual:   " + objectAddress(actual)
             << "\nPopup:    " + objectAddress(popup)
             << "\nWidget:   " + objectAddress(widget)
@@ -132,6 +138,20 @@ public:
     {
         auto widget = keyClicksTarget();
         if (!widget) {
+            keyClicksRetry(expectedWidgetName, keys, delay, retry);
+            return;
+        }
+
+#if defined(Q_OS_MAC)
+        // WORKAROUND for focusing back to the main window on macOS.
+        if (qApp->applicationState() != Qt::ApplicationActive && m_wnd->isVisible()) {
+            qCDebug(plugin) << "Re-activating the main window (macOS)";
+            m_wnd->activateWindow();
+        }
+#endif
+
+        if (qApp->applicationState() != Qt::ApplicationActive) {
+            qCDebug(plugin) << "Waiting for application to become active";
             keyClicksRetry(expectedWidgetName, keys, delay, retry);
             return;
         }

@@ -6,6 +6,10 @@
 class QCoreApplication;
 class QString;
 
+void setSessionName(const QString &sessionName);
+
+void initSession(QCoreApplication *application, const QString &sessionName);
+
 /** Application class. */
 class App
 {

@@ -5,4 +5,4 @@
 
 class QString;
 
-QString clipboardServerName();
+QString clipboardServerName(const QString &sessionName);

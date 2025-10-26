@@ -26,8 +26,6 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-const QString defaultSessionName = QStringLiteral("copyq");
-
 enum class AppType {
     Version,
     Help,
@@ -279,15 +277,9 @@ QByteArray logLabelForType(AppType appType, const QStringList &arguments)
     }
 }
 
-void setSessionName(const QString &sessionName)
-{
-    QCoreApplication::setOrganizationName(sessionName);
-    QCoreApplication::setApplicationName(sessionName);
-}
-
 int startApplication(int argc, char **argv)
 {
-    setSessionName(defaultSessionName);
+    setSessionName(QString());
 
     const AppArguments args = parseArguments(argc, argv);
 
@@ -305,13 +297,8 @@ int startApplication(int argc, char **argv)
         return 2;
     }
 
-    if ( args.sessionName.isEmpty() ) {
-        setSessionName(defaultSessionName);
-    } else {
-        const QString session = QStringLiteral("%1-%2")
-            .arg(defaultSessionName, args.sessionName);
-        setSessionName(session);
-    }
+    if ( !args.sessionName.isEmpty() )
+        setSessionName(args.sessionName);
 
     switch (args.appType) {
     // If server hasn't been run yet and no argument were specified

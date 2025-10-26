@@ -1482,9 +1482,8 @@ QJSValue Scriptable::info()
 {
     m_skipArguments = 1;
 
-    const QString logFile =
-        QFileInfo(logFileName()).absoluteDir().filePath("copyq.log");
-
+    const QString logFile = QStringLiteral("%1-*.log*")
+        .arg(logFileName().section('-', 0, -3));
     using InfoMap = QMap<QString, QString>;
     InfoMap info;
     info.insert("config", QSettings().fileName());

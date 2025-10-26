@@ -78,6 +78,45 @@ void installTranslator()
 
 } // namespace
 
+void setSessionName(const QString &sessionName)
+{
+    const QString appName =
+        sessionName.isEmpty()
+        ? QStringLiteral("copyq")
+        : QStringLiteral("copyq-%1").arg(sessionName);
+    QCoreApplication::setOrganizationName(appName);
+    QCoreApplication::setApplicationName(appName);
+}
+
+void initSession(QCoreApplication *app, const QString &sessionName)
+{
+    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
+    qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
+
+    const auto settingsPath = qgetenv("COPYQ_SETTINGS_PATH");
+    if ( !settingsPath.isEmpty() ) {
+        const auto path = QString::fromUtf8(settingsPath);
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
+
+        // Setting the NativeFormat paths on Windows, macOS, and iOS has no effect.
+        QSettings::setDefaultFormat(QSettings::IniFormat);
+    }
+
+    if ( qEnvironmentVariableIsEmpty("COPYQ_ITEM_DATA_PATH") ) {
+        if ( !app->property("CopyQ_item_data_path").isValid() ) {
+            app->setProperty(
+                "CopyQ_item_data_path",
+                QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                + QLatin1String("/items"));
+        }
+    } else {
+        app->setProperty(
+            "CopyQ_item_data_path",
+            qEnvironmentVariable("COPYQ_ITEM_DATA_PATH")
+        );
+    }
+}
+
 App::App(QCoreApplication *application,
         const QString &sessionName)
     : m_app(application)
@@ -94,32 +133,7 @@ App::App(QCoreApplication *application,
 #endif
 
     m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
-
-    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
-    qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
-
-    const auto settingsPath = qgetenv("COPYQ_SETTINGS_PATH");
-    if ( !settingsPath.isEmpty() ) {
-        const auto path = QString::fromUtf8(settingsPath);
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
-
-        // Setting the NativeFormat paths on Windows, macOS, and iOS has no effect.
-        QSettings::setDefaultFormat(QSettings::IniFormat);
-    }
-
-    if ( qEnvironmentVariableIsEmpty("COPYQ_ITEM_DATA_PATH") ) {
-        if ( !m_app->property("CopyQ_item_data_path").isValid() ) {
-            m_app->setProperty(
-                "CopyQ_item_data_path",
-                QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
-                + QLatin1String("/items"));
-        }
-    } else {
-        m_app->setProperty(
-            "CopyQ_item_data_path",
-            qEnvironmentVariable("COPYQ_ITEM_DATA_PATH")
-        );
-    }
+    initSession(m_app, sessionName);
 }
 
 App::~App()

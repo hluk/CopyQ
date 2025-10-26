@@ -47,4 +47,5 @@ export Executable=$Destination/copyq.exe
 export BuildPlugins=$BUILD_PATH/plugins/${BUILD_SUB_DIR:-}
 
 export QT_FORCE_STDERR_LOGGING=1
+export COPYQ_LOG_LEVEL=DEBUG
 export COPYQ_TESTS_RERUN_FAILED=1
