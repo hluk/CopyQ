@@ -65,10 +65,14 @@ jobs:
 
       - name: Create macOS bundle
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
-        run: '${{github.workspace}}/utils/github/bundle-macos.sh'
+        run: cpack
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: 'CopyQ${{ matrix.bundle_suffix }}.dmg'
           path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ.dmg'
+
+      - name: Test
+        working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
+        run: '${{github.workspace}}/utils/github/test-macos.sh'
