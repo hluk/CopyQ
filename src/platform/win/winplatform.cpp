@@ -163,10 +163,8 @@ void uninstallControlHandler()
     SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(ctrlHandler), FALSE);
 }
 
-template <typename Application>
-Application *createApplication(int &argc, char **argv)
+void initApplication(QCoreApplication *app)
 {
-    Application *app = new ApplicationExceptionHandler<Application>(argc, argv);
     installControlHandler();
     setBinaryFor(0);
     setBinaryFor(1);
@@ -178,10 +176,17 @@ Application *createApplication(int &argc, char **argv)
     const QString portableFolder = portableConfigFolder();
     if ( !portableFolder.isEmpty() ) {
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, portableFolder);
-        qputenv("COPYQ_LOG_FILE", portableFolder.toUtf8() + "/copyq.log");
+        if ( qEnvironmentVariableIsEmpty("COPYQ_LOG_FILE") )
+            qputenv("COPYQ_LOG_FILE", portableFolder.toUtf8() + "/copyq.log");
         app->setProperty("CopyQ_item_data_path", portableFolder + QLatin1String("/items"));
     }
+}
 
+template <typename Application>
+Application *createApplication(int &argc, char **argv)
+{
+    Application *app = new ApplicationExceptionHandler<Application>(argc, argv);
+    initApplication(app);
     return app;
 }
 
