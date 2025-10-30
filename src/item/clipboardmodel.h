@@ -58,11 +58,15 @@ public:
 
     void resize(int size)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+        m_items.resize(size);
+#else
         if (size < this->size())
             remove(size, this->size());
 
         while (size > this->size())
             m_items.append(ClipboardItem());
+#endif
     }
 
 private:
