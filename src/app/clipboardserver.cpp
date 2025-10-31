@@ -747,7 +747,7 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_saveOnDeactivate = appConfig->option<Config::save_on_app_deactivated>();
 
     if ( platformNativeInterface()->canPreventScreenCapture() )
-        setPreventScreenCapture(appConfig->option<Config::prevent_screen_cature>());
+        setPreventScreenCapture(appConfig->option<Config::prevent_screen_capture>());
 
     if (m_monitor) {
         stopMonitoring();

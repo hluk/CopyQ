@@ -28,8 +28,8 @@ struct autostart : Config<bool> {
     static Value defaultValue();
 };
 
-struct prevent_screen_cature : Config<bool> {
-    static QString name() { return QStringLiteral("prevent_screen_cature"); }
+struct prevent_screen_capture : Config<bool> {
+    static QString name() { return QStringLiteral("prevent_screen_capture"); }
     static Value defaultValue() { return true; }
 };
 

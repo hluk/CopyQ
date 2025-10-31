@@ -236,7 +236,7 @@ void ConfigurationManager::initOptions()
 {
     /* general options */
     bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
-    bind<Config::prevent_screen_cature>(m_tabGeneral->checkBoxPreventScreenCapture);
+    bind<Config::prevent_screen_capture>(m_tabGeneral->checkBoxPreventScreenCapture);
     bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
     bind<Config::maxitems>(m_tabHistory->spinBoxItems);
     bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
