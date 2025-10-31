@@ -42,16 +42,16 @@ screenshot() {
     "$Executable" screenshot > "$file"
 }
 
-prevent_screen_cature=$("$Executable" config prevent_screen_cature)
-if [[ $prevent_screen_cature != "true" ]]; then
-    echo "ERROR: Option 'prevent_screen_cature' must be true by default"
+prevent_screen_capture=$("$Executable" config prevent_screen_capture)
+if [[ $prevent_screen_capture != "true" ]]; then
+    echo "ERROR: Option 'prevent_screen_capture' must be true by default"
     exit 1
 fi
 
 "$Executable" menu
 
 screenshot "App - Preventing screenshots"
-"$Executable" config prevent_screen_cature false
+"$Executable" config prevent_screen_capture false
 
 screenshot "App and menu"
 "$Executable" $keys "focus:TrayMenu" "ESCAPE" "focus:ClipboardBrowser"
