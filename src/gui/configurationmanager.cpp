@@ -221,18 +221,9 @@ void ConfigurationManager::initLanguages()
 void ConfigurationManager::updateOptionsVisibility()
 {
     auto platform = platformNativeInterface();
-
-    if ( platform->canAutostart() ) {
-        bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
-    } else {
-        m_tabGeneral->checkBoxAutostart->hide();
-    }
-
-    if ( platform->canPreventScreenCapture() ) {
-        bind<Config::prevent_screen_cature>(m_tabGeneral->checkBoxPreventScreenCapture);
-    } else {
-        m_tabGeneral->checkBoxPreventScreenCapture->hide();
-    }
+    m_tabGeneral->checkBoxAutostart->setVisible( platform->canAutostart() );
+    m_tabGeneral->checkBoxPreventScreenCapture->setVisible(
+        platform->canPreventScreenCapture() );
 }
 
 void ConfigurationManager::setAutostartEnable(AppConfig *appConfig)
