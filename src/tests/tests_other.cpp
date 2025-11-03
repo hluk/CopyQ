@@ -795,11 +795,11 @@ void Tests::networkPost()
     const auto script = R"(
         r = NetworkRequest();
         r.headers['Content-Type'] = 'text/plain';
-        s = r.request('POST', 'https://httpbun.org/post?hello=1', 'Hello');
+        s = r.request('POST', 'https://httpcan.org/post?hello=1', 'Hello');
         json = s.data;
         try {
             data = JSON.parse(str(json));
-            userAgent = data.headers['User-Agent'].replace(/\\/.*/, '/xyz');
+            userAgent = data.headers['user-agent'].replace(/\\/.*/, '/xyz');
             [data.data, JSON.stringify(data.args), userAgent, s.status];
         } catch (e) {
             [`Error parsing JSON response: ${e}\n`, json, s.status];
