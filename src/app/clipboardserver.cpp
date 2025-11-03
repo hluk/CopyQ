@@ -55,7 +55,11 @@ namespace {
 uint monitorCommandStateHash(const QVector<Command> &commands)
 {
     uint seed = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6,10,0)
+    QtPrivate::QHashCombine hash(seed);
+#else
     QtPrivate::QHashCombine hash;
+#endif
 
     for (const auto &command : commands) {
         if (command.type() == CommandType::Script)

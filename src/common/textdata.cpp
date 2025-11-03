@@ -36,7 +36,11 @@ bool isPluginFormat(const QString &mime)
 uint hash(const QVariantMap &data)
 {
     uint seed = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6,10,0)
+    QtPrivate::QHashCombine hash(seed);
+#else
     QtPrivate::QHashCombine hash;
+#endif
 
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &mime = it.key();

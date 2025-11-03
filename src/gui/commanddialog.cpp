@@ -272,7 +272,13 @@ void CommandDialog::onPushButtonSaveCommandsClicked()
             fileName.append(".ini");
 
         QFile ini(fileName);
-        ini.open(QIODevice::WriteOnly);
+        if ( !ini.open(QIODevice::WriteOnly) ) {
+            QMessageBox::warning(
+                    this, tr("Save Commands"),
+                    tr("Failed to save commands to file \"%1\": %2")
+                    .arg(fileName, ini.errorString()) );
+            return;
+        }
         ini.write(serializeSelectedCommands().toUtf8());
     }
 }

@@ -2895,7 +2895,11 @@ void Scriptable::showExceptionMessage(const QString &message)
         ? tr("Exception")
         : tr("Exception in %1").arg( quoteString(m_actionName) );
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,10,0)
+    QtPrivate::QHashCombine hash(0);
+#else
     QtPrivate::QHashCombine hash;
+#endif
     MessageData messageData;
     const auto id = hash(hash(0, title), message);
     messageData.notificationId = QString::number(id);
@@ -3392,8 +3396,8 @@ void Scriptable::print(const QByteArray &message)
         m_action->appendOutput(message);
     } else {
         QFile f;
-        f.open(stdout, QIODevice::WriteOnly);
-        f.write(message);
+        if ( f.open(stdout, QIODevice::WriteOnly) )
+            f.write(message);
     }
 }
 
@@ -3403,10 +3407,11 @@ void Scriptable::printError(const QByteArray &message)
         m_action->appendErrorOutput(message);
     } else {
         QFile f;
-        f.open(stderr, QIODevice::WriteOnly);
-        f.write(message);
-        if ( !message.endsWith('\n') )
-            f.write("\n");
+        if ( f.open(stderr, QIODevice::WriteOnly) ) {
+            f.write(message);
+            if ( !message.endsWith('\n') )
+                f.write("\n");
+        }
     }
 }
 
@@ -3542,8 +3547,8 @@ QJSValue Scriptable::readInput()
     protected:
         void run() override {
             QFile in;
-            in.open(stdin, QIODevice::ReadOnly);
-            input = in.readAll();
+            if ( in.open(stdin, QIODevice::ReadOnly) )
+                input = in.readAll();
         }
     };
 

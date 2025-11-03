@@ -145,7 +145,11 @@ void ActionHandler::closeAction(Action *action)
 void ActionHandler::showActionErrors(Action *action, const QString &message, ushort icon)
 {
     m_actionModel->actionFailed(action, message);
+#if QT_VERSION >= QT_VERSION_CHECK(6,10,0)
+    QtPrivate::QHashCombine hash(0);
+#else
     QtPrivate::QHashCombine hash;
+#endif
     const auto notificationId = QString::number( hash(hash(0, action->commandLine()), message) );
     if ( m_notificationDaemon->findNotification(notificationId) )
         return;

@@ -65,15 +65,12 @@ int evaluate(
     const auto output = scriptable.serializeScriptValue(result);
     if ( !output.isEmpty() ) {
         QFile f;
-        if (hasUncaughtException)
-            f.open(stderr, QIODevice::WriteOnly);
-        else
-            f.open(stdout, QIODevice::WriteOnly);
-
-        f.write(output);
-        if ( !output.endsWith("\n") )
-            f.write("\n");
-        f.close();
+        if ( f.open(hasUncaughtException ? stderr : stdout, QIODevice::WriteOnly) ) {
+            f.write(output);
+            if ( !output.endsWith("\n") )
+                f.write("\n");
+            f.close();
+        }
     }
 
     const int exitCode = hasUncaughtException ? CommandException : 0;
