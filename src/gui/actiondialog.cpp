@@ -12,12 +12,14 @@
 
 #include <QAbstractButton>
 #include <QFile>
+#include <QLoggingCategory>
 #include <QMessageBox>
 #include <QShortcut>
 
-#include <memory>
-
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.actiondialog")
 
 void initFormatComboBox(QComboBox *combo, const QStringList &additionalFormats = QStringList())
 {
@@ -100,21 +102,29 @@ void ActionDialog::restoreHistory()
 {
     const int maxCount = AppConfig().option<Config::command_history_size>();
     ui->comboBoxCommands->setMaxCount(maxCount + 1);
+    ui->comboBoxCommands->clear();
+    ui->comboBoxCommands->addItem(QString());
+    ui->comboBoxCommands->setCurrentIndex(0);
 
     QFile file( dataFilename() );
-    file.open(QIODevice::ReadOnly);
+    if ( !file.exists() )
+        return;
+
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        qCWarning(logCategory) << "Failed to restore Action dialog history from"
+            << file.fileName() << ":" << file.errorString();
+        return;
+    }
+
     QDataStream in(&file);
     QVariant v;
 
-    ui->comboBoxCommands->clear();
-    ui->comboBoxCommands->addItem(QString());
     while( !in.atEnd() && ui->comboBoxCommands->count() <= maxCount ) {
         in >> v;
         const QVariantMap values = v.value<QVariantMap>();
         const QString cmd = values.value("cmd").toString();
         ui->comboBoxCommands->addItem( commandToLabel(cmd), v );
     }
-    ui->comboBoxCommands->setCurrentIndex(0);
 }
 
 const QString ActionDialog::dataFilename() const
@@ -125,7 +135,12 @@ const QString ActionDialog::dataFilename() const
 void ActionDialog::saveHistory()
 {
     QFile file( dataFilename() );
-    file.open(QIODevice::WriteOnly);
+    if ( !file.open(QIODevice::WriteOnly) ) {
+        qCWarning(logCategory) << "Failed to save Action dialog history to"
+            << file.fileName() << ":" << file.errorString();
+        return;
+    }
+
     QDataStream out(&file);
 
     for (int i = 1; i < ui->comboBoxCommands->count(); ++i) {

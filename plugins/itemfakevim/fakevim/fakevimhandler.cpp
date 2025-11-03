@@ -6389,11 +6389,15 @@ bool FakeVimHandler::Private::handleExWriteCommand(const ExCommand &cmd)
         }
         // Check result by reading back.
         QFile file3(fileName);
-        file3.open(QIODevice::ReadOnly);
-        QByteArray ba = file3.readAll();
-        showMessage(MessageInfo, Tr::tr("\"%1\" %2 %3L, %4C written.")
-            .arg(fileName).arg(exists ? QString(" ") : Tr::tr(" [New] "))
-            .arg(ba.count('\n')).arg(ba.size()));
+        if (file3.open(QIODevice::ReadOnly)) {
+            QByteArray ba = file3.readAll();
+            showMessage(MessageInfo, Tr::tr("\"%1\" %2 %3L, %4C written.")
+                .arg(fileName).arg(exists ? QString(" ") : Tr::tr(" [New] "))
+                .arg(ba.count('\n')).arg(ba.size()));
+        } else {
+            showMessage(MessageError, Tr::tr
+               ("Cannot open file \"%1\" for reading").arg(fileName));
+        }
         //if (quitAll)
         //    passUnknownExCommand(forced ? "qa!" : "qa");
         //else if (quit)
@@ -6419,7 +6423,11 @@ bool FakeVimHandler::Private::handleExReadCommand(const ExCommand &cmd)
 
     m_currentFileName = replaceTildeWithHome(cmd.args);
     QFile file(m_currentFileName);
-    file.open(QIODevice::ReadOnly);
+    if (!file.open(QIODevice::ReadOnly)) {
+        showMessage(MessageError, Tr::tr
+            ("Cannot open file \"%1\" for reading").arg(m_currentFileName));
+        return true;
+    }
     QTextStream ts(&file);
     QString data = ts.readAll();
     insertText(data);

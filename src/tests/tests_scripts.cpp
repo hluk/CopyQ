@@ -7,6 +7,7 @@
 #include "common/mimetypes.h"
 #include "common/commandstatus.h"
 
+#include <QElapsedTimer>
 #include <QRegularExpression>
 #include <QTemporaryFile>
 
