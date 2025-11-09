@@ -3732,7 +3732,7 @@ void MainWindow::openLogDialog()
 
 void MainWindow::openAboutDialog()
 {
-    openDialog<AboutDialog>(this);
+    openDialog<AboutDialog>(m_sharedData->theme, this);
 }
 
 void MainWindow::showClipboardContent()

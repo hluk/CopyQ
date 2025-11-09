@@ -5,6 +5,8 @@
 
 #include <QDialog>
 
+class Theme;
+
 namespace Ui {
     class AboutDialog;
 }
@@ -13,11 +15,11 @@ class AboutDialog final : public QDialog
 {
     Q_OBJECT
 public:
-    explicit AboutDialog(QWidget *parent = nullptr);
+    explicit AboutDialog(const Theme &theme, QWidget *parent = nullptr);
     ~AboutDialog();
 
 private:
-    static QString aboutPage();
+    static QString aboutPage(const Theme &theme);
 
     Ui::AboutDialog *ui;
 };

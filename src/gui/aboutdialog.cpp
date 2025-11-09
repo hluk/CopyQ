@@ -7,6 +7,7 @@
 #include "common/version.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
+#include "gui/theme.h"
 
 namespace {
 
@@ -41,12 +42,12 @@ QString helpLib(const char *name, const QString &copyright, const char *url)
 
 } // namespace
 
-AboutDialog::AboutDialog(QWidget *parent)
+AboutDialog::AboutDialog(const Theme &theme, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    ui->textBrowser->setText( aboutPage() );
+    ui->textBrowser->setText( aboutPage(theme) );
 }
 
 AboutDialog::~AboutDialog()
@@ -54,25 +55,27 @@ AboutDialog::~AboutDialog()
     delete ui;
 }
 
-QString AboutDialog::aboutPage()
+QString AboutDialog::aboutPage(const Theme &theme)
 {
+    const auto bg = theme.color("bg").name();
+    const auto fg = theme.color("fg").name();
+    const auto link = theme.color("num_fg").name();
     return
         "<html>"
 
         "<head><style type='text/css'>"
-        "body{font-size:10pt;background:white;color:#333;margin:1.0em}"
+        "body{font-size:10pt;background:" + bg + ";color:" + fg + ";margin:1.0em}"
         "p,li{margin-left:4ex;white-space:pre-wrap;margin-left:1ex}"
-        "a{text-decoration:none;color:#4f9a6b}"
+        "a{text-decoration:none;color:" + link + "}"
         "table{border:0}"
         "td{padding:0.1em}"
-        "#title{font-size:26pt;color:#666;white-space:pre;margin-bottom:0.2em}"
-        "#subtitle{font-size:16pt;color:#4f9a6b;white-space:pre;margin-bottom:0.2em}"
+        "#title{font-size:26pt;white-space:pre;margin-bottom:0.2em}"
+        "#subtitle{font-size:16pt;color:" + link + ";white-space:pre;margin-bottom:0.2em}"
         "#version{font-size:12pt}"
-        ".copyright{font-size:9pt;color:#666}"
+        ".copyright{font-size:9pt}"
         ".icon{font-family: \"" + iconFontFamily() + "\"}"
-        ".help-icon{color:#5faa7b;padding-left:1em;padding-right:1em}"
+        ".help-icon{color:" + link + ";padding-left:1em;padding-right:1em}"
         ".library{font-size:12pt}"
-        ".info{color:#666}"
         "</style></head>"
 
         "<body>"
