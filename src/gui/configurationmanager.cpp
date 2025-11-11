@@ -340,6 +340,7 @@ void ConfigurationManager::initOptions()
     bind<Config::restore_geometry>();
 
     bind<Config::close_on_unfocus_delay_ms>();
+    bind<Config::close_on_unfocus_extra_delay_ms>();
 
     bind<Config::frameless_window>();
 }
