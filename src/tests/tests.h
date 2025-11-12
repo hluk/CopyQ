@@ -140,6 +140,9 @@ private slots:
 
     void commandServerLogAndLogs();
 
+    void commandStats();
+    void statsQObjectLeak();
+
     void classByteArray();
     void classFile();
     void classDir();

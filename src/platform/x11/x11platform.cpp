@@ -16,6 +16,7 @@
 #include <QStringList>
 #include <QVariant>
 #include <QWidget>
+#include <QFile>
 
 #include "x11platformclipboard.h"
 
@@ -26,6 +27,7 @@
 #endif
 
 #include <memory>
+#include <unistd.h>
 
 namespace {
 
@@ -327,4 +329,15 @@ QString X11Platform::defaultEditorCommand()
 QString X11Platform::translationPrefix()
 {
     return QString();
+}
+
+qint64 X11Platform::processResidentMemoryBytes()
+{
+    QFile statm(QStringLiteral("/proc/self/statm"));
+    if (!statm.open(QIODevice::ReadOnly))
+        return -1;
+    const QList<QByteArray> fields = statm.readAll().split(' ');
+    if (fields.size() < 2)
+        return -1;
+    return fields.at(1).toLongLong() * sysconf(_SC_PAGESIZE);
 }

@@ -21,6 +21,7 @@
 
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
+#include <mach/mach.h>
 
 namespace {
     class ClipboardApplication : public QApplication
@@ -276,4 +277,14 @@ void MacPlatform::setAutostartEnabled(bool shouldEnable)
             removeFromLoginItems();
         }
     }
+}
+
+qint64 MacPlatform::processResidentMemoryBytes()
+{
+    struct mach_task_basic_info info;
+    mach_msg_type_number_t count = MACH_TASK_BASIC_INFO_COUNT;
+    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
+                  (task_info_t)&info, &count) != KERN_SUCCESS)
+        return -1;
+    return static_cast<qint64>(info.resident_size);
 }

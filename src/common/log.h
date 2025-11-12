@@ -3,7 +3,10 @@
 
 
 class QByteArray;
+class QFileInfo;
 class QString;
+template <class T> class QList;
+using QFileInfoList = QList<QFileInfo>;
 
 enum LogLevel {
     LogAlways,
@@ -19,6 +22,7 @@ constexpr int logFileCount = 10;
 
 QString getDefaultLogFilePath();
 const QString &logFileName();
+QFileInfoList logFileNames();
 
 QByteArray readLogFile(int maxReadSize);
 

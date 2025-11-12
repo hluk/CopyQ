@@ -162,6 +162,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_sharedData->notifications = new NotificationDaemon(this);
     m_sharedData->actions = new ActionHandler(m_sharedData->notifications, this);
     m_wnd = new MainWindow(m_sharedData);
+    qApp->setProperty("CopyQ_server", QVariant::fromValue(static_cast<QObject*>(this)));
 
     connect( m_sharedData->notifications, &NotificationDaemon::notificationButtonClicked,
              this, &ClipboardServer::onNotificationButtonClicked );
@@ -233,6 +234,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
 ClipboardServer::~ClipboardServer()
 {
+    qApp->setProperty("CopyQ_server", QVariant());
+
     removeGlobalShortcuts();
 
     delete m_wnd;
@@ -246,6 +249,20 @@ ClipboardServer::~ClipboardServer()
 
     delete m_sharedData->itemFactory;
     m_sharedData->itemFactory = nullptr;
+}
+
+QStringList ClipboardServer::copyqStats() const
+{
+    const int total = m_clients.size();
+    const bool hasClipboardProvider = m_provideClipboardClientId != 0
+        && m_clients.contains(m_provideClipboardClientId);
+    const bool hasSelectionProvider = m_provideSelectionClientId != 0
+        && m_clients.contains(m_provideSelectionClientId);
+
+    return {QStringLiteral("CLIENTS: connected=%1, clipboard_provider=%2, selection_provider=%3")
+        .arg(total)
+        .arg(hasClipboardProvider ? "yes" : "no")
+        .arg(hasSelectionProvider ? "yes" : "no")};
 }
 
 void ClipboardServer::stopMonitoring()

@@ -133,6 +133,12 @@ public:
      */
     virtual QString themePrefix() = 0;
 
+    /**
+     * Return the resident set size (RSS) of the current process in bytes.
+     * Returns -1 if not supported on this platform.
+     */
+    virtual qint64 processResidentMemoryBytes() = 0;
+
     PlatformNativeInterface(const PlatformNativeInterface &) = delete;
     PlatformNativeInterface &operator=(const PlatformNativeInterface &) = delete;
 };

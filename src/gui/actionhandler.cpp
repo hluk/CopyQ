@@ -36,6 +36,19 @@ QString actionDescription(const Action &action)
 
 } // namespace
 
+QStringList ActionHandler::copyqStats() const
+{
+    QStringList lines;
+    for (auto it = m_actions.constBegin(); it != m_actions.constEnd(); ++it) {
+        if (m_internalActions.contains(it.key()))
+            continue;
+        QString desc = actionDescription(*it.value());
+        desc.replace('\n', " | ");
+        lines.append(QStringLiteral("ACTION ") + desc);
+    }
+    return lines;
+}
+
 ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent)
     : QObject(parent)
     , m_notificationDaemon(notificationDaemon)
