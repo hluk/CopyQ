@@ -124,6 +124,7 @@ struct MainWindowOptions {
 class MainWindow final : public QMainWindow
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList copyqStats READ copyqStats CONSTANT)
 
 public:
     explicit MainWindow(
@@ -286,6 +287,7 @@ public:
     QVector<Command> automaticCommands() const { return m_automaticCommands; }
     QVector<Command> displayCommands() const { return m_displayCommands; }
     QVector<Command> scriptCommands() const { return m_scriptCommands; }
+    QStringList copyqStats() const;
 
     /** Close main window and exit the application. */
     void exit();

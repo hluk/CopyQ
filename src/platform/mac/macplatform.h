@@ -44,4 +44,6 @@ public:
     QString translationPrefix() override;
 
     QString themePrefix() override;
+
+    qint64 processResidentMemoryBytes() override;
 };

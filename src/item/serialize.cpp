@@ -784,3 +784,19 @@ QString itemDataPath()
 {
     return qApp->property("CopyQ_item_data_path").toString();
 }
+
+qint64 estimateDataSize(const QVariantMap &data)
+{
+    qint64 totalSize = 0;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        totalSize += it.key().size() * 2; // QString is UTF-16
+        const QVariant &value = it.value();
+        const DataFile dataFile = value.value<DataFile>();
+        if (!dataFile.path().isEmpty()) {
+            totalSize += dataFile.size(); // QFileInfo::size(), no data load
+        } else {
+            totalSize += value.toByteArray().size();
+        }
+    }
+    return totalSize;
+}

@@ -1752,6 +1752,27 @@ unlike in GUI, where row numbers start from 1 by default.
 
        config("style", styleName)
 
+.. js:function:: stats()
+
+   Get runtime diagnostics and statistics about the application state.
+
+   Reports QObject tree class/name counts, clipboard model row counts
+   and data sizes, item data directory size on disk, tab load state,
+   running actions, command counts by type, loaded plugins with
+   enabled/disabled state, log file sizes, and process memory usage.
+
+   :returns: Multi-line string with statistics including:
+      ``TYPE: COUNT`` for QObject instances,
+      ``MODEL path: rows=N, dataSize=B (human)`` for item models,
+      ``DATA_DIR path: size=B (human)`` for the item data directory,
+      ``TABS: total=N, loaded=N`` for tab load state,
+      ``ACTION description`` for each running action,
+      ``COMMANDS: automatic=N, display=N, menu=N, tray_menu=N, script=N`` for command counts,
+      ``PLUGIN id: enabled/disabled`` for each loaded plugin,
+      ``LOG_FILES: count=N, size=B (human)`` for log file total size,
+      ``MEMORY: rss=B (human)`` for process resident memory (platform-dependent).
+   :rtype: string
+
 .. js:function:: onItemsAdded()
 
    Called when items are added to a tab.

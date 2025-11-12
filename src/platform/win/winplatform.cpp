@@ -25,6 +25,7 @@
 #include <objidl.h>
 #include <shlguid.h>
 
+#include <psapi.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
@@ -381,4 +382,12 @@ void WinPlatform::setAutostartEnabled(bool enable)
     } else if (QFile::exists(shortcutPath) && !QFile::remove(shortcutPath)) {
         log(QStringLiteral("Failed to remove autostart shortcut at \"%1\"").arg(shortcutPath), LogError);
     }
+}
+
+qint64 WinPlatform::processResidentMemoryBytes()
+{
+    PROCESS_MEMORY_COUNTERS pmc;
+    if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+        return -1;
+    return static_cast<qint64>(pmc.WorkingSetSize);
 }

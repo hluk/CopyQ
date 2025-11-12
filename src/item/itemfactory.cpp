@@ -683,3 +683,15 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 
     return enabled;
 }
+
+QStringList ItemFactory::copyqStats() const
+{
+    QStringList lines;
+    for (const auto &loader : m_loaders) {
+        if (loader == m_dummyLoader)
+            continue;
+        lines.append(QStringLiteral("PLUGIN %1: %2")
+            .arg(loader->id(), loader->isEnabled() ? "enabled" : "disabled"));
+    }
+    return lines;
+}

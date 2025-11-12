@@ -37,6 +37,7 @@ using ItemLoaderList = QList<ItemLoaderPtr>;
 class ItemFactory final : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList copyqStats READ copyqStats CONSTANT)
 
 public:
     /**
@@ -84,6 +85,8 @@ public:
      * Return true if no plugins were loaded.
      */
     bool hasLoaders() const { return !m_loaders.isEmpty(); }
+
+    QStringList copyqStats() const;
 
     /**
      * Load items using a plugin.

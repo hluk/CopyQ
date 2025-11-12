@@ -33,3 +33,5 @@ bool deserializeData(QAbstractItemModel *model, QIODevice *file, const Encryptio
 
 QString itemDataPath();
 bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::EncryptionKey *encryptionKey = nullptr);
+
+qint64 estimateDataSize(const QVariantMap &data);

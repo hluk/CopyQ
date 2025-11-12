@@ -182,6 +182,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("hideDataNotification", "hideDataNotification()", "Hide notification for current data.");
     addDocumentation("setClipboardData", "setClipboardData()", "Sets clipboard data for menu commands.");
     addDocumentation("styles", "styles() -> array of strings", "List available styles for `style` option.");
+    addDocumentation("stats", "stats() -> string", "Get runtime diagnostics and statistics about the application state.");
     addDocumentation("onItemsAdded", "onItemsAdded()", "Called when items are added to a tab.");
     addDocumentation("onItemsRemoved", "onItemsRemoved()", "Called when items are being removed from a tab.");
     addDocumentation("onItemsChanged", "onItemsChanged()", "Called when data in items change.");

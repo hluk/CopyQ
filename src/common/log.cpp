@@ -105,14 +105,6 @@ void logAlways(const QByteArray &msgText, const LogLevel level)
     }
 }
 
-QFileInfoList logFileNames()
-{
-    const QFileInfo logFileInfo(::logFileName());
-    const QDir logDir = logFileInfo.absoluteDir();
-    const QString pattern = QStringLiteral("%1-*.log*").arg(
-        logFileInfo.baseName().section('-', 0, -3) );
-    return logDir.entryInfoList({logFileInfo.fileName(), pattern}, QDir::Files, QDir::Time);
-}
 
 bool removeLogFile(const QFileInfo &logFileInfo)
 {
@@ -126,6 +118,15 @@ bool removeLogFile(const QFileInfo &logFileInfo)
 }
 
 } // namespace
+
+QFileInfoList logFileNames()
+{
+    const QFileInfo logFileInfo(::logFileName());
+    const QDir logDir = logFileInfo.absoluteDir();
+    const QString pattern = QStringLiteral("%1-*.log*").arg(
+        logFileInfo.baseName().section('-', 0, -3) );
+    return logDir.entryInfoList({logFileInfo.fileName(), pattern}, QDir::Files, QDir::Time);
+}
 
 QString getDefaultLogFilePath()
 {

@@ -38,10 +38,13 @@ struct NotificationButton;
 class ClipboardServer final : public QObject, public App
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList copyqStats READ copyqStats CONSTANT)
 
 public:
     ClipboardServer(QApplication *app, const QString &sessionName);
     ~ClipboardServer();
+
+    QStringList copyqStats() const;
 
     /** Stop monitor application. */
     void stopMonitoring();

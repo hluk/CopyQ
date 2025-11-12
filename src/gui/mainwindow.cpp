@@ -875,6 +875,32 @@ bool MainWindow::browseMode() const
     return ui->searchBar->isHidden();
 }
 
+QStringList MainWindow::copyqStats() const
+{
+    int totalTabs = 0;
+    int loadedTabs = 0;
+    for (auto *placeholder : findChildren<ClipboardBrowserPlaceholder*>()) {
+        ++totalTabs;
+        if (placeholder->isDataLoaded())
+            ++loadedTabs;
+    }
+
+    QStringList lines;
+    if (totalTabs > 0) {
+        lines += QStringLiteral("TABS: total=%1, loaded=%2")
+            .arg(totalTabs).arg(loadedTabs);
+    }
+
+    lines += QStringLiteral("COMMANDS: automatic=%1, display=%2, menu=%3, tray_menu=%4, script=%5")
+        .arg(m_automaticCommands.size())
+        .arg(m_displayCommands.size())
+        .arg(m_menuCommands.size())
+        .arg(m_trayMenuCommands.size())
+        .arg(m_scriptCommands.size());
+
+    return lines;
+}
+
 void MainWindow::exit()
 {
     // Check if not editing in any tab (show and try to close editors).

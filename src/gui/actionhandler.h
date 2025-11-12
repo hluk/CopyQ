@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QSet>
+#include <QStringList>
 
 class Action;
 class NotificationDaemon;
@@ -13,12 +14,14 @@ class ActionTableModel;
 class ActionHandler final : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList copyqStats READ copyqStats CONSTANT)
 public:
     explicit ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent);
 
     void setMaxRowCount(uint rows);
 
     int runningActionCount() const { return m_actions.size() - m_internalActions.size(); }
+    QStringList copyqStats() const;
 
     void showProcessManagerDialog(QWidget *parent);
 

@@ -29,6 +29,7 @@
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
+#include "item/clipboardmodel.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
@@ -49,6 +50,7 @@
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QFileInfo>
+#include <QDirIterator>
 #include <QFileDialog>
 #include <QWidget>
 #include <QLabel>
@@ -68,6 +70,7 @@
 #include <QStyleFactory>
 #include <QTextEdit>
 #include <QUrl>
+#include <QAbstractItemModel>
 
 #include <type_traits>
 
@@ -76,6 +79,17 @@ namespace {
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 constexpr bool hasPriority = false;
+
+QString formatDataSize(qint64 bytes)
+{
+    if (bytes < 1024)
+        return QStringLiteral("%1 B").arg(bytes);
+    if (bytes < 1024 * 1024)
+        return QStringLiteral("%1 KiB").arg(bytes / 1024.0, 0, 'f', 1);
+    if (bytes < 1024 * 1024 * 1024)
+        return QStringLiteral("%1 MiB").arg(bytes / (1024.0 * 1024.0), 0, 'f', 1);
+    return QStringLiteral("%1 GiB").arg(bytes / (1024.0 * 1024.0 * 1024.0), 0, 'f', 1);
+}
 
 void registerMetaTypes() {
     static bool registered = false;
@@ -2425,6 +2439,117 @@ QStringList ScriptableProxy::styles()
 {
     INVOKE(styles, ());
     return QStyleFactory::keys();
+}
+
+QString ScriptableProxy::stats()
+{
+    INVOKE(stats, ());
+    QMap<QString, int> stats;
+    QSet<const QObject*> visited;
+    struct AddressObj {
+        QString address;
+        const QObject *obj;
+    };
+    QList<AddressObj> toVisit;
+    QStringList modelLines;
+    QStringList extraLines;
+
+    for (const QObject *obj : QApplication::topLevelWidgets())
+        toVisit.append(AddressObj{{}, obj});
+
+    toVisit.append(AddressObj{{}, qApp});
+
+    QObject *server = qApp->property("CopyQ_server").value<QObject*>();
+    if (server)
+        toVisit.append(AddressObj{{}, server});
+
+    while ( !toVisit.isEmpty() ) {
+        const AddressObj addressObj = toVisit.takeFirst();
+        if (visited.contains(addressObj.obj))
+            continue;
+
+        visited.insert(addressObj.obj);
+
+        const QString className = QString::fromUtf8(addressObj.obj->metaObject()->className());
+        stats[className] += 1;
+
+        const QString objectName = addressObj.obj->objectName();
+        if (!objectName.isEmpty() && objectName != className)
+            stats[objectName] += 1;
+
+        const QString address = objectName.isEmpty()
+            ? QStringLiteral("%1/%2").arg(addressObj.address, className)
+            : QStringLiteral("%1/%2").arg(addressObj.address, objectName);
+        if (!addressObj.address.isEmpty())
+            stats[address] += 1;
+
+        if (auto *model = qobject_cast<const QAbstractItemModel*>(addressObj.obj)) {
+            QString modelLine = QStringLiteral("MODEL %1: rows=%2")
+                .arg(address).arg(model->rowCount());
+            if (auto *clipModel = dynamic_cast<const ClipboardModel*>(addressObj.obj)) {
+                qint64 dataSize = 0;
+                for (int i = 0; i < clipModel->rowCount(); ++i) {
+                    const QVariantMap itemData = clipModel->data(
+                        clipModel->index(i), contentType::data).toMap();
+                    dataSize += estimateDataSize(itemData);
+                }
+                modelLine += QStringLiteral(", dataSize=%1 (%2)")
+                    .arg(dataSize).arg(formatDataSize(dataSize));
+            }
+            modelLines.append(modelLine);
+        }
+
+        // Collect stats from any QObject exposing copyqStats property
+        const QVariant statsVar = addressObj.obj->property("copyqStats");
+        if (statsVar.isValid())
+            extraLines += statsVar.toStringList();
+
+        for (const QObject *obj : addressObj.obj->findChildren<QObject*>(QString(), Qt::FindDirectChildrenOnly))
+            toVisit.append(AddressObj{address, obj});
+    };
+
+    QStringList result;
+    result.reserve( stats.size() + 1 );
+    result.append( QStringLiteral("TOTAL: %1").arg(visited.size()) );
+    for (auto it = stats.constBegin(); it != stats.constEnd(); ++it) {
+        result += QStringLiteral("%1: %2").arg(it.key()).arg(it.value());
+    }
+    result += modelLines;
+
+    const QString dataPath = itemDataPath();
+    if (!dataPath.isEmpty()) {
+        qint64 dataDirSize = 0;
+        QDirIterator it(dataPath, QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            it.next();
+            dataDirSize += it.fileInfo().size();
+        }
+        result += QStringLiteral("DATA_DIR %1: size=%2 (%3)")
+            .arg(dataPath).arg(dataDirSize).arg(formatDataSize(dataDirSize));
+    }
+
+    result += extraLines;
+
+    // Log file total size
+    {
+        const QFileInfoList logFiles = logFileNames();
+        qint64 logSize = 0;
+        for (const auto &fi : logFiles)
+            logSize += fi.size();
+        result += QStringLiteral("LOG_FILES: count=%1, size=%2 (%3)")
+            .arg(logFiles.size()).arg(logSize).arg(formatDataSize(logSize));
+    }
+
+    // Process memory via platform interface
+    {
+        const qint64 rss = platformNativeInterface()->processResidentMemoryBytes();
+        if (rss >= 0) {
+            result += QStringLiteral("MEMORY: rss=%1 (%2)")
+                .arg(rss).arg(formatDataSize(rss));
+        }
+    }
+
+    return result.join("\n");
 }
 
 void ScriptableProxy::setScriptOverrides(const QVector<int> &overrides)
