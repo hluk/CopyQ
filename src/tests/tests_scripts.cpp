@@ -1144,6 +1144,25 @@ void Tests::commandServerLogAndLogs()
     QVERIFY2( QString::fromUtf8(stdoutActual).contains(re), stdoutActual );
 }
 
+void Tests::commandStats()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("stats"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+    const auto stats = stdoutActual.split('\n');
+    QVERIFY2( stats.value(0).startsWith("TOTAL: "), stdoutActual);
+    QVERIFY2( stats.contains("QApplication: 1"), stdoutActual);
+    QVERIFY2( stats.contains("MainWindow: 1"), stdoutActual);
+    QVERIFY2( stats.contains("tabWidget: 1"), stdoutActual);
+    QVERIFY2( stats.contains("searchBar: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/centralWidget/searchBar: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget/QStackedWidget/ClipboardBrowserPlaceholder/ClipboardBrowser: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget/QStackedWidget/ClipboardBrowserPlaceholder: 1"), stdoutActual);
+}
+
 void Tests::chainingCommands()
 {
     const auto tab1 = testTab(1);

@@ -391,6 +391,8 @@ public slots:
 
     QJSValue styles();
 
+    QJSValue stats();
+
     void onItemsAdded() {}
     void onItemsRemoved() {}
     void onItemsChanged() {}
