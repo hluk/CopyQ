@@ -586,7 +586,6 @@ void ClipboardServer::onMonitorFinished()
     if (!m_monitor)
         setClipboardMonitorRunning(false);
     stopMonitoring();
-    startMonitoring();
 }
 
 void ClipboardServer::onNotificationButtonClicked(const NotificationButton &button)
