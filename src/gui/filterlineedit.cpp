@@ -30,6 +30,7 @@
 #include "filterlineedit.h"
 
 #include "common/appconfig.h"
+#include "common/compatibility.h"
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/regexp.h"
@@ -193,7 +194,7 @@ class ItemFilterFixedStrings final : public BaseItemFilter {
 public:
     ItemFilterFixedStrings(const QString &searchString, Qt::CaseSensitivity caseSensitivity)
         : BaseItemFilter(searchString)
-        , m_needles( searchString.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts) )
+        , m_needles( searchString.split(QRegularExpression("\\s+"), SKIP_EMPTY_PARTS) )
         , m_caseSensitivity(caseSensitivity)
     {
     }

@@ -2,6 +2,8 @@
 
 #include "itemtests.h"
 
+#include "common/compatibility.h"
+
 #include <QCheckBox>
 #include <QDrag>
 #include <QLoggingCategory>
@@ -72,7 +74,7 @@ QWidget *findWidgetWithProperties(const QString &properties, QWidget *parent)
             if (parent == nullptr)
                 return nullptr;
 
-            const QStringList props = name.split('|', Qt::SkipEmptyParts);
+            const QStringList props = name.split('|', SKIP_EMPTY_PARTS);
             for (QWidget *child : parent->findChildren<QWidget*>()) {
                 if (child->isVisible() && matchesProperties(child, props)) {
                     qCDebug(plugin) << "Found target:" << objectAddress(child);

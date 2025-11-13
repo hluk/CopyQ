@@ -7,6 +7,7 @@
 #include "common/common.h"
 #include "common/config.h"
 #include "common/contenttype.h"
+#include "common/compatibility.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
@@ -175,7 +176,11 @@ public:
 private:
     bool hasPixmap() const
     {
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
         return !pixmap(Qt::ReturnByValue).isNull();
+#else
+        return pixmap() != nullptr;
+#endif
     }
 
     bool m_hasText;
@@ -526,7 +531,7 @@ bool ItemFactory::loadPlugins()
         return true;
     pluginsLoaded = true;
 
-    const QStringList plugins = getTextData(qgetenv("COPYQ_PLUGINS")).split(';', Qt::SkipEmptyParts);
+    const QStringList plugins = getTextData(qgetenv("COPYQ_PLUGINS")).split(';', SKIP_EMPTY_PARTS);
     for (const auto &path : plugins) {
         auto loader = loadPlugin(path, QString());
         if (loader)
@@ -667,6 +672,6 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 
     static const QStringList plugins =
         getTextData( qgetenv("COPYQ_ALLOW_PLUGINS") )
-        .split(QChar(','), Qt::SkipEmptyParts);
+        .split(QChar(','), SKIP_EMPTY_PARTS);
     return plugins.isEmpty() ? enabled : plugins.contains(loader->id());
 }

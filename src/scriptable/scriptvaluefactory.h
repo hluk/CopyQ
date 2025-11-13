@@ -176,11 +176,26 @@ struct ScriptValueFactory<QRegularExpression> {
     static QRegularExpression fromScriptValue(const QJSValue &value, QJSEngine *)
     {
         if (value.isRegExp()) {
-            return value.toVariant().toRegularExpression();
+            const auto variant = value.toVariant();
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+            return variant.toRegularExpression();
+#else
+            // Support for Qt 5.12.z and below.
+            if ( variant.canConvert<QRegularExpression>() )
+                return variant.toRegularExpression();
+
+            const QRegExp reOld = variant.toRegExp();
+            const auto caseSensitivity =
+                reOld.caseSensitivity() == Qt::CaseInsensitive
+                ? QRegularExpression::CaseInsensitiveOption
+                : QRegularExpression::NoPatternOption;
+            return QRegularExpression(reOld.pattern(), caseSensitivity);
+#endif
         }
 
         if (value.isVariant()) {
-            return value.toVariant().toRegularExpression();
+            const auto variant = value.toVariant();
+            return variant.toRegularExpression();
         }
 
         return QRegularExpression( toString(value) );
