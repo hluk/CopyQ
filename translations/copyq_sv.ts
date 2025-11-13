@@ -9,27 +9,27 @@
         <translation>Om</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="84"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="87"/>
         <source>Clipboard Manager</source>
         <translation>Urklippshanterare</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="91"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Author</source>
         <translation>Utvecklare</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="92"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="95"/>
         <source>E-mail</source>
         <translation>E-post</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="93"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="96"/>
         <source>Web</source>
         <translation>Webb</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="97"/>
         <source>Donate</source>
         <translation>Donera</translation>
     </message>
@@ -117,7 +117,7 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation>Slutstatus: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="165"/>
+        <location filename="../src/gui/actionhandler.cpp" line="169"/>
         <source>Command %1</source>
         <translation>Kommando %1</translation>
     </message>
@@ -332,17 +332,17 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation type="vanished">Fliken är full. Kunde inte ta bort några objekt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1532"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1573"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Det går inte att lägga till nya objekt på fliken %1. Ta bort objekt manuellt för att skapa utrymme.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1856"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
         <translation>Förkasta ändringar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1857"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Vill du verkligen &lt;strong&gt;förkasta ändringar&lt;/strong&gt;?</translation>
     </message>
@@ -402,27 +402,27 @@ Du kan konfigurera kommandot i inställningar.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="123"/>
+        <location filename="../src/app/clipboardserver.cpp" line="128"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ-servern körs redan.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="388"/>
+        <location filename="../src/app/clipboardserver.cpp" line="397"/>
         <source>Cancel Active Commands</source>
         <translation>Avbryt aktiva kommandon</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="389"/>
+        <location filename="../src/app/clipboardserver.cpp" line="398"/>
         <source>Cancel active commands and exit?</source>
         <translation>Avbryt aktiva kommandon och avsluta?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="392"/>
+        <location filename="../src/app/clipboardserver.cpp" line="401"/>
         <source>Cancel Exiting</source>
         <translation>Avbryt avslutande</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="393"/>
+        <location filename="../src/app/clipboardserver.cpp" line="402"/>
         <source>Exit Anyway</source>
         <translation>Avsluta i alla fall</translation>
     </message>
@@ -502,6 +502,16 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <location filename="../src/gui/commanddialog.cpp" line="269"/>
         <source>Commands (*.ini)</source>
         <translation>Kommandon (*.ini)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="277"/>
+        <source>Save Commands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="278"/>
+        <source>Failed to save commands to file &quot;%1&quot;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1703,27 +1713,27 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Utseende</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="455"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="447"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Ogiltigt värde för alternativet ”%1”</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="492"/>
         <source>Reset preferences?</source>
         <translation>Återställ inställningar?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Denna åtgärd kommer återställa alla dina inställningar (i alla flikar) till standardvärdena.&lt;br /&gt;&lt;br /&gt;Vill du verkligen &lt;strong&gt;återställa alla inställningar&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="603"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="595"/>
         <source>Restart Required</source>
         <translation>Omstart krävs</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="604"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="596"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Språk kommer att ändras efter att programmet har startats om.</translation>
     </message>
@@ -1736,7 +1746,7 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="572"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="598"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Misslyckades med att skapa synkroniseringskatalogen ”%1”!</translation>
     </message>
@@ -1821,7 +1831,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">Redigerarkommando: %1</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="137"/>
+        <location filename="../src/item/itemeditor.cpp" line="140"/>
         <source>Editor command failed (see logs)</source>
         <translation>Editor-kommandot misslyckades (se loggar)</translation>
     </message>
@@ -1906,94 +1916,94 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">För att dela krypterade objekt på andra datorer eller sessioner behöver du öppna och hemliga nyckelfiler:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Förvara denna hemliga nyckel på ett säkert ställe.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuPG måste vara installerat för att visa krypterade flikar.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="853"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="840"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Kryptera (kräver GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="859"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="857"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Decrypt</source>
         <translation>Dekryptera</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="862"/>
         <source>Decrypt and Copy</source>
         <translation>Dekryptera och kopiera</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Skift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Decrypt and Paste</source>
         <translation>Avkryptera och klistra in</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="959"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="946"/>
         <source>Error: %1</source>
         <translation>Fel: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="947"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="934"/>
         <source>Failed to generate keys.</source>
         <translation>Misslyckades med att generera nycklar.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="671"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
         <translation>För att dela krypterade objekt på annan dator eller session behöver du dessa hemliga nyckelfiler (förvara dem på ett säkert ställe):</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="964"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="951"/>
         <source>Done</source>
         <translation>Klar</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="980"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Skapar nya nycklar (detta kan ta några minuter)…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="981"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="968"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="971"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="983"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="970"/>
         <source>Setting new password...</source>
         <translation>Ställer in nytt lösenord…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="986"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="973"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Krypteringsnycklar &lt;strong&gt;måste genereras&lt;/strong&gt; innan objektkryptering kan användas.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
         <source>Generate New Keys...</source>
         <translation>Generera nya nycklar…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="978"/>
         <source>Change Password...</source>
         <translation>Ändra lösenord…</translation>
     </message>
@@ -2003,7 +2013,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Kryptering misslyckades!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
         <source>Decryption failed!</source>
         <translation>Dekryptering misslyckades!</translation>
     </message>
@@ -2232,22 +2242,22 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="179"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>Det går inte att ta bort nålade objekt</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="184"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="180"/>
         <source>Unpin items first to remove them.</source>
         <translation>Avnåla objekt först för att ta bort dem.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="348"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Pin</source>
         <translation>Nåla</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="356"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="341"/>
         <source>Unpin</source>
         <translation>Avnåla</translation>
     </message>
@@ -2271,12 +2281,12 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>Bläddra…</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="761"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
         <source>Open Directory for Synchronization</source>
         <translation>Öppna katalog för synkronisering</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="774"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
         <source>Failed to create synchronization directory</source>
         <translation>Misslyckades med att skapa synkroniseringskatalog</translation>
     </message>
@@ -2369,12 +2379,12 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="144"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="140"/>
         <source>Add a Tag</source>
         <translation>Lägg till en tagg</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
         <source>Remove a Tag</source>
         <translation>Ta bort en tagg</translation>
     </message>
@@ -2387,28 +2397,28 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">Ta bort taggen %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="170"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
         <translation>Växla flik %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="604"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Kan inte ta bort objekt med en låst tagg</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="598"/>
         <source>Untag items first to remove them.</source>
         <translation>Avtagga objekt först, för att ta bort dem.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="711"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Viktigt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
         <source>Clear all tags</source>
         <translation>Rensa alla taggar</translation>
     </message>
@@ -2613,13 +2623,13 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">&amp;Inaktivera urklippslagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2091"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2211"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2103"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2223"/>
         <source>Options for Import</source>
         <translation>Alternativ för import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2505"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2517"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ-fel</translation>
@@ -2630,17 +2640,17 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>&amp;Visa/dölj</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3937"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3949"/>
         <source>Options for Export</source>
         <translation>Alternativ för Export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3958"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3970"/>
         <source>Export Error</source>
         <translation>Exportfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3959"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3971"/>
         <source>Failed to export file %1!</source>
         <translation>Misslyckades med att exportera filen %1!</translation>
     </message>
@@ -2656,32 +2666,32 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation>CopyQ-objekt (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4051"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4063"/>
         <source>Import Error</source>
         <translation>Importfel</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4052"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4064"/>
         <source>Failed to import file %1!</source>
         <translation>Misslyckades med att importera filen %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4230"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4242"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ta bort alla flikar i grupp?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4231"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4243"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort &lt;strong&gt;alla flikar&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4290"/>
         <source>Remove Tab?</source>
         <translation>Ta bort flik?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Vill du ta bort fliken &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2689,7 +2699,7 @@ Ställ in till 0 för att inaktivera.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="519"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="516"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
@@ -3184,7 +3194,7 @@ Ställ in till 0 för att inaktivera.</translation>
         <translation type="vanished">%1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="321"/>
+        <location filename="../src/main.cpp" line="292"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sessionsnamn får innehålla högst 16 tecken
@@ -3196,7 +3206,7 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         <translation>Fliken %1 är skadad eller några CopyQ-plugins saknas!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2616"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2270"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
@@ -3205,13 +3215,13 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2619"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2273"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translation>Text kopierad</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2635"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2289"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translation>Data kopierad</translation>
@@ -3476,7 +3486,7 @@ Standard är den första fliken.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>COMMAND</source>
         <translation>KOMMANDO</translation>
@@ -3559,7 +3569,7 @@ Standard är den första fliken.</translation>
         <translation>Skriv version av program och bibliotek.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>Start server in background before running a command.</source>
         <translation>Starta servern i bakgrunden innan ett kommando körs.</translation>
     </message>
@@ -3605,9 +3615,8 @@ Print version of program and libraries.</source>
 Skriv ut version på program och bibliotek.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Kör programtest (lägg till flaggan --help för mer info).</translation>
+        <translation type="vanished">Kör programtest (lägg till flaggan --help för mer info).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
@@ -3685,17 +3694,17 @@ Skriv ut version på program och bibliotek.</translation>
         <translation>Ogiltigt alternativ ”%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2895"/>
         <source>Exception</source>
         <translation>Undantag</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2956"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2896"/>
         <source>Exception in %1</source>
         <translation>Undantag i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3066"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3010"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Misslyckades med att kopiera till urklipp!</translation>
     </message>
@@ -3703,22 +3712,22 @@ Skriv ut version på program och bibliotek.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="647"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="643"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Det finns ingen flik med det angivna namnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="652"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="648"/>
         <source>Tab name cannot be empty!</source>
         <translation>Fliknamn kan inte vara tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1313"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="983"/>
         <source>Tab with given name already exists!</source>
         <translation>Det finns redan en flik med det angivna namnet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2554"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2208"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
         <translation>*Urklippslagring inaktiverad*</translation>

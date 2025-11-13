@@ -9,27 +9,27 @@
         <translation>O aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="84"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="87"/>
         <source>Clipboard Manager</source>
         <translation>Správce schránky</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="91"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="92"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="95"/>
         <source>E-mail</source>
         <translation>E-mail</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="93"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="96"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="97"/>
         <source>Donate</source>
         <translation>Přispějte</translation>
     </message>
@@ -117,7 +117,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>Návratový kód: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="165"/>
+        <location filename="../src/gui/actionhandler.cpp" line="169"/>
         <source>Command %1</source>
         <translation>Příkaz %1</translation>
     </message>
@@ -332,17 +332,17 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="vanished">Záložka je zaplněna. Nepodařilo se odstranit žádné prvky.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1532"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1573"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Nelze přidat nové prvky do záložky %1. Pro uvolnění místa prosím odstraňte některé prvky.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1856"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
         <translation>Zahodit změny?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1857"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Chcete opravdu &lt;strong&gt;zahodit změny&lt;/strong&gt;?</translation>
     </message>
@@ -402,27 +402,27 @@ Příkaz je možné zmenit v nastavení.</translation>
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="123"/>
+        <location filename="../src/app/clipboardserver.cpp" line="128"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="388"/>
+        <location filename="../src/app/clipboardserver.cpp" line="397"/>
         <source>Cancel Active Commands</source>
         <translation>Zrušit aktivní příkazy</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="389"/>
+        <location filename="../src/app/clipboardserver.cpp" line="398"/>
         <source>Cancel active commands and exit?</source>
         <translation>Zrušit aktivní příkazy a ukončit?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="392"/>
+        <location filename="../src/app/clipboardserver.cpp" line="401"/>
         <source>Cancel Exiting</source>
         <translation>Přerušit ukončování</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="393"/>
+        <location filename="../src/app/clipboardserver.cpp" line="402"/>
         <source>Exit Anyway</source>
         <translation>Pokračovat v ukončování</translation>
     </message>
@@ -502,6 +502,16 @@ Příkaz je možné zmenit v nastavení.</translation>
         <location filename="../src/gui/commanddialog.cpp" line="269"/>
         <source>Commands (*.ini)</source>
         <translation>Příkazy (*.ini)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="277"/>
+        <source>Save Commands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="278"/>
+        <source>Failed to save commands to file &quot;%1&quot;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1735,27 +1745,27 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="455"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="447"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Neplatná hodnota pro nastavení &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="603"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="595"/>
         <source>Restart Required</source>
         <translation>Nutný restart</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="604"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="596"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Jazyk bude změněn až po restartu aplikace.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="492"/>
         <source>Reset preferences?</source>
         <translation>Resetovat volby?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Tato akce resetuje všechna nastavení (ve všech záložkách) na implicitní hodnoty. &lt;br /&gt;&lt;br /&gt;Opravdu chcete &lt;strong&gt;resetovat všechna nastavení&lt;/strong&gt;?</translation>
     </message>
@@ -1768,7 +1778,7 @@ Nastav na 0 pro vypnutí.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="572"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="598"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Nelze vytvořit adresář pro synchronizaci &quot;%1&quot;!</translation>
     </message>
@@ -1853,7 +1863,7 @@ Nastav na 0 pro vypnutí.</translation>
         <translation type="vanished">Příkaz editoru: %1</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="137"/>
+        <location filename="../src/item/itemeditor.cpp" line="140"/>
         <source>Editor command failed (see logs)</source>
         <translation>Příkaz pro editaci selhal (viz log)</translation>
     </message>
@@ -1938,94 +1948,94 @@ Nastav na 0 pro vypnutí.</translation>
         <translation type="vanished">Pro sdílení zašifrovaných prvků na jíném počítači nebo v jiném sezení jsou zapotřebí soubory klíčů:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Ulož tento soukromí klíč na bezpečném místě.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>GnuGP musí být nainstalován pro zobrazení zašifrovaných záložek.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="853"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="840"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Zašifrovat (vyžaduje GnuPG)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="859"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="857"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Decrypt</source>
         <translation>Dešifrovat</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="862"/>
         <source>Decrypt and Copy</source>
         <translation>Dešifrovat a kopírovat</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Decrypt and Paste</source>
         <translation>Dešifrovat a vložit</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Enter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="959"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="946"/>
         <source>Error: %1</source>
         <translation>Chyba: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="947"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="934"/>
         <source>Failed to generate keys.</source>
         <translation>Došlo k chybě pří generování klíčů.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="671"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
         <translation>Pro sdílení zašifrovaných prvků na jíném počítači nebo v jiném sezení jsou zapotřebí soubory klíčů (musí být uloženy na bezpečném místě):</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="964"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="951"/>
         <source>Done</source>
         <translation>Hotovo</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="980"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Vytváření nových klíčů (může zabrat i několik minut)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="981"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="968"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="971"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="983"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="970"/>
         <source>Setting new password...</source>
         <translation>Nastavuje se nové heslo...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="986"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="973"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Pro šifrování prvků &lt;strong&gt;je nutné vygenerovat&lt;/strong&gt; klíče.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
         <source>Generate New Keys...</source>
         <translation>Vygenerovat nové klíče...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="978"/>
         <source>Change Password...</source>
         <translation>Změnit heslo...</translation>
     </message>
@@ -2035,7 +2045,7 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>Šifrování selhalo!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
         <source>Decryption failed!</source>
         <translation>Dešifrování selhalo!</translation>
     </message>
@@ -2264,22 +2274,22 @@ Nastav na 0 pro vypnutí.</translation>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="179"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>Nelze odstranit připnutý prvek</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="184"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="180"/>
         <source>Unpin items first to remove them.</source>
         <translation>K odstranění je nutné prvek nejprve odepnout.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="348"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Pin</source>
         <translation>Připnout</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="356"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="341"/>
         <source>Unpin</source>
         <translation>Odepnout</translation>
     </message>
@@ -2303,12 +2313,12 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>Procházet...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="761"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
         <source>Open Directory for Synchronization</source>
         <translation>Otevřít adresář pro synchronizaci</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="774"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
         <source>Failed to create synchronization directory</source>
         <translation>Nelze vytvořit adresář pro synchronizaci</translation>
     </message>
@@ -2407,12 +2417,12 @@ Nastav na 0 pro vypnutí.</translation>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="144"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="140"/>
         <source>Add a Tag</source>
         <translation>Přidat štítek</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
         <source>Remove a Tag</source>
         <translation>Odebrat štítek</translation>
     </message>
@@ -2425,28 +2435,28 @@ Nastav na 0 pro vypnutí.</translation>
         <translation type="vanished">Odebrat štítek %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="170"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
         <translation>Přepnout štítek %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="604"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Nelze odstranit prvky s uzamčeným štítkem</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="598"/>
         <source>Untag items first to remove them.</source>
         <translation>K odstranění je nutné uzamčený štítek nejprve odebrat.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="711"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Důležité</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
         <source>Clear all tags</source>
         <translation>Odebrat všechny štítky</translation>
     </message>
@@ -2609,7 +2619,7 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>&amp;Záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2505"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2517"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ chyba</translation>
@@ -2669,53 +2679,53 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>&amp;Změnit ikonu záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2091"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2211"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2103"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2223"/>
         <source>Options for Import</source>
         <translation>Nastavení pro import</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3937"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3949"/>
         <source>Options for Export</source>
         <translation>Nastavení pro export</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3958"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3970"/>
         <source>Export Error</source>
         <translation>Chyba exportu</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3959"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3971"/>
         <source>Failed to export file %1!</source>
         <translation>Nepodařilo se exportovat soubor %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4051"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4063"/>
         <source>Import Error</source>
         <translation>Chyba importu</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4052"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4064"/>
         <source>Failed to import file %1!</source>
         <translation>Nepodařilo se importovat soubor %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4230"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4242"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Odstranit všechny záložky ve skupině?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4231"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4243"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;/strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4290"/>
         <source>Remove Tab?</source>
         <translation>Odebrat záložku?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat záložku &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -2723,7 +2733,7 @@ Nastav na 0 pro vypnutí.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="519"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="516"/>
         <source>Information</source>
         <translation>Informace</translation>
     </message>
@@ -2783,7 +2793,7 @@ Nastav na 0 pro vypnutí.</translation>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="321"/>
+        <location filename="../src/main.cpp" line="292"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Název Sezení musí obsahovat ne více než 16 znaků,
@@ -3228,7 +3238,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <translation>Záložka %1 je poškozená nebo chybí některé zásuvné moduly!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2616"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2270"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
@@ -3238,13 +3248,13 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2619"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2273"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translation>Text zkopírován</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2635"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2289"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translation>Data zkopírována</translation>
@@ -3478,9 +3488,8 @@ Spustí program v jazyce ECMASctipt.
 Argumenty jsou přístupně pomocí &quot;arguments[0..N]&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Spustit testy (přidej argument --help pro více informací).</translation>
+        <translation type="vanished">Spustit testy (přidej argument --help pro více informací).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="55"/>
@@ -3522,7 +3531,7 @@ Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>COMMAND</source>
         <translation>PŘÍKAZ</translation>
@@ -3605,7 +3614,7 @@ Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
         <translation>Vytiskne verzi programu a jeho knihoven.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>Start server in background before running a command.</source>
         <translation>Spustí server v pozadí před provedením příkazu.</translation>
     </message>
@@ -3679,17 +3688,17 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation>CopyQ Správce Schránky</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2895"/>
         <source>Exception</source>
         <translation>Výjimka</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2956"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2896"/>
         <source>Exception in %1</source>
         <translation>Výjimka v %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3066"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3010"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Nepodařilo se kopírovat do schránky!</translation>
     </message>
@@ -3736,22 +3745,22 @@ Vytiskne verzi programu a jeho knihoven.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="647"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="643"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="652"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="648"/>
         <source>Tab name cannot be empty!</source>
         <translation>Název záložky nemůže být prázdný!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1313"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="983"/>
         <source>Tab with given name already exists!</source>
         <translation>Záložka se stejným jménem již existuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2554"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2208"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
         <translation>*Ukládání schránky zakázáno*</translation>

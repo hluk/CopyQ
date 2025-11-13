@@ -9,27 +9,27 @@
         <translation>Maidir</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="84"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="87"/>
         <source>Clipboard Manager</source>
         <translation>Bainisteoir Gearrthaisce</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="91"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
         <source>Author</source>
         <translation>Údar</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="92"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="95"/>
         <source>E-mail</source>
         <translation>Ríomhphost</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="93"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="96"/>
         <source>Web</source>
         <translation>Gréasán</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="94"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="97"/>
         <source>Donate</source>
         <translation>Tabhair síntiús</translation>
     </message>
@@ -102,7 +102,7 @@
         <translation>Cód scoir: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/actionhandler.cpp" line="165"/>
+        <location filename="../src/gui/actionhandler.cpp" line="169"/>
         <source>Command %1</source>
         <translation>Ordú %1</translation>
     </message>
@@ -326,17 +326,17 @@
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1532"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1573"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Ní féidir míreanna nua a chur leis an gcluaisín %1. Bain míreanna de láimh le do thoil chun spás a dhéanamh.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1856"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
         <translation>Cuir athruithe i leataobh?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1857"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>An bhfuil fonn ort &lt;strong&gt;athruithe a chaitheamh i leataobh&lt;/strong&gt; i ndáiríre?</translation>
     </message>
@@ -395,27 +395,27 @@
 <context>
     <name>ClipboardServer</name>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="123"/>
+        <location filename="../src/app/clipboardserver.cpp" line="128"/>
         <source>CopyQ server is already running.</source>
         <translation>Tá freastalaí CopyQ ag rith cheana féin.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="388"/>
+        <location filename="../src/app/clipboardserver.cpp" line="397"/>
         <source>Cancel Active Commands</source>
         <translation>Cealaigh Orduithe Gníomhacha</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="389"/>
+        <location filename="../src/app/clipboardserver.cpp" line="398"/>
         <source>Cancel active commands and exit?</source>
         <translation>Cealaigh orduithe gníomhacha agus scoir?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="392"/>
+        <location filename="../src/app/clipboardserver.cpp" line="401"/>
         <source>Cancel Exiting</source>
         <translation>Cealaigh Scoir</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="393"/>
+        <location filename="../src/app/clipboardserver.cpp" line="402"/>
         <source>Exit Anyway</source>
         <translation>Scoir Mar Sin Féin</translation>
     </message>
@@ -494,6 +494,16 @@
         <location filename="../src/gui/commanddialog.cpp" line="269"/>
         <source>Commands (*.ini)</source>
         <translation>Orduithe (*.ini)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="277"/>
+        <source>Save Commands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commanddialog.cpp" line="278"/>
+        <source>Failed to save commands to file &quot;%1&quot;: %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
@@ -1660,27 +1670,27 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Cuma</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="455"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="447"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation>Luach neamhbhailí don rogha &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="500"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="492"/>
         <source>Reset preferences?</source>
         <translation>Athshocraigh sainroghanna?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Athshocróidh an gníomh seo do chuid sainroghanna go léir (i ngach cluaisín) go luachanna réamhshocraithe.&lt;br /&gt;&lt;br /&gt;An bhfuil fonn ort &lt;strong&gt;gach rogha a athshocrú&lt;/strong&gt; i ndáiríre?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="603"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="595"/>
         <source>Restart Required</source>
         <translation>Atosaigh ag teastáil</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="604"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="596"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Athrófar an teanga tar éis an t-iarratas a atosú.</translation>
     </message>
@@ -1688,7 +1698,7 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="572"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="598"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Theip ar chomhadlann sioncrónaithe &quot;%1&quot; a chruthú!</translation>
     </message>
@@ -1773,7 +1783,7 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="137"/>
+        <location filename="../src/item/itemeditor.cpp" line="140"/>
         <source>Editor command failed (see logs)</source>
         <translation>Theip ar ordú an eagarthóra (féach logaí)</translation>
     </message>
@@ -1786,94 +1796,94 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Theip ar chriptiú!</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="673"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="671"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need these secret key files (keep them in a safe place):</source>
         <translation>Chun míreanna criptithe a roinnt ar ríomhaire nó ar sheisiún eile, beidh na comhaid eochair rúnda seo ag teastáil uait (coinnigh in áit shábháilte iad):</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="748"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="746"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
         <translation>Ní mór GnuPG a shuiteáil chun cluaisíní criptithe a fheiceáil.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="853"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="840"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Criptigh (teastaíonn GnuPG uaidh)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="859"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="870"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="846"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="857"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="864"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Decrypt</source>
         <translation>Díchriptiú</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="875"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="862"/>
         <source>Decrypt and Copy</source>
         <translation>Díchriptiú agus Cóipeáil</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="880"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="885"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Decrypt and Paste</source>
         <translation>Díchriptigh agus Greamaigh</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="890"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
         <source>Enter</source>
         <translation>Iontráil</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="947"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="934"/>
         <source>Failed to generate keys.</source>
         <translation>Theip ar eochracha a ghiniúint.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="964"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="951"/>
         <source>Done</source>
         <translation>Críochnaithe</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="980"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="967"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Eochracha nua á chruthú (d&apos;fhéadfadh sé seo cúpla nóiméad a thógáil)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="981"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="968"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="971"/>
         <source>Cancel</source>
         <translation>Cuir ar ceal</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="983"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="970"/>
         <source>Setting new password...</source>
         <translation>Pasfhocal nua á shocrú...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="986"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="973"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Ní mór eochracha criptithe a &lt;strong&gt;ghiniúint&lt;/strong&gt; sular féidir criptiú míreanna a úsáid.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="989"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
         <source>Generate New Keys...</source>
         <translation>Cruthaigh Eochracha Nua...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="991"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="978"/>
         <source>Change Password...</source>
         <translation>Athraigh Pasfhocal...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="997"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
         <source>Decryption failed!</source>
         <translation>Theip ar dhíchriptiú!</translation>
     </message>
@@ -1888,7 +1898,7 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Criptigh míreanna agus cluaisíní.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="959"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="946"/>
         <source>Error: %1</source>
         <translation>Earráid: %1</translation>
     </message>
@@ -2099,22 +2109,22 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>ItemPinnedLoader</name>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="183"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="179"/>
         <source>Cannot Remove Pinned Items</source>
         <translation>Ní féidir Míreanna Greamaithe a Bhaint</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="184"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="180"/>
         <source>Unpin items first to remove them.</source>
         <translation>Díphionnaigh míreanna ar dtús chun iad a bhaint.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="348"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Pin</source>
         <translation>Bioráin</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="356"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="341"/>
         <source>Unpin</source>
         <translation>Díphionnaigh</translation>
     </message>
@@ -2138,12 +2148,12 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Brabhsáil...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="761"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
         <source>Open Directory for Synchronization</source>
         <translation>Oscail Comhadlann le haghaidh Sioncrónaithe</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="774"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
         <source>Failed to create synchronization directory</source>
         <translation>Theip ar chomhadlann sioncrónaithe a chruthú</translation>
     </message>
@@ -2230,38 +2240,38 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>ItemTagsLoader</name>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="144"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="140"/>
         <source>Add a Tag</source>
         <translation>Cuir Clib leis</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
         <source>Remove a Tag</source>
         <translation>Bain Clib</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="170"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
         <translation>Scoránaigh Clib %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="604"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
         <source>Cannot Remove Items With a Locked Tag</source>
         <translation>Ní féidir míreanna a bhfuil clib faoi ghlas acu a bhaint</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="605"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="598"/>
         <source>Untag items first to remove them.</source>
         <translation>Díchlibeáil míreanna ar dtús chun iad a bhaint.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="711"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
         <translation>Tábhachtach</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtags/itemtags.cpp" line="771"/>
+        <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
         <source>Clear all tags</source>
         <translation>Glan na clibeanna go léir</translation>
     </message>
@@ -2436,59 +2446,59 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>&amp;Gearrthaisce: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2091"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2211"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2103"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2223"/>
         <source>Options for Import</source>
         <translation>Roghanna le hIompórtáil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2505"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2517"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>Earráid CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3937"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3949"/>
         <source>Options for Export</source>
         <translation>Roghanna le haghaidh Easpórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3958"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3970"/>
         <source>Export Error</source>
         <translation>Earráid Easpórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="3959"/>
+        <location filename="../src/gui/mainwindow.cpp" line="3971"/>
         <source>Failed to export file %1!</source>
         <translation>Theip ar easpórtáil an chomhaid %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4051"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4063"/>
         <source>Import Error</source>
         <translation>Earráid Iompórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4052"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4064"/>
         <source>Failed to import file %1!</source>
         <translation>Theip ar iompórtáil an chomhaid %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4230"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4242"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Bain gach cluaisín sa ghrúpa?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4231"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4243"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>An bhfuil fonn ort &lt;strong&gt;gach cluaisín&lt;/strong&gt; i ngrúpa&lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4278"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4290"/>
         <source>Remove Tab?</source>
         <translation>Bain Cluaisín?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4279"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>An bhfuil fonn ort cluaisín&lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
@@ -2524,7 +2534,7 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="519"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="516"/>
         <source>Information</source>
         <translation>Eolas</translation>
     </message>
@@ -2897,7 +2907,7 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Tá Cluaisín %1 truaillithe nó tá roinnt breiseán CopyQ ar iarraidh!</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="321"/>
+        <location filename="../src/main.cpp" line="292"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Ní mór 16 charachtar ar a mhéad a bheith in ainm an tseisiúin
@@ -3070,7 +3080,7 @@ a d&apos;fhéadfadh a bheith ina litreacha, digití, &apos;-&apos; nó &apos;_&a
         <translation>Scrios</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2616"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2270"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
@@ -3080,13 +3090,13 @@ a d&apos;fhéadfadh a bheith ina litreacha, digití, &apos;-&apos; nó &apos;_&a
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2619"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2273"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translation>Téacs Cóipeáilte</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2635"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2289"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translation>Sonraí Cóipeáilte</translation>
@@ -3325,7 +3335,7 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>COMMAND</source>
         <translation>ORDÚ</translation>
@@ -3423,12 +3433,11 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <translation>Priontáil leagan den chlár agus de na leabharlanna.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation>Rith tástálacha feidhmchláir (cuir argóint --help leis le haghaidh tuilleadh eolais).</translation>
+        <translation type="vanished">Rith tástálacha feidhmchláir (cuir argóint --help leis le haghaidh tuilleadh eolais).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>Start server in background before running a command.</source>
         <translation>Tosaigh an freastalaí sa chúlra sula ritheann tú ordú.</translation>
     </message>
@@ -3508,17 +3517,17 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <translation>Rogha neamhbhailí &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2955"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2895"/>
         <source>Exception</source>
         <translation>Eisceacht</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2956"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2896"/>
         <source>Exception in %1</source>
         <translation>Eisceacht i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="3066"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="3010"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Theip ar chóipeáil chuig an ghearrthaisce!</translation>
     </message>
@@ -3526,22 +3535,22 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="647"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="643"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Níl cluaisín le hainm tugtha ann!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="652"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="648"/>
         <source>Tab name cannot be empty!</source>
         <translation>Ní féidir ainm an chluaisín a bheith folamh!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="1313"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="983"/>
         <source>Tab with given name already exists!</source>
         <translation>Tá cluaisín le hainm tugtha ann cheana!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2554"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2208"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
         <translation>*Stóráil ar an nGearrthaisce Díchumasaithe*</translation>
