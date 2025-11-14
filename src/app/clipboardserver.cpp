@@ -26,6 +26,7 @@
 #include "item/itemstore.h"
 #include "item/serialize.h"
 #include "scriptable/scriptableproxy.h"
+#include "scriptable/scriptoverrides.h"
 
 #include <QAction>
 #include <QApplication>
@@ -313,7 +314,8 @@ void ClipboardServer::onAboutToQuit()
         return;
     m_exitting = true;
 
-    callback(QStringLiteral("onExit"));
+    if (m_wnd->isScriptOverridden(ScriptOverrides::OnExit))
+        callback(QStringLiteral("onExit"));
     waitForCallbackToFinish();
 
     m_ignoreNewConnections = true;

@@ -9,5 +9,6 @@ enum ScriptOverrides {
     OnItemsChanged = 3,
     OnTabSelected = 4,
     OnItemsLoaded = 5,
+    OnExit = 6,
 };
 }

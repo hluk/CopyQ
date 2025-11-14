@@ -274,10 +274,30 @@ public:
             m_succeeded = true;
 
             const auto key = static_cast<uint>(shortcut[0]);
-            QTest::keyClick( widget,
-                             Qt::Key(key & ~Qt::KeyboardModifierMask),
-                             Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
-                             0 );
+            const bool postpone = QApplication::activeModalWidget() != nullptr;
+            if (postpone) {
+                qCDebug(plugin) << "Postponing event due to a modal window";
+                // WORKAROUND: Avoid sending release event to a destroyed widget.
+                QPointer<QWidget> target(widget);
+                QTest::keyPress(
+                    widget,
+                    Qt::Key(key & ~Qt::KeyboardModifierMask),
+                    Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
+                    1 );
+                QTimer::singleShot(2, m_wnd, [=]() {
+                    if (!target)
+                        return;
+                    QTest::keyRelease(
+                        target,
+                        Qt::Key(key & ~Qt::KeyboardModifierMask),
+                        Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask) );
+                });
+            } else {
+                QTest::keyClick(
+                    widget,
+                    Qt::Key(key & ~Qt::KeyboardModifierMask),
+                    Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask) );
+            }
         }
 
         qCDebug(plugin) << "Event" << keys << "sent to" << widgetName;
