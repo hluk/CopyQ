@@ -255,7 +255,7 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
-    if (m_monitor || m_ignoreNewConnections || !m_wnd->isMonitoringEnabled())
+    if (m_monitor || m_exitting || m_ignoreNewConnections || !m_wnd->isMonitoringEnabled())
         return;
 
     COPYQ_LOG("Starting monitor");
