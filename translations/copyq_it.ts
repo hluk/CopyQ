@@ -506,12 +506,12 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva comandi</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile salvare i comandi nel file &quot;%1&quot;: %2</translation>
     </message>
 </context>
 <context>
