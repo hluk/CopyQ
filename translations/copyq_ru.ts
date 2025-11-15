@@ -506,12 +506,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить команды</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось сохранить команды в файл «%1»: %2</translation>
     </message>
 </context>
 <context>
