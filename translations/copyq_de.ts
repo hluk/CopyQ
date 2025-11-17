@@ -506,12 +506,12 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Befehle speichern</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern der Befehle in der Datei &quot;%1&quot; ist gescheitert: %2</translation>
     </message>
 </context>
 <context>
@@ -1087,7 +1087,7 @@ F2 zum Bearbeiten drücken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation>Aktivieren, um Fenster immer auf aktuellem Bildschirm zu öffnen. Deaktivieren, um Fenster dort zu öffnen, wo diese zuletzt geschlossen wurden.</translation>
+        <translation>Aktivieren, um Fenster immer auf aktuellem Bildschirm zu öffnen. Deaktivieren, um Fenster dort zu öffnen, wo diese zuletzt geschlossen wurden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="126"/>
@@ -1130,7 +1130,7 @@ F2 zum Bearbeiten drücken.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Vor Bildschirmfotos und Aufnahmen verbergen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
@@ -3220,7 +3220,7 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>Text kopiert (%n Zeilen)</numerusform>
+            <numerusform>Text kopiert (%n Zeile)</numerusform>
             <numerusform>Text kopiert (%n Zeilen)</numerusform>
         </translation>
     </message>
@@ -3740,7 +3740,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2208"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation>*Zwischenablagenspeicherung deaktiviert*</translation>
+        <translation>*Speicherung der Zwischenablage deaktiviert*</translation>
     </message>
     <message>
         <source>%1 - CopyQ</source>
