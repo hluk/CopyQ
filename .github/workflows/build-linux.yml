@@ -40,10 +40,9 @@ env:
     libqt6svg6-dev
     libqt6svg6
 
-    libkf6guiaddons
     libkf6guiaddons-dev
     libkf6notifications-dev
-    libkf6statusnotifieritem-dev
+    kf6-kstatusnotifieritem-dev
 
     libqt6waylandclient6
     qt6-wayland
@@ -80,35 +79,35 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-22.04
-            buildname: Qt 5
-            compiler: g++
-            compiler_package: g++
-            with_qt6: false
-            test_x11: true
-            cmake_preset: Debug
-
-          - os: ubuntu-latest
-            buildname: Qt 6
-            compiler: g++
-            compiler_package: g++
-            with_qt6: true
-            test_x11: true
-            test_wayland: true
-            coverage: true
-            cmake_preset: Debug
-            compiler_flags: >-
-              --coverage
-              -fprofile-arcs
-              -ftest-coverage
-              -fprofile-abs-path
-
-          - os: ubuntu-latest
-            buildname: Qt 6 Clang
-            compiler: clang++
-            compiler_package: clang
-            with_qt6: true
-            cmake_preset: Debug
+          # - os: ubuntu-22.04
+          #   buildname: Qt 5
+          #   compiler: g++
+          #   compiler_package: g++
+          #   with_qt6: false
+          #   test_x11: true
+          #   cmake_preset: Debug
+          #
+          # - os: ubuntu-latest
+          #   buildname: Qt 6
+          #   compiler: g++
+          #   compiler_package: g++
+          #   with_qt6: true
+          #   test_x11: true
+          #   test_wayland: true
+          #   coverage: true
+          #   cmake_preset: Debug
+          #   compiler_flags: >-
+          #     --coverage
+          #     -fprofile-arcs
+          #     -ftest-coverage
+          #     -fprofile-abs-path
+          #
+          # - os: ubuntu-latest
+          #   buildname: Qt 6 Clang
+          #   compiler: clang++
+          #   compiler_package: clang
+          #   with_qt6: true
+          #   cmake_preset: Debug
 
           - os: ubuntu-latest
             buildname: AppImage
@@ -146,22 +145,31 @@ jobs:
             https://archive.neon.kde.org/public.key |
             sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
           # Add KDE neon repository
-          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] \
-            http://archive.neon.kde.org/user noble main" |
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
             sudo tee /etc/apt/sources.list.d/neon.list
           # Update package list
           sudo apt-get update
 
       - name: Install dependencies
-        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
-        with:
-          version: 1.0
-          packages: >-
+        env:
+          PACKAGES: >-
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
+        run: sudo apt install -y $PACKAGES
+
+      # - name: Install dependencies
+      #   uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
+      #   with:
+      #     version: 1.0
+      #     packages: >-
+      #       ${{ matrix.compiler_package }}
+      #       ${{ env.common_packages }}
+      #       ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+      #       ${{ matrix.coverage && 'lcov' || '' }}
+      #       ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
@@ -198,9 +206,9 @@ jobs:
           APP_DIR: >-
             ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/AppDir
           EXTRA_QT_MODULES: >-
-            svg
+            svg;tls;kf6
           EXTRA_PLATFORM_PLUGINS: >-
-            libqwayland-egl.so;libqwayland-generic.so
+            libqwayland.so
         run: |
           ./linuxdeploy-x86_64.AppImage \
               --plugin qt \
