@@ -40,8 +40,10 @@ env:
     libqt6svg6-dev
     libqt6svg6
 
-    libkf6guiaddons-dev
     libkf6guiaddons
+    libkf6guiaddons-dev
+    libkf6notifications-dev
+    libkf6statusnotifieritem-dev
 
     libqt6waylandclient6
     qt6-wayland
@@ -65,9 +67,6 @@ env:
     qtwayland5-dev-tools
 
     libkf5notifications-dev
-  kf6_packages: >-
-    libkf6notifications-dev
-    libkf6statusnotifieritem-dev
   # FIXME: Sending signal to client process does not cause the process
   # to exit with non-zero code with GitHub Actions. Why?
   COPYQ_TESTS_SKIP_SIGNAL: '1'
@@ -86,7 +85,6 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_qt6: false
-            with_native_notifications: true
             test_x11: true
             cmake_preset: Debug
 
@@ -95,7 +93,6 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_qt6: true
-            with_native_notifications: false
             test_x11: true
             test_wayland: true
             coverage: true
@@ -111,7 +108,6 @@ jobs:
             compiler: clang++
             compiler_package: clang
             with_qt6: true
-            with_native_notifications: false
             cmake_preset: Debug
 
           - os: ubuntu-latest
@@ -120,7 +116,6 @@ jobs:
             compiler_package: g++
             appimage: true
             with_qt6: true
-            with_native_notifications: true
             cmake_preset: Release
 
     steps:
@@ -140,12 +135,20 @@ jobs:
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
       - name: Set up KDE Neon repository for KF6 packages
-        if: matrix.appimage
+        if: matrix.with_qt6
         run: |
           # Download and install KDE neon archive keyring
-          wget -qO - https://archive.neon.kde.org/public.key | sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          curl \
+            --location \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            https://archive.neon.kde.org/public.key |
+            sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
           # Add KDE neon repository
-          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] http://archive.neon.kde.org/user noble main" | sudo tee /etc/apt/sources.list.d/neon.list
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] \
+            http://archive.neon.kde.org/user noble main" |
+            sudo tee /etc/apt/sources.list.d/neon.list
           # Update package list
           sudo apt-get update
 
@@ -157,7 +160,6 @@ jobs:
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
-            ${{ matrix.with_native_notifications && matrix.with_qt6 && env.kf6_packages || '' }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
 
@@ -172,7 +174,7 @@ jobs:
             '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
             '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
             '-DWITH_QT6=${{matrix.with_qt6}}',
-            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}'
+            '-DWITH_NATIVE_NOTIFICATIONS=ON'
             ]
 
       - name: Get AppImage tools
