@@ -65,6 +65,9 @@ env:
     qtwayland5-dev-tools
 
     libkf5notifications-dev
+  kf6_packages: >-
+    libkf6notifications-dev
+    libkf6statusnotifieritem-dev
   # FIXME: Sending signal to client process does not cause the process
   # to exit with non-zero code with GitHub Actions. Why?
   COPYQ_TESTS_SKIP_SIGNAL: '1'
@@ -117,7 +120,7 @@ jobs:
             compiler_package: g++
             appimage: true
             with_qt6: true
-            with_native_notifications: false
+            with_native_notifications: true
             cmake_preset: Release
 
     steps:
@@ -136,6 +139,16 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
+      - name: Set up KDE Neon repository for KF6 packages
+        if: matrix.appimage
+        run: |
+          # Download and install KDE neon archive keyring
+          wget -qO - https://archive.neon.kde.org/public.key | sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          # Add KDE neon repository
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] http://archive.neon.kde.org/user noble main" | sudo tee /etc/apt/sources.list.d/neon.list
+          # Update package list
+          sudo apt-get update
+
       - name: Install dependencies
         uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
         with:
@@ -144,6 +157,7 @@ jobs:
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+            ${{ matrix.with_native_notifications && matrix.with_qt6 && env.kf6_packages || '' }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
 
