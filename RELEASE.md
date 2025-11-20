@@ -64,7 +64,7 @@ Download:
 
       $COPYQ_SOURCE/utils/download_window_builds.sh 9.1.0
 
-- Binaries for OS X from [github](https://github.com/hluk/CopyQ/releases)
+- Binaries for macOS and AppImage from [github](https://github.com/hluk/CopyQ/releases)
 - Create source package:
 
       $COPYQ_SOURCE/utils/create_source_package.sh 9.1.0
@@ -94,7 +94,7 @@ Upload packages and binaries to:
 
       ./utils/fosshub.py 9.1.0 $TOKEN
 
-Update Homebrew package for OS X.
+Update Homebrew package for macOS:
 
     brew install vitorgalvao/tiny-scripts/cask-repair
     brew upgrade cask-repair
