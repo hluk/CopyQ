@@ -1687,6 +1687,13 @@ unlike in GUI, where row numbers start from 1 by default.
 
        config("style", styleName)
 
+.. js:function:: stats()
+
+   Get statistics about objects created in the application.
+
+   :returns: Multi-line string with statistics in format "TYPE: COUNT".
+   :rtype: string
+
 .. js:function:: onItemsAdded()
 
    Called when items are added to a tab.

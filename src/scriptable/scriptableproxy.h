@@ -286,6 +286,8 @@ public slots:
 
     QStringList styles();
 
+    QString stats();
+
     void setScriptOverrides(const QVector<int> &overrides);
 
 signals:

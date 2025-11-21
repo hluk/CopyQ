@@ -543,10 +543,14 @@ public:
             return false;
 
         QFile ferr;
-        ferr.open(stderr, QIODevice::WriteOnly);
-        ferr.write(errors);
-        ferr.write("\n");
-        ferr.close();
+        if ( !ferr.open(stderr, QIODevice::WriteOnly) ) {
+            qCCritical(testCategory)
+                << "Failed to open stderr for writing:" << ferr.errorString();
+        } else {
+            ferr.write(errors);
+            ferr.write("\n");
+            ferr.close();
+        }
         return true;
     }
 

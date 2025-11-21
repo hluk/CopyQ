@@ -2668,6 +2668,12 @@ QJSValue Scriptable::styles()
     return toScriptValue( m_proxy->styles(), m_engine );
 }
 
+QJSValue Scriptable::stats()
+{
+    m_skipArguments = 0;
+    return m_proxy->stats();
+}
+
 void Scriptable::collectScriptOverrides()
 {
     m_skipArguments = 1;

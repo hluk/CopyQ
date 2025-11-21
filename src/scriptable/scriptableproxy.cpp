@@ -2394,6 +2394,56 @@ QStringList ScriptableProxy::styles()
     return QStyleFactory::keys();
 }
 
+QString ScriptableProxy::stats()
+{
+    INVOKE(stats, ());
+    QMap<QString, int> stats;
+    QSet<const QObject*> visited;
+    struct AddressObj {
+        QString address;
+        const QObject *obj;
+    };
+    QList<AddressObj> toVisit;
+
+    for (const QObject *obj : QApplication::topLevelWidgets())
+        toVisit.append(AddressObj{{}, obj});
+
+    toVisit.append(AddressObj{{}, qApp});
+
+    while ( !toVisit.isEmpty() ) {
+        const AddressObj addressObj = toVisit.takeFirst();
+        if (visited.contains(addressObj.obj))
+            continue;
+
+        visited.insert(addressObj.obj);
+
+        const QString className = QString::fromUtf8(addressObj.obj->metaObject()->className());
+        stats[className] += 1;
+
+        const QString objectName = addressObj.obj->objectName();
+        if (!objectName.isEmpty() && objectName != className)
+            stats[objectName] += 1;
+
+        const QString address = objectName.isEmpty()
+            ? QStringLiteral("%1/%2").arg(addressObj.address, className)
+            : QStringLiteral("%1/%2").arg(addressObj.address, objectName);
+        if (!addressObj.address.isEmpty())
+            stats[address] += 1;
+
+        for (const QObject *obj : addressObj.obj->findChildren<QObject*>(QString(), Qt::FindDirectChildrenOnly))
+            toVisit.append(AddressObj{address, obj});
+    };
+
+    QStringList result;
+    result.reserve( stats.size() + 1 );
+    result.append( QStringLiteral("TOTAL: %1").arg(visited.size()) );
+    for (auto it = stats.constBegin(); it != stats.constEnd(); ++it) {
+        result += QStringLiteral("%1: %2").arg(it.key()).arg(it.value());
+    }
+
+    return result.join("\n");
+}
+
 void ScriptableProxy::setScriptOverrides(const QVector<int> &overrides)
 {
     INVOKE2(setScriptOverrides, (overrides));

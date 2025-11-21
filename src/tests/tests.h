@@ -137,6 +137,8 @@ private slots:
 
     void commandServerLogAndLogs();
 
+    void commandStats();
+
     void classByteArray();
     void classFile();
     void classDir();
