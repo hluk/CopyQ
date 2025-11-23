@@ -51,6 +51,10 @@ namespace Ui
     class MainWindow;
 }
 
+namespace Encryption {
+    class EncryptionKey;
+}
+
 enum ItemActivationCommand {
     ActivateNoCommand = 0x0,
     ActivateCloses = 0x1,
@@ -63,6 +67,12 @@ enum class ImportOptions {
     Select,
     /// Import/export everything without asking.
     All
+};
+
+struct ImportSelection {
+    QStringList tabs;
+    QVariantMap configuration;
+    QVariantList commands;
 };
 
 struct MainWindowOptions {
@@ -626,10 +636,14 @@ private:
     bool toggleMenu(TrayMenu *menu, QPoint pos);
     bool toggleMenu(TrayMenu *menu);
 
-    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
     bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataV5(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
+    bool canImport(const ImportSelection &importSelection);
+    void importSelected(const ImportSelection &importSelection);
     bool importDataV3(QDataStream *in, ImportOptions options);
     bool importDataV4(QDataStream *in, ImportOptions options);
+    bool importDataV5(QDataStream *in, ImportOptions options);
 
     const Theme &theme() const;
 
@@ -641,6 +655,9 @@ private:
     void activateCurrentItemHelper();
     void onItemClicked();
     void onItemDoubleClicked();
+
+    void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
+    void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -668,6 +685,7 @@ private:
     bool m_clipboardStoringDisabled = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
+    bool m_wasEncrypted = false;
 
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;

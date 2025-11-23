@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmake -B build *)",
+      "Bash(build/copyq-tests *)",
+      "Bash(build/copyq *)"
+    ]
+  },
+  "env": {
+    "COPYQ_SESSION_NAME": "test",
+    "COPYQ_SETTINGS_PATH": "build/copyq-test-conf",
+    "COPYQ_ITEM_DATA_PATH": "build/copyq-test-data",
+    "COPYQ_PLUGINS": "",
+    "COPYQ_DEFAULT_ICON": "1",
+    "COPYQ_SESSION_COLOR": "#f90",
+    "COPYQ_THEME_PREFIX": "$PWD/shared/themes",
+    "COPYQ_PASSWORD": "TEST123",
+    "COPYQ_LOG_LEVEL": "DEBUG",
+    "QT_LOGGING_RULES": "*.debug=true;qt.*.debug=false",
+    "QT_QPA_PLATFORM": "minimal"
+  }
+}

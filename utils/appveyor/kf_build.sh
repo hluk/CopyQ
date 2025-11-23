@@ -12,7 +12,12 @@ else
     extra_cmake_args=()
 fi
 
-url=$base_url/$name-$version
+url_path=${URL_PATH:-"$name-$version"}
+suffix=${DOWNLOAD_SUFFIX:-tar.xz}
+url=$base_url/$url_path
+
+pkg=$DOWNLOADS_PATH/$name-$version.$suffix
+
 patch_dir=$APPVEYOR_BUILD_FOLDER/utils/appveyor/patches/$name
 state_old=$INSTALL_PREFIX/$name-state
 state_new=$DEPENDENCY_PATH/$name-state-new
@@ -29,9 +34,6 @@ function get_new_state() {
 }
 
 function get_source() {
-    suffix=$1
-    pkg=$DOWNLOADS_PATH/$name-$version.$suffix
-
     for retry in $(seq 5); do
         curl -sSL -o "$pkg" "$url.$suffix"
         if cmake -E tar xf "$pkg"; then
@@ -53,11 +55,7 @@ fi
 (
     cd "$DEPENDENCY_PATH"
 
-    if [[ "$base_url" == "$KF_BASE_URL" ]]; then
-        get_source tar.xz
-    else
-        get_source zip
-    fi
+    get_source
 
     cd "$name-$version"
 

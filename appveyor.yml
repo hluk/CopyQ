@@ -18,6 +18,8 @@ environment:
   KF_BRANCH: stable
   KF_PATCH: 0
   SNORETOAST_VERSION: 0.9.0
+  QCA_VERSION: 2.3.10
+  QTKEYCHAIN_VERSION: 0.15.0
 
   matrix:
     - QTDIR: /c/Qt/6.8/msvc2022_64
@@ -28,11 +30,13 @@ environment:
       BUILD_SUB_DIR: Release
       # https://wiki.qt.io/Qt_6.8_Tools_and_Versions
       # https://www.appveyor.com/docs/windows-images-software/#tools
-      OPENSSL_PATH: /c/OpenSSL-v30-Win64/bin
-      LIBSSL: libssl-3-x64.dll
-      LIBCRYPTO: libcrypto-3-x64.dll
+      LIBSSL: /c/OpenSSL-v30-Win64/bin/libssl-3-x64.dll
+      LIBCRYPTO: /c/OpenSSL-v30-Win64/bin/libcrypto-3-x64.dll
+      LIBSSL_FOR_QCA: /c/OpenSSL-Win64/bin/libssl-1_1-x64.dll
+      LIBCRYPTO_FOR_QCA: /c/OpenSSL-Win64/bin/libcrypto-1_1-x64.dll
       GPGPATH: /c/Program Files/Git/usr/bin
       WITH_NATIVE_NOTIFICATIONS: "ON"
+      WITH_QCA_ENCRYPTION: "ON"
       WITH_QT6: "ON"
       WINDEPLOYQT_ARGS: >-
         --no-system-d3d-compiler

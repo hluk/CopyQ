@@ -19,6 +19,10 @@ namespace Ui {
     class ConfigurationManager;
 }
 
+namespace Encryption {
+    class EncryptionKey;
+}
+
 class AppConfig;
 class ConfigTabAppearance;
 class ConfigTabTabs;
@@ -34,6 +38,9 @@ class QListWidgetItem;
 class QSpinBox;
 enum class NavigationStyle;
 
+struct ClipboardBrowserShared;
+using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;
+
 /**
  * Configuration dialog.
  */
@@ -42,7 +49,7 @@ class ConfigurationManager final : public QDialog
     Q_OBJECT
 
 public:
-    explicit ConfigurationManager(ItemFactory *itemFactory, QWidget *parent = nullptr);
+    explicit ConfigurationManager(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent = nullptr);
 
     /// Simple version of dialog for accessing and settings options from API.
     ConfigurationManager();
@@ -85,6 +92,7 @@ private:
 
     void onCheckBoxMenuTabIsCurrentStateChanged(int);
     void onSpinBoxTrayItemsValueChanged(int value);
+    void onPushButtonChangeEncryptionPasswordClicked();
 
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
@@ -115,6 +123,8 @@ private:
     void updateTabComboBoxes();
 
     Ui::ConfigurationManager *ui;
+
+    ClipboardBrowserSharedPtr m_sharedData;
 
     ConfigTabAppearance *m_tabAppearance = nullptr;
     ConfigTabTabs *m_tabTabs = nullptr;

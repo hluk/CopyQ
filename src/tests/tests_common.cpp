@@ -54,6 +54,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("QMime::convertToMime: unhandled mimetype: text/plain"),
         plain("[kf.notifications] Failed to notify \"Created too many similar notifications in quick succession\""),
         plain("Failed to register with host portal"),
+        plain("Deleting keychain failed"),
 
         // Wayland (Linux)
         plain("Wayland does not support QWindow::requestActivate()"),
@@ -97,6 +98,10 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         // Warnings from itemsync plugin, not sure what it causes
         regex(R"(Could not remove our own lock file .* maybe permissions changed meanwhile)"),
+
+        // This is expected in some tests, specifically, COPYQ_PASSWORD env var
+        // may not match the correct password for encrypting tabs.
+        plain("Loaded password does not match the stored hash"),
     };
 
     const QString output = QString::fromUtf8(stderrData);

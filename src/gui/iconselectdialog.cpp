@@ -2,9 +2,8 @@
 
 #include "iconselectdialog.h"
 
-#include "common/config.h"
+#include "gui/geometry.h"
 #include "gui/iconfont.h"
-#include "gui/icons.h"
 #include "gui/icon_list.h"
 
 #include <QDialogButtonBox>

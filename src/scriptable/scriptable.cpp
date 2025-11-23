@@ -1550,6 +1550,22 @@ QJSValue Scriptable::info()
 #endif
                 );
 
+    info.insert("has-encryption",
+#ifdef WITH_QCA_ENCRYPTION
+                "1"
+#else
+                "0"
+#endif
+                );
+
+    info.insert("has-keychain",
+#ifdef WITH_KEYCHAIN
+                "1"
+#else
+                "0"
+#endif
+                );
+
     info.insert("platform",
 #if defined(Q_OS_WIN)
                 "Windows"
