@@ -44,7 +44,7 @@ void messageHandlerForQt(QtMsgType type, const QMessageLogContext &context, cons
         log( format.arg(category, message), LogDebug);
         break;
     case QtInfoMsg:
-        log( format.arg(category, message), LogDebug);
+        log( format.arg(category, message), LogNote);
         break;
     case QtWarningMsg:
         log( format.arg(category, message), LogWarning);

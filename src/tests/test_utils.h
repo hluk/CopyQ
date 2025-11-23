@@ -46,6 +46,11 @@ constexpr auto confirmExitDialogId =
 constexpr auto runningCommandsExitDialogId =
     "focus::QPushButton'Exit Anyway'<:QMessageBox'Cancel active commands and exit\\\\?'";
 constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
+constexpr auto passwordEntryCurrentId = "focus:QInputDialog'Current Tab Encryption Password'";
+constexpr auto passwordEntryRetypeId = "focus:QInputDialog'Confirm Encryption Password'";
+constexpr auto passwordEntryNewId = "focus:QInputDialog'New Tab Encryption Password'";
+constexpr auto passwordMessageFailedId = "focus:QMessageBox'Maximum password attempts exceeded.'";
+constexpr auto passwordMessageChangeId = "focus:QMessageBox'Password has been changed successfully.'";
 
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 

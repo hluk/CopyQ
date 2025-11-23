@@ -161,6 +161,59 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBoxTabEncryption">
+        <property name="toolTip">
+         <string>Encrypt tab data on disk (requires password to be set)</string>
+        </property>
+        <property name="text">
+         <string>Enable &amp;tab encryption</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayoutChangePassword">
+        <item>
+         <spacer name="horizontalSpacerChangePasswordIndent">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonChangeEncryptionPassword">
+          <property name="toolTip">
+           <string>Change the password used to encrypt tab data</string>
+          </property>
+          <property name="text">
+           <string>Change Encryption &amp;Password...</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacerChangePassword">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayoutNavigationStyle">
         <property name="bottomMargin">
          <number>0</number>
@@ -336,6 +389,8 @@
   <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
+  <tabstop>checkBoxTabEncryption</tabstop>
+  <tabstop>pushButtonChangeEncryptionPassword</tabstop>
   <tabstop>comboBoxNavigationStyle</tabstop>
   <tabstop>checkBoxSaveFilterHistory</tabstop>
   <tabstop>checkBoxAutocompleteCommands</tabstop>

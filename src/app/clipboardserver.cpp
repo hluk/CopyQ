@@ -117,6 +117,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_wnd(nullptr)
     , m_shortcutActions()
     , m_ignoreKeysTimer()
+    , m_sharedData(std::make_shared<ClipboardBrowserShared>())
 {
     m_server = new Server(clipboardServerName(sessionName), this);
 
@@ -152,8 +153,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     ensureSettingsDirectoryExists();
 
-    m_sharedData = std::make_shared<ClipboardBrowserShared>();
-    m_sharedData->itemFactory = new ItemFactory(this);
+    m_sharedData->itemFactory = new ItemFactory(m_sharedData, this);
     m_sharedData->notifications = new NotificationDaemon(this);
     m_sharedData->actions = new ActionHandler(m_sharedData->notifications, this);
     m_wnd = new MainWindow(m_sharedData);
@@ -502,7 +502,7 @@ void ClipboardServer::sendActionData(int actionId, const QByteArray &bytes)
 void ClipboardServer::cleanDataFiles()
 {
     COPYQ_LOG("Cleaning unused item files");
-    ::cleanDataFiles( m_wnd->tabs() );
+    ::cleanDataFiles( m_wnd->tabs(), &m_sharedData->encryptionKey );
 }
 
 void ClipboardServer::setPreventScreenCapture(bool prevent)

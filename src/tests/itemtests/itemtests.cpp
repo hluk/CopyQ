@@ -14,13 +14,13 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(plugin)
 Q_LOGGING_CATEGORY(plugin, "copyq.plugin.itemtests")
 
-QString objectAddress(QObject *object)
+QString widgetAddress(QWidget *widget)
 {
-    if (!object)
+    if (!widget)
         return QStringLiteral("<null>");
 
     QString result;
-    QObject *current = object;
+    QWidget *current = widget;
     while (current) {
         const QString className = current->metaObject()->className();
         const QString objectName = current->objectName();
@@ -33,14 +33,16 @@ QString objectAddress(QObject *object)
             if (!result.isEmpty())
                 result.append('<');
             result.append(name);
-            const QString text = current->property("text").toString()
+            QString text = current->property("text").toString()
                 .remove('&')
                 // Remove HTML tags
                 .remove(QRegularExpression(QStringLiteral("</?[^>]*>")));
+            if ( text.isEmpty() && current->isWindow() )
+                text = current->windowTitle();
             if ( !text.isEmpty() )
                 result.append(QStringLiteral("'%1'").arg(text));
         }
-        current = current->parent();
+        current = current->parentWidget();
     }
     return result;
 }
@@ -75,7 +77,7 @@ QWidget *findWidgetWithProperties(const QString &properties, QWidget *parent)
             const QStringList props = name.split('|', Qt::SkipEmptyParts);
             for (QWidget *child : parent->findChildren<QWidget*>()) {
                 if (child->isVisible() && matchesProperties(child, props)) {
-                    qCDebug(plugin) << "Found target:" << objectAddress(child);
+                    qCDebug(plugin) << "Found target:" << widgetAddress(child);
                     return child;
                 }
             }
@@ -125,11 +127,11 @@ public:
 
         qCCritical(plugin).noquote().nospace()
             << "Expected: /" + expectedWidgetName.pattern() + "/"
-            << "\nActual:   " + objectAddress(actual)
-            << "\nPopup:    " + objectAddress(popup)
-            << "\nWidget:   " + objectAddress(widget)
-            << "\nWindow:   " + objectAddress(window)
-            << "\nModal:    " + objectAddress(modal);
+            << "\nActual:   " + widgetAddress(actual)
+            << "\nPopup:    " + widgetAddress(popup)
+            << "\nWidget:   " + widgetAddress(widget)
+            << "\nWindow:   " + widgetAddress(window)
+            << "\nModal:    " + widgetAddress(modal);
 
         m_failed = true;
     }
@@ -156,7 +158,7 @@ public:
             return;
         }
 
-        const QString widgetName = objectAddress(widget);
+        const QString widgetName = widgetAddress(widget);
         if ( !expectedWidgetName.pattern().isEmpty()
              && !expectedWidgetName.match(widgetName).hasMatch() )
         {
@@ -247,7 +249,7 @@ public:
                 m_failed = true;
                 return;
             }
-            qCDebug(plugin) << "QDrag started with parent:" << objectAddress(drag->parent());
+            qCDebug(plugin) << "QDrag started with parent:" << widgetAddress(qobject_cast<QWidget*>(drag->parent()));
             const QString properties = keys.section('|', 1);
             QWidget* source = findWidgetWithProperties(properties, m_wnd);
             if (!source) {
@@ -256,7 +258,7 @@ public:
             }
             if (drag->parent() != source) {
                 qCCritical(plugin) << "Unexpected QDrag parent; Expected:" << properties
-                    << "; Actual:" << objectAddress(drag->parent());
+                    << "; Actual:" << widgetAddress(qobject_cast<QWidget*>(drag->parent()));
                 m_failed = true;
                 return;
             }
@@ -279,11 +281,15 @@ public:
                 qCDebug(plugin) << "Postponing event due to a modal window";
                 // WORKAROUND: Avoid sending release event to a destroyed widget.
                 QPointer<QWidget> target(widget);
-                QTest::keyPress(
-                    widget,
-                    Qt::Key(key & ~Qt::KeyboardModifierMask),
-                    Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
-                    1 );
+                QTimer::singleShot(1, m_wnd, [=]() {
+                    if (!target)
+                        return;
+                    QTest::keyPress(
+                        widget,
+                        Qt::Key(key & ~Qt::KeyboardModifierMask),
+                        Qt::KeyboardModifiers(key & Qt::KeyboardModifierMask),
+                        1 );
+                });
                 QTimer::singleShot(2, m_wnd, [=]() {
                     if (!target)
                         return;

@@ -339,6 +339,14 @@ private slots:
     void dragNDropTreeTab();
     void dragNDropTreeTabNested();
 
+    void tabEncryption();
+    void tabEncryptionPasswordNew();
+    void tabEncryptionPasswordCurrent();
+    void tabEncryptionPasswordRetry();
+    void tabEncryptionPasswordRetryFail();
+    void tabEncryptionLargeItems();
+    void tabEncryptionChangePassword();
+
 private:
     void navigationTestInit();
     void navigationTestDownUp(const QString &down, const QString &up);

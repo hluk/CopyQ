@@ -96,6 +96,7 @@ public:
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
+        m_env.insert("COPYQ_PASSWORD", "TEST123");
         const auto loggingRules = qgetenv("COPYQ_TESTS_LOGGING_RULES");
         if ( !loggingRules.isEmpty() ) {
             m_env.insert("QT_LOGGING_RULES", loggingRules);
@@ -111,9 +112,6 @@ public:
     {
         if ( isServerRunning() )
             return "Server is already running.";
-
-        if ( !dropLogsToFileCountAndSize(0, 0) )
-            return "Failed to remove log files";
 
         m_server.reset(new QProcess);
         if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::NotOpen) ) {
@@ -450,6 +448,8 @@ public:
         if ( isServerRunning() )
             RETURN_ON_ERROR( stopServer(), "Failed to stop server" );
 
+        m_envBeforeTest = m_env;
+
         // Remove all configuration files and tab data.
         const auto settingsPaths = {
             settingsDirectoryPath(),
@@ -470,6 +470,10 @@ public:
                 }
             }
         }
+
+        const QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        const QString hashFilePath = QDir(dataDir).filePath(QStringLiteral(".keydata"));
+        QFile::remove(hashFilePath);
 
         // Update settings for tests.
         {
@@ -512,6 +516,9 @@ public:
         RETURN_ON_ERROR( setClipboard({}, ClipboardMode::Selection), "Failed to reset selection" );
 #endif
 
+        if ( !dropLogsToFileCountAndSize(0, 0) )
+            return "Failed to remove log files";
+
         RETURN_ON_ERROR( startServer(), "Failed to initialize server" );
 
         // Always show main window first so that the results are consistent with desktop environments
@@ -524,6 +531,7 @@ public:
     QByteArray cleanup() override
     {
         addFailedTest();
+        m_env = m_envBeforeTest;
         return QByteArray();
     }
 
@@ -543,10 +551,11 @@ public:
             return false;
 
         QFile ferr;
-        ferr.open(stderr, QIODevice::WriteOnly);
-        ferr.write(errors);
-        ferr.write("\n");
-        ferr.close();
+        if ( ferr.open(stderr, QIODevice::WriteOnly) ) {
+            ferr.write(errors);
+            ferr.write("\n");
+            ferr.close();
+        }
         return true;
     }
 
@@ -555,6 +564,7 @@ public:
         m_testId = id;
         m_settings = settings.toMap();
         m_env.insert("COPYQ_ALLOW_PLUGINS", "itemtests," + allowPlugins);
+        m_envBeforeTest = m_env;
     }
 
     int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
@@ -636,6 +646,7 @@ private:
 
     std::unique_ptr<QProcess> m_server;
     QProcessEnvironment m_env;
+    QProcessEnvironment m_envBeforeTest;
     QString m_testId;
     QVariantMap m_settings;
 

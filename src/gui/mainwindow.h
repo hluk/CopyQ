@@ -11,6 +11,7 @@
 #include "item/persistentdisplayitem.h"
 
 #include "platform/platformnativeinterface.h"
+#include "common/encryption.h"
 
 #include <QMainWindow>
 #include <QPersistentModelIndex>
@@ -626,10 +627,11 @@ private:
     bool toggleMenu(TrayMenu *menu, QPoint pos);
     bool toggleMenu(TrayMenu *menu);
 
-    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
-    bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
+    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const QByteArray &customPassword = QByteArray());
+    bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const QByteArray &customPassword = QByteArray());
     bool importDataV3(QDataStream *in, ImportOptions options);
     bool importDataV4(QDataStream *in, ImportOptions options);
+    bool deserializeDataWithPasswordRetry(QAbstractItemModel *model, QDataStream *stream, const QString &tabName);
 
     const Theme &theme() const;
 
@@ -641,6 +643,9 @@ private:
     void activateCurrentItemHelper();
     void onItemClicked();
     void onItemDoubleClicked();
+
+    void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
+    void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -668,6 +673,7 @@ private:
     bool m_clipboardStoringDisabled = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
+    bool m_wasEncrypted = false;
 
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;

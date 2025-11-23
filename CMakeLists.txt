@@ -23,6 +23,7 @@ OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 
 # Options (cmake -LH)
 OPTION(WITH_PLUGINS "Compile plugins" ON)
+OPTION(WITH_QCA_ENCRYPTION "Enable QCA-based tab encryption" ON)
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
 
@@ -61,6 +62,16 @@ endif()
 
 list(APPEND copyq_LIBRARIES ${copyq_qt}::Widgets)
 
+# QCA encryption support
+if (WITH_QCA_ENCRYPTION)
+    find_package(Qca-qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED)
+    list(APPEND copyq_LIBRARIES qca-qt${QT_DEFAULT_MAJOR_VERSION})
+    add_definitions(-DWITH_QCA_ENCRYPTION)
+    message(STATUS "QCA encryption support enabled")
+else()
+    message(STATUS "QCA encryption support DISABLED")
+endif()
+
 set(copyq_APP_ID          com.github.hluk.copyq)
 set(copyq_ICON_PREFIX     src/images/icon)
 set(copyq_ICON_NORMAL     src/images/icon.svg)
@@ -74,7 +85,7 @@ set(copyq_MANPAGE         debian/copyq.1)
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long")
     set(CMAKE_CXX_FLAGS_DEBUG
-        "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic -Wfloat-equal -Woverloaded-virtual -Wundef -Wno-inconsistent-missing-destructor-override")
+        "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic -Wfloat-equal -Woverloaded-virtual -Wundef -Wno-inconsistent-missing-destructor-override -Wno-variadic-macro-arguments-omitted")
 endif()
 
 if (PEDANTIC)
