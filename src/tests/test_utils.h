@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "common/log.h"
+
 #include <QByteArray>
 #include <QKeySequence>
 #include <QString>
@@ -36,6 +38,8 @@ constexpr auto shortcutDialogId = "focus::QKeySequenceEdit<ShortcutDialog";
 constexpr auto actionDialogId = "focus:ActionDialog";
 constexpr auto aboutDialogId = "focus:AboutDialog";
 constexpr auto logDialogId = "focus:LogDialog";
+constexpr auto exportDialogId = "focus:ImportExportDialog:QDialog'Options for Export'";
+constexpr auto importDialogId = "focus:ImportExportDialog:QDialog'Options for Import'";
 constexpr auto actionHandlerDialogId = "focus:ActionHandlerDialog";
 constexpr auto actionHandlerFilterId = "focus:filterLineEdit";
 constexpr auto actionHandlerTableId = "focus:tableView";
@@ -46,6 +50,19 @@ constexpr auto confirmExitDialogId =
 constexpr auto runningCommandsExitDialogId =
     "focus::QPushButton'Exit Anyway'<:QMessageBox'Cancel active commands and exit\\\\?'";
 constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
+constexpr auto passwordEntryCurrentId = "focus:QInputDialog'Current Tab Encryption Password'";
+constexpr auto passwordEntryRetypeId = "focus:QInputDialog'Confirm Encryption Password'";
+constexpr auto passwordEntryNewId = "focus:QInputDialog'New Tab Encryption Password'";
+constexpr auto passwordEntryExportId = "focus:QInputDialog'Export Password'";
+constexpr auto passwordEntryImportId = "focus:QInputDialog'Password Required'";
+constexpr auto passwordMessageFailedId = "focus:QMessageBox'Maximum password attempts exceeded.'";
+constexpr auto passwordMessageEmptyId = "focus:QMessageBox'New password cannot be empty.'";
+constexpr auto passwordMessageChangeId = "focus:QMessageBox'Password has been changed successfully.'";
+// File name line edit in Qt file dialog
+constexpr auto fileNameEditId = "focus:fileNameEdit";
+
+#define STR_(str) #str
+#define STR(str) STR_(str)
 
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 
@@ -57,13 +74,19 @@ constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
     QVERIFY2( NO_ERRORS(ERRORS_OR_EMPTY), "Failed with errors above." )
 
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
-    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) )
+    do { \
+        log("🔵 RUN: " #ARGUMENTS " --- " __FILE__ ":" STR(__LINE__)); \
+        TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) ); \
+    } while(false)
 
 #define TEST_SELECTED(STDOUT_EXPECTED) \
     RUN("testSelected", (STDOUT_EXPECTED))
 
 #define KEYS(ARGUMENTS) \
-    TEST( m_test->runClient((Args() << "plugins.itemtests.keys" << ARGUMENTS), QByteArray()) )
+    do { \
+        log("🔵 KEYS: " #ARGUMENTS " --- " __FILE__ ":" STR(__LINE__)); \
+        TEST( m_test->runClient((Args() << "plugins.itemtests.keys" << ARGUMENTS), QByteArray()) ); \
+    } while(false)
 
 #define RUN_WITH_INPUT(ARGUMENTS, INPUT, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED), toByteArray(INPUT)) )

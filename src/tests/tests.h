@@ -339,12 +339,35 @@ private slots:
     void dragNDropTreeTab();
     void dragNDropTreeTabNested();
 
+    void tabEncryption();
+    void tabEncryptionPasswordNew();
+    void tabEncryptionPasswordCurrent();
+    void tabEncryptionPasswordRetry();
+    void tabEncryptionPasswordRetryFail();
+    void tabEncryptionLargeItems();
+    void tabEncryptionChangePassword();
+
+    void exportImportNoPasswordTab();
+    void exportImportNoPasswordSettingsOnly();
+    void exportImportNoPasswordCommandsOnly();
+    void exportImportPasswordTab();
+    void exportImportPasswordSettingsOnly();
+    void exportImportPasswordCommandsOnly();
+
 private:
     void navigationTestInit();
     void navigationTestDownUp(const QString &down, const QString &up);
     void navigationTestEndHome(const QString &end, const QString &home);
     void navigationTestEscapeEditor(const QString &esc, const QString &editor);
     void navigationTestEscapeSearch(const QString &esc, const QString &search);
+
+    enum ExportFlags {
+        ExportWithPassword = 1,
+        ExportTab = 2,
+        ExportSettings = 4,
+        ExportCommands = 8
+    };
+    void exportImport(int flags);
 
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = nullptr,

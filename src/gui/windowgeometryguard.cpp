@@ -3,8 +3,8 @@
 #include "windowgeometryguard.h"
 
 #include "common/appconfig.h"
-#include "common/config.h"
 #include "common/timer.h"
+#include "gui/geometry.h"
 #include "gui/screen.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"

@@ -77,3 +77,11 @@ jobs:
       - name: Test
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
         run: '${{github.workspace}}/utils/github/test-macos.sh'
+
+      - name: Upload crash reports
+        if: failure()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v4
+        with:
+          name: 'crash-reports${{ matrix.bundle_suffix }}'
+          path: '~/Library/Logs/DiagnosticReports/*'
+          if-no-files-found: ignore
