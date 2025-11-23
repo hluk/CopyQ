@@ -1,4 +1,5 @@
 set(copyq_plugin_itemimage_SOURCES
+    $<TARGET_OBJECTS:copyq-plugin-config>
     $<TARGET_OBJECTS:copyq-plugin-serialize>
     ../../src/common/action.cpp
     ../../src/common/process.cpp

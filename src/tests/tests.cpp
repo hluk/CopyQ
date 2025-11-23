@@ -96,6 +96,8 @@ public:
         m_env.insert("COPYQ_LOG_LEVEL", "DEBUG");
         m_env.insert("COPYQ_SESSION_COLOR", defaultSessionColor);
         m_env.insert("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", "2000");
+        m_env.insert("COPYQ_PASSWORD", "TEST123");
+        m_env.insert("COPYQ_QT_FILE_DIALOGS", "1");
         const auto loggingRules = qgetenv("COPYQ_TESTS_LOGGING_RULES");
         if ( !loggingRules.isEmpty() ) {
             m_env.insert("QT_LOGGING_RULES", loggingRules);
@@ -472,6 +474,10 @@ public:
             }
         }
 
+        const QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        const QString hashFilePath = QDir(dataDir).filePath(QStringLiteral(".keydata"));
+        QFile::remove(hashFilePath);
+
         // Update settings for tests.
         {
             Settings settings;
@@ -485,6 +491,8 @@ public:
             settings.setValue( "hide_main_window", true );
             // Exercise limiting rows in Process Manager dialog when testing.
             settings.setValue( "max_process_manager_rows", 4 );
+            // Avoid using external key store.
+            settings.setValue( "use_key_store", false );
             settings.endGroup();
 
             if ( !m_settings.isEmpty() ) {

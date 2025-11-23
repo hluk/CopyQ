@@ -17,8 +17,10 @@
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "common/settings.h"
+#include "gui/clipboardbrowsershared.h"
 #include "gui/configtabappearance.h"
 #include "gui/configtabtabs.h"
+#include "gui/encryptionpassword.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
@@ -110,10 +112,10 @@ QString nativeLanguageName(const QString &localeName)
 
 } // namespace
 
-ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *parent)
+ConfigurationManager::ConfigurationManager(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
-    , m_options()
+    , m_sharedData(sharedData)
 {
     ui->setupUi(this);
     initTabIcons();
@@ -122,6 +124,7 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
 
     m_tabHistory->spinBoxItems->setMaximum(Config::maxItems);
 
+    ItemFactory *itemFactory = m_sharedData ? m_sharedData->itemFactory : nullptr;
     if ( itemFactory && itemFactory->hasLoaders() )
         initPluginWidgets(itemFactory);
 
@@ -139,7 +142,6 @@ ConfigurationManager::ConfigurationManager(ItemFactory *itemFactory, QWidget *pa
 
 ConfigurationManager::ConfigurationManager()
     : ui(new Ui::ConfigurationManager)
-    , m_options()
 {
     ui->setupUi(this);
     initTabIcons();
@@ -224,6 +226,21 @@ void ConfigurationManager::updateOptionsVisibility()
     m_tabGeneral->checkBoxAutostart->setVisible( platform->canAutostart() );
     m_tabGeneral->checkBoxPreventScreenCapture->setVisible(
         platform->canPreventScreenCapture() );
+
+#ifdef WITH_QCA_ENCRYPTION
+    m_tabGeneral->checkBoxTabEncryption->setVisible(true);
+    const bool passwordWasSet = m_sharedData && !Encryption::loadPasswordHash().isEmpty();
+    m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(passwordWasSet);
+#else
+    m_tabGeneral->checkBoxTabEncryption->setVisible(false);
+    m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(false);
+#endif
+
+#ifdef WITH_KEYCHAIN
+    m_tabGeneral->checkBoxUseKeychain->setVisible(true);
+#else
+    m_tabGeneral->checkBoxUseKeychain->setVisible(false);
+#endif
 }
 
 void ConfigurationManager::setAutostartEnable(AppConfig *appConfig)
@@ -237,6 +254,8 @@ void ConfigurationManager::initOptions()
     /* general options */
     bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
     bind<Config::prevent_screen_capture>(m_tabGeneral->checkBoxPreventScreenCapture);
+    bind<Config::tab_encryption_enabled>(m_tabGeneral->checkBoxTabEncryption);
+    bind<Config::use_key_store>(m_tabGeneral->checkBoxUseKeychain);
     bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
     bind<Config::maxitems>(m_tabHistory->spinBoxItems);
     bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
@@ -521,6 +540,8 @@ void ConfigurationManager::connectSlots()
             this, &ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged);
     connect(m_tabTray->spinBoxTrayItems, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             this, &ConfigurationManager::onSpinBoxTrayItemsValueChanged);
+    connect(m_tabGeneral->pushButtonChangeEncryptionPassword, &QPushButton::clicked,
+            this, &ConfigurationManager::onPushButtonChangeEncryptionPasswordClicked);
 }
 
 void ConfigurationManager::apply(AppConfig *appConfig)
@@ -616,4 +637,14 @@ void ConfigurationManager::onCheckBoxMenuTabIsCurrentStateChanged(int state)
 void ConfigurationManager::onSpinBoxTrayItemsValueChanged(int value)
 {
     m_tabTray->checkBoxPasteMenuItem->setEnabled(value > 0);
+}
+
+void ConfigurationManager::onPushButtonChangeEncryptionPasswordClicked()
+{
+    if (!m_sharedData)
+        return;
+
+    const Encryption::EncryptionKey key = promptForEncryptionPasswordChange(this);
+    if (key.isValid())
+        m_sharedData->encryptionKey = key;
 }

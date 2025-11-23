@@ -48,6 +48,16 @@ struct item_data_threshold : Config<int> {
     }
 };
 
+struct tab_encryption_enabled : Config<bool> {
+    static QString name() { return QStringLiteral("tab_encryption_enabled"); }
+    static Value defaultValue() { return false; }
+};
+
+struct use_key_store : Config<bool> {
+    static QString name() { return QStringLiteral("use_key_store"); }
+    static Value defaultValue() { return true; }
+};
+
 struct clipboard_tab : Config<QString> {
     static QString name() { return QStringLiteral("clipboard_tab"); }
     static Value defaultValue() { return defaultClipboardTabName(); }

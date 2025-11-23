@@ -164,8 +164,8 @@ public slots:
 
     void openActionDialog(const QVariantMap &arg1);
 
-    bool loadTab(const QString &arg1);
-    bool saveTab(const QString &tabName, const QString &arg1);
+    bool loadTab(const QString &fileName);
+    bool saveTab(const QString &tabName, const QString &fileName);
 
     bool importData(const QString &fileName);
     bool exportData(const QString &fileName);

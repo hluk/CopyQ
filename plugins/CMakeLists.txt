@@ -59,8 +59,12 @@ copyq_add_plugin_obj(copyq-plugin-common
 )
 copyq_add_plugin_obj(copyq-plugin-wrapper ../src/item/itemwidgetwrapper.cpp)
 copyq_add_plugin_obj(copyq-plugin-textdata ../src/common/textdata.cpp)
+copyq_add_plugin_obj(copyq-plugin-geometry ../src/gui/geometry.cpp)
 copyq_add_plugin_obj(copyq-plugin-screen ../src/gui/screen.cpp)
-copyq_add_plugin_obj(copyq-plugin-serialize ../src/item/serialize.cpp)
+copyq_add_plugin_obj(copyq-plugin-serialize
+    ../src/item/serialize.cpp
+    ../src/common/encryption.cpp
+)
 copyq_add_plugin_obj(copyq-plugin-config ../src/common/config.cpp)
 copyq_add_plugin_obj(copyq-plugin-iconfont ../src/gui/iconfont.cpp)
 copyq_add_plugin_obj(copyq-plugin-iconwidget ../src/gui/iconwidget.cpp)
