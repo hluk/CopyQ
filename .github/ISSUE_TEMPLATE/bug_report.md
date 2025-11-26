@@ -29,7 +29,7 @@ Before continuing, make sure a similar request or a known issue does not exists 
 <!--
 Get details from `copyq version` command, or copy from the CopyQ main window:
 1. Open Action dialog (F5 shortcut).
-2. Enter command: `copyq: copy(version)`
+2. Enter command: `copyq: copy(version())`
 3. Click OK - the details should be copied to the system clipboard.
 4. Paste the details in the report.
 -->
