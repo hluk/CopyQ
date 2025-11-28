@@ -451,10 +451,10 @@ void Tests::externalEditor()
 void Tests::nextPreviousTab()
 {
     const auto tab1 = testTab(1);
-    RUN("tab" << tab1 << "size", "0\n");
-
     const auto tab2 = testTab(2);
-    RUN("tab" << tab2 << "size", "0\n");
+    const auto setTabsCommand =
+        QStringLiteral("config('tabs', ['%1','%2'])").arg(tab1, tab2);
+    RUN(setTabsCommand, tab1 + "\n" + tab2 + "\n");
 
     using KeyPair = QPair<QString, QString>;
     const QList<KeyPair> keyPairs = QList<KeyPair>()
