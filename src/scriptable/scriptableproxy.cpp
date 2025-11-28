@@ -1080,7 +1080,7 @@ void ScriptableProxy::showMessage(const MessageData &messageData)
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
 {
     INVOKE(nextItem, (tabName, where));
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (!c)
         return QVariantMap();
 
@@ -1097,7 +1097,7 @@ QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
 void ScriptableProxy::browserMoveToClipboard(const QString &tabName, int row)
 {
     INVOKE2(browserMoveToClipboard, (tabName, row));
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     m_wnd->moveToClipboard(c, row);
 }
 
@@ -1138,7 +1138,7 @@ void ScriptableProxy::browserMoveSelected(int targetRow, const QString &tabName)
 {
     INVOKE2(browserMoveSelected, (targetRow, tabName));
 
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (c == nullptr)
         return;
 
@@ -1291,7 +1291,7 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
 int ScriptableProxy::browserLength(const QString &tabName)
 {
     INVOKE(browserLength, (tabName));
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     return c ? c->length() : 0;
 }
 
@@ -1381,7 +1381,7 @@ int ScriptableProxy::currentItem(const QString &tabName)
 {
     INVOKE(currentItem, (tabName));
 
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (!c)
         return -1;
 
@@ -1415,7 +1415,7 @@ QVector<int> ScriptableProxy::selectedItems(const QString &tabName)
 {
     INVOKE(selectedItems, (tabName));
 
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (c == nullptr)
         return {};
 
@@ -1443,7 +1443,7 @@ QVariantMap ScriptableProxy::selectedItemData(int selectedIndex, const QString &
 {
     INVOKE(selectedItemData, (selectedIndex, tabName));
 
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (c == nullptr)
         return {};
 
@@ -1473,7 +1473,7 @@ VariantMapList ScriptableProxy::selectedItemsData(const QString &tabName)
 {
     INVOKE(selectedItemsData, (tabName));
 
-    ClipboardBrowser *c = fetchBrowser(tabName);
+    ClipboardBrowser *c = fetchExistingBrowser(tabName);
     if (c == nullptr)
         return {};
 
@@ -2406,9 +2406,26 @@ ClipboardBrowser *ScriptableProxy::fetchBrowser(const QString &tabName)
         const QString defaultTabName = m_actionData.value(mimeCurrentTab).toString();
         if (!defaultTabName.isEmpty())
             return fetchBrowser(defaultTabName);
+        return m_wnd->browser(0);
     }
 
-    return tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
+    return m_wnd->tab(tabName);
+}
+
+ClipboardBrowser *ScriptableProxy::fetchExistingBrowser(const QString &tabName)
+{
+    if (tabName.isEmpty()) {
+        const QString defaultTabName = m_actionData.value(mimeCurrentTab).toString();
+        if (!defaultTabName.isEmpty())
+            return fetchExistingBrowser(defaultTabName);
+        return m_wnd->browser(0);
+    }
+
+    const int i = m_wnd->findTabIndex(tabName);
+    if (i == -1)
+        return nullptr;
+
+    return m_wnd->browser(i);
 }
 
 ClipboardBrowser *ScriptableProxy::selectedBrowser()
@@ -2424,7 +2441,7 @@ ClipboardBrowser *ScriptableProxy::selectedBrowser()
 
 QVariantMap ScriptableProxy::itemData(const QString &tabName, int i)
 {
-    auto c = fetchBrowser(tabName);
+    auto c = fetchExistingBrowser(tabName);
     return c ? c->copyIndex( c->index(i) ) : QVariantMap();
 }
 

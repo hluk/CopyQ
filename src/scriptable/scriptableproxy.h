@@ -296,6 +296,7 @@ signals:
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
+    ClipboardBrowser *fetchExistingBrowser(const QString &tabName);
 
     ClipboardBrowser *selectedBrowser();
 
