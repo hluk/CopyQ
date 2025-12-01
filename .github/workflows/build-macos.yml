@@ -38,7 +38,7 @@ jobs:
           fetch-depth: 1
 
       - name: Enable ccache
-        uses: hendrikmuhs/ccache-action@bfa03e1de4d7f7c3e80ad9109feedd05c4f5a716 # v1.2
+        uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
         with:
           key: ${{ github.job }}-${{ matrix.os }}
 
