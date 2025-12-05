@@ -48,7 +48,6 @@ set(CMAKE_AUTOMOC ON)
 
 OPTION(WITH_QT6 "Enable Qt 6" ON)
 if (WITH_QT6)
-    find_package(QT REQUIRED COMPONENTS Core NAMES Qt6)
     set(QT_DEFAULT_MAJOR_VERSION 6)
     find_package(Qt6Widgets 6.1.0 REQUIRED)
     set(copyq_qt Qt6)
