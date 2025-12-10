@@ -6,12 +6,12 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Giới Thiệu Về</translation>
+        <translation>Giới thiệu về</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="87"/>
         <source>Clipboard Manager</source>
-        <translation>Trình Quản Lý Bộ Nhớ Tạm</translation>
+        <translation>Trình quản lý bộ nhớ tạm</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="97"/>
         <source>Donate</source>
-        <translation>Donate</translation>
+        <translation>Quyên tặng</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>Action Dialog</source>
-        <translation>Hộp Thoại Hành Động</translation>
+        <translation>Hộp thoại hành động</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -49,7 +49,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Tiêu chuẩn &amp;đầu vào:</translation>
+        <translation>T&amp;iêu chuẩn đầu vào:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
@@ -117,7 +117,7 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation>Trình Quản Lý Quy Trình</translation>
+        <translation>Trình quản lý quy trình</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
@@ -127,7 +127,7 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
         <source>&amp;Terminate Selected</source>
-        <translation>&amp;Chấm Dứt Đã Chọn</translation>
+        <translation>&amp;Chấm dứt đã chọn</translation>
     </message>
 </context>
 <context>
@@ -135,7 +135,7 @@
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation>Thêm Lệnh</translation>
+        <translation>Thêm lệnh</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="85"/>
         <source>Paste as Plain Text</source>
-        <translation>Dán dưới dạng Văn Bản Thuần Túy</translation>
+        <translation>Dán dưới dạng Văn bản thuần túy</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
@@ -288,17 +288,17 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="153"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Bỏ qua cửa sổ *&quot;Mật Khẩu&quot;*</translation>
+        <translation>Bỏ qua cửa sổ *&quot;Mật khẩu&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="154"/>
         <source>Password</source>
-        <translation>Mật Khẩu</translation>
+        <translation>Mật khẩu</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="162"/>
         <source>Move to Trash</source>
-        <translation>Chuyển vào Thùng Rác</translation>
+        <translation>Chuyển vào thùng rác</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
@@ -308,7 +308,7 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="169"/>
         <source>Clear Current Tab</source>
-        <translation>Xóa Tab Hiện Tại</translation>
+        <translation>Xóa tab hiện tại</translation>
     </message>
 </context>
 <context>
@@ -321,7 +321,7 @@
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
-        <translation>Hủy Thay Đổi?</translation>
+        <translation>Hủy thay đổi?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
@@ -347,7 +347,7 @@
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation>Nội Dung Bộ Nhớ Tạm</translation>
+        <translation>NộI dung bộ nhớ tạm</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
@@ -357,17 +357,17 @@
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation>N&amp;ội dung:</translation>
+        <translation>&amp;Nội dung:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="205"/>
         <source>Remove Format</source>
-        <translation>Xóa Định Dạng</translation>
+        <translation>Xóa định dạng</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="82"/>
         <source>Item Content</source>
-        <translation>Nội Dung Mục</translation>
+        <translation>Nội dung mục</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="151"/>
@@ -386,7 +386,7 @@
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="397"/>
         <source>Cancel Active Commands</source>
-        <translation>Hủy Lệnh Đang Có Hiệu Lực</translation>
+        <translation>Hủy lệnh đang có hiệu lực</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="398"/>
@@ -396,12 +396,12 @@
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="401"/>
         <source>Cancel Exiting</source>
-        <translation>Hủy Thoát</translation>
+        <translation>Hủy thoát</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="402"/>
         <source>Exit Anyway</source>
-        <translation>Vẫn Thoát</translation>
+        <translation>Vẫn thoát</translation>
     </message>
 </context>
 <context>
@@ -428,32 +428,32 @@
     <message>
         <location filename="../src/ui/commanddialog.ui" line="51"/>
         <source>&amp;Find:</source>
-        <translation>&amp;Tìm Kiếm:</translation>
+        <translation>&amp;Tìm kiếm:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="64"/>
         <source>&amp;Load Commands…</source>
-        <translation>&amp;Tải Lệnh…</translation>
+        <translation>&amp;Tải lệnh…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="74"/>
         <source>Sa&amp;ve Selected…</source>
-        <translation>Lư&amp;u Đã Chọn…</translation>
+        <translation>Lư&amp;u đã chọn…</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="84"/>
         <source>Copy Selected</source>
-        <translation>Sao Chép Đã Chọn</translation>
+        <translation>Sao chép đã chọn</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="91"/>
         <source>Paste Commands</source>
-        <translation>Dán Lệnh</translation>
+        <translation>Dán lệnh</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="178"/>
         <source>Unsaved Changes</source>
-        <translation>Thay Đổi Chưa Được Lưu</translation>
+        <translation>Thay đổi chưa được lưu</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="178"/>
@@ -463,17 +463,17 @@
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="256"/>
         <source>Open Files with Commands</source>
-        <translation>Mở Tập Tin Bằng Lệnh</translation>
+        <translation>Mở tệp với lệnh</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="257"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation>Lệnh (*.ini);; Cấu Hình CopyQ (copyq.conf copyq-*.conf)</translation>
+        <translation>Lệnh (*.ini);; Cấu hình CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="268"/>
         <source>Save Selected Commands</source>
-        <translation>Lưu Các Lệnh Đã Chọn</translation>
+        <translation>Lưu các lệnh đã chọn</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="269"/>
@@ -483,7 +483,7 @@
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation>Lưu Lệnh</translation>
+        <translation>Lưu lệnh</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
@@ -561,7 +561,7 @@
         <location filename="../src/ui/commandwidget.ui" line="66"/>
         <source>Auto&amp;matic</source>
         <extracomment>Type of command; triggered by whenever clipboard changes</extracomment>
-        <translation>Tự &amp;Động</translation>
+        <translation>Tự độ&amp;ng</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="79"/>
@@ -578,29 +578,29 @@
         <location filename="../src/ui/commandwidget.ui" line="95"/>
         <source>Global Shortcut</source>
         <extracomment>Type of command; triggered by a custom global/system shortcut</extracomment>
-        <translation>Phím Tắt Toàn Cục</translation>
+        <translation>Phím tắt toàn cục</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation>Kịch Bản</translation>
+        <translation>Kịch bản</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="121"/>
         <source>Display</source>
         <extracomment>Type of command; allows change how items are displayed</extracomment>
-        <translation>HIển Thị</translation>
+        <translation>Hiển thị</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
         <source>&amp;Shortcut:</source>
-        <translation>&amp;Phím Tắt:</translation>
+        <translation>&amp;Phím tắt:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
         <source>&amp;Global Shortcut:</source>
-        <translation>&amp;Phím Tắt Toàn Cục:</translation>
+        <translation>&amp;Phím tắt toàn cục:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="243"/>
@@ -610,17 +610,17 @@
     <message>
         <location filename="../src/ui/commandwidget.ui" line="275"/>
         <source>&amp;Advanced</source>
-        <translation>&amp;Nâng Cao</translation>
+        <translation>&amp;Nâng cao</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="316"/>
         <source>Match Items</source>
-        <translation>Các Mục Khớp</translation>
+        <translation>Các mục khớp</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="346"/>
         <source>&amp;Content:</source>
-        <translation>&amp;Nội Dung:</translation>
+        <translation>&amp;Nội dung:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="356"/>
@@ -636,7 +636,7 @@ Examples:
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
         <translation>Bỏ qua lệnh nếu văn bản đầu vào không khớp với biểu thức chính quy này (để trống để khớp với mọi thứ).
 
-%2 đến %9 (hoặc đối số [1] trở lên trong tập lệnh) trong Lệnh và Bộ Lọc sẽ được thay thế bằng văn bản đã chụp.
+%2 đến %9 (hoặc đối số [1] trở lên trong tập lệnh) trong Lệnh và Bộ lọc sẽ được thay thế bằng văn bản đã chụp.
 
 Ví dụ:
 
@@ -648,7 +648,7 @@ Ví dụ:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Window:</source>
-        <translation>&amp;Cửa Sổ:</translation>
+        <translation>&amp;Cửa sổ:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
@@ -658,7 +658,7 @@ Ví dụ:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
         <source>For&amp;mat:</source>
-        <translation>Định Dạ&amp;ng:</translation>
+        <translation>Định dạ&amp;ng:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
@@ -670,7 +670,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
         <source>&amp;Filter:</source>
-        <translation>&amp;Bộ Lọc:</translation>
+        <translation>&amp;Bộ lọc:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -680,7 +680,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="447"/>
         <source>Action</source>
-        <translation>Hành Động</translation>
+        <translation>Hành động</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="470"/>
@@ -704,12 +704,12 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>&amp;Remove Item</source>
-        <translation>&amp;Xóa Mục</translation>
+        <translation>&amp;Xóa mục</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"/>
         <source>Menu Action</source>
-        <translation>Menu Hành Động</translation>
+        <translation>Menu Hành động</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="528"/>
@@ -784,7 +784,7 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
         <source>Show Advanced</source>
-        <translation>Hiển Thị Nâng Cao</translation>
+        <translation>Hiển thị nâng cao</translation>
     </message>
 </context>
 <context>
@@ -797,17 +797,17 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="69"/>
         <source>Tooltips</source>
-        <translation>Chú Giải Công Cụ</translation>
+        <translation>Chú giảI công cụ</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="104"/>
         <source>Found</source>
-        <translation>Tìm Thấy</translation>
+        <translation>Tìm thấy</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="111"/>
         <source>Selected</source>
-        <translation>Đã Chọn</translation>
+        <translation>Đã chọn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="174"/>
@@ -817,37 +817,37 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"/>
         <source>Normal</source>
-        <translation>Bình Thường</translation>
+        <translation>Bình thường</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"/>
         <source>Editor</source>
-        <translation>Trình Biên Tập</translation>
+        <translation>Trình biên tập</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="195"/>
         <source>Font</source>
-        <translation>Phông Chữ</translation>
+        <translation>Phông chữ</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"/>
         <source>Alternate</source>
-        <translation>Luân Phiên</translation>
+        <translation>Luân phiên</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation>Tiền Cảnh</translation>
+        <translation>Tiền cảnh</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
         <source>Notification</source>
-        <translation>Thông Báo</translation>
+        <translation>Thông báo</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation>Hiển thị &amp;Số</translation>
+        <translation>Hiển thị &amp;số</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
@@ -867,12 +867,12 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation>Bi&amp;ểu Tượng Hệ Thống</translation>
+        <translation>B&amp;iểu tượng hệ thống</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation>Khử Bí D&amp;anh</translation>
+        <translation>Khử bí d&amp;anh</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
@@ -882,22 +882,22 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation>&amp;Đặt Lại Chủ Đề</translation>
+        <translation>Đặt &amp;lại chủ đề</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation>Chủ Đề:</translation>
+        <translation>Chủ đề:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation>&amp;Tải Chủ Đề</translation>
+        <translation>&amp;Tải chủ đề</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation>&amp;Lưu Chủ Đề</translation>
+        <translation>&amp;Lưu chủ đề</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -912,22 +912,22 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation>Xem Trước:</translation>
+        <translation>Xem trước:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="160"/>
         <source>Open Theme File</source>
-        <translation>Mở Tệp Chủ Đề</translation>
+        <translation>Mở tệp chủ đề</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="170"/>
         <source>Save Theme File As</source>
-        <translation>Lưu Tệp Chủ Đề Dưới Dạng</translation>
+        <translation>Lưu tệp chủ đề dưới dạng</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
         <source>No External Editor</source>
-        <translation>Không Có Trình Chỉnh Sửa Bên Ngoài</translation>
+        <translation>Không có trình chỉnh sửa bên ngoài</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="190"/>
@@ -974,7 +974,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation>&amp;Ngôn Ngữ:</translation>
+        <translation>&amp;Ngôn ngữ:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -994,7 +994,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="106"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation>Luô&amp;n ở Trên Cùng</translation>
+        <translation>Luô&amp;n ở trên cùng</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="113"/>
@@ -1004,7 +1004,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="116"/>
         <source>Close When Unfocused</source>
-        <translation>Đóng Khi Không Tập Trung</translation>
+        <translation>Đóng khi không tập trung</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="123"/>
@@ -1034,7 +1034,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="149"/>
         <source>&amp;Autostart</source>
-        <translation>&amp;Tự Động Khởi Động</translation>
+        <translation>&amp;Tự động khởi động</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
@@ -1223,7 +1223,7 @@ Lưu ý: Các mục đã chỉnh sửa có thể được lưu bằng phím F2, 
 Use Item Preview to display whole items.</source>
         <translation>Hiển thị mô tả dòng đơn của từng mục.
 
-Sử dụng Xem Trước Mục để hiển thị toàn bộ mục.</translation>
+Sử dụng Xem trước mục để hiển thị toàn bộ mục.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
@@ -1296,7 +1296,7 @@ Sử dụng Xem Trước Mục để hiển thị toàn bộ mục.</translation
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation>Hiển Thị/Ẩn</translation>
+        <translation>Hiển thị/Ẩn</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
@@ -2026,7 +2026,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation>Hiển Thị Chú Giả&amp;i Công Cụ</translation>
+        <translation>Hiển thị chú giả&amp;i công cụ</translation>
     </message>
 </context>
 <context>
@@ -2344,7 +2344,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="665"/>
         <source>&amp;Show/Hide</source>
-        <translation>&amp;Hiển Thị/Ẩn</translation>
+        <translation>&amp;Hiển thị/Ẩn</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="703"/>
@@ -2584,7 +2584,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="54"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation>Hiển Thị Nội Dung &amp;Bộ Nhớ Tạm</translation>
+        <translation>Hiển thị nội dung &amp;bộ nhớ tạm</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="55"/>
@@ -2594,7 +2594,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="56"/>
         <source>&amp;Show Preview</source>
-        <translation>&amp;Hiển Thị Bản Xem Trước</translation>
+        <translation>&amp;Hiển thị xem trước</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="57"/>
@@ -2752,7 +2752,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
         <source>&amp;Show Content...</source>
-        <translation>&amp;Hiển Thị Nội Dung...</translation>
+        <translation>&amp;Hiển thị nội dung...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="110"/>
@@ -2914,7 +2914,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>&amp;Show Log</source>
-        <translation>&amp;Hiển Thị Log</translation>
+        <translation>&amp;Hiển thị nhật ký</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
