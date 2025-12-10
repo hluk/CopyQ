@@ -298,7 +298,7 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="162"/>
         <source>Move to Trash</source>
-        <translation>Chuyển vào thùng rác</translation>
+        <translation>Chuyển vào Thùng rác</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
@@ -719,7 +719,7 @@ Lưu ý: Nếu điều này được áp dụng tự động thì không có l�
     <message>
         <location filename="../src/ui/commandwidget.ui" line="531"/>
         <source>&amp;Hide main window after activation</source>
-        <translation>&amp;Ẩn cửa sổ chính sau khi kích hoạt</translation>
+        <translation>Ẩn &amp;cửa sổ chính sau khi kích hoạt</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="541"/>
@@ -1059,7 +1059,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="185"/>
         <source>Default</source>
-        <translation>Mặc Định</translation>
+        <translation>Mặc định</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="190"/>
@@ -1079,7 +1079,7 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="221"/>
         <source>Save Filter History</source>
-        <translation>Lưu lịch Sử Bộ Lọc</translation>
+        <translation>Lưu lịch sử bộ lọc</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="228"/>
@@ -1089,12 +1089,12 @@ nhấn F2 để chỉnh sửa.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
         <source>Auto-complete Commands</source>
-        <translation>Lệnh Tự Động Hoàn Thành</translation>
+        <translation>Lệnh tự động hoàn thành</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="238"/>
         <source>Clipboard Manipulation</source>
-        <translation>Thao Tác Bộ Nhớ Tạm</translation>
+        <translation>Thao tác bộ nhớ tạm</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="250"/>
@@ -1336,7 +1336,7 @@ Sử dụng Xem trước mục để hiển thị toàn bộ mục.</translation
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Layout and Transparency</source>
-        <translation>Bố Cục và Trong Suốt</translation>
+        <translation>Bố cục và trong suốt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
@@ -1346,7 +1346,7 @@ Sử dụng Xem trước mục để hiển thị toàn bộ mục.</translation
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
         <source>Tab T&amp;ree</source>
-        <translation>Câ&amp;y Tab</translation>
+        <translation>Câ&amp;y tab</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="127"/>
@@ -1384,7 +1384,7 @@ Lưu ý: Điều này không được hỗ trợ trên tất cả các hệ th�
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>Hiển Th&amp;ị Số Lượng Mặt Hàng</translation>
+        <translation>Hiển &amp;thị số lượng mục</translation>
     </message>
 </context>
 <context>
@@ -1412,27 +1412,27 @@ Lưu ý: Điều này không được hỗ trợ trên tất cả các hệ th�
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="91"/>
         <source>Top Right</source>
-        <translation>Trên Phải</translation>
+        <translation>Trên phải</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="96"/>
         <source>Bottom Right</source>
-        <translation>Dưới Phải</translation>
+        <translation>Dưới phải</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="101"/>
         <source>Bottom Left</source>
-        <translation>Dưới Trái</translation>
+        <translation>Dưới trái</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="106"/>
         <source>Top Left</source>
-        <translation>Trên Trái</translation>
+        <translation>Trên trái</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="129"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation>Khoảng thời gian tính bằng giây để hi&amp;ển thị thông báo:</translation>
+        <translation>Khoản&amp;g thời gian tính bằng giây để hiển thị thông báo:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="141"/>
@@ -1469,7 +1469,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation>Hình Học Thông Báo (trong các điểm trên màn hình)</translation>
+        <translation>Hình học thông báo (trong các điểm trên màn hình)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="227"/>
@@ -1522,7 +1522,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
         <source>Disabl&amp;e tray</source>
-        <translation>Vô hi&amp;ệu hóa khay</translation>
+        <translation>Vô &amp;hiệu hóa khay</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
@@ -1590,7 +1590,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>Preferences</source>
-        <translation>Tùy Chọn</translation>
+        <translation>Tùy chọn</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="159"/>
@@ -1605,7 +1605,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="161"/>
         <source>History</source>
-        <translation>Lịch Sử</translation>
+        <translation>Lịch sử</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="162"/>
@@ -1615,7 +1615,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="163"/>
         <source>Notifications</source>
-        <translation>Thông Báo</translation>
+        <translation>Thông báo</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="164"/>
@@ -1630,12 +1630,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="166"/>
         <source>Shortcuts</source>
-        <translation>Phím Tắt</translation>
+        <translation>Phím tắt</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="167"/>
         <source>Appearance</source>
-        <translation>Giao Diện</translation>
+        <translation>Giao diện</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="447"/>
@@ -1655,7 +1655,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="595"/>
         <source>Restart Required</source>
-        <translation>Yêu Cầu Khởi Động Lại</translation>
+        <translation>Yêu cầu khởi động lại</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="596"/>
@@ -1699,7 +1699,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="151"/>
         <source>Select Icon</source>
-        <translation>Chọn Biểu Tượng</translation>
+        <translation>Chọn biểu tượng</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="158"/>
@@ -1709,12 +1709,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="204"/>
         <source>Open Icon file</source>
-        <translation>Mở Tệp Biểu Tượng</translation>
+        <translation>Mở tệp biểu tượng</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="205"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation>Tệp Hình Ảnh (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
+        <translation>Tệp ảnh (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -1722,7 +1722,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="17"/>
         <source>&amp;All</source>
-        <translation>T&amp;ất Cả</translation>
+        <translation>&amp;Tất cả</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="27"/>
@@ -1732,7 +1732,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="44"/>
         <source>Co&amp;nfiguration</source>
-        <translation>Cấu Hì&amp;nh</translation>
+        <translation>Cấu hì&amp;nh</translation>
     </message>
     <message>
         <location filename="../src/ui/importexportdialog.ui" line="51"/>
@@ -1779,12 +1779,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="851"/>
         <source>Decrypt</source>
-        <translation>Giải Mã</translation>
+        <translation>Giải mã</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="862"/>
         <source>Decrypt and Copy</source>
-        <translation>Giải Mã và Sao Chép</translation>
+        <translation>Giải mã và sao chép</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
@@ -1794,7 +1794,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
         <source>Decrypt and Paste</source>
-        <translation>Giải Mã và Dán</translation>
+        <translation>Giải mã và dán</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="877"/>
@@ -1840,12 +1840,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
         <source>Generate New Keys...</source>
-        <translation>Tạo Khóa Mới...</translation>
+        <translation>Tạo khóa mới...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="978"/>
         <source>Change Password...</source>
-        <translation>Thay Đổi Mật Khẩu...</translation>
+        <translation>Thay đổi mật khẩu...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="984"/>
@@ -1855,7 +1855,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="82"/>
         <source>Encryption</source>
-        <translation>Mã Hóa</translation>
+        <translation>Mã hóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="84"/>
@@ -1873,12 +1873,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="70"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation>Chia sẻ Mục và Tab Được Mã Hóa</translation>
+        <translation>Chia sẻ mục và tab được mã hóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="92"/>
         <source>Encrypted Tabs</source>
-        <translation>Tab Được Mã Hóa</translation>
+        <translation>Tab đuợc mã hóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="98"/>
@@ -1893,7 +1893,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="76"/>
         <source>Corrupted Tab</source>
-        <translation>Tab Bị Hỏng</translation>
+        <translation>Tab bị hỏng</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="77"/>
@@ -1929,7 +1929,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation>Đường dẫn đến Tệp Cấu Hình:</translation>
+        <translation>Đường dẫn đến tệp cấu hình:</translation>
     </message>
 </context>
 <context>
@@ -1937,7 +1937,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"/>
         <source>Images</source>
-        <translation>Hình Ảnh</translation>
+        <translation>Hình ảnh</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"/>
@@ -1950,7 +1950,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>Chiều &amp;Rộng Tối Đa Của Hình Ảnh:</translation>
+        <translation>Chiều &amp;rộng tối đa của ảnh:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
@@ -1960,7 +1960,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation>Chiều &amp;Cao Tối Đa Của Hình Ảnh:</translation>
+        <translation>Chiều &amp;cao tối đa của hình ảnh:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
@@ -1993,7 +1993,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="63"/>
         <source>Notes</source>
-        <translation>Ghi Chú</translation>
+        <translation>Ghi chú</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="65"/>
@@ -2006,22 +2006,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation>Vị Trí Ghi Chú</translation>
+        <translation>Vị trí ghi chú</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>Abo&amp;ve Item</source>
-        <translation>Mục Trê&amp;n</translation>
+        <translation>Mục trê&amp;n</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>Below Ite&amp;m</source>
-        <translation>&amp;Mục Bên Dưới</translation>
+        <translation>&amp;Mục dưới</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>Beside Ite&amp;m</source>
-        <translation>&amp;Mục Bên Cạnh</translation>
+        <translation>&amp;Mục bên cạnh</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -2086,12 +2086,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itempinned/itempinned.cpp" line="341"/>
         <source>Unpin</source>
-        <translation>Bỏ Ghim</translation>
+        <translation>Bỏ ghim</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="83"/>
         <source>Pinned Items</source>
-        <translation>Mục Được Ghim</translation>
+        <translation>Mục được ghim</translation>
     </message>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="86"/>
@@ -2110,7 +2110,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
         <source>Open Directory for Synchronization</source>
-        <translation>Mở Thư Mục để Đồng Bộ Hóa</translation>
+        <translation>Mở thư mục để đồng bộ hóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
@@ -2120,7 +2120,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="120"/>
         <source>Synchronize</source>
-        <translation>Đồng Bộ Hóa</translation>
+        <translation>Đồng bộ hóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="122"/>
@@ -2138,7 +2138,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="461"/>
         <source>Remove Items?</source>
-        <translation>Xóa Mục?</translation>
+        <translation>Xóa mục?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
@@ -2151,7 +2151,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation>Đồng Bộ Hóa Tab và Thư Mục</translation>
+        <translation>Đồng bộ hóa tab và thư mục</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
@@ -2163,17 +2163,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation>Tên Tab</translation>
+        <translation>Tên tab</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation>Đường Dẫn</translation>
+        <translation>Đường dẫn</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation>Tệp sang Định Dạng Dữ Liệu Mục</translation>
+        <translation>Tệp sang định dạng dữ liệu mục</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
@@ -2185,12 +2185,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation>Tiện Ích Mở Rộng</translation>
+        <translation>Tiện ích mở rộng</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item Media Type</source>
-        <translation>Loại Phương Tiện Mục</translation>
+        <translation>LoạI phương tiện mục</translation>
     </message>
 </context>
 <context>
@@ -2198,22 +2198,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="140"/>
         <source>Add a Tag</source>
-        <translation>Thêm Nhãn</translation>
+        <translation>Thêm nhãn</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="145"/>
         <source>Remove a Tag</source>
-        <translation>Xóa Nhãn</translation>
+        <translation>Xóa nhãn</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
-        <translation>Bật Nhãn %1</translation>
+        <translation>Bật/Tắt nhãn %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
         <source>Cannot Remove Items With a Locked Tag</source>
-        <translation>Không Thể Xóa Các Mục Có Nhãn Bị Khóa</translation>
+        <translation>Không thể xóa các mục có nhãn bị khóa</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="598"/>
@@ -2224,7 +2224,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemtags/itemtags.cpp" line="711"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation>Quan Trọng</translation>
+        <translation>Quan trọng</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="741"/>
@@ -2257,27 +2257,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Tag Name</source>
-        <translation>Tên Nhãn</translation>
+        <translation>Tên nhãn</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="43"/>
         <source>Match</source>
-        <translation>Trùng Khớp</translation>
+        <translation>Trùng khớp</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="48"/>
         <source>Style Sheet</source>
-        <translation>Style Sheet</translation>
+        <translation>Phong cách bảng</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="53"/>
         <source>Color</source>
-        <translation>Màu Sắc</translation>
+        <translation>Màu sắc</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="58"/>
         <source>Icon</source>
-        <translation>Biểu Tượng</translation>
+        <translation>Biểu tượng</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="63"/>
@@ -2295,7 +2295,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="63"/>
         <source>Text</source>
-        <translation>Văn Bản</translation>
+        <translation>Văn bản</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="65"/>
@@ -2323,7 +2323,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="92"/>
         <source>Default style sheet:</source>
-        <translation>Style sheet mặc định:</translation>
+        <translation>Phong cách bảngmặc định:</translation>
     </message>
 </context>
 <context>
@@ -2331,7 +2331,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation>Log</translation>
+        <translation>Nhât ký</translation>
     </message>
 </context>
 <context>
@@ -2364,7 +2364,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="808"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Chỉnh Sửa</translation>
+        <translation>&amp;Chỉnh sửa</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="832"/>
@@ -2379,17 +2379,17 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="861"/>
         <source>&amp;Help</source>
-        <translation>&amp;Trợ Giúp</translation>
+        <translation>&amp;Trợ giúp</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="886"/>
         <source>&amp;New Tab</source>
-        <translation>Tab &amp;Mới</translation>
+        <translation>Tab &amp;mới</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="888"/>
         <source>Rename &amp;Group %1</source>
-        <translation>Đổi Tên &amp;Nhóm %1</translation>
+        <translation>Đổi tên &amp;nhóm %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="890"/>
@@ -2404,24 +2404,24 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="894"/>
         <source>Remove Group %1</source>
-        <translation>Xóa Nhóm %1</translation>
+        <translation>Xóa nhóm %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="896"/>
         <source>&amp;Change Tab Icon</source>
-        <translation>&amp;Thay Đổi Biểu Tượng Tab</translation>
+        <translation>&amp;Thay đổi biểu tượng tab</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="939"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation>&amp;Bộ Nhớ Tạm: %1</translation>
+        <translation>&amp;Bộ nhớ tạm: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2103"/>
         <location filename="../src/gui/mainwindow.cpp" line="2223"/>
         <source>Options for Import</source>
-        <translation>Tùy Chọn cho Nhập</translation>
+        <translation>Tùy chọn cho nhập</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2517"/>
@@ -2432,12 +2432,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3949"/>
         <source>Options for Export</source>
-        <translation>Lựa Chọn cho Xuất</translation>
+        <translation>Tuỳ chọn cho xuất</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3970"/>
         <source>Export Error</source>
-        <translation>Lỗi Xuất</translation>
+        <translation>Lỗi xuất</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="3971"/>
@@ -2447,7 +2447,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4063"/>
         <source>Import Error</source>
-        <translation>Lỗi Nhập</translation>
+        <translation>Lỗi nhập</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4064"/>
@@ -2457,7 +2457,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4242"/>
         <source>Remove All Tabs in Group?</source>
-        <translation>Xóa Tất Cả Tab trong Nhóm?</translation>
+        <translation>Xóa tất cả tab trong nhóm?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4243"/>
@@ -2480,7 +2480,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="516"/>
         <source>Information</source>
-        <translation>Thông Tin</translation>
+        <translation>Thông tin</translation>
     </message>
 </context>
 <context>
@@ -2539,12 +2539,12 @@ Set to 0 to disable.</source>
         <location filename="../src/common/shortcuts.cpp" line="34"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation>Xóa</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="42"/>
         <source>&amp;New Item</source>
-        <translation>&amp;Mục Mới</translation>
+        <translation>&amp;Mục mới</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
@@ -2564,7 +2564,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
         <source>&amp;Preferences...</source>
-        <translation>&amp;Tùy Chọn...</translation>
+        <translation>&amp;Tùy chọn...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="48"/>
@@ -2604,7 +2604,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="58"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation>&amp;Chuyển Đổi Việc Lưu Trữ Bộ Nhớ Tạm</translation>
+        <translation>&amp;Bật/Tắt lưu trữ bộ nhớ tạm</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
@@ -2614,7 +2614,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
         <source>P&amp;rocess Manager</source>
-        <translation>T&amp;rình Quản Lý Tiến Trình</translation>
+        <translation>T&amp;rình quản lý tiến trình</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="61"/>
@@ -2634,7 +2634,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="65"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>&amp;Sắp Xếp Các Mục Đã Chọn</translation>
+        <translation>&amp;Sắp xếp các mục đã chọn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
@@ -2644,7 +2644,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="68"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>&amp;Đảo Ngược Các Mục Đã Chọn</translation>
+        <translation>Đảo &amp;ngược các mục đã chọn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
@@ -2654,22 +2654,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="71"/>
         <source>&amp;Paste Items</source>
-        <translation>&amp;Dán Các Mục</translation>
+        <translation>&amp;Dán các mục</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="73"/>
         <source>&amp;Copy Selected Items</source>
-        <translation>&amp;Sao Chép Các Mục Đã Chọn</translation>
+        <translation>&amp;Sao chép các mục đã chọn</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="75"/>
         <source>&amp;Find</source>
-        <translation>&amp;Tìm Thấy</translation>
+        <translation>&amp;Tìm thấy</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
         <source>Save Item</source>
-        <translation>Lưu Mục</translation>
+        <translation>Lưu mục</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="79"/>
@@ -2680,74 +2680,74 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="80"/>
         <source>Cancel Editing</source>
-        <translation>Hủy Chỉnh Sửa</translation>
+        <translation>Hủy chỉnh sửa</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="81"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation>Thoát</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="82"/>
         <source>Undo</source>
-        <translation>Hoàn Tác</translation>
+        <translation>Hoàn tác</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="84"/>
         <source>Redo</source>
-        <translation>Làm Lại</translation>
+        <translation>Làm lại</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="86"/>
         <source>Font</source>
-        <translation>Phông Chữ</translation>
+        <translation>Phông chữ</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="88"/>
         <source>Bold</source>
-        <translation>In Đậm</translation>
+        <translation>In đậm</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="90"/>
         <source>Italic</source>
-        <translation>In Nghiêng</translation>
+        <translation>In nghiêng</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="92"/>
         <source>Underline</source>
-        <translation>Gạch Chân</translation>
+        <translation>Gạch chân</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="94"/>
         <source>Strikethrough</source>
-        <translation>Gạch Ngang</translation>
+        <translation>Gạch ngang</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="96"/>
         <source>Foreground</source>
-        <translation>Tiền Cảnh</translation>
+        <translation>Tiền cảnh</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="98"/>
         <source>Background</source>
-        <translation>Phông Nền</translation>
+        <translation>Nền</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="100"/>
         <source>Erase Style</source>
-        <translation>Xóa Kiểu</translation>
+        <translation>Xóa kiểu</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="102"/>
         <source>Search</source>
-        <translation>Tìm Kiếm</translation>
+        <translation>Tìm kiếm</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="106"/>
         <source>A&amp;ctivate Items</source>
         <comment>copies selected items to clipboard and moves them to top (depending on settings)</comment>
-        <translation>Kí&amp;ch Hoạt Mục</translation>
+        <translation>Kí&amp;ch hoạt mục</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="109"/>
@@ -2767,7 +2767,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Chỉnh Sửa</translation>
+        <translation>&amp;Chỉnh sửa</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
@@ -2777,7 +2777,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="115"/>
         <source>Edit &amp;Notes</source>
-        <translation>Chỉ&amp;nh Sửa Ghi Chú</translation>
+        <translation>Chỉ&amp;nh sửa ghi chú</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
@@ -2787,7 +2787,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>E&amp;dit with Editor</source>
-        <translation>&amp;Chỉnh sửa bằng Trình Chỉnh Sửa</translation>
+        <translation>&amp;Chỉnh sửa bằng trình chỉnh sửa</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"/>
@@ -2797,7 +2797,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
         <source>&amp;Action...</source>
-        <translation>&amp;Hành Động...</translation>
+        <translation>&amp;Hành động...</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="119"/>
@@ -2807,27 +2807,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="122"/>
         <source>Move Up</source>
-        <translation>Di Chuyển Lên</translation>
+        <translation>Di chuyển lên</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="123"/>
         <source>Ctrl+Up</source>
-        <translation>Ctrl+Lên</translation>
+        <translation>Ctrl+Up</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="124"/>
         <source>Move Down</source>
-        <translation>Di Chuyển Xuống</translation>
+        <translation>Di chuyển xuống</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="125"/>
         <source>Ctrl+Down</source>
-        <translation>Ctrl+Xuống</translation>
+        <translation>Ctrl+Down</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="126"/>
         <source>Move to Top</source>
-        <translation>Di Chuyển Lên Trên</translation>
+        <translation>Di chuyển lên trên</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="127"/>
@@ -2837,7 +2837,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="128"/>
         <source>Move to Bottom</source>
-        <translation>Di Chuyển Xuống Dưới</translation>
+        <translation>Di chuyển xuống dưới</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="129"/>
@@ -2847,7 +2847,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
         <source>&amp;New Tab</source>
-        <translation>Tab &amp;Mới</translation>
+        <translation>Tab &amp;mới</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="132"/>
@@ -2857,7 +2857,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="133"/>
         <source>R&amp;ename Tab</source>
-        <translation>Đổi T&amp;ên Tab</translation>
+        <translation>Đổi &amp;tên tab</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="134"/>
@@ -2867,7 +2867,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="135"/>
         <source>Re&amp;move Tab</source>
-        <translation>Xó&amp;a Tab</translation>
+        <translation>Xó&amp;a tab</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="136"/>
@@ -2877,7 +2877,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="137"/>
         <source>&amp;Change Tab Icon</source>
-        <translation>&amp;Thay đổi Biểu Tượng Tab</translation>
+        <translation>&amp;Thay đổi biểu tượng tab</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
@@ -2887,29 +2887,29 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
         <source>Ne&amp;xt Tab</source>
-        <translation>Tab T&amp;iếp Theo</translation>
+        <translation>Tab t&amp;iếp theo</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="140"/>
         <source>Right</source>
         <comment>Default shortcut to focus next tab</comment>
-        <translation>Phải</translation>
+        <translation>Right</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="142"/>
         <source>&amp;Previous Tab</source>
-        <translation>Tab &amp;Trước</translation>
+        <translation>Tab &amp;trước</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="143"/>
         <source>Left</source>
         <comment>Default shortcut to focus previous tab</comment>
-        <translation>Trái</translation>
+        <translation>Left</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="146"/>
         <source>&amp;Help</source>
-        <translation>&amp;Trợ Giúp</translation>
+        <translation>&amp;Trợ giúp</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -2929,7 +2929,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Open Item Context Menu</source>
-        <translation>Mở Menu Ngữ Cảnh Mục</translation>
+        <translation>Mở menu ngữ cảnh mục</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
@@ -2954,20 +2954,20 @@ có thể là chữ cái, chữ số, &apos;-&apos; hoặc &apos;_&apos;!</trans
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>Đã Sao Chép Văn Bản (%n dòng)</numerusform>
+            <numerusform>Đã sao chép văn bản (%n dòng)</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2273"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
-        <translation>Đã Sao Chép Văn Bản</translation>
+        <translation>Đã sao chép văn bản</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2289"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
-        <translation>Đã Sao Chép Dữ Liệu</translation>
+        <translation>Đã sao chép dữ liệu</translation>
     </message>
 </context>
 <context>
@@ -3055,7 +3055,7 @@ có thể là chữ cái, chữ số, &apos;-&apos; hoặc &apos;_&apos;!</trans
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
         <source>TEXT</source>
-        <translation>VĂN BẢN</translation>
+        <translation>VĂN_BẢN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="83"/>
@@ -3068,7 +3068,7 @@ có thể là chữ cái, chữ số, &apos;-&apos; hoặc &apos;_&apos;!</trans
         <location filename="../src/scriptable/commandhelp.cpp" line="121"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
         <source>DATA</source>
-        <translation>DỮ LIỆU</translation>
+        <translation>DỮ_LIỆU</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
@@ -3158,8 +3158,8 @@ Giá trị -1 dành cho văn bản hiện tại trong bộ nhớ tạm.</transla
         <location filename="../src/scriptable/commandhelp.cpp" line="128"/>
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
-        <translation>Chạy CHƯƠNG TRÌNH trên văn bản mục trong các hàng.
-Sử dụng %1 trong CHƯƠNG TRÌNH để chuyển văn bản làm đối số.</translation>
+        <translation>Chạy CHƯƠNG_TRÌNH trên văn bản mục trong các hàng.
+Sử dụng %1 trong CHƯƠNG_TRÌNH để chuyển văn bản làm đối số.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
@@ -3169,7 +3169,7 @@ Sử dụng %1 trong CHƯƠNG TRÌNH để chuyển văn bản làm đối số.
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>Hiển thị thông báo bật lên trên khay trong THỜI GIAN mili giây.</translation>
+        <translation>Hiển thị thông báo bật lên trên khay trong THỜI_GIAN mili giây.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="134"/>
@@ -3226,13 +3226,13 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="155"/>
         <source>Export items to file.</source>
-        <translation>Xuất các mục vào tập tin.</translation>
+        <translation>Xuất các mục vào tệp.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="159"/>
         <source>FILE_NAME</source>
-        <translation>TÊN_TẬP_TIN</translation>
+        <translation>TÊN_TỆP</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="158"/>
@@ -3253,12 +3253,12 @@ Mặc định là tab đầu tiên.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="165"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="168"/>
         <source>OPTION</source>
-        <translation>LỰA_CHỌN</translation>
+        <translation>TUỲ_CHỌN</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>Set option value.</source>
-        <translation>Đặt giá trị tùy chọn.</translation>
+        <translation>Đặt giá trị tuỳ chọn.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
@@ -3323,7 +3323,7 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="122"/>
         <source>NOTES:</source>
-        <translation>GHI CHÚ:</translation>
+        <translation>GHI_CHÚ:</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
@@ -3361,7 +3361,7 @@ Mặc định là tab đầu tiên.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="720"/>
         <location filename="../src/scriptable/scriptable.cpp" line="755"/>
         <source>CopyQ Clipboard Manager</source>
-        <translation>Trình Quản Lý Bộ Nhớ Tạm CopyQ</translation>
+        <translation>Trình quản lý bộ nhớ tạm CopyQ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="767"/>
@@ -3383,7 +3383,7 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2895"/>
         <source>Exception</source>
-        <translation>Ngoại Lệ</translation>
+        <translation>Ngoại lệ</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="2896"/>
@@ -3417,7 +3417,7 @@ Mặc định là tab đầu tiên.</translation>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="2208"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
-        <translation>*Đã Vô Hiệu Hóa Tính Năng Lưu Trữ Bộ Nhớ Tạm*</translation>
+        <translation>*Đã tắt tính năng lưu trữ bộ nhớ tạm*</translation>
     </message>
 </context>
 <context>
@@ -3433,12 +3433,12 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>New Shortcut</source>
-        <translation>Phím Tắt Mới</translation>
+        <translation>Phím tắt mới</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="22"/>
         <source>Remove Shortcut</source>
-        <translation>Xóa Phím Tắt</translation>
+        <translation>Xóa phím tắt</translation>
     </message>
 </context>
 <context>
@@ -3446,12 +3446,12 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation>&amp;Tìm Kiếm:</translation>
+        <translation>&amp;Tìm kiếm:</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="50"/>
         <source>Gl&amp;obal</source>
-        <translation>T&amp;oàn Cục</translation>
+        <translation>T&amp;oàn cục</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
@@ -3461,7 +3461,7 @@ Mặc định là tab đầu tiên.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
         <source>A&amp;pplication</source>
-        <translation>Ứn&amp;g Dụng</translation>
+        <translation>Ứn&amp;g dụng</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="83"/>
@@ -3493,17 +3493,17 @@ Sử dụng &lt;b&gt;/&lt;/b&gt; làm dấu phân cách đường dẫn trong b�
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="17"/>
         <source>New Tab</source>
-        <translation>Tab Mới</translation>
+        <translation>Tab mới</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="20"/>
         <source>Rename Tab</source>
-        <translation>Đổi Tên Tab</translation>
+        <translation>Đổi tên tab</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="23"/>
         <source>Rename Tab Group</source>
-        <translation>Đổi Tên Nhóm tab</translation>
+        <translation>Đổi tên nhóm tab</translation>
     </message>
 </context>
 <context>
@@ -3511,7 +3511,7 @@ Sử dụng &lt;b&gt;/&lt;/b&gt; làm dấu phân cách đường dẫn trong b�
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="46"/>
         <source>&amp;Maximum number of items:</source>
-        <translation>&amp;Số Lượng Mục Tối Đa:</translation>
+        <translation>&amp;Số lượng mục tối đa:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="56"/>
@@ -3521,7 +3521,7 @@ Sử dụng &lt;b&gt;/&lt;/b&gt; làm dấu phân cách đường dẫn trong b�
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="84"/>
         <source>&amp;Save Items</source>
-        <translation>&amp;Lưu Mục</translation>
+        <translation>&amp;Lưu mục</translation>
     </message>
 </context>
 <context>
@@ -3548,7 +3548,7 @@ Sử dụng &lt;b&gt;/&lt;/b&gt; làm dấu phân cách đường dẫn trong b�
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="374"/>
         <source>Regular Expression</source>
-        <translation>Biểu Thức Chính Quy</translation>
+        <translation>Biểu thức chính quy</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="377"/>
