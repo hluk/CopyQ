@@ -7,8 +7,12 @@ source utils/appveyor/env.sh
 ls "$QTDIR/bin"
 ls "$QTDIR/lib/cmake"
 
-ls "$OPENSSL_PATH"
-ls "$OPENSSL_PATH/$LIBCRYPTO"
-ls "$OPENSSL_PATH/$LIBSSL"
+ls /c/OpenSSL*-Win64/bin
+ls "$LIBCRYPTO"
+ls "$LIBSSL"
+if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
+    ls "$LIBCRYPTO_FOR_QCA"
+    ls "$LIBSSL_FOR_QCA"
+fi
 
 "$QTDIR/bin/qmake" --version

@@ -21,6 +21,24 @@ test "$("$executable" info has-global-shortcuts)" -eq "1"
 defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
 defaults write -g NSWindowResizeTime -float 0.001
 
+# FIXME: Test encryption first for now
+export COPYQ_TESTS_EXECUTABLE="$executable"
+export QCALOGGER_LEVEL=8  # Debug log level for QCA library
+./copyq-tests \
+    tabEncryption \
+    tabEncryptionPasswordNew \
+    tabEncryptionPasswordCurrent \
+    tabEncryptionPasswordRetry \
+    tabEncryptionPasswordRetryFail \
+    tabEncryptionLargeItems \
+    tabEncryptionChangePassword \
+    exportImportNoPasswordTab \
+    exportImportNoPasswordSettingsOnly \
+    exportImportNoPasswordCommandsOnly \
+    exportImportPasswordTab \
+    exportImportPasswordSettingsOnly \
+    exportImportPasswordCommandsOnly
+
 # Run tests (retry once on error).
 export COPYQ_TESTS_RERUN_FAILED=1
 export COPYQ_TESTS_SKIP_COMMAND_EDIT=1
@@ -32,7 +50,7 @@ export COPYQ_TESTS_EXECUTABLE="$executable"
 
 # Uninstall local Qt to make sure we only use libraries from the bundle
 brew remove --ignore-dependencies --force \
-    qt@6 copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem freetype
+    qt@6 qca copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem freetype
 
 # Ensure the app works after uninstalling system dependencies
 (

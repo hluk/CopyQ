@@ -10,6 +10,10 @@ class QAbstractItemModel;
 class QString;
 using ItemSaverPtr = std::shared_ptr<ItemSaverInterface>;
 
+namespace Encryption {
+    class EncryptionKey;
+}
+
 /** Load items from configuration file. */
 ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model //!< Model for items.
         , ItemFactory *itemFactory, int maxItems);
@@ -28,4 +32,4 @@ bool moveItems(
         const QString &newId //!< See ClipboardBrowser::getID().
         );
 
-void cleanDataFiles(const QStringList &tabNames);
+void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey *encryptionKey = nullptr);

@@ -126,6 +126,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowserAgain()
 {
     delete m_loadButton;
     m_loadButton = nullptr;
+    emit browserAboutToReload();
     return createBrowser();
 }
 
@@ -211,7 +212,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     m_data.clear();
     if ( !m_storeItems && m_browser->isLoaded() ) {
         QDataStream stream(&m_data, QIODevice::WriteOnly);
-        if ( !serializeData(*m_browser->model(), &stream) )
+        if ( !serializeData(*m_browser->model(), &stream, -1, &m_sharedData->encryptionKey) )
             m_data.clear();
     }
 
