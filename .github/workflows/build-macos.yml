@@ -65,7 +65,8 @@ jobs:
 
       - name: Create macOS bundle
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
-        run: cpack && mv -v copyq-*.dmg CopyQ.dmg
+        # Retry cpack due to frequent errors: "hdiutil: create failed - Resource busy"
+        run: cpack || cpack || cpack && mv -v copyq-*.dmg CopyQ.dmg
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v4
