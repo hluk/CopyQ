@@ -819,14 +819,14 @@ void Tests::networkRedirects()
 {
     SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
 
-    RUN("r = networkGet('https://google.com'); r.status", "301\n");
+    RUN("r = networkGet('https://httpcan.org/redirect-to?url=https://httpcan.org'); r.status", "302\n");
     const auto script = R"(
         r = NetworkRequest();
         r.maxRedirects = 1;
-        s = r.request('GET', 'https://google.com');
+        s = r.request('GET', 'https://httpcan.org');
         [s.status, s.url]
     )";
-    RUN(script, "200\nhttps://www.google.com/\n");
+    RUN(script, "200\nhttps://httpcan.org\n");
 }
 
 void Tests::networkGetPostAsync()
