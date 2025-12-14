@@ -234,73 +234,8 @@ Read more:
 
 ## Build from Source Code
 
-To build CopyQ from source code, first install the required dependencies:
-
-- [Git](https://git-scm.com/)
-- [CMake](https://cmake.org/download/)
-- [Qt](https://download.qt.io/archive/qt/)
-- optional on Linux/X11: development files and libraries for [Xtst](https://t2-project.org/packages/libxtst.html) and [Xfixes](https://www.x.org/archive/X11R7.5/doc/man/man3/Xfixes.3.html)
-
-### Install Dependencies
-
-#### Ubuntu
-
-```bash
-sudo apt install \
-  cmake \
-  extra-cmake-modules \
-  git \
-  libqt5svg5 \
-  libqt5svg5-dev \
-  libqt5waylandclient5-dev \
-  libqt5x11extras5-dev \
-  libwayland-dev \
-  libxfixes-dev \
-  libxtst-dev \
-  qtbase5-private-dev \
-  qtdeclarative5-dev \
-  qttools5-dev \
-  qttools5-dev-tools \
-  qtwayland5 \
-  qtwayland5-dev-tools \
-  libkf5notifications-dev
-```
-#### RHEL / CentOS / Oracle Linux
-
-```bash
-sudo yum install \
-  cmake \
-  extra-cmake-modules \
-  gcc-c++ \
-  git \
-  libXfixes-devel \
-  libXtst-devel \
-  qt5-qtbase-devel \
-  qt5-qtdeclarative-devel \
-  qt5-qtsvg-devel \
-  qt5-qttools-devel \
-  qt5-qtwayland-devel \
-  qt5-qtx11extras-devel \
-  wayland-devel \
-  kf5-knotifications-devel
-```
-
-### Build CopyQ
-
-Change install prefix if needed:
-
-```bash
-git clone https://github.com/hluk/CopyQ.git
-cd CopyQ
-cmake .
-make
-```
-
-You can now run the built app.
-
-```bash
-./copyq
-```
+See the documentation section [Build from Source
+Code](https://copyq.readthedocs.io/en/latest/build-source-code.html).
 
 ## Contributions
 
