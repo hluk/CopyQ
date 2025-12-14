@@ -112,7 +112,6 @@ void Tests::scriptCommandWithError()
         "\neval:source@<bad_script>\n"
         "--- end backtrace ---\n"
     );
-    m_test->setEnv("COPYQ_TEST_THROW", "0");
 }
 
 void Tests::scriptPaste()

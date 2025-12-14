@@ -277,6 +277,8 @@ void Tests::exitStopCommands()
     RUN("config" << "confirm_exit" << "false", "false\n");
     RUN("action" << "copyq sleep 999999", "");
     KEYS(clipboardBrowserId << "CTRL+Q");
-    KEYS(runningCommandsExitDialogId << "ENTER");
+    KEYS(runningCommandsExitDialogId);
+    // Ignore status here since the client will be interrupted
+    run(Args("plugins.itemtests.keys('ENTER')"));
     TEST( m_test->waitForServerToStop() );
 }
