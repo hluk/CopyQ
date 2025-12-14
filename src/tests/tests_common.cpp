@@ -22,7 +22,9 @@ TemporaryFile::~TemporaryFile()
 
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag)
 {
-    static const QRegularExpression reFailure("(Warning:|ERROR:|ASSERT|ScriptError:).*", QRegularExpression::CaseInsensitiveOption);
+    static const QRegularExpression reFailure(
+        "(?:^|\n).*(?:Warning:|Warning <.*>:|ERROR:|ERROR <.*>:|ASSERT|ScriptError:).*",
+        QRegularExpression::CaseInsensitiveOption);
     const QLatin1String scriptError("ScriptError:");
 
     const auto plain = [](const char *str){
@@ -34,11 +36,15 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
     static const std::array ignoreList{
-        regex(R"(\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] Note <Client-[^\n]*)"),
-
         plain("Event handler maximum recursion reached"),
 
-        plain("Warning: CopyQ server is already running"),
+        plain("CopyQ server is already running"),
+        plain("Cannot connect to server! Start CopyQ server first."),
+        plain("Cannot add new items. Tab \"CLIPBOARD\" reached the maximum number of items."),
+        plain("Aborting clipboard cloning"),
+        plain("Failed to provide clipboard"),
+        regex("Warning <.*>: ELAPSED .* ms accessing"),
+        regex("ERROR <.*>: Connection lost!"),
 
         // X11 (Linux)
         plain("QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom"),
@@ -47,6 +53,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         plain("libpng warning: iCCP: known incorrect sRGB profile"),
         plain("QMime::convertToMime: unhandled mimetype: text/plain"),
         plain("[kf.notifications] Failed to notify \"Created too many similar notifications in quick succession\""),
+        plain("Failed to register with host portal"),
 
         // Wayland (Linux)
         plain("Wayland does not support QWindow::requestActivate()"),
@@ -91,13 +98,11 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
         // Warnings from itemsync plugin, not sure what it causes
         regex(R"(Could not remove our own lock file .* maybe permissions changed meanwhile)"),
     };
-    static QHash<QString, bool> ignoreLog;
 
     const QString output = QString::fromUtf8(stderrData);
     QRegularExpressionMatchIterator it = reFailure.globalMatch(output);
     while ( it.hasNext() ) {
         const auto match = it.next();
-
         const QString log = match.captured();
 
         if ( flag == TestInterface::ReadErrorsWithoutScriptException
@@ -106,18 +111,16 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
             return false;
         }
 
-        if ( ignoreLog.contains(log) )
-            return ignoreLog[log];
-
         const bool ignore = std::any_of(
             std::begin(ignoreList), std::end(ignoreList),
-                [&output](const QRegularExpression &reIgnore){
-                    return output.contains(reIgnore);
+                [&log](const QRegularExpression &reIgnore){
+                    return log.contains(reIgnore);
                 });
 
-        ignoreLog[log] = ignore;
-        if (!ignore)
+        if (!ignore) {
+            qWarning() << "🛑 Failure in logs:" << log.trimmed();
             return false;
+        }
     }
 
     return true;

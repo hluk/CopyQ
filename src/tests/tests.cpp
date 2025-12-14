@@ -109,12 +109,6 @@ public:
 
     QByteArray startServer() override
     {
-        if ( isServerRunning() )
-            return "Server is already running.";
-
-        if ( !dropLogsToFileCountAndSize(0, 0) )
-            return "Failed to remove log files";
-
         m_server.reset(new QProcess);
         if ( !startTestProcess(m_server.get(), QStringList(), QIODevice::NotOpen) ) {
             return QString::fromLatin1("Failed to launch \"%1\": %2")
@@ -447,8 +441,15 @@ public:
     {
         RETURN_ON_ERROR( cleanup(), "Failed to cleanup" );
 
+        // Stop any old server session
+        const QByteArray errors = stopServer();
+        run({"exit"}, nullptr, nullptr, {}, {"COPYQ_WAIT_FOR_SERVER_MS=0"});
         if ( isServerRunning() )
-            RETURN_ON_ERROR( stopServer(), "Failed to stop server" );
+            return "Failed to stop an old server session: " + errors;
+        if ( run({""}, nullptr, nullptr, {}, {"COPYQ_WAIT_FOR_SERVER_MS=0"}) == 0 )
+            return "Failed to stop a detached server session: " + errors;
+
+        m_envBeforeTest = m_env;
 
         // Remove all configuration files and tab data.
         const auto settingsPaths = {
@@ -512,6 +513,9 @@ public:
         RETURN_ON_ERROR( setClipboard({}, ClipboardMode::Selection), "Failed to reset selection" );
 #endif
 
+        if ( !dropLogsToFileCountAndSize(0, 0) )
+            return "Failed to remove log files";
+
         RETURN_ON_ERROR( startServer(), "Failed to initialize server" );
 
         // Always show main window first so that the results are consistent with desktop environments
@@ -524,6 +528,7 @@ public:
     QByteArray cleanup() override
     {
         addFailedTest();
+        m_env = m_envBeforeTest;
         return QByteArray();
     }
 
@@ -543,10 +548,11 @@ public:
             return false;
 
         QFile ferr;
-        ferr.open(stderr, QIODevice::WriteOnly);
-        ferr.write(errors);
-        ferr.write("\n");
-        ferr.close();
+        if ( ferr.open(stderr, QIODevice::WriteOnly) ) {
+            ferr.write(errors);
+            ferr.write("\n");
+            ferr.close();
+        }
         return true;
     }
 
@@ -555,6 +561,7 @@ public:
         m_testId = id;
         m_settings = settings.toMap();
         m_env.insert("COPYQ_ALLOW_PLUGINS", "itemtests," + allowPlugins);
+        m_envBeforeTest = m_env;
     }
 
     int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
@@ -636,6 +643,7 @@ private:
 
     std::unique_ptr<QProcess> m_server;
     QProcessEnvironment m_env;
+    QProcessEnvironment m_envBeforeTest;
     QString m_testId;
     QVariantMap m_settings;
 
@@ -688,6 +696,9 @@ bool Tests::hasTab(const QString &tabName)
 
 int main(int argc, char **argv)
 {
+    // Avoid verbose logs on stderr if tests are not failing
+    qunsetenv("COPYQ_LOG_LEVEL");
+
     const QString appName = QStringLiteral("copyq.test");
     QCoreApplication::setOrganizationName(appName);
     QCoreApplication::setApplicationName(appName);

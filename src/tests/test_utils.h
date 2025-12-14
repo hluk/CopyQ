@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "common/log.h"
+
 #include <QByteArray>
 #include <QKeySequence>
 #include <QString>
@@ -47,6 +49,12 @@ constexpr auto runningCommandsExitDialogId =
     "focus::QPushButton'Exit Anyway'<:QMessageBox'Cancel active commands and exit\\\\?'";
 constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
 
+#define STR_(str) #str
+#define STR(str) STR_(str)
+
+#define SRC_FILE \
+    QStringLiteral(__FILE__).section(QStringLiteral("src/"), 1, -1, QString::SectionIncludeLeadingSep)
+
 #define NO_ERRORS(ERRORS_OR_EMPTY) !m_test->writeOutErrors(ERRORS_OR_EMPTY)
 
 /**
@@ -56,14 +64,23 @@ constexpr auto itemPreviewId = "focus:<dockWidgetItemPreviewContents";
 #define TEST(ERRORS_OR_EMPTY) \
     QVERIFY2( NO_ERRORS(ERRORS_OR_EMPTY), "Failed with errors above." )
 
+#define LOG_ACTION(LABEL, ARGUMENTS) \
+    log(QStringLiteral("🔵 %1: %2 --- %3:%4").arg(LABEL, #ARGUMENTS, SRC_FILE, STR(__LINE__)))
+
 #define RUN(ARGUMENTS, STDOUT_EXPECTED) \
-    TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) )
+    do { \
+        LOG_ACTION("RUN", ARGUMENTS); \
+        TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) ); \
+    } while(false)
 
 #define TEST_SELECTED(STDOUT_EXPECTED) \
     RUN("testSelected", (STDOUT_EXPECTED))
 
 #define KEYS(ARGUMENTS) \
-    TEST( m_test->runClient((Args() << "plugins.itemtests.keys" << ARGUMENTS), QByteArray()) )
+    do { \
+        LOG_ACTION("KEYS", ARGUMENTS); \
+        TEST( m_test->runClient((Args() << "plugins.itemtests.keys" << ARGUMENTS), QByteArray()) ); \
+    } while(false)
 
 #define RUN_WITH_INPUT(ARGUMENTS, INPUT, STDOUT_EXPECTED) \
     TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED), toByteArray(INPUT)) )

@@ -114,7 +114,13 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
     // Try to connect again in case the server just started.
     if ( m_socket->state() == QLocalSocket::UnconnectedState ) {
         COPYQ_LOG("Waiting for server to start");
-        SleepTimer t(1000);
+
+        bool ok;
+        int waitMs = qgetenv("COPYQ_WAIT_FOR_SERVER_MS").toInt(&ok);
+        if (!ok)
+            waitMs = 1000;
+
+        SleepTimer t(waitMs);
         do {
             m_socket->connectToServer(serverName);
         } while ( m_socket->state() == QLocalSocket::UnconnectedState && t.sleep() );
