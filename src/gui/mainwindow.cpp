@@ -1086,7 +1086,7 @@ QVariant MainWindow::callPlugin(const QVariantList &arguments)
 void MainWindow::onAboutToQuit()
 {
     if (cm)
-        cm->disconnect();
+        cm->close();
 
     saveMainWindowState( objectName(), saveState() );
     hideWindow();
