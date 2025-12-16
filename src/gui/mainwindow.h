@@ -658,6 +658,7 @@ private:
 
     void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
     void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
+    void reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -686,6 +687,7 @@ private:
 
     ClipboardBrowserSharedPtr m_sharedData;
     bool m_wasEncrypted = false;
+    bool m_reencrypting = false;
 
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;

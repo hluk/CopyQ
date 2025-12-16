@@ -382,6 +382,8 @@ public:
      */
     virtual QObject *createExternalEditor(const QModelIndex &index, const QVariantMap &data, QWidget *parent) const;
 
+    virtual bool supportsEncryption() const { return false; }
+
     ItemLoaderInterface(const ItemLoaderInterface &) = delete;
     ItemLoaderInterface &operator=(const ItemLoaderInterface &) = delete;
 
