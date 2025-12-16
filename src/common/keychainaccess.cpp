@@ -114,9 +114,8 @@ bool writePassword(const QString &, const QString &, const QByteArray &)
     return false;
 }
 
-bool deletePassword(const QString &, const QString &)
+void deletePassword(const QString &, const QString &)
 {
-    return false;
 }
 
 } // namespace KeychainAccess

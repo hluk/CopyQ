@@ -597,6 +597,7 @@ Encryption::EncryptionKey promptForImportPassword(QWidget *parent)
     return Encryption::EncryptionKey(password);
 }
 
+#ifdef WITH_QCA_ENCRYPTION
 Encryption::EncryptionKey promptForExportPassword(QWidget *parent, bool *ok)
 {
     if (!Encryption::initialize()) {
@@ -623,6 +624,7 @@ Encryption::EncryptionKey promptForExportPassword(QWidget *parent, bool *ok)
     *ok = false;
     return {};
 }
+#endif
 
 } // namespace
 
@@ -3719,9 +3721,21 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
 
 void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig)
 {
+    if (m_reencrypting)
+        return;
+
+    m_reencrypting = true;
+    reencryptTabsIfNeededHelper(tabNames, appConfig);
+    m_reencrypting = false;
+}
+
+void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
+{
     const bool isEncrypted = appConfig->option<Config::tab_encryption_enabled>();
     if (m_wasEncrypted == isEncrypted)
         return;
+
+    const Encryption::EncryptionKey newEncryptionKey = m_sharedData->encryptionKey;
 
     // Always ask for the previous password when re-encrypting.
     Encryption::EncryptionKey oldEncryptionKey;
@@ -3731,33 +3745,35 @@ void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *a
     }
 
     // Revert encryption option if password was not provided.
-    if (!oldEncryptionKey.isValid() && !m_sharedData->encryptionKey.isValid()) {
+    if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
         appConfig->setOption(Config::tab_encryption_enabled::name(), m_wasEncrypted);
         return;
     }
 
-    m_wasEncrypted = isEncrypted;
-
-    const bool ok = reencryptTabs(
+    const bool allEncrypted = reencryptTabs(
         tabNames,
-        m_sharedData->itemFactory,
+        m_sharedData.get(),
         oldEncryptionKey,
-        m_sharedData->encryptionKey,
+        newEncryptionKey,
         Config::maxItems,
         this
     );
 
-    if (!ok) {
-        // If saving some tabs failed, keep the keys and the encryption enabled
-        if ( oldEncryptionKey.isValid() ) {
+    m_wasEncrypted = isEncrypted;
+    m_sharedData->encryptionKey = newEncryptionKey;
+
+    // If saving some tabs failed, keep the keys and the encryption enabled,
+    // otherwise remove unneeded key files.
+    if (oldEncryptionKey.isValid()) {
+        if (allEncrypted) {
+            Encryption::removeEncryptionKeys();
+            if (appConfig->option<Config::use_key_store>())
+                removePasswordFromKeychain();
+        } else {
             appConfig->setOption(Config::tab_encryption_enabled::name(), true);
+            m_wasEncrypted = true;
             m_sharedData->encryptionKey = oldEncryptionKey;
         }
-        return;
-    }
-
-    if ( !m_sharedData->encryptionKey.isValid() ) {
-        Encryption::removeEncryptionKeys();
     }
 }
 

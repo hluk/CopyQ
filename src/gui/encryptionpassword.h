@@ -4,6 +4,7 @@
 
 #include "common/encryption.h"
 
+class ClipboardBrowserShared;
 class QWidget;
 class QAbstractItemModel;
 class QIODevice;
@@ -46,9 +47,9 @@ Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *parent);
  */
 bool reencryptTabs(
     const QStringList &tabNames,
-    ItemFactory *itemFactory,
+    ClipboardBrowserShared *sharedData,
     const Encryption::EncryptionKey &oldKey,
-    Encryption::EncryptionKey &newKey,
+    const Encryption::EncryptionKey &newKey,
     int maxItems,
     QWidget *parent
 );

@@ -1030,3 +1030,57 @@ void ItemSyncTests::copyFiles()
     RUN("tab" << tab3 << getFirstItemFormats, "text/plain\n");
     QCOMPARE(dir3.files().join(" "), "test-0001.txt test.txt");
 }
+
+void ItemSyncTests::encryptionShouldNotAffectFiles()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "tab" << tab1;
+    const QString inspect = R"(
+        const sel = ItemSelection().selectAll();
+        const items = sel.items();
+        for (const i in items) {
+            if (i > 0) { print(' ;; '); }
+            print(i + ':');
+            const item = items[i];
+            for (const format in item) {
+                if (!format.includes('itemsync') || format.includes('itemsync-basename')) {
+                    const fmt = format.replace('application/x-copyq-', '');
+                    print(' ' + fmt + ':' + item[format]);
+                }
+            }
+        }
+    )";
+
+    const QString file1 = "test1.txt";
+    TEST(createFile(dir1, file1, "TEXT1"));
+    QCOMPARE(dir1.files().join(sep), file1);
+
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+    RUN(args << inspect, "0: itemsync-basename:test1 text/plain:TEXT1");
+
+    const QString file2_yyy = "test2.yyy";
+    const QString file2_txt = "test2.txt";
+    TEST(createFile(dir1, file2_yyy, "YYY"));
+    TEST(createFile(dir1, file2_txt, "TEXT2"));
+
+    WAIT_ON_OUTPUT(
+        args << inspect, "0: itemsync-basename:test1 text/plain:TEXT1 ;; 1: itemsync-basename:test2 test-zzz:YYY text/plain:TEXT2");
+
+    const QStringList files({file1, file2_txt, file2_yyy});
+    QCOMPARE(dir1.files().join(sep), files.join(sep));
+
+    RUN(Args() << "show" << "CLIPBOARD", "");
+    RUN(Args() << "unload" << tab1, tab1 + "\n");
+
+    QCOMPARE(dir1.files().join(sep), files.join(sep));
+
+    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+
+    RUN(args << inspect,
+        "0: itemsync-basename:test1 text/plain:TEXT1 ;; "
+        "1: itemsync-basename:test2 test-zzz:YYY text/plain:TEXT2");
+    QCOMPARE(dir1.files().join(sep), files.join(sep));
+}
