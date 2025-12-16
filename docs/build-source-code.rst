@@ -37,50 +37,36 @@ On **Ubuntu** you can install all build dependencies with:
       cmake \
       extra-cmake-modules \
       git \
-      libkf5notifications-dev \
-      libqt5svg5 \
-      libqt5svg5-dev \
-      libqt5waylandclient5-dev \
-      libqt5x11extras5-dev \
+      libkf6guiaddons \
+      libkf6guiaddons-dev \
+      libqca-qt6-2 \
+      libqca-qt6-dev \
+      libqca-qt6-plugins \
+      libqt6svg6 \
+      libqt6svg6-dev \
+      libqt6waylandclient6 \
       libwayland-dev \
       libxfixes-dev \
       libxtst-dev \
-      qtbase5-private-dev \
-      qtdeclarative5-dev \
-      qttools5-dev \
-      qttools5-dev-tools \
-      qtwayland5 \
-      qtwayland5-dev-tools
+      qt6-base-dev \
+      qt6-base-dev-tools \
+      qt6-base-private-dev \
+      qt6-declarative-dev \
+      qt6-l10n-tools \
+      qt6-tools-dev \
+      qt6-tools-dev-tools \
+      qt6-wayland \
+      qt6-wayland-dev \
+      qt6-wayland-dev-tools \
+      qtkeychain-qt6-dev
 
 Fedora / RHEL / Centos
 ^^^^^^^^^^^^^^^^^^^^^^
-On **Fedora** and derivatives you can install all build dependencies with Qt 5:
+On **Fedora** and derivatives you can install all build dependencies with:
 
 ::
 
-    sudo yum install \
-      cmake \
-      extra-cmake-modules \
-      gcc-c++ \
-      git \
-      kf5-knotifications-devel \
-      libSM-devel \
-      libXfixes-devel \
-      libXtst-devel \
-      qt5-qtbase-devel \
-      qt5-qtbase-private-devel \
-      qt5-qtdeclarative-devel \
-      qt5-qtsvg-devel \
-      qt5-qttools-devel \
-      qt5-qtwayland-devel \
-      qt5-qtx11extras-devel \
-      wayland-devel
-
-To build with Qt 6:
-
-::
-
-    sudo yum install \
+    sudo dnf install \
       cmake \
       extra-cmake-modules \
       gcc-c++ \
@@ -91,12 +77,15 @@ To build with Qt 6:
       libSM-devel \
       libXfixes-devel \
       libXtst-devel \
+      qca-qt6-devel \
+      qca-qt6-ossl \
       qt6-qtbase-devel \
       qt6-qtbase-private-devel \
       qt6-qtdeclarative-devel \
       qt6-qtsvg-devel \
       qt6-qttools-devel \
       qt6-qtwayland-devel \
+      qtkeychain-qt6-devel \
       wayland-devel
 
 Build and Install

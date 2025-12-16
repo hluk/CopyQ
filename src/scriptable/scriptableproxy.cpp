@@ -13,10 +13,10 @@
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
-#include "common/sleeptimer.h"
 #include "common/textdata.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/filedialog.h"
+#include "gui/geometry.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/mainwindow.h"
@@ -1228,21 +1228,22 @@ void ScriptableProxy::openActionDialog(const QVariantMap &arg1)
     m_wnd->openActionDialog(arg1);
 }
 
-bool ScriptableProxy::loadTab(const QString &arg1)
+bool ScriptableProxy::loadTab(const QString &fileName)
 {
-    INVOKE(loadTab, (arg1));
-    return m_wnd->loadTab(arg1);
+    INVOKE(loadTab, (fileName));
+    return m_wnd->loadTab(fileName);
 }
 
-bool ScriptableProxy::saveTab(const QString &tabName, const QString &arg1)
+bool ScriptableProxy::saveTab(
+    const QString &tabName, const QString &fileName)
 {
-    INVOKE(saveTab, (tabName, arg1));
+    INVOKE(saveTab, (tabName, fileName));
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (!c)
         return false;
 
     const int i = m_wnd->findTabIndex( c->tabName() );
-    return m_wnd->saveTab(arg1, i);
+    return m_wnd->saveTab(fileName, i);
 }
 
 bool ScriptableProxy::importData(const QString &fileName)

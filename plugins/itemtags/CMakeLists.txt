@@ -1,5 +1,6 @@
 set(copyq_plugin_itemtags_SOURCES
     $<TARGET_OBJECTS:copyq-plugin-config>
+    $<TARGET_OBJECTS:copyq-plugin-geometry>
     $<TARGET_OBJECTS:copyq-plugin-iconfont>
     $<TARGET_OBJECTS:copyq-plugin-iconwidget>
     $<TARGET_OBJECTS:copyq-plugin-screen>

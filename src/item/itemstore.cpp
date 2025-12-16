@@ -67,7 +67,7 @@ ItemSaverPtr createTab(
     return saver;
 }
 
-bool itemDataFiles(const QString &tabName, QStringList *files)
+bool itemDataFiles(const QString &tabName, QStringList *files, const Encryption::EncryptionKey *encryptionKey = nullptr)
 {
     const QString tabFileName = itemFileName(tabName);
     if ( !QFile::exists(tabFileName) )
@@ -79,7 +79,7 @@ bool itemDataFiles(const QString &tabName, QStringList *files)
         return false;
     }
 
-    return itemDataFiles(&tabFile, files);
+    return itemDataFiles(&tabFile, files, encryptionKey);
 }
 
 void cleanDataDir(QDir *dir)
@@ -160,22 +160,29 @@ bool moveItems(const QString &oldId, const QString &newId)
     const QString oldFileName = itemFileName(oldId);
     const QString newFileName = itemFileName(newId);
 
-    if ( oldFileName != newFileName && QFile::copy(oldFileName, newFileName) ) {
-        QFile::remove(oldFileName);
-        return true;
+    QString error;
+    if (oldFileName == newFileName) {
+        error = QStringLiteral("Cannot move to the same destination");
+    } else {
+        QFile source(oldFileName);
+
+        // Skip if source tab was not yet saved
+        if (!source.exists())
+            return true;
+
+        if ( source.open(QFile::ReadOnly) && source.copy(newFileName) ) {
+            QFile::remove(oldFileName);
+            return true;
+        }
+        error = source.errorString();
     }
 
-    log( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")").arg(
-             oldFileName,
-             oldId,
-             newFileName,
-             newId
-       ), LogError );
-
+    log( QStringLiteral("Failed to move \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\"): %5")
+         .arg(oldFileName, oldId, newFileName, newId, error), LogError );
     return false;
 }
 
-void cleanDataFiles(const QStringList &tabNames)
+void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey *encryptionKey)
 {
     QDir dir(itemDataPath());
     if ( !dir.exists() )
@@ -183,7 +190,7 @@ void cleanDataFiles(const QStringList &tabNames)
 
     QStringList files;
     for (const QString &tabName : tabNames) {
-        if ( !itemDataFiles(tabName, &files) ) {
+        if ( !itemDataFiles(tabName, &files, encryptionKey) ) {
             COPYQ_LOG( QStringLiteral("Stopping cleanup due to corrupted file: %1")
                     .arg(tabName) );
             return;

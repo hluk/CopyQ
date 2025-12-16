@@ -8,6 +8,7 @@
             "installDir": "${sourceParentDir}/install/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
+                "WITH_QCA_ENCRYPTION": "TRUE",
                 "PEDANTIC": "TRUE",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",

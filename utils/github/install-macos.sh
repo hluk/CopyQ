@@ -31,8 +31,7 @@ if [[ $BUILDNAME == 'macOS old' ]]; then
 	HOMEBREW_DEVELOPER=1 brew install ./qtbase--*.bottle.tar.gz
 fi
 
-brew install qt@6
-
+brew install qt@6 qca qtkeychain
 brew install --verbose \
     copyq/kde/kf6-knotifications \
     copyq/kde/kf6-kstatusnotifieritem

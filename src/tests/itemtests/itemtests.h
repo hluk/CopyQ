@@ -31,7 +31,6 @@ public:
     ItemScriptable *scriptableObject() override;
     QVariant scriptCallback(const QVariantList &arguments) override;
 
-
 private:
     KeyClicker *keyClicker();
     KeyClicker *m_keyClicker = nullptr;

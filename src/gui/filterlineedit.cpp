@@ -51,6 +51,9 @@
 
 namespace {
 
+// Refuse to highlight larger documents - it could be slow
+constexpr int highlightMaxCharacters = 100'000;
+
 const QLatin1String optionFilterHistory("filter_history");
 
 class BaseItemFilter : public ItemFilter {
@@ -67,18 +70,21 @@ public:
 
     void highlight(QTextEdit *edit, const QTextCharFormat &format) const override
     {
-        QList<QTextEdit::ExtraSelection> selections = this->selections(edit->document(), format);
+        QTextDocument *doc = edit->document();
+        if ( doc->characterCount() > highlightMaxCharacters )
+            return;
+
+        QList<QTextEdit::ExtraSelection> selections = this->selections(doc, format);
 
         // If there are no matches, try to match document without accents/diacritics.
         if (selections.isEmpty()) {
-            QTextDocument doc;
-            const auto text = edit->document()->toPlainText();
-            doc.setPlainText(accentsRemoved(text));
-            selections = this->selections(&doc, format);
+            QTextDocument tmpDoc;
+            tmpDoc.setPlainText(accentsRemoved(doc->toPlainText()));
+            selections = this->selections(&tmpDoc, format);
             for (QTextEdit::ExtraSelection &selection : selections) {
                 const auto pos = selection.cursor.position();
                 const auto anchor = selection.cursor.anchor();
-                selection.cursor = QTextCursor(edit->document());
+                selection.cursor = QTextCursor(doc);
                 selection.cursor.setPosition(pos);
                 selection.cursor.setPosition(anchor, QTextCursor::KeepAnchor);
             }

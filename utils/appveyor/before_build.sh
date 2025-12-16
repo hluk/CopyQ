@@ -12,22 +12,38 @@ curl --location --silent --show-error --fail-with-body \
     https://github.com/jrsoftware/issrc/raw/main/Files/Languages/Korean.isl
 grep -q LanguageName "$languages/Korean.isl"
 
+build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf_build.sh
+export PATH=$PATH:$INSTALL_PREFIX/bin
+
+if [[ $WITH_QCA_ENCRYPTION == ON ]]; then
+    URL_PATH="$QCA_VERSION/qca-$QCA_VERSION" \
+        "$build" qca "$QCA_VERSION" "https://download.kde.org/stable/qca" \
+            -DBUILD_WITH_QT6="$WITH_QT6" \
+            -DBUILD_TESTS=OFF \
+            -DBUILD_TOOLS=OFF \
+            -DBUILD_PLUGINS=ossl
+
+    URL_PATH="$QTKEYCHAIN_VERSION" \
+    DOWNLOAD_SUFFIX=tar.gz \
+        "$build" qtkeychain "$QTKEYCHAIN_VERSION" "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags" \
+            -DBUILD_WITH_QT6="$WITH_QT6" \
+            -DBUILD_TRANSLATIONS=OFF \
+            -DBUILD_TEST_APPLICATION=OFF
+fi
+
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
-    build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf_build.sh
-
-    export PATH=$PATH:$INSTALL_PREFIX/bin
-
-    "$build" snoretoast "v$SNORETOAST_VERSION" "$SNORETOAST_BASE_URL"
+    DOWNLOAD_SUFFIX=zip \
+        "$build" snoretoast "v$SNORETOAST_VERSION" "$SNORETOAST_BASE_URL"
     "$build" extra-cmake-modules
     "$build" kconfig "" "" "-DKCONFIG_USE_DBUS=OFF" "-DKCONFIG_USE_GUI=OFF"
     "$build" kwindowsystem
     "$build" knotifications
     "$build" kstatusnotifieritem
-
-    # Create and upload dependencies zip file.
-    7z a "$APP-dependencies.zip" -r "$INSTALL_PREFIX"
-    appveyor PushArtifact "$APP-dependencies.zip" -DeploymentName "CopyQ Dependencies"
 fi
+
+# Create and upload dependencies zip file.
+7z a "$APP-dependencies.zip" -r "$INSTALL_PREFIX"
+appveyor PushArtifact "$APP-dependencies.zip" -DeploymentName "CopyQ Dependencies"
 
 if [[ -n ${CMAKE_GENERATOR_ARCH:-} ]]; then
     cmake_args=(-A "$CMAKE_GENERATOR_ARCH")
@@ -40,5 +56,7 @@ cmake -B"$BUILD_PATH" -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
     -DCMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION=. \
     -DWITH_NATIVE_NOTIFICATIONS="$WITH_NATIVE_NOTIFICATIONS" \
+    -DWITH_QCA_ENCRYPTION="$WITH_QCA_ENCRYPTION" \
+    -DWITH_KEYCHAIN="$WITH_QCA_ENCRYPTION" \
     -DWITH_QT6="$WITH_QT6" \
     -DWITH_TESTS=ON
