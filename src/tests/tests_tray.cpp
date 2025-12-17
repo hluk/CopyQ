@@ -93,6 +93,35 @@ void Tests::trayPaste()
     RUN("tab" << tab1 << "read" << "0", "NEW ");
 }
 
+void Tests::trayShowHideAction()
+{
+#ifdef Q_OS_MAC
+    SKIP("Tests seem unable to trigger Show/Hide from tray on macOS");
+#endif
+
+    // Test Show/Hide action from tray menu:
+    // The main window should be hide even if unfocused.
+    RUN("visible", "true\n");
+    WAIT_ON_OUTPUT("visible", "true\n");
+    WAIT_ON_OUTPUT("focused", "true\n");
+
+    // Unfocus the main window by focusing a dialog
+    RUN("action('copyq:dialog()')", "");
+    WAIT_ON_OUTPUT("visible", "true\n");
+    WAIT_ON_OUTPUT("focused", "false\n");
+
+    // Trigger &Show/Hide
+    RUN("menu", "");
+    KEYS(trayMenuId << "S");
+    WAIT_ON_OUTPUT("visible", "false\n");
+    WAIT_ON_OUTPUT("focused", "false\n");
+
+    RUN("menu", "");
+    KEYS(trayMenuId << "S");
+    WAIT_ON_OUTPUT("visible", "true\n");
+    WAIT_ON_OUTPUT("focused", "true\n");
+}
+
 void Tests::configTrayTab()
 {
     const auto tab1 = testTab(1);

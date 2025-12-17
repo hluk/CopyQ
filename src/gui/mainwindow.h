@@ -376,6 +376,12 @@ public:
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
 
+    /**
+     * Like toggleVisible() but hide window if visible and not focused, which
+     * seems more reasonable when using mouse.
+     */
+    void toggleVisibleFromTray();
+
     /** Set icon for current tab or tab group. */
     void setTabIcon();
 
