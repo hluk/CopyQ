@@ -216,6 +216,7 @@ private slots:
 
     void traySearch();
     void trayPaste();
+    void trayShowHideAction();
 
     void pasteNext();
 

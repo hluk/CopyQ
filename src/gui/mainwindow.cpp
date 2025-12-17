@@ -831,7 +831,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     m_menu->setObjectName("Menu");
 
     auto act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
-    connect(act, &QAction::triggered, this, &MainWindow::toggleVisible);
+    connect(act, &QAction::triggered, this, &MainWindow::toggleVisibleFromTray);
     m_trayMenu->setDefaultAction(act);
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
@@ -3197,6 +3197,15 @@ bool MainWindow::toggleVisible()
     return true;
 }
 
+void MainWindow::toggleVisibleFromTray()
+{
+    if (!isMinimized() && isVisible()) {
+        hideWindow();
+    } else {
+        showWindow();
+    }
+}
+
 void MainWindow::showBrowser(const ClipboardBrowser *browser)
 {
     int i = 0;
@@ -3249,13 +3258,7 @@ void MainWindow::trayActivated(int reason)
     {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
-        // Like toggleVisible() but hide window if visible and not focused
-        // (this seems better behavior when using mouse).
-        if (!isMinimized() && isVisible())
-            hideWindow();
-        else
-            showWindow();
-
+        toggleVisibleFromTray();
     }
 }
 
