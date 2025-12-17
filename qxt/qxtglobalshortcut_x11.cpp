@@ -56,6 +56,12 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(qxtCategory)
 Q_LOGGING_CATEGORY(qxtCategory, "copyq.globalshortcut")
 
+bool usePortal()
+{
+    const bool usePortalFromEnv = qgetenv("COPYQ_USE_PORTAL") == "1";
+    return usePortalFromEnv || !X11Info::isPlatformX11();
+}
+
 } // namespace
 
 class GlobalShortcutsPortal : public QObject
@@ -489,7 +495,7 @@ public:
     QxtX11Data()
         : m_display(nullptr)
     {
-        if ( X11Info::isPlatformX11() ) {
+        if ( !usePortal() ) {
             createFirstWindow();
             m_display = X11Info::display();
         }
@@ -616,19 +622,19 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(
 
 void QxtGlobalShortcutPrivate::init()
 {
-    if ( X11Info::isPlatformX11() )
+    if ( !usePortal() )
         initFallback();
 }
 
 void QxtGlobalShortcutPrivate::destroy()
 {
-    if ( X11Info::isPlatformX11() )
+    if ( !usePortal() )
         destroyFallback();
 }
 
 bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
 {
-    if ( X11Info::isPlatformX11() )
+    if ( !usePortal() )
         return setShortcutFallback(shortcut);
 
     auto portal = GlobalShortcutsPortal::instance();
@@ -643,7 +649,7 @@ bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
 
 bool QxtGlobalShortcutPrivate::unsetShortcut()
 {
-    if ( X11Info::isPlatformX11() )
+    if ( !usePortal() )
         return unsetShortcutFallback();
 
     auto portal = GlobalShortcutsPortal::instance();
@@ -654,7 +660,7 @@ bool QxtGlobalShortcutPrivate::unsetShortcut()
 
 quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers)
 {
-    if ( !X11Info::isPlatformX11() )
+    if ( usePortal() )
         return 0;
 
     // ShiftMask, LockMask, ControlMask, Mod1Mask, Mod2Mask, Mod3Mask, Mod4Mask, and Mod5Mask
