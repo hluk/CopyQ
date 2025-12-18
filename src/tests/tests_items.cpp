@@ -27,6 +27,8 @@ void Tests::configMaxitems()
     RUN("size", "2\n");
 
     // Adding too many items fails.
+    m_test->ignoreErrors(
+        QRegularExpression(R"(Cannot add new items\. Tab "CLIPBOARD" reached the maximum number of items\.)") );
     RUN_EXPECT_ERROR("add" << "1" << "2" << "3", CommandException);
     RUN("separator" << " " << "read" << "0" << "1", "F E");
     RUN("size", "2\n");

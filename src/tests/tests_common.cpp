@@ -20,12 +20,13 @@ TemporaryFile::~TemporaryFile()
     QFile::remove(m_fileName);
 }
 
-bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag)
+bool testStderr(
+    const QByteArray &stderrData,
+    const QRegularExpression &ignoreRe)
 {
     static const QRegularExpression reFailure(
-        "(?:^|\n).*(?:Warning:|Warning <.*>:|ERROR:|ERROR <.*>:|ASSERT|ScriptError:).*",
+        "(?:^|\n).*(?:Warning:|Warning <.*>:|ERROR:|ERROR <.*>:|ASSERT).*",
         QRegularExpression::CaseInsensitiveOption);
-    const QLatin1String scriptError("ScriptError:");
 
     const auto plain = [](const char *str){
         return QRegularExpression(QRegularExpression::escape(QLatin1String(str)));
@@ -36,15 +37,16 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     // Ignore exceptions and errors from clients in application log
     // (these are expected in some tests).
     static const std::array ignoreList{
-        plain("Event handler maximum recursion reached"),
-
         plain("CopyQ server is already running"),
         plain("Cannot connect to server! Start CopyQ server first."),
-        plain("Cannot add new items. Tab \"CLIPBOARD\" reached the maximum number of items."),
         plain("Aborting clipboard cloning"),
         plain("Failed to provide clipboard"),
         regex("Warning <.*>: ELAPSED .* ms accessing"),
         regex("ERROR <.*>: Connection lost!"),
+
+        // Always ignore errors and exceptions from scripts.
+        // These are expected in many test cases.
+        plain("ScriptError:"),
 
         // X11 (Linux)
         plain("QXcbXSettings::QXcbXSettings(QXcbScreen*) Failed to get selection owner for XSETTINGS_S atom"),
@@ -98,37 +100,29 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
 
         // Warnings from itemsync plugin, not sure what it causes
         regex(R"(Could not remove our own lock file .* maybe permissions changed meanwhile)"),
-
-        // This is expected in some tests, specifically, COPYQ_PASSWORD env var
-        // may not match the correct password for encrypting tabs.
-        plain("Loaded password does not match the stored hash"),
     };
 
     const QString output = QString::fromUtf8(stderrData);
     QRegularExpressionMatchIterator it = reFailure.globalMatch(output);
+    bool result = true;
     while ( it.hasNext() ) {
         const auto match = it.next();
         const QString log = match.captured();
 
-        if ( flag == TestInterface::ReadErrorsWithoutScriptException
-             && log.contains(scriptError) )
-        {
-            return false;
-        }
-
-        const bool ignore = std::any_of(
-            std::begin(ignoreList), std::end(ignoreList),
-                [&log](const QRegularExpression &reIgnore){
-                    return log.contains(reIgnore);
-                });
+        const bool ignore = (!ignoreRe.pattern().isEmpty() && log.contains(ignoreRe))
+            || std::any_of(
+                std::begin(ignoreList), std::end(ignoreList),
+                    [&log](const QRegularExpression &reIgnore){
+                        return log.contains(reIgnore);
+                    });
 
         if (!ignore) {
             qWarning() << "🛑 Failure in logs:" << log.trimmed();
-            return false;
+            result = false;
         }
     }
 
-    return true;
+    return result;
 }
 
 int count(const QStringList &items, const QString &pattern)
