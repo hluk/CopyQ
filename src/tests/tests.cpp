@@ -283,10 +283,8 @@ public:
         QByteArray stderrActual;
         const int exitCode = run(arguments, &stdoutActual, &stderrActual);
 
-        if ( testStderr(stderrActual) ) {
-            return "Test failed: Expected error output on client side."
-                    + printClienAndServerStderr(stderrActual, exitCode);
-        }
+        if ( !testStderr(stderrActual) )
+            return printClienAndServerStderr(stderrActual, exitCode);
 
         if ( !stdoutActual.isEmpty() ) {
             return "Test failed: Expected empty output."
@@ -308,7 +306,7 @@ public:
                     + printClienAndServerStderr(stderrActual, exitCode);
         }
 
-        return readServerErrors(ReadErrorsWithoutScriptException);
+        return readServerErrors();
     }
 
     QByteArray getClipboard(const QString &mime = QString("text/plain"), ClipboardMode mode = ClipboardMode::Clipboard)
@@ -388,7 +386,7 @@ public:
         if (m_server) {
             QCoreApplication::processEvents();
             QByteArray output = readLogFile(maxReadLogSize);
-            if ( flag == ReadAllStderr || !testStderr(output, flag) )
+            if ( flag == ReadAllStderr || !testStderr(output) )
               return decorateOutput("Server STDERR", output);
         }
 
@@ -537,6 +535,7 @@ public:
     {
         addFailedTest();
         m_env = m_envBeforeTest;
+        m_ignoreErrors = {};
         return QByteArray();
     }
 
@@ -548,6 +547,11 @@ public:
     void setEnv(const QString &name, const QString &value) override
     {
         m_env.insert(name, value);
+    }
+
+    void ignoreErrors(const QRegularExpression &re) override
+    {
+        m_ignoreErrors = re;
     }
 
     bool writeOutErrors(const QByteArray &errors) override
@@ -594,6 +598,11 @@ public:
     }
 
 private:
+    bool testStderr(const QByteArray &stderrData)
+    {
+        return ::testStderr(stderrData, m_ignoreErrors);
+    }
+
     void addFailedTest()
     {
         if ( QTest::currentTestFailed() )
@@ -654,6 +663,7 @@ private:
     QProcessEnvironment m_envBeforeTest;
     QString m_testId;
     QVariantMap m_settings;
+    QRegularExpression m_ignoreErrors;
 
     QStringList m_failed;
 

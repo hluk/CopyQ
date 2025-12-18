@@ -6,6 +6,8 @@
 
 #include "common/commandstatus.h"
 
+#include <QRegularExpression>
+
 ItemPinnedTests::ItemPinnedTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
@@ -143,6 +145,8 @@ void ItemPinnedTests::fullTab()
     RUN("-e" << "plugins.itempinned.pin(0,1,2)", "");
 
     // Tab is full and no items can be removed.
+    m_test->ignoreErrors(
+        QRegularExpression(R"(Cannot add new items\. Tab "CLIPBOARD" reached the maximum number of items\.)") );
     RUN_EXPECT_ERROR("add" << "X", CommandException);
     RUN_EXPECT_ERROR("write" << "1" << "text/plain" << "X", CommandException);
     RUN("separator" << " " << "read" << "0" << "1" << "2", "a b c");

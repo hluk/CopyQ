@@ -12,6 +12,8 @@
 
 #include <memory>
 
+class QRegularExpression;
+
 /**
  * Interface for tests.
  */
@@ -22,8 +24,6 @@ public:
         ReadErrors = 0,
         // Read all stderr.
         ReadAllStderr = 1,
-        // Read errors from stderr but omit single exception in script.
-        ReadErrorsWithoutScriptException = 2
     };
 
     TestInterface() = default;
@@ -98,6 +98,9 @@ public:
 
     /// Set environment variable for test.
     virtual void setEnv(const QString &name, const QString &value) = 0;
+
+    /// Ignore specific client and server errors.
+    virtual void ignoreErrors(const QRegularExpression &re) = 0;
 
     virtual bool writeOutErrors(const QByteArray &errors) = 0;
 
