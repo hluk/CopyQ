@@ -535,8 +535,9 @@ public:
     {
         addFailedTest();
         m_env = m_envBeforeTest;
+        const QByteArray errors = isServerRunning() ? stopServer() : QByteArray();
         m_ignoreErrors = {};
-        return QByteArray();
+        return errors;
     }
 
     QString shortcutToRemove() override

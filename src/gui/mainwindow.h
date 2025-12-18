@@ -645,11 +645,19 @@ private:
     bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
     bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV5(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
+    QVariantMap exportTabData(const QString &tab, bool *ok);
+
     bool canImport(const ImportSelection &importSelection);
     void importSelected(const ImportSelection &importSelection);
+    bool importDataV2(QDataStream *in);
     bool importDataV3(QDataStream *in, ImportOptions options);
     bool importDataV4(QDataStream *in, ImportOptions options);
     bool importDataV5(QDataStream *in, ImportOptions options);
+    bool importTabData(
+        const QString &requestedTabName,
+        const QVariantMap &tabMap,
+        const Tabs &tabProps,
+        const Encryption::EncryptionKey &key);
 
     const Theme &theme() const;
 
