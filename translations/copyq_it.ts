@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>About</source>
-        <translation>Informazioni su</translation>
+        <translation>Info programma</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="87"/>
@@ -76,7 +76,7 @@
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Espressione regolare per suddividere l&apos;output in più elementi.&lt;\p&gt;
-&lt;p&gt;Utilizza &lt;b&gt;\n&lt;/b&gt; per memorizzare ogni riga in un elemento separato.&lt;/p&gt;</translation>
+&lt;p&gt;Per salvare ogni riga in un elemento separato usa &lt;b&gt;\n&lt;/b&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -150,17 +150,17 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show/hide main window</source>
-        <translation>Mostra/nascondi finestra principale</translation>
+        <translation>Visualizza/nascondi finestra principale</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show the tray menu</source>
-        <translation>Mostra menu della barra delle applicazioni</translation>
+        <translation>Visualizza menu barra applicazioni</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Show main window under mouse cursor</source>
-        <translation>Mostra finestra principale sotto al cursore del mouse</translation>
+        <translation>Visualizza finestra principale sotto al cursore del mouse</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
@@ -180,7 +180,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Show action dialog</source>
-        <translation>Mostra finestra azione</translation>
+        <translation>Visualizza finestra azione</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
@@ -225,7 +225,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Take screenshot</source>
-        <translation>Fai uno screenshot</translation>
+        <translation>Cattura una schermata</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
@@ -339,12 +339,12 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
-        <translation>Uscire senza salvare?</translation>
+        <translation>Vuoi uscire senza salvare?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>Vuoi veramente &lt;strong&gt;uscire senza salvare&lt;/strong&gt;?</translation>
+        <translation>Vuoi &lt;strong&gt;uscire senza salvare&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -414,7 +414,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="398"/>
         <source>Cancel active commands and exit?</source>
-        <translation>Annullare i comandi attivi ed uscire?</translation>
+        <translation>Vuoi annullare i comandi attivi ed uscire?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="401"/>
@@ -519,7 +519,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="115"/>
         <source>Show command help (F1)</source>
-        <translation>Mostra guida ai comandi (F1)</translation>
+        <translation>Visualizza Guida comandi (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="56"/>
@@ -538,12 +538,12 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="64"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation>Il carattere %1 può essere utilizzato per passare l&apos;output standard al programma successivo.</translation>
+        <translation>Il carattere %1 può essere usato per passare l&apos;output standard al programma successivo.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="70"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation>La seguente sintassi può essere utilizzata per passare il resto del comando come parametro singolo.</translation>
+        <translation>La seguente sintassi può essere usata per passare il resto del comando come parametro singolo.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="73"/>
@@ -553,7 +553,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="80"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation>Le funzioni elencate di seguito possono essere utilizzate come nei seguenti comandi.</translation>
+        <translation>Le funzioni elencate di seguito possono essere usate come nei seguenti comandi.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
@@ -572,7 +572,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation>Nome comando mostrato nel menu</translation>
+        <translation>Nome comando visualizzato nel menu</translation>
     </message>
     <message>
         <source>Type of Action</source>
@@ -592,7 +592,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="79"/>
         <source>Show command in context menu of matching items</source>
-        <translation>Mostra comando nel menu contestuale degli elementi corrispondenti</translation>
+        <translation>Visualizza comando nel menu contestuale elementi corrispondenti</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="82"/>
@@ -619,7 +619,7 @@ Puoi impostare il comando nelle preferenze.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Utilizza il comando solo per gli elementi copiati negli appunti dalla finestra con il testo del titolo che corrisponde a questa espressione regolare (lascia vuoto per abbinare a qualsiasi finestra). Su macOS, contiene il nome dell&apos;applicazione seguito da un trattino (&quot;-&quot;) quindi il titolo della finestra. Per esempio. &quot;Safari - GitHub&quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Usa il comando solo per gli elementi copiati negli appunti dalla finestra con il testo del titolo che corrisponde a questa espressione regolare (lascia vuoto per abbinare a qualsiasi finestra). In macOS, contiene il nome dell&apos;applicazione seguito da un trattino (&quot;-&quot;) quindi il titolo della finestra. Esempio. &quot;Safari - GitHub&quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="405"/>
@@ -727,7 +727,7 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation>Salta il comando se il testo di input non corrisponde a questa espressione regolare (lascia vuoto per far corrispondere tutto).
+        <translation>Se il testo di input non corrisponde a questa espressione regolare (lascia vuoto per far corrispondere tutto) salta il comando .
 
 Da %2 a %9 (o argomento[1] e oltre nello script) in Comando e Filtro saranno sostituiti con i testi catturati.
 
@@ -785,7 +785,7 @@ Nota: se viene applicato automaticamente, non verranno eseguiti altri comandi au
     <message>
         <location filename="../src/ui/commandwidget.ui" line="722"/>
         <source>Show Advanced</source>
-        <translation>Mostra avanzate</translation>
+        <translation>Visualizza opzioni avanzate</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="159"/>
@@ -800,7 +800,7 @@ Nota: se viene applicato automaticamente, non verranno eseguiti altri comandi au
     <message>
         <location filename="../src/ui/commandwidget.ui" line="637"/>
         <source>Show action dialog before executing the command</source>
-        <translation>Mostra finestra azione prima di eseguire il comando</translation>
+        <translation>Visualizza finestra azione prima di eseguire il comando</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="640"/>
@@ -919,12 +919,12 @@ Esempi:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation>Mostra &amp;numero</translation>
+        <translation>Visualizza &amp;numero</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation>Mostra barre di scorrimento</translation>
+        <translation>Visualizza barre scorrimento</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
@@ -934,7 +934,7 @@ Esempi:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation>Utilizza icone dell&apos;ambiente desktop quando possibile</translation>
+        <translation>Usa quando possibile icone dell&apos;ambiente desktop</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
@@ -959,7 +959,7 @@ Esempi:
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation>&amp;Reimposta tema</translation>
+        <translation>&amp;Ripristina tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
@@ -1012,12 +1012,12 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="477"/>
         <source>Example item %1</source>
-        <translation>Elemento di esempio %1</translation>
+        <translation>Esempio elemento %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="482"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Alcune note casuali (Shift+F2 per modificare)</translation>
+        <translation>Alcune note casuali (Maiusc+F2 per modificare)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="160"/>
@@ -1051,7 +1051,7 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="65"/>
         <source>&amp;Language:</source>
-        <translation>&amp;Lingua:</translation>
+        <translation>&amp;Lingua interfaccia:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="93"/>
@@ -1169,7 +1169,7 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="228"/>
         <source>Automatically show popup to complete function, type and variable names in commands</source>
-        <translation>Mostra automaticamente popup per completare la funzione, tipo e nomi delle variabili nei comandi</translation>
+        <translation>Visualizza automaticamente popup per completare la funzione, tipo e nomi delle variabili nei comandi</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="231"/>
@@ -1194,7 +1194,7 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="260"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation>Consenti di incollare le selezioni del mouse utilizzando una scorciatoia (solitamente Ctrl+V o Shift+Ins)</translation>
+        <translation>Consenti di incollare le selezioni del mouse usando un combinazione tasti (solitamente Ctrl+V o Maiusc+Ins)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="263"/>
@@ -1219,7 +1219,7 @@ premi F2 per modificare.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="286"/>
         <source>(&amp;2) Store text selected using mouse</source>
-        <translation>(&amp;2) Memorizza testo selezionato utilizzando il mouse</translation>
+        <translation>(&amp;2) Memorizza testo selezionato usando il mouse</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="293"/>
@@ -1306,14 +1306,14 @@ Nota: gli elementi modificati possono essere salvati con F2 ignorando questa opz
         <source>Show single line description of each item.
 
 Use Item Preview to display whole items.</source>
-        <translation>Mostra una descrizione a riga singola per ciascun elemento.
+        <translation>Visualizza descrizione a riga singola per ciascun elemento.
 
-Utilizza anteprima elemento per visualizzare interi elementi.</translation>
+Per visualizzare interi elementi usa anteprima elemento.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="210"/>
         <source>Sho&amp;w simple items</source>
-        <translation>&amp;Mostra elementi semplici</translation>
+        <translation>&amp;Visualizza elementi semplici</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="217"/>
@@ -1381,12 +1381,12 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="62"/>
         <source>Show/Hide</source>
-        <translation>Mostra/nascondi</translation>
+        <translation>Visualizza/nascondi finestra CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="68"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation>Nascondi schede (premi Alt per mostrarle)</translation>
+        <translation>Nascondi schede (premi Alt per visualizzarle)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="71"/>
@@ -1426,7 +1426,7 @@ Utilizza anteprima elemento per visualizzare interi elementi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="117"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation>Mostra struttura ad albero con schede invece della barra delle schede</translation>
+        <translation>Visualizza struttura ad albero con schede invece della barra schede</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="120"/>
@@ -1464,12 +1464,12 @@ Nota: questo non è supportato su tutti i sistemi.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="211"/>
         <source>Show number of items in tabs</source>
-        <translation>Mostra numero di elementi nelle schede</translation>
+        <translation>Visualizza numero nelle schede</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="214"/>
         <source>Sho&amp;w Item Count</source>
-        <translation>&amp;Mostra conteggio elementi</translation>
+        <translation>&amp;Visualizza numero elementi</translation>
     </message>
 </context>
 <context>
@@ -1542,14 +1542,14 @@ Imposta su -1 per rimanere visibile finché non si fa clic.</translation>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation>Numero di righe da mostrare per il nuovo contenuto degli appunti.
+        <translation>Numero righe da visualizzare per il nuovo contenuto appunti.
 
-Imposta su 0 per disabilitare.</translation>
+Imposta a 0 per disabilitare.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="212"/>
         <source>&amp;Use native notifications</source>
-        <translation>&amp;Utilizza notifiche native</translation>
+        <translation>&amp;Usa notifiche native</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabnotifications.ui" line="221"/>
@@ -1602,7 +1602,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="60"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation>Non mostrare icona nella barra delle applicazioni; minimizza finestra quando è chiusa</translation>
+        <translation>Non visualizzare icona nella barra applicazioni; minimizza finestra quando è chiusa</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="63"/>
@@ -1612,7 +1612,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="70"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation>Mostra comando per il contenuto attuale degli appunti nel menu della barra delle applicazioni</translation>
+        <translation>Visualizza nel menu barra applicazioni il comando per il contenuto attuale degli appunti</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="73"/>
@@ -1632,12 +1632,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="119"/>
         <source>Show items from current tab in tray menu</source>
-        <translation>Mostra elementi dalla scheda corrente nel menu della barra delle applicazioni</translation>
+        <translation>Visualizza nel menu della barra applicazioni gli elementi scheda attuale</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="122"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation>Mostra sc&amp;heda attuale nel menu,</translation>
+        <translation>Visualizza nel menu la sc&amp;heda attuale,</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="129"/>
@@ -1647,7 +1647,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="145"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>Nome scheda da mostrare nel menu della barra delle applicazioni (vuoto per la prima scheda)</translation>
+        <translation>Nome scheda da visualizzare nel menu della barra applicazioni (vuoto per la prima scheda)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="170"/>
@@ -1662,12 +1662,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation>Mostra anteprima immagine accanto agli elementi del menu</translation>
+        <translation>Visualizza anteprima immagine accanto agli elementi del menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>Mostra anteprima immagine come icona della voce di menu</translation>
+        <translation>Visualizza anteprima immagine come icona della voce menu</translation>
     </message>
 </context>
 <context>
@@ -1714,7 +1714,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="166"/>
         <source>Shortcuts</source>
-        <translation>Scorciatoie</translation>
+        <translation>Tasti rapidi</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="167"/>
@@ -1729,12 +1729,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="492"/>
         <source>Reset preferences?</source>
-        <translation>Reimpostare le preferenze?</translation>
+        <translation>Vuoi ripristinare le preferenze?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Questa azione reimposterà tutte le tue preferenze (in tutte le schede) sui valori predefiniti.&lt;br /&gt;&lt;br /&gt;Vuoi davvero &lt;strong&gt;reimpostare tutte le preferenze&lt;/strong&gt;?</translation>
+        <translation>Questa azione ripristinerà tutte le preferenze (in tutte le schede) ai valori predefiniti.&lt;br /&gt;&lt;br /&gt;Vuoi &lt;strong&gt;ripristinare tutte le preferenze&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="595"/>
@@ -1953,7 +1953,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="867"/>
         <source>Ctrl+Shift+L</source>
-        <translation>Ctrl+Shift+L</translation>
+        <translation>Ctrl+Maiusc+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="872"/>
@@ -2004,7 +2004,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="973"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Le chiavi di crittografia &lt;strong&gt;devono essere generate&lt;/strong&gt; prima di poter utilizzare la crittografia degli elementi.</translation>
+        <translation>Prima di poter usare la crittografia &lt;strong&gt;è necessario generare&lt;/strong&gt; le chiavi crittografia .</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
@@ -2200,7 +2200,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation>Mostra su&amp;ggerimenti</translation>
+        <translation>Visualizza su&amp;ggerimenti</translation>
     </message>
 </context>
 <context>
@@ -2278,7 +2278,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="86"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Blocca gli elementi nella riga attuale e ne previene la cancellazione fino allo sblocco.&lt;/p&gt;&lt;p&gt;Fornisce scorciatoie e funzionalità di scripting.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Blocca gli elementi nella riga attuale e ne previene la cancellazione fino allo sblocco.&lt;/p&gt;&lt;p&gt;Fornisce tasti rapidi e funzionalità di scripting.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2320,12 +2320,12 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="461"/>
         <source>Remove Items?</source>
-        <translation>Rimuovere gli elementi?</translation>
+        <translation>Vuoi rimuovere gli elementi?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="462"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>Vuoi veramente &lt;strong&gt;rimuovere gli elementi e i file associati&lt;/strong&gt;?</translation>
+        <translation>Vuoi &lt;strong&gt;rimuovere gli elementi e i file associati&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2513,7 +2513,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation>Numero massimo righe mostrate (0 mostra tutte):</translation>
+        <translation>Numero massimo righe visualizzate (0 visualizza tutte):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
@@ -2561,7 +2561,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="703"/>
         <source>Exit?</source>
-        <translation>Uscire?</translation>
+        <translation>Confermi uscita dal programma?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="704"/>
@@ -2687,7 +2687,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4242"/>
         <source>Remove All Tabs in Group?</source>
-        <translation>Rimuovere tutte le schede nel gruppo?</translation>
+        <translation>Vuoi rimuovere tutte le schede nel gruppo?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4243"/>
@@ -2697,7 +2697,7 @@ Imposta su 0 per disabilitare.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4290"/>
         <source>Remove Tab?</source>
-        <translation>Rimuovere la scheda?</translation>
+        <translation>Vuoi rimuovere la scheda?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4291"/>
@@ -2838,12 +2838,12 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="54"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation>Mostra &amp;contenuto appunti</translation>
+        <translation>Visualizza &amp;contenuto appunti</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="55"/>
         <source>Ctrl+Shift+C</source>
-        <translation>Ctrl+Shift+C</translation>
+        <translation>Ctrl+Maiusc+C</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="58"/>
@@ -2853,7 +2853,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="59"/>
         <source>Ctrl+Shift+X</source>
-        <translation>Ctrl+Shift+X</translation>
+        <translation>Ctrl+Maiusc+X</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="60"/>
@@ -2863,7 +2863,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="61"/>
         <source>Ctrl+Shift+Z</source>
-        <translation>Ctrl+Shift+Z</translation>
+        <translation>Ctrl+Maiusc+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="62"/>
@@ -2883,7 +2883,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="66"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation>Ctrl+Maiusc+S</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="68"/>
@@ -2893,7 +2893,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="69"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Ctrl+Shift+R</translation>
+        <translation>Ctrl+Maiusc+R</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="71"/>
@@ -2962,7 +2962,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="116"/>
         <source>Shift+F2</source>
-        <translation>Shift+F2</translation>
+        <translation>Maiusc+F2</translation>
     </message>
     <message>
         <source>E&amp;dit with editor</source>
@@ -3061,7 +3061,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="138"/>
         <source>Ctrl+Shift+T</source>
-        <translation>Ctrl+Shift+T</translation>
+        <translation>Ctrl+Maiusc+T</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="139"/>
@@ -3089,7 +3089,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
-        <translation>Shift+F10</translation>
+        <translation>Maiusc+F10</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="142"/>
@@ -3246,7 +3246,7 @@ che possono essere lettere, cifre, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="59"/>
         <source>Show or hide main window.</source>
-        <translation>Mostra o nascondi la finestra principale.</translation>
+        <translation>Visualizza/nascondi finestra principale.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="61"/>
@@ -3395,7 +3395,7 @@ Scrivi dati RAW nella colonna indicata.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
         <source>Show action dialog.</source>
-        <translation>Mostra finestra azione.</translation>
+        <translation>Visualizza finestra azione.</translation>
     </message>
     <message>
         <source>
@@ -3468,7 +3468,7 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="54"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation>Mostra finestra principale e facoltativamente apri la scheda con il nome specificato.</translation>
+        <translation>Visualizza finestra principale e facoltativamente apri la scheda con il nome specificato.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="79"/>
@@ -3497,12 +3497,12 @@ Gli argomenti sono accessibili usando con &quot;arguments[0..N]&quot;.</translat
         <source>Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
         <translation>Esegui PROGRAMMA sul testo dell&apos;elemento nelle righe.
-Utilizza %1 in PROGRAMMA per inviare il testo come argomento.</translation>
+Usa %1 in PROGRAMMA per inviare il testo come argomento.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>Show tray popup message for TIME milliseconds.</source>
-        <translation>Mostra messaggio popup nella barra delle applicazioni per TIME millisecondi.</translation>
+        <translation>Visualizza messaggio popup nella barra applicazioni per TIME millisecondi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
@@ -3630,7 +3630,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>Usage: copyq [%1]</source>
-        <translation>Utilizzo: copyq [%1]</translation>
+        <translation>Uso: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="116"/>
@@ -3651,13 +3651,13 @@ Visualizza programma e librerie.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="124"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
-        <translation>  - Utilizza l&apos;argomento con doppio trattino (--) per leggere tutti gli argomenti successivi
+        <translation>  - Usa l&apos;argomento con doppio trattino (--) per leggere tutti gli argomenti successivi
     senza espandere le sequenze di escape (per esempio \n, \t e altri).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="126"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - Utilizza ? per MIME per stampare i tipi MIME disponibili (l&apos;impostazione predefinita è &quot;text/plain&quot;).</translation>
+        <translation>  - Usa ? per MIME per stampare i tipi MIME disponibili (l&apos;impostazione predefinita è &quot;text/plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="131"/>
@@ -3705,7 +3705,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
-        <translation>  - Utilizza l&apos;argomento trattino (-) per leggere i dati dall&apos;input standard.</translation>
+        <translation>  - Usa l&apos;argomento trattino (-) per leggere i dati dall&apos;input standard.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
@@ -3796,7 +3796,7 @@ Visualizza programma e librerie.</translation>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="56"/>
         <source>Global shortcuts can be triggered from any application.</source>
-        <translation>Le scorciatoie globali possono essere attivate da qualsiasi applicazione.</translation>
+        <translation>I tasti rapidi globali possono essere attivati da qualsiasi applicazione.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="77"/>
