@@ -68,9 +68,7 @@ bool testStderr(
         plain("QWindowsWindow::setGeometry: Unable to set geometry"),
         plain("QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event."),
         plain("setGeometry: Unable to set geometry"),
-
-        plain("ERROR: QWindowsPipeWriter::write failed. (The pipe is being closed.)"),
-        plain("ERROR: QWindowsPipeWriter: asynchronous write failed. (The pipe has been ended.)"),
+        plain("ERROR: QWindowsPipeWriter:"),
 
         plain("[kf.notifications] Received a response for an unknown notification."),
         // KStatusNotifierItem
@@ -105,11 +103,12 @@ bool testStderr(
     const QString output = QString::fromUtf8(stderrData);
     QRegularExpressionMatchIterator it = reFailure.globalMatch(output);
     bool result = true;
+    const bool isIgnoreReValid = !ignoreRe.pattern().isEmpty();
     while ( it.hasNext() ) {
         const auto match = it.next();
         const QString log = match.captured();
 
-        const bool ignore = (!ignoreRe.pattern().isEmpty() && log.contains(ignoreRe))
+        const bool ignore = (isIgnoreReValid && log.contains(ignoreRe))
             || std::any_of(
                 std::begin(ignoreList), std::end(ignoreList),
                     [&log](const QRegularExpression &reIgnore){
@@ -121,6 +120,9 @@ bool testStderr(
             result = false;
         }
     }
+
+    if (!result && isIgnoreReValid)
+        qWarning().noquote() << "🟡 Ignored logs matching:" << ignoreRe.pattern();
 
     return result;
 }

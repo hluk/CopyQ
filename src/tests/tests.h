@@ -355,6 +355,7 @@ private slots:
     void exportImportPasswordTab();
     void exportImportPasswordSettingsOnly();
     void exportImportPasswordCommandsOnly();
+    void exportImportErrors();
 
 private:
     void navigationTestInit();
