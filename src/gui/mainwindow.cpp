@@ -1784,7 +1784,15 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
     const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
     QList<QKeySequence> usedShortcuts;
 
+    const QRegularExpression showTrayCmdRe(R"(^(copyq: menu\(\)|copyq menu)$)");
     for (const auto &command : commands) {
+        // Skip command to show the tray menu itself
+        if (command.internalId == QStringLiteral("copyq_global_menu")
+            || command.cmd.simplified().contains(showTrayCmdRe))
+        {
+            continue;
+        }
+
         QString name = command.localizedName();
         QMenu *rootMenu, *currentMenu;
         std::tie(rootMenu, currentMenu) = createSubMenus(&name, m_trayMenu);
