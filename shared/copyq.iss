@@ -33,7 +33,7 @@ UninstallDisplayIcon={app}\copyq.exe
 WizardStyle=Modern
 UsePreviousLanguage=no
 
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 
 ArchitecturesAllowed=x64
