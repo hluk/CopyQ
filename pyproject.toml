@@ -1,0 +1,22 @@
+[tool.codespell]
+skip = [
+    '*.css',
+    '*.svg',
+    './build/',
+    './plugins/itemfakevim/fakevim',
+    './shared/gpl-3.0.rtf',
+    './src/gui/icon_list.h',
+    './src/platform/x11/systemclipboard/wlr-data-control-unstable-v1.xml',
+    './translations',
+    '.codespellrc',
+    '.git',
+]
+ignore-words-list = [
+    'onTop',
+    'DoubleClick',
+    'INE',
+]
+ignore-regex = '''
+^Comment\[.*
+|^GenericName\[.*
+|\S+&(amp;)?\S+'''
