@@ -13,7 +13,7 @@ void Tests::tabEncryption()
 
     // Enable tab encryption - this should work even if the encryption support
     // is not build into the app.
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     // Verify tab doesn't exist yet
     QVERIFY( !hasTab(tab) );
@@ -50,7 +50,7 @@ void Tests::tabEncryption()
     // Password is needed when disabling encryption
     runMultiple(
         [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "false", "false\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
 #endif
@@ -81,7 +81,7 @@ void Tests::tabEncryptionPasswordNew()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "true", "true\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 
@@ -113,7 +113,7 @@ void Tests::tabEncryptionPasswordCurrent()
     const Args args = Args("tab") << tab << "separator" << " ";
     RUN(args << "add" << "test data 3" << "test data 2" << "test data 1", "");
 
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     m_test->setEnv("COPYQ_PASSWORD", ":TEST");
     m_test->ignoreErrors(QRegularExpression("Loaded password does not match the stored hash"));
@@ -151,7 +151,7 @@ void Tests::tabEncryptionPasswordRetry()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "true", "true\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 #else
@@ -189,11 +189,11 @@ void Tests::tabEncryptionPasswordRetryFail()
                 << passwordMessageFailedId << "ENTER"
             );
         },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "true", "true\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
 
     // If the initial password was not provided, encryption should be disabled.
-    RUN("config" << "tab_encryption_enabled", "false\n");
+    RUN("config" << "encrypt_tabs", "false\n");
 #else
     SKIP("Encryption support not built-in");
 #endif
@@ -202,7 +202,7 @@ void Tests::tabEncryptionPasswordRetryFail()
 void Tests::tabEncryptionLargeItems()
 {
 #ifdef WITH_QCA_ENCRYPTION
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
@@ -234,7 +234,7 @@ void Tests::tabEncryptionLargeItems()
 void Tests::tabEncryptionChangePassword()
 {
 #ifdef WITH_QCA_ENCRYPTION
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
@@ -277,7 +277,7 @@ void Tests::tabEncryptionMissingHash()
 {
     // Ensure that missing hash file does not lock users out from their data.
 #ifdef WITH_QCA_ENCRYPTION
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
@@ -318,10 +318,10 @@ void Tests::tabEncryptionMissingHash()
     // Try to disable decryption with a wrong password
     runMultiple(
         [&]() { KEYS(passwordEntryCurrentId << ":TEST1234" << "ENTER"); },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "false", "false\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
-    RUN("config" << "tab_encryption_enabled", "true\n");
+    RUN("config" << "encrypt_tabs", "true\n");
 
     TEST( m_test->stopServer() );
 
@@ -335,10 +335,10 @@ void Tests::tabEncryptionMissingHash()
     // Disable decryption
     runMultiple(
         [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "tab_encryption_enabled" << "false", "false\n"); }
+        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
-    RUN("config" << "tab_encryption_enabled", "false\n");
+    RUN("config" << "encrypt_tabs", "false\n");
 
     TEST( m_test->stopServer() );
 

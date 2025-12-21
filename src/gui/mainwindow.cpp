@@ -757,7 +757,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_tray(nullptr)
     , m_toolBar(new ToolBar(this))
     , m_sharedData(sharedData)
-    , m_wasEncrypted(AppConfig().option<Config::tab_encryption_enabled>())
+    , m_wasEncrypted(AppConfig().option<Config::encrypt_tabs>())
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -3705,7 +3705,7 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
     if (!useKeyStore)
         removePasswordFromKeychain();
 
-    if ( !appConfig->option<Config::tab_encryption_enabled>() ) {
+    if ( !appConfig->option<Config::encrypt_tabs>() ) {
         m_sharedData->encryptionKey.clear();
     } else if ( !m_sharedData->encryptionKey.isValid() ) {
         const auto prompt = useKeyStore
@@ -3727,7 +3727,7 @@ void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *a
 
 void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
 {
-    const bool isEncrypted = appConfig->option<Config::tab_encryption_enabled>();
+    const bool isEncrypted = appConfig->option<Config::encrypt_tabs>();
     if (m_wasEncrypted == isEncrypted)
         return;
 
@@ -3742,7 +3742,7 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
 
     // Revert encryption option if password was not provided.
     if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
-        appConfig->setOption(Config::tab_encryption_enabled::name(), m_wasEncrypted);
+        appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
         return;
     }
 
@@ -3766,7 +3766,7 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
             if (appConfig->option<Config::use_key_store>())
                 removePasswordFromKeychain();
         } else {
-            appConfig->setOption(Config::tab_encryption_enabled::name(), true);
+            appConfig->setOption(Config::encrypt_tabs::name(), true);
             m_wasEncrypted = true;
             m_sharedData->encryptionKey = oldEncryptionKey;
         }

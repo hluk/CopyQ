@@ -161,12 +161,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxTabEncryption">
+       <widget class="QCheckBox" name="checkBoxEncryptTabs">
         <property name="toolTip">
          <string>Encrypt tab data on disk (requires password to be set)</string>
         </property>
         <property name="text">
-         <string>Enable &amp;tab encryption</string>
+         <string>Encrypt &amp;Tabs</string>
         </property>
        </widget>
       </item>
@@ -399,7 +399,7 @@
   <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
-  <tabstop>checkBoxTabEncryption</tabstop>
+  <tabstop>checkBoxEncryptTabs</tabstop>
   <tabstop>checkBoxUseKeychain</tabstop>
   <tabstop>pushButtonChangeEncryptionPassword</tabstop>
   <tabstop>comboBoxNavigationStyle</tabstop>
