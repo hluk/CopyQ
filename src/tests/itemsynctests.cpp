@@ -1077,7 +1077,7 @@ void ItemSyncTests::encryptionShouldNotAffectFiles()
 
     QCOMPARE(dir1.files().join(sep), files.join(sep));
 
-    RUN("config" << "tab_encryption_enabled" << "true", "true\n");
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     RUN(args << inspect,
         "0: itemsync-basename:test1 text/plain:TEXT1 ;; "
