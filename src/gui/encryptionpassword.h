@@ -4,7 +4,7 @@
 
 #include "common/encryption.h"
 
-class ClipboardBrowserShared;
+struct ClipboardBrowserShared;
 class QWidget;
 class QAbstractItemModel;
 class QIODevice;
