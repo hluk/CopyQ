@@ -216,6 +216,7 @@ private slots:
 
     void traySearch();
     void trayPaste();
+    void trayShowHideAction();
 
     void pasteNext();
 
@@ -346,6 +347,7 @@ private slots:
     void tabEncryptionPasswordRetryFail();
     void tabEncryptionLargeItems();
     void tabEncryptionChangePassword();
+    void tabEncryptionMissingHash();
 
     void exportImportNoPasswordTab();
     void exportImportNoPasswordSettingsOnly();
@@ -353,6 +355,7 @@ private slots:
     void exportImportPasswordTab();
     void exportImportPasswordSettingsOnly();
     void exportImportPasswordCommandsOnly();
+    void exportImportErrors();
 
 private:
     void navigationTestInit();

@@ -59,6 +59,8 @@ private slots:
 
     void copyFiles();
 
+    void encryptionShouldNotAffectFiles();
+
 private:
     TestInterfacePtr m_test;
 };

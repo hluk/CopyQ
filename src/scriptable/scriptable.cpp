@@ -573,14 +573,14 @@ QJSValue Scriptable::throwError(const QString &errorMessage)
     return exc;
 }
 
-QJSValue Scriptable::throwSaveError(const QString &filePath)
+QJSValue Scriptable::throwExportError(const QString &filePath)
 {
-    return throwError( tr("Cannot save to file \"%1\"!").arg(filePath) );
+    return throwError( tr("Failed to export file \"%1\"").arg(filePath) );
 }
 
 QJSValue Scriptable::throwImportError(const QString &filePath)
 {
-    return throwError( tr("Cannot import file \"%1\"!").arg(filePath) );
+    return throwError( tr("Failed to import file \"%1\"").arg(filePath) );
 }
 
 bool Scriptable::hasUncaughtException() const
@@ -1370,7 +1370,7 @@ QJSValue Scriptable::exportTab()
         return throwError(argumentError());
 
     if ( !m_proxy->saveTab(m_tabName, getAbsoluteFilePath(filePath)) )
-        return throwSaveError(filePath);
+        return throwExportError(filePath);
 
     return QJSValue();
 }
@@ -1412,7 +1412,7 @@ QJSValue Scriptable::exportData()
         return throwError(argumentError());
 
     if ( !m_proxy->exportData(getAbsoluteFilePath(filePath)) )
-        return throwSaveError(filePath);
+        return throwExportError(filePath);
 
     return QJSValue();
 }

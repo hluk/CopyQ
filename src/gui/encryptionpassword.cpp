@@ -14,6 +14,7 @@
 #include "item/itemstore.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
+#include "gui/clipboardbrowsershared.h"
 
 #include <QCoreApplication>
 #include <QInputDialog>
@@ -325,9 +326,9 @@ Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *parent)
 
 bool reencryptTabs(
     const QStringList &tabNames,
-    ItemFactory *itemFactory,
+    ClipboardBrowserShared *sharedData,
     const Encryption::EncryptionKey &oldKey,
-    Encryption::EncryptionKey &newKey,
+    const Encryption::EncryptionKey &newKey,
     int maxItems,
     QWidget *parent)
 {
@@ -342,13 +343,20 @@ bool reencryptTabs(
     progress.setMinimumDuration(500);  // Show after 500ms if not done
     progress.setValue(0);
 
-    const Encryption::EncryptionKey newKeyBackup = newKey;
+    // Skip plugins that do not support encryption
+    ItemLoaderList skipLoaders;
+    for (auto &loader : sharedData->itemFactory->loaders()) {
+        if (loader->isEnabled() && !loader->supportsEncryption()) {
+            skipLoaders.append(loader);
+            loader->setEnabled(false);
+        }
+    }
 
     QStringList failedTabs;
+
     for (int i = 0; i < tabNames.size(); ++i) {
         if (progress.wasCanceled()) {
             log("Tab re-encryption cancelled by user", LogWarning);
-            failedTabs.append(QObject::tr("(Cancelled by user)"));
             break;
         }
 
@@ -369,14 +377,12 @@ bool reencryptTabs(
         ClipboardModel model;
 
         // Set old encryption key temporarily and load items
-        newKey = oldKey;
-        ItemSaverPtr saver = loadItems(tabName, model, itemFactory, maxItems);
-        newKey = newKeyBackup;
+        sharedData->encryptionKey = oldKey;
+        ItemSaverPtr saver = loadItems(tabName, model, sharedData->itemFactory, maxItems);
+        sharedData->encryptionKey = newKey;
 
         if (!saver) {
-            const QString error = QStringLiteral("Failed to load tab: %1").arg(tabName);
-            log(error, LogError);
-            failedTabs.append(tabName);
+            COPYQ_LOG(QStringLiteral("Skipping encryption on unsupported tab: %1").arg(tabName));
             continue;
         }
 
@@ -387,14 +393,16 @@ bool reencryptTabs(
         COPYQ_LOG(QStringLiteral("Loaded %1 items from tab: %2").arg(itemCount).arg(tabName));
 
         if (!saveItems(tabName, model, saver)) {
-            const QString error = QStringLiteral("Failed to save tab: %1").arg(tabName);
-            log(error, LogError);
+            log(QStringLiteral("Failed to re-encrypt tab: %1").arg(tabName), LogError);
             failedTabs.append(tabName);
             continue;
         }
 
         COPYQ_LOG(QStringLiteral("Successfully re-encrypted tab: %1").arg(tabName));
     }
+
+    for (auto &loader : skipLoaders)
+        loader->setEnabled(true);
 
     progress.setValue(tabNames.size());
 
@@ -411,11 +419,7 @@ bool reencryptTabs(
         return false;
     }
 
-    log(QStringLiteral("Successfully re-encrypted all %1 tabs").arg(tabNames.size()), LogNote);
-
-    if (!newKey.isValid())
-        removePasswordFromKeychain();
-
+    log("Successfully re-encrypted tabs");
     return true;
 }
 
@@ -444,9 +448,9 @@ Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *)
 
 bool reencryptTabs(
     const QStringList &,
-    ItemFactory *,
+    ClipboardBrowserShared *,
     const Encryption::EncryptionKey &,
-    Encryption::EncryptionKey &,
+    const Encryption::EncryptionKey &,
     int,
     QWidget *)
 {

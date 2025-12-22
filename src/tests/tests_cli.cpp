@@ -113,6 +113,7 @@ void Tests::commandHelp()
     }
 
     // Print error on unknown function name.
+    m_test->ignoreErrors(QRegularExpression("Error: Command not found!"));
     RUN_EXPECT_ERROR("help" << "xxx", CommandException);
 }
 
@@ -147,6 +148,10 @@ void Tests::badCommand()
 
 void Tests::badSessionName()
 {
+    m_test->ignoreErrors(QRegularExpression(
+        "ERROR: Session name must contain at most 16 characters"
+        "|ERROR.*which can be letters, digits"
+    ));
     RUN_EXPECT_ERROR("-s" << "max_16_characters_in_session_name_allowed" << "", CommandBadSyntax);
     RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
 }

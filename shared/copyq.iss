@@ -33,14 +33,14 @@ UninstallDisplayIcon={app}\copyq.exe
 WizardStyle=Modern
 UsePreviousLanguage=no
 
-DefaultDirName={pf}\{#MyAppName}
+DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 
 AllowNoIcons=yes
-LicenseFile={#Source}\LICENSE
+LicenseFile={#Source}\shared\gpl-3.0.rtf
 OutputDir={#Output}
 PrivilegesRequiredOverridesAllowed=dialog
 OutputBaseFilename={#MyAppNameMin}-{#AppVersion}-setup

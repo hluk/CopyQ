@@ -103,8 +103,8 @@ ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFa
         return saver;
     }
 
-    log( QStringLiteral("Tab \"%1\": Failed to load tab file: %2")
-            .arg(tabName, tabFileName), LogError );
+    log( QStringLiteral("Tab \"%1\": Cannot load tab file: %2")
+            .arg(tabName, tabFileName) );
     model.removeRows(0, model.rowCount());
     return nullptr;
 }

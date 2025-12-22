@@ -6,6 +6,14 @@ Password Protection
 This page describes how to encrypt and protect selected tabs and single
 items with a password.
 
+.. note::
+
+   CopyQ 14.0.0 and above will support encrypting all data using a custom
+   Password. This can be enabled with "Encrypt Tabs" option in Preferences. As
+   An alternative, available in older versions, the below describes using
+   Encryption plugin to encrypt specific tabs or single items (this requires a
+   GnuPG utility to be installed).
+
 Installation
 ------------
 

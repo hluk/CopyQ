@@ -67,13 +67,8 @@ ForegroundBackgroundFilter::ForegroundBackgroundFilter(QObject *parent)
 
 bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
 {
-    if ( !obj->isWindowType() )
-        return false;
-
-    auto window = static_cast<QWindow*>(obj);
-    Q_ASSERT(window);
-
-    if ( !window->isTopLevel() )
+    auto window = qobject_cast<QWindow*>(obj);
+    if ( !window || !window->isTopLevel() )
         return false;
 
     const auto eventType = ev->type();

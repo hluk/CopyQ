@@ -68,15 +68,16 @@
 #include <QFileDialog>
 #include <QFlags>
 #include <QInputDialog>
+#include <QLoggingCategory>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
+#include <QSaveFile>
 #include <QShortcut>
 #include <QSystemTrayIcon>
-#include <QTemporaryFile>
 #include <QTimer>
 #include <QToolBar>
 #include <QUrl>
@@ -86,6 +87,9 @@
 #include <memory>
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.wnd")
 
 const int contextMenuUpdateIntervalMsec = 100;
 const int itemPreviewUpdateIntervalMsec = 100;
@@ -597,6 +601,7 @@ Encryption::EncryptionKey promptForImportPassword(QWidget *parent)
     return Encryption::EncryptionKey(password);
 }
 
+#ifdef WITH_QCA_ENCRYPTION
 Encryption::EncryptionKey promptForExportPassword(QWidget *parent, bool *ok)
 {
     if (!Encryption::initialize()) {
@@ -622,6 +627,24 @@ Encryption::EncryptionKey promptForExportPassword(QWidget *parent, bool *ok)
     log("Failed to derive encryption key for export", LogError);
     *ok = false;
     return {};
+}
+#endif
+
+bool checkFileAndStreamErrors(const QFileDevice &file, const QDataStream &stream, const char *label)
+{
+    if (file.error() != QFileDevice::NoError) {
+        qCCritical(logCategory) << label << "-" << "file:"
+            << file.fileName() << "message:" << file.errorString();
+        return false;
+    }
+
+    if (stream.status() != QDataStream::Ok) {
+        qCCritical(logCategory) << label << "-"  << "file:"
+            << file.fileName() << "reason:" << stream.status();
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace
@@ -734,7 +757,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_tray(nullptr)
     , m_toolBar(new ToolBar(this))
     , m_sharedData(sharedData)
-    , m_wasEncrypted(AppConfig().option<Config::tab_encryption_enabled>())
+    , m_wasEncrypted(AppConfig().option<Config::encrypt_tabs>())
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -829,7 +852,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     m_menu->setObjectName("Menu");
 
     auto act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide") );
-    connect(act, &QAction::triggered, this, &MainWindow::toggleVisible);
+    connect(act, &QAction::triggered, this, &MainWindow::toggleVisibleFromTray);
     m_trayMenu->setDefaultAction(act);
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
@@ -1782,7 +1805,15 @@ void MainWindow::addCommandsToTrayMenu(const QVariantMap &clipboardData, QList<Q
     const auto commands = commandsForMenu(data, placeholder->tabName(), m_trayMenuCommands);
     QList<QKeySequence> usedShortcuts;
 
+    const QRegularExpression showTrayCmdRe(R"(^(copyq: menu\(\)|copyq menu)$)");
     for (const auto &command : commands) {
+        // Skip command to show the tray menu itself
+        if (command.internalId == QStringLiteral("copyq_global_menu")
+            || command.cmd.simplified().contains(showTrayCmdRe))
+        {
+            continue;
+        }
+
         QString name = command.localizedName();
         QMenu *rootMenu, *currentMenu;
         std::tie(rootMenu, currentMenu) = createSubMenus(&name, m_trayMenu);
@@ -2118,10 +2149,10 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
 
 bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey)
 {
-    QTemporaryFile file(fileName + ".XXXXXX.part");
-    if ( !file.open() ) {
-        log( QString("Failed to open temporary file: %1")
-             .arg(file.errorString()), LogError );
+    QSaveFile file(fileName);
+    if ( !file.open(QIODevice::WriteOnly) ) {
+        qCCritical(logCategory) << "Failed to open file for export:"
+            << file.fileName() << "message:" << file.errorString();
         return false;
     }
 
@@ -2129,26 +2160,19 @@ bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs
     const bool ok = encryptionKey.isValid()
         ? exportDataV5(&out, tabs, exportConfiguration, exportCommands, encryptionKey)
         : exportDataV4(&out, tabs, exportConfiguration, exportCommands);
-    if ( !ok )
+
+    const char *label = encryptionKey.isValid()
+        ? "Export (v5) failed" : "Export (v4) failed";
+    if ( !checkFileAndStreamErrors(file, out, label) )
         return false;
 
-    if ( !file.flush() ) {
-        log( QString("Failed to flush temporary file %1: %2")
-             .arg(file.fileName(), file.errorString()), LogError );
+    if (!ok)
         return false;
-    }
 
-    QFile originalFile(fileName);
-    if ( originalFile.exists() && !originalFile.remove(fileName) ) {
-        log( QString("Failed to remove original file %1: %2")
-             .arg(fileName, originalFile.errorString()), LogError );
-        return false;
-    }
-
-    file.setAutoRemove(false);
-    if ( !file.rename(fileName) ) {
-        log( QString("Failed to move temporary file %1: %2")
-             .arg(file.fileName(), file.errorString()), LogError );
+    if ( !file.commit() ) {
+        qCCritical(logCategory) << label << " - failed to save file for export:"
+            << file.fileName() << "message:" << file.errorString();
+        checkFileAndStreamErrors(file, out, label);
         return false;
     }
 
@@ -2166,45 +2190,12 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
     (*out) << data;
 
     for (const auto &tab : tabs) {
-        const auto i = findTabIndex(tab);
-        if (i == -1)
-            continue;
-
-        auto placeholder = getPlaceholder(i);
-        const bool wasLoaded = placeholder->isDataLoaded();
-        auto c = placeholder->createBrowserAgain();
-        if (!c) {
-            log(QString("Failed to open tab \"%1\" for export").arg(tab), LogError);
+        bool ok;
+        QVariantMap tabMap = exportTabData(tab, &ok);
+        if (!ok)
             return false;
-        }
-
-        const auto &tabName = c->tabName();
-
-        bool saved = false;
-        QByteArray tabBytes;
-        {
-            QDataStream tabOut(&tabBytes, QIODevice::WriteOnly);
-            tabOut.setVersion(dataStreamImportVersionDefault);
-            saved = serializeData(*c->model(), &tabOut);
-        }
-
-        if (!wasLoaded)
-            placeholder->expire();
-
-        if (!saved) {
-            log(QString("Failed to export tab \"%1\"").arg(tab), LogError);
-            return false;
-        }
-
-        const auto iconName = getIconNameForTabName(tabName);
-
-        QVariantMap tabMap;
-        tabMap["name"] = tabName;
-        tabMap["data"] = tabBytes;
-        if ( !iconName.isEmpty() )
-            tabMap["icon"] = iconName;
-
-        (*out) << tabMap;
+        if (!tabMap.isEmpty())
+            (*out) << tabMap;
     }
 
     return out->status() == QDataStream::Ok;
@@ -2225,50 +2216,64 @@ bool MainWindow::exportDataV5(QDataStream *out, const QStringList &tabs, bool ex
 
     serializeData(out, dataMap, -1, &encryptionKey);
 
-    // Write each tab individually to avoid loading all tabs into memory
     for (const auto &tab : tabs) {
-        const auto i = findTabIndex(tab);
-        if (i == -1)
-            continue;
-
-        auto placeholder = getPlaceholder(i);
-        const bool wasLoaded = placeholder->isDataLoaded();
-        auto c = placeholder->createBrowserAgain();
-        if (!c) {
-            log(QString("Failed to open tab \"%1\" for export").arg(tab), LogError);
+        bool ok;
+        QVariantMap tabMap = exportTabData(tab, &ok);
+        if (!ok)
             return false;
+        if (!tabMap.isEmpty()) {
+            tabMap.remove(QStringLiteral("name"));
+            serializeData(out, tabMap, -1, &encryptionKey);
         }
-
-        const auto &tabName = c->tabName();
-
-        bool saved = false;
-        QByteArray tabBytes;
-        {
-            QDataStream tabOut(&tabBytes, QIODevice::WriteOnly);
-            tabOut.setVersion(dataStreamImportVersionDefault);
-            saved = serializeData(*c->model(), &tabOut, -1, &encryptionKey);
-        }
-
-        if (!wasLoaded)
-            placeholder->expire();
-
-        if (!saved) {
-            log(QString("Failed to export tab \"%1\"").arg(tab), LogError);
-            return false;
-        }
-
-        const auto iconName = getIconNameForTabName(tabName);
-
-        QVariantMap tabMap;
-        tabMap["data"] = tabBytes;
-        if ( !iconName.isEmpty() )
-            tabMap["icon"] = iconName;
-
-        // Encrypt and write individual tab
-        serializeData(out, tabMap, -1, &encryptionKey);
     }
 
     return out->status() == QDataStream::Ok;
+}
+
+QVariantMap MainWindow::exportTabData(const QString &tab, bool *ok)
+{
+    *ok = true;
+    const auto i = findTabIndex(tab);
+    if (i == -1)
+        return {};
+
+    auto placeholder = getPlaceholder(i);
+    const bool wasLoaded = placeholder->isDataLoaded();
+    auto c = placeholder->createBrowserAgain();
+    if (!c) {
+        qCCritical(logCategory) << "Failed to open tab" << tab << "for export" << tab;
+        *ok = false;
+        return {};
+    }
+
+    const auto &tabName = c->tabName();
+
+    bool saved = false;
+    QByteArray tabBytes;
+    {
+        QDataStream tabOut(&tabBytes, QIODevice::WriteOnly);
+        tabOut.setVersion(dataStreamImportVersionDefault);
+        saved = serializeData(*c->model(), &tabOut);
+    }
+
+    if (!wasLoaded)
+        placeholder->expire();
+
+    if (!saved) {
+        qCCritical(logCategory) << "Failed to export tab" << tab;
+        *ok = false;
+        return {};
+    }
+
+    const auto iconName = getIconNameForTabName(tabName);
+
+    QVariantMap tabMap;
+    tabMap[QStringLiteral("name")] = tabName;
+    tabMap[QStringLiteral("data")] = tabBytes;
+    if ( !iconName.isEmpty() )
+        tabMap[QStringLiteral("icon")] = iconName;
+
+    return tabMap;
 }
 
 bool MainWindow::canImport(const ImportSelection &sel)
@@ -2347,8 +2352,39 @@ void MainWindow::importSelected(const ImportSelection &sel)
     }
 }
 
+bool MainWindow::importDataV2(QDataStream *in)
+{
+    COPYQ_LOG("Importing v2 format");
+
+    QString tabName;
+    *in >> tabName;
+    if ( tabName.isEmpty() )
+        return false;
+
+    // Find unique tab name.
+    renameToUnique(&tabName, ui->tabWidget->tabs());
+
+    auto c = createTab(tabName, MatchExactTabName, Tabs())->createBrowser();
+    if (!c) {
+        qCCritical(logCategory) << "Import (v2) failed: Failed to create tab" << tabName;
+        return false;
+    }
+
+    if ( !deserializeData(c->model(), in) )
+        return false;
+
+    c->loadItems();
+    c->saveItems();
+
+    ui->tabWidget->setCurrentIndex( ui->tabWidget->count() - 1 );
+
+    return true;
+}
+
 bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
 {
+    COPYQ_LOG("Importing v3 format");
+
     QVariantMap data;
     (*in) >> data;
     if ( in->status() != QDataStream::Ok )
@@ -2375,31 +2411,8 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         if ( !tabs.contains(oldTabName) )
             continue;
 
-        auto tabName = oldTabName;
-        renameToUnique( &tabName, ui->tabWidget->tabs() );
-
-        const auto iconName = tabMap.value("icon").toString();
-        if ( !iconName.isEmpty() )
-            setIconNameForTabName(tabName, iconName);
-
-        auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
-        if (!c) {
-            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
+        if ( !importTabData(oldTabName, tabMap, tabProps, {}) )
             return false;
-        }
-
-        const auto tabBytes = tabMap.value("data").toByteArray();
-        QDataStream tabIn(tabBytes);
-        tabIn.setVersion(dataStreamImportVersionDefault);
-
-        if ( !deserializeData(c->model(), &tabIn) ) {
-            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
-            return false;
-        }
-
-        const auto i = findTabIndex(tabName);
-        if (i != -1)
-            getPlaceholder(i)->expire();
     }
 
     importSelected(importSelection);
@@ -2412,10 +2425,8 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
 
     QVariantMap data;
     (*in) >> data;
-    if ( in->status() != QDataStream::Ok ) {
-        log("Failed to import v4 format (file corrupted)", LogError);
+    if ( in->status() != QDataStream::Ok )
         return false;
-    }
 
     const ImportSelection importSelection = getImportSelection(data, options, this);
     if (!canImport(importSelection))
@@ -2432,31 +2443,8 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         if ( !importSelection.tabs.contains(oldTabName) )
             continue;
 
-        auto tabName = oldTabName;
-        renameToUnique( &tabName, ui->tabWidget->tabs() );
-
-        const auto iconName = tabMap.value("icon").toString();
-        if ( !iconName.isEmpty() )
-            setIconNameForTabName(tabName, iconName);
-
-        auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
-        if (!c) {
-            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
+        if ( !importTabData(oldTabName, tabMap, tabProps, {}) )
             return false;
-        }
-
-        const auto tabBytes = tabMap.value("data").toByteArray();
-        QDataStream tabIn(tabBytes);
-        tabIn.setVersion(dataStreamImportVersionDefault);
-
-        if ( !deserializeData(c->model(), &tabIn) ) {
-            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
-            return false;
-        }
-
-        const auto i = findTabIndex(tabName);
-        if (i != -1)
-            getPlaceholder(i)->expire();
     }
 
     importSelected(importSelection);
@@ -2498,40 +2486,47 @@ bool MainWindow::importDataV5(QDataStream *in, ImportOptions options)
             return false;
         }
 
-        if ( in->status() != QDataStream::Ok )
-            return false;
-
         if ( !importSelection.tabs.contains(oldTabName) )
             continue;
 
-        auto tabName = oldTabName;
-        renameToUnique( &tabName, ui->tabWidget->tabs() );
-
-        const auto iconName = tabMap.value("icon").toString();
-        if ( !iconName.isEmpty() )
-            setIconNameForTabName(tabName, iconName);
-
-        auto c = createTab(tabName, MatchExactTabName, tabProps)->createBrowser();
-        if (!c) {
-            log(QString("Failed to create tab \"%1\" for import").arg(tabName), LogError);
+        if ( !importTabData(oldTabName, tabMap, tabProps, key) )
             return false;
-        }
-
-        const auto tabBytes = tabMap.value("data").toByteArray();
-        QDataStream tabIn(tabBytes);
-        tabIn.setVersion(dataStreamImportVersionDefault);
-
-        if ( !deserializeData(c->model(), &tabIn, &key) ) {
-            log(QString("Failed to import tab \"%1\"").arg(tabName), LogError);
-            return false;
-        }
-
-        const auto i = findTabIndex(tabName);
-        if (i != -1)
-            getPlaceholder(i)->expire();
     }
 
     importSelected(importSelection);
+    return true;
+}
+
+bool MainWindow::importTabData(
+    const QString &requestedTabName,
+    const QVariantMap &tabMap,
+    const Tabs &tabProps,
+    const Encryption::EncryptionKey &key)
+{
+    QString tabName = requestedTabName;
+    renameToUnique( &tabName, ui->tabWidget->tabs() );
+
+    const auto iconName = tabMap.value("icon").toString();
+    if ( !iconName.isEmpty() )
+        setIconNameForTabName(tabName, iconName);
+
+    auto placeholder = createTab(tabName, MatchExactTabName, tabProps);
+    auto c = placeholder->createBrowser();
+    if (!c) {
+        qCCritical(logCategory) << "Failed to create tab" << tabName << "for import";
+        return false;
+    }
+
+    const auto tabBytes = tabMap.value("data").toByteArray();
+    QDataStream tabIn(tabBytes);
+    tabIn.setVersion(dataStreamImportVersionDefault);
+
+    if ( !deserializeData(c->model(), &tabIn, &key) ) {
+        qCCritical(logCategory) << "Failed to import tab" << tabName;
+        return false;
+    }
+
+    placeholder->expire();
     return true;
 }
 
@@ -3195,6 +3190,15 @@ bool MainWindow::toggleVisible()
     return true;
 }
 
+void MainWindow::toggleVisibleFromTray()
+{
+    if (!isMinimized() && isVisible()) {
+        hideWindow();
+    } else {
+        showWindow();
+    }
+}
+
 void MainWindow::showBrowser(const ClipboardBrowser *browser)
 {
     int i = 0;
@@ -3247,13 +3251,7 @@ void MainWindow::trayActivated(int reason)
     {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
-        // Like toggleVisible() but hide window if visible and not focused
-        // (this seems better behavior when using mouse).
-        if (!isMinimized() && isVisible())
-            hideWindow();
-        else
-            showWindow();
-
+        toggleVisibleFromTray();
     }
 }
 
@@ -3707,7 +3705,7 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
     if (!useKeyStore)
         removePasswordFromKeychain();
 
-    if ( !appConfig->option<Config::tab_encryption_enabled>() ) {
+    if ( !appConfig->option<Config::encrypt_tabs>() ) {
         m_sharedData->encryptionKey.clear();
     } else if ( !m_sharedData->encryptionKey.isValid() ) {
         const auto prompt = useKeyStore
@@ -3719,9 +3717,21 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
 
 void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig)
 {
-    const bool isEncrypted = appConfig->option<Config::tab_encryption_enabled>();
+    if (m_reencrypting)
+        return;
+
+    m_reencrypting = true;
+    reencryptTabsIfNeededHelper(tabNames, appConfig);
+    m_reencrypting = false;
+}
+
+void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
+{
+    const bool isEncrypted = appConfig->option<Config::encrypt_tabs>();
     if (m_wasEncrypted == isEncrypted)
         return;
+
+    const Encryption::EncryptionKey newEncryptionKey = m_sharedData->encryptionKey;
 
     // Always ask for the previous password when re-encrypting.
     Encryption::EncryptionKey oldEncryptionKey;
@@ -3731,33 +3741,35 @@ void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *a
     }
 
     // Revert encryption option if password was not provided.
-    if (!oldEncryptionKey.isValid() && !m_sharedData->encryptionKey.isValid()) {
-        appConfig->setOption(Config::tab_encryption_enabled::name(), m_wasEncrypted);
+    if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
+        appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
         return;
     }
 
-    m_wasEncrypted = isEncrypted;
-
-    const bool ok = reencryptTabs(
+    const bool allEncrypted = reencryptTabs(
         tabNames,
-        m_sharedData->itemFactory,
+        m_sharedData.get(),
         oldEncryptionKey,
-        m_sharedData->encryptionKey,
+        newEncryptionKey,
         Config::maxItems,
         this
     );
 
-    if (!ok) {
-        // If saving some tabs failed, keep the keys and the encryption enabled
-        if ( oldEncryptionKey.isValid() ) {
-            appConfig->setOption(Config::tab_encryption_enabled::name(), true);
+    m_wasEncrypted = isEncrypted;
+    m_sharedData->encryptionKey = newEncryptionKey;
+
+    // If saving some tabs failed, keep the keys and the encryption enabled,
+    // otherwise remove unneeded key files.
+    if (oldEncryptionKey.isValid()) {
+        if (allEncrypted) {
+            Encryption::removeEncryptionKeys();
+            if (appConfig->option<Config::use_key_store>())
+                removePasswordFromKeychain();
+        } else {
+            appConfig->setOption(Config::encrypt_tabs::name(), true);
+            m_wasEncrypted = true;
             m_sharedData->encryptionKey = oldEncryptionKey;
         }
-        return;
-    }
-
-    if ( !m_sharedData->encryptionKey.isValid() ) {
-        Encryption::removeEncryptionKeys();
     }
 }
 
@@ -4199,20 +4211,37 @@ void MainWindow::copyItems()
 
 bool MainWindow::saveTab(const QString &fileName, int tabIndex)
 {
-    QFile file(fileName);
-    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
+    int i = tabIndex >= 0 ? tabIndex : ui->tabWidget->currentIndex();
+    auto c = browser(i);
+    if (!c) {
+        qCCritical(logCategory) << "Failed to open tab for export (v2)";
         return false;
+    }
+
+    QFile file(fileName);
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
+        qCCritical(logCategory) << "Failed to open file for export (v2):"
+            << file.fileName() << "message:" << file.errorString();
+        return false;
+    }
 
     QDataStream out(&file);
     out.setVersion(dataStreamImportVersionDefault);
 
-    int i = tabIndex >= 0 ? tabIndex : ui->tabWidget->currentIndex();
-    auto c = browser(i);
-    if (!c)
-        return false;
-
     out << QByteArray("CopyQ v2") << c->tabName();
-    serializeData(*c->model(), &out);
+    if ( !serializeData(*c->model(), &out) ) {
+        if (file.error() != QFile::NoError) {
+            qCCritical(logCategory) << "Export (v2) failed to file:"
+                << file.fileName() << "message:" << file.errorString();
+        }
+
+        if (out.status() != QDataStream::Ok) {
+            qCCritical(logCategory) << "Export (v2) failed to file:"
+                << file.fileName() << "reason:" << out.status();
+        }
+
+        return false;
+    }
 
     file.close();
 
@@ -4275,49 +4304,11 @@ void MainWindow::saveTabs()
 bool MainWindow::loadTab(const QString &fileName)
 {
     QFile file(fileName);
-    if ( !file.open(QIODevice::ReadOnly) )
-        return false;
-
-    QDataStream in(&file);
-    in.setVersion(dataStreamImportVersionDefault);
-
-    QByteArray header;
-    QString tabName;
-    in >> header >> tabName;
-    if ( !(header.startsWith("CopyQ v1") || header.startsWith("CopyQ v2")) || tabName.isEmpty() ) {
-        file.close();
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        qCCritical(logCategory) << "Failed to open file for import:"
+            << file.fileName() << "message:" << file.errorString();
         return false;
     }
-
-    // Find unique tab name.
-    renameToUnique(&tabName, ui->tabWidget->tabs());
-
-    auto c = createTab(tabName, MatchExactTabName, Tabs())->createBrowser();
-    if (!c)
-        return false;
-
-    deserializeData(c->model(), &in);
-
-    c->loadItems();
-    c->saveItems();
-
-    file.close();
-
-    ui->tabWidget->setCurrentIndex( ui->tabWidget->count() - 1 );
-
-    return true;
-}
-
-bool MainWindow::importDataFrom(
-    const QString &fileName, ImportOptions options)
-{
-    // Compatibility with v2.9.0 and earlier.
-    if ( loadTab(fileName) )
-        return true;
-
-    QFile file(fileName);
-    if ( !file.open(QIODevice::ReadOnly) )
-        return false;
 
     QDataStream in(&file);
     in.setVersion(dataStreamImportVersionDefault);
@@ -4325,21 +4316,60 @@ bool MainWindow::importDataFrom(
     QByteArray header;
     in >> header;
     if ( in.status() != QDataStream::Ok ) {
-        log("Failed to read import file header", LogError);
+        checkFileAndStreamErrors(
+            file, in, "Import (v2) failed: Failed to read file header for import");
         return false;
     }
 
-    if ( header.startsWith("CopyQ v5") )
-        return importDataV5(&in, options);
+    if ( !header.startsWith("CopyQ v1") && !header.startsWith("CopyQ v2") ) {
+        qCCritical(logCategory) << "Import (v2) failed: Unsupported header";
+        return false;
+    }
 
-    if ( header.startsWith("CopyQ v4") )
-        return importDataV4(&in, options);
+    const bool ok = importDataV2(&in);
+    return checkFileAndStreamErrors(file, in, "Import (v2) failed") && ok;
+}
 
-    if ( header.startsWith("CopyQ v3") )
-        return importDataV3(&in, options);
+bool MainWindow::importDataFrom(
+    const QString &fileName, ImportOptions options)
+{
+    QFile file(fileName);
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        qCCritical(logCategory) << "Failed to open file for import:"
+            << file.fileName() << "message:" << file.errorString();
+        return false;
+    }
 
-    log("Unknown import file header", LogError);
-    return false;
+    QDataStream in(&file);
+    in.setVersion(dataStreamImportVersionDefault);
+
+    QByteArray header;
+    in >> header;
+    if ( in.status() != QDataStream::Ok ) {
+        checkFileAndStreamErrors(
+            file, in, "Import (v2) failed: Failed to read file header for import");
+        return false;
+    }
+
+    bool ok = false;
+    const char *label = "unknown";
+    if ( header.startsWith("CopyQ v5") ) {
+        ok = importDataV5(&in, options);
+        label = "Import (v5) failed";
+    } else if ( header.startsWith("CopyQ v4") ) {
+        ok = importDataV4(&in, options);
+        label = "Import (v4) failed";
+    } else if ( header.startsWith("CopyQ v3") ) {
+        ok = importDataV3(&in, options);
+        label = "Import (v3) failed";
+    } else if ( header.startsWith("CopyQ v2") || header.startsWith("CopyQ v1") ) {
+        ok = importDataV2(&in);
+        label = "Import (v2) failed";
+    } else {
+        qCCritical(logCategory) << "Unsupported import file format";
+    }
+
+    return checkFileAndStreamErrors(file, in, label) && ok;
 }
 
 bool MainWindow::exportAllData(const QString &fileName)

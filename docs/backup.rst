@@ -66,19 +66,19 @@ configuration and commands within the application.
 
 .. warning::
 
-    Tabs are always exported **unencrypted** and if a tab is
-    synchronized with directory on disk the files themselves won't be
-    exported.
+    Tabs are exported **without any encryption** by default (you would need
+    CopyQ 14.0.0 and above) and if a tab is synchronized with directory on disk
+    the files themselves will not be exported.
 
-To export the data click "Export..." in "File" menu and select what to
-export, confirm with OK button and select file to save the stuff to.
+To export the data click "Export..." in "File" menu, select what to
+export, confirm with OK button and select target file to save.
 
 To restore the data click "Import..." in "File" menu, select file to
 import and select what to import.
 
 .. note::
 
-    Import won't overwrite existing tabs and commands but create new ones.
+    Import will not overwrite existing tabs and commands but create new ones.
 
 Alternatively you can use command line for export and import everything
 (selection dialogs won't be opened).

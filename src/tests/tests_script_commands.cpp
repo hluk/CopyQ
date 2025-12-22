@@ -7,6 +7,8 @@
 #include "common/mimetypes.h"
 #include "common/sleeptimer.h"
 
+#include <QRegularExpression>
+
 void Tests::scriptCommandLoaded()
 {
     const auto script = R"(
@@ -303,6 +305,7 @@ void Tests::scriptEventMaxRecursion()
         ])
         )";
     RUN(script, "");
+    m_test->ignoreErrors(QRegularExpression("Event handler maximum recursion reached"));
     RUN("add('X'); remove(0)", "");
     WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2,3,4,5,6,7,8,9,10)", "A,A,A,A,A,A,A,A,A,A,");
     waitFor(200);

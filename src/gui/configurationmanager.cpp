@@ -228,11 +228,11 @@ void ConfigurationManager::updateOptionsVisibility()
         platform->canPreventScreenCapture() );
 
 #ifdef WITH_QCA_ENCRYPTION
-    m_tabGeneral->checkBoxTabEncryption->setVisible(true);
+    m_tabGeneral->checkBoxEncryptTabs->setVisible(true);
     const bool passwordWasSet = m_sharedData && !Encryption::loadPasswordHash().isEmpty();
     m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(passwordWasSet);
 #else
-    m_tabGeneral->checkBoxTabEncryption->setVisible(false);
+    m_tabGeneral->checkBoxEncryptTabs->setVisible(false);
     m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(false);
 #endif
 
@@ -254,7 +254,7 @@ void ConfigurationManager::initOptions()
     /* general options */
     bind<Config::autostart>(m_tabGeneral->checkBoxAutostart);
     bind<Config::prevent_screen_capture>(m_tabGeneral->checkBoxPreventScreenCapture);
-    bind<Config::tab_encryption_enabled>(m_tabGeneral->checkBoxTabEncryption);
+    bind<Config::encrypt_tabs>(m_tabGeneral->checkBoxEncryptTabs);
     bind<Config::use_key_store>(m_tabGeneral->checkBoxUseKeychain);
     bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
     bind<Config::maxitems>(m_tabHistory->spinBoxItems);

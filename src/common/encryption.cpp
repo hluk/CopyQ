@@ -512,8 +512,12 @@ QByteArray decrypt(const QByteArray &encryptedData, const EncryptionKey &key)
 
 bool verifyPasswordHash(const SecureArray &password, const SecureArray &hash)
 {
-    if (password.isEmpty() || hash.isEmpty()) {
+    if (password.isEmpty())
         return false;
+
+    if (hash.isEmpty()) {
+        qCCritical(logCategory) << "Hash is missing, accepting any password";
+        return true;
     }
 
     // Decode the hash

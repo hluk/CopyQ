@@ -1,9 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cmake -B build *)",
-      "Bash(build/copyq-tests *)",
-      "Bash(build/copyq *)"
+      "Bash(cmake -B build :*)",
+      "Bash(build/copyq-tests :*)",
+      "Bash(build/copyq :*)"
     ]
   },
   "env": {

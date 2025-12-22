@@ -18,7 +18,7 @@ copied from windows with matching window titles.
     - :ref:`faq-ignore-password-manager`
 
 The data from all tabs are stored in the configuration directory unencrypted
-(unless the Encryption plugin is enabled for a tab).
+(unless the Encryption is enabled).
 
 .. seealso::
 

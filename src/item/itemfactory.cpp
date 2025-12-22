@@ -270,6 +270,8 @@ public:
         return filter.matches(text) || filter.matches(accentsRemoved(text));
     }
 
+    bool supportsEncryption() const override { return true; }
+
 private:
     int m_itemDataThreshold = -1;
     ClipboardBrowserSharedPtr m_sharedData;
@@ -437,11 +439,13 @@ void ItemFactory::setPluginPriority(const QStringList &pluginNames)
 ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int maxItems)
 {
     for (auto &loader : m_loaders) {
-        if ( !loader->isEnabled() )
-            continue;
-
         file->seek(0);
         if ( loader->canLoadItems(file) ) {
+            if ( !loader->isEnabled() ) {
+                log(QStringLiteral("Cannot load tab %1, plugin %2 must be enabled")
+                    .arg(quoteString(tabName), loader->name()));
+                return nullptr;
+            }
             file->seek(0);
             auto saver = loader->loadItems(tabName, model, file, maxItems);
             if (!saver)

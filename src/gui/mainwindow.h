@@ -376,6 +376,12 @@ public:
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
 
+    /**
+     * Like toggleVisible() but hide window if visible and not focused, which
+     * seems more reasonable when using mouse.
+     */
+    void toggleVisibleFromTray();
+
     /** Set icon for current tab or tab group. */
     void setTabIcon();
 
@@ -639,11 +645,19 @@ private:
     bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
     bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV5(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
+    QVariantMap exportTabData(const QString &tab, bool *ok);
+
     bool canImport(const ImportSelection &importSelection);
     void importSelected(const ImportSelection &importSelection);
+    bool importDataV2(QDataStream *in);
     bool importDataV3(QDataStream *in, ImportOptions options);
     bool importDataV4(QDataStream *in, ImportOptions options);
     bool importDataV5(QDataStream *in, ImportOptions options);
+    bool importTabData(
+        const QString &requestedTabName,
+        const QVariantMap &tabMap,
+        const Tabs &tabProps,
+        const Encryption::EncryptionKey &key);
 
     const Theme &theme() const;
 
@@ -658,6 +672,7 @@ private:
 
     void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
     void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
+    void reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -686,6 +701,7 @@ private:
 
     ClipboardBrowserSharedPtr m_sharedData;
     bool m_wasEncrypted = false;
+    bool m_reencrypting = false;
 
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;

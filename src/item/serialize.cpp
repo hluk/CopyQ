@@ -128,31 +128,30 @@ QDataStream &operator>>(QDataStream &in, DataFile &value)
 
     bool hasKey = false;
     in >> hasKey;
-#ifdef WITH_QCA_ENCRYPTION
     if (hasKey) {
-        QByteArray dekBytes;
-        in >> dekBytes;
-
-        // Initialize QCA if not already done
+#ifdef WITH_QCA_ENCRYPTION
         if (!Encryption::initialize()) {
             qCCritical(serializeCategory) << "Failed to initialize encryption for DataFile deserialization";
             in.setStatus(QDataStream::ReadCorruptData);
             return in;
         }
 
+        QByteArray dekBytes;
+        in >> dekBytes;
+
         Encryption::EncryptionKey key;
-        if (key.importDEK(dekBytes)) {
-            value.setEncryptionKey(key);
-        } else {
+        if (!key.importDEK(dekBytes)) {
             qCCritical(serializeCategory) << "Failed to import encryption key for DataFile";
+            in.setStatus(QDataStream::ReadCorruptData);
+            return in;
         }
-    }
+
+        value.setEncryptionKey(key);
 #else
-    if (hasKey) {
         qCCritical(serializeCategory) << "Cannot deserialize encrypted DataFile: encryption support not compiled";
         in.setStatus(QDataStream::ReadCorruptData);
-    }
 #endif
+    }
     return in;
 }
 

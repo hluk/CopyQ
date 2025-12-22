@@ -48,8 +48,8 @@ struct item_data_threshold : Config<int> {
     }
 };
 
-struct tab_encryption_enabled : Config<bool> {
-    static QString name() { return QStringLiteral("tab_encryption_enabled"); }
+struct encrypt_tabs : Config<bool> {
+    static QString name() { return QStringLiteral("encrypt_tabs"); }
     static Value defaultValue() { return false; }
 };
 

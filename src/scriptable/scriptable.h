@@ -104,7 +104,7 @@ public:
     QString arg(int i, const QString &defaultValue = QString());
 
     QJSValue throwError(const QString &errorMessage);
-    QJSValue throwSaveError(const QString &filePath);
+    QJSValue throwExportError(const QString &filePath);
     QJSValue throwImportError(const QString &filePath);
 
     bool hasUncaughtException() const;

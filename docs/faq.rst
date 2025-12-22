@@ -448,8 +448,14 @@ Alternatively, run the following command::
 Why does encryption ask for password so often?
 ----------------------------------------------
 
-Encryption plugin uses ``gpg2`` to decrypt tabs and items. The password usually
-needs to be entered only once every few minutes.
+CopyQ 14.0.0 and above has a built-in encryption support, which requires
+password only at start (and when changing encryption password). Even that can
+be avoided if "Use external key store" option is enabled and the system
+supports it (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet).
+
+In older versions, there is an Encryption plugin which uses ``gpg2`` utility to
+decrypt tabs and items. The password usually needs to be entered once every few
+minutes.
 
 If the password prompt is showing up too often, either increase tab unloading
 interval ("Unload tab after an interval" option in "History" tab in

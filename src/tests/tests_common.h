@@ -5,6 +5,7 @@
 #include "tests/testinterface.h"
 
 #include <QObject>
+#include <QRegularExpression>
 #include <QStringList>
 
 class QByteArray;
@@ -26,7 +27,7 @@ QStringList splitLines(const QByteArray &nativeText);
 
 bool testStderr(
     const QByteArray &stderrData,
-    TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors);
+    const QRegularExpression &ignoreRe = {});
 
 /// Generate unique data.
 QByteArray generateData();
