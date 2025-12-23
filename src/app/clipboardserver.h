@@ -12,6 +12,7 @@
 
 #include <QMap>
 #include <QPointer>
+#include <QSqlDatabase>
 #include <QTimer>
 
 class Action;
@@ -122,6 +123,8 @@ private:
 
     void setPreventScreenCapture(bool prevent);
 
+    bool initializeSchema(QSqlDatabase &db);
+
     Server *m_server = nullptr;
     MainWindow* m_wnd = nullptr;
     QPointer<Action> m_monitor;
@@ -137,6 +140,7 @@ private:
     bool m_preventScreenCapture = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
+    QSqlDatabase m_database;
 
     QMap<int, QByteArray> m_actionDataToSend;
     QTimer m_timerClearUnsentActionData;

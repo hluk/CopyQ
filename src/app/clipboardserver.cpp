@@ -33,6 +33,9 @@
 #include <QApplicationStateChangeEvent>
 #include <QFile>
 #include <QKeyEvent>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
@@ -111,6 +114,76 @@ void setPreventScreenCapture(QWindow *window, bool prevent)
 
 } // namespace
 
+bool ClipboardServer::initializeSchema(QSqlDatabase &db)
+{
+    QSqlQuery query(db);
+
+    // Check if schema already exists
+    if (query.exec("SELECT version FROM schema_version WHERE version = 1")) {
+        if (query.next())
+            return true; // Already initialized
+    }
+
+    // Create schema version table
+    if (!query.exec("CREATE TABLE IF NOT EXISTS schema_version ("
+                    "version INTEGER PRIMARY KEY, "
+                    "applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)")) {
+        log(QString("Failed to create schema_version table: %1").arg(query.lastError().text()), LogError);
+        return false;
+    }
+
+    // Create tabs table
+    if (!query.exec("CREATE TABLE IF NOT EXISTS tabs ("
+                    "tab_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    "tab_name TEXT NOT NULL UNIQUE, "
+                    "icon_name TEXT, "
+                    "max_items INTEGER, "
+                    "created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+                    "modified_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)")) {
+        log(QString("Failed to create tabs table: %1").arg(query.lastError().text()), LogError);
+        return false;
+    }
+
+    // Create items table
+    if (!query.exec("CREATE TABLE IF NOT EXISTS items ("
+                    "item_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    "tab_id INTEGER NOT NULL, "
+                    "row_index INTEGER NOT NULL, "
+                    "item_hash INTEGER NOT NULL, "
+                    "created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, "
+                    "FOREIGN KEY (tab_id) REFERENCES tabs(tab_id) ON DELETE CASCADE, "
+                    "UNIQUE(tab_id, row_index))")) {
+        log(QString("Failed to create items table: %1").arg(query.lastError().text()), LogError);
+        return false;
+    }
+
+    // Create item_data table
+    if (!query.exec("CREATE TABLE IF NOT EXISTS item_data ("
+                    "data_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    "item_id INTEGER NOT NULL, "
+                    "format TEXT NOT NULL, "
+                    "bytes BLOB, "
+                    "FOREIGN KEY (item_id) REFERENCES items(item_id) ON DELETE CASCADE, "
+                    "UNIQUE(item_id, format))")) {
+        log(QString("Failed to create item_data table: %1").arg(query.lastError().text()), LogError);
+        return false;
+    }
+
+    // Create indexes
+    query.exec("CREATE INDEX IF NOT EXISTS idx_items_tab_row ON items(tab_id, row_index)");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_items_hash ON items(item_hash)");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_item_data_item ON item_data(item_id)");
+
+    // Mark schema as version 1
+    if (!query.exec("INSERT INTO schema_version (version) VALUES (1)")) {
+        log(QString("Failed to mark schema version: %1").arg(query.lastError().text()), LogError);
+        return false;
+    }
+
+    log("Database schema initialized successfully", LogNote);
+    return true;
+}
+
 ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     : QObject()
     , App(app, sessionName)
@@ -156,6 +229,19 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     QApplication::setQuitOnLastWindowClosed(false);
 
     ensureSettingsDirectoryExists();
+
+    // Open SQLite database
+    m_database = QSqlDatabase::addDatabase("QSQLITE", "copyq_main");
+    m_database.setDatabaseName(settingsDirectoryPath() + "/copyq.db");
+
+    if (!m_database.open()) {
+        log(QString("Failed to open database: %1").arg(m_database.lastError().text()), LogWarning);
+    } else {
+        // Create schema if needed
+        if (!initializeSchema(m_database)) {
+            log("Failed to initialize database schema", LogError);
+        }
+    }
 
     m_sharedData->itemFactory = new ItemFactory(m_sharedData, this);
     m_sharedData->notifications = new NotificationDaemon(this);
@@ -230,6 +316,11 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
 ClipboardServer::~ClipboardServer()
 {
+    // Close database
+    if (m_database.isOpen()) {
+        m_database.close();
+    }
+
     removeGlobalShortcuts();
 
     delete m_wnd;
@@ -310,6 +401,11 @@ void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
 void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
+
+    // Close database
+    if (m_database.isOpen()) {
+        m_database.close();
+    }
 
     // Avoid calling onExit multiple times.
     // (QCoreApplication::aboutToQuit() signal can be emitted multiple times

@@ -62,6 +62,10 @@ endif()
 
 list(APPEND copyq_LIBRARIES ${copyq_qt}::Widgets)
 
+# Qt SQL support for database storage
+find_package(Qt${QT_DEFAULT_MAJOR_VERSION}Sql REQUIRED)
+list(APPEND copyq_LIBRARIES ${copyq_qt}::Sql)
+
 # QCA encryption support
 if (WITH_QCA_ENCRYPTION)
     find_package(Qca-qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED)
