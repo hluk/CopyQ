@@ -41,20 +41,6 @@ int topMostRow(const QList<QPersistentModelIndex> &indexList)
 
 } // namespace
 
-void ClipboardItemList::move(int from, int count, int to)
-{
-    if (to < from) {
-        std::swap(from, to);
-        to += count;
-        count = to - from - count;
-    }
-
-    const auto start1 = std::begin(m_items) + from;
-    const auto start2 = start1 + count;
-    const auto end2 = std::begin(m_items) + to;
-    std::rotate(start1, start2, end2);
-}
-
 ClipboardModel::ClipboardModel(QSqlDatabase db, QObject *parent)
     : QSqlTableModel(parent, db)
 {
