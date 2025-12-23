@@ -2,9 +2,7 @@
 
 #pragma once
 
-
 #include "app.h"
-#include "common/clipboardmode.h"
 #include "common/command.h"
 #include "common/server.h"
 #include "common/clientsocket.h"
@@ -27,9 +25,6 @@ class QxtGlobalShortcut;
 class QApplication;
 class QSessionManager;
 struct NotificationButton;
-
-// Database utility function
-int getOrCreateTabId(QSqlDatabase &db, const QString &tabName);
 
 /**
  * The application main server.

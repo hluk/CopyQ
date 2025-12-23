@@ -16,6 +16,29 @@
 
 namespace {
 
+namespace query {
+
+const QString selectItemHash = QStringLiteral(
+    "SELECT row_index FROM items WHERE tab_id = ? AND item_hash = ?");
+const QString selectItemData = QStringLiteral(
+    "SELECT format, bytes FROM item_data WHERE item_id = ?");
+const QString insertItem = QStringLiteral(
+    "INSERT INTO items (tab_id, row_index, item_hash) VALUES (?, ?, ?)");
+const QString insertItemData = QStringLiteral(
+    "INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+const QString deleteItemData = QStringLiteral(
+    "DELETE FROM item_data WHERE item_id = ?");
+const QString updateItemHash = QStringLiteral(
+    "UPDATE items SET item_hash = ? WHERE item_id = ?");
+const QString shiftRowsDown = QStringLiteral(
+    "UPDATE items SET row_index = row_index + 1 WHERE tab_id = ? AND row_index >= ?");
+const QString shiftRowsDownN = QStringLiteral(
+    "UPDATE items SET row_index = row_index + ? WHERE tab_id = ? AND row_index >= ?");
+const QString shiftRowsUpN = QStringLiteral(
+    "UPDATE items SET row_index = row_index - ? WHERE tab_id = ? AND row_index > ?");
+
+} // namespace query
+
 QList<QPersistentModelIndex> validIndeces(const QModelIndexList &indexList)
 {
     QList<QPersistentModelIndex> list;
@@ -51,11 +74,11 @@ ClipboardModel::ClipboardModel(QSqlDatabase db, QObject *parent)
     m_submitTimer.setSingleShot(true);
     m_submitTimer.setInterval(1000);  // 1 second delay
     connect(&m_submitTimer, &QTimer::timeout, this, [this]() {
-        COPYQ_LOG(QString("Submitting database changes for tab: %1").arg(m_tabName));
+        COPYQ_LOG(QStringLiteral("Submitting database changes for tab: %1").arg(m_tabName));
         if (!submitAll()) {
             qWarning() << "Failed to submit changes:" << lastError().text();
         } else {
-            COPYQ_LOG(QString("Successfully submitted changes for tab: %1").arg(m_tabName));
+            COPYQ_LOG(QStringLiteral("Successfully submitted changes for tab: %1").arg(m_tabName));
         }
     });
 }
@@ -66,27 +89,19 @@ void ClipboardModel::setTab(int tabId, const QString &tabName)
     m_tabName = tabName;
 
     // Filter to show only this tab's items
-    setFilter(QString("tab_id = %1").arg(tabId));
+    setFilter(QStringLiteral("tab_id = %1").arg(tabId));
     setSort(2, Qt::AscendingOrder);  // Column 2 = row_index
     select();  // Load from database
 }
 
 int ClipboardModel::rowCount(const QModelIndex &parent) const
 {
-    // Only use database - if tab not set, return 0
-    if (m_tabId < 0)
-        return 0;
-
     return QSqlTableModel::rowCount(parent);
 }
 
 QVariant ClipboardModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
-        return QVariant();
-
-    // Database mode only - if tab not set, return empty
-    if (m_tabId < 0)
         return QVariant();
 
     // For standard Qt roles, delegate to base class (reads from items table)
@@ -106,10 +121,9 @@ QVariant ClipboardModel::data(const QModelIndex &index, int role) const
         if (m_mimeDataCache.contains(itemId))
             return m_mimeDataCache[itemId];
 
-        // Load from item_data table
         QVariantMap mimeData;
         QSqlQuery query(database());
-        query.prepare("SELECT format, bytes FROM item_data WHERE item_id = ?");
+        query.prepare(query::selectItemData);
         query.addBindValue(itemId);
 
         if (query.exec()) {
@@ -152,10 +166,6 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     if ( !index.isValid() )
         return false;
 
-    // Database mode only - if tab not set, return false
-    if (m_tabId < 0)
-        return false;
-
     const int row = index.row();
     const int itemId = QSqlTableModel::data(this->index(row, 0), Qt::DisplayRole).toInt();
     if (itemId == 0)
@@ -163,18 +173,18 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 
     if (role == contentType::data) {
         const QVariantMap mimeData = value.toMap();
-        COPYQ_LOG(QString("setData: Setting MIME data for item_id=%1, formats=%2")
+        COPYQ_LOG(QStringLiteral("setData: Setting MIME data for item_id=%1, formats=%2")
             .arg(itemId).arg(mimeData.keys().join(", ")));
 
         // Delete old MIME data
         QSqlQuery deleteQuery(database());
-        deleteQuery.prepare("DELETE FROM item_data WHERE item_id = ?");
+        deleteQuery.prepare(query::deleteItemData);
         deleteQuery.addBindValue(itemId);
         deleteQuery.exec();
 
         // Insert new MIME data
         QSqlQuery insertQuery(database());
-        insertQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+        insertQuery.prepare(query::insertItemData);
 
         int insertedCount = 0;
         for (auto it = mimeData.constBegin(); it != mimeData.constEnd(); ++it) {
@@ -187,12 +197,12 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
             }
             insertedCount++;
         }
-        COPYQ_LOG(QString("setData: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
+        COPYQ_LOG(QStringLiteral("setData: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
 
         // Update item_hash in items table
         const uint itemHash = hash(mimeData);
         QSqlQuery updateHashQuery(database());
-        updateHashQuery.prepare("UPDATE items SET item_hash = ? WHERE item_id = ?");
+        updateHashQuery.prepare(query::updateItemHash);
         updateHashQuery.addBindValue(static_cast<int>(itemHash));
         updateHashQuery.addBindValue(itemId);
         if (!updateHashQuery.exec()) {
@@ -249,14 +259,9 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 
 void ClipboardModel::insertItem(const QVariantMap &data, int row)
 {
-    // Database mode only
-    if (m_tabId < 0)
-        return;
-
     // Shift existing rows down
     QSqlQuery shiftQuery(database());
-    shiftQuery.prepare("UPDATE items SET row_index = row_index + 1 "
-                       "WHERE tab_id = ? AND row_index >= ?");
+    shiftQuery.prepare(query::shiftRowsDown);
     shiftQuery.addBindValue(m_tabId);
     shiftQuery.addBindValue(row);
     if (!shiftQuery.exec()) {
@@ -266,7 +271,7 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
 
     // Insert new item and get the item_id immediately
     QSqlQuery insertQuery(database());
-    insertQuery.prepare("INSERT INTO items (tab_id, row_index, item_hash) VALUES (?, ?, ?)");
+    insertQuery.prepare(query::insertItem);
     insertQuery.addBindValue(m_tabId);
     insertQuery.addBindValue(row);
     insertQuery.addBindValue(0);  // placeholder hash, will be updated by setData
@@ -277,17 +282,17 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
     }
 
     const int itemId = insertQuery.lastInsertId().toInt();
-    COPYQ_LOG(QString("insertItem: Created item_id=%1 at row=%2").arg(itemId).arg(row));
+    COPYQ_LOG(QStringLiteral("insertItem: Created item_id=%1 at row=%2").arg(itemId).arg(row));
 
     // Insert MIME data directly
     const uint itemHash = hash(data);
     QSqlQuery deleteQuery(database());
-    deleteQuery.prepare("DELETE FROM item_data WHERE item_id = ?");
+    deleteQuery.prepare(query::deleteItemData);
     deleteQuery.addBindValue(itemId);
     deleteQuery.exec();
 
     QSqlQuery dataQuery(database());
-    dataQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+    dataQuery.prepare(query::insertItemData);
 
     int insertedCount = 0;
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
@@ -300,11 +305,10 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
         }
         insertedCount++;
     }
-    COPYQ_LOG(QString("insertItem: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
+    COPYQ_LOG(QStringLiteral("insertItem: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
 
-    // Update item_hash
     QSqlQuery updateHashQuery(database());
-    updateHashQuery.prepare("UPDATE items SET item_hash = ? WHERE item_id = ?");
+    updateHashQuery.prepare(query::updateItemHash);
     updateHashQuery.addBindValue(static_cast<int>(itemHash));
     updateHashQuery.addBindValue(itemId);
     if (!updateHashQuery.exec()) {
@@ -328,14 +332,9 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
     if ( dataList.isEmpty() )
         return;
 
-    // Database mode only
-    if (m_tabId < 0)
-        return;
-
     // Shift existing rows down
     QSqlQuery shiftQuery(database());
-    shiftQuery.prepare("UPDATE items SET row_index = row_index + ? "
-                       "WHERE tab_id = ? AND row_index >= ?");
+    shiftQuery.prepare(query::shiftRowsDownN);
     shiftQuery.addBindValue(dataList.size());
     shiftQuery.addBindValue(m_tabId);
     shiftQuery.addBindValue(row);
@@ -351,7 +350,7 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
 
         // Insert new item and get the item_id immediately
         QSqlQuery insertQuery(database());
-        insertQuery.prepare("INSERT INTO items (tab_id, row_index, item_hash) VALUES (?, ?, ?)");
+        insertQuery.prepare(query::insertItem);
         insertQuery.addBindValue(m_tabId);
         insertQuery.addBindValue(currentRow);
         insertQuery.addBindValue(0);  // placeholder hash, will be updated below
@@ -362,12 +361,12 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
         }
 
         const int itemId = insertQuery.lastInsertId().toInt();
-        COPYQ_LOG(QString("insertItems: Created item_id=%1 at row=%2").arg(itemId).arg(currentRow));
+        COPYQ_LOG(QStringLiteral("insertItems: Created item_id=%1 at row=%2").arg(itemId).arg(currentRow));
 
         // Insert MIME data directly
         const uint itemHash = hash(data);
         QSqlQuery dataQuery(database());
-        dataQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+        dataQuery.prepare(query::insertItemData);
 
         int insertedCount = 0;
         for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
@@ -380,11 +379,11 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
             }
             insertedCount++;
         }
-        COPYQ_LOG(QString("insertItems: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
+        COPYQ_LOG(QStringLiteral("insertItems: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
 
         // Update item_hash
         QSqlQuery updateHashQuery(database());
-        updateHashQuery.prepare("UPDATE items SET item_hash = ? WHERE item_id = ?");
+        updateHashQuery.prepare(query::updateItemHash);
         updateHashQuery.addBindValue(static_cast<int>(itemHash));
         updateHashQuery.addBindValue(itemId);
         if (!updateHashQuery.exec()) {
@@ -406,10 +405,6 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
 
 void ClipboardModel::setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData)
 {
-    // Database mode only
-    if (m_tabId < 0)
-        return;
-
     for (auto it = std::begin(itemsData); it != std::end(itemsData); ++it) {
         const QPersistentModelIndex &index = it.key();
         if ( !index.isValid() )
@@ -424,14 +419,9 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex &paren
     if ( rows <= 0 || position < 0 )
         return false;
 
-    // Database mode only
-    if (m_tabId < 0)
-        return false;
-
     // Shift existing rows down
     QSqlQuery query(database());
-    query.prepare("UPDATE items SET row_index = row_index + ? "
-                  "WHERE tab_id = ? AND row_index >= ?");
+    query.prepare(query::shiftRowsDownN);
     query.addBindValue(rows);
     query.addBindValue(m_tabId);
     query.addBindValue(position);
@@ -462,10 +452,6 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex &paren
     if ( rows <= 0 || position < 0 || position + rows > rowCount() )
         return false;
 
-    // Database mode only
-    if (m_tabId < 0)
-        return false;
-
     // Get item IDs before removing (for cache cleanup)
     QList<int> itemIdsToRemove;
     for (int i = 0; i < rows; ++i) {
@@ -480,8 +466,7 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex &paren
 
     // Renumber subsequent rows
     QSqlQuery query(database());
-    query.prepare("UPDATE items SET row_index = row_index - ? "
-                  "WHERE tab_id = ? AND row_index > ?");
+    query.prepare(query::shiftRowsUpN);
     query.addBindValue(rows);
     query.addBindValue(m_tabId);
     query.addBindValue(position);
@@ -516,10 +501,6 @@ bool ClipboardModel::moveRows(
     if (sourceRow <= destinationRow && destinationRow <= last + 1)
         return false;
 
-    // Database mode only
-    if (m_tabId < 0)
-        return false;
-
     // Update row_index values by re-assigning all row_index values
     // TODO: Optimize this with direct SQL updates
     if (!QSqlTableModel::moveRows(sourceParent, sourceRow, rows, destinationParent, destinationRow))
@@ -544,10 +525,6 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
 
 void ClipboardModel::sortItems(const QList<QPersistentModelIndex> &sorted)
 {
-    // Database mode only
-    if (m_tabId < 0)
-        return;
-
     int targetRow = topMostRow(sorted);
 
     for (const auto &ind : sorted) {
@@ -570,13 +547,9 @@ void ClipboardModel::sortItems(const QList<QPersistentModelIndex> &sorted)
 
 int ClipboardModel::findItem(uint itemHash) const
 {
-    // Database mode only
-    if (m_tabId < 0)
-        return -1;
-
     // Query database for item with given hash
     QSqlQuery query(database());
-    query.prepare("SELECT row_index FROM items WHERE tab_id = ? AND item_hash = ?");
+    query.prepare(query::selectItemHash);
     query.addBindValue(m_tabId);
     query.addBindValue(static_cast<int>(itemHash));
 

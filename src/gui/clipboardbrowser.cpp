@@ -2,7 +2,6 @@
 
 #include "clipboardbrowser.h"
 
-#include "app/clipboardserver.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
@@ -12,6 +11,7 @@
 #include "common/timer.h"
 #include "gui/pixelratio.h"
 #include "gui/theme.h"
+#include "item/db.h"
 #include "item/indexes.h"
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
