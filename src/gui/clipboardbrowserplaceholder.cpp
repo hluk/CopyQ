@@ -212,7 +212,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     m_data.clear();
     if ( !m_storeItems && m_browser->isLoaded() ) {
         QDataStream stream(&m_data, QIODevice::WriteOnly);
-        if ( !serializeData(*m_browser->model(), &stream, -1, &m_sharedData->encryptionKey) )
+        if ( !serializeData(*m_browser->model(), &stream, -1) )
             m_data.clear();
     }
 

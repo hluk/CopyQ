@@ -4,6 +4,7 @@
 #include "common/config.h"
 
 #include <QCoreApplication>
+#include <QCryptographicHash>
 #include <QLoggingCategory>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -15,7 +16,7 @@ Q_DECLARE_LOGGING_CATEGORY(logCategory)
 Q_LOGGING_CATEGORY(logCategory, "copyq.db")
 
 const QString dbType = QStringLiteral("QSQLITE");
-const QString dbName = QStringLiteral("copyq_main");
+const QString dbUser = QStringLiteral("copyq");
 
 namespace query {
 
@@ -118,14 +119,17 @@ int getOrCreateTabId(QSqlDatabase &db, const QString &tabName)
     return query.lastInsertId().toInt();
 }
 
-QSqlDatabase openDb()
+QSqlDatabase openDb(const QString &password, const QString &dbName)
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase(dbType, dbName);
+    const QString appName = QCoreApplication::applicationName();
+    QSqlDatabase db = QSqlDatabase::addDatabase(dbType, appName + dbName);
     const QString path = QStringLiteral("%1/%2.db").arg(
-        settingsDirectoryPath(), QCoreApplication::applicationName());
+        settingsDirectoryPath(), appName);
     db.setDatabaseName(path);
 
-    if (!db.open()) {
+    qCDebug(logCategory) << "Opening database" << path;
+
+    if (!db.open(dbUser, password)) {
         qCCritical(logCategory) << "Failed to open database" << db.lastError().text();
     } else if (!initializeSchema(db)) {
         qCCritical(logCategory) << "Failed to initialize database schema";
@@ -133,4 +137,18 @@ QSqlDatabase openDb()
     }
 
     return db;
+}
+
+bool setDbPassword(QSqlDatabase &db, const QString &password)
+{
+    QSqlQuery query(db);
+    const QString key = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex();
+    const QString changePassword =
+        QStringLiteral("PRAGMA rekey = \"x\'%1\'\";").arg(key);
+    if (!query.exec(changePassword)) {
+        qCCritical(logCategory) << "Failed to set password, error:" << query.lastError().text();
+        return false;
+    }
+    qCDebug(logCategory) << "Database password changed";
+    return true;
 }

@@ -51,10 +51,6 @@ namespace Ui
     class MainWindow;
 }
 
-namespace Encryption {
-    class EncryptionKey;
-}
-
 enum ItemActivationCommand {
     ActivateNoCommand = 0x0,
     ActivateCloses = 0x1,
@@ -450,6 +446,8 @@ signals:
 
     void clipboardTabChanged();
 
+    void browserAboutToReload();
+
 protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
     void keyPressEvent(QKeyEvent *event) override;
@@ -642,9 +640,8 @@ private:
     bool toggleMenu(TrayMenu *menu, QPoint pos);
     bool toggleMenu(TrayMenu *menu);
 
-    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
+    bool exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
     bool exportDataV4(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands);
-    bool exportDataV5(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey);
     QVariantMap exportTabData(const QString &tab, bool *ok);
 
     bool canImport(const ImportSelection &importSelection);
@@ -652,12 +649,10 @@ private:
     bool importDataV2(QDataStream *in);
     bool importDataV3(QDataStream *in, ImportOptions options);
     bool importDataV4(QDataStream *in, ImportOptions options);
-    bool importDataV5(QDataStream *in, ImportOptions options);
     bool importTabData(
         const QString &requestedTabName,
         const QVariantMap &tabMap,
-        const Tabs &tabProps,
-        const Encryption::EncryptionKey &key);
+        const Tabs &tabProps);
 
     const Theme &theme() const;
 
@@ -669,10 +664,6 @@ private:
     void activateCurrentItemHelper();
     void onItemClicked();
     void onItemDoubleClicked();
-
-    void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
-    void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
-    void reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -700,8 +691,6 @@ private:
     bool m_clipboardStoringDisabled = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
-    bool m_wasEncrypted = false;
-    bool m_reencrypting = false;
 
     QVector<Command> m_automaticCommands;
     QVector<Command> m_displayCommands;

@@ -18,6 +18,7 @@
 #include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/commanddialog.h"
+#include "gui/encryptionpassword.h"
 #include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "gui/notificationbutton.h"
@@ -53,6 +54,8 @@ class QxtGlobalShortcut final {};
 #include <memory>
 
 namespace {
+
+const QString dbNameTemporary = QStringLiteral("-tmp");
 
 uint monitorCommandStateHash(const QVector<Command> &commands)
 {
@@ -158,9 +161,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     ensureSettingsDirectoryExists();
 
-    m_database = openDb();
-
-    m_sharedData->itemFactory = new ItemFactory(m_sharedData, this);
+    m_sharedData->itemFactory = new ItemFactory(this);
     m_sharedData->notifications = new NotificationDaemon(this);
     m_sharedData->actions = new ActionHandler(m_sharedData->notifications, this);
     m_wnd = new MainWindow(m_sharedData);
@@ -198,10 +199,19 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     connect( m_wnd, &MainWindow::commandsSaved,
              this, &ClipboardServer::onCommandsSaved );
 
+    connect( m_wnd, &MainWindow::browserAboutToReload,
+             this, [this](){
+                if (!m_database.isOpen()) {
+                    AppConfig appConfig;
+                    openDb(&appConfig);
+                }
+             } );
+
     m_server->start();
 
     {
         AppConfig appConfig;
+        openDb(&appConfig);
         loadSettings(&appConfig);
     }
 
@@ -509,7 +519,7 @@ void ClipboardServer::sendActionData(int actionId, const QByteArray &bytes)
 void ClipboardServer::cleanDataFiles()
 {
     COPYQ_LOG("Cleaning unused item files");
-    ::cleanDataFiles( m_wnd->tabs(), &m_sharedData->encryptionKey );
+    ::cleanDataFiles( m_wnd->tabs() );
 }
 
 void ClipboardServer::setPreventScreenCapture(bool prevent)
@@ -521,6 +531,48 @@ void ClipboardServer::setPreventScreenCapture(bool prevent)
     for (QWindow *window : qApp->allWindows()) {
         ::setPreventScreenCapture(window, m_preventScreenCapture);
     }
+}
+
+void ClipboardServer::openDb(AppConfig *appConfig)
+{
+    m_wasEncrypted = appConfig->option<Config::encrypt_tabs>();
+    const auto prompt = appConfig->option<Config::use_key_store>()
+        ? PasswordSource::UseEnvAndKeychain
+        : PasswordSource::UseEnvOnly;
+    if (m_wasEncrypted) {
+        m_database = promptForDbPassword(m_wnd, prompt, {});
+    } else {
+        m_database = ::openDb(QString(), {});
+    }
+}
+
+void ClipboardServer::setDbPassword(AppConfig *appConfig)
+{
+    const bool wantEncrypted = appConfig->option<Config::encrypt_tabs>();
+    if (m_wasEncrypted == wantEncrypted)
+        return;
+
+    const auto prompt = appConfig->option<Config::use_key_store>()
+        ? PasswordSource::UseEnvAndKeychain
+        : PasswordSource::UseEnvOnly;
+
+    if (m_wasEncrypted) {
+        // Always prompt for the current password
+        auto db = promptForDbPassword(m_wnd, PasswordSource::IgnoreEnvAndKeychain, dbNameTemporary);
+        if (!db.open()) {
+            appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
+            return;
+        }
+        db.close();
+    }
+
+    QString password = wantEncrypted ? promptForNewDbPassword(m_wnd, prompt) : QString();
+    if (::setDbPassword(m_database, password)) {
+        m_wasEncrypted = wantEncrypted;
+    } else {
+        appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
+    }
+    password.fill('\0');
 }
 
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
@@ -715,6 +767,8 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
         return;
 
     COPYQ_LOG("Loading configuration");
+
+    setDbPassword(appConfig);
 
     QSettings &settings = appConfig->settings();
 

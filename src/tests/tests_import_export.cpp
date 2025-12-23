@@ -23,10 +23,6 @@ void Tests::exportImport(int flags)
     if (flags & (ExportSettings | ExportCommands))
         SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
 #endif
-#ifndef WITH_QCA_ENCRYPTION
-    if (flags & ExportWithPassword)
-        SKIP("Encryption support not built-in");
-#endif
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab;
 
@@ -56,14 +52,12 @@ void Tests::exportImport(int flags)
     KEYS("ENTER");
 
     // Export with password only if supported
-#ifdef WITH_QCA_ENCRYPTION
     KEYS(passwordEntryExportId);
     if (flags & ExportWithPassword) {
         KEYS(":TEST1234" << "ENTER");
         KEYS(passwordEntryRetypeId << ":TEST1234");
     }
     KEYS("ENTER");
-#endif
 
     KEYS(fileNameEditId << ":" + exportFilePath());
     KEYS("ENTER");
@@ -77,12 +71,10 @@ void Tests::exportImport(int flags)
     KEYS("ENTER");
 
     // Import with password only if supported
-#ifdef WITH_QCA_ENCRYPTION
     if (flags & ExportWithPassword) {
         KEYS(passwordEntryImportId << ":TEST1234");
         KEYS("ENTER");
     }
-#endif
 
     KEYS(importDialogId << "ENTER");
     KEYS(clipboardBrowserId);

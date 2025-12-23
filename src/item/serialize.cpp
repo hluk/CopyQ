@@ -3,7 +3,6 @@
 #include "serialize.h"
 
 #include "common/contenttype.h"
-#include "common/encryption.h"
 #include "common/mimetypes.h"
 
 #include <QAbstractItemModel>
@@ -39,28 +38,13 @@ class DataFile {
 public:
     DataFile() {}
 
-    explicit DataFile(const QString &path, const Encryption::EncryptionKey &encryptionKey = {})
+    explicit DataFile(const QString &path)
         : m_path(path)
-#ifdef WITH_QCA_ENCRYPTION
-        , m_encryptionKey(encryptionKey)
-#endif
     {
-#ifndef WITH_QCA_ENCRYPTION
-        Q_UNUSED(encryptionKey)
-#endif
     }
 
     const QString &path() const { return m_path; }
     void setPath(const QString &path) { m_path = path; }
-
-#ifdef WITH_QCA_ENCRYPTION
-    void setEncryptionKey(const Encryption::EncryptionKey &key)
-    {
-        m_encryptionKey = key;
-    }
-
-    const Encryption::EncryptionKey &encryptionKey() const { return m_encryptionKey; }
-#endif
 
     qint64 size() const
     {
@@ -76,21 +60,7 @@ public:
             qCCritical(serializeCategory) << "Failed to read file" << m_path << ":" << f.errorString();
             return QByteArray();
         }
-        QByteArray data = f.readAll();
-
-#ifdef WITH_QCA_ENCRYPTION
-        // Decrypt if encryption key is present
-        if (m_encryptionKey.isValid()) {
-            const QByteArray decryptedData = Encryption::decrypt(data, m_encryptionKey);
-            if ( decryptedData.isEmpty() ) {
-                qCCritical(serializeCategory) << "Failed to decrypt data file" << m_path;
-                return QByteArray();
-            }
-            return decryptedData;
-        }
-#endif
-
-        return data;
+        return f.readAll();
     }
 
     bool operator==(const DataFile &other) const {
@@ -99,24 +69,12 @@ public:
 
 private:
     QString m_path;
-#ifdef WITH_QCA_ENCRYPTION
-    Encryption::EncryptionKey m_encryptionKey;
-#endif
 };
 Q_DECLARE_METATYPE(DataFile)
 
 QDataStream &operator<<(QDataStream &out, DataFile value)
 {
     out << value.path();
-#ifdef WITH_QCA_ENCRYPTION
-    const bool hasKey = value.encryptionKey().isValid();
-    out << hasKey;
-    if (hasKey) {
-        out << value.encryptionKey().exportDEK();
-    }
-#else
-    out << false; // No encryption key
-#endif
     return out;
 }
 
@@ -125,33 +83,6 @@ QDataStream &operator>>(QDataStream &in, DataFile &value)
     QString path;
     in >> path;
     value.setPath(path);
-
-    bool hasKey = false;
-    in >> hasKey;
-    if (hasKey) {
-#ifdef WITH_QCA_ENCRYPTION
-        if (!Encryption::initialize()) {
-            qCCritical(serializeCategory) << "Failed to initialize encryption for DataFile deserialization";
-            in.setStatus(QDataStream::ReadCorruptData);
-            return in;
-        }
-
-        QByteArray dekBytes;
-        in >> dekBytes;
-
-        Encryption::EncryptionKey key;
-        if (!key.importDEK(dekBytes)) {
-            qCCritical(serializeCategory) << "Failed to import encryption key for DataFile";
-            in.setStatus(QDataStream::ReadCorruptData);
-            return in;
-        }
-
-        value.setEncryptionKey(key);
-#else
-        qCCritical(serializeCategory) << "Cannot deserialize encrypted DataFile: encryption support not compiled";
-        in.setStatus(QDataStream::ReadCorruptData);
-#endif
-    }
     return in;
 }
 
@@ -233,12 +164,8 @@ QString compressMime(const QString &mime)
     return "0" + mime;
 }
 
-bool deserializeDataV2(QDataStream *out, QVariantMap *data, const Encryption::EncryptionKey *encryptionKey = nullptr)
+bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 {
-#ifndef WITH_QCA_ENCRYPTION
-    Q_UNUSED(encryptionKey)
-#endif
-
     qint32 size;
     if ( !readOrError(out, &size, "Failed to read size (v2)") )
         return false;
@@ -258,28 +185,14 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data, const Encryption::En
         if (hasDataFile) {
             mime = mime.mid( mimeFilePrefix.size() );
 
-            // When encryption key is provided, data file info includes the encryption key
-            // Otherwise, it's just the path for backward compatibility
-            if (encryptionKey && encryptionKey->isValid()) {
-                DataFile dataFile;
-                *out >> dataFile;
-                if (out->status() != QDataStream::Ok) {
-                    qCCritical(serializeCategory) << "Failed to deserialize encrypted DataFile";
-                    return false;
-                }
-                const QVariant value = QVariant::fromValue(dataFile);
-                Q_ASSERT(value.canConvert<QByteArray>());
-                data->insert(mime, value);
-            } else {
-                if ( !readOrError(out, &tmpBytes, "Failed to read item data (v2)") )
-                    return false;
+            if ( !readOrError(out, &tmpBytes, "Failed to read item data (v2)") )
+                return false;
 
-                const QString path = QString::fromUtf8(tmpBytes);
-                const QVariant value = QVariant::fromValue(DataFile(path));
-                Q_ASSERT(value.canConvert<QByteArray>());
-                Q_ASSERT(value.value<DataFile>().path() == path);
-                data->insert(mime, value);
-            }
+            const QString path = QString::fromUtf8(tmpBytes);
+            const QVariant value = QVariant::fromValue(DataFile(path));
+            Q_ASSERT(value.canConvert<QByteArray>());
+            Q_ASSERT(value.value<DataFile>().path() == path);
+            data->insert(mime, value);
         } else {
             if ( !readOrError(out, &tmpBytes, "Failed to read item data (v2)") )
                 return false;
@@ -298,59 +211,6 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data, const Encryption::En
     }
 
     return out->status() == QDataStream::Ok;
-}
-
-bool deserializeDataV3(QDataStream *out, QVariantMap *data, const Encryption::EncryptionKey *encryptionKey = nullptr)
-{
-#ifdef WITH_QCA_ENCRYPTION
-    qint32 encryptedSize;
-    if ( !readOrError(out, &encryptedSize, "Failed to read encrypted data size (v3)") )
-        return false;
-
-    if (encryptedSize < 0 || encryptedSize > 100'000'000) {
-        qCCritical(serializeCategory) << "Corrupted data: Invalid encrypted data size (v3)";
-        out->setStatus(QDataStream::ReadCorruptData);
-        return false;
-    }
-
-    QByteArray encryptedBytes;
-    if ( !readOrError(out, &encryptedBytes, "Failed to read encrypted data (v3)") )
-        return false;
-
-    if ( encryptedBytes.size() != encryptedSize ) {
-        qCCritical(serializeCategory) << "Corrupted data: Encrypted data size mismatch (v3)";
-        out->setStatus(QDataStream::ReadCorruptData);
-        return false;
-    }
-
-    if ( !encryptionKey || !encryptionKey->isValid() ) {
-        qCCritical(serializeCategory) << "Cannot decrypt data (v3): no valid encryption key provided";
-        out->setStatus(QDataStream::ReadCorruptData);
-        return false;
-    }
-
-    const QByteArray decryptedBytes = Encryption::decrypt(
-        encryptedBytes,
-        *encryptionKey
-    );
-
-    if ( decryptedBytes.isEmpty() ) {
-        qCCritical(serializeCategory) << "Failed to decrypt data (v3) - wrong password or corrupted data";
-        out->setStatus(QDataStream::ReadCorruptData);
-        return false;
-    }
-
-    QDataStream decryptedStream(decryptedBytes);
-    decryptedStream.setVersion(dataStreamVersionForV3);
-    return deserializeDataV2(&decryptedStream, data, encryptionKey);
-#else
-    Q_UNUSED(out)
-    Q_UNUSED(data)
-    Q_UNUSED(encryptionKey)
-    qCCritical(serializeCategory) << "Cannot deserialize encrypted data: encryption support not compiled";
-    out->setStatus(QDataStream::ReadCorruptData);
-    return false;
-#endif
 }
 
 QString dataFilePath(const QByteArray &bytes, bool create = false)
@@ -374,7 +234,7 @@ QString dataFilePath(const QByteArray &bytes, bool create = false)
             QStringLiteral("%1/%2.dat").arg(subpath, sha.mid(48)) );
 }
 
-void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDataThreshold, const Encryption::EncryptionKey *encryptionKey = nullptr)
+void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDataThreshold)
 {
     const qint32 size = data.size();
     *stream << size;
@@ -389,23 +249,8 @@ void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDa
 
         if ( (itemDataThreshold >= 0 && dataLength > itemDataThreshold) || mime.startsWith(mimeFilePrefix) ) {
             QString path = dataFile.path();
-            const bool shouldEncrypt = encryptionKey && encryptionKey->isValid();
-
             if ( path.isEmpty() ) {
                 QByteArray bytes = value.toByteArray();
-
-#ifdef WITH_QCA_ENCRYPTION
-                // Encrypt data if encryption key is provided
-                if (shouldEncrypt) {
-                    const QByteArray encryptedBytes = Encryption::encrypt(bytes, *encryptionKey);
-                    if ( encryptedBytes.isEmpty() ) {
-                        qCCritical(serializeCategory) << "Failed to encrypt data file content";
-                        stream->setStatus(QDataStream::WriteFailed);
-                        return;
-                    }
-                    bytes = encryptedBytes;
-                }
-#endif
 
                 path = dataFilePath(bytes, true);
                 if ( path.isEmpty() ) {
@@ -433,15 +278,7 @@ void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDa
                 *stream << compressMime(mimeFilePrefix + mime);
 
             *stream << /* compressData = */ false;
-
-            // When encryption is enabled, serialize DataFile with encryption key
-            // Otherwise, serialize just the path for backward compatibility
-            if (shouldEncrypt) {
-                const DataFile df(path, *encryptionKey);
-                *stream << df;
-            } else {
-                *stream << path.toUtf8();
-            }
+            *stream << path.toUtf8();
         } else {
             const QByteArray bytes = value.toByteArray();
             *stream << compressMime(mime)
@@ -464,65 +301,22 @@ void registerDataFileConverter()
 #endif
 }
 
-void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThreshold, const Encryption::EncryptionKey *encryptionKey)
+void serializeData(QDataStream *stream, const QVariantMap &data, int itemDataThreshold)
 {
-#ifdef WITH_QCA_ENCRYPTION
-    // Check if encryption should be used
-    // Use encryption if a valid key is provided, or if encryption is enabled and we have a key
-    const bool useEncryption = encryptionKey && encryptionKey->isValid();
-
-    if (useEncryption) {
-        // Use version -3 for encrypted data
-        *stream << static_cast<qint32>(-3);
-
-        // Serialize data to a temporary buffer using V2 format
-        QByteArray unencryptedBytes;
-        {
-            QDataStream tempStream(&unencryptedBytes, QIODevice::WriteOnly);
-            tempStream.setVersion(dataStreamVersionForV3);
-            serializeDataItems(&tempStream, data, itemDataThreshold, encryptionKey);
-            if (tempStream.status() != QDataStream::Ok) {
-                stream->setStatus(tempStream.status());
-                return;
-            }
-        }
-
-        const QByteArray encryptedBytes = Encryption::encrypt(
-            unencryptedBytes,
-            *encryptionKey
-        );
-
-        if ( encryptedBytes.isEmpty() ) {
-            qCCritical(serializeCategory) << "Failed to encrypt data";
-            stream->setStatus(QDataStream::WriteFailed);
-            return;
-        }
-
-        *stream << static_cast<qint32>(encryptedBytes.size());
-        *stream << encryptedBytes;
-        return;
-    }
-#else
-    Q_UNUSED(encryptionKey)
-#endif
-
     // Use version -2 for unencrypted data (original format)
     *stream << static_cast<qint32>(-2);
     serializeDataItems(stream, data, itemDataThreshold);
 }
 
-bool deserializeData(QDataStream *stream, QVariantMap *data, const Encryption::EncryptionKey *encryptionKey)
+bool deserializeData(QDataStream *stream, QVariantMap *data)
 {
     try {
         qint32 length;
         if ( !readOrError(stream, &length, "Failed to read length") )
             return false;
 
-        if (length == -3)
-            return deserializeDataV3(stream, data, encryptionKey);
-
         if (length == -2)
-            return deserializeDataV2(stream, data, encryptionKey);
+            return deserializeDataV2(stream, data);
 
         if (length < 0) {
             qCCritical(serializeCategory) << "Corrupted data: Invalid length (v1)";
@@ -568,26 +362,26 @@ QByteArray serializeData(const QVariantMap &data)
     return bytes;
 }
 
-bool deserializeData(QVariantMap *data, const QByteArray &bytes, const Encryption::EncryptionKey *encryptionKey)
+bool deserializeData(QVariantMap *data, const QByteArray &bytes)
 {
     QDataStream out(bytes);
-    return deserializeData(&out, data, encryptionKey);
+    return deserializeData(&out, data);
 }
 
-bool serializeData(const QAbstractItemModel &model, QDataStream *stream, int itemDataThreshold, const Encryption::EncryptionKey *encryptionKey)
+bool serializeData(const QAbstractItemModel &model, QDataStream *stream, int itemDataThreshold)
 {
     qint32 length = model.rowCount();
     *stream << length;
 
     for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
         const QVariantMap data = model.data(model.index(i, 0), contentType::data).toMap();
-        serializeData(stream, data, itemDataThreshold, encryptionKey);
+        serializeData(stream, data, itemDataThreshold);
     }
 
     return stream->status() == QDataStream::Ok;
 }
 
-bool deserializeData(QAbstractItemModel *model, QDataStream *stream, const Encryption::EncryptionKey *encryptionKey)
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
 {
     qint32 length;
     if ( !readOrError(stream, &length, "Failed to read length") )
@@ -607,7 +401,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, const Encry
 
     for(qint32 i = 0; i < length; ++i) {
         QVariantMap data;
-        if ( !deserializeData(stream, &data, encryptionKey) ) {
+        if ( !deserializeData(stream, &data) ) {
             model->removeRows(i, length);
             return false;
         }
@@ -622,26 +416,22 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, const Encry
     return stream->status() == QDataStream::Ok;
 }
 
-bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDataThreshold, const Encryption::EncryptionKey *encryptionKey)
+bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDataThreshold)
 {
     QDataStream stream(file);
     stream.setVersion(dataStreamVersionDefault);
-    return serializeData(model, &stream, itemDataThreshold, encryptionKey);
+    return serializeData(model, &stream, itemDataThreshold);
 }
 
-bool deserializeData(QAbstractItemModel *model, QIODevice *file, const Encryption::EncryptionKey *encryptionKey)
+bool deserializeData(QAbstractItemModel *model, QIODevice *file)
 {
     QDataStream stream(file);
     stream.setVersion(dataStreamVersionDefault);
-    return deserializeData(model, &stream, encryptionKey);
+    return deserializeData(model, &stream);
 }
 
-bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::EncryptionKey *encryptionKey)
+bool itemDataFiles(QIODevice *file, QStringList *files)
 {
-#ifndef WITH_QCA_ENCRYPTION
-    Q_UNUSED(encryptionKey)
-#endif
-
     QDataStream out(file);
     out.setVersion(dataStreamVersionDefault);
 
@@ -658,74 +448,6 @@ bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::Encryp
         qint32 version;
         if ( !readOrError(&out, &version, "Failed to read version") )
             return false;
-
-        if (version == -3) {
-#ifdef WITH_QCA_ENCRYPTION
-            // Encrypted data - decrypt and enumerate files
-            qint32 encryptedSize;
-            if ( !readOrError(&out, &encryptedSize, "Failed to read encrypted size") )
-                return false;
-            QByteArray encryptedBytes;
-            if ( !readOrError(&out, &encryptedBytes, "Failed to read encrypted data") )
-                return false;
-
-            if ( !encryptionKey || !encryptionKey->isValid() ) {
-                // Cannot enumerate files without valid encryption key - skip this item
-                qCDebug(serializeCategory) << "Skipping encrypted item in file enumeration (no key)";
-                continue;
-            }
-
-            const QByteArray decryptedBytes = Encryption::decrypt(encryptedBytes, *encryptionKey);
-            if ( decryptedBytes.isEmpty() ) {
-                qCWarning(serializeCategory) << "Failed to decrypt item for file enumeration - skipping";
-                continue;
-            }
-
-            // Parse decrypted data to extract file paths
-            QDataStream decryptedStream(decryptedBytes);
-            decryptedStream.setVersion(dataStreamVersionForV3);
-
-            qint32 size;
-            if ( !readOrError(&decryptedStream, &size, "Failed to read size (v3)") )
-                continue;
-
-            for (qint32 j = 0; j < size; ++j) {
-                QString mime = decompressMime(&decryptedStream);
-                if ( decryptedStream.status() != QDataStream::Ok )
-                    continue;
-
-                const bool hasDataFile = mime.startsWith(mimeFilePrefix);
-
-                bool compress;
-                if ( !readOrError(&decryptedStream, &compress, "Failed to read compression flag (v3)") )
-                    continue;
-
-                if (hasDataFile) {
-                    // For encrypted data files, we need to deserialize the DataFile object
-                    DataFile dataFile;
-                    decryptedStream >> dataFile;
-                    if (decryptedStream.status() == QDataStream::Ok && !dataFile.path().isEmpty()) {
-                        files->append(dataFile.path());
-                    }
-                } else {
-                    // Skip non-file data
-                    QByteArray tmpBytes;
-                    if ( !readOrError(&decryptedStream, &tmpBytes, "Failed to read item data (v3)") )
-                        continue;
-                }
-            }
-            continue;
-#else
-            // Cannot handle encrypted data without QCA - skip
-            qint32 encryptedSize;
-            if ( !readOrError(&out, &encryptedSize, "Failed to read encrypted size") )
-                return false;
-            QByteArray encryptedBytes;
-            if ( !readOrError(&out, &encryptedBytes, "Failed to read encrypted data") )
-                return false;
-            continue;
-#endif
-        }
 
         if (version != -2)
             return true;

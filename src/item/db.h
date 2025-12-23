@@ -7,4 +7,6 @@ class QString;
 
 int getOrCreateTabId(QSqlDatabase &db, const QString &tabName);
 
-QSqlDatabase openDb();
+QSqlDatabase openDb(const QString &password, const QString &dbName);
+
+bool setDbPassword(QSqlDatabase &db, const QString &password);

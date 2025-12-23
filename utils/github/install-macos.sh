@@ -27,7 +27,7 @@ brew uninstall cmake
 
 brew tap copyq/kde utils/github/homebrew/
 
-brew install qt@6 qca qtkeychain
+brew install qt@6 qtkeychain
 brew install --verbose \
     copyq/kde/kf6-knotifications \
     copyq/kde/kf6-kstatusnotifieritem

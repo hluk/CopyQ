@@ -200,7 +200,7 @@ ClipboardBrowser::ClipboardBrowser(
     , m_itemSaver(nullptr)
     , m_tabName(tabName)
     , m_maxItemCount(sharedData->maxItems)
-    , m(QSqlDatabase::database("copyq_main"), this)
+    , m(QSqlDatabase::database(QCoreApplication::applicationName()), this)
     , d(this, sharedData)
     , m_editor(nullptr)
     , m_sharedData(sharedData)
@@ -1714,7 +1714,7 @@ bool ClipboardBrowser::loadItems(const QByteArray &itemData)
     m_timerSave.stop();
 
     // Database is required - fail if not available
-    QSqlDatabase db = QSqlDatabase::database("copyq_main");
+    QSqlDatabase db = QSqlDatabase::database(QCoreApplication::applicationName());
     if (!db.isValid() || !db.isOpen()) {
         COPYQ_LOG(QString("Tab \"%1\": Database not available, cannot load").arg(m_tabName));
         return false;

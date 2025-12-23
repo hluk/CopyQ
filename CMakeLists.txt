@@ -23,7 +23,6 @@ OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 
 # Options (cmake -LH)
 OPTION(WITH_PLUGINS "Compile plugins" ON)
-OPTION(WITH_QCA_ENCRYPTION "Enable QCA-based tab encryption" ON)
 OPTION(WITH_KEYCHAIN "Enable system keyring integration using QtKeychain" ON)
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
@@ -65,17 +64,6 @@ list(APPEND copyq_LIBRARIES ${copyq_qt}::Widgets)
 # Qt SQL support for database storage
 find_package(Qt${QT_DEFAULT_MAJOR_VERSION}Sql REQUIRED)
 list(APPEND copyq_LIBRARIES ${copyq_qt}::Sql)
-
-# QCA encryption support
-if (WITH_QCA_ENCRYPTION)
-    find_package(Qca-qt${QT_DEFAULT_MAJOR_VERSION} REQUIRED)
-    list(APPEND copyq_LIBRARIES qca-qt${QT_DEFAULT_MAJOR_VERSION})
-    add_definitions(-DWITH_QCA_ENCRYPTION)
-    message(STATUS "QCA encryption support enabled")
-else()
-    message(STATUS "QCA encryption support DISABLED")
-    set(WITH_KEYCHAIN OFF)
-endif()
 
 # QtKeychain support for system keyring integration
 if (WITH_KEYCHAIN)

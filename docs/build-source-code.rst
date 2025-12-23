@@ -39,9 +39,6 @@ On **Ubuntu** you can install all build dependencies with:
       git \
       libkf6guiaddons \
       libkf6guiaddons-dev \
-      libqca-qt6-2 \
-      libqca-qt6-dev \
-      libqca-qt6-plugins \
       libqt6svg6 \
       libqt6svg6-dev \
       libqt6waylandclient6 \
@@ -77,8 +74,6 @@ On **Fedora** and derivatives you can install all build dependencies with:
       libSM-devel \
       libXfixes-devel \
       libXtst-devel \
-      qca-qt6-devel \
-      qca-qt6-ossl \
       qt6-qtbase-devel \
       qt6-qtbase-private-devel \
       qt6-qtdeclarative-devel \

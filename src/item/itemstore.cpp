@@ -67,7 +67,7 @@ ItemSaverPtr createTab(
     return saver;
 }
 
-bool itemDataFiles(const QString &tabName, QStringList *files, const Encryption::EncryptionKey *encryptionKey = nullptr)
+bool itemDataFiles(const QString &tabName, QStringList *files)
 {
     const QString tabFileName = itemFileName(tabName);
     if ( !QFile::exists(tabFileName) )
@@ -79,7 +79,7 @@ bool itemDataFiles(const QString &tabName, QStringList *files, const Encryption:
         return false;
     }
 
-    return itemDataFiles(&tabFile, files, encryptionKey);
+    return itemDataFiles(&tabFile, files);
 }
 
 void cleanDataDir(QDir *dir)
@@ -182,7 +182,7 @@ bool moveItems(const QString &oldId, const QString &newId)
     return false;
 }
 
-void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey *encryptionKey)
+void cleanDataFiles(const QStringList &tabNames)
 {
     QDir dir(itemDataPath());
     if ( !dir.exists() )
@@ -190,7 +190,7 @@ void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey
 
     QStringList files;
     for (const QString &tabName : tabNames) {
-        if ( !itemDataFiles(tabName, &files, encryptionKey) ) {
+        if ( !itemDataFiles(tabName, &files) ) {
             COPYQ_LOG( QStringLiteral("Stopping cleanup due to corrupted file: %1")
                     .arg(tabName) );
             return;

@@ -46,14 +46,12 @@ void Tests::tabEncryption()
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "test data 1 test data 2 test data 3");
 
-#ifdef WITH_QCA_ENCRYPTION
     // Password is needed when disabling encryption
     runMultiple(
         [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
         [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
-#endif
 
     // Verify that password is not needed after disabling encryption
     m_test->setEnv("COPYQ_PASSWORD", "");
@@ -65,7 +63,6 @@ void Tests::tabEncryption()
 
 void Tests::tabEncryptionPasswordNew()
 {
-#ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
     TEST( m_test->stopServer() );
     TEST( m_test->startServer() );
@@ -101,14 +98,10 @@ void Tests::tabEncryptionPasswordNew()
     RUN("unload" << tab, tab + "\n");
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "test data 1 test data 2 test data 3");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionPasswordCurrent()
 {
-#ifdef WITH_QCA_ENCRYPTION
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab << "separator" << " ";
     RUN(args << "add" << "test data 3" << "test data 2" << "test data 1", "");
@@ -124,14 +117,10 @@ void Tests::tabEncryptionPasswordCurrent()
 
     WAIT_ON_OUTPUT(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "test data 1 test data 2 test data 3");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionPasswordRetry()
 {
-#ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
     TEST( m_test->stopServer() );
     TEST( m_test->startServer() );
@@ -154,14 +143,10 @@ void Tests::tabEncryptionPasswordRetry()
         [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionPasswordRetryFail()
 {
-#ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
     TEST( m_test->stopServer() );
     TEST( m_test->startServer() );
@@ -194,14 +179,10 @@ void Tests::tabEncryptionPasswordRetryFail()
 
     // If the initial password was not provided, encryption should be disabled.
     RUN("config" << "encrypt_tabs", "false\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionLargeItems()
 {
-#ifdef WITH_QCA_ENCRYPTION
     RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
@@ -226,14 +207,10 @@ void Tests::tabEncryptionLargeItems()
     RUN(args << "read(0).left(20)", "12345678901234567890");
     RUN(args << "read(0).length", "100000\n");
     RUN(args << "ItemSelection().selectAll().itemAtIndex(0)[mimeText].length", "100000\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionChangePassword()
 {
-#ifdef WITH_QCA_ENCRYPTION
     RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
@@ -268,15 +245,11 @@ void Tests::tabEncryptionChangePassword()
 
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }
 
 void Tests::tabEncryptionMissingHash()
 {
     // Ensure that missing hash file does not lock users out from their data.
-#ifdef WITH_QCA_ENCRYPTION
     RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     const auto tab = testTab(1);
@@ -350,7 +323,4 @@ void Tests::tabEncryptionMissingHash()
     RUN("show" << tab, "");
     KEYS(clipboardBrowserId);
     RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
 }

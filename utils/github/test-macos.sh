@@ -32,7 +32,7 @@ export COPYQ_TESTS_EXECUTABLE="$executable"
 
 # Uninstall local Qt to make sure we only use libraries from the bundle
 brew remove --ignore-dependencies --force \
-    qt@6 qca copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem freetype
+    qt@6 copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem freetype
 
 # Ensure the app works after uninstalling system dependencies
 (

@@ -48,10 +48,6 @@ env:
     qt6-wayland-dev
     qt6-wayland-dev-tools
 
-    libqca-qt6-dev
-    libqca-qt6-2
-    libqca-qt6-plugins
-
     qtkeychain-qt6-dev
   qt5_packages: >-
     qtbase5-dev
@@ -71,10 +67,6 @@ env:
     qtwayland5-dev-tools
 
     libkf5notifications-dev
-
-    libqca-qt5-2-dev
-    libqca-qt5-2
-    libqca-qt5-2-plugins
 
     qtkeychain-qt5-dev
   # FIXME: Sending signal to client process does not cause the process

@@ -8,19 +8,13 @@ mkdir -p "$Destination"
 
 cmake --install "$BUILD_PATH" --config Release --prefix "$Destination" --verbose
 
-if [[ $WITH_QCA_ENCRYPTION == ON ]]; then
-    mkdir -p "$Destination/crypto"
-    cp -v "$INSTALL_PREFIX/bin/qca-qt6.dll" "$Destination"
-    cp -v "$INSTALL_PREFIX/lib/qca-qt6/crypto/qca-ossl.dll" "$Destination/crypto/"
+if [[ $WITH_KEYCHAIN == ON ]]; then
     cp -v "$INSTALL_PREFIX/bin/qt6keychain.dll" "$Destination"
 
     # Workaround for windeployqt: https://github.com/frankosterfeld/qtkeychain/issues/246
     cp -v "$INSTALL_PREFIX/bin/qt6keychain.dll" "$QTDIR/bin/"
 
-    crypto_libraries=(
-        "$Destination/qca-qt6.dll"
-        "$Destination/qt6keychain.dll"
-    )
+    crypto_libraries=("$Destination/qt6keychain.dll")
 else
     crypto_libraries=()
 fi
@@ -51,10 +45,6 @@ cp -v "$BuildPlugins/"*.dll "$Destination/plugins"
 
 cp -v "$LIBCRYPTO" "$Destination"
 cp -v "$LIBSSL" "$Destination"
-if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
-    cp -v "$LIBCRYPTO_FOR_QCA" "$Destination"
-    cp -v "$LIBSSL_FOR_QCA" "$Destination"
-fi
 
 "$QTDIR/bin/windeployqt" --help
 "$QTDIR/bin/windeployqt" \

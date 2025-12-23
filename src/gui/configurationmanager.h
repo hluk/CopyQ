@@ -19,10 +19,6 @@ namespace Ui {
     class ConfigurationManager;
 }
 
-namespace Encryption {
-    class EncryptionKey;
-}
-
 class AppConfig;
 class ConfigTabAppearance;
 class ConfigTabTabs;

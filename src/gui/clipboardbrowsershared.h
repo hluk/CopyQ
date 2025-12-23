@@ -3,7 +3,6 @@
 
 
 #include "common/navigationstyle.h"
-#include "common/encryption.h"
 #include "gui/menuitems.h"
 #include "gui/theme.h"
 
@@ -36,7 +35,6 @@ struct ClipboardBrowserShared {
     NotificationDaemon *notifications = nullptr;
     Theme theme;
     MenuItems menuItems;
-    Encryption::EncryptionKey encryptionKey;
 };
 
 using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;

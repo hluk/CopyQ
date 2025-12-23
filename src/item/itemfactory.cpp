@@ -7,11 +7,9 @@
 #include "common/common.h"
 #include "common/config.h"
 #include "common/contenttype.h"
-#include "common/encryption.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
-#include "gui/clipboardbrowsershared.h"
 #include "gui/encryptionpassword.h"
 #include "item/indexes.h"
 #include "item/itemfilter.h"
@@ -191,29 +189,22 @@ private:
 class DummySaver final : public ItemSaverInterface
 {
 public:
-    explicit DummySaver(int itemDataThreshold, const ClipboardBrowserSharedPtr &sharedData)
+    explicit DummySaver(int itemDataThreshold)
         : m_itemDataThreshold(itemDataThreshold)
-        , m_sharedData(sharedData)
     {}
 
     bool saveItems(const QString & /* tabName */, const QAbstractItemModel &model, QIODevice *file) override
     {
-        const Encryption::EncryptionKey &encKey = m_sharedData->encryptionKey;
-        return serializeData(model, file, m_itemDataThreshold, &encKey);
+        return serializeData(model, file, m_itemDataThreshold);
     }
 
 private:
     int m_itemDataThreshold = -1;
-    ClipboardBrowserSharedPtr m_sharedData;
 };
 
 class DummyLoader final : public ItemLoaderInterface
 {
 public:
-    DummyLoader(const ClipboardBrowserSharedPtr &sharedData)
-        : m_sharedData(sharedData)
-    {}
-
     int priority() const override { return std::numeric_limits<int>::min(); }
 
     QString id() const override { return {}; }
@@ -240,13 +231,13 @@ public:
     ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel *model, QIODevice *file, int) override
     {
         if ( file->size() > 0 ) {
-            if ( !deserializeData(model, file, &m_sharedData->encryptionKey) ) {
+            if ( !deserializeData(model, file) ) {
                 const int itemsLoadedCount = model->rowCount();
                 if ( itemsLoadedCount > 0 && askToKeepCorruptedTab(tabName) ) {
                     log(QStringLiteral("Keeping corrupted tab on user request"));
                     file->close();
                     file->open(QIODevice::WriteOnly);
-                    ItemSaverPtr saver = std::make_shared<DummySaver>(m_itemDataThreshold, m_sharedData);
+                    ItemSaverPtr saver = std::make_shared<DummySaver>(m_itemDataThreshold);
                     saver->saveItems(tabName, *model, file);
                     return saver;
                 }
@@ -256,12 +247,12 @@ public:
             }
         }
 
-        return std::make_shared<DummySaver>(m_itemDataThreshold, m_sharedData);
+        return std::make_shared<DummySaver>(m_itemDataThreshold);
     }
 
     ItemSaverPtr initializeTab(const QString &, QAbstractItemModel *, int) override
     {
-        return std::make_shared<DummySaver>(m_itemDataThreshold, m_sharedData);
+        return std::make_shared<DummySaver>(m_itemDataThreshold);
     }
 
     bool matches(const QModelIndex &index, const ItemFilter &filter) const override
@@ -274,7 +265,6 @@ public:
 
 private:
     int m_itemDataThreshold = -1;
-    ClipboardBrowserSharedPtr m_sharedData;
 };
 
 ItemSaverPtr transformSaver(
@@ -343,10 +333,9 @@ void cropToSize(const ItemSaverPtr &saver, QAbstractItemModel *model, int maxIte
 
 } // namespace
 
-ItemFactory::ItemFactory(const ClipboardBrowserSharedPtr &sharedData, QObject *parent)
+ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
-    , m_sharedData(sharedData ? sharedData : std::make_shared<ClipboardBrowserShared>())
-    , m_dummyLoader(std::make_shared<DummyLoader>(sharedData))
+    , m_dummyLoader(std::make_shared<DummyLoader>())
     , m_loaderChildren()
 {
 }

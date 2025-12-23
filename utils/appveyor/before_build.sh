@@ -15,14 +15,7 @@ grep -q LanguageName "$languages/Korean.isl"
 build=$APPVEYOR_BUILD_FOLDER/utils/appveyor/kf_build.sh
 export PATH=$PATH:$INSTALL_PREFIX/bin
 
-if [[ $WITH_QCA_ENCRYPTION == ON ]]; then
-    URL_PATH="$QCA_VERSION/qca-$QCA_VERSION" \
-        "$build" qca "$QCA_VERSION" "https://download.kde.org/stable/qca" \
-            -DBUILD_WITH_QT6="$WITH_QT6" \
-            -DBUILD_TESTS=OFF \
-            -DBUILD_TOOLS=OFF \
-            -DBUILD_PLUGINS=ossl
-
+if [[ $WITH_KEYCHAIN == ON ]]; then
     URL_PATH="$QTKEYCHAIN_VERSION" \
     DOWNLOAD_SUFFIX=tar.gz \
         "$build" qtkeychain "$QTKEYCHAIN_VERSION" "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags" \
@@ -56,7 +49,6 @@ cmake -B"$BUILD_PATH" -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
     -DCMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION=. \
     -DWITH_NATIVE_NOTIFICATIONS="$WITH_NATIVE_NOTIFICATIONS" \
-    -DWITH_QCA_ENCRYPTION="$WITH_QCA_ENCRYPTION" \
-    -DWITH_KEYCHAIN="$WITH_QCA_ENCRYPTION" \
+    -DWITH_KEYCHAIN="$WITH_KEYCHAIN" \
     -DWITH_QT6="$WITH_QT6" \
     -DWITH_TESTS=ON

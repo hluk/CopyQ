@@ -3,7 +3,6 @@
 #pragma once
 
 
-#include "common/encryption.h"
 #include "item/itemwidget.h"
 
 #include <QMap>
@@ -21,13 +20,6 @@ class QWidget;
 struct Command;
 struct CommandMenu;
 
-namespace Encryption {
-    class EncryptionKey;
-}
-
-struct ClipboardBrowserShared;
-using ClipboardBrowserSharedPtr = std::shared_ptr<ClipboardBrowserShared>;
-
 using ItemLoaderList = QList<ItemLoaderPtr>;
 
 /**
@@ -42,8 +34,7 @@ public:
     /**
      * Loads item plugins.
      */
-    explicit ItemFactory(
-        const ClipboardBrowserSharedPtr &sharedData = nullptr, QObject *parent = nullptr);
+    explicit ItemFactory(QObject *parent = nullptr);
 
     /**
      * Instantiate ItemWidget using given @a loader if possible.
@@ -138,7 +129,6 @@ private:
 
     bool loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings *settings) const;
 
-    ClipboardBrowserSharedPtr m_sharedData;
     ItemLoaderList m_loaders;
     ItemLoaderPtr m_dummyLoader;
     QMap<QObject *, ItemLoaderPtr> m_loaderChildren;

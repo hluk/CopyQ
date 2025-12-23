@@ -64,6 +64,8 @@ protected:
     bool eventFilter(QObject *object, QEvent *ev) override;
 
 private:
+    void openDb(AppConfig *appConfig);
+    void setDbPassword(AppConfig *appConfig);
     void onClientNewConnection(const ClientSocketPtr &client);
     void onClientMessageReceived(const QByteArray &message, int messageCode, ClientSocketId clientId);
     void onClientDisconnected(ClientSocketId clientId);
@@ -136,6 +138,7 @@ private:
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
     bool m_preventScreenCapture = false;
+    bool m_wasEncrypted = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
     QSqlDatabase m_database;

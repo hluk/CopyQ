@@ -227,14 +227,9 @@ void ConfigurationManager::updateOptionsVisibility()
     m_tabGeneral->checkBoxPreventScreenCapture->setVisible(
         platform->canPreventScreenCapture() );
 
-#ifdef WITH_QCA_ENCRYPTION
     m_tabGeneral->checkBoxEncryptTabs->setVisible(true);
-    const bool passwordWasSet = m_sharedData && !Encryption::loadPasswordHash().isEmpty();
+    const bool passwordWasSet = m_sharedData != nullptr;
     m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(passwordWasSet);
-#else
-    m_tabGeneral->checkBoxEncryptTabs->setVisible(false);
-    m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(false);
-#endif
 
 #ifdef WITH_KEYCHAIN
     m_tabGeneral->checkBoxUseKeychain->setVisible(true);
@@ -644,7 +639,5 @@ void ConfigurationManager::onPushButtonChangeEncryptionPasswordClicked()
     if (!m_sharedData)
         return;
 
-    const Encryption::EncryptionKey key = promptForEncryptionPasswordChange(this);
-    if (key.isValid())
-        m_sharedData->encryptionKey = key;
+    promptForEncryptionPasswordChange(this);
 }

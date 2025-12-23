@@ -12,7 +12,6 @@
 #include "common/config.h"
 #include "common/contenttype.h"
 #include "common/display.h"
-#include "common/encryption.h"
 #include "common/globalshortcutcommands.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -31,7 +30,6 @@
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
-#include "gui/encryptionpassword.h"
 #include "gui/geometry.h"
 #include "gui/importexportdialog.h"
 #include "gui/iconfactory.h"
@@ -95,7 +93,6 @@ const int contextMenuUpdateIntervalMsec = 100;
 const int itemPreviewUpdateIntervalMsec = 100;
 
 constexpr auto dataStreamImportVersionDefault = QDataStream::Qt_4_7;
-constexpr auto dataStreamImportVersionForV5 = QDataStream::Qt_5_15;
 
 const QLatin1String menuItemKeyColor("color");
 const QLatin1String menuItemKeyIcon("icon");
@@ -315,28 +312,6 @@ QVariant serializableValue(const QSettings &settings, const QString &key)
     return QString();
 }
 
-QByteArray serializeToByteArray(const QVariant &value)
-{
-    QByteArray bytes;
-    {
-        QDataStream in(&bytes, QIODevice::WriteOnly);
-        in.setVersion(dataStreamImportVersionForV5);
-        in << value;
-    }
-    return bytes;
-}
-
-QVariant deserializeFromByteArray(const QByteArray &bytes)
-{
-    QVariant value;
-    {
-        QDataStream out(bytes);
-        out.setVersion(dataStreamImportVersionForV5);
-        out >> value;
-    }
-    return value;
-}
-
 bool isAnyApplicationWindowActive()
 {
     if ( qApp->activeWindow() )
@@ -521,15 +496,6 @@ ImportSelection getImportSelection(
     };
 }
 
-void showEncryptionUnavailableMessage(QWidget *parent)
-{
-    QMessageBox::warning(
-        parent,
-        MainWindow::tr("Encryption Unavailable"),
-        MainWindow::tr("Encryption is not available (see logs for details).\n\nIt will be possible to encrypt and decrypt tab data.")
-    );
-}
-
 QVariantMap exportSettings(const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
     QVariantMap settingsMap;
@@ -579,56 +545,6 @@ QVariantMap exportSettings(const QStringList &tabs, bool exportConfiguration, bo
 
     return data;
 }
-
-Encryption::EncryptionKey promptForImportPassword(QWidget *parent)
-{
-    if (!Encryption::initialize()) {
-        showEncryptionUnavailableMessage(parent);
-        return {};
-    }
-
-    const auto password = promptForNewPassword(
-        MainWindow::tr("Import Password"),
-        MainWindow::tr("Enter password for import:"),
-        PasswordPromptType::AskOnce,
-        parent);
-
-    if (password.isEmpty()) {
-        log("Import cancelled", LogWarning);
-        return {};
-    }
-
-    return Encryption::EncryptionKey(password);
-}
-
-#ifdef WITH_QCA_ENCRYPTION
-Encryption::EncryptionKey promptForExportPassword(QWidget *parent, bool *ok)
-{
-    if (!Encryption::initialize()) {
-        showEncryptionUnavailableMessage(parent);
-        *ok = false;
-        return {};
-    }
-
-    *ok = true;
-    const auto password = promptForNewPassword(
-        MainWindow::tr("Export Password"),
-        MainWindow::tr("Enter password for export (empty for no encryption):"),
-        PasswordPromptType::AllowEmpty,
-        parent);
-
-    if ( password.isEmpty() )
-        return {};
-
-    const Encryption::EncryptionKey key(password);
-    if (key.isValid())
-        return key;
-
-    log("Failed to derive encryption key for export", LogError);
-    *ok = false;
-    return {};
-}
-#endif
 
 bool checkFileAndStreamErrors(const QFileDevice &file, const QDataStream &stream, const char *label)
 {
@@ -757,7 +673,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     , m_tray(nullptr)
     , m_toolBar(new ToolBar(this))
     , m_sharedData(sharedData)
-    , m_wasEncrypted(AppConfig().option<Config::encrypt_tabs>())
     , m_menu( new TrayMenu(this) )
     , m_menuMaxItemCount(-1)
     , m_commandDialog(nullptr)
@@ -1694,10 +1609,7 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
         connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
                  this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
         connect( placeholder, &ClipboardBrowserPlaceholder::browserAboutToReload,
-                 this, [this]() {
-                    AppConfig appConfig;
-                    promptForEncryptionPasswordIfNeeded(&appConfig);
-                } );
+                 this, &MainWindow::browserAboutToReload );
 
         ui->tabWidget->addTab(placeholder, name);
         saveTabPositions();
@@ -2147,7 +2059,7 @@ bool MainWindow::toggleMenu(TrayMenu *menu)
     return toggleMenu(menu, QCursor::pos());
 }
 
-bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey)
+bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs, bool exportConfiguration, bool exportCommands)
 {
     QSaveFile file(fileName);
     if ( !file.open(QIODevice::WriteOnly) ) {
@@ -2157,22 +2069,18 @@ bool MainWindow::exportDataFrom(const QString &fileName, const QStringList &tabs
     }
 
     QDataStream out(&file);
-    const bool ok = encryptionKey.isValid()
-        ? exportDataV5(&out, tabs, exportConfiguration, exportCommands, encryptionKey)
-        : exportDataV4(&out, tabs, exportConfiguration, exportCommands);
+    const bool ok = exportDataV4(&out, tabs, exportConfiguration, exportCommands);
 
-    const char *label = encryptionKey.isValid()
-        ? "Export (v5) failed" : "Export (v4) failed";
-    if ( !checkFileAndStreamErrors(file, out, label) )
+    if ( !checkFileAndStreamErrors(file, out, "Export (v4) failed") )
         return false;
 
     if (!ok)
         return false;
 
     if ( !file.commit() ) {
-        qCCritical(logCategory) << label << " - failed to save file for export:"
+        qCCritical(logCategory) << "Export (v4) failed - failed to save file for export:"
             << file.fileName() << "message:" << file.errorString();
-        checkFileAndStreamErrors(file, out, label);
+        checkFileAndStreamErrors(file, out, "Export (v4) failed");
         return false;
     }
 
@@ -2196,35 +2104,6 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
             return false;
         if (!tabMap.isEmpty())
             (*out) << tabMap;
-    }
-
-    return out->status() == QDataStream::Ok;
-}
-
-bool MainWindow::exportDataV5(QDataStream *out, const QStringList &tabs, bool exportConfiguration, bool exportCommands, const Encryption::EncryptionKey &encryptionKey)
-{
-    COPYQ_LOG("Exporting v5 format");
-
-    out->setVersion(dataStreamImportVersionDefault);
-    (*out) << QByteArray("CopyQ v5");
-    out->setVersion(dataStreamImportVersionForV5);
-
-    const QVariantMap data = exportSettings(tabs, exportConfiguration, exportCommands);
-    QVariantMap dataMap;
-    for (auto it = data.constBegin(); it != data.constEnd(); ++it)
-        dataMap[it.key()] = serializeToByteArray(it.value());
-
-    serializeData(out, dataMap, -1, &encryptionKey);
-
-    for (const auto &tab : tabs) {
-        bool ok;
-        QVariantMap tabMap = exportTabData(tab, &ok);
-        if (!ok)
-            return false;
-        if (!tabMap.isEmpty()) {
-            tabMap.remove(QStringLiteral("name"));
-            serializeData(out, tabMap, -1, &encryptionKey);
-        }
     }
 
     return out->status() == QDataStream::Ok;
@@ -2411,7 +2290,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         if ( !tabs.contains(oldTabName) )
             continue;
 
-        if ( !importTabData(oldTabName, tabMap, tabProps, {}) )
+        if ( !importTabData(oldTabName, tabMap, tabProps) )
             return false;
     }
 
@@ -2443,53 +2322,7 @@ bool MainWindow::importDataV4(QDataStream *in, ImportOptions options)
         if ( !importSelection.tabs.contains(oldTabName) )
             continue;
 
-        if ( !importTabData(oldTabName, tabMap, tabProps, {}) )
-            return false;
-    }
-
-    importSelected(importSelection);
-    return true;
-}
-
-bool MainWindow::importDataV5(QDataStream *in, ImportOptions options)
-{
-    in->setVersion(dataStreamImportVersionForV5);
-
-    COPYQ_LOG("Importing v5 format");
-
-    const Encryption::EncryptionKey key = promptForImportPassword(this);
-    if ( !key.isValid() ) {
-        log("Failed to derive encryption key from password for V5 import", LogError);
-        return false;
-    }
-
-    QVariantMap dataMap;
-    if ( !deserializeData(in, &dataMap, &key) ) {
-        log("Failed to decrypt V5 metadata - incorrect password or corrupted data", LogError);
-        return false;
-    }
-
-    QVariantMap data;
-    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it)
-        data[it.key()] = deserializeFromByteArray(it.value().toByteArray());
-
-    const ImportSelection importSelection = getImportSelection(data, options, this);
-    if (!canImport(importSelection))
-        return false;
-
-    const Tabs tabProps;
-    // Read each tab individually to avoid loading all tabs into memory
-    for (const auto &oldTabName : data.value("tabs").toStringList()) {
-        QVariantMap tabMap;
-        if ( !deserializeData(in, &tabMap, &key) ) {
-            log(QString("Failed to decrypt tab data - incorrect password or corrupted data"), LogError);
-            return false;
-        }
-
-        if ( !importSelection.tabs.contains(oldTabName) )
-            continue;
-
-        if ( !importTabData(oldTabName, tabMap, tabProps, key) )
+        if ( !importTabData(oldTabName, tabMap, tabProps) )
             return false;
     }
 
@@ -2500,8 +2333,7 @@ bool MainWindow::importDataV5(QDataStream *in, ImportOptions options)
 bool MainWindow::importTabData(
     const QString &requestedTabName,
     const QVariantMap &tabMap,
-    const Tabs &tabProps,
-    const Encryption::EncryptionKey &key)
+    const Tabs &tabProps)
 {
     QString tabName = requestedTabName;
     renameToUnique( &tabName, ui->tabWidget->tabs() );
@@ -2521,7 +2353,7 @@ bool MainWindow::importTabData(
     QDataStream tabIn(tabBytes);
     tabIn.setVersion(dataStreamImportVersionDefault);
 
-    if ( !deserializeData(c->model(), &tabIn, &key) ) {
+    if ( !deserializeData(c->model(), &tabIn) ) {
         qCCritical(logCategory) << "Failed to import tab" << tabName;
         return false;
     }
@@ -3001,9 +2833,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     }
 
     const QStringList tabNames = savedTabs();
-
-    promptForEncryptionPasswordIfNeeded(appConfig);
-    reencryptTabsIfNeeded(tabNames, appConfig);
 
     // tab bar position
     const bool tabTreeEnabled = appConfig->option<Config::tab_tree>();
@@ -3699,80 +3528,6 @@ void MainWindow::onItemDoubleClicked()
         activateCurrentItem();
 }
 
-void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
-{
-    const bool useKeyStore = appConfig->option<Config::use_key_store>();
-    if (!useKeyStore)
-        removePasswordFromKeychain();
-
-    if ( !appConfig->option<Config::encrypt_tabs>() ) {
-        m_sharedData->encryptionKey.clear();
-    } else if ( !m_sharedData->encryptionKey.isValid() ) {
-        const auto prompt = useKeyStore
-            ? PasswordSource::UseEnvAndKeychain
-            : PasswordSource::UseEnvOnly;
-        m_sharedData->encryptionKey = promptForEncryptionPassword(this, prompt);
-    }
-}
-
-void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig)
-{
-    if (m_reencrypting)
-        return;
-
-    m_reencrypting = true;
-    reencryptTabsIfNeededHelper(tabNames, appConfig);
-    m_reencrypting = false;
-}
-
-void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
-{
-    const bool isEncrypted = appConfig->option<Config::encrypt_tabs>();
-    if (m_wasEncrypted == isEncrypted)
-        return;
-
-    const Encryption::EncryptionKey newEncryptionKey = m_sharedData->encryptionKey;
-
-    // Always ask for the previous password when re-encrypting.
-    Encryption::EncryptionKey oldEncryptionKey;
-    if (m_wasEncrypted) {
-        oldEncryptionKey = promptForEncryptionPassword(
-            this, PasswordSource::IgnoreEnvAndKeychain);
-    }
-
-    // Revert encryption option if password was not provided.
-    if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
-        appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
-        return;
-    }
-
-    const bool allEncrypted = reencryptTabs(
-        tabNames,
-        m_sharedData.get(),
-        oldEncryptionKey,
-        newEncryptionKey,
-        Config::maxItems,
-        this
-    );
-
-    m_wasEncrypted = isEncrypted;
-    m_sharedData->encryptionKey = newEncryptionKey;
-
-    // If saving some tabs failed, keep the keys and the encryption enabled,
-    // otherwise remove unneeded key files.
-    if (oldEncryptionKey.isValid()) {
-        if (allEncrypted) {
-            Encryption::removeEncryptionKeys();
-            if (appConfig->option<Config::use_key_store>())
-                removePasswordFromKeychain();
-        } else {
-            appConfig->setOption(Config::encrypt_tabs::name(), true);
-            m_wasEncrypted = true;
-            m_sharedData->encryptionKey = oldEncryptionKey;
-        }
-    }
-}
-
 bool MainWindow::updateTabName(
     ClipboardBrowserPlaceholder *placeholder,
     const QString &newName,
@@ -4258,16 +4013,6 @@ bool MainWindow::exportData()
     if ( exportDialog.exec() != QDialog::Accepted )
         return false;
 
-    // Prompt for custom password if requested
-#ifdef WITH_QCA_ENCRYPTION
-    bool ok;
-    const Encryption::EncryptionKey key = promptForExportPassword(this, &ok);
-    if (!ok)
-        return false;
-#else
-    const Encryption::EncryptionKey key;
-#endif
-
     auto fileName = QFileDialog::getSaveFileName(
                 this, QString(), QString(), importExportFileDialogFilter() );
     if ( fileName.isNull() )
@@ -4280,7 +4025,7 @@ bool MainWindow::exportData()
     const bool exportConfiguration = exportDialog.isConfigurationEnabled();
     const bool exportCommands = exportDialog.isCommandsEnabled();
 
-    if ( !exportDataFrom(fileName, tabs, exportConfiguration, exportCommands, key) ) {
+    if ( !exportDataFrom(fileName, tabs, exportConfiguration, exportCommands) ) {
         QMessageBox::critical(
                     this, tr("Export Error"),
                     tr("Failed to export file %1!")
@@ -4353,10 +4098,7 @@ bool MainWindow::importDataFrom(
 
     bool ok = false;
     const char *label = "unknown";
-    if ( header.startsWith("CopyQ v5") ) {
-        ok = importDataV5(&in, options);
-        label = "Import (v5) failed";
-    } else if ( header.startsWith("CopyQ v4") ) {
+    if ( header.startsWith("CopyQ v4") ) {
         ok = importDataV4(&in, options);
         label = "Import (v4) failed";
     } else if ( header.startsWith("CopyQ v3") ) {
@@ -4377,9 +4119,7 @@ bool MainWindow::exportAllData(const QString &fileName)
     const auto tabs = ui->tabWidget->tabs();
     const bool exportConfiguration = true;
     const bool exportCommands = true;
-
-    return exportDataFrom(
-        fileName, tabs, exportConfiguration, exportCommands, Encryption::EncryptionKey());
+    return exportDataFrom(fileName, tabs, exportConfiguration, exportCommands);
 }
 
 bool MainWindow::importData()
