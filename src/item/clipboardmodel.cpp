@@ -267,12 +267,74 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
     if (m_tabId < 0)
         return;
 
-    if (insertRows(row, 1)) {
-        // Submit to get the item_id assigned
-        submitAll();
-        // Now set the MIME data
-        setData(index(row, 0), data, contentType::data);
+    // Shift existing rows down
+    QSqlQuery shiftQuery(database());
+    shiftQuery.prepare("UPDATE items SET row_index = row_index + 1 "
+                       "WHERE tab_id = ? AND row_index >= ?");
+    shiftQuery.addBindValue(m_tabId);
+    shiftQuery.addBindValue(row);
+    if (!shiftQuery.exec()) {
+        qWarning() << "Failed to renumber rows for insert:" << shiftQuery.lastError().text();
+        return;
     }
+
+    // Insert new item and get the item_id immediately
+    QSqlQuery insertQuery(database());
+    insertQuery.prepare("INSERT INTO items (tab_id, row_index, item_hash) VALUES (?, ?, ?)");
+    insertQuery.addBindValue(m_tabId);
+    insertQuery.addBindValue(row);
+    insertQuery.addBindValue(0);  // placeholder hash, will be updated by setData
+
+    if (!insertQuery.exec()) {
+        qWarning() << "Failed to insert item:" << insertQuery.lastError().text();
+        return;
+    }
+
+    const int itemId = insertQuery.lastInsertId().toInt();
+    COPYQ_LOG(QString("insertItem: Created item_id=%1 at row=%2").arg(itemId).arg(row));
+
+    // Insert MIME data directly
+    const uint itemHash = hash(data);
+    QSqlQuery deleteQuery(database());
+    deleteQuery.prepare("DELETE FROM item_data WHERE item_id = ?");
+    deleteQuery.addBindValue(itemId);
+    deleteQuery.exec();
+
+    QSqlQuery dataQuery(database());
+    dataQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+
+    int insertedCount = 0;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        dataQuery.addBindValue(itemId);
+        dataQuery.addBindValue(it.key());
+        dataQuery.addBindValue(it.value().toByteArray());
+        if (!dataQuery.exec()) {
+            qWarning() << "Failed to insert item_data:" << dataQuery.lastError().text();
+            return;
+        }
+        insertedCount++;
+    }
+    COPYQ_LOG(QString("insertItem: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
+
+    // Update item_hash
+    QSqlQuery updateHashQuery(database());
+    updateHashQuery.prepare("UPDATE items SET item_hash = ? WHERE item_id = ?");
+    updateHashQuery.addBindValue(static_cast<int>(itemHash));
+    updateHashQuery.addBindValue(itemId);
+    if (!updateHashQuery.exec()) {
+        qWarning() << "Failed to update item_hash:" << updateHashQuery.lastError().text();
+    }
+
+    // Update cache
+    m_mimeDataCache[itemId] = data;
+
+    // Refresh model from database
+    beginResetModel();
+    select();
+    endResetModel();
+
+    // Trigger delayed commit for any pending changes
+    m_submitTimer.start();
 }
 
 void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
@@ -284,14 +346,76 @@ void ClipboardModel::insertItems(const QVector<QVariantMap> &dataList, int row)
     if (m_tabId < 0)
         return;
 
-    if (insertRows(row, dataList.size())) {
-        // Submit to get the item_ids assigned
-        submitAll();
-        // Now set the MIME data for all items
-        for (int i = 0; i < dataList.size(); ++i) {
-            setData(index(row + i, 0), dataList[i], contentType::data);
-        }
+    // Shift existing rows down
+    QSqlQuery shiftQuery(database());
+    shiftQuery.prepare("UPDATE items SET row_index = row_index + ? "
+                       "WHERE tab_id = ? AND row_index >= ?");
+    shiftQuery.addBindValue(dataList.size());
+    shiftQuery.addBindValue(m_tabId);
+    shiftQuery.addBindValue(row);
+    if (!shiftQuery.exec()) {
+        qWarning() << "Failed to renumber rows for insert:" << shiftQuery.lastError().text();
+        return;
     }
+
+    // Insert each item and its MIME data
+    for (int i = 0; i < dataList.size(); ++i) {
+        const int currentRow = row + i;
+        const QVariantMap &data = dataList[i];
+
+        // Insert new item and get the item_id immediately
+        QSqlQuery insertQuery(database());
+        insertQuery.prepare("INSERT INTO items (tab_id, row_index, item_hash) VALUES (?, ?, ?)");
+        insertQuery.addBindValue(m_tabId);
+        insertQuery.addBindValue(currentRow);
+        insertQuery.addBindValue(0);  // placeholder hash, will be updated below
+
+        if (!insertQuery.exec()) {
+            qWarning() << "Failed to insert item:" << insertQuery.lastError().text();
+            continue;
+        }
+
+        const int itemId = insertQuery.lastInsertId().toInt();
+        COPYQ_LOG(QString("insertItems: Created item_id=%1 at row=%2").arg(itemId).arg(currentRow));
+
+        // Insert MIME data directly
+        const uint itemHash = hash(data);
+        QSqlQuery dataQuery(database());
+        dataQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+
+        int insertedCount = 0;
+        for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+            dataQuery.addBindValue(itemId);
+            dataQuery.addBindValue(it.key());
+            dataQuery.addBindValue(it.value().toByteArray());
+            if (!dataQuery.exec()) {
+                qWarning() << "Failed to insert item_data:" << dataQuery.lastError().text();
+                continue;
+            }
+            insertedCount++;
+        }
+        COPYQ_LOG(QString("insertItems: Inserted %1 MIME formats for item_id=%2").arg(insertedCount).arg(itemId));
+
+        // Update item_hash
+        QSqlQuery updateHashQuery(database());
+        updateHashQuery.prepare("UPDATE items SET item_hash = ? WHERE item_id = ?");
+        updateHashQuery.addBindValue(static_cast<int>(itemHash));
+        updateHashQuery.addBindValue(itemId);
+        if (!updateHashQuery.exec()) {
+            qWarning() << "Failed to update item_hash:" << updateHashQuery.lastError().text();
+        }
+
+        // Update cache
+        m_mimeDataCache[itemId] = data;
+    }
+
+    // Refresh model from database
+    beginResetModel();
+    select();
+    endResetModel();
+
+    // Trigger delayed commit for any pending changes
+    m_submitTimer.start();
 }
 
 void ClipboardModel::setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData)
