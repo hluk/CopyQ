@@ -41,7 +41,8 @@ env:
     libqt6svg6
 
     libkf6guiaddons-dev
-    libkf6guiaddons
+    libkf6notifications-dev
+    kf6-kstatusnotifieritem-dev
 
     libqt6waylandclient6
     qt6-wayland
@@ -90,36 +91,43 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-22.04
-            buildname: Qt 5
-            compiler: g++
-            compiler_package: g++
-            with_qt6: false
-            with_native_notifications: true
-            cmake_preset: Debug
+          # - os: ubuntu-22.04
+          #   buildname: Qt 5
+          #   compiler: g++
+          #   compiler_package: g++
+          #   with_qt6: false
+          #   test_x11: true
+          #   cmake_preset: Debug
+          #
+          # - os: ubuntu-latest
+          #   buildname: Qt 6
+          #   compiler: g++
+          #   compiler_package: g++
+          #   with_qt6: true
+          #   test_x11: true
+          #   test_wayland: true
+          #   coverage: true
+          #   cmake_preset: Debug
+          #   compiler_flags: >-
+          #     --coverage
+          #     -fprofile-arcs
+          #     -ftest-coverage
+          #     -fprofile-abs-path
+          #
+          # - os: ubuntu-latest
+          #   buildname: Qt 6 Clang
+          #   compiler: clang++
+          #   compiler_package: clang
+          #   with_qt6: true
+          #   cmake_preset: Debug
 
           - os: ubuntu-latest
-            buildname: Qt 6
+            buildname: AppImage
             compiler: g++
             compiler_package: g++
+            appimage: true
             with_qt6: true
-            with_native_notifications: false
-            test_wayland: true
-            coverage: true
-            cmake_preset: Debug
-            compiler_flags: >-
-              --coverage
-              -fprofile-arcs
-              -ftest-coverage
-              -fprofile-abs-path
-
-          - os: ubuntu-latest
-            buildname: Qt 6 Clang
-            compiler: clang++
-            compiler_package: clang
-            with_qt6: true
-            with_native_notifications: false
-            cmake_preset: Debug
+            cmake_preset: Release
 
     steps:
       - name: Checkout source code
@@ -137,16 +145,43 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
+      - name: Set up KDE Neon repository for KF6 packages
+        if: matrix.with_qt6
+        run: |
+          # Download and install KDE neon archive keyring
+          curl \
+            --location \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            https://archive.neon.kde.org/public.key |
+            sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          # Add KDE neon repository
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
+            sudo tee /etc/apt/sources.list.d/neon.list
+          # Update package list
+          sudo apt-get update
+
       - name: Install dependencies
-        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
-        with:
-          version: 1.0
-          packages: >-
+        env:
+          PACKAGES: >-
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
+        run: sudo apt install -y $PACKAGES
+
+      # - name: Install dependencies
+      #   uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
+      #   with:
+      #     version: 1.0
+      #     packages: >-
+      #       ${{ matrix.compiler_package }}
+      #       ${{ env.common_packages }}
+      #       ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+      #       ${{ matrix.coverage && 'lcov' || '' }}
+      #       ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual procps' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
@@ -159,10 +194,57 @@ jobs:
             '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
             '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
             '-DWITH_QT6=${{matrix.with_qt6}}',
-            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}'
+            '-DWITH_NATIVE_NOTIFICATIONS=ON'
             ]
 
+      - name: Get AppImage tools
+        if: matrix.appimage
+        run: |
+          curl \
+            --parallel \
+            --location \
+            --silent \
+            --show-error \
+            --fail-with-body \
+            --remote-name-all \
+            https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage \
+            https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage \
+            https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+          chmod +x linuxdeploy*.AppImage
+
+      - name: Create AppImage
+        if: matrix.appimage
+        env:
+          APP_DIR: >-
+            ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/AppDir
+          EXTRA_QT_MODULES: >-
+            svg;tls;kf6
+          EXTRA_PLATFORM_PLUGINS: >-
+            libqwayland.so
+        run: |
+          ./linuxdeploy-x86_64.AppImage \
+              --plugin qt \
+              --output=appimage \
+              --appdir="$APP_DIR" \
+              --desktop-file="$APP_DIR"/usr/share/applications/com.github.hluk.copyq.desktop \
+              --icon-file="$APP_DIR"/usr/share/icons/hicolor/scalable/apps/copyq.svg \
+              --executable="$APP_DIR"/usr/bin/copyq
+
+      - name: Upload AppImage
+        if: matrix.appimage
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v4
+        with:
+          name: CopyQ-x86_64.AppImage
+          path: CopyQ-x86_64.AppImage
+
+      - name: Test AppImage
+        if: matrix.appimage
+        run: |
+          ./CopyQ-x86_64.AppImage --version
+          ./CopyQ-x86_64.AppImage --info
+
       - name: Create gnupg directory for tests
+        if: matrix.test_x11
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
       - name: Test on Wayland
@@ -177,6 +259,7 @@ jobs:
       - name: Test on X11
         working-directory: >-
           ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_x11
         run: '${{github.workspace}}/utils/github/test-linux.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
