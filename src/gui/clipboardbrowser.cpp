@@ -24,6 +24,7 @@
 #include <QDrag>
 #include <QElapsedTimer>
 #include <QKeyEvent>
+#include <QSqlDatabase>
 #include <QMimeData>
 #include <QMenu>
 #include <QMessageBox>
@@ -198,7 +199,7 @@ ClipboardBrowser::ClipboardBrowser(
     , m_itemSaver(nullptr)
     , m_tabName(tabName)
     , m_maxItemCount(sharedData->maxItems)
-    , m(this)
+    , m(QSqlDatabase::database("copyq_main"), this)
     , d(this, sharedData)
     , m_editor(nullptr)
     , m_sharedData(sharedData)
@@ -288,7 +289,7 @@ bool ClipboardBrowser::isFiltered(int row) const
     if ( filter->matchesNone() )
         return true;
 
-    const QModelIndex ind = m.index(row);
+    const QModelIndex ind = m.index(row, 0);
     return m_sharedData->itemFactory
             && !m_sharedData->itemFactory->matches(ind, *filter);
 }
@@ -1561,7 +1562,7 @@ bool ClipboardBrowser::allocateSpaceForNewItems(int newItemCount)
 
     QModelIndexList indexesToRemove;
     for (int row = m.rowCount() - 1; row >= 0 && indexesToRemove.size() < toRemove; --row) {
-        const auto index = m.index(row);
+        const auto index = m.index(row, 0);
         if ( m_itemSaver->canDropItem(index) )
             indexesToRemove.append(index);
     }

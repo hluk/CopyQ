@@ -20,6 +20,7 @@
 #include <QInputDialog>
 #include <QIODevice>
 #include <QLineEdit>
+#include <QSqlDatabase>
 #include <QLoggingCategory>
 #include <QMessageBox>
 #include <QProgressDialog>
@@ -374,7 +375,8 @@ bool reencryptTabs(
         COPYQ_LOG(QStringLiteral("Re-encrypting tab: %1").arg(tabName));
 
         // Temporary model to hold the tab's items
-        ClipboardModel model;
+        QSqlDatabase db = QSqlDatabase::database("copyq_main");
+        ClipboardModel model(db);
 
         // Set old encryption key temporarily and load items
         sharedData->encryptionKey = oldKey;

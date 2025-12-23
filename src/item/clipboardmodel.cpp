@@ -5,6 +5,9 @@
 #include "common/contenttype.h"
 #include "common/mimetypes.h"
 
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QStringList>
 
 #include <algorithm>
@@ -50,9 +53,31 @@ void ClipboardItemList::move(int from, int count, int to)
     std::rotate(start1, start2, end2);
 }
 
-ClipboardModel::ClipboardModel(QObject *parent)
-    : QAbstractListModel(parent)
+ClipboardModel::ClipboardModel(QSqlDatabase db, QObject *parent)
+    : QSqlTableModel(parent, db)
 {
+    setTable("items");
+    setEditStrategy(QSqlTableModel::OnManualSubmit);  // Delayed commits
+
+    // Setup delayed submit timer
+    m_submitTimer.setSingleShot(true);
+    m_submitTimer.setInterval(1000);  // 1 second delay
+    connect(&m_submitTimer, &QTimer::timeout, this, [this]() {
+        if (!submitAll()) {
+            qWarning() << "Failed to submit changes:" << lastError().text();
+        }
+    });
+}
+
+void ClipboardModel::setTab(int tabId, const QString &tabName)
+{
+    m_tabId = tabId;
+    m_tabName = tabName;
+
+    // Filter to show only this tab's items
+    setFilter(QString("tab_id = %1").arg(tabId));
+    setSort(2, Qt::AscendingOrder);  // Column 2 = row_index
+    select();  // Load from database
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const

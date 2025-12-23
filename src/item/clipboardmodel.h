@@ -7,6 +7,9 @@
 
 #include <QAbstractListModel>
 #include <QList>
+#include <QMap>
+#include <QSqlTableModel>
+#include <QTimer>
 
 /**
  * Container with clipboard items.
@@ -73,21 +76,26 @@ private:
     QList<ClipboardItem> m_items;
 };
 
+class QSqlDatabase;
+
 /**
  * Model containing ClipboardItem objects.
  *
- * Class implements QAbstractListModel interface.
+ * Class implements QSqlTableModel for database-backed storage.
  *
  * Clipboard item in model can be serialized and deserialized using
  * operators << and >> (see @ref clipboard_model_serialization_operators).
  */
-class ClipboardModel final : public QAbstractListModel
+class ClipboardModel : public QSqlTableModel
 {
 public:
     /** Return true if @a lhs is less than @a rhs. */
     using CompareItems = bool (const QModelIndex &, const QModelIndex &);
 
-    explicit ClipboardModel(QObject *parent = nullptr);
+    explicit ClipboardModel(QSqlDatabase db = QSqlDatabase(), QObject *parent = nullptr);
+
+    /** Set the tab this model represents. */
+    void setTab(int tabId, const QString &tabName);
 
     /** Return number of items in model. */
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -128,4 +136,8 @@ public:
 
 private:
     ClipboardItemList m_clipboardList;
+    int m_tabId = -1;
+    QString m_tabName;
+    QTimer m_submitTimer;  // For delayed commits
+    QMap<int, QVariantMap> m_mimeDataCache;  // Cache item_data rows
 };
