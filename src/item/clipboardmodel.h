@@ -135,7 +135,6 @@ public:
     int findItem(uint itemHash) const;
 
 private:
-    ClipboardItemList m_clipboardList;
     int m_tabId = -1;
     QString m_tabName;
     QTimer m_submitTimer;  // For delayed commits

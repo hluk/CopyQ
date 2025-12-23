@@ -424,11 +424,6 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    // Close database
-    if (m_database.isOpen()) {
-        m_database.close();
-    }
-
     // Avoid calling onExit multiple times.
     // (QCoreApplication::aboutToQuit() signal can be emitted multiple times
     // when system is shutting down.)
@@ -448,6 +443,11 @@ void ClipboardServer::onAboutToQuit()
 
     m_wnd->saveTabs();
     cleanDataFiles();
+
+    // Close database after all tabs are saved
+    if (m_database.isOpen()) {
+        m_database.close();
+    }
 }
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
