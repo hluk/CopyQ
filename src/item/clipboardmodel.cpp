@@ -80,17 +80,76 @@ void ClipboardModel::setTab(int tabId, const QString &tabName)
     select();  // Load from database
 }
 
-int ClipboardModel::rowCount(const QModelIndex&) const
+int ClipboardModel::rowCount(const QModelIndex &parent) const
 {
-    return m_clipboardList.size();
+    // If we haven't called setTab yet, use the old list
+    if (m_tabId < 0)
+        return m_clipboardList.size();
+
+    // Otherwise delegate to QSqlTableModel
+    return QSqlTableModel::rowCount(parent);
 }
 
 QVariant ClipboardModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_clipboardList.size())
+    if (!index.isValid())
         return QVariant();
 
-    return m_clipboardList[index.row()].data(role);
+    // If we haven't called setTab yet, use the old list
+    if (m_tabId < 0) {
+        if (index.row() >= m_clipboardList.size())
+            return QVariant();
+        return m_clipboardList[index.row()].data(role);
+    }
+
+    // For standard Qt roles, delegate to base class (reads from items table)
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        return QSqlTableModel::data(index, role);
+    }
+
+    // Get item_id from the items table (column 0)
+    const int itemId = QSqlTableModel::data(this->index(index.row(), 0), Qt::DisplayRole).toInt();
+
+    if (itemId == 0)
+        return QVariant();
+
+    // For contentType::data role, return full QVariantMap of MIME data
+    if (role == contentType::data) {
+        // Check cache first
+        if (m_mimeDataCache.contains(itemId))
+            return m_mimeDataCache[itemId];
+
+        // Load from item_data table
+        QVariantMap mimeData;
+        QSqlQuery query(database());
+        query.prepare("SELECT format, bytes FROM item_data WHERE item_id = ?");
+        query.addBindValue(itemId);
+
+        if (query.exec()) {
+            while (query.next()) {
+                const QString format = query.value(0).toString();
+                const QByteArray bytes = query.value(1).toByteArray();
+                mimeData[format] = bytes;
+            }
+        }
+
+        // Cache for performance
+        m_mimeDataCache[itemId] = mimeData;
+        return mimeData;
+    }
+
+    // For other content roles, get the specific MIME type from the data
+    const QVariantMap mimeData = data(index, contentType::data).toMap();
+
+    // Map role to MIME type
+    if (role == contentType::text)
+        return mimeData.value(mimeText);
+    if (role == contentType::html)
+        return mimeData.value(mimeHtml);
+    if (role == contentType::notes)
+        return mimeData.value(mimeItemNotes);
+
+    return QVariant();
 }
 
 Qt::ItemFlags ClipboardModel::flags(const QModelIndex &index) const
@@ -108,33 +167,110 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 
     int row = index.row();
 
-    if (role == Qt::EditRole) {
-        m_clipboardList[row].setText(value.toString());
-    } else if (role == contentType::notes) {
-        const QString notes = value.toString();
-        if ( notes.isEmpty() )
-            m_clipboardList[row].removeData(mimeItemNotes);
-        else
-            m_clipboardList[row].setData( mimeItemNotes, notes.toUtf8() );
-    } else if (role == contentType::updateData) {
-        if ( !m_clipboardList[row].updateData(value.toMap()) )
+    // Legacy mode - use old list
+    if (m_tabId < 0) {
+        if (role == Qt::EditRole) {
+            m_clipboardList[row].setText(value.toString());
+        } else if (role == contentType::notes) {
+            const QString notes = value.toString();
+            if ( notes.isEmpty() )
+                m_clipboardList[row].removeData(mimeItemNotes);
+            else
+                m_clipboardList[row].setData( mimeItemNotes, notes.toUtf8() );
+        } else if (role == contentType::updateData) {
+            if ( !m_clipboardList[row].updateData(value.toMap()) )
+                return false;
+        } else if (role == contentType::data) {
+            ClipboardItem &item = m_clipboardList[row];
+            const QVariantMap dataMap = value.toMap();
+            // Emit dataChanged() only if really changed.
+            if ( !item.setData(dataMap) )
+                return true;
+        } else if (role >= contentType::removeFormats) {
+            if ( !m_clipboardList[row].removeData(value.toStringList()) )
+                return false;
+        } else {
             return false;
-    } else if (role == contentType::data) {
-        ClipboardItem &item = m_clipboardList[row];
-        const QVariantMap dataMap = value.toMap();
-        // Emit dataChanged() only if really changed.
-        if ( !item.setData(dataMap) )
-            return true;
-    } else if (role >= contentType::removeFormats) {
-        if ( !m_clipboardList[row].removeData(value.toStringList()) )
-            return false;
-    } else {
-        return false;
+        }
+
+        emit dataChanged(index, index);
+        return true;
     }
 
-    emit dataChanged(index, index);
+    // Database mode - write to item_data table
+    const int itemId = QSqlTableModel::data(this->index(row, 0), Qt::DisplayRole).toInt();
+    if (itemId == 0)
+        return false;
 
-    return true;
+    if (role == contentType::data) {
+        const QVariantMap mimeData = value.toMap();
+
+        // Delete old MIME data
+        QSqlQuery deleteQuery(database());
+        deleteQuery.prepare("DELETE FROM item_data WHERE item_id = ?");
+        deleteQuery.addBindValue(itemId);
+        deleteQuery.exec();
+
+        // Insert new MIME data
+        QSqlQuery insertQuery(database());
+        insertQuery.prepare("INSERT INTO item_data (item_id, format, bytes) VALUES (?, ?, ?)");
+
+        for (auto it = mimeData.constBegin(); it != mimeData.constEnd(); ++it) {
+            insertQuery.addBindValue(itemId);
+            insertQuery.addBindValue(it.key());  // MIME format
+            insertQuery.addBindValue(it.value().toByteArray());  // bytes
+            if (!insertQuery.exec()) {
+                qWarning() << "Failed to insert item_data:" << insertQuery.lastError().text();
+                return false;
+            }
+        }
+
+        // Update cache
+        m_mimeDataCache[itemId] = mimeData;
+
+        // Trigger delayed commit
+        m_submitTimer.start();
+
+        emit dataChanged(index, index);
+        return true;
+    } else if (role == contentType::notes) {
+        // Update just the notes MIME type
+        QVariantMap currentData = data(index, contentType::data).toMap();
+        const QString notes = value.toString();
+        if (notes.isEmpty())
+            currentData.remove(mimeItemNotes);
+        else
+            currentData[mimeItemNotes] = notes.toUtf8();
+        return setData(index, currentData, contentType::data);
+    } else if (role == contentType::updateData) {
+        // Merge with existing data
+        QVariantMap currentData = data(index, contentType::data).toMap();
+        const QVariantMap updates = value.toMap();
+        for (auto it = updates.constBegin(); it != updates.constEnd(); ++it) {
+            currentData[it.key()] = it.value();
+        }
+        return setData(index, currentData, contentType::data);
+    } else if (role >= contentType::removeFormats) {
+        // Remove specific formats
+        QVariantMap currentData = data(index, contentType::data).toMap();
+        const QStringList formats = value.toStringList();
+        for (const QString &format : formats) {
+            currentData.remove(format);
+        }
+        return setData(index, currentData, contentType::data);
+    } else if (role == Qt::EditRole) {
+        // Update text/plain MIME type
+        QVariantMap currentData = data(index, contentType::data).toMap();
+        currentData[mimeText] = value.toString().toUtf8();
+        return setData(index, currentData, contentType::data);
+    }
+
+    // For other roles, delegate to base class
+    bool result = QSqlTableModel::setData(index, value, role);
+    if (result) {
+        m_submitTimer.start();  // Delayed commit
+    }
+    return result;
 }
 
 void ClipboardModel::insertItem(const QVariantMap &data, int row)

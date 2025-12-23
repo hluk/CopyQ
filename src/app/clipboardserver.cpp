@@ -112,6 +112,28 @@ void setPreventScreenCapture(QWindow *window, bool prevent)
     platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
 }
 
+int getOrCreateTabId(QSqlDatabase &db, const QString &tabName)
+{
+    QSqlQuery query(db);
+
+    // Try to find existing tab
+    query.prepare("SELECT tab_id FROM tabs WHERE tab_name = ?");
+    query.addBindValue(tabName);
+    if (query.exec() && query.next()) {
+        return query.value(0).toInt();
+    }
+
+    // Create new tab
+    query.prepare("INSERT INTO tabs (tab_name) VALUES (?)");
+    query.addBindValue(tabName);
+    if (!query.exec()) {
+        qWarning() << "Failed to create tab:" << query.lastError().text();
+        return -1;
+    }
+
+    return query.lastInsertId().toInt();
+}
+
 } // namespace
 
 bool ClipboardServer::initializeSchema(QSqlDatabase &db)
