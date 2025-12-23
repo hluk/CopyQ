@@ -28,6 +28,9 @@ class QApplication;
 class QSessionManager;
 struct NotificationButton;
 
+// Database utility function
+int getOrCreateTabId(QSqlDatabase &db, const QString &tabName);
+
 /**
  * The application main server.
  *

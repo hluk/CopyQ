@@ -2,6 +2,7 @@
 
 #include "clipboardbrowser.h"
 
+#include "app/clipboardserver.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
@@ -1712,6 +1713,41 @@ bool ClipboardBrowser::loadItems(const QByteArray &itemData)
 
     m_timerSave.stop();
 
+    // Try database-first loading
+    QSqlDatabase db = QSqlDatabase::database("copyq_main");
+    if (db.isValid() && db.isOpen()) {
+        const int tabId = getOrCreateTabId(db, m_tabName);
+
+        if (tabId >= 0) {
+            // Put model into database mode
+            m.setTab(tabId, m_tabName);
+
+            // Check if database has data for this tab
+            if (m.rowCount() > 0) {
+                COPYQ_LOG(QString("Tab \"%1\": Loaded %2 items from database")
+                    .arg(m_tabName).arg(m.rowCount()));
+
+                // Database has data, use it
+                m_itemSaver = m_sharedData->itemFactory->initializeTab(m_tabName, &m, m_maxItemCount);
+
+                if ( !itemData.isEmpty() ) {
+                    QDataStream stream(itemData);
+                    deserializeData(&m, &stream);
+                }
+
+                d.rowsInserted(QModelIndex(), 0, m.rowCount());
+                if ( hasFocus() )
+                    setCurrent(0);
+                onItemCountChanged();
+
+                return true;
+            }
+        }
+    }
+
+    // Database is empty or unavailable, fall back to .dat file loading in legacy mode
+    COPYQ_LOG(QString("Tab \"%1\": Database empty or unavailable, loading from .dat file").arg(m_tabName));
+
     m.blockSignals(true);
     m_itemSaver = ::loadItems(m_tabName, m, m_sharedData->itemFactory, m_maxItemCount);
     m.blockSignals(false);
@@ -1728,6 +1764,9 @@ bool ClipboardBrowser::loadItems(const QByteArray &itemData)
     if ( hasFocus() )
         setCurrent(0);
     onItemCountChanged();
+
+    // Note: Items loaded from .dat file will be saved to database on next saveItems() call
+    // The model stays in legacy mode (m_tabId = -1) until database loading is fully implemented
 
     return true;
 }

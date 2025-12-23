@@ -112,6 +112,8 @@ void setPreventScreenCapture(QWindow *window, bool prevent)
     platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
 }
 
+} // namespace
+
 int getOrCreateTabId(QSqlDatabase &db, const QString &tabName)
 {
     QSqlQuery query(db);
@@ -133,8 +135,6 @@ int getOrCreateTabId(QSqlDatabase &db, const QString &tabName)
 
     return query.lastInsertId().toInt();
 }
-
-} // namespace
 
 bool ClipboardServer::initializeSchema(QSqlDatabase &db)
 {
