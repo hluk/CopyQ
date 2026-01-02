@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>지정된 미디어 유형의 데이터를 표준 명령 입력으로 전송 (끄려면 비워 두십시오)</translation>
+        <translation>지정된 미디어 유형의 데이터를 표준 명령 입력으로 전송 (끄려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation>프로그램의 표준 출력에서 항목 만들기 (끄려면 비워 두십시오)</translation>
+        <translation>프로그램의 표준 출력에서 항목 만들기 (끄려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -91,7 +91,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>지정된 이름으로 탭에 항목 저장 (현재 탭에 저장하려면 비워 두십시오)</translation>
+        <translation>지정된 이름으로 탭에 항목 저장 (현재 탭에 저장하려면 비워 두세요)</translation>
     </message>
     <message>
         <source>Command saved</source>
@@ -326,7 +326,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1573"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
-        <translation>%1 탭에 새 항목을 추가할 수 없습니다. 공간을 확보하려면 항목을 수동으로 제거하십시오.</translation>
+        <translation>%1 탭에 새 항목을 추가할 수 없습니다. 공간을 확보하려면 항목을 수동으로 제거하세요.</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
@@ -494,12 +494,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>명령 저장</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>명령을 파일 &quot;%1&quot;에 저장하는 데 실패했습니다: %2</translation>
     </message>
 </context>
 <context>
@@ -691,7 +691,7 @@ Examples:
     <message>
         <location filename="../src/ui/commandwidget.ui" line="382"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On macOS, this contains the application name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;이 정규식과 일치하는 제목 텍스트가 있는 창에서 클립보드로 복사된 항목에 대해서만 명령을 사용합니다 (창과 일치하려면 비워 두십시오). macOS에서는 응용 프로그램 이름 뒤에 대시 (&amp;quot;-&amp;quot;),가 있고 창 제목이 있습니다. 예: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;이 정규식과 일치하는 제목 텍스트가 있는 창에서 클립보드로 복사된 항목에 대해서만 명령을 사용합니다 (창과 일치하려면 비워 두세요). macOS에서는 응용 프로그램 이름 뒤에 대시 (&amp;quot;-&amp;quot;),가 있고 창 제목이 있습니다. 예: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
@@ -703,7 +703,7 @@ Examples:
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>이 MIME 유형의 데이터는 표준 명령 입력으로 전송됩니다.
-이 기능을 사용하지 않으려면 비워 두십시오.</translation>
+이 기능을 사용하지 않으려면 비워 두세요.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="416"/>
@@ -728,7 +728,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="480"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>새 항목을 복사할 탭 이름 (복사하지 않으려면 비워 두십시오)</translation>
+        <translation>새 항목을 복사할 탭 이름 (복사하지 않으려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="492"/>
@@ -772,7 +772,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="580"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation>프로그램의 표준 출력에서 항목 만들기 (사용 안 함으로 설정하려면 비워 두십시오)</translation>
+        <translation>프로그램의 표준 출력에서 항목 만들기 (사용 안 함으로 설정하려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="590"/>
@@ -797,7 +797,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="620"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>지정된 이름으로 탭에 항목 저장 (첫 번째 탭에 저장하려면 비워 두십시오)</translation>
+        <translation>지정된 이름으로 탭에 항목 저장 (첫 번째 탭에 저장하려면 비워 두세요)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="637"/>
@@ -974,7 +974,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="190"/>
         <source>Set external editor command first!</source>
-        <translation>외부 편집기 명령을 먼저 설정하십시오!</translation>
+        <translation>외부 편집기 명령을 먼저 설정하세요!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="390"/>
@@ -1254,7 +1254,7 @@ Set to 0 not to unload tabs.</source>
 Leave empty to disable automatic storing.</source>
         <translation>새 클립보드 내용을 자동으로 저장할 탭의 이름입니다.
 
-자동 저장을 사용하지 않으려면 비워 두십시오.</translation>
+자동 저장을 사용하지 않으려면 비워 두세요.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="193"/>
@@ -2261,7 +2261,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;파일을 무시하려면 미디어 유형을 &lt;strong&gt;-&lt;/strong&gt; (마이너스 문자)로 설정하십시오. 다른 알 수 없거나 숨겨진 파일은 무시됩니다.&lt;/p&gt;
+        <translation>&lt;p&gt;파일을 무시하려면 미디어 유형을 &lt;strong&gt;-&lt;/strong&gt; (마이너스 문자)로 설정하세요. 다른 알 수 없거나 숨겨진 파일은 무시됩니다.&lt;/p&gt;
 &lt;p&gt;예: &lt;strong&gt;txt&lt;/strong&gt; 파일 확장명을 &lt;strong&gt;text/plain&lt;/strong&gt; 미디어 유형으로 로드합니다.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -3674,7 +3674,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="109"/>
         <source>Press &apos;/&apos; to search</source>
-        <translation>검색하려면 &apos;/&apos;를 누르십시오</translation>
+        <translation>검색하려면 &apos;/&apos;를 누르세요</translation>
     </message>
     <message>
         <location filename="../src/gui/traymenu.cpp" line="111"/>
