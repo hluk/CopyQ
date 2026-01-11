@@ -122,7 +122,7 @@ QString AboutDialog::aboutPage(const Theme &theme)
             + helpLib("Font Awesome",
                       "Copyright (c) Fonticons, Inc.", "https://fontawesome.com")
             + helpLib("LibQxt",
-                      "Copyright (c), the LibQxt project", "http://libqxt.org")
+                      "Copyright (c), the LibQxt project", "https://bitbucket.org/libqxt/libqxt/wiki/Home")
             + helpLib("Solarized",
                       "Copyright (c) Ethan Schoonover", "https://ethanschoonover.com/solarized")
 

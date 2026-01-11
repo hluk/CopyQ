@@ -123,7 +123,7 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v5
         with:
           submodules: false
           fetch-depth: 1
@@ -199,7 +199,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
         with:
           files: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
           fail_ci_if_error: true

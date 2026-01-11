@@ -2505,7 +2505,7 @@ Socraigh go 0 le díchumasú.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="808"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Cuir in Eagar</translation>
+        <translation>&amp;Eagar</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="861"/>
@@ -2980,7 +2980,7 @@ a d&apos;fhéadfadh a bheith ina litreacha, digití, &apos;-&apos; nó &apos;_&a
     <message>
         <location filename="../src/gui/menuitems.cpp" line="113"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Cuir in Eagar</translation>
+        <translation>&amp;Eagar</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="131"/>
