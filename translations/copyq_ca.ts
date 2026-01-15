@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="87"/>
         <source>Clipboard Manager</source>
-        <translation>Administrador de portapapers</translation>
+        <translation>Administrador de porta-retalls</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="94"/>
@@ -59,12 +59,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Envia dades del tipus de suport donat a l&apos;entrada estàndard de l&apos;ordre (deixa-ho en blanc per desactivar-ho)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to turn off)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea elements des de la sortida estàndard del programa (deixa&apos;l en blanc per desactivar-lo)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -80,7 +80,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -90,7 +90,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>Desa els elements a la pestanya amb el nom indicat (deixa&apos;ls en blanc per desar-los a la pestanya actual)</translation>
     </message>
 </context>
 <context>
@@ -98,17 +98,17 @@
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="117"/>
         <source>Error: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Exit code: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Codi de sortida: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="169"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Comanda %1</translation>
     </message>
 </context>
 <context>
@@ -116,12 +116,12 @@
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="14"/>
         <source>Process Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestor de processos</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="22"/>
         <source>Filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre</translation>
     </message>
     <message>
         <location filename="../src/ui/actionhandlerdialog.ui" line="32"/>
@@ -134,102 +134,102 @@
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Afegeix ordres</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="64"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra/amaga la finestra principal</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="65"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el menú de la safata</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="66"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra la finestra principal sota el cursor del ratolí</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="67"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita el porta-retalls</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="68"/>
         <source>Edit first item</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita el primer element</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="69"/>
         <source>Copy second item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia el segon element</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="70"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostra el diàleg d&apos;acció</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="71"/>
         <source>Create new item</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un element nou</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="72"/>
         <source>Copy next item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia l&apos;element següent</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="73"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia l&apos;element anterior</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="74"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa el porta-retalls com a text sense format</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="75"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Desactiva l&apos;emmagatzematge del porta-retalls</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="76"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilita l&apos;emmagatzematge del porta-retalls</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="77"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa i copia el següent</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="78"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa i copia l&apos;anterior</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="79"/>
         <source>Take screenshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Fes una captura de pantalla</translation>
     </message>
     <message>
         <location filename="../src/common/globalshortcutcommands.cpp" line="80"/>
         <source>Paste current date and time</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa la data i l&apos;hora actuals</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="41"/>
         <source>New command</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova comanda</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="48"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora els elements sense o amb un sol caràcter</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="77"/>
@@ -239,33 +239,33 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="85"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Enganxa com a text sense format</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Reproducció automàtica de vídeos</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="102"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia l&apos;URL (adreça web) a una altra pestanya</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="109"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea una miniatura (necessita ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="117"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un codi QR a partir d&apos;una URL (necessita qrencode)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="125"/>
         <source>Tasks</source>
         <comment>Tab name for some predefined commands</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tasques</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="128"/>
@@ -282,32 +282,32 @@
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="144"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora els fitxers copiats</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="153"/>
         <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignora la finestra *&quot;Contrasenya&quot;*</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="154"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrasenya</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="162"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Mou a la paperera</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="165"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(paperera)</translation>
     </message>
     <message>
         <location filename="../src/common/predefinedcommands.cpp" line="169"/>
         <source>Clear Current Tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Neteja la pestanya actual</translation>
     </message>
 </context>
 <context>
@@ -320,7 +320,7 @@
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1897"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Descartar els canvis?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1898"/>
@@ -333,12 +333,12 @@
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="99"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexió perduda!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="106"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation type="unfinished"></translation>
+        <translation>No es pot connectar al servidor! Primer cal iniciar el servidor CopyQ.</translation>
     </message>
 </context>
 <context>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>Clipboard Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contingut del porta-retalls</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
