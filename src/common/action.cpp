@@ -9,6 +9,7 @@
 #include "item/serialize.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QEventLoop>
 #include <QPointer>
 #include <QProcessEnvironment>
@@ -228,7 +229,9 @@ void Action::start()
 
     Q_ASSERT( !cmds.isEmpty() );
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    // Avoid calling non-trivial QProcessEnvironment::systemEnvironment() repeatedly.
+    static const QProcessEnvironment baseEnv = QProcessEnvironment::systemEnvironment();
+    QProcessEnvironment env = baseEnv;
     if (m_id != -1)
         env.insert("COPYQ_ACTION_ID", QString::number(m_id));
     if ( !m_name.isEmpty() )
@@ -238,8 +241,11 @@ void Action::start()
         auto process = new QProcess(this);
         m_processes.push_back(process);
         process->setProcessEnvironment(env);
-        if ( !m_workingDirectoryPath.isEmpty() )
+        if ( !m_workingDirectoryPath.isEmpty()
+           && m_workingDirectoryPath != QDir::currentPath() )
+        {
             process->setWorkingDirectory(m_workingDirectoryPath);
+        }
 
         connectProcessError(process, this, &Action::onSubProcessError);
         connect( process, &QProcess::readyReadStandardError,
