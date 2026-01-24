@@ -506,7 +506,7 @@ Możesz je skonfigurować w Preferencjach.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz Komendy</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>

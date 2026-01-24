@@ -1,8 +1,8 @@
 class Kf6Knotifications < Formula
   desc "Abstraction for system notifications"
   homepage "https://www.kde.org"
-  url "https://download.kde.org/stable/frameworks/6.7/knotifications-6.7.0.tar.xz"
-  sha256 "9e972f015d9b31b3283bf842a32d270096224d127c13a6e79450f4f0452de5e7"
+  url "https://download.kde.org/stable/frameworks/6.15/knotifications-6.15.0.tar.xz"
+  sha256 "97bf87eb57883ab3ae483c4720688a1ca539770b99179b64610a802bb95aedee"
   head "https://invent.kde.org/frameworks/knotifications.git"
 
   depends_on "cmake" => [:build, :test]
