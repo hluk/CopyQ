@@ -59,7 +59,7 @@ if (WITH_QT6 AND ECM_VERSION VERSION_GREATER "6.2.0")
 else()
     message(WARNING
         "Using built-in clipboard support."
-        " Requires Qt 6 and 'kf6-guiaddons', 'libkf6guiaddons' or similar"
+        " Requires Qt 6 and 'kf6-kguiaddons', 'libkf6guiaddons' or similar"
         " for better Wayland clipboard integration.")
     set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
     include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)
