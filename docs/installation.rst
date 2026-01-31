@@ -24,6 +24,21 @@ following commands (for details, see `issue #2652
     xattr -d com.apple.quarantine /Applications/CopyQ.app
     codesign --force --deep --sign - /Applications/CopyQ.app
 
+On **macOS**, after Homebrew installation, the ``copyq`` CLI command is not
+available by default. To enable CLI access, create a symlink manually:
+
+.. code-block:: bash
+
+    sudo ln -sf /Applications/CopyQ.app/Contents/MacOS/CopyQ /usr/local/bin/copyq
+
+After this, you can use the CLI:
+
+.. code-block:: bash
+
+    copyq --version
+    copyq clipboard
+    copyq size
+
 On Debian unstable, **Debian 11+**, **Ubuntu 22.04+** and later derivatives can
 install stable version from official repositories:
 
