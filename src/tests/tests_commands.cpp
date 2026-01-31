@@ -304,6 +304,9 @@ void Tests::automaticCommandRegExp()
 
 void Tests::automaticCommandSetData()
 {
+    RUN("add" << "TEST", "");
+    RUN("read" << "0", "TEST");
+
     const auto script = R"(
         setCommands([{automatic: true, cmd: 'copyq: setData("text/plain", "OK")'}])
         )";
@@ -312,6 +315,10 @@ void Tests::automaticCommandSetData()
 
     TEST( m_test->setClipboard("SHOULD BE CHANGED") );
     WAIT_ON_OUTPUT("read" << "0", "OK");
+
+    // Ensure that previous item is not modified
+    // See: https://github.com/hluk/CopyQ/issues/3324
+    RUN("read" << "1", "TEST");
 }
 
 void Tests::automaticCommandOutputTab()

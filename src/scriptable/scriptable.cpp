@@ -1701,7 +1701,7 @@ QJSValue Scriptable::setData()
     if ( !toItemData(argument(1), mime, &m_data) )
         return false;
 
-    if (!m_modifyDisplayDataOnly)
+    if (m_modifySelectionData)
         m_proxy->setSelectedItemsData(mime, m_data.value(mime), m_tabName);
 
     return true;
@@ -1714,7 +1714,7 @@ QJSValue Scriptable::removeData()
     const QString mime = arg(0);
     m_data.remove(mime);
 
-    if (!m_modifyDisplayDataOnly)
+    if (m_modifySelectionData)
         m_proxy->setSelectedItemsData(mime, QVariant(), m_tabName);
 
     return true;
@@ -2487,12 +2487,15 @@ void Scriptable::clearClipboardData()
 
 QJSValue Scriptable::runAutomaticCommands()
 {
-    return runCommands(CommandType::Automatic);
+    m_modifySelectionData = false;
+    const auto result = runCommands(CommandType::Automatic);
+    m_modifySelectionData = true;
+    return result;
 }
 
 void Scriptable::runDisplayCommands()
 {
-    m_modifyDisplayDataOnly = true;
+    m_modifySelectionData = false;
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, [&]() {
@@ -2534,7 +2537,7 @@ void Scriptable::runDisplayCommands()
     if (m_abort == Abort::None)
         loop.exec();
 
-    m_modifyDisplayDataOnly = false;
+    m_modifySelectionData = true;
 }
 
 void Scriptable::runMenuCommandFilters()

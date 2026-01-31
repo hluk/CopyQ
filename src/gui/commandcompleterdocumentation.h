@@ -90,8 +90,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("toUnicode", "toUnicode(ByteArray, encodingName) -> string", "Returns string for bytes with given encoding.");
     addDocumentation("fromUnicode", "fromUnicode(String, encodingName) -> `ByteArray`", "Returns encoded text.");
     addDocumentation("data", "data(mimeType) -> `ByteArray`", "Returns data for automatic commands or selected items.");
-    addDocumentation("setData", "setData(mimeType, data) -> bool", "Modifies data for `data()` and new clipboard item.");
-    addDocumentation("removeData", "removeData(mimeType)", "Removes data for `data()` and new clipboard item.");
+    addDocumentation("setData", "setData(mimeType, data) -> bool", "Set data for automatic and display commands, or the current item selection.");
+    addDocumentation("removeData", "removeData(mimeType)", "Removes data for automatic and display commands, or the current item selection.");
     addDocumentation("dataFormats", "dataFormats() -> array of strings", "Returns formats available for `data()`.");
     addDocumentation("print", "print(value)", "Prints value to standard output.");
     addDocumentation("serverLog", "serverLog(value)", "Prints value to application log.");
