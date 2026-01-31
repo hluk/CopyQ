@@ -488,7 +488,7 @@ private:
     bool m_abortWithSuccess = false;
     int m_skipArguments = 0;
 
-    bool m_modifyDisplayDataOnly = false;
+    bool m_modifySelectionData = true;
 
     QJSValue m_plugins;
 

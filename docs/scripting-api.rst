@@ -804,9 +804,9 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: setData(mimeType, data)
 
-   Modifies data for :js:func:`data` and new clipboard item.
+   Set data for automatic and display commands, or the current item selection.
 
-   Next automatic command will get updated data.
+   Next automatic command will receive the updated data.
 
    This is also the data used to create new item from clipboard.
 
@@ -833,7 +833,7 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: removeData(mimeType)
 
-   Removes data for :js:func:`data` and new clipboard item.
+   Removes data for automatic and display commands, or the current item selection.
 
 .. js:function:: dataFormats()
 
