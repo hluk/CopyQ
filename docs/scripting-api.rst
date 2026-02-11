@@ -337,30 +337,54 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: /*window*/ copy()
 
-   Sends ``Ctrl+C`` to current window.
+   Sends ``Shift+Insert`` (or ``Ctrl+C``) to the current application or window.
 
-   :throws Error: Thrown if clipboard doesn't change (clipboard is reset before
-                  sending the shortcut).
+   If the regular expression in the option ``window_paste_with_ctrl_v_regex``
+   matches the current window title, the shortcut ``Ctrl+C`` is sent instead of
+   the default ``Shift+Insert``. For example, to override the option so that
+   ``Ctrl+C`` is sent for all windows, call:
+
+   .. code-block:: js
+
+       config('window_paste_with_ctrl_v_regex', '.*')
+
+   The function resets the clipboard before sending the shortcut so it can
+   detect changes properly.
+
+   :throws Error: Thrown if the clipboard does not change. This can indicate
+     that sending the shortcut failed or that nothing valid was selected to copy.
 
    Example:
 
    .. code-block:: js
 
        try {
-           copy(arguments)
+           copy()
        } catch (e) {
-           // Coping failed!
-           popup('Coping Failed', e)
+           popup('Copying Failed', e)
            abort()
        }
-       var text = str(clipboard())
+       let text = str(clipboard())
        popup('Copied Text', text)
 
-.. js:function:: copySelection(...)
+.. js:function:: copySelection(text)
 
-   Same as :js:func:`copy` for `Linux mouse selection`_.
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
 
-   There is no ``copySelection()`` without parameters.
+   :throws Error: Thrown if selection fails to be set.
+
+.. js:function:: /*data*/ copySelection(mimeType, data, [mimeType, data]...)
+
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
+
+   :throws Error: Thrown if selection fails to be set.
+
+.. js:function:: /*item*/ copySelection(Item)
+
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
 
    :throws Error: Thrown if selection fails to be set.
 

@@ -35,8 +35,10 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("copy", "copy(text)", "Sets clipboard plain text.");
     addDocumentation("copy", "copy(mimeType, data, [mimeType, data]...)", "Sets clipboard data.");
     addDocumentation("copy", "copy(Item)", "Function override with an item argument.");
-    addDocumentation("copy", "copy()", "Sends `Ctrl+C` to current window.");
-    addDocumentation("copySelection", "copySelection(...)", "Same as `copy()` for `Linux mouse selection`_.");
+    addDocumentation("copy", "copy()", "Sends `Shift+Insert` (or `Ctrl+C`) to the current application or window.");
+    addDocumentation("copySelection", "copySelection(text)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
+    addDocumentation("copySelection", "copySelection(mimeType, data, [mimeType, data]...)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
+    addDocumentation("copySelection", "copySelection(Item)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
     addDocumentation("paste", "paste()", "Pastes current clipboard.");
     addDocumentation("tab", "tab() -> array of strings", "Returns tab names.");
     addDocumentation("tab", "tab(tabName)", "Sets current tab for the script.");
