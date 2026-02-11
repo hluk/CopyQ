@@ -111,8 +111,10 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
         break;
 
     case QEvent::Hide:
-        if ( isGeometryGuardBlockedUntilHidden(m_window) )
+        if ( isGeometryGuardBlockedUntilHidden(m_window) ) {
             setGeometryGuardBlockedUntilHidden(m_window, false);
+            restoreWindowGeometry();
+        }
         break;
 
     default:
