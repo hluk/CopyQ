@@ -762,6 +762,7 @@ Examples:
 Les paramètres %2 à %9 (ou argument[1] et suivants dans un script) dans la commande et le filtre seront remplacés par les textes capturés.
 
 Exemples&#xa0;:
+
 — Correspondance d&apos;URL&#xa0;: ^(https?|ftp)://
 — Correspondance de nom de PDF&#xa0;: \.pdf$
 — Correspondance d&apos;un caractère&#xa0;: ^.$
@@ -2075,7 +2076,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="77"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation>Tous les éléments de l&apos;onglet &lt;strong&gt;% 1 &lt;/strong&gt; n&apos;ont pas été chargés avec succès. Voulez-vous toujours charger l&apos;onglet et perdre potentiellement certains éléments?</translation>
+        <translation>Tous les éléments de l&apos;onglet &lt;strong&gt;% 1 &lt;/strong&gt; n&apos;ont pas été chargés avec succès. Voulez-vous toujours charger l&apos;onglet et perdre potentiellement certains éléments&#x202f;?</translation>
     </message>
 </context>
 <context>
