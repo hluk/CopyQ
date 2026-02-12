@@ -2944,7 +2944,8 @@ bool MainWindow::event(QEvent *event)
         setHideTabs(m_options.hideTabs);
         m_timerUpdateFocusWindows.start();
     } else if (type == QEvent::Hide) {
-        m_wasMaximized = isMaximized();
+        if ( !isGeometryGuardBlockedUntilHidden(this) )
+            m_wasMaximized = isMaximized();
     } else if (type == QEvent::Show && m_showItemPreview) {
         updateItemPreviewAfterMs(0);
     }
@@ -3138,7 +3139,7 @@ void MainWindow::showWindow()
 
     moveToCurrentWorkspace(this);
 
-    if (m_wasMaximized || isMaximized())
+    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) )
         showMaximized();
     else
         showNormal();

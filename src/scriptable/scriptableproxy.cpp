@@ -626,6 +626,8 @@ void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
     setGeometryGuardBlockedUntilHidden(window, true);
 
+    window->setWindowState(window->windowState() & ~Qt::WindowMaximized);
+
     const auto pos = (geometry.x() == -1 && geometry.y() == -1)
             ? QCursor::pos()
             : geometry.topLeft();
