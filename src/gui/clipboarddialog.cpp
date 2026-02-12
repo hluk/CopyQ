@@ -69,6 +69,8 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
         }
         setData(m_data);
     }
+
+    ui->listWidgetFormats->setCurrentRow(0);
 }
 
 ClipboardDialog::ClipboardDialog(
@@ -83,6 +85,8 @@ ClipboardDialog::ClipboardDialog(
     connect( m_model.data(), &QAbstractItemModel::dataChanged,
              this, &ClipboardDialog::onDataChanged );
     onDataChanged(m_index, m_index);
+
+    ui->listWidgetFormats->setCurrentRow(0);
 }
 
 ClipboardDialog::~ClipboardDialog()
@@ -208,7 +212,6 @@ void ClipboardDialog::init()
     setWindowIcon(appIcon());
 
     ui->horizontalLayout->setStretchFactor(1, 1);
-    ui->listWidgetFormats->setCurrentRow(0);
 
     WindowGeometryGuard::create(this);
 
