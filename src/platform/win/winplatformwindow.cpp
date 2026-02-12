@@ -101,7 +101,9 @@ bool isKeyPressed(int key)
 
 bool isModifierPressed()
 {
-    return isKeyPressed(VK_LCONTROL)
+    return isKeyPressed(VK_LWIN)
+        || isKeyPressed(VK_RWIN)
+        || isKeyPressed(VK_LCONTROL)
         || isKeyPressed(VK_RCONTROL)
         || isKeyPressed(VK_LSHIFT)
         || isKeyPressed(VK_RSHIFT)
