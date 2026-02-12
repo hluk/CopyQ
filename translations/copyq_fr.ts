@@ -508,12 +508,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Commandes d&apos;enregistrement</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;enregistrement des commandes dans le fichier &quot;%1&quot;&#xa0;: %2</translation>
     </message>
 </context>
 <context>
@@ -757,9 +757,9 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished">Passer la commande si le texte d&apos;entré ne correspond pas à l&apos;expression régulière (laisser vide pour correspondre à tout).
+        <translation>Ignore la commande si le texte d&apos;entrée ne correspond pas à l&apos;expression régulière (laisser vide pour tout faire correspondre).
 
-%2 au travers %9 (ou argument[1] et haut dans le script) dans Commande et Filtre sera remplacé par le texte capturé.
+Les paramètres %2 à %9 (ou argument[1] et suivants dans un script) dans la commande et le filtre seront remplacés par les textes capturés.
 
 Exemples&#xa0;:
 — Correspondance d&apos;URL&#xa0;: ^(https?|ftp)://
@@ -1126,17 +1126,17 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Empêcher la capture des fenêtres d&apos;application dans les captures d&apos;écran et les enregistrements</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Masquer des captures d&apos;écran et des enregistrements</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Style de navigation / Configuration du clavier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="181"/>
@@ -2411,7 +2411,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer l&apos;étiquette %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
@@ -3103,7 +3103,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Maj+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
