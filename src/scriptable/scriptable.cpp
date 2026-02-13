@@ -3019,7 +3019,8 @@ QJSValue Scriptable::copy(ClipboardMode mode)
         const QVariantMap data = createDataMap(mime, value);
         m_proxy->setClipboard(data, mode);
 
-        m_proxy->copyFromCurrentWindow();
+        if ( !m_proxy->copyFromCurrentWindow() )
+            return throwError( QStringLiteral("Failed to copy from current window") );
 
         // Wait for clipboard to be set.
         for (int i = 0; i < 10; ++i) {

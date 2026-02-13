@@ -30,12 +30,12 @@ public:
     /**
      * Paste clipboard content to window.
      */
-    virtual void pasteClipboard() = 0;
+    virtual bool pasteFromClipboard() = 0;
 
     /**
      * Copy to clipboard from window.
      */
-    virtual void copy() = 0;
+    virtual bool copyToClipboard() = 0;
 
     PlatformWindow(const PlatformWindow &) = delete;
     PlatformWindow &operator=(const PlatformWindow &) = delete;

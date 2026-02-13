@@ -906,10 +906,12 @@ bool ScriptableProxy::pasteToCurrentWindow()
     INVOKE(pasteToCurrentWindow, ());
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
-    if (!window)
+    if (!window) {
+        log("Failed to get current window for pasting from clipboard", LogWarning);
         return false;
-    window->pasteClipboard();
-    return true;
+    }
+
+    return window->pasteFromClipboard();
 }
 
 bool ScriptableProxy::copyFromCurrentWindow()
@@ -917,10 +919,12 @@ bool ScriptableProxy::copyFromCurrentWindow()
     INVOKE(copyFromCurrentWindow, ());
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
-    if (!window)
+    if (!window) {
+        log("Failed to get current window for copying to clipboard", LogWarning);
         return false;
-    window->copy();
-    return true;
+    }
+
+    return window->copyToClipboard();
 }
 
 bool ScriptableProxy::isMonitoringEnabled()

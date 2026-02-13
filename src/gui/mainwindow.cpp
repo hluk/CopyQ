@@ -2125,7 +2125,7 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from tray menu to: %1")
                        .arg(lastWindow->getTitle()) );
-            lastWindow->pasteClipboard();
+            lastWindow->pasteFromClipboard();
         }
     }
 }
@@ -3683,7 +3683,7 @@ void MainWindow::activateCurrentItemHelper()
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from main window to: %1")
                        .arg(lastWindow->getTitle()) );
-            lastWindow->pasteClipboard();
+            lastWindow->pasteFromClipboard();
         }
     }
 }

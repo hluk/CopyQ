@@ -337,22 +337,16 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: /*window*/ copy()
 
-   Sends ``Shift+Insert`` (or ``Ctrl+C``) to the current application or window.
-
-   If the regular expression in the option ``window_paste_with_ctrl_v_regex``
-   matches the current window title, the shortcut ``Ctrl+C`` is sent instead of
-   the default ``Shift+Insert``. For example, to override the option so that
-   ``Ctrl+C`` is sent for all windows, call:
-
-   .. code-block:: js
-
-       config('window_paste_with_ctrl_v_regex', '.*')
+   Sends ``Ctrl+C`` to the current application or window to trigger a copy
+   operation.
 
    The function resets the clipboard before sending the shortcut so it can
    detect changes properly.
 
    :throws Error: Thrown if the clipboard does not change. This can indicate
-     that sending the shortcut failed or that nothing valid was selected to copy.
+      that sending the shortcut failed, the target current window could not be
+      retrieved, or that nothing valid was selected to copy. In such case, see
+      logs for more details.
 
    Example:
 
@@ -390,24 +384,33 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: paste()
 
-   Pastes current clipboard.
+   Sends ``Shift+Insert`` (or ``Ctrl+V``) to the current application or window
+   to trigger a paste operation.
 
-   This is basically only sending ``Shift+Insert`` shortcut to current
-   window.
+   If the regular expression in the option ``window_paste_with_ctrl_v_regex``
+   matches the current window title, the shortcut ``Ctrl+V`` is sent instead of
+   the default ``Shift+Insert``. For example, to override the option so that
+   ``Ctrl+V`` is sent for all windows, call:
+
+   .. code-block:: js
+
+       config('window_paste_with_ctrl_v_regex', '.*')
 
    Correct functionality depends a lot on target application and window
    manager.
 
-   :throws Error: Thrown if paste operation fails.
+   :throws Error: Thrown if paste operation fails. This can indicate that
+      sending the shortcut failed, the target current window could not be
+      retrieved. In such case, see logs for more details.
 
    Example:
 
    .. code-block:: js
 
+       copy(text)
        try {
            paste()
        } catch (e) {
-           // Pasting failed!
            popup('Pasting Failed', e)
            abort()
        }
