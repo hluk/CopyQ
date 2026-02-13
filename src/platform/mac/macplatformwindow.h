@@ -30,11 +30,11 @@ public:
      *
      * On OS X, this gets the title of the application instead of the window.
      */
-    QString getTitle();
+    QString getTitle() override;
 
-    void raise();
-    void pasteClipboard();
-    void copy();
+    void raise() override;
+    bool pasteFromClipboard() override;
+    bool copyToClipboard() override;
 
 private:
     // Don't allow copies
