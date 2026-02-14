@@ -533,10 +533,13 @@ public:
 
     QByteArray cleanup() override
     {
-        addFailedTest();
         m_env = m_envBeforeTest;
         const QByteArray errors = isServerRunning() ? stopServer() : QByteArray();
         m_ignoreErrors = {};
+
+        if ( !errors.isEmpty() || QTest::currentTestFailed() )
+            m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
+
         return errors;
     }
 
@@ -602,12 +605,6 @@ private:
     bool testStderr(const QByteArray &stderrData)
     {
         return ::testStderr(stderrData, m_ignoreErrors);
-    }
-
-    void addFailedTest()
-    {
-        if ( QTest::currentTestFailed() )
-            m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
     }
 
     void verifyConfiguration()
