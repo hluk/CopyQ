@@ -149,7 +149,7 @@ void ClipboardClient::start(const QString &sessionName, const QStringList &argum
 
     bool hasActionId;
     auto actionId = qEnvironmentVariableIntValue("COPYQ_ACTION_ID", &hasActionId);
-    const auto actionName = getTextData( qgetenv("COPYQ_ACTION_NAME") );
+    const auto actionName = qEnvironmentVariable("COPYQ_ACTION_NAME");
 
     if ( socket.start() ) {
         if (hasActionId)

@@ -73,15 +73,9 @@ QString sessionName()
     return qApp->property("CopyQ_session_name").toString();
 }
 
-QString textFromEnv(const char *envVaribleName)
-{
-    const auto name = qgetenv(envVaribleName);
-    return QString::fromUtf8(name);
-}
-
 QColor colorFromEnv(const char *envVaribleName)
 {
-    return QColor( textFromEnv(envVaribleName) );
+    return QColor( qEnvironmentVariable(envVaribleName) );
 }
 
 QColor sessionNameToColor(const QString &name)
@@ -125,7 +119,7 @@ QColor &sessionIconColorVariable()
 
 QString &sessionIconTagVariable()
 {
-    static QString tag = textFromEnv("COPYQ_SESSION_TAG");
+    static QString tag = qEnvironmentVariable("COPYQ_SESSION_TAG");
     return tag;
 }
 

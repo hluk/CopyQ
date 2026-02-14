@@ -2161,7 +2161,7 @@ QJSValue Scriptable::setEnv()
     m_skipArguments = 2;
     const QString name = arg(0);
     const QByteArray value = makeByteArray(argument(1));
-    return qputenv(name.toUtf8().constData(), value);
+    return qputenv(name.toLocal8Bit().constData(), value);
 }
 
 QJSValue Scriptable::sleep()

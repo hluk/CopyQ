@@ -177,7 +177,7 @@ void initApplication(QCoreApplication *app)
     if ( !portableFolder.isEmpty() ) {
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, portableFolder);
         if ( qEnvironmentVariableIsEmpty("COPYQ_LOG_FILE") )
-            qputenv("COPYQ_LOG_FILE", portableFolder.toUtf8() + "/copyq.log");
+            qputenv("COPYQ_LOG_FILE", portableFolder.toLocal8Bit() + "/copyq.log");
         app->setProperty("CopyQ_item_data_path", portableFolder + QLatin1String("/items"));
     }
 }

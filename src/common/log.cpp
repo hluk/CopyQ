@@ -14,12 +14,6 @@
 
 namespace {
 
-QString envString(const char *varName)
-{
-    const QByteArray bytes = qgetenv(varName);
-    return QString::fromUtf8( bytes.constData(), bytes.size() );
-}
-
 QString logFileName(int i)
 {
     if (i <= 0)
@@ -89,7 +83,7 @@ QString getLogFileName()
     const QString logSuffix = QStringLiteral("-%1-%2.log")
         .arg(dateTime).arg(QCoreApplication::applicationPid());
 
-    QString fileName = envString("COPYQ_LOG_FILE");
+    QString fileName = qEnvironmentVariable("COPYQ_LOG_FILE");
     if (!fileName.isEmpty()) {
         if (fileName.endsWith(QLatin1String(".log"))) {
             fileName.remove(fileName.length() - 4, 4);
