@@ -83,11 +83,11 @@ void setTabWidth(QTextEdit *editor, int spaces)
 void cleanUpLogFilesTimer()
 {
     bool ok;
-    int maxLogSize = qgetenv("COPYQ_MAX_LOG_SIZE").toInt(&ok);
+    int maxLogSize = qEnvironmentVariableIntValue("COPYQ_MAX_LOG_SIZE", &ok);
     if (!ok)
         maxLogSize = 10 * 1024 * 1024;
 
-    int maxFiles = qgetenv("COPYQ_MAX_LOG_FILES").toInt(&ok);
+    int maxFiles = qEnvironmentVariableIntValue("COPYQ_MAX_LOG_FILES", &ok);
     if (!ok)
         maxFiles = 100;
 

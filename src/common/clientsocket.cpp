@@ -116,7 +116,7 @@ ClientSocket::ClientSocket(const QString &serverName, QObject *parent)
         COPYQ_LOG("Waiting for server to start");
 
         bool ok;
-        int waitMs = qgetenv("COPYQ_WAIT_FOR_SERVER_MS").toInt(&ok);
+        int waitMs = qEnvironmentVariableIntValue("COPYQ_WAIT_FOR_SERVER_MS", &ok);
         if (!ok)
             waitMs = 1000;
 

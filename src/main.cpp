@@ -197,7 +197,7 @@ QString takeSessionName(QStringList &arguments)
             arguments.clear();
     }
 
-    return getTextData( qgetenv("COPYQ_SESSION_NAME") );
+    return qEnvironmentVariable("COPYQ_SESSION_NAME", QStringLiteral(""));
 }
 
 AppArguments parseArguments(int argc, char **argv)

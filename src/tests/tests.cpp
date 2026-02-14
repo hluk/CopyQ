@@ -454,7 +454,7 @@ public:
         // Remove all configuration files and tab data.
         const auto settingsPaths = {
             settingsDirectoryPath(),
-            QString::fromUtf8( qgetenv("COPYQ_SETTINGS_PATH") )
+            qEnvironmentVariable("COPYQ_SETTINGS_PATH")
         };
         for ( const auto &settingsPath : settingsPaths ) {
             Q_ASSERT( !settingsPath.isEmpty() );
@@ -721,9 +721,9 @@ int main(int argc, char **argv)
     const auto configPath = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     qCInfo(testCategory) << "Using config directory for tests:" << configPath;
     QDir configDir(configPath);
-    qputenv("COPYQ_SETTINGS_PATH", configPath.toUtf8());
-    qputenv("COPYQ_LOG_FILE", configDir.absoluteFilePath(QStringLiteral("tests.log")).toUtf8());
-    qputenv("COPYQ_ITEM_DATA_PATH", configDir.absoluteFilePath(QStringLiteral("items")).toUtf8());
+    qputenv("COPYQ_SETTINGS_PATH", configPath.toLocal8Bit());
+    qputenv("COPYQ_LOG_FILE", configDir.absoluteFilePath(QStringLiteral("tests.log")).toLocal8Bit());
+    qputenv("COPYQ_ITEM_DATA_PATH", configDir.absoluteFilePath(QStringLiteral("items")).toLocal8Bit());
 
     QRegularExpression onlyPlugins;
     bool runPluginTests = true;

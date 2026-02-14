@@ -17,7 +17,7 @@ namespace {
 int clipboardCopyTimeoutMs()
 {
     static bool ok = false;
-    static int ms = qgetenv("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS").toInt(&ok);
+    static int ms = qEnvironmentVariableIntValue("COPYQ_CLIPBOARD_COPY_TIMEOUT_MS", &ok);
     return ok ? ms : 5000;
 }
 
