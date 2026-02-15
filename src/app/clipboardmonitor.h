@@ -6,6 +6,7 @@
 #include "app/clipboardownermonitor.h"
 #include "common/clipboardmode.h"
 #include "common/common.h"
+#include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QVariantMap>
@@ -37,7 +38,9 @@ private:
     QVariantMap m_selectionData;
 
     PlatformClipboardPtr m_clipboard;
+    ClipboardConnectionPtr m_connection;
     QStringList m_formats;
+    ClipboardModeMask m_modes;
 
     QString m_clipboardTab;
     bool m_storeClipboard;

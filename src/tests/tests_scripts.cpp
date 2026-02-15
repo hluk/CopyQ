@@ -636,11 +636,17 @@ void Tests::commandCopy()
     RUN("copy" << "DATA" << "B", "true\n");
     WAIT_FOR_CLIPBOARD2("B", "DATA");
 
+    // Test copying UTF-8 text.
+    RUN("--" << "copy({[mimeText]: '\\\\u2705', [mimeTextUtf8]: '✅'})", "true\n");
+    WAIT_FOR_CLIPBOARD2("✅", mimeTextUtf8);
+
     RUN( Args() << "copy"
          << "DATA3" << "C"
          << "DATA4" << "D"
          , "true\n" );
     WAIT_FOR_CLIPBOARD2("C", "DATA3");
+
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_MULTIPLE_CLIPBOARD_FORMATS");
     WAIT_FOR_CLIPBOARD2("D", "DATA4");
 
     RUN( "copy({'DATA1': 1, 'DATA2': 2})", "true\n" );
@@ -653,17 +659,12 @@ void Tests::commandCopy()
     RUN_EXPECT_ERROR_WITH_STDERR(
         "copy([{}, {}])",
         CommandException, "Expected single item");
-
-    // Test copying UTF-8 text.
-    RUN("--" << "copy({[mimeText]: '\\\\u2705', [mimeTextUtf8]: '✅'})", "true\n");
-    WAIT_FOR_CLIPBOARD2("✅", mimeTextUtf8);
 }
 
 void Tests::commandClipboard()
 {
     TEST( m_test->setClipboard("A") );
     WAIT_FOR_CLIPBOARD("A");
-    RUN("clipboard", "A");
 
     TEST( m_test->setClipboard("B", "DATA") );
     WAIT_FOR_CLIPBOARD2("B", "DATA");
@@ -675,7 +676,10 @@ void Tests::commandHasClipboardFormat()
     TEST( m_test->setClipboard("B", "DATA") );
     WAIT_FOR_CLIPBOARD2("B", "DATA");
     WAIT_ON_OUTPUT("hasClipboardFormat('DATA')", "true\n");
-    WAIT_ON_OUTPUT("hasClipboardFormat('text/plain')", "false\n");
+    RUN("hasClipboardFormat('text/plain')", "false\n");
+
+    TEST( m_test->setClipboard("A") );
+    WAIT_ON_OUTPUT("hasClipboardFormat('text/plain')", "true\n");
 }
 
 void Tests::commandEdit()

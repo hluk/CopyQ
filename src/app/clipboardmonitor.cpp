@@ -62,8 +62,7 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
     m_formats.append({mimeOwner, mimeWindowTitle, mimeItemNotes, mimeHidden, mimeSecret});
     m_formats.removeDuplicates();
 
-    connect( m_clipboard.get(), &PlatformClipboard::changed,
-             this, &ClipboardMonitor::onClipboardChanged );
+    m_modes = ClipboardModeFlag::Clipboard;
 
 #ifdef HAS_MOUSE_SELECTIONS
     m_storeSelection = config.option<Config::check_selection>();
@@ -75,7 +74,8 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
 
     if (!m_storeSelection && !m_runSelection && !m_selectionToClipboard) {
         COPYQ_LOG("Disabling selection monitoring");
-        m_clipboard->setMonitoringEnabled(ClipboardMode::Selection, false);
+    } else {
+        m_modes |= ClipboardModeFlag::Selection;
     }
 #endif
 }
@@ -86,7 +86,9 @@ void ClipboardMonitor::startMonitoring()
     connect(QGuiApplication::clipboard(), &QClipboard::changed,
             this, [this](){ m_ownerMonitor.update(); });
 
-    m_clipboard->startMonitoring(m_formats);
+    m_connection = m_clipboard->createConnection(m_formats, m_modes);
+    connect(m_connection.get(), &ClipboardConnection::changed,
+            this, &ClipboardMonitor::onClipboardChanged);
 }
 
 QString ClipboardMonitor::currentClipboardOwner()

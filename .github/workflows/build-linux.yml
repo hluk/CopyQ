@@ -105,6 +105,7 @@ jobs:
             with_qt6: true
             with_native_notifications: false
             test_wayland: true
+            test_gnome: true
             coverage: true
             cmake_preset: Debug
             compiler_flags: >-
@@ -147,6 +148,7 @@ jobs:
             ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0 procps' || '' }}
+            ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
@@ -164,6 +166,15 @@ jobs:
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
+
+      - name: Test on GNOME
+        working-directory: >-
+          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_gnome
+        run: '${{github.workspace}}/utils/github/test-linux-gnome-extension.sh'
+        env:
+          COPYQ_TESTS_EXECUTABLE: >-
+            ${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin/copyq
 
       - name: Test on Wayland
         working-directory: >-

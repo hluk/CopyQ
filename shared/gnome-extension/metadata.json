@@ -1,0 +1,6 @@
+{
+  "name": "CopyQ Clipboard Monitor",
+  "description": "Forwards GNOME clipboard changes to active CopyQ sessions.",
+  "uuid": "copyq-clipboard@hluk.github.com",
+  "shell-version": ["45", "46", "47", "48", "49"]
+}

@@ -2,6 +2,7 @@
 find_package(X11)
 
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
+    platform/platformclipboard.cpp
     platform/platformclipboard.h
     )
 
