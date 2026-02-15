@@ -15,21 +15,32 @@ bool contains(const QStringList &formats, const QMimeData &data, const QString &
 
 } // namespace
 
-void WinPlatformClipboard::startMonitoring(const QStringList &formats)
+void WinPlatformClipboard::startMonitoringBackend(const QStringList &formats, ClipboardModeMask modes)
 {
+    Q_UNUSED(modes)
     m_lastClipboardSequenceNumber = GetClipboardSequenceNumber();
 
     /* Clipboard needs to be checked in intervals since
      * the QClipboard::changed() signal is not emitted in some cases on Windows.
      */
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(500);
-    connect( timer, &QTimer::timeout, this, [this](){
+    m_timer = new QTimer(this);
+    m_timer->setInterval(500);
+    connect( m_timer, &QTimer::timeout, this, [this](){
         onClipboardChanged(QClipboard::Clipboard);
     });
-    timer->start();
+    m_timer->start();
 
-    DummyClipboard::startMonitoring(formats);
+    DummyClipboard::startMonitoringBackend(formats, modes);
+}
+
+void WinPlatformClipboard::stopMonitoringBackend()
+{
+    if (m_timer) {
+        m_timer->stop();
+        m_timer->deleteLater();
+        m_timer = nullptr;
+    }
+    DummyClipboard::stopMonitoringBackend();
 }
 
 bool WinPlatformClipboard::isHidden(const QMimeData &data) const
@@ -63,5 +74,5 @@ void WinPlatformClipboard::onChanged(int)
 
     m_lastClipboardSequenceNumber = newClipboardSequenceNumber;
 
-    emit changed(ClipboardMode::Clipboard);
+    emitConnectionChanged(ClipboardMode::Clipboard);
 }

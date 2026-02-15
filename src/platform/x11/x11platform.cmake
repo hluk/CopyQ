@@ -8,6 +8,7 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 
 add_definitions( -DHAS_MOUSE_SELECTIONS )
 add_definitions( -DCOPYQ_MOVE_TO_WORKSPACE )
+list(APPEND copyq_qt_modules DBus)
 
 OPTION(WITH_X11 "Enable X11 support (global shortcuts, getting window titles)" ON)
 if (WITH_X11)
@@ -32,8 +33,6 @@ if (WITH_X11)
         platform/x11/x11platformwindow.cpp
         ../qxt/qxtglobalshortcut_x11.cpp
         )
-    list(APPEND copyq_qt_modules DBus)
-
     set(USE_QXT TRUE)
 
     set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})

@@ -25,6 +25,7 @@ OPTION(PEDANTIC "Enable all compiler warnings" OFF)
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 OPTION(WITH_QCA_ENCRYPTION "Enable QCA-based tab encryption" ON)
 OPTION(WITH_KEYCHAIN "Enable system keyring integration using QtKeychain" ON)
+OPTION(WITH_GNOME_CLIPBOARD_EXTENSION "Install GNOME extension, required for clipboard monitoring" ON)
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
 
@@ -164,6 +165,14 @@ if (UNIX AND NOT APPLE)
     install(FILES ${copyq_APPDATA}         DESTINATION ${APPDATA_INSTALL_PREFIX})
     install(FILES ${copyq_MANPAGE}         DESTINATION ${MANPAGE_INSTALL_PREFIX})
     install(FILES ${copyq_BASH_COMPLETION} DESTINATION ${BASH_COMPLETION_INSTALL_PREFIX} RENAME copyq)
+
+    if (WITH_GNOME_CLIPBOARD_EXTENSION)
+        set(copyq_GNOME_EXTENSION_DESTINATION "${DATA_INSTALL_PREFIX}/gnome-shell/extensions/copyq-clipboard@hluk.github.com")
+        install(FILES
+            shared/gnome-extension/extension.js
+            shared/gnome-extension/metadata.json
+            DESTINATION "${copyq_GNOME_EXTENSION_DESTINATION}")
+    endif()
 
     configure_file(${copyq_DESKTOP}.in ${copyq_DESKTOP})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${copyq_DESKTOP} DESTINATION ${DESKTOP_INSTALL_PREFIX})

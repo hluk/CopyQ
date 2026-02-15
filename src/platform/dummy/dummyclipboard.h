@@ -13,10 +13,6 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode);
 class DummyClipboard : public PlatformClipboard
 {
 public:
-    void startMonitoring(const QStringList &) override;
-
-    void setMonitoringEnabled(ClipboardMode, bool) override {}
-
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
@@ -31,6 +27,8 @@ public:
     void setClipboardOwner(const QString &) override {}
 
 protected:
+    void startMonitoringBackend(const QStringList &, ClipboardModeMask) override;
+    void stopMonitoringBackend() override;
     virtual const QMimeData *rawMimeData(ClipboardMode mode) const;
     virtual void onChanged(int mode);
     void onClipboardChanged(QClipboard::Mode mode);
