@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <QApplication>
+#include <QDBusConnection>
+#include <QDBusArgument>
+#include <QDBusMessage>
+#include <QDBusReply>
+#include <QDBusServiceWatcher>
+#include <QDBusVariant>
+#include <QLoggingCategory>
+#include <memory>
 
 #include "x11platformclipboard.h"
 
@@ -9,7 +17,6 @@
 #include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "common/log.h"
 #include "common/timer.h"
 
 #ifdef HAS_KGUIADDONS
@@ -27,14 +34,37 @@ using KSystemClipboard = WaylandClipboard;
 #endif
 
 #include <QClipboard>
+#include <QMetaType>
 #include <QMimeData>
 #include <QPointer>
+#include <functional>
 
 namespace {
+
+Q_LOGGING_CATEGORY(logClipboard, "copyq.clipboard")
+Q_LOGGING_CATEGORY(logClipboardGnome, "copyq.clipboard.gnome")
 
 constexpr auto minCheckAgainIntervalMs = 50;
 constexpr auto maxCheckAgainIntervalMs = 500;
 constexpr auto maxRetryCount = 3;
+const auto gnomeClipboardService = QStringLiteral("com.github.hluk.copyq.GnomeClipboard");
+const auto gnomeClipboardPath = QStringLiteral("/com/github/hluk/copyq/GnomeClipboard");
+const auto gnomeClipboardInterface = QStringLiteral("com.github.hluk.CopyQ.GnomeClipboard1");
+const auto gnomeClipboardClientPath = QStringLiteral("/com/github/hluk/copyq/GnomeClipboardClient");
+const auto gnomeClipboardClientInterface = QStringLiteral("com.github.hluk.CopyQ.GnomeClipboardClient1");
+constexpr int gnomeClipboardTypeClipboard = 0;
+constexpr int gnomeClipboardTypePrimary = 1;
+constexpr int gnomeClipboardTypeBoth = 2;
+
+int gnomeClipboardType(ClipboardMode mode)
+{
+    return mode == ClipboardMode::Selection ? gnomeClipboardTypePrimary : gnomeClipboardTypeClipboard;
+}
+
+ClipboardMode clipboardModeFromGnomeType(int type)
+{
+    return type == gnomeClipboardTypePrimary ? ClipboardMode::Selection : ClipboardMode::Clipboard;
+}
 
 /// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
 bool isSelectionIncomplete()
@@ -61,7 +91,301 @@ bool isSelectionIncomplete()
 #endif
 }
 
+QVariant unwrapDbusValue(QVariant value)
+{
+    if (value.canConvert<QDBusVariant>())
+        value = value.value<QDBusVariant>().variant();
+
+    if (value.userType() == QMetaType::QByteArray)
+        return value;
+
+    if (value.canConvert<QByteArray>()) {
+        const auto bytes = value.toByteArray();
+        if (!bytes.isNull())
+            return bytes;
+    }
+
+    if (value.userType() == qMetaTypeId<QDBusArgument>()) {
+        const auto argument = value.value<QDBusArgument>();
+        if (argument.currentType() == QDBusArgument::VariantType) {
+            QVariant nested;
+            argument >> nested;
+            return unwrapDbusValue(nested);
+        }
+        if (argument.currentType() == QDBusArgument::ArrayType) {
+            QByteArray bytes;
+            argument.beginArray();
+            while (!argument.atEnd()) {
+                QVariant element;
+                argument >> element;
+                bytes.append(static_cast<char>(element.toUInt()));
+            }
+            argument.endArray();
+            return bytes;
+        }
+    }
+
+    return value;
+}
+
+QVariantMap variantToMap(const QVariant &value)
+{
+    if (value.canConvert<QVariantMap>())
+        return value.toMap();
+
+    if (value.userType() == qMetaTypeId<QDBusArgument>()) {
+        const auto argument = value.value<QDBusArgument>();
+        if (argument.currentType() == QDBusArgument::MapType) {
+            QVariantMap map;
+            argument.beginMap();
+            while (!argument.atEnd()) {
+                QString key;
+                QVariant entryValue;
+                argument.beginMapEntry();
+                argument >> key >> entryValue;
+                argument.endMapEntry();
+                map.insert(key, unwrapDbusValue(entryValue));
+            }
+            argument.endMap();
+            return map;
+        }
+    }
+
+    return {};
+}
+
 } // namespace
+
+class GnomeClipboardExtensionClient final : public QObject
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "com.github.hluk.CopyQ.GnomeClipboardClient1")
+public:
+    explicit GnomeClipboardExtensionClient(QObject *parent)
+        : QObject(parent)
+        , m_connection(QDBusConnection::sessionBus())
+    {
+        if (!m_connection.isConnected())
+            return;
+
+        if (!m_connection.registerObject(gnomeClipboardClientPath, this, QDBusConnection::ExportScriptableSlots)) {
+            const auto error = m_connection.lastError();
+            qCCritical(logClipboardGnome)
+                << "Failed to register clipboard client DBus object:"
+                << error.name() << "-" << error.message();
+        }
+        m_serviceWatcher = new QDBusServiceWatcher(
+            gnomeClipboardService, m_connection,
+            QDBusServiceWatcher::WatchForRegistration, this);
+        connect(m_serviceWatcher, &QDBusServiceWatcher::serviceRegistered,
+                this, &GnomeClipboardExtensionClient::onServiceRegistered);
+    }
+
+    ~GnomeClipboardExtensionClient() override
+    {
+        unregisterClient();
+        m_connection.unregisterObject(gnomeClipboardClientPath);
+    }
+
+    void registerClipboardTypes(int clipboardTypes)
+    {
+        m_clipboardTypes = clipboardTypes;
+        registerClient();
+    }
+
+    QVariantMap clipboardData(ClipboardMode mode) const
+    {
+        QVariantMap unwrappedData;
+        const auto data = m_lastClipboardData.value(gnomeClipboardType(mode));
+        for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+            unwrappedData.insert(it.key(), unwrapDbusValue(it.value()));
+        }
+        return unwrappedData;
+    }
+
+    QVariantMap fetchClipboardData(ClipboardMode mode, const QStringList &formats) const
+    {
+        if (!m_connection.isConnected())
+            return {};
+
+        auto message = QDBusMessage::createMethodCall(
+            gnomeClipboardService, gnomeClipboardPath, gnomeClipboardInterface,
+            QStringLiteral("GetClipboardData"));
+        message << gnomeClipboardType(mode) << formats;
+        const QDBusMessage reply = m_connection.call(message);
+        if (reply.type() == QDBusMessage::ErrorMessage) {
+            qCWarning(logClipboardGnome)
+                << "Failed to fetch clipboard data from GNOME extension:"
+                << reply.errorName() << "-" << reply.errorMessage();
+            return {};
+        }
+
+        const auto arguments = reply.arguments();
+        if (arguments.isEmpty()) {
+            qCWarning(logClipboardGnome)
+                << "Failed to fetch clipboard data from GNOME extension: empty reply";
+            return {};
+        }
+
+        auto data = variantToMap(arguments.first());
+        for (auto it = data.begin(); it != data.end(); ++it) {
+            it.value() = unwrapDbusValue(it.value());
+        }
+        m_lastClipboardData.insert(gnomeClipboardType(mode), data);
+        return data;
+    }
+
+    void setClipboardData(ClipboardMode mode, const QVariantMap &data)
+    {
+        if (!m_connection.isConnected())
+            return;
+
+        auto message = QDBusMessage::createMethodCall(
+            gnomeClipboardService, gnomeClipboardPath, gnomeClipboardInterface,
+            QStringLiteral("SetClipboardData"));
+        message << gnomeClipboardType(mode) << data;
+        QDBusReply<void> reply = m_connection.call(message);
+        if (!reply.isValid()) {
+            qCWarning(logClipboardGnome)
+                << "Failed to set clipboard data through GNOME extension:"
+                << reply.error().name() << "-" << reply.error().message();
+        }
+    }
+
+signals:
+    void clipboardChanged(int clipboardType);
+
+public slots:
+    Q_SCRIPTABLE void ClipboardChanged(int clipboardType)
+    {
+        emit clipboardChanged(clipboardType);
+    }
+
+private:
+    void registerClient()
+    {
+        if (!m_connection.isConnected())
+            return;
+
+        auto message = QDBusMessage::createMethodCall(
+            gnomeClipboardService, gnomeClipboardPath, gnomeClipboardInterface,
+            QStringLiteral("RegisterClipboardClient"));
+        message << m_clipboardTypes;
+        QDBusReply<void> reply = m_connection.call(message);
+        if (!reply.isValid()) {
+            qCWarning(logClipboardGnome)
+                << "Failed to register with GNOME extension service:"
+                << reply.error().name() << "-" << reply.error().message();
+        } else {
+            qCDebug(logClipboardGnome)
+                << "Registered with GNOME extension service, clipboardTypes:"
+                << m_clipboardTypes;
+        }
+    }
+
+    void unregisterClient()
+    {
+        if (!m_connection.isConnected())
+            return;
+
+        auto message = QDBusMessage::createMethodCall(
+            gnomeClipboardService, gnomeClipboardPath, gnomeClipboardInterface,
+            QStringLiteral("UnregisterClipboardClient"));
+        QDBusReply<void> reply = m_connection.call(message);
+        if (!reply.isValid())
+            qCWarning(logClipboardGnome)
+                << "Failed to unregister from GNOME extension service:"
+                << reply.error().message();
+    }
+
+    void onServiceRegistered(const QString &name)
+    {
+        if (name == gnomeClipboardService)
+            registerClient();
+    }
+
+    QDBusConnection m_connection;
+    QDBusServiceWatcher *m_serviceWatcher = nullptr;
+    int m_clipboardTypes = gnomeClipboardTypeClipboard;
+    mutable QHash<int, QVariantMap> m_lastClipboardData;
+};
+
+class GnomeExtensionMimeData final : public QMimeData
+{
+public:
+    explicit GnomeExtensionMimeData(const GnomeClipboardExtensionClient *client, ClipboardMode mode)
+        : m_client(client)
+        , m_mode(mode)
+    {}
+
+    QStringList formats() const override
+    {
+        return m_client ? m_client->clipboardData(m_mode).keys() : QStringList{};
+    }
+
+    bool hasFormat(const QString &mimeType) const override
+    {
+        if (!m_client)
+            return false;
+        const auto data = m_client->fetchClipboardData(m_mode, {mimeType});
+        return data.contains(mimeType) || m_client->clipboardData(m_mode).contains(mimeType);
+    }
+
+protected:
+    QVariant retrieveData(const QString &mimeType, QMetaType type) const override
+    {
+        Q_UNUSED(type)
+        if (!m_client)
+            return {};
+
+        auto data = m_client->fetchClipboardData(m_mode, {mimeType});
+        if (!data.contains(mimeType))
+            data = m_client->clipboardData(m_mode);
+        const auto value = data.value(mimeType);
+        if (value.userType() == QMetaType::QByteArray)
+            return value;
+        if (value.userType() == QMetaType::QString)
+            return value.toString().toUtf8();
+        if (value.canConvert<QByteArray>())
+            return value.toByteArray();
+        return {};
+    }
+
+private:
+    const GnomeClipboardExtensionClient *m_client = nullptr;
+    ClipboardMode m_mode = ClipboardMode::Clipboard;
+};
+
+static QVariantMap normalizeClipboardDataMap(const QVariantMap &dataMap)
+{
+    QVariantMap data;
+    for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
+        QVariant value = unwrapDbusValue(it.value());
+        if (value.userType() == QMetaType::QByteArray) {
+            data.insert(it.key(), value);
+        } else if (value.userType() == QMetaType::QString) {
+            data.insert(it.key(), value.toString().toUtf8());
+        }
+    }
+    return data;
+}
+
+static QVariantMap dataMapFromMimeData(const QMimeData *mimeData)
+{
+    if (mimeData == nullptr)
+        return {};
+
+    QVariantMap data;
+    for (const auto &format : mimeData->formats())
+        data.insert(format, mimeData->data(format));
+
+    if (mimeData->hasText()) {
+        const QByteArray bytes = mimeData->text().toUtf8();
+        data.insert(mimeText, bytes);
+        data.insert(mimeTextUtf8, bytes);
+    }
+    return data;
+}
 
 X11PlatformClipboard::X11PlatformClipboard()
 {
@@ -71,8 +395,14 @@ X11PlatformClipboard::X11PlatformClipboard()
     // Create Wayland clipboard instance so it can start receiving new data.
     if ( !X11Info::isPlatformX11() ) {
         KSystemClipboard::instance();
+        m_gnomeClipboardExtensionClient = std::make_unique<GnomeClipboardExtensionClient>(this);
+        connect( m_gnomeClipboardExtensionClient.get(), &GnomeClipboardExtensionClient::clipboardChanged,
+                 this, &X11PlatformClipboard::onGnomeClipboardChanged );
+        m_gnomeClipboardExtensionClient->registerClipboardTypes(gnomeClipboardTypeBoth);
     }
 }
+
+X11PlatformClipboard::~X11PlatformClipboard() = default;
 
 void X11PlatformClipboard::startMonitoring(const QStringList &formats)
 {
@@ -88,7 +418,7 @@ void X11PlatformClipboard::startMonitoring(const QStringList &formats)
     }
 
     if ( m_selectionData.enabled && !QGuiApplication::clipboard()->supportsSelection() ) {
-        log("X11 selection is not supported, disabling.");
+        qCWarning(logClipboard) << "X11 selection is not supported, disabling.";
         m_selectionData.enabled = false;
     }
 
@@ -138,8 +468,12 @@ void X11PlatformClipboard::setMonitoringEnabled(ClipboardMode mode, bool enable)
 
 QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &formats) const
 {
-    if (!m_monitoring)
+    if (!m_monitoring) {
+        if (!X11Info::isPlatformX11() && m_gnomeClipboardExtensionClient) {
+            return m_gnomeClipboardExtensionClient->fetchClipboardData(mode, formats);
+        }
         return DummyClipboard::data(mode, formats);
+    }
 
     const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
 
@@ -147,6 +481,22 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &fo
     if ( !data.contains(mimeOwner) )
         data[mimeWindowTitle] = clipboardData.owner.toUtf8();
     return data;
+}
+
+const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
+{
+    if (!X11Info::isPlatformX11() && m_gnomeClipboardExtensionClient) {
+        if (mode == ClipboardMode::Selection) {
+            if (!m_gnomeSelectionMimeData)
+                m_gnomeSelectionMimeData = std::make_unique<GnomeExtensionMimeData>(m_gnomeClipboardExtensionClient.get(), mode);
+            return m_gnomeSelectionMimeData.get();
+        }
+        if (!m_gnomeClipboardMimeData)
+            m_gnomeClipboardMimeData = std::make_unique<GnomeExtensionMimeData>(m_gnomeClipboardExtensionClient.get(), mode);
+        return m_gnomeClipboardMimeData.get();
+    }
+
+    return DummyClipboard::mimeData(mode);
 }
 
 void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
@@ -175,6 +525,21 @@ void X11PlatformClipboard::setData(ClipboardMode mode, const QVariantMap &dataMa
             data->setText(dataMap.value(mimeTextUtf8).toString());
         KSystemClipboard::instance()->setMimeData(data, qmode);
     }
+
+    if (!X11Info::isPlatformX11() && m_gnomeClipboardExtensionClient) {
+        const QVariantMap normalizedDataMap = normalizeClipboardDataMap(dataMap);
+        m_gnomeClipboardExtensionClient->setClipboardData(mode, normalizedDataMap);
+    }
+}
+
+void X11PlatformClipboard::setRawData(ClipboardMode mode, QMimeData *mimeData)
+{
+    DummyClipboard::setRawData(mode, mimeData);
+
+    if (X11Info::isPlatformX11() || m_gnomeClipboardExtensionClient == nullptr || mimeData == nullptr)
+        return;
+
+    m_gnomeClipboardExtensionClient->setClipboardData(mode, dataMapFromMimeData(mimeData));
 }
 
 const QMimeData *X11PlatformClipboard::rawMimeData(ClipboardMode mode) const
@@ -204,12 +569,12 @@ void X11PlatformClipboard::onChanged(int mode)
     if (mode == QClipboard::Selection) {
         // Omit checking selection too fast.
         if ( m_timerCheckAgain.isActive() ) {
-            COPYQ_LOG("Postponing fast selection change");
+            qCDebug(logClipboard) << "Postponing fast selection change";
             return;
         }
 
         if ( isSelectionIncomplete() ) {
-            COPYQ_LOG("Selection is incomplete");
+            qCDebug(logClipboard) << "Selection is incomplete";
             if ( !m_timerCheckAgain.isActive()
                  || minCheckAgainIntervalMs < m_timerCheckAgain.remainingTime() )
             {
@@ -276,10 +641,10 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
             m_timerCheckAgain.start(clipboardData->retry * maxCheckAgainIntervalMs);
         }
 
-        log( QString("Failed to retrieve %1 data (try %2/%3)")
-             .arg(clipboardData->mode == ClipboardMode::Clipboard ? "clipboard" : "selection")
-             .arg(clipboardData->retry)
-             .arg(maxRetryCount), LogWarning );
+        qCWarning(logClipboard)
+            << "Failed to retrieve"
+            << (clipboardData->mode == ClipboardMode::Clipboard ? "clipboard" : "selection")
+            << "data, try" << clipboardData->retry << "of" << maxRetryCount;
 
         return;
     }
@@ -326,9 +691,9 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
 
 void X11PlatformClipboard::useNewClipboardData(X11PlatformClipboard::ClipboardData *clipboardData)
 {
-    COPYQ_LOG( QStringLiteral("%1 CHANGED, owner=%2")
-            .arg(clipboardData->mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
-            .arg(clipboardData->newOwner) );
+    qCDebug(logClipboard)
+        << (clipboardData->mode == ClipboardMode::Clipboard ? "Clipboard" : "Selection")
+        << "CHANGED, owner:" << clipboardData->newOwner;
 
     clipboardData->data = clipboardData->newData;
     clipboardData->owner = clipboardData->newOwner;
@@ -346,3 +711,16 @@ void X11PlatformClipboard::checkAgainLater(bool clipboardChanged, int interval)
     else if (clipboardChanged)
         m_timerCheckAgain.start(maxCheckAgainIntervalMs);
 }
+
+void X11PlatformClipboard::onGnomeClipboardChanged(int clipboardType)
+{
+    if (clipboardType == gnomeClipboardTypeClipboard) {
+        qCDebug(logClipboardGnome) << "GNOME Clipboard change";
+        onChanged(QClipboard::Clipboard);
+    } else {
+        qCDebug(logClipboardGnome) << "GNOME Selection change";
+        onChanged(QClipboard::Selection);
+    }
+}
+
+#include "x11platformclipboard.moc"

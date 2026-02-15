@@ -6,13 +6,18 @@
 #include "platform/dummy/dummyclipboard.h"
 
 #include <QByteArray>
+#include <QMimeData>
 #include <QStringList>
 #include <QTimer>
+#include <memory>
+
+class GnomeClipboardExtensionClient;
 
 class X11PlatformClipboard final : public DummyClipboard
 {
 public:
     X11PlatformClipboard();
+    ~X11PlatformClipboard() override;
 
     void startMonitoring(const QStringList &formats) override;
 
@@ -21,12 +26,14 @@ public:
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
+    void setRawData(ClipboardMode mode, QMimeData *mimeData) override;
 
     bool isSelectionSupported() const override { return true; }
 
     void setClipboardOwner(const QString &owner) override { m_clipboardOwner = owner; }
 
 protected:
+    const QMimeData *mimeData(ClipboardMode mode) const override;
     const QMimeData *rawMimeData(ClipboardMode mode) const override;
     void onChanged(int mode) override;
     const long int *clipboardSequenceNumber(ClipboardMode mode) const override {
@@ -56,6 +63,7 @@ private:
     void updateClipboardData(ClipboardData *clipboardData);
     void useNewClipboardData(ClipboardData *clipboardData);
     void checkAgainLater(bool clipboardChanged, int interval);
+    void onGnomeClipboardChanged(int clipboardType);
 
     QTimer m_timerCheckAgain;
 
@@ -65,4 +73,7 @@ private:
     bool m_monitoring = false;
 
     QString m_clipboardOwner;
+    std::unique_ptr<GnomeClipboardExtensionClient> m_gnomeClipboardExtensionClient;
+    mutable std::unique_ptr<QMimeData> m_gnomeClipboardMimeData;
+    mutable std::unique_ptr<QMimeData> m_gnomeSelectionMimeData;
 };

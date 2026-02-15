@@ -63,6 +63,7 @@ bool testStderr(
         plain("Unexpected wl_keyboard.enter event"),
         plain("The compositor sent a wl_pointer.enter"),
         plain("QObject::connect: No such signal QPlatformNativeInterface::systemTrayWindowChanged(QScreen*)"),
+        plain("Could not init WaylandClipboard, falling back to QtClipboard."),
 
         // Windows
         plain("QWindowsWindow::setGeometry: Unable to set geometry"),
