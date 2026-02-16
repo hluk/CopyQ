@@ -47,11 +47,6 @@ bool writeLogFile(const QByteArray &message)
     return true;
 }
 
-QString getDefaultLogFilePath()
-{
-    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-}
-
 QByteArray createLogMessage(const QByteArray &label, const QByteArray &text)
 {
     if ( text.contains('\n') ) {
@@ -78,24 +73,21 @@ QByteArray createLogMessage(const QByteArray &text, const LogLevel level)
 
 QString getLogFileName()
 {
+    const QString fileName = qEnvironmentVariable("COPYQ_LOG_FILE");
+    if (!fileName.isEmpty()) {
+        return fileName;
+    }
+
     const QString dateTime = QDateTime::currentDateTime()
         .toString(QStringLiteral("yyyyMMdd"));
     const QString logSuffix = QStringLiteral("-%1-%2.log")
         .arg(dateTime).arg(QCoreApplication::applicationPid());
 
-    QString fileName = qEnvironmentVariable("COPYQ_LOG_FILE");
-    if (!fileName.isEmpty()) {
-        if (fileName.endsWith(QLatin1String(".log"))) {
-            fileName.remove(fileName.length() - 4, 4);
-        }
-        return QDir::fromNativeSeparators(fileName + logSuffix);
-    }
-
     const QString path = getDefaultLogFilePath();
     QDir dir(path);
     dir.mkpath(QStringLiteral("."));
 
-    return QStringLiteral("%1/copyq%2.log").arg(path, logSuffix);
+    return QStringLiteral("%1/copyq%2").arg(path, logSuffix);
 }
 
 void logAlways(const QByteArray &msgText, const LogLevel level)
@@ -119,7 +111,7 @@ QFileInfoList logFileNames()
     const QDir logDir = logFileInfo.absoluteDir();
     const QString pattern = QStringLiteral("%1-*.log*").arg(
         logFileInfo.baseName().section('-', 0, -3) );
-    return logDir.entryInfoList({pattern}, QDir::Files, QDir::Time);
+    return logDir.entryInfoList({logFileInfo.fileName(), pattern}, QDir::Files, QDir::Time);
 }
 
 bool removeLogFile(const QFileInfo &logFileInfo)
@@ -134,6 +126,11 @@ bool removeLogFile(const QFileInfo &logFileInfo)
 }
 
 } // namespace
+
+QString getDefaultLogFilePath()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+}
 
 const QString &logFileName()
 {
