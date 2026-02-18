@@ -36,7 +36,7 @@ void setBinaryFor(int fd)
     _setmode(fd, _O_BINARY);
 }
 
-QString portableConfigFolder()
+QString portableFolder()
 {
     const QString appDir = QCoreApplication::applicationDirPath();
     if ( !QFileInfo(appDir).isWritable() )
@@ -46,11 +46,13 @@ QString portableConfigFolder()
     if ( QFile::exists(uninstPath) )
         return {};
 
-    const QString path = appDir + QLatin1String("/config");
-    QDir dir(path);
-
-    if ( !dir.mkpath(".") || !dir.isReadable() )
+    QDir dir(appDir);
+    if ( !dir.mkpath(QStringLiteral("config"))
+      || !dir.mkpath(QStringLiteral("logs"))
+      || !dir.isReadable() )
+    {
         return {};
+    }
 
     const QString fullPath = dir.absolutePath();
     if ( !QFileInfo(fullPath).isWritable() )
@@ -173,12 +175,13 @@ void initApplication(QCoreApplication *app)
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
     // Use config and log file in portable app folder.
-    const QString portableFolder = portableConfigFolder();
-    if ( !portableFolder.isEmpty() ) {
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, portableFolder);
-        if ( qEnvironmentVariableIsEmpty("COPYQ_LOG_FILE") )
-            qputenv("COPYQ_LOG_FILE", portableFolder.toLocal8Bit() + "/copyq.log");
-        app->setProperty("CopyQ_item_data_path", portableFolder + QLatin1String("/items"));
+    const QString folder = portableFolder();
+    if ( !folder.isEmpty() ) {
+        const QString configFolder = folder + QLatin1String("/config");
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, configFolder);
+        if ( qEnvironmentVariableIsEmpty("COPYQ_LOG_DIR") )
+            qputenv("COPYQ_LOG_DIR", folder.toLocal8Bit() + "/logs");
+        app->setProperty("CopyQ_item_data_path", configFolder + QLatin1String("/items"));
     }
 }
 
