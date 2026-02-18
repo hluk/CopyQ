@@ -42,14 +42,30 @@ void Tests::readLog()
         R"(^\[.*\] DEBUG <Server-\d+>: Starting monitor$)");
     QVERIFY2(count(lines, monitorPattern), log);
 
-    m_test->setEnv("COPYQ_LOG_FILE", "");
-    QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
-    QVERIFY2( testStderr(stderrActual), stderrActual );
-    const QString actualPattern = QString::fromUtf8(stdoutActual)
-        .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
-    const QString expectedPattern = QStringLiteral("%1/copyq*")
-        .arg(getDefaultLogFilePath());
-    QCOMPARE( actualPattern, expectedPattern );
+    {
+        QTemporaryDir tmpDir;
+        QVERIFY(tmpDir.isValid());
+        m_test->setEnv("COPYQ_LOG_FILE", "");
+        m_test->setEnv("COPYQ_LOG_DIR", tmpDir.path());
+        QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        const QString actualPattern = QString::fromUtf8(stdoutActual)
+            .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
+        const QString expectedPattern = QStringLiteral("%1/copyq*").arg(tmpDir.path());
+        QCOMPARE( actualPattern, expectedPattern );
+    }
+
+    {
+        m_test->setEnv("COPYQ_LOG_FILE", "");
+        m_test->setEnv("COPYQ_LOG_DIR", "");
+        QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        const QString actualPattern = QString::fromUtf8(stdoutActual)
+            .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
+        const QString expectedPattern = QStringLiteral("%1/copyq*")
+            .arg(getDefaultLogFilePath());
+        QCOMPARE( actualPattern, expectedPattern );
+    }
 }
 
 void Tests::rotateLog()

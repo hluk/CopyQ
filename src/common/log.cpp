@@ -129,6 +129,10 @@ bool removeLogFile(const QFileInfo &logFileInfo)
 
 QString getDefaultLogFilePath()
 {
+    const QString dir = qEnvironmentVariable("COPYQ_LOG_DIR");
+    if (!dir.isEmpty()) {
+        return dir;
+    }
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
 }
 
