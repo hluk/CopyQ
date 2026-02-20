@@ -220,6 +220,8 @@ void ClipboardDialog::init()
     ui->listWidgetFormats->addAction(ui->actionRemove_Format);
 
     onListWidgetFormatsCurrentItemChanged(nullptr, nullptr);
+
+    ui->listWidgetFormats->setFocus(Qt::ActiveWindowFocusReason);
 }
 
 void ClipboardDialog::setData(const QVariantMap &data)
