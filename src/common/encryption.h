@@ -170,6 +170,12 @@ bool verifyPasswordHash(const SecureArray &password, const SecureArray &hash);
  */
 SecureArray loadPasswordHash();
 
+/**
+ * Generate and save password hash to secure storage.
+ * @return true on success
+ */
+bool savePasswordHash(const SecureArray &password);
+
 /** Save encryption key safely. */
 EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword);
 

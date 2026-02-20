@@ -231,6 +231,7 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
     const Encryption::SecureArray storedHash = Encryption::loadPasswordHash();
     const Encryption::SecureArray wrappedDEK = Encryption::loadWrappedDEK();
     const Encryption::Salt kekSalt = Encryption::loadKEKSalt();
+    const bool isHashMissing = storedHash.isEmpty();
 
     const bool isFirstSetup = storedHash.isEmpty() && wrappedDEK.isEmpty();
     if (isFirstSetup)
@@ -238,8 +239,12 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
 
     const Encryption::SecureArray storedPassword = getStoredPassword(prompt);
     if ( !storedPassword.isEmpty() ) {
-        if ( Encryption::verifyPasswordHash(storedPassword, storedHash) )
-            return Encryption::EncryptionKey(storedPassword, wrappedDEK, kekSalt);
+        if ( Encryption::verifyPasswordHash(storedPassword, storedHash) ) {
+            const Encryption::EncryptionKey key(storedPassword, wrappedDEK, kekSalt);
+            if (isHashMissing && key.isValid() && !Encryption::savePasswordHash(storedPassword))
+                log("Failed to restore missing password hash file", LogWarning);
+            return key;
+        }
         log("Loaded password does not match the stored hash", LogWarning);
     }
 
@@ -269,6 +274,8 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
         }
 
         const Encryption::EncryptionKey key(password, wrappedDEK, kekSalt);
+        if (isHashMissing && key.isValid() && !Encryption::savePasswordHash(password))
+            log("Failed to restore missing password hash file", LogWarning);
 
         if (prompt == PasswordSource::UseEnvAndKeychain && key.isValid())
             savePasswordToKeychain(password);
