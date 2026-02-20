@@ -570,6 +570,28 @@ SecureArray loadPasswordHash()
     return SecureArray(hashData.value());
 }
 
+bool savePasswordHash(const SecureArray &password)
+{
+    if (password.isEmpty()) {
+        qCWarning(logCategory) << "Cannot save hash for empty password";
+        return false;
+    }
+
+    const SecureArray hash = generatePasswordHash(password);
+    if (hash.isEmpty()) {
+        qCCritical(logCategory) << "Failed to generate password hash";
+        return false;
+    }
+
+    if ( !saveFile(::hashFilePath(), hash) ) {
+        qCCritical(logCategory) << "Failed to save password hash file";
+        return false;
+    }
+
+    qCInfo(logCategory) << "Saved password hash file:" << ::hashFilePath();
+    return true;
+}
+
 void removeEncryptionKeys()
 {
     const QString dekFilePath = ::dekFilePath();
@@ -628,12 +650,6 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
 
     qCDebug(logCategory) << "Successfully wrapped DEK with new password";
 
-    const SecureArray newHash = generatePasswordHash(newPassword);
-    if (newHash.isEmpty()) {
-        qCCritical(logCategory) << "Failed to generate new password hash";
-        return {};
-    }
-
     if (newKekSalt.isEmpty()) {
         qCWarning(logCategory) << "Cannot save empty password hash";
         return {};
@@ -646,7 +662,7 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
 
     if ( !saveFile(::dekFilePath(), newWrappedDEK)
       || !saveFile(::saltFilePath(), newKekSalt)
-      || !saveFile(::hashFilePath(), newHash) )
+      || !savePasswordHash(newPassword) )
     {
         qCCritical(logCategory) << "Failed to save new key - rolling back";
         restoreEncryptionFiles();
@@ -790,6 +806,11 @@ bool verifyPasswordHash(const QByteArray &, const QString &)
 SecureArray loadPasswordHash()
 {
     return {};
+}
+
+bool savePasswordHash(const SecureArray &)
+{
+    return false;
 }
 
 EncryptionKey saveKey(const EncryptionKey &, const SecureArray &)

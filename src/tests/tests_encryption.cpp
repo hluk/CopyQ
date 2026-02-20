@@ -297,19 +297,22 @@ void Tests::tabEncryptionMissingHash()
     RUN("show" << tab, "");
     KEYS(clipboardBrowserId);
     RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
+    QVERIFY2( QFile::exists(path + "/.keydata"), "Hash file should be restored" );
 
     TEST( m_test->stopServer() );
+    QVERIFY2(dropLogsToFileCountAndSize(0, 0), "Failed to remove log files");
 
-    // Set wrong password
+    // Set wrong password after hash restoration
     m_test->setEnv("COPYQ_PASSWORD", "TEST1234");
     m_test->ignoreErrors(QRegularExpression(
-        "Hash is missing, accepting any password"
-        "|Unwrap DEK: finalization failed"
+        "Loaded password does not match the stored hash"
+        "|Tab encryption password required but not provided"
         "|Cannot decrypt data .* no valid encryption key provided"
     ));
 
     TEST( m_test->startServer() );
     RUN("show" << "", "");
+    KEYS(passwordEntryCurrentId << "ESC");
     KEYS(clipboardBrowserId);
     RUN(args << "size", "0\n");
     RUN_EXPECT_ERROR_WITH_STDERR(
@@ -317,9 +320,16 @@ void Tests::tabEncryptionMissingHash()
 
     // Try to disable decryption with a wrong password
     runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST1234" << "ENTER"); },
+        [&]() {
+            KEYS(
+                passwordEntryCurrentId << ":TEST1234" << "ENTER"
+                // Cancel password entry retry
+                << passwordEntryCurrentId << "ESC"
+            );
+        },
         [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
+    RUN("show" << "", "");
     KEYS(clipboardBrowserId);
     RUN("config" << "encrypt_tabs", "true\n");
 
