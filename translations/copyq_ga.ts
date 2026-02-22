@@ -1938,7 +1938,7 @@ Socraigh go 0 le díchumasú.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="77"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation>Níor luchtaíodh gach mír sa chluaisín&lt;strong&gt;%1&lt;/strong&gt; go rathúil. An bhfuil tú fós ag iarraidh an cluaisín a luchtú agus roinnt míreanna a chailleadh?</translation>
+        <translation>Níor lódáladh gach mír sa chluaisín &lt;strong&gt;%1&lt;/strong&gt; go rathúil. Ar mhaith leat an cluaisín a lódáil fós agus b&apos;fhéidir roinnt míreanna a chailleadh?</translation>
     </message>
 </context>
 <context>
@@ -2490,7 +2490,7 @@ Socraigh go 0 le díchumasú.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4243"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>An bhfuil fonn ort &lt;strong&gt;gach cluaisín&lt;/strong&gt; i ngrúpa&lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
+        <translation>Ar mhaith leat &lt;strong&gt;gach cluaisín&lt;/strong&gt; sa ghrúpa &lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4290"/>
@@ -2500,7 +2500,7 @@ Socraigh go 0 le díchumasú.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>An bhfuil fonn ort cluaisín&lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
+        <translation>Ar mhaith leat an cluaisín &lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="808"/>
@@ -3621,9 +3621,9 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Caithfidh ainm an chluaisín a bheith neamhfholamh agus uathúil.&lt;br /&gt;
-Is féidir &lt;b&gt;Uimhreacha Cluaisín&lt;/b&gt; a oscailt ag baint úsáide as &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
-Bain úsáid &lt;b&gt;as /&lt;/b&gt; mar dheighilteoir cosáin i leagan amach cluaisín amharc crann.</translation>
+        <translation>Ní mór ainm an táb a bheith neamhfholamh agus uathúil.&lt;br /&gt;
+Is féidir an táb &lt;b&gt;Notaí&lt;/b&gt; a oscailt le &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+Úsáid &lt;b&gt;/&lt;/b&gt; mar dheighilteoir cosáin i leagan amach crainn na dtáb.</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="17"/>
