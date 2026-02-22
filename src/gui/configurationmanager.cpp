@@ -229,7 +229,9 @@ void ConfigurationManager::updateOptionsVisibility()
 
 #ifdef WITH_QCA_ENCRYPTION
     m_tabGeneral->checkBoxEncryptTabs->setVisible(true);
-    const bool passwordWasSet = m_sharedData && !Encryption::loadPasswordHash().isEmpty();
+    const bool passwordWasSet = m_sharedData
+        && !Encryption::loadWrappedDEK().isEmpty()
+        && !Encryption::loadKEKSalt().isEmpty();
     m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(passwordWasSet);
 #else
     m_tabGeneral->checkBoxEncryptTabs->setVisible(false);
