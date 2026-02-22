@@ -228,24 +228,32 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
         return {};
     }
 
-    const Encryption::SecureArray storedHash = Encryption::loadPasswordHash();
     const Encryption::SecureArray wrappedDEK = Encryption::loadWrappedDEK();
     const Encryption::Salt kekSalt = Encryption::loadKEKSalt();
-    const bool isHashMissing = storedHash.isEmpty();
 
-    const bool isFirstSetup = storedHash.isEmpty() && wrappedDEK.isEmpty();
+    const bool isFirstSetup = wrappedDEK.isEmpty() && kekSalt.isEmpty();
     if (isFirstSetup)
         return firstPasswordSetup(parent, prompt);
 
+    if (wrappedDEK.isEmpty() || kekSalt.isEmpty()) {
+        log("Encryption key files are missing or corrupted; refusing to unlock encrypted tabs in strict mode", LogError);
+        QMessageBox::critical(
+            parent,
+            QObject::tr("Encryption Files Corrupted"),
+            QObject::tr(
+                "Encryption files are missing or corrupted. "
+                "Strict mode cannot recover encrypted tabs automatically."
+            )
+        );
+        return {};
+    }
+
     const Encryption::SecureArray storedPassword = getStoredPassword(prompt);
     if ( !storedPassword.isEmpty() ) {
-        if ( Encryption::verifyPasswordHash(storedPassword, storedHash) ) {
-            const Encryption::EncryptionKey key(storedPassword, wrappedDEK, kekSalt);
-            if (isHashMissing && key.isValid() && !Encryption::savePasswordHash(storedPassword))
-                log("Failed to restore missing password hash file", LogWarning);
+        const Encryption::EncryptionKey key(storedPassword, wrappedDEK, kekSalt);
+        if (key.isValid())
             return key;
-        }
-        log("Loaded password does not match the stored hash", LogWarning);
+        log("Loaded password does not unlock wrapped key", LogWarning);
     }
 
     // Ask for the current password
@@ -268,14 +276,11 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
             return {};
         }
 
-        if ( !Encryption::verifyPasswordHash(password, storedHash) ) {
+        const Encryption::EncryptionKey key(password, wrappedDEK, kekSalt);
+        if (!key.isValid()) {
             attempts++;
             continue;
         }
-
-        const Encryption::EncryptionKey key(password, wrappedDEK, kekSalt);
-        if (isHashMissing && key.isValid() && !Encryption::savePasswordHash(password))
-            log("Failed to restore missing password hash file", LogWarning);
 
         if (prompt == PasswordSource::UseEnvAndKeychain && key.isValid())
             savePasswordToKeychain(password);

@@ -11,12 +11,17 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QCryptographicHash>
 #include <QLoggingCategory>
+#include <QMessageAuthenticationCode>
 #include <QPluginLoader>
 #include <QSaveFile>
 #include <QStandardPaths>
 #include <QTimer>
 #include <QtCrypto>
+
+#include <optional>
+#include <utility>
 
 namespace {
 
@@ -27,18 +32,17 @@ Q_LOGGING_CATEGORY(logCategory, "copyq.encryption")
 const QLatin1String encryptionCipher("aes256-cbc-pkcs7");
 // Algorithm name for QCA::Cipher constructor (without mode/padding)
 const QLatin1String encryptionAlgorithm("aes256");
+const QByteArray encryptedDataMagic("CPQ1");
+constexpr int aes256KeySize = 32;
+constexpr int aesBlockSize = 16;
+constexpr int hmacTagSize = 32;
+constexpr int perMessageSaltSize = 16;
+constexpr int hkdfSha256HashLength = 32;
+constexpr int hkdfSha256MaxLength = 255 * hkdfSha256HashLength;
+constexpr int pbkdf2IterationCount = 100'000;
 
 QString dekFilePath() { return getConfigurationFilePath("wrapped_dek.dat"); }
 QString saltFilePath() { return getConfigurationFilePath("kek_salt.dat"); }
-QDir dataDir() {
-    const QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QDir dir(path);
-    if (!dir.exists() && !dir.mkpath(QStringLiteral("."))) {
-        qCCritical(logCategory) << "Failed to create data directory" << path;
-    }
-    return dir;
-}
-QString hashFilePath() { return dataDir().filePath(QStringLiteral(".keydata")); }
 
 void logFeatures()
 {
@@ -200,22 +204,19 @@ bool removeBackup(const QString &fileName)
 bool backupEncryptionFiles()
 {
     return backupFile(::dekFilePath())
-        && backupFile(::saltFilePath())
-        && backupFile(::hashFilePath());
+        && backupFile(::saltFilePath());
 }
 
 bool restoreEncryptionFiles()
 {
     return restoreBackupFile(::dekFilePath())
-        && restoreBackupFile(::saltFilePath())
-        && restoreBackupFile(::hashFilePath());
+        && restoreBackupFile(::saltFilePath());
 }
 
 void removeEncryptionBackups()
 {
     removeBackup(::dekFilePath());
     removeBackup(::saltFilePath());
-    removeBackup(::hashFilePath());
 }
 
 bool saveFile(const QString &fileName, const Encryption::SecureArray &data)
@@ -258,6 +259,47 @@ bool saveFile(const QString &fileName, const Encryption::SecureArray &data)
     return true;
 }
 
+bool canUseEncryptionKey(const char *operation, const QCA::SymmetricKey &key)
+{
+    if ( !QCA::isSupported(encryptionCipher.data()) ) {
+        qCCritical(logCategory) << operation << "cipher not supported";
+        return false;
+    }
+
+    if ( key.isEmpty() ) {
+        qCCritical(logCategory) << operation << "DEK is empty";
+        return false;
+    }
+
+    return true;
+}
+
+Encryption::SecureArray loadNonEmptySecureFile(const QString &path, const char *label)
+{
+    if (!QFileInfo::exists(path)) {
+        return {};
+    }
+
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qCCritical(logCategory)
+            << "Failed to open" << label << "file" << path
+            << "- error:" << file.errorString();
+        return {};
+    }
+
+    const Encryption::Cleared<QByteArray> data(file.readAll());
+    file.close();
+
+    if (data.isEmpty()) {
+        qCWarning(logCategory) << label << "file is empty";
+        return {};
+    }
+
+    qCDebug(logCategory) << label << "loaded from settings directory:" << path;
+    return Encryption::SecureArray(data.value());
+}
+
 QCA::SymmetricKey deriveFromPasswordAndSalt(
     const Encryption::SecureArray &password, const Encryption::Salt &salt)
 {
@@ -269,28 +311,23 @@ QCA::SymmetricKey deriveFromPasswordAndSalt(
     // Derive key from password using PBKDF2 with a fixed salt
     // Using SHA1 as it's widely supported and still secure for PBKDF2
     QCA::PBKDF2 pbkdf2(QStringLiteral("sha1"));
-    const QCA::SymmetricKey symKey = pbkdf2.makeKey(
-        password,
-        salt,
-        32, // 256 bits
-        100'000 // iterations
-    );
+    QCA::SymmetricKey symKey =
+        pbkdf2.makeKey(password, salt, aes256KeySize, pbkdf2IterationCount);
 
     if (symKey.isEmpty()) {
         qCCritical(logCategory) << "EncryptionKey: PBKDF2 key derivation failed";
         return {};
     }
 
-    return symKey;
+    return QCA::SymmetricKey(std::move(symKey));
 }
 
-QCA::SecureArray encrypt(
+std::optional<QCA::SecureArray> encrypt(
     const char *label,
     QCA::Direction direction,
     const Encryption::SecureArray &data,
     const QCA::SymmetricKey &key,
-    const QCA::InitializationVector &iv,
-    bool *ok = nullptr)
+    const QCA::InitializationVector &iv)
 {
     QCA::Cipher cipher(
         encryptionAlgorithm,
@@ -304,56 +341,201 @@ QCA::SecureArray encrypt(
     QCA::SecureArray encrypted = cipher.update(data);
     if (!cipher.ok()) {
         qCCritical(logCategory) << label << "encryption failed";
-        if (ok)
-            *ok = false;
-        return {};
+        return std::nullopt;
     }
 
     encrypted += cipher.final();
     if (!cipher.ok()) {
         qCCritical(logCategory) << label << "finalization failed";
-        if (ok)
-            *ok = false;
-        return {};
+        return std::nullopt;
     }
-
-    if (ok)
-        *ok = true;
 
     if (direction == QCA::Encode) {
         Encryption::SecureArray result(iv);
-        result.append(encrypted.toByteArray());
-        return result;
+        result.append(encrypted);
+        return QCA::SecureArray(result);
     }
 
     return encrypted;
 }
 
-Encryption::SecureArray generatePasswordHash(const Encryption::SecureArray &password)
+bool constantTimeEquals(const QByteArray &left, const QByteArray &right)
 {
-    if (password.isEmpty()) {
-        qCWarning(logCategory) << "Cannot generate hash from empty password";
-        return {};
+    if (left.size() != right.size())
+        return false;
+
+    unsigned char diff = 0;
+    for (int i = 0; i < left.size(); ++i)
+        diff |= static_cast<unsigned char>(left[i]) ^ static_cast<unsigned char>(right[i]);
+
+    return diff == 0;
+}
+
+QByteArray hkdfExpandSha256SingleBlock(const QByteArray &prk, const QByteArray &info, int length)
+{
+    // HKDF-Expand with a single block (N = 1), suitable for up to 32 bytes with SHA-256.
+    // T(1) = HMAC-Hash(PRK, T(0) | info | 0x01) with T(0) = empty.
+    Q_ASSERT(length > 0 && length <= 32);
+
+    QByteArray data;
+    data.reserve(info.size() + 1);
+    data.append(info);
+    data.append(char(0x01));
+
+    const QByteArray okm = QMessageAuthenticationCode::hash(
+        data,
+        prk,
+        QCryptographicHash::Sha256
+    );
+
+    return okm.left(length);
+}
+
+QByteArray hmacKeyFor(const QCA::SymmetricKey &key)
+{
+    // Derive a separate HMAC key from the encryption key using HKDF-SHA256.
+    static const QByteArray info = QByteArrayLiteral("copyq-hmac-v1");
+    const Encryption::Cleared<QByteArray> ikm = key.toByteArray();
+    const QByteArray prk = QMessageAuthenticationCode::hash(
+        ikm.value(),
+        QByteArray(hkdfSha256HashLength, '\0'),
+        QCryptographicHash::Sha256
+    );
+    return hkdfExpandSha256SingleBlock(prk, info, hkdfSha256HashLength);
+}
+
+// HKDF with HMAC-SHA256 as specified in RFC 5869.
+// ikm  - input keying material
+// salt - optional salt (here: per-message salt)
+// info - context and application specific information
+// length - number of bytes to generate
+QByteArray hkdfSha256(const QByteArray &ikm,
+                       const QByteArray &salt,
+                       const QByteArray &info,
+                       int length)
+{
+    if (length <= 0) {
+        return QByteArray();
+    }
+    if (length > hkdfSha256MaxLength) {
+        return QByteArray();
     }
 
-    // Generate a random salt (16 bytes = 128 bits)
-    QCA::SecureArray salt = QCA::Random::randomArray(16);
-
-    // Derive hash from password using PBKDF2
-    // Using 100,000 iterations for security (more than the 10,000 used for encryption key)
-    // Using SHA1 as it's widely supported and still secure for PBKDF2
-    // (SHA1 vulnerabilities don't apply to HMAC-based constructions like PBKDF2)
-    const QCA::SymmetricKey hash = deriveFromPasswordAndSalt(password, salt);
-    if (hash.isEmpty()) {
-        qCCritical(logCategory) << "Failed to generate password hash";
-        return {};
+    // HKDF-Extract: PRK = HMAC(salt, IKM)
+    QByteArray effectiveSalt = salt;
+    if (effectiveSalt.isEmpty()) {
+        // If salt is not provided, use a zero-filled salt of HashLen bytes.
+        effectiveSalt = QByteArray(hkdfSha256HashLength, '\0');
     }
 
-    Encryption::SecureArray combined(salt);
-    combined.append(hash);
-    const Encryption::Cleared<QByteArray> result(combined.toByteArray());
-    const Encryption::Cleared<QByteArray> base64(result.value().toBase64());
-    return Encryption::SecureArray(base64.value());
+    const QByteArray prk = QMessageAuthenticationCode::hash(
+        ikm,
+        effectiveSalt,
+        QCryptographicHash::Sha256
+    );
+
+    // HKDF-Expand
+    QByteArray okm;
+    okm.reserve(length);
+
+    QByteArray previousBlock;
+    const int iterations =
+        (length + hkdfSha256HashLength - 1) / hkdfSha256HashLength; // ceil(length / HashLen)
+    for (int i = 1; i <= iterations; ++i) {
+        QByteArray data = previousBlock;
+        data += info;
+        data += static_cast<char>(i);
+
+        previousBlock = QMessageAuthenticationCode::hash(
+            data,
+            prk,
+            QCryptographicHash::Sha256
+        );
+
+        okm += previousBlock;
+    }
+
+    return okm.left(length);
+}
+
+QCA::SymmetricKey derivePerMessageKey(const QCA::SymmetricKey &key, const QByteArray &salt)
+{
+    // Derive a 256-bit per-message key using HKDF-SHA256.
+    const Encryption::Cleared<QByteArray> ikm = key.toByteArray();
+    const QByteArray info = QByteArrayLiteral("copyq-msg-key-v1");
+    const int derivedKeyLength = aes256KeySize;
+
+    const QByteArray okm = hkdfSha256(ikm.value(), salt, info, derivedKeyLength);
+    return QCA::SymmetricKey(okm);
+}
+
+QByteArray hmacTagFor(const QByteArray &payload, const QCA::SymmetricKey &key)
+{
+    return QMessageAuthenticationCode::hash(
+        payload,
+        hmacKeyFor(key),
+        QCryptographicHash::Sha256
+    );
+}
+
+std::optional<Encryption::SecureArray> encryptAuthenticated(
+    const char *label,
+    const Encryption::SecureArray &data,
+    const QCA::SymmetricKey &key)
+{
+    const QByteArray salt = QCA::Random::randomArray(perMessageSaltSize).toByteArray();
+    const QCA::SymmetricKey messageKey = derivePerMessageKey(key, salt);
+    if (messageKey.isEmpty())
+        return std::nullopt;
+
+    const QCA::InitializationVector iv = QCA::Random::randomArray(aesBlockSize);
+    const auto encryptedData = ::encrypt(label, QCA::Encode, data, messageKey, iv);
+    if (!encryptedData)
+        return std::nullopt;
+
+    const Encryption::Cleared<QByteArray> payloadData(encryptedData->toByteArray());
+    QByteArray payload = encryptedDataMagic + salt + payloadData.value();
+    payload += hmacTagFor(payload, messageKey);
+
+    return Encryption::SecureArray(payload);
+}
+
+std::optional<Encryption::SecureArray> decryptAuthenticated(
+    const char *label,
+    const QByteArray &encryptedData,
+    const QCA::SymmetricKey &key)
+{
+    if (!encryptedData.startsWith(encryptedDataMagic)) {
+        qCCritical(logCategory) << label << "rejected: unsupported legacy encryption format";
+        return std::nullopt;
+    }
+
+    const int minSize = encryptedDataMagic.size() + perMessageSaltSize + aesBlockSize + aesBlockSize + hmacTagSize;
+    if (encryptedData.size() < minSize) {
+        qCCritical(logCategory) << label << "rejected: encrypted payload is too short";
+        return std::nullopt;
+    }
+
+    const QByteArray payload = encryptedData.left(encryptedData.size() - hmacTagSize);
+    const QByteArray salt = payload.mid(encryptedDataMagic.size(), perMessageSaltSize);
+    const QCA::SymmetricKey messageKey = derivePerMessageKey(key, salt);
+    if (messageKey.isEmpty()) {
+        qCCritical(logCategory) << label << "failed to derive per-message key";
+        return std::nullopt;
+    }
+
+    const QByteArray expectedTag = hmacTagFor(payload, messageKey);
+    const QByteArray actualTag = encryptedData.right(hmacTagSize);
+    if (!constantTimeEquals(expectedTag, actualTag)) {
+        qCCritical(logCategory) << label << "authentication failed";
+        return std::nullopt;
+    }
+
+    const QByteArray legacyEncrypted =
+        payload.mid(encryptedDataMagic.size() + perMessageSaltSize);
+    const QCA::InitializationVector iv(legacyEncrypted.left(aesBlockSize));
+    const QCA::SecureArray ciphertext(legacyEncrypted.mid(aesBlockSize));
+    return ::encrypt(label, QCA::Decode, ciphertext, messageKey, iv);
 }
 
 } // namespace
@@ -372,8 +554,7 @@ EncryptionKey::~EncryptionKey()
 
 bool EncryptionKey::generateRandomDEK()
 {
-    // Generate a random 256-bit key
-    m_dek = QCA::SymmetricKey(32);  // 32 bytes = 256 bits
+    m_dek = QCA::SymmetricKey(aes256KeySize);
 
     if (m_dek.isEmpty()) {
         qCCritical(logCategory) << "Failed to generate random DEK";
@@ -405,24 +586,15 @@ EncryptionKey::EncryptionKey(
         return;
     }
 
-    // Decrypt (unwrap) the DEK using the KEK
-    // The wrappedDEK contains: IV (16 bytes) + encrypted DEK
-    if (wrappedDEK.size() < 16) {
-        qCCritical(logCategory) << "Invalid wrapped DEK: too short";
-        return;
-    }
-
-    const Cleared<QByteArray> ba(wrappedDEK.toByteArray());
-    const QCA::InitializationVector iv(Cleared<QByteArray>(ba.value().left(16)).value());
-    const QCA::SecureArray encryptedDEK(Cleared<QByteArray>(ba.value().mid(16)).value());
-
-    bool ok;
-    const Encryption::SecureArray decryptedDEK =
-        ::encrypt("Unwrap DEK:", QCA::Decode, encryptedDEK, kek, iv, &ok);
-    if (!ok)
+    const auto decryptedDEK = decryptAuthenticated(
+        "Unwrap DEK:",
+        wrappedDEK.toByteArray(),
+        kek
+    );
+    if (!decryptedDEK)
         return;
 
-    m_dek = QCA::SymmetricKey(decryptedDEK);
+    m_dek = QCA::SymmetricKey(*decryptedDEK);
     if (m_dek.isEmpty()) {
         qCCritical(logCategory) << "Unwrapped DEK is empty";
         return;
@@ -447,9 +619,8 @@ SecureArray EncryptionKey::wrapDEK(const SecureArray &password, const Salt &kekS
         return {};
     }
 
-    // Encrypt (wrap) the DEK using the KEK
-    const QCA::InitializationVector iv = QCA::Random::randomArray(16);
-    return ::encrypt("Wrap DEK:", QCA::Encode, m_dek, kek, iv);
+    const auto wrapped = encryptAuthenticated("Wrap DEK:", m_dek.toByteArray(), kek);
+    return wrapped.value_or(SecureArray());
 }
 
 bool EncryptionKey::isValid() const
@@ -470,126 +641,24 @@ bool initialize()
 
 QByteArray encrypt(const SecureArray &data, const EncryptionKey &key)
 {
-    if ( !QCA::isSupported(encryptionCipher.data()) ) {
-        qCCritical(logCategory) << "Encryption cipher not supported";
+    if (!canUseEncryptionKey("Cannot encrypt:", key.symmetricKey())) {
         return QByteArray();
     }
 
-    if ( key.symmetricKey().isEmpty() ) {
-        qCCritical(logCategory) << "Cannot encrypt: DEK is empty";
-        return QByteArray();
-    }
-
-    QCA::InitializationVector iv = QCA::Random::randomArray(16);
-    const Encryption::SecureArray encrypted =
-        ::encrypt("Encrypt data:", QCA::Encode, data, key.symmetricKey(), iv);
-    return encrypted.toByteArray();
+    const auto encrypted =
+        encryptAuthenticated("Encrypt data:", data, key.symmetricKey());
+    return encrypted ? encrypted->toByteArray() : QByteArray();
 }
 
 QByteArray decrypt(const QByteArray &encryptedData, const EncryptionKey &key)
 {
-    if ( encryptedData.size() < 16 ) {
-        qCCritical(logCategory) << "Invalid encrypted data: too short";
+    if (!canUseEncryptionKey("Cannot decrypt:", key.symmetricKey())) {
         return QByteArray();
     }
 
-    if ( !QCA::isSupported(encryptionCipher.data()) ) {
-        qCCritical(logCategory) << "Decryption cipher not supported";
-        return QByteArray();
-    }
-
-    if ( key.symmetricKey().isEmpty() ) {
-        qCCritical(logCategory) << "Cannot decrypt: DEK is empty";
-        return QByteArray();
-    }
-
-    QCA::InitializationVector iv(encryptedData.left(16));
-    SecureArray ciphertext(encryptedData.mid(16));
-    const Encryption::SecureArray decrypted =
-        ::encrypt("Decrypt data:", QCA::Decode, ciphertext, key.symmetricKey(), iv);
-    return decrypted.toByteArray();
-}
-
-bool verifyPasswordHash(const SecureArray &password, const SecureArray &hash)
-{
-    if (password.isEmpty())
-        return false;
-
-    if (hash.isEmpty()) {
-        qCCritical(logCategory) << "Hash is missing, accepting any password";
-        return true;
-    }
-
-    // Decode the hash
-    const Encryption::Cleared<QByteArray> base64(hash.toByteArray());
-    const Encryption::Cleared<QByteArray> combined(QByteArray::fromBase64(base64.value()));
-    if (combined.size() != 48) { // 16 bytes salt + 32 bytes hash
-        qCWarning(logCategory) << "Invalid password hash format";
-        return false;
-    }
-
-    const Encryption::Cleared<QByteArray> salt(combined.value().left(16));
-    const Encryption::Cleared<QByteArray> storedHash(combined.value().mid(16));
-
-    // Derive hash from provided password using the same salt
-    // Using SHA1 as it's widely supported and still secure for PBKDF2
-    // (SHA1 vulnerabilities don't apply to HMAC-based constructions like PBKDF2)
-    const QCA::SymmetricKey derivedHash = deriveFromPasswordAndSalt(password, Salt(salt.value()));
-    if (derivedHash.isEmpty()) {
-        qCCritical(logCategory) << "Failed to derive password hash for verification";
-        return false;
-    }
-
-    return storedHash.value() == Encryption::Cleared<QByteArray>(derivedHash.toByteArray()).value();
-}
-
-SecureArray loadPasswordHash()
-{
-    const QString hashFilePath = ::hashFilePath();
-    if (!QFileInfo::exists(hashFilePath)) {
-        return {};
-    }
-
-    QFile file(hashFilePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        qCCritical(logCategory)
-            << "Failed to open password hash file" << hashFilePath
-            << "- error:" << file.errorString();
-        return {};
-    }
-
-    const Cleared<QByteArray> hashData(file.readAll());
-    file.close();
-
-    if (hashData.isEmpty()) {
-        qCWarning(logCategory) << "Password hash file is empty:" << hashFilePath;
-        return {};
-    }
-
-    qCDebug(logCategory) << "Password hash loaded from secure location:" << hashFilePath;
-    return SecureArray(hashData.value());
-}
-
-bool savePasswordHash(const SecureArray &password)
-{
-    if (password.isEmpty()) {
-        qCWarning(logCategory) << "Cannot save hash for empty password";
-        return false;
-    }
-
-    const SecureArray hash = generatePasswordHash(password);
-    if (hash.isEmpty()) {
-        qCCritical(logCategory) << "Failed to generate password hash";
-        return false;
-    }
-
-    if ( !saveFile(::hashFilePath(), hash) ) {
-        qCCritical(logCategory) << "Failed to save password hash file";
-        return false;
-    }
-
-    qCInfo(logCategory) << "Saved password hash file:" << ::hashFilePath();
-    return true;
+    const auto decrypted =
+        decryptAuthenticated("Decrypt data:", encryptedData, key.symmetricKey());
+    return decrypted ? decrypted->toByteArray() : QByteArray();
 }
 
 void removeEncryptionKeys()
@@ -611,15 +680,6 @@ void removeEncryptionKeys()
             qCWarning(logCategory) << "Failed to remove KEK salt file:" << saltFilePath;
         }
     }
-
-    const QString hashFilePath = ::hashFilePath();
-    if (QFile::exists(hashFilePath)) {
-        if (QFile::remove(hashFilePath)) {
-            qCInfo(logCategory) << "Removed password hash file:" << hashFilePath;
-        } else {
-            qCWarning(logCategory) << "Failed to remove password hash file:" << hashFilePath;
-        }
-    }
 }
 
 EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
@@ -634,7 +694,7 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
         return {};
     }
 
-    const QCA::SecureArray newKekSalt = QCA::Random::randomArray(16);
+    const QCA::SecureArray newKekSalt = QCA::Random::randomArray(perMessageSaltSize);
     if (newKekSalt.isEmpty()) {
         qCCritical(logCategory) << "Failed to generate new KEK salt";
         return {};
@@ -650,27 +710,21 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
 
     qCDebug(logCategory) << "Successfully wrapped DEK with new password";
 
-    if (newKekSalt.isEmpty()) {
-        qCWarning(logCategory) << "Cannot save empty password hash";
-        return {};
-    }
-
     if (!backupEncryptionFiles()) {
         qCCritical(logCategory) << "Failed to backup encryption files";
         return {};
     }
 
     if ( !saveFile(::dekFilePath(), newWrappedDEK)
-      || !saveFile(::saltFilePath(), newKekSalt)
-      || !savePasswordHash(newPassword) )
+      || !saveFile(::saltFilePath(), newKekSalt) )
     {
         qCCritical(logCategory) << "Failed to save new key - rolling back";
         restoreEncryptionFiles();
         return {};
     }
 
-    EncryptionKey newKey(newPassword, newWrappedDEK, newKekSalt);
-    if (!newKey.isValid()) {
+    const EncryptionKey verifiedKey(newPassword, newWrappedDEK, newKekSalt);
+    if (!verifiedKey.isValid()) {
         qCCritical(logCategory)
             << "Verification failed: cannot unwrap DEK with new password - rolling back";
         restoreEncryptionFiles();
@@ -678,7 +732,7 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
     }
 
     // Verify the unwrapped DEK matches the original
-    if (newKey.exportDEK() != key.exportDEK()) {
+    if (verifiedKey.exportDEK() != key.exportDEK()) {
         qCCritical(logCategory)
             << "Verification failed: unwrapped DEK does not match original - rolling back";
         restoreEncryptionFiles();
@@ -687,61 +741,17 @@ EncryptionKey saveKey(const EncryptionKey &key, const SecureArray &newPassword)
 
     removeEncryptionBackups();
 
-    return newKey;
+    return EncryptionKey(newPassword, newWrappedDEK, newKekSalt);
 }
 
 SecureArray loadWrappedDEK()
 {
-    const QString dekFilePath = ::dekFilePath();
-    if (!QFileInfo::exists(dekFilePath)) {
-        return {};
-    }
-
-    QFile file(dekFilePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        qCCritical(logCategory)
-            << "Failed to open wrapped DEK file" << dekFilePath
-            << "- error:" << file.errorString();
-        return {};
-    }
-
-    const Cleared<QByteArray> wrappedDEK(file.readAll());
-    file.close();
-
-    if (wrappedDEK.isEmpty()) {
-        qCWarning(logCategory) << "Wrapped DEK file is empty";
-        return {};
-    }
-
-    qCDebug(logCategory) << "Wrapped DEK loaded from settings directory:" << dekFilePath;
-    return SecureArray(wrappedDEK.value());
+    return loadNonEmptySecureFile(::dekFilePath(), "Wrapped DEK");
 }
 
 Salt loadKEKSalt()
 {
-    const QString saltFilePath = ::saltFilePath();
-    if (!QFileInfo::exists(saltFilePath)) {
-        return {};
-    }
-
-    QFile file(saltFilePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        qCCritical(logCategory)
-            << "Failed to open KEK salt file" << saltFilePath
-            << "- error:" << file.errorString();
-        return {};
-    }
-
-    const Cleared<QByteArray> kekSalt(file.readAll());
-    file.close();
-
-    if (kekSalt.isEmpty()) {
-        qCWarning(logCategory) << "KEK salt file is empty";
-        return {};
-    }
-
-    qCDebug(logCategory) << "KEK salt loaded from settings directory:" << saltFilePath;
-    return Salt(kekSalt.value());
+    return Salt(loadNonEmptySecureFile(::saltFilePath(), "KEK salt"));
 }
 
 } // namespace Encryption
@@ -796,21 +806,6 @@ QByteArray encrypt(const QByteArray &, const EncryptionKey &)
 QByteArray decrypt(const QByteArray &, const EncryptionKey &)
 {
     return QByteArray();
-}
-
-bool verifyPasswordHash(const QByteArray &, const QString &)
-{
-    return false;
-}
-
-SecureArray loadPasswordHash()
-{
-    return {};
-}
-
-bool savePasswordHash(const SecureArray &)
-{
-    return false;
 }
 
 EncryptionKey saveKey(const EncryptionKey &, const SecureArray &)

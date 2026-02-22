@@ -3,6 +3,8 @@
 #include "test_utils.h"
 #include "tests.h"
 
+#include "common/encryption.h"
+
 #include <QRegularExpression>
 #include <QStandardPaths>
 
@@ -116,7 +118,10 @@ void Tests::tabEncryptionPasswordCurrent()
     RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     m_test->setEnv("COPYQ_PASSWORD", ":TEST");
-    m_test->ignoreErrors(QRegularExpression("Loaded password does not match the stored hash"));
+    m_test->ignoreErrors(QRegularExpression(
+        "Unwrap DEK: authentication failed"
+        "|Loaded password does not unlock wrapped key"
+    ));
     TEST( m_test->stopServer() );
     TEST( m_test->startServer() );
 
@@ -267,98 +272,6 @@ void Tests::tabEncryptionChangePassword()
     TEST( m_test->startServer() );
 
     RUN(args << "size", "3\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
-}
-
-void Tests::tabEncryptionMissingHash()
-{
-    // Ensure that missing hash file does not lock users out from their data.
-#ifdef WITH_QCA_ENCRYPTION
-    RUN("config" << "encrypt_tabs" << "true", "true\n");
-
-    const auto tab = testTab(1);
-    const auto args = Args("tab") << tab;
-    RUN("show" << tab, "");
-
-    RUN(args << "add" << "3" << "2" << "1", "");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-
-    TEST( m_test->stopServer() );
-
-    // Remove hash file
-    const QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QVERIFY2( QFile::remove(path + "/.keydata"), "Hash file should exist" );
-    m_test->ignoreErrors(QRegularExpression("Hash is missing, accepting any password"));
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-    QVERIFY2( QFile::exists(path + "/.keydata"), "Hash file should be restored" );
-
-    TEST( m_test->stopServer() );
-    QVERIFY2(dropLogsToFileCountAndSize(0, 0), "Failed to remove log files");
-
-    // Set wrong password after hash restoration
-    m_test->setEnv("COPYQ_PASSWORD", "TEST1234");
-    m_test->ignoreErrors(QRegularExpression(
-        "Loaded password does not match the stored hash"
-        "|Tab encryption password required but not provided"
-        "|Cannot decrypt data .* no valid encryption key provided"
-    ));
-
-    TEST( m_test->startServer() );
-    RUN("show" << "", "");
-    KEYS(passwordEntryCurrentId << "ESC");
-    KEYS(clipboardBrowserId);
-    RUN(args << "size", "0\n");
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        args << "add" << "TEST", 4, "ScriptError: Invalid tab");
-
-    // Try to disable decryption with a wrong password
-    runMultiple(
-        [&]() {
-            KEYS(
-                passwordEntryCurrentId << ":TEST1234" << "ENTER"
-                // Cancel password entry retry
-                << passwordEntryCurrentId << "ESC"
-            );
-        },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
-    );
-    RUN("show" << "", "");
-    KEYS(clipboardBrowserId);
-    RUN("config" << "encrypt_tabs", "true\n");
-
-    TEST( m_test->stopServer() );
-
-    m_test->setEnv("COPYQ_PASSWORD", "TEST123");
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-
-    // Disable decryption
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
-    );
-    KEYS(clipboardBrowserId);
-    RUN("config" << "encrypt_tabs", "false\n");
-
-    TEST( m_test->stopServer() );
-
-    m_test->setEnv("COPYQ_PASSWORD", "");
-    m_test->ignoreErrors({});
-    QVERIFY2( dropLogsToFileCountAndSize(0, 0), "Failed to remove log files" );
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
     RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
 #else
     SKIP("Encryption support not built-in");

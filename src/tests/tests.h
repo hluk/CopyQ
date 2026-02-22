@@ -347,7 +347,6 @@ private slots:
     void tabEncryptionPasswordRetryFail();
     void tabEncryptionLargeItems();
     void tabEncryptionChangePassword();
-    void tabEncryptionMissingHash();
 
     void exportImportNoPasswordTab();
     void exportImportNoPasswordSettingsOnly();

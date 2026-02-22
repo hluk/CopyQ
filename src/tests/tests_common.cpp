@@ -69,6 +69,7 @@ bool testStderr(
         plain("[kf.statusnotifieritem]"),
 
         // Windows
+        plain("QWindowsPipeWriter: write failed"),
         plain("QWindowsWindow::setGeometry: Unable to set geometry"),
         plain("QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event."),
         plain("setGeometry: Unable to set geometry"),

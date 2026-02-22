@@ -472,10 +472,6 @@ public:
             }
         }
 
-        const QString dataDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-        const QString hashFilePath = QDir(dataDir).filePath(QStringLiteral(".keydata"));
-        QFile::remove(hashFilePath);
-
         // Update settings for tests.
         {
             Settings settings;
