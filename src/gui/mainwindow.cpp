@@ -50,6 +50,7 @@
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/itemfactory.h"
+#include "item/itemstore.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
@@ -2998,13 +2999,13 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     if ( ui->tabWidget->count() != 0 ) {
         if ( m_timerSaveTabPositions.isActive() )
             doSaveTabPositions(appConfig);
-        ui->tabWidget->saveTabInfo();
+        saveTabs();
     }
 
-    const QStringList tabNames = savedTabs();
-
     promptForEncryptionPasswordIfNeeded(appConfig);
-    reencryptTabsIfNeeded(tabNames, appConfig);
+    reencryptTabsIfNeeded(appConfig);
+
+    const QStringList tabNames = savedTabs();
 
     // tab bar position
     const bool tabTreeEnabled = appConfig->option<Config::tab_tree>();
@@ -3716,17 +3717,17 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
     }
 }
 
-void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig)
+void MainWindow::reencryptTabsIfNeeded(AppConfig *appConfig)
 {
     if (m_reencrypting)
         return;
 
     m_reencrypting = true;
-    reencryptTabsIfNeededHelper(tabNames, appConfig);
+    reencryptTabsIfNeededHelper(appConfig);
     m_reencrypting = false;
 }
 
-void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
+void MainWindow::reencryptTabsIfNeededHelper(AppConfig *appConfig)
 {
     const bool isEncrypted = appConfig->option<Config::encrypt_tabs>();
     if (m_wasEncrypted == isEncrypted)
@@ -3740,6 +3741,10 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
         oldEncryptionKey = promptForEncryptionPassword(
             this, PasswordSource::IgnoreEnvAndKeychain);
     }
+
+    // Items may change while waiting for password prompt, persist and refresh tab list.
+    saveTabs();
+    const QStringList tabNames = savedTabs();
 
     // Revert encryption option if password was not provided.
     if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
@@ -3758,6 +3763,9 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
 
     m_wasEncrypted = isEncrypted;
     m_sharedData->encryptionKey = newEncryptionKey;
+
+    if (allEncrypted)
+        ::cleanDataFiles(tabNames, &m_sharedData->encryptionKey);
 
     // If saving some tabs failed, keep the keys and the encryption enabled,
     // otherwise remove unneeded key files.
