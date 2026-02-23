@@ -1747,7 +1747,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Cette action réinitialise tous les paramètres (dans tous les onglets) vers les valeurs par défaut.&lt;br /&gt;&lt;br /&gt;&lt;strong&gt;Êtes-vous certain&lt;/strong&gt; de vouloir réinitialiser tous les paramètres ?</translation>
+        <translation>Cette action réinitialise tous les paramètres (dans tous les onglets) vers les valeurs par défaut.&lt;br /&gt;&lt;br /&gt;Êtes-vous certain de vouloir &lt;strong&gt;réinitialiser tous les paramètres&lt;/strong&gt;&#x202f;?</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
@@ -2282,7 +2282,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="86"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Épinglez des éléments pour les verrouiller dans la ligne en cours et éviter leur suppression.&lt;/p&gt;&lt;p&gt;Fournit des raccourcis et une fonctionnalité de script&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Épinglez des éléments pour les verrouiller dans la ligne en cours et éviter leur suppression.&lt;/p&gt;&lt;p&gt;Fournit des raccourcis et une fonctionnalité de script.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2707,7 +2707,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Voulez-vous supprimer l&apos;onglet&lt;strong&gt;%1&lt;/strong&gt; ?</translation>
+        <translation>Voulez-vous supprimer l&apos;onglet &lt;strong&gt;%1&lt;/strong&gt;&#x202f;?</translation>
     </message>
 </context>
 <context>
