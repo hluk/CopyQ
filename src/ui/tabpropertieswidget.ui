@@ -78,13 +78,58 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="QCheckBox" name="storeItems">
-     <property name="text">
-      <string>&amp;Save Items</string>
-     </property>
-    </widget>
-   </item>
+    <item>
+     <widget class="QCheckBox" name="storeItems">
+      <property name="text">
+       <string>&amp;Save Items</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Require password after an interval:</string>
+        </property>
+        <property name="buddy">
+         <cstring>encryptedExpireSeconds</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="encryptedExpireSeconds">
+        <property name="toolTip">
+         <string>Per-tab timeout in seconds for requiring encryption password again.
+
+Set to 0 to use global setting.</string>
+        </property>
+        <property name="specialValueText">
+         <string>global</string>
+        </property>
+        <property name="suffix">
+         <string>seconds</string>
+        </property>
+        <property name="maximum">
+         <number>999999</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_6">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -111,6 +156,7 @@
   <tabstop>iconButton</tabstop>
   <tabstop>maxItems</tabstop>
   <tabstop>storeItems</tabstop>
+  <tabstop>encryptedExpireSeconds</tabstop>
  </tabstops>
  <resources/>
  <connections/>

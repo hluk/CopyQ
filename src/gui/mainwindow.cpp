@@ -42,6 +42,7 @@
 #include "gui/navigation.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
+#include "gui/passwordprompt.h"
 #include "gui/selectiondata.h"
 #include "gui/tabdialog.h"
 #include "gui/tabicons.h"
@@ -766,6 +767,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 {
     ui->setupUi(this);
 
+    m_sharedData->passwordPrompt = new PasswordPrompt(this);
     m_sharedData->menuItems = menuItems();
 
     setWindowRole(QStringLiteral("main"));
@@ -1694,11 +1696,6 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
                  this, &MainWindow::onBrowserLoaded );
         connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
                  this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
-        connect( placeholder, &ClipboardBrowserPlaceholder::browserAboutToReload,
-                 this, [this]() {
-                    AppConfig appConfig;
-                    promptForEncryptionPasswordIfNeeded(&appConfig);
-                } );
 
         ui->tabWidget->addTab(placeholder, name);
         saveTabPositions();
@@ -1706,6 +1703,7 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 
     const TabProperties tab = tabs.tabProperties(name);
     placeholder->setStoreItems(tab.storeItems);
+    placeholder->setEncryptedExpireSeconds(tab.encryptedExpireSeconds);
 
     int maxItemCount = tab.maxItemCount;
     if (maxItemCount <= 0)
@@ -2242,7 +2240,7 @@ QVariantMap MainWindow::exportTabData(const QString &tab, bool *ok)
     const bool wasLoaded = placeholder->isDataLoaded();
     auto c = placeholder->createBrowserAgain();
     if (!c) {
-        qCCritical(logCategory) << "Failed to open tab" << tab << "for export" << tab;
+        qCCritical(logCategory) << "Failed to open tab for export" << tab;
         *ok = false;
         return {};
     }
@@ -3710,10 +3708,12 @@ void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
     if ( !appConfig->option<Config::encrypt_tabs>() ) {
         m_sharedData->encryptionKey.clear();
     } else if ( !m_sharedData->encryptionKey.isValid() ) {
-        const auto prompt = useKeyStore
-            ? PasswordSource::UseEnvAndKeychain
-            : PasswordSource::UseEnvOnly;
-        m_sharedData->encryptionKey = promptForEncryptionPassword(this, prompt);
+        m_sharedData->passwordPrompt->prompt(
+            useKeyStore ? PasswordSource::UseEnvAndKeychain : PasswordSource::UseEnvOnly,
+            [this](const Encryption::EncryptionKey &key){
+                if (key.isValid())
+                    m_sharedData->encryptionKey = key;
+            });
     }
 }
 
@@ -3738,8 +3738,7 @@ void MainWindow::reencryptTabsIfNeededHelper(AppConfig *appConfig)
     // Always ask for the previous password when re-encrypting.
     Encryption::EncryptionKey oldEncryptionKey;
     if (m_wasEncrypted) {
-        oldEncryptionKey = promptForEncryptionPassword(
-            this, PasswordSource::IgnoreEnvAndKeychain);
+        oldEncryptionKey = m_sharedData->passwordPrompt->prompt(PasswordSource::IgnoreEnvAndKeychain);
     }
 
     // Items may change while waiting for password prompt, persist and refresh tab list.
@@ -3749,6 +3748,7 @@ void MainWindow::reencryptTabsIfNeededHelper(AppConfig *appConfig)
     // Revert encryption option if password was not provided.
     if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
         appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
+        m_sharedData->tabsEncrypted = m_wasEncrypted;
         return;
     }
 

@@ -15,6 +15,7 @@ struct TabProperties {
     QString iconName;
     int maxItemCount = 0;
     bool storeItems = true;
+    int encryptedExpireSeconds = 0;
 };
 
 class Tabs

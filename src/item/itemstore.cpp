@@ -191,7 +191,7 @@ void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey
     QStringList files;
     for (const QString &tabName : tabNames) {
         if ( !itemDataFiles(tabName, &files, encryptionKey) ) {
-            COPYQ_LOG( QStringLiteral("Stopping cleanup due to corrupted file: %1")
+            COPYQ_LOG( QStringLiteral("Stopping cleanup due to unloaded file: %1")
                     .arg(tabName) );
             return;
         }

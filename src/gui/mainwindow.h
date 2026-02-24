@@ -18,6 +18,7 @@
 #include <QTimer>
 #include <QtContainerFwd>
 
+enum class PasswordSource;
 class Action;
 class ActionDialog;
 class AppConfig;

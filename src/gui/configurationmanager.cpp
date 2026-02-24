@@ -23,6 +23,7 @@
 #include "gui/encryptionpassword.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/passwordprompt.h"
 #include "gui/pluginwidget.h"
 #include "gui/shortcutswidget.h"
 #include "gui/tabicons.h"
@@ -261,6 +262,7 @@ void ConfigurationManager::initOptions()
     bind<Config::clipboard_tab>(m_tabHistory->comboBoxClipboardTab->lineEdit());
     bind<Config::maxitems>(m_tabHistory->spinBoxItems);
     bind<Config::expire_tab>(m_tabHistory->spinBoxExpireTab);
+    bind<Config::expire_encrypted_tab_seconds>(m_tabHistory->spinBoxExpireEncryptedTabSeconds);
     bind<Config::editor>(m_tabHistory->lineEditEditor);
     bind<Config::item_popup_interval>(m_tabNotifications->spinBoxNotificationPopupInterval);
     bind<Config::notification_position>(m_tabNotifications->comboBoxNotificationPosition);
@@ -643,10 +645,19 @@ void ConfigurationManager::onSpinBoxTrayItemsValueChanged(int value)
 
 void ConfigurationManager::onPushButtonChangeEncryptionPasswordClicked()
 {
-    if (!m_sharedData)
+    if (!m_sharedData && m_sharedData->passwordPrompt)
         return;
 
-    const Encryption::EncryptionKey key = promptForEncryptionPasswordChange(this);
-    if (key.isValid())
-        m_sharedData->encryptionKey = key;
+    // Always verify old password
+    QPointer<ConfigurationManager> self(this);
+    m_sharedData->passwordPrompt->prompt(
+        PasswordSource::IgnoreEnvAndKeychain,
+        [self](const Encryption::EncryptionKey &currentKey){
+            if (!self || !currentKey.isValid())
+                return;
+
+            const auto key = promptForEncryptionPasswordChange(currentKey, self);
+            if (key.isValid())
+                self->m_sharedData->encryptionKey = key;
+        });
 }

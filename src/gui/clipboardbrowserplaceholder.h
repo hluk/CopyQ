@@ -11,7 +11,6 @@
 #include <QWidget>
 
 class ClipboardBrowser;
-class MainWindow;
 class QProgressBar;
 class QPushButton;
 
@@ -39,6 +38,7 @@ public:
 
     void setMaxItemCount(int count);
     void setStoreItems(bool store);
+    void setEncryptedExpireSeconds(int seconds);
 
     void removeItems();
 
@@ -61,16 +61,22 @@ signals:
     void browserCreated(ClipboardBrowser *browser);
     void browserLoaded(ClipboardBrowser *browser);
     void browserDestroyed();
-    void browserAboutToReload();
 
 protected:
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
+    bool event(QEvent *event) override;
 
 private:
     void setActiveWidget(QWidget *widget);
 
     bool canExpire() const;
+    bool hasActiveFocus() const;
+    int encryptedExpireSeconds() const;
+    int encryptedExpireRemainingMs() const;
+    bool shouldPromptForLockedTabPassword() const;
+    void restartPasswordExpiry();
+    void expirePassword();
 
     void restartExpiring();
 
@@ -85,8 +91,10 @@ private:
     QString m_tabName;
     int m_maxItemCount = 200;
     bool m_storeItems = true;
+    int m_encryptedExpireSeconds = 0;
     ClipboardBrowserSharedPtr m_sharedData;
 
     QTimer m_timerExpire;
+    QTimer m_timerPasswordExpire;
     QByteArray m_data;
 };

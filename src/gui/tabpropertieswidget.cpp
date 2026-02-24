@@ -15,6 +15,8 @@ TabPropertiesWidget::TabPropertiesWidget(QWidget *parent) :
              this, &TabPropertiesWidget::maxItemCountChanged );
     connect( ui->storeItems, &QCheckBox::toggled,
              this, &TabPropertiesWidget::storeItemsChanged );
+    connect( ui->encryptedExpireSeconds, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+             this, &TabPropertiesWidget::encryptedExpireSecondsChanged );
 }
 
 TabPropertiesWidget::~TabPropertiesWidget()
@@ -40,4 +42,9 @@ void TabPropertiesWidget::setMaxItemCount(int maxItemCount)
 void TabPropertiesWidget::setStoreItems(bool storeItems)
 {
     ui->storeItems->setChecked(storeItems);
+}
+
+void TabPropertiesWidget::setEncryptedExpireSeconds(int seconds)
+{
+    ui->encryptedExpireSeconds->setValue(seconds);
 }

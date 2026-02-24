@@ -10,6 +10,7 @@ constexpr auto optionTabName = "name";
 constexpr auto optionIconName = "icon";
 constexpr auto optionMaxItemCount = "max_item_count";
 constexpr auto optionStoreItems = "store_items";
+constexpr auto optionEncryptedExpireSeconds = "encrypted_expire_seconds";
 
 struct Tabs::PrivateData {
     QHash<QString, TabProperties> tabs;
@@ -32,6 +33,9 @@ Tabs::Tabs()
         const int maxItemCount = settings.value(optionMaxItemCount).toInt(&ok);
         if (ok)
             properties.maxItemCount = maxItemCount;
+        const int encryptedExpireSeconds = settings.value(optionEncryptedExpireSeconds).toInt(&ok);
+        if (ok)
+            properties.encryptedExpireSeconds = encryptedExpireSeconds;
 
         setTabProperties(properties);
     }
@@ -79,6 +83,7 @@ void Tabs::save(QSettings *settings, const QStringList &tabs)
             if (isTab) {
                 settings->setValue(optionMaxItemCount, tab.maxItemCount);
                 settings->setValue(optionStoreItems, tab.storeItems);
+                settings->setValue(optionEncryptedExpireSeconds, tab.encryptedExpireSeconds);
             }
         }
     }

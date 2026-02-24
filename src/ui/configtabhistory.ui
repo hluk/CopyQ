@@ -102,7 +102,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
-           <string>&amp;Unload tab after an interval in minutes:</string>
+           <string>&amp;Unload tab after an interval:</string>
           </property>
           <property name="buddy">
            <cstring>spinBoxExpireTab</cstring>
@@ -117,6 +117,9 @@
              <string>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</string>
+            </property>
+            <property name="suffix">
+             <string>minutes</string>
             </property>
             <property name="maximum">
              <number>480</number>
@@ -139,6 +142,48 @@ Set to 0 not to unload tabs.</string>
          </layout>
         </item>
         <item row="3" column="0">
+         <widget class="QLabel" name="labelEncryptedExpireSeconds">
+          <property name="text">
+           <string>Require password after an interval:</string>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxExpireEncryptedTabSeconds</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayoutEncryptedExpireSeconds">
+          <item>
+           <widget class="QSpinBox" name="spinBoxExpireEncryptedTabSeconds">
+            <property name="toolTip">
+             <string>Timeout in seconds for encrypted tabs to require password again.
+
+Set to 0 to disable globally.</string>
+            </property>
+            <property name="suffix">
+             <string>seconds</string>
+            </property>
+            <property name="maximum">
+             <number>999999</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacerEncryptedExpireSeconds">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
            <string>External editor command (%&amp;1 is file to edit):</string>
@@ -148,7 +193,7 @@ Set to 0 not to unload tabs.</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QLineEdit" name="lineEditEditor">
           <property name="toolTip">
            <string>External editor command (%1 is file to edit).
