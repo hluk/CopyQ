@@ -30,6 +30,8 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(logCategory)
 Q_LOGGING_CATEGORY(logCategory, "copyq.passwd")
 
+constexpr int maxPasswordAttempts = 3;
+
 QString keychainServiceName()
 {
     return QStringLiteral("com.github.hluk.copyq");
@@ -122,6 +124,141 @@ Encryption::SecureArray getPassword(
     return Encryption::SecureArray(ba.value());
 }
 
+void getPasswordAsync(
+    QWidget *parent,
+    const QString &title,
+    const QString &label,
+    std::function<void(const Encryption::SecureArray &, bool)> callback)
+{
+    auto *dialog = new QInputDialog(parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->setWindowTitle(title);
+    dialog->setLabelText(label);
+    dialog->setTextEchoMode(QLineEdit::Password);
+    dialog->setTextValue(QString());
+    dialog->setModal(true);
+    dialog->setWindowModality(Qt::ApplicationModal);
+    QObject::connect(dialog, &QInputDialog::finished, dialog, [dialog, callback = std::move(callback)](int result) mutable {
+        const Encryption::Cleared<QByteArray> ba(dialog->textValue().toUtf8());
+        callback(Encryption::SecureArray(ba.value()), result == QDialog::Accepted);
+    });
+    dialog->open();
+}
+
+void promptForNewDefaultPasswordAttemptAsync(
+    QWidget *parent,
+    int attempts,
+    std::function<void(const Encryption::SecureArray &password)> callback)
+{
+    getPasswordAsync(
+        parent,
+        QObject::tr("New Tab Encryption Password"),
+        attempts == 0
+            ? QObject::tr("Enter new password:")
+            : QObject::tr("Passwords did not match. Please try again (%1/%2):")
+                  .arg(attempts + 1)
+                  .arg(maxPasswordAttempts),
+        [=](const Encryption::SecureArray &password1, bool ok) mutable {
+            if (!ok) {
+                log("New password input cancelled by user", LogNote);
+                callback({});
+                return;
+            }
+
+            if (password1.isEmpty()) {
+                QMessageBox::warning(
+                    parent,
+                    QObject::tr("Change Password"),
+                    QObject::tr("New password cannot be empty."));
+                if (attempts >= maxPasswordAttempts - 1) {
+                    log("Maximum password setup attempts exceeded");
+                    QMessageBox::critical(
+                        parent,
+                        QObject::tr("Password Setup Failed"),
+                        QObject::tr("Maximum password attempts exceeded."));
+                    callback({});
+                    return;
+                }
+                promptForNewDefaultPasswordAttemptAsync(parent, attempts + 1, std::move(callback));
+                return;
+            }
+
+            getPasswordAsync(
+                parent,
+                QObject::tr("Confirm Encryption Password"),
+                QObject::tr("Re-enter password to confirm:"),
+                [=](const Encryption::SecureArray &password2, bool ok2) mutable {
+                    if (!ok2) {
+                        log("Password confirmation cancelled by user", LogNote);
+                        callback({});
+                        return;
+                    }
+
+                    if (password1 == password2) {
+                        callback(password1);
+                        return;
+                    }
+
+                    if (attempts >= maxPasswordAttempts - 1) {
+                        log("Maximum password setup attempts exceeded");
+                        QMessageBox::critical(
+                            parent,
+                            QObject::tr("Password Setup Failed"),
+                            QObject::tr("Maximum password attempts exceeded."));
+                        callback({});
+                        return;
+                    }
+                    promptForNewDefaultPasswordAttemptAsync(parent, attempts + 1, std::move(callback));
+                });
+        });
+}
+
+void promptForEncryptionPasswordAttemptAsync(
+    QWidget *parent,
+    PasswordSource prompt,
+    Encryption::SecureArray wrappedDEK,
+    Encryption::Salt kekSalt,
+    int attempts,
+    std::function<void(const Encryption::EncryptionKey &key, bool passwordEnteredManually)> callback)
+{
+    getPasswordAsync(
+        parent,
+        QObject::tr("Current Tab Encryption Password"),
+        attempts == 0
+            ? QObject::tr("Enter current password for encrypting tab data:")
+            : QObject::tr("Invalid password. Please try again (%1/%2):")
+                  .arg(attempts + 1)
+                  .arg(maxPasswordAttempts),
+        [=](const Encryption::SecureArray &password, bool ok) mutable {
+            if (!ok || password.isEmpty()) {
+                log("Tab encryption password required but not provided", LogWarning);
+                callback({}, true);
+                return;
+            }
+
+            const Encryption::EncryptionKey key(password, wrappedDEK, kekSalt);
+            if (!key.isValid()) {
+                if (attempts >= maxPasswordAttempts - 1) {
+                    log("Maximum password attempts exceeded", LogError);
+                    QMessageBox::critical(
+                        parent,
+                        QObject::tr("Password Verification Failed"),
+                        QObject::tr("Maximum password attempts exceeded."));
+                    callback({}, true);
+                    return;
+                }
+                promptForEncryptionPasswordAttemptAsync(
+                    parent, prompt, std::move(wrappedDEK), std::move(kekSalt), attempts + 1, std::move(callback));
+                return;
+            }
+
+            if (prompt == PasswordSource::UseEnvAndKeychain)
+                savePasswordToKeychain(password);
+
+            callback(key, true);
+        });
+}
+
 Encryption::SecureArray promptForNewDefaultPassword(QWidget *parent)
 {
     return promptForNewPassword(
@@ -131,19 +268,34 @@ Encryption::SecureArray promptForNewDefaultPassword(QWidget *parent)
         parent);
 }
 
-Encryption::EncryptionKey firstPasswordSetup(QWidget *parent, PasswordSource prompt)
+void promptForNewDefaultPasswordAsync(
+    QWidget *parent,
+    std::function<void(const Encryption::SecureArray &password)> callback)
+{
+    activateWindow(parent);
+    promptForNewDefaultPasswordAttemptAsync(parent, 0, std::move(callback));
+}
+
+void firstPasswordSetupAsync(
+    QWidget *parent,
+    PasswordSource prompt,
+    std::function<void(const Encryption::EncryptionKey &key, bool passwordEnteredManually)> callback)
 {
     qCInfo(logCategory) << "Setting up encryption for the first time";
 
     const Encryption::SecureArray storedPassword = getStoredPassword(prompt);
-    if (!storedPassword.isEmpty())
-        return setUpPassword(storedPassword, prompt);
+    if (!storedPassword.isEmpty()) {
+        callback(setUpPassword(storedPassword, prompt), false);
+        return;
+    }
 
-    const Encryption::SecureArray newPassword = promptForNewDefaultPassword(parent);
-    if (!newPassword.isEmpty())
-        return setUpPassword(newPassword, prompt);
-
-    return {};
+    promptForNewDefaultPasswordAsync(parent, [prompt, callback = std::move(callback)](const Encryption::SecureArray &newPassword) mutable {
+        if (newPassword.isEmpty()) {
+            callback({}, true);
+            return;
+        }
+        callback(setUpPassword(newPassword, prompt), true);
+    });
 }
 
 } // namespace
@@ -158,15 +310,14 @@ Encryption::SecureArray promptForNewPassword(
 
     activateWindow(parent);
     int attempts = 0;
-    const int maxAttempts = 3;
-    while (attempts < maxAttempts) {
+    while (attempts < maxPasswordAttempts) {
         bool ok;
         const auto password1 = getPassword(
             parent,
             title,
             attempts == 0
                 ? label
-                : QObject::tr("Passwords did not match. Please try again (%1/%2):").arg(attempts + 1).arg(maxAttempts),
+                : QObject::tr("Passwords did not match. Please try again (%1/%2):").arg(attempts + 1).arg(maxPasswordAttempts),
             &ok
         );
 
@@ -221,19 +372,25 @@ Encryption::SecureArray promptForNewPassword(
     return {};
 }
 
-Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordSource prompt)
+void promptForEncryptionPasswordAsync(
+    QWidget *parent,
+    PasswordSource prompt,
+    std::function<void(const Encryption::EncryptionKey &key, bool passwordEnteredManually)> callback)
 {
     if ( !Encryption::initialize() ) {
         log("Failed to initialize encryption system", LogWarning);
-        return {};
+        callback({}, true);
+        return;
     }
 
     const Encryption::SecureArray wrappedDEK = Encryption::loadWrappedDEK();
     const Encryption::Salt kekSalt = Encryption::loadKEKSalt();
 
     const bool isFirstSetup = wrappedDEK.isEmpty() && kekSalt.isEmpty();
-    if (isFirstSetup)
-        return firstPasswordSetup(parent, prompt);
+    if (isFirstSetup) {
+        firstPasswordSetupAsync(parent, prompt, std::move(callback));
+        return;
+    }
 
     if (wrappedDEK.isEmpty() || kekSalt.isEmpty()) {
         log("Encryption key files are missing or corrupted; refusing to unlock encrypted tabs in strict mode", LogError);
@@ -242,73 +399,29 @@ Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordS
             QObject::tr("Encryption Files Corrupted"),
             QObject::tr(
                 "Encryption files are missing or corrupted. "
-                "Strict mode cannot recover encrypted tabs automatically."
-            )
-        );
-        return {};
+                "Strict mode cannot recover encrypted tabs automatically."));
+        callback({}, true);
+        return;
     }
 
     const Encryption::SecureArray storedPassword = getStoredPassword(prompt);
-    if ( !storedPassword.isEmpty() ) {
+    if (!storedPassword.isEmpty()) {
         const Encryption::EncryptionKey key(storedPassword, wrappedDEK, kekSalt);
-        if (key.isValid())
-            return key;
+        if (key.isValid()) {
+            callback(key, false);
+            return;
+        }
         log("Loaded password does not unlock wrapped key", LogWarning);
     }
 
-    // Ask for the current password
     activateWindow(parent);
-    int attempts = 0;
-    const int maxAttempts = 3;
-    while (attempts < maxAttempts) {
-        bool ok;
-        const Encryption::SecureArray password = getPassword(
-            parent,
-            QObject::tr("Current Tab Encryption Password"),
-            attempts == 0
-                ? QObject::tr("Enter current password for encrypting tab data:")
-                : QObject::tr("Invalid password. Please try again (%1/%2):").arg(attempts + 1).arg(maxAttempts),
-            &ok
-        );
-
-        if (!ok || password.isEmpty()) {
-            log("Tab encryption password required but not provided", LogWarning);
-            return {};
-        }
-
-        const Encryption::EncryptionKey key(password, wrappedDEK, kekSalt);
-        if (!key.isValid()) {
-            attempts++;
-            continue;
-        }
-
-        if (prompt == PasswordSource::UseEnvAndKeychain && key.isValid())
-            savePasswordToKeychain(password);
-
-        return key;
-    }
-
-    log("Maximum password attempts exceeded", LogError);
-    QMessageBox::critical(
-        parent,
-        QObject::tr("Password Verification Failed"),
-        QObject::tr("Maximum password attempts exceeded. Encryption will not be available.")
-    );
-    return {};
+    promptForEncryptionPasswordAttemptAsync(
+        parent, prompt, wrappedDEK, kekSalt, 0, std::move(callback));
 }
 
-Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *parent)
+Encryption::EncryptionKey promptForEncryptionPasswordChange(
+    const Encryption::EncryptionKey &currentKey, QWidget *parent)
 {
-    if ( !Encryption::initialize() ) {
-        log("Failed to initialize encryption system", LogWarning);
-        return {};
-    }
-
-    // Always verify old password
-    const Encryption::EncryptionKey currentKey = promptForEncryptionPassword(parent, PasswordSource::IgnoreEnvAndKeychain);
-    if (!currentKey.isValid())
-        return {};
-
     const Encryption::SecureArray newPassword = promptForNewDefaultPassword(parent);
     if (newPassword.isEmpty())
         return {};
@@ -448,9 +561,12 @@ Encryption::SecureArray promptForNewPassword(
     return {};
 }
 
-Encryption::EncryptionKey promptForEncryptionPassword(QWidget *, PasswordSource)
+void promptForEncryptionPasswordAsync(
+    QWidget *,
+    PasswordSource,
+    std::function<void(const Encryption::EncryptionKey &key, bool passwordEnteredManually)> callback)
 {
-    return {};
+    callback({}, true);
 }
 
 Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *)

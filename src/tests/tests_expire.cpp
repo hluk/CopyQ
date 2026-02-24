@@ -14,6 +14,7 @@ void Tests::expireTabs()
         settings.setValue("name", "temp1");
         settings.setValue("icon", "x");
         settings.setValue("store_items", false);
+        settings.setValue("encrypted_expire_seconds", 7);
         settings.endArray();
     }
 
@@ -41,6 +42,7 @@ void Tests::expireTabs()
         QCOMPARE(settings.value("name"), tabName); \
         QCOMPARE(settings.value("icon"), "x"); \
         QCOMPARE(settings.value("store_items").toBool(), false); \
+        QCOMPARE(settings.value("encrypted_expire_seconds").toInt(), 7); \
         settings.endArray(); \
     } while(false)
 
@@ -56,4 +58,93 @@ void Tests::expireTabs()
 
     RUN("tab", "temp2\n" + QString(clipboardTabName) + "\n");
     RUN("size()", "0\n");
+}
+
+void Tests::expireEncryptedTabsPasswordAcrossTabs()
+{
+#ifdef WITH_QCA_ENCRYPTION
+    const QString tab1 = testTab(1);
+    const QString tab2 = testTab(2);
+    const Args args1 = Args("tab") << tab1 << "separator" << " ";
+    const Args args2 = Args("tab") << tab2 << "separator" << " ";
+
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
+
+    RUN(args1 << "add" << "A1", "");
+    RUN(args2 << "add" << "B1", "");
+
+    RUN("config" << "expire_encrypted_tab_seconds" << "2", "2\n");
+    TEST( m_test->stopServer() );
+    m_test->setEnv("COPYQ_PASSWORD", "");
+    TEST( m_test->startServer() );
+
+    // Start expiration timer from manual password entry.
+    runMultiple(
+        [&]() { RUN("show" << tab1, ""); },
+        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
+    );
+    KEYS(clipboardBrowserId);
+    RUN("selectedTab", tab1 + "\n");
+    RUN(args1 << "read" << "0", "A1");
+    RUN("show" << tab2, "");
+    RUN(args2 << "read" << "0", "B1");
+
+    RUN("show" << tab1, "");
+    RUN("show" << tab2, "");
+
+    KEYS(clipboardBrowserId);
+    QTest::qWait(2500);
+    KEYS(clipboardBrowserId);
+
+    runMultiple(
+        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]() { RUN(args1 << "read" << "0", "A1"); }
+    );
+    KEYS(clipboardBrowserId);
+    RUN("selectedTab", tab2 + "\n");
+    RUN("show" << tab1, "");
+    RUN("selectedTab", tab1 + "\n");
+    KEYS(clipboardBrowserId);
+    RUN(args1 << "read" << "0", "A1");
+
+    RUN("show" << tab2, "");
+    RUN(args2 << "read" << "0", "B1");
+
+    // Expire again: active tab should stay unlocked.
+    KEYS(clipboardBrowserId);
+    QTest::qWait(2500);
+    KEYS(clipboardBrowserId);
+
+    RUN("show" << tab2, "");
+    RUN(args2 << "read" << "0", "B1");
+
+    // Switching to the other expired tab should prompt again.
+    runMultiple(
+        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]() { RUN("show" << tab1, ""); }
+    );
+    RUN(args1 << "read" << "0", "A1");
+    KEYS(clipboardBrowserId);
+
+    // Avoid asking password for a new tab (if prompted recently)
+    const QString tab3 = testTab(3);
+    RUN("show" << tab3, "");
+
+    KEYS(clipboardBrowserId);
+    QTest::qWait(2500);
+    KEYS(clipboardBrowserId);
+
+    // Read multiple expired tabs items, wait for password prompt once
+    runMultiple(
+        [&]() { RUN(args1 << "read" << "0", "A1"); },
+        [&]() {
+            runMultiple(
+                [&]() { RUN(args2 << "read" << "0", "B1"); },
+                [&]() { QTest::qWait(200); KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
+            );
+        }
+    );
+#else
+    SKIP("Encryption support not built-in");
+#endif
 }

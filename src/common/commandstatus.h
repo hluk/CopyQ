@@ -27,4 +27,6 @@ enum CommandStatus {
     CommandData = 12,
 
     CommandReceiveData = 13,
+
+    CommandFunctionCallPriority = 14,
 };

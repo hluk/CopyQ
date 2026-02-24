@@ -29,8 +29,10 @@ Build: `cmake -B build --build`
 
 Install: `cmake -B build --target install`
 
-Tests require X11 session (or Wayland) and a window manager. Use `Xephyr` and
+Tests require X11 session (or Wayland) and a window manager. Use `Xvfb` and
 `openbox` to initialize the testing environment.
+
+Avoid running all tests, always specify a list tests functions to run.
 
 Run tests after build: `build/copyq-tests $TEST_FUNCTIONS`
 

@@ -3,7 +3,7 @@
 #include "test_utils.h"
 #include "tests.h"
 
-#include "common/encryption.h"
+#include "common/commandstatus.h"
 
 #include <QRegularExpression>
 #include <QStandardPaths>
@@ -199,6 +199,37 @@ void Tests::tabEncryptionPasswordRetryFail()
 
     // If the initial password was not provided, encryption should be disabled.
     RUN("config" << "encrypt_tabs", "false\n");
+#else
+    SKIP("Encryption support not built-in");
+#endif
+}
+
+void Tests::tabEncryptionPasswordAbortRetry()
+{
+#ifdef WITH_QCA_ENCRYPTION
+    TEST( m_test->stopServer() );
+    TEST( m_test->startServer() );
+    RUN("show", "");
+    KEYS(clipboardBrowserId);
+
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
+
+    TEST( m_test->stopServer() );
+    m_test->setEnv("COPYQ_PASSWORD", "");
+    TEST( m_test->startServer() );
+
+    m_test->ignoreErrors(QRegularExpression("Tab encryption password required but not provided"));
+    KEYS(passwordEntryCurrentId << "ESC");
+    KEYS(clipboardBrowserRefreshButtonId);
+
+    RUN_EXPECT_ERROR_WITH_STDERR("add('A')", CommandException, "Invalid tab");
+
+    KEYS(clipboardBrowserRefreshButtonId << "SPACE");
+    KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER");
+    KEYS(clipboardBrowserId);
+
+    RUN("add('A')", "");
+    RUN("read(0)", "A");
 #else
     SKIP("Encryption support not built-in");
 #endif

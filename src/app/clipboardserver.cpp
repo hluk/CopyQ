@@ -551,10 +551,17 @@ void ClipboardServer::onClientMessageReceived(
         const QByteArray &message, int messageCode, ClientSocketId clientId)
 {
     switch (messageCode) {
+    case CommandFunctionCallPriority:
     case CommandFunctionCall: {
         const auto &clientData = m_clients.value(clientId);
         if (!clientData.isValid())
             return;
+
+        // Postpone processing clients after configuration is loaded
+        if (m_loadingSettings && messageCode == CommandFunctionCall) {
+            m_pendingMessages.append({message, messageCode, clientId});
+            return;
+        }
 
         clientData.proxy->callFunction(message);
         break;
@@ -708,9 +715,10 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings(AppConfig *appConfig)
 {
-    if (!m_sharedData->itemFactory)
+    if (!m_sharedData->itemFactory || m_loadingSettings)
         return;
 
+    m_loadingSettings = true;
     COPYQ_LOG("Loading configuration");
 
     QSettings &settings = appConfig->settings();
@@ -742,6 +750,8 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_sharedData->showSimpleItems = appConfig->option<Config::show_simple_items>();
     m_sharedData->numberSearch = appConfig->option<Config::number_search>();
     m_sharedData->minutesToExpire = appConfig->option<Config::expire_tab>();
+    m_sharedData->encryptedExpireSeconds = appConfig->option<Config::expire_encrypted_tab_seconds>();
+    m_sharedData->tabsEncrypted = appConfig->option<Config::encrypt_tabs>();
     m_sharedData->saveDelayMsOnItemAdded = appConfig->option<Config::save_delay_ms_on_item_added>();
     m_sharedData->saveDelayMsOnItemModified = appConfig->option<Config::save_delay_ms_on_item_modified>();
     m_sharedData->saveDelayMsOnItemRemoved = appConfig->option<Config::save_delay_ms_on_item_removed>();
@@ -796,6 +806,12 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
     m_updateThemeTimer.stop();
 
     COPYQ_LOG("Configuration loaded");
+    m_loadingSettings = false;
+
+    const QList<ClientMessage> pendingMessages = std::move(m_pendingMessages);
+    Q_ASSERT(m_pendingMessages.isEmpty());
+    for (const auto &msg : pendingMessages)
+        onClientMessageReceived(msg.message, msg.messageCode, msg.clientId);
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)

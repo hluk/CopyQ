@@ -67,6 +67,11 @@ struct expire_tab : Config<int> {
     static QString name() { return QStringLiteral("expire_tab"); }
 };
 
+struct expire_encrypted_tab_seconds : Config<int> {
+    static QString name() { return QStringLiteral("expire_encrypted_tab_seconds"); }
+    static Value value(Value v) { return qBound(0, v, 999999); }
+};
+
 struct editor : Config<QString> {
     static QString name() { return QStringLiteral("editor"); }
     static Value defaultValue();
