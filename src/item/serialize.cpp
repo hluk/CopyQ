@@ -690,15 +690,16 @@ bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::Encryp
                 return false;
 
             if ( !encryptionKey || !encryptionKey->isValid() ) {
-                // Cannot enumerate files without valid encryption key - skip this item
-                qCDebug(serializeCategory) << "Skipping encrypted item in file enumeration (no key)";
-                continue;
+                qCWarning(serializeCategory)
+                    << "Cannot enumerate encrypted item files: missing valid encryption key";
+                return false;
             }
 
             const QByteArray decryptedBytes = Encryption::decrypt(encryptedBytes, *encryptionKey);
             if ( decryptedBytes.isEmpty() ) {
-                qCWarning(serializeCategory) << "Failed to decrypt item for file enumeration - skipping";
-                continue;
+                qCWarning(serializeCategory)
+                    << "Cannot enumerate encrypted item files: decryption failed";
+                return false;
             }
 
             // Parse decrypted data to extract file paths
