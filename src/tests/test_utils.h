@@ -9,6 +9,7 @@
 #include <QString>
 #include <QStringList>
 #include <QTest>
+#include <QThreadPool>
 #include <QTimer>
 #include <QVariantMap>
 
@@ -85,6 +86,8 @@ constexpr auto fileNameEditId = "focus:fileNameEdit";
         TEST( m_test->runClient((Args() << ARGUMENTS), toByteArray(STDOUT_EXPECTED)) ); \
     } while(false)
 
+#define RUN_MULTIPLE(...) TEST(runMultiple({__VA_ARGS__}))
+
 #define TEST_SELECTED(STDOUT_EXPECTED) \
     RUN("testSelected", (STDOUT_EXPECTED))
 
@@ -126,8 +129,6 @@ constexpr auto fileNameEditId = "focus:fileNameEdit";
     if ( qgetenv(ENV) == "1" ) \
         SKIP("Unset " ENV " to run the tests")
 
-#define WITH_TIMEOUT "afterMilliseconds(10000, fail); "
-
 /// Interval to wait (in ms) before and after setting clipboard.
 #ifdef Q_OS_MAC
 // macOS seems to require larger delay before/after setting clipboard
@@ -140,7 +141,9 @@ const int waitMsSetClipboard = 250;
 const int waitMsPasteClipboard = 1000;
 
 /// Interval to wait (in ms) for client process.
-const int waitClientRun = 30000;
+const int waitClientRun = 10000;
+
+const int waitClientRunMultiple = waitClientRun + 5000;
 
 using Args = QStringList;
 
@@ -170,13 +173,22 @@ inline QString keyNameFor(QKeySequence::StandardKey standardKey)
     return QKeySequence(standardKey).toString();
 }
 
-template <typename Fn1, typename Fn2>
-void runMultiple(Fn1 f1, Fn2 f2)
+[[nodiscard]] inline QByteArray runMultiple(
+    const std::initializer_list<std::function<void()>> &fns)
 {
-    QTimer timer;
-    timer.setSingleShot(true);
-    timer.setInterval(0);
-    QObject::connect(&timer, &QTimer::timeout, f2);
-    timer.start();
-    f1();
+    QThreadPool pool;
+    pool.setMaxThreadCount(fns.size());
+    for (const auto &fn : fns)
+        pool.start(fn);
+
+    if (!pool.waitForDone(waitClientRunMultiple)) {
+        const int remaining = pool.activeThreadCount();
+        return "Failed RUN_MULTIPLE: Some calls ("
+            + QByteArray::number(remaining) + ") timed out";
+    }
+
+    if (QTest::currentTestFailed())
+        return "Failed RUN_MULTIPLE: Some calls failed";
+
+    return {};
 }

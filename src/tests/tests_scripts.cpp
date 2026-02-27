@@ -309,50 +309,50 @@ void Tests::commandToggleConfig()
 void Tests::commandDialog()
 {
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
-        [&]() { KEYS("focus::QLineEdit<:QDialog" << ":TEST" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('text')", "TEST\n"); },
+        [&]{ KEYS("focus::QLineEdit<:QDialog" << ":TEST" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('text') === undefined", "true\n"); },
-        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ESCAPE"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('text') === undefined", "true\n"); },
+        [&]{ KEYS("focus::QLineEdit<:QDialog" << "ESCAPE"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
-        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('.defaultChoice', 2, 'list', [1, 2, 3])", "2\n"); },
+        [&]{ KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
-        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('.defaultChoice', '', 'list', [1, 2, 3])", "\n"); },
+        [&]{ KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('list', [0, 1, 2])", "0\n"); },
-        [&]() { KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('list', [0, 1, 2])", "0\n"); },
+        [&]{ KEYS("focus::QComboBox<:QDialog" << "ENTER"); }
     );
 
     // Can't focus configuration checkboxes on OS X
 #ifndef Q_OS_MAC
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('boolean', true) === true", "true\n"); },
-        [&]() { KEYS("focus::QCheckBox<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('boolean', true) === true", "true\n"); },
+        [&]{ KEYS("focus::QCheckBox<:QDialog" << "ENTER"); }
     );
 #endif
 
     // Verify that special argument ".title" changes dialog's object name
     // so that geometry can be stored.
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'test', 'text')", ""); },
-        [&]() { KEYS("focus::QLineEdit<dialog_test:QDialog" << "ESCAPE"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('.title', 'test', 'text')", ""); },
+        [&]{ KEYS("focus::QLineEdit<dialog_test:QDialog" << "ESCAPE"); }
     );
 
     KEYS(clipboardBrowserId);
@@ -368,15 +368,15 @@ void Tests::commandDialog()
             'text', 'DEFAULT',
         )
     )";
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT + script, "DEFAULT\n"); },
-        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN(script, "DEFAULT\n"); },
+        [&]{ KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
-        [&]() { KEYS("focus::QPushButton<dialog_Remove Items:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
+        [&]{ KEYS("focus::QPushButton<dialog_Remove Items:QDialog" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
@@ -387,9 +387,9 @@ void Tests::commandDialog()
             'text', 'DEFAULT',
         )
     )";
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT + script2, "DEFAULT\n"); },
-        [&]() { KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN(script2, "DEFAULT\n"); },
+        [&]{ KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
 }
 
@@ -401,39 +401,39 @@ void Tests::commandDialogCloseOnDisconnect()
 void Tests::commandMenuItems()
 {
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "a\n"); },
-        [&]() { KEYS(customMenuId << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems('a', 'b', 'c')", "a\n"); },
+        [&]{ KEYS(customMenuId << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "0\n"); },
-        [&]() { KEYS(customMenuId << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "0\n"); },
+        [&]{ KEYS(customMenuId << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "\n"); },
-        [&]() { KEYS(customMenuId << "ESCAPE"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems('a', 'b', 'c')", "\n"); },
+        [&]{ KEYS(customMenuId << "ESCAPE"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "-1\n"); },
-        [&]() { KEYS(customMenuId << "ESCAPE"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "-1\n"); },
+        [&]{ KEYS(customMenuId << "ESCAPE"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems('a', 'b', 'c')", "b\n"); },
-        [&]() { KEYS(customMenuId << ":b" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems('a', 'b', 'c')", "b\n"); },
+        [&]{ KEYS(customMenuId << ":b" << "ENTER"); }
     );
 
     KEYS(clipboardBrowserId);
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "1\n"); },
-        [&]() { KEYS(customMenuId << ":b" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("menuItems([{'text/plain': 'a'}, {'text/plain': 'b'}])", "1\n"); },
+        [&]{ KEYS(customMenuId << ":b" << "ENTER"); }
     );
 
     RUN("afterMilliseconds(0, abort); menuItems('a', 'b', 'c')", "");
@@ -595,17 +595,22 @@ void Tests::commandsEnvSetEnv()
 
 void Tests::commandSleep()
 {
-    QElapsedTimer t;
-
-    t.start();
-    RUN("sleep" << "100", "");
-    const auto afterElapsed100Ms = t.elapsed();
-    QVERIFY(afterElapsed100Ms > 100);
-
-    t.start();
-    RUN("sleep" << "1000", "");
-    const auto afterElapsed1000Ms = t.elapsed();
-    QVERIFY(afterElapsed1000Ms > 1000);
+    RUN_MULTIPLE(
+        [&]{
+            QElapsedTimer t;
+            t.start();
+            RUN("sleep" << "1000", "");
+            const auto afterElapsed1000Ms = t.elapsed();
+            QVERIFY(afterElapsed1000Ms > 1000);
+        },
+        [&]{
+            QElapsedTimer t;
+            t.start();
+            RUN("sleep" << "100", "");
+            const auto afterElapsed100Ms = t.elapsed();
+            QVERIFY(afterElapsed100Ms > 100);
+        }
+    );
 }
 
 void Tests::commandsData()
