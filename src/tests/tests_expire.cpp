@@ -79,16 +79,19 @@ void Tests::expireEncryptedTabsPasswordAcrossTabs()
     TEST( m_test->startServer() );
 
     // Start expiration timer from manual password entry.
-    runMultiple(
-        [&]() { RUN("show" << tab1, ""); },
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
+    RUN_MULTIPLE(
+        [&]{ RUN("show" << tab1, ""); },
+        [&]{ KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
     );
-    KEYS(clipboardBrowserId);
-    RUN("selectedTab", tab1 + "\n");
-    RUN(args1 << "read" << "0", "A1");
-    RUN("show" << tab2, "");
-    RUN(args2 << "read" << "0", "B1");
 
+    RUN_MULTIPLE(
+        [&]{ KEYS(clipboardBrowserId); },
+        [&]{ RUN("selectedTab", tab1 + "\n"); },
+        [&]{ RUN(args1 << "read" << "0", "A1"); },
+        [&]{ RUN(args2 << "read" << "0", "B1"); }
+    );
+
+    RUN("show" << tab2, "");
     RUN("show" << tab1, "");
     RUN("show" << tab2, "");
 
@@ -96,16 +99,19 @@ void Tests::expireEncryptedTabsPasswordAcrossTabs()
     QTest::qWait(2500);
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN(args1 << "read" << "0", "A1"); }
+    RUN_MULTIPLE(
+        [&]{ KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]{ RUN(args1 << "read" << "0", "A1"); }
     );
     KEYS(clipboardBrowserId);
     RUN("selectedTab", tab2 + "\n");
+
     RUN("show" << tab1, "");
-    RUN("selectedTab", tab1 + "\n");
-    KEYS(clipboardBrowserId);
-    RUN(args1 << "read" << "0", "A1");
+    RUN_MULTIPLE(
+        [&]{ RUN("selectedTab", tab1 + "\n"); },
+        [&]{ KEYS(clipboardBrowserId); },
+        [&]{ RUN(args1 << "read" << "0", "A1"); }
+    );
 
     RUN("show" << tab2, "");
     RUN(args2 << "read" << "0", "B1");
@@ -119,9 +125,9 @@ void Tests::expireEncryptedTabsPasswordAcrossTabs()
     RUN(args2 << "read" << "0", "B1");
 
     // Switching to the other expired tab should prompt again.
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("show" << tab1, ""); }
+    RUN_MULTIPLE(
+        [&]{ KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]{ RUN("show" << tab1, ""); }
     );
     RUN(args1 << "read" << "0", "A1");
     KEYS(clipboardBrowserId);
@@ -135,14 +141,10 @@ void Tests::expireEncryptedTabsPasswordAcrossTabs()
     KEYS(clipboardBrowserId);
 
     // Read multiple expired tabs items, wait for password prompt once
-    runMultiple(
-        [&]() { RUN(args1 << "read" << "0", "A1"); },
-        [&]() {
-            runMultiple(
-                [&]() { RUN(args2 << "read" << "0", "B1"); },
-                [&]() { QTest::qWait(200); KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
-            );
-        }
+    RUN_MULTIPLE(
+        [&]{ RUN(args1 << "read" << "0", "A1"); },
+        [&]{ RUN(args2 << "read" << "0", "B1"); },
+        [&]{ QTest::qWait(200); KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); }
     );
 #else
     SKIP("Encryption support not built-in");

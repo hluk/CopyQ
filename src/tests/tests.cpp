@@ -631,7 +631,7 @@ private:
         }
 
         p->start( executable(), arguments, mode );
-        return p->waitForStarted(10000);
+        return p->waitForStarted(2000);
     }
 
     QByteArray waitForServerToStart()

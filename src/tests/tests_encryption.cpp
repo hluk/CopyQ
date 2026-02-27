@@ -50,9 +50,9 @@ void Tests::tabEncryption()
 
 #ifdef WITH_QCA_ENCRYPTION
     // Password is needed when disabling encryption
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
+    RUN_MULTIPLE(
+        [&]{ KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]{ RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
 #endif
@@ -74,8 +74,8 @@ void Tests::tabEncryptionPasswordNew()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -83,7 +83,7 @@ void Tests::tabEncryptionPasswordNew()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 
@@ -143,8 +143,8 @@ void Tests::tabEncryptionPasswordRetry()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password - attempt 1
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -156,7 +156,7 @@ void Tests::tabEncryptionPasswordRetry()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 #else
@@ -173,8 +173,8 @@ void Tests::tabEncryptionPasswordRetryFail()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password - attempt 1
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -194,7 +194,7 @@ void Tests::tabEncryptionPasswordRetryFail()
                 << passwordMessageFailedId << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
 
     // If the initial password was not provided, encryption should be disabled.
