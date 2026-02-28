@@ -93,7 +93,7 @@
          <string>Require password after an interval:</string>
         </property>
         <property name="buddy">
-         <cstring>encryptedExpireSeconds</cstring>
+         <cstring>spinBoxExpireEncryptedTabSeconds</cstring>
         </property>
        </widget>
       </item>
