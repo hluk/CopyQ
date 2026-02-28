@@ -19,6 +19,9 @@ class ClipboardBrowserPlaceholder final : public QWidget
     Q_OBJECT
 
 public:
+    enum class AskPassword {
+        IfNeeded, Avoid
+    };
     ClipboardBrowserPlaceholder(
             const QString &tabName, const ClipboardBrowserSharedPtr &shared, QWidget *parent);
 
@@ -31,7 +34,7 @@ public:
      * If creating fails it creates reaload button instead and
      * further calls to this function do nothing.
      */
-    ClipboardBrowser *createBrowser();
+    ClipboardBrowser *createBrowser(AskPassword askPassword = AskPassword::IfNeeded);
 
     bool setTabName(const QString &tabName);
     QString tabName() const { return m_tabName; }

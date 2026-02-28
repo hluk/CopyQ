@@ -874,6 +874,7 @@ void ScriptableProxy::setActionData(int id, const QVariantMap &data)
 
 void ScriptableProxy::exit()
 {
+    constexpr bool hasPriority = true;
     INVOKE2(exit, ());
     qApp->quit();
 }

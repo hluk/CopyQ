@@ -45,7 +45,7 @@ ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
     initSingleShotTimer( &m_timerPasswordExpire, 0, this, &ClipboardBrowserPlaceholder::restartPasswordExpiry);
 }
 
-ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
+ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser(AskPassword askPassword)
 {
     if (m_browser)
         return m_browser;
@@ -59,7 +59,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
         return nullptr;
     }
 
-    if (shouldPromptForLockedTabPassword()) {
+    if (askPassword == AskPassword::IfNeeded && shouldPromptForLockedTabPassword()) {
         QPointer<ClipboardBrowserPlaceholder> self(this);
         qCDebug(logCategory) << "Prompting for password for tab:" << m_tabName;
         const auto key = m_sharedData->passwordPrompt->prompt(
@@ -128,7 +128,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
         unloadBrowser();
         if ( !moveItems(m_tabName, tabName) ) {
             if ( isVisible() )
-                createBrowser();
+                createBrowser(AskPassword::Avoid);
             return false;
         }
     }
@@ -137,7 +137,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
     m_tabName = tabName;
 
     if ( isVisible() )
-        createBrowser();
+        createBrowser(AskPassword::Avoid);
 
     return true;
 }
@@ -207,7 +207,7 @@ void ClipboardBrowserPlaceholder::reloadBrowser()
     } else {
         unloadBrowser();
         if ( isVisible() )
-            createBrowser();
+            createBrowser(AskPassword::Avoid);
     }
 }
 
