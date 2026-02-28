@@ -191,7 +191,7 @@ void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey
     QStringList files;
     for (const QString &tabName : tabNames) {
         if ( !itemDataFiles(tabName, &files, encryptionKey) ) {
-            COPYQ_LOG( QStringLiteral("Stopping cleanup due to unloaded file: %1")
+            COPYQ_LOG( QStringLiteral("Stopping data file cleanup: failed to load or decrypt some files for tab %1")
                     .arg(tabName) );
             return;
         }

@@ -28,12 +28,6 @@ public:
     /// Returns browser (nullptr if not yet created).
     ClipboardBrowser *browser() const { return m_browser; }
 
-    /**
-     * Returns browser, creates it first if it doesn't exits (nullptr if it fails to load items).
-     *
-     * If creating fails it creates reaload button instead and
-     * further calls to this function do nothing.
-     */
     ClipboardBrowser *createBrowser(AskPassword askPassword = AskPassword::IfNeeded);
 
     bool setTabName(const QString &tabName);
@@ -79,7 +73,6 @@ private:
     int encryptedExpireRemainingMs() const;
     bool shouldPromptForLockedTabPassword() const;
     void restartPasswordExpiry();
-    void expirePassword();
 
     void restartExpiring();
 
