@@ -88,7 +88,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="labelEncryptedExpireSeconds">
         <property name="text">
          <string>Require password after an interval:</string>
         </property>
@@ -98,7 +98,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="encryptedExpireSeconds">
+       <widget class="QSpinBox" name="spinBoxExpireEncryptedTabSeconds">
         <property name="toolTip">
          <string>Per-tab timeout in seconds for requiring encryption password again.
 
@@ -156,7 +156,7 @@ Set to 0 to use global setting.</string>
   <tabstop>iconButton</tabstop>
   <tabstop>maxItems</tabstop>
   <tabstop>storeItems</tabstop>
-  <tabstop>encryptedExpireSeconds</tabstop>
+  <tabstop>spinBoxExpireEncryptedTabSeconds</tabstop>
  </tabstops>
  <resources/>
  <connections/>

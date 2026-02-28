@@ -360,6 +360,7 @@ Use Item Preview to display whole items.</string>
   <tabstop>comboBoxClipboardTab</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxExpireTab</tabstop>
+  <tabstop>spinBoxExpireEncryptedTabSeconds</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>checkBoxShowSimpleItems</tabstop>
