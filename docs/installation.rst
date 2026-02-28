@@ -39,23 +39,13 @@ After this, you can use the CLI:
     copyq clipboard
     copyq size
 
-On Debian unstable, **Debian 11+**, **Ubuntu 22.04+** and later derivatives can
-install stable version from official repositories:
+On **Debian** and **Ubuntu+** install a stable version from official
+repositories:
 
 .. code-block:: bash
 
     sudo apt install copyq
     # copyq-plugins and copyq-doc is split out and can be installed independently
-
-On **Ubuntu** set up the official PPA repository and install the app from terminal:
-
-.. code-block:: bash
-
-    sudo apt install software-properties-common python-software-properties
-    sudo add-apt-repository ppa:hluk/copyq
-    sudo apt update
-    sudo apt install copyq
-    # this package contains all plugins and documentation
 
 On **Fedora**, install "copyq" package:
 

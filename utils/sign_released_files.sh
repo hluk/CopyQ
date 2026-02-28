@@ -1,8 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-sha512sum *.gz *.zip *.exe linux/*.deb linux/*.rpm |
-    sed 's/ linux\// /' > checksums-sha512.txt
+sha512sum *.gz *.zip *.exe > checksums-sha512.txt
 
 # https://docs.sigstore.dev/quickstart/quickstart-cosign/
 cosign sign-blob checksums-sha512.txt --bundle cosign.bundle

@@ -91,7 +91,7 @@ set(copyq_ICON_MASK       src/images/icon_mask.svg)
 set(copyq_DESKTOP         shared/${copyq_APP_ID}.desktop)
 set(copyq_APPDATA         shared/${copyq_APP_ID}.appdata.xml)
 set(copyq_BASH_COMPLETION shared/copyq-completion)
-set(copyq_MANPAGE         debian/copyq.1)
+set(copyq_MANPAGE         shared/copyq.1)
 
 # Be more strict while compiling debugging version
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
