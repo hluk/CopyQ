@@ -645,7 +645,7 @@ void ConfigurationManager::onSpinBoxTrayItemsValueChanged(int value)
 
 void ConfigurationManager::onPushButtonChangeEncryptionPasswordClicked()
 {
-    if (!m_sharedData && m_sharedData->passwordPrompt)
+    if (!m_sharedData || !m_sharedData->passwordPrompt)
         return;
 
     // Always verify old password

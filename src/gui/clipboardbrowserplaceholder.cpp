@@ -176,7 +176,7 @@ bool ClipboardBrowserPlaceholder::isDataLoaded() const
 
 ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowserAgain()
 {
-    if (m_sharedData->tabsEncrypted && !m_sharedData->encryptionKey.isValid()) {
+    if (m_sharedData->tabsEncrypted && m_sharedData->passwordPrompt && !m_sharedData->encryptionKey.isValid()) {
         QPointer<ClipboardBrowserPlaceholder> self(this);
         qCDebug(logCategory) << "Prompting for initial password for tab:" << m_tabName;
         m_sharedData->passwordPrompt->prompt(
@@ -269,7 +269,7 @@ void ClipboardBrowserPlaceholder::createLoadButton()
     if (m_loadButton)
         return;
 
-    qCDebug(logCategory) << "Creating realod button for tab:" << m_tabName;
+    qCDebug(logCategory) << "Creating reload button for tab:" << m_tabName;
 
     m_loadButton = new QPushButton(this);
     m_loadButton->setObjectName("ClipboardBrowserRefreshButton");
@@ -346,6 +346,9 @@ int ClipboardBrowserPlaceholder::encryptedExpireSeconds() const
 
 int ClipboardBrowserPlaceholder::encryptedExpireRemainingMs() const
 {
+    if (!m_sharedData->passwordPrompt)
+        return -1;
+
     const int timeoutSeconds = encryptedExpireSeconds();
     if (timeoutSeconds <= 0)
         return -1;
@@ -357,7 +360,7 @@ int ClipboardBrowserPlaceholder::encryptedExpireRemainingMs() const
 
 bool ClipboardBrowserPlaceholder::shouldPromptForLockedTabPassword() const
 {
-    if (!m_sharedData->tabsEncrypted || !m_sharedData->encryptionKey.isValid())
+    if (!m_sharedData->tabsEncrypted || !m_sharedData->passwordPrompt || !m_sharedData->encryptionKey.isValid())
         return false;
 
     const int remainingMs = encryptedExpireRemainingMs();

@@ -108,7 +108,7 @@ Set to 0 to use global setting.</string>
          <string>global</string>
         </property>
         <property name="suffix">
-         <string>seconds</string>
+         <string> seconds</string>
         </property>
         <property name="maximum">
          <number>999999</number>

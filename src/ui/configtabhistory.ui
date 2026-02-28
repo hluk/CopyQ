@@ -119,7 +119,7 @@
 Set to 0 not to unload tabs.</string>
             </property>
             <property name="suffix">
-             <string>minutes</string>
+             <string> minutes</string>
             </property>
             <property name="maximum">
              <number>480</number>
@@ -161,7 +161,7 @@ Set to 0 not to unload tabs.</string>
 Set to 0 to disable globally.</string>
             </property>
             <property name="suffix">
-             <string>seconds</string>
+             <string> seconds</string>
             </property>
             <property name="maximum">
              <number>999999</number>
