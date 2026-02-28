@@ -3701,9 +3701,13 @@ void MainWindow::onItemDoubleClicked()
 
 void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
 {
+    // If key store was disabled, remove password from it - this avoids
+    // removing the password every time when configuration changes - locked key
+    // store would prompt for password to allow that.
     const bool useKeyStore = appConfig->option<Config::use_key_store>();
-    if (!useKeyStore)
+    if (m_usedKeyStore && !useKeyStore)
         removePasswordFromKeychain();
+    m_usedKeyStore = useKeyStore;
 
     if ( !appConfig->option<Config::encrypt_tabs>() ) {
         m_sharedData->encryptionKey.clear();

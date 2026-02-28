@@ -754,4 +754,6 @@ private:
     QVector<int> m_overrides;
     int m_maxEventHandlerScripts = 10;
     QPointer<Action> m_actionCollectOverrides;
+
+    bool m_usedKeyStore = false;
 };
