@@ -237,6 +237,8 @@ void ConfigurationManager::updateOptionsVisibility()
 #else
     m_tabGeneral->checkBoxEncryptTabs->setVisible(false);
     m_tabGeneral->pushButtonChangeEncryptionPassword->setVisible(false);
+    m_tabHistory->labelEncryptedExpireSeconds->hide();
+    m_tabHistory->spinBoxExpireEncryptedTabSeconds->hide();
 #endif
 
 #ifdef WITH_KEYCHAIN

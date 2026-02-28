@@ -569,7 +569,8 @@ void promptForEncryptionPasswordAsync(
     callback({}, true);
 }
 
-Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *)
+Encryption::EncryptionKey promptForEncryptionPasswordChange(
+    const Encryption::EncryptionKey &, QWidget *)
 {
     return {};
 }
