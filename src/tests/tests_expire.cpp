@@ -73,7 +73,15 @@ void Tests::expireEncryptedTabsPasswordAcrossTabs()
     RUN(args1 << "add" << "A1", "");
     RUN(args2 << "add" << "B1", "");
 
+    // Setting an expiration should not cause any expiration yet
+    RUN("config" << "expire_encrypted_tab_seconds" << "1", "1\n");
+    KEYS(clipboardBrowserId);
+    QTest::qWait(1500);
+    KEYS(clipboardBrowserId);
+
     RUN("config" << "expire_encrypted_tab_seconds" << "2", "2\n");
+    KEYS(clipboardBrowserId);
+
     TEST( m_test->stopServer() );
     m_test->setEnv("COPYQ_PASSWORD", "");
     TEST( m_test->startServer() );
