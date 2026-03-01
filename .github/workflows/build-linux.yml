@@ -113,6 +113,7 @@ jobs:
               -fprofile-arcs
               -ftest-coverage
               -fprofile-abs-path
+              -fprofile-update=atomic
 
           - os: ubuntu-latest
             buildname: Qt 6 Clang
@@ -201,13 +202,13 @@ jobs:
           ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: |
           lcov --capture --directory . \
+            --base-directory '${{github.workspace}}' \
+            --no-external \
             --rc branch_coverage=1 \
-            --rc geninfo_unexecuted_blocks=1 \
-            --ignore-errors mismatch \
+            --rc geninfo_no_exception_branch=1 \
             --output-file coverage-full.info
-          # Remove system and 3rd party files
+          # Remove 3rd party files in source tree
           lcov --remove coverage-full.info \
-              '/usr/*' \
               '*/plugins/itemfakevim/fakevim/*' \
               '*/src/gui/fix_icon_id.h' \
               --output-file coverage.info
