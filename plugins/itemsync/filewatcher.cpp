@@ -37,6 +37,26 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(fileWatcher)
 Q_LOGGING_CATEGORY(fileWatcher, "copyq.plugin.itemsync.filewatcher")
 
+class FileWatcherLock final {
+public:
+    explicit FileWatcherLock(FileWatcher *fileWatcher)
+        : m_fileWatcher(fileWatcher)
+    {}
+
+    ~FileWatcherLock() {
+        if (m_locked)
+            m_fileWatcher->unlock();
+    }
+
+    bool lock() {
+        m_locked = m_locked || m_fileWatcher->lock();
+        return m_locked;
+    }
+private:
+    FileWatcher *m_fileWatcher;
+    bool m_locked = false;
+};
+
 } // namespace
 
 class SyncDataFile {
@@ -696,7 +716,8 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
 
 void FileWatcher::updateItems()
 {
-    if ( !lock() ) {
+    FileWatcherLock lock(this);
+    if ( !lock.lock() ) {
         m_updateTimer.start(m_interval);
         return;
     }
@@ -753,7 +774,6 @@ void FileWatcher::updateItems()
 
         if ( t.elapsed() > 20 ) {
             m_lastBatchIndex = i;
-            unlock();
             m_updateTimer.start(batchItemUpdateIntervalMs);
             return;
         }
@@ -768,8 +788,6 @@ void FileWatcher::updateItems()
 
     m_fileList.clear();
     m_batchIndexData.clear();
-
-    unlock();
 
     if (m_updatesEnabled)
         m_updateTimer.start(m_interval);
@@ -834,8 +852,8 @@ void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QMo
     //
     // The update is postponed and batched since it may need to go through a
     // lot of items.
-    const int count = end - start + 1;
     if (destinationRow < start) {
+        const int count = end - start + 1;
         m_moveEnd = std::max(m_moveEnd, destinationRow + count - 1);
     } else if (destinationRow > end) {
         m_moveEnd = std::max(m_moveEnd, destinationRow - 1);
@@ -847,8 +865,9 @@ void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QMo
 
 void FileWatcher::updateMovedRows()
 {
-    if ( !lock() ) {
-        m_moveTimer.start();
+    FileWatcherLock lock(this);
+    if ( !lock.lock() ) {
+        m_moveTimer.start(0);
         return;
     }
 
@@ -881,8 +900,6 @@ void FileWatcher::updateMovedRows()
 
     if ( !renameMoveCopy(m_dir, indexList, UpdateType::Changed) )
         return;
-
-    unlock();
 
     m_moveEnd = batchStart - 1;
     if (0 <= m_moveEnd)
@@ -958,7 +975,8 @@ QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
 
 void FileWatcher::saveItems(int first, int last, UpdateType updateType)
 {
-    if ( !lock() )
+    FileWatcherLock lock(this);
+    if ( !lock.lock() )
         return;
 
     if ( !m_batchIndexData.isEmpty() )
@@ -1040,8 +1058,6 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
             removeFormatFiles(filePath, oldMimeToExtension);
         }
     }
-
-    unlock();
 }
 
 bool FileWatcher::renameMoveCopy(
