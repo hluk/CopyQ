@@ -1703,7 +1703,9 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 
     const TabProperties tab = tabs.tabProperties(name);
     placeholder->setStoreItems(tab.storeItems);
-    placeholder->setEncryptedExpireSeconds(tab.encryptedExpireSeconds);
+    placeholder->setEncryptedExpireSeconds(
+        tab.encryptedExpireSeconds > 0
+        ? tab.encryptedExpireSeconds : m_sharedData->encryptedExpireSeconds);
 
     int maxItemCount = tab.maxItemCount;
     if (maxItemCount <= 0)

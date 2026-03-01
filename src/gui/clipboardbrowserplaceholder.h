@@ -69,7 +69,6 @@ private:
 
     bool canExpire() const;
     bool hasActiveFocus() const;
-    int encryptedExpireSeconds() const;
     int encryptedExpireRemainingMs() const;
     bool shouldPromptForLockedTabPassword() const;
     void restartPasswordExpiry();
@@ -93,4 +92,5 @@ private:
     QTimer m_timerExpire;
     QTimer m_timerPasswordExpire;
     QByteArray m_data;
+    std::chrono::steady_clock::time_point m_passwordExpiredAt;
 };

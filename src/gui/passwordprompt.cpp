@@ -18,7 +18,7 @@ PasswordPrompt::PasswordPrompt(QWidget *parent)
     : QObject(parent)
     , m_parent(parent)
 {
-    m_lastSuccessfulPromptElapsed.start();
+    m_lastSuccessfulPromptTime = std::chrono::steady_clock::now();
 }
 
 void PasswordPrompt::prompt(PasswordSource source, Callback callback)
@@ -47,11 +47,6 @@ Encryption::EncryptionKey PasswordPrompt::prompt(PasswordSource source)
     return key;
 }
 
-qint64 PasswordPrompt::elapsedMsSinceLastSuccessfulPasswordPrompt() const
-{
-    return m_lastSuccessfulPromptElapsed.elapsed();
-}
-
 void PasswordPrompt::runPromptQueue()
 {
     if (m_promptInProgress || m_pendingPrompts.isEmpty())
@@ -77,8 +72,9 @@ void PasswordPrompt::runPromptQueue()
                 << (key.isValid() ? "with success" : "without success");
 
             self->m_lastPromptKey = key;
-            if (key.isValid() && passwordEnteredManually)
-                self->m_lastSuccessfulPromptElapsed.start();
+            if (key.isValid() && passwordEnteredManually) {
+                self->m_lastSuccessfulPromptTime = std::chrono::steady_clock::now();
+            }
 
             if (!self->m_pendingPrompts.isEmpty()) {
                 PendingPrompt pendingPrompt = std::move(self->m_pendingPrompts.first());

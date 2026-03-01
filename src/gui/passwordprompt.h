@@ -23,7 +23,8 @@ public:
     void prompt(PasswordSource source, Callback callback);
     Encryption::EncryptionKey prompt(PasswordSource source);
 
-    qint64 elapsedMsSinceLastSuccessfulPasswordPrompt() const;
+    std::chrono::steady_clock::time_point lastSuccessfulPasswordPromptTime() const
+    { return m_lastSuccessfulPromptTime; }
 
 private:
     struct PendingPrompt {
@@ -36,6 +37,6 @@ private:
     QWidget *m_parent = nullptr;
     bool m_promptInProgress = false;
     Encryption::EncryptionKey m_lastPromptKey;
-    QElapsedTimer m_lastSuccessfulPromptElapsed;
+    std::chrono::steady_clock::time_point m_lastSuccessfulPromptTime;
     QList<PendingPrompt> m_pendingPrompts;
 };

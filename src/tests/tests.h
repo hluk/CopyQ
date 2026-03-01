@@ -334,7 +334,8 @@ private slots:
     void handleUnexpectedTypes();
 
     void expireTabs();
-    void expireEncryptedTabsPasswordAcrossTabs();
+    void expireEncryptionPassword();
+    void expireEncryptionPasswordOnConfigChange();
 
     void dragNDropItemOrder();
     void dragNDropItemToTabTree();

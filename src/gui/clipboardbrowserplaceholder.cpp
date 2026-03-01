@@ -158,6 +158,9 @@ void ClipboardBrowserPlaceholder::setStoreItems(bool store)
 
 void ClipboardBrowserPlaceholder::setEncryptedExpireSeconds(int seconds)
 {
+    if (shouldPromptForLockedTabPassword()) {
+        m_passwordExpiredAt = std::chrono::steady_clock::now();
+    }
     m_encryptedExpireSeconds = seconds;
     restartPasswordExpiry();
 }
@@ -338,22 +341,18 @@ void ClipboardBrowserPlaceholder::restartExpiring()
         m_timerExpire.stop();
 }
 
-int ClipboardBrowserPlaceholder::encryptedExpireSeconds() const
-{
-    return m_encryptedExpireSeconds > 0
-        ? m_encryptedExpireSeconds : m_sharedData->encryptedExpireSeconds;
-}
-
 int ClipboardBrowserPlaceholder::encryptedExpireRemainingMs() const
 {
     if (!m_sharedData->passwordPrompt)
         return -1;
 
-    const int timeoutSeconds = encryptedExpireSeconds();
+    const int timeoutSeconds = m_encryptedExpireSeconds;
     if (timeoutSeconds <= 0)
         return -1;
 
-    const qint64 elapsedMs = m_sharedData->passwordPrompt->elapsedMsSinceLastSuccessfulPasswordPrompt();
+    const auto lastPrompt = m_sharedData->passwordPrompt->lastSuccessfulPasswordPromptTime();
+    const auto now = std::chrono::steady_clock::now();
+    const auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastPrompt).count();
     const qint64 timeoutMs = static_cast<qint64>(timeoutSeconds) * 1000;
     return qMax<qint64>(0, timeoutMs - elapsedMs);
 }
@@ -362,6 +361,9 @@ bool ClipboardBrowserPlaceholder::shouldPromptForLockedTabPassword() const
 {
     if (!m_sharedData->tabsEncrypted || !m_sharedData->passwordPrompt || !m_sharedData->encryptionKey.isValid())
         return false;
+
+    if (m_passwordExpiredAt > m_sharedData->passwordPrompt->lastSuccessfulPasswordPromptTime())
+        return true;
 
     const int remainingMs = encryptedExpireRemainingMs();
     return remainingMs == 0;
