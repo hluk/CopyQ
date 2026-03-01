@@ -200,7 +200,11 @@ jobs:
         working-directory: >-
           ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: |
-          lcov --capture --directory . --output-file coverage-full.info
+          lcov --capture --directory . \
+            --rc branch_coverage=1 \
+            --rc geninfo_unexecuted_blocks=1 \
+            --ignore-errors mismatch \
+            --output-file coverage-full.info
           # Remove system and 3rd party files
           lcov --remove coverage-full.info \
               '/usr/*' \
