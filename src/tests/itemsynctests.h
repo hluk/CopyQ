@@ -49,6 +49,7 @@ private slots:
     void addItemsWhenFullOmitDeletingNotOwned();
 
     void moveOwnItemsSortsBaseNames();
+    void moveOwnItemsKeepsLargeTextData();
 
     void avoidDuplicateItemsAddedFromClipboard();
 

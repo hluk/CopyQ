@@ -843,6 +843,31 @@ void ItemSyncTests::moveOwnItemsSortsBaseNames()
     RUN(args << testScript, "");
 }
 
+void ItemSyncTests::moveOwnItemsKeepsLargeTextData()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    RUN(Args() << "show" << tab1, "");
+
+    const Args args = Args() << "separator" << "," << "tab" << tab1;
+
+    const QString script = R"(
+        add('A'.repeat(4096), 'B'.repeat(3072));
+        read(0).length + ',' + read(1).length;
+    )";
+    RUN(args << script, "3072,4096\n");
+
+    // Reload so large data is represented by SyncDataFile values in memory.
+    RUN("unload" << tab1, "");
+    RUN(args << "read(0).length + ',' + read(1).length", "3072,4096\n");
+
+    RUN(args << "selectItems" << "1", "true\n");
+    KEYS("CTRL+UP");
+
+    RUN(args << "read(0).length + ',' + read(1).length", "4096,3072\n");
+    RUN(args << "getItem(0)[mimeText].length + ',' + getItem(1)[mimeText].length", "4096,3072\n");
+}
+
 void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
 {
     TestDir dir1(1);

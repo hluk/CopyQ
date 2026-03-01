@@ -449,6 +449,42 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
         QFile::remove(path + extValue.toString());
 }
 
+int variantTypeId(const QVariant &value)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    return value.userType();
+#else
+    return value.typeId();
+#endif
+}
+
+void rebaseSyncDataFilePaths(QVariantMap *itemData, const QVariantMap &mimeToExtension, const QString &oldBasePath, const QString &newBasePath)
+{
+    const QString dataExt = mimeToExtension.value(mimeUnknownFormats).toString();
+    const int syncDataFileType = qMetaTypeId<SyncDataFile>();
+    for (auto it = itemData->begin(); it != itemData->end(); ++it) {
+        if (variantTypeId(it.value()) != syncDataFileType)
+            continue;
+
+        SyncDataFile syncDataFile = it.value().value<SyncDataFile>();
+        QString newPath;
+        if ( !oldBasePath.isEmpty() && syncDataFile.path().startsWith(oldBasePath) ) {
+            const QString suffix = syncDataFile.path().mid(oldBasePath.size());
+            newPath = newBasePath + suffix;
+        } else {
+            const QString ext = syncDataFile.format().isEmpty()
+                ? mimeToExtension.value(it.key()).toString()
+                : dataExt;
+            if (ext.isEmpty())
+                continue;
+            newPath = newBasePath + ext;
+        }
+
+        syncDataFile.setPath(newPath);
+        it.value() = QVariant::fromValue(syncDataFile);
+    }
+}
+
 bool renameToUnique(
         const QDir &dir, const QSet<QString> &baseNames, QString *name,
         const QList<FileFormat> &formatSettings)
@@ -1098,12 +1134,16 @@ bool FileWatcher::renameMoveCopy(
             const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
             const QString newBasePath = m_dir.absoluteFilePath(baseName);
 
+            QString oldBasePath;
             if ( !syncPath.isEmpty() ) {
-                copyFormatFiles(syncPath + '/' + oldBaseName, newBasePath, mimeToExtension);
+                oldBasePath = syncPath + '/' + oldBaseName;
+                copyFormatFiles(oldBasePath, newBasePath, mimeToExtension);
             } else if ( !olderBaseName.isEmpty() ) {
-                moveFormatFiles(m_dir.absoluteFilePath(olderBaseName), newBasePath, mimeToExtension);
+                oldBasePath = m_dir.absoluteFilePath(olderBaseName);
+                moveFormatFiles(oldBasePath, newBasePath, mimeToExtension);
             }
 
+            rebaseSyncDataFilePaths(&itemData, mimeToExtension, oldBasePath, newBasePath);
             itemData.remove(mimeSyncPath);
             itemData.insert(mimeBaseName, baseName);
             updateIndexData(index, &itemData);
