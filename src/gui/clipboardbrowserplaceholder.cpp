@@ -5,20 +5,31 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/timer.h"
+#include "gui/passwordprompt.h"
 #include "item/itemstore.h"
 #include "item/serialize.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 
+#include <QApplication>
 #include <QDataStream>
+#include <QLoggingCategory>
 #include <QIODevice>
+#include <QPointer>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
 
 #include <memory>
+
+namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.config")
+
+} // namespace
 
 ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
         const QString &tabName, const ClipboardBrowserSharedPtr &shared, QWidget *parent)
@@ -31,15 +42,47 @@ ClipboardBrowserPlaceholder::ClipboardBrowserPlaceholder(
     layout->setSpacing(0);
 
     initSingleShotTimer( &m_timerExpire, 0, this, &ClipboardBrowserPlaceholder::expire );
+    initSingleShotTimer( &m_timerPasswordExpire, 0, this, &ClipboardBrowserPlaceholder::restartPasswordExpiry);
 }
 
-ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
+ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser(AskPassword askPassword)
 {
     if (m_browser)
         return m_browser;
 
     if (m_loadButton)
         return nullptr;
+
+    if (m_sharedData->tabsEncrypted && !m_sharedData->encryptionKey.isValid()) {
+        qCDebug(logCategory) << "Locking tab (password not provided):" << m_tabName;
+        createLoadButton();
+        return nullptr;
+    }
+
+    if (askPassword == AskPassword::IfNeeded && shouldPromptForLockedTabPassword()) {
+        QPointer<ClipboardBrowserPlaceholder> self(this);
+        qCDebug(logCategory) << "Prompting for password for tab:" << m_tabName;
+        const auto key = m_sharedData->passwordPrompt->prompt(
+            PasswordSource::IgnoreEnvAndKeychain);
+
+        if (!self)
+            return nullptr;
+
+        if (m_browser)
+            return m_browser;
+
+        if (m_loadButton)
+            return nullptr;
+
+        if (!key.isValid()) {
+            qCDebug(logCategory) << "Locking tab:" << m_tabName;
+            createLoadButton();
+            return nullptr;
+        }
+        qCDebug(logCategory) << "Unlocking tab:" << m_tabName;
+    }
+
+    qCDebug(logCategory) << "Loading tab:" << m_tabName;
 
     std::unique_ptr<ClipboardBrowser> c( new ClipboardBrowser(m_tabName, m_sharedData, this) );
 
@@ -57,6 +100,8 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
              this, &ClipboardBrowserPlaceholder::restartExpiring);
     connect( c.get(), &ClipboardBrowser::filterProgressChanged,
              this, &ClipboardBrowserPlaceholder::onFilterProgressChanged);
+    connect( c.get(), &ClipboardBrowser::editingFinished,
+             this, &ClipboardBrowserPlaceholder::restartPasswordExpiry );
 
     m_browser = c.release();
 
@@ -67,6 +112,7 @@ ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowser()
     setActiveWidget(m_browser);
 
     restartExpiring();
+    restartPasswordExpiry();
 
     emit browserLoaded(m_browser);
     return m_browser;
@@ -82,7 +128,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
         unloadBrowser();
         if ( !moveItems(m_tabName, tabName) ) {
             if ( isVisible() )
-                createBrowser();
+                createBrowser(AskPassword::Avoid);
             return false;
         }
     }
@@ -91,7 +137,7 @@ bool ClipboardBrowserPlaceholder::setTabName(const QString &tabName)
     m_tabName = tabName;
 
     if ( isVisible() )
-        createBrowser();
+        createBrowser(AskPassword::Avoid);
 
     return true;
 }
@@ -110,6 +156,15 @@ void ClipboardBrowserPlaceholder::setStoreItems(bool store)
         m_browser->setStoreItems(store);
 }
 
+void ClipboardBrowserPlaceholder::setEncryptedExpireSeconds(int seconds)
+{
+    if (shouldPromptForLockedTabPassword()) {
+        m_passwordExpiredAt = std::chrono::steady_clock::now();
+    }
+    m_encryptedExpireSeconds = seconds;
+    restartPasswordExpiry();
+}
+
 void ClipboardBrowserPlaceholder::removeItems()
 {
     unloadBrowser();
@@ -124,9 +179,26 @@ bool ClipboardBrowserPlaceholder::isDataLoaded() const
 
 ClipboardBrowser *ClipboardBrowserPlaceholder::createBrowserAgain()
 {
-    delete m_loadButton;
-    m_loadButton = nullptr;
-    emit browserAboutToReload();
+    if (m_sharedData->tabsEncrypted && m_sharedData->passwordPrompt && !m_sharedData->encryptionKey.isValid()) {
+        QPointer<ClipboardBrowserPlaceholder> self(this);
+        qCDebug(logCategory) << "Prompting for initial password for tab:" << m_tabName;
+        m_sharedData->passwordPrompt->prompt(
+            PasswordSource::IgnoreEnvAndKeychain,
+            [self](const Encryption::EncryptionKey &key){
+                if (self && key.isValid())
+                    self->m_sharedData->encryptionKey = key;
+            });
+
+        if (!self || !m_sharedData->encryptionKey.isValid())
+            return nullptr;
+    }
+
+    if (m_loadButton) {
+        m_loadButton->hide();
+        m_loadButton->deleteLater();
+        m_loadButton = nullptr;
+    }
+
     return createBrowser();
 }
 
@@ -138,12 +210,13 @@ void ClipboardBrowserPlaceholder::reloadBrowser()
     } else {
         unloadBrowser();
         if ( isVisible() )
-            createBrowser();
+            createBrowser(AskPassword::Avoid);
     }
 }
 
 void ClipboardBrowserPlaceholder::showEvent(QShowEvent *event)
 {
+    qCDebug(logCategory) << "Showing tab:" << m_tabName;
     QWidget::showEvent(event);
     QTimer::singleShot(0, this, [this](){
         if ( isVisible() )
@@ -153,8 +226,21 @@ void ClipboardBrowserPlaceholder::showEvent(QShowEvent *event)
 
 void ClipboardBrowserPlaceholder::hideEvent(QHideEvent *event)
 {
+    qCDebug(logCategory) << "Hiding tab:" << m_tabName;
     restartExpiring();
+    restartPasswordExpiry();
     QWidget::hideEvent(event);
+}
+
+bool ClipboardBrowserPlaceholder::event(QEvent *event)
+{
+    if (event->type() == QEvent::WindowActivate && isVisible()) {
+        if (!m_browser && !m_loadButton)
+            createBrowser();
+    } else if (event->type() == QEvent::WindowDeactivate && isVisible()) {
+        restartPasswordExpiry();
+    }
+    return QWidget::event(event);
 }
 
 bool ClipboardBrowserPlaceholder::expire()
@@ -163,7 +249,7 @@ bool ClipboardBrowserPlaceholder::expire()
         return true;
 
     if (canExpire()) {
-        COPYQ_LOG( QString("Tab \"%1\": Expired").arg(m_tabName) );
+        qCDebug(logCategory) << "Expired tab:" << m_tabName;
         unloadBrowser();
         return true;
     }
@@ -186,6 +272,8 @@ void ClipboardBrowserPlaceholder::createLoadButton()
     if (m_loadButton)
         return;
 
+    qCDebug(logCategory) << "Creating reload button for tab:" << m_tabName;
+
     m_loadButton = new QPushButton(this);
     m_loadButton->setObjectName("ClipboardBrowserRefreshButton");
     m_loadButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -206,7 +294,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
     if (!m_browser)
         return;
 
-    COPYQ_LOG( QString("Tab \"%1\": Unloading").arg(m_tabName) );
+    qCDebug(logCategory) << "Unloading tab:" << m_tabName;
 
     // Keep unsaved items in memory until expiration.
     m_data.clear();
@@ -226,6 +314,7 @@ void ClipboardBrowserPlaceholder::unloadBrowser()
 
     if (m_filterProgressBar)
         m_filterProgressBar->hide();
+    m_timerPasswordExpire.stop();
 
     emit browserDestroyed();
 }
@@ -234,8 +323,13 @@ bool ClipboardBrowserPlaceholder::canExpire() const
 {
     return m_browser
             && m_storeItems
-            && !m_browser->isVisible()
+            && !isVisible()
             && !isEditorOpen();
+}
+
+bool ClipboardBrowserPlaceholder::hasActiveFocus() const
+{
+    return isVisible() && qApp->applicationState() == Qt::ApplicationActive;
 }
 
 void ClipboardBrowserPlaceholder::restartExpiring()
@@ -243,6 +337,58 @@ void ClipboardBrowserPlaceholder::restartExpiring()
     const int expireTimeoutMs = 60000 * m_sharedData->minutesToExpire;
     if (expireTimeoutMs > 0)
         m_timerExpire.start(expireTimeoutMs);
+    else
+        m_timerExpire.stop();
+}
+
+int ClipboardBrowserPlaceholder::encryptedExpireRemainingMs() const
+{
+    if (!m_sharedData->passwordPrompt)
+        return -1;
+
+    const int timeoutSeconds = m_encryptedExpireSeconds;
+    if (timeoutSeconds <= 0)
+        return -1;
+
+    const auto lastPrompt = m_sharedData->passwordPrompt->lastSuccessfulPasswordPromptTime();
+    const auto now = std::chrono::steady_clock::now();
+    const auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastPrompt).count();
+    const qint64 timeoutMs = static_cast<qint64>(timeoutSeconds) * 1000;
+    return qMax<qint64>(0, timeoutMs - elapsedMs);
+}
+
+bool ClipboardBrowserPlaceholder::shouldPromptForLockedTabPassword() const
+{
+    if (!m_sharedData->tabsEncrypted || !m_sharedData->passwordPrompt || !m_sharedData->encryptionKey.isValid())
+        return false;
+
+    if (m_passwordExpiredAt > m_sharedData->passwordPrompt->lastSuccessfulPasswordPromptTime())
+        return true;
+
+    const int remainingMs = encryptedExpireRemainingMs();
+    return remainingMs == 0;
+}
+
+void ClipboardBrowserPlaceholder::restartPasswordExpiry()
+{
+    m_timerPasswordExpire.stop();
+    if (!m_browser || !m_sharedData->tabsEncrypted)
+        return;
+
+    if (isEditorOpen() || hasActiveFocus())
+        return;  // will check later on a signal
+
+    const int remainingMs = encryptedExpireRemainingMs();
+    if (remainingMs < 0)
+        return;
+
+    if (remainingMs == 0) {
+        qCDebug(logCategory) << "Expired tab (password required):" << m_tabName;
+        unloadBrowser();
+        return;
+    }
+
+    m_timerPasswordExpire.start(static_cast<int>(remainingMs));
 }
 
 bool ClipboardBrowserPlaceholder::isEditorOpen() const

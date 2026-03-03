@@ -24,23 +24,28 @@ following commands (for details, see `issue #2652
     xattr -d com.apple.quarantine /Applications/CopyQ.app
     codesign --force --deep --sign - /Applications/CopyQ.app
 
-On Debian unstable, **Debian 11+**, **Ubuntu 22.04+** and later derivatives can
-install stable version from official repositories:
+On **macOS**, after Homebrew installation, the ``copyq`` CLI command is not
+available by default. To enable CLI access, create a symlink manually:
+
+.. code-block:: bash
+
+    sudo ln -sf /Applications/CopyQ.app/Contents/MacOS/CopyQ /usr/local/bin/copyq
+
+After this, you can use the CLI:
+
+.. code-block:: bash
+
+    copyq --version
+    copyq clipboard
+    copyq size
+
+On **Debian** and **Ubuntu+** install a stable version from official
+repositories:
 
 .. code-block:: bash
 
     sudo apt install copyq
     # copyq-plugins and copyq-doc is split out and can be installed independently
-
-On **Ubuntu** set up the official PPA repository and install the app from terminal:
-
-.. code-block:: bash
-
-    sudo apt install software-properties-common python-software-properties
-    sudo add-apt-repository ppa:hluk/copyq
-    sudo apt update
-    sudo apt install copyq
-    # this package contains all plugins and documentation
 
 On **Fedora**, install "copyq" package:
 

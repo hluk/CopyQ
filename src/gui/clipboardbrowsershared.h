@@ -14,6 +14,7 @@
 class ActionHandler;
 class ItemFactory;
 class NotificationDaemon;
+class PasswordPrompt;
 
 struct ClipboardBrowserShared {
     QString editor;
@@ -25,6 +26,8 @@ struct ClipboardBrowserShared {
     bool showSimpleItems = false;
     bool numberSearch = false;
     int minutesToExpire = 0;
+    int encryptedExpireSeconds = 0;
+    bool tabsEncrypted = false;
     int saveDelayMsOnItemAdded = 0;
     int saveDelayMsOnItemModified = 0;
     int saveDelayMsOnItemRemoved = 0;
@@ -34,6 +37,7 @@ struct ClipboardBrowserShared {
     ItemFactory *itemFactory = nullptr;
     ActionHandler *actions = nullptr;
     NotificationDaemon *notifications = nullptr;
+    PasswordPrompt *passwordPrompt = nullptr;
     Theme theme;
     MenuItems menuItems;
     Encryption::EncryptionKey encryptionKey;

@@ -334,6 +334,8 @@ private slots:
     void handleUnexpectedTypes();
 
     void expireTabs();
+    void expireEncryptionPassword();
+    void expireEncryptionPasswordOnConfigChange();
 
     void dragNDropItemOrder();
     void dragNDropItemToTabTree();
@@ -345,9 +347,9 @@ private slots:
     void tabEncryptionPasswordCurrent();
     void tabEncryptionPasswordRetry();
     void tabEncryptionPasswordRetryFail();
+    void tabEncryptionPasswordAbortRetry();
     void tabEncryptionLargeItems();
     void tabEncryptionChangePassword();
-    void tabEncryptionMissingHash();
 
     void exportImportNoPasswordTab();
     void exportImportNoPasswordSettingsOnly();

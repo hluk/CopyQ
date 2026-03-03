@@ -542,9 +542,9 @@ void Tests::pasteFromMainWindow()
 
     RUN("add" << "TEST", "");
     RUN("hide", "");
-    runMultiple(
-        [&]() { RUN(WITH_TIMEOUT "dialog('text')", "TEST\n"); },
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('text')", "TEST\n"); },
+        [&]{
             KEYS("focus::QLineEdit<.*:QDialog");
             RUN("show", "");
             KEYS(clipboardBrowserId << "ENTER");

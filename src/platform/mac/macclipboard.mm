@@ -23,18 +23,28 @@
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
-void MacClipboard::startMonitoring(const QStringList &formats)
+void MacClipboard::startMonitoringBackend(const QStringList &formats, ClipboardModeMask modes)
 {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     m_prevChangeCount = [pasteboard changeCount];
 
-    auto timer = new MacTimer(this);
-    timer->setInterval(250);
-    timer->setTolerance(500);
-    connect(timer, &MacTimer::timeout, this, &MacClipboard::clipboardTimeout);
-    timer->start();
+    m_timer = new MacTimer(this);
+    m_timer->setInterval(250);
+    m_timer->setTolerance(500);
+    connect(m_timer, &MacTimer::timeout, this, &MacClipboard::clipboardTimeout);
+    m_timer->start();
 
-    DummyClipboard::startMonitoring(formats);
+    DummyClipboard::startMonitoringBackend(formats, modes);
+}
+
+void MacClipboard::stopMonitoringBackend()
+{
+    if (m_timer) {
+        m_timer->stop();
+        m_timer->deleteLater();
+        m_timer = nullptr;
+    }
+    DummyClipboard::stopMonitoringBackend();
 }
 
 void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
@@ -81,7 +91,7 @@ void MacClipboard::onChanged(int mode)
 
     m_prevChangeCount = newCount;
 
-    emit changed(ClipboardMode::Clipboard);
+    emitConnectionChanged(ClipboardMode::Clipboard);
 }
 
 void MacClipboard::clipboardTimeout() {

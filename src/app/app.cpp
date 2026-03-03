@@ -32,12 +32,12 @@ void installTranslator(const QString &filename, const QString &directory)
 
 void installTranslator()
 {
-    QString locale = QString::fromUtf8( qgetenv("COPYQ_LOCALE") );
+    QString locale = qEnvironmentVariable("COPYQ_LOCALE");
     if (locale.isEmpty()) {
         locale = QSettings().value(QStringLiteral("Options/language")).toString();
         if (locale.isEmpty())
             locale = QLocale::system().name();
-        qputenv("COPYQ_LOCALE", locale.toUtf8());
+        qputenv("COPYQ_LOCALE", locale.toLocal8Bit());
     }
 
 #ifdef COPYQ_TRANSLATION_PREFIX
@@ -57,9 +57,9 @@ void installTranslator()
     installTranslator(QLatin1String("copyq_") + locale, translationPrefix);
 
     // 3. custom translations
-    const QByteArray customPath = qgetenv("COPYQ_TRANSLATION_PREFIX");
+    const QString customPath = qEnvironmentVariable("COPYQ_TRANSLATION_PREFIX");
     if ( !customPath.isEmpty() ) {
-        const QString customDir = QDir::fromNativeSeparators( getTextData(customPath) );
+        const QString customDir = QDir::fromNativeSeparators(customPath);
         installTranslator(QLatin1String("copyq_") + locale, customDir);
         translationDirectories.prepend(customDir);
     }
@@ -90,13 +90,12 @@ void setSessionName(const QString &sessionName)
 
 void initSession(QCoreApplication *app, const QString &sessionName)
 {
-    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
-    qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
+    qputenv("COPYQ_SESSION_NAME", sessionName.toLocal8Bit());
+    qputenv("COPYQ", QCoreApplication::applicationFilePath().toLocal8Bit());
 
-    const auto settingsPath = qgetenv("COPYQ_SETTINGS_PATH");
+    const auto settingsPath = qEnvironmentVariable("COPYQ_SETTINGS_PATH");
     if ( !settingsPath.isEmpty() ) {
-        const auto path = QString::fromUtf8(settingsPath);
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, settingsPath);
 
         // Setting the NativeFormat paths on Windows, macOS, and iOS has no effect.
         QSettings::setDefaultFormat(QSettings::IniFormat);

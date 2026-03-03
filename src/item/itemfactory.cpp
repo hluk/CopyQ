@@ -537,7 +537,7 @@ bool ItemFactory::loadPlugins()
         return true;
     pluginsLoaded = true;
 
-    const QStringList plugins = getTextData(qgetenv("COPYQ_PLUGINS")).split(';', Qt::SkipEmptyParts);
+    const QStringList plugins = qEnvironmentVariable("COPYQ_PLUGINS").split(';', Qt::SkipEmptyParts);
     for (const auto &path : plugins) {
         auto loader = loadPlugin(path, QString());
         if (loader)
@@ -677,7 +677,7 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
     settings->endGroup();
 
     static const QStringList plugins =
-        getTextData( qgetenv("COPYQ_ALLOW_PLUGINS") )
+        qEnvironmentVariable("COPYQ_ALLOW_PLUGINS")
         .split(QChar(','), Qt::SkipEmptyParts);
     return plugins.isEmpty() ? enabled : plugins.contains(loader->id());
 }

@@ -337,53 +337,80 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: /*window*/ copy()
 
-   Sends ``Ctrl+C`` to current window.
+   Sends ``Ctrl+C`` to the current application or window to trigger a copy
+   operation.
 
-   :throws Error: Thrown if clipboard doesn't change (clipboard is reset before
-                  sending the shortcut).
+   The function resets the clipboard before sending the shortcut so it can
+   detect changes properly.
+
+   :throws Error: Thrown if the clipboard does not change. This can indicate
+      that sending the shortcut failed, the target current window could not be
+      retrieved, or that nothing valid was selected to copy. In such case, see
+      logs for more details.
 
    Example:
 
    .. code-block:: js
 
        try {
-           copy(arguments)
+           copy()
        } catch (e) {
-           // Coping failed!
-           popup('Coping Failed', e)
+           popup('Copying Failed', e)
            abort()
        }
-       var text = str(clipboard())
+       let text = str(clipboard())
        popup('Copied Text', text)
 
-.. js:function:: copySelection(...)
+.. js:function:: copySelection(text)
 
-   Same as :js:func:`copy` for `Linux mouse selection`_.
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
 
-   There is no ``copySelection()`` without parameters.
+   :throws Error: Thrown if selection fails to be set.
+
+.. js:function:: /*data*/ copySelection(mimeType, data, [mimeType, data]...)
+
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
+
+   :throws Error: Thrown if selection fails to be set.
+
+.. js:function:: /*item*/ copySelection(Item)
+
+   Equivalent to the ``copy`` function with the same arguments, but for `Linux
+   mouse selection`_.
 
    :throws Error: Thrown if selection fails to be set.
 
 .. js:function:: paste()
 
-   Pastes current clipboard.
+   Sends ``Shift+Insert`` (or ``Ctrl+V``) to the current application or window
+   to trigger a paste operation.
 
-   This is basically only sending ``Shift+Insert`` shortcut to current
-   window.
+   If the regular expression in the option ``window_paste_with_ctrl_v_regex``
+   matches the current window title, the shortcut ``Ctrl+V`` is sent instead of
+   the default ``Shift+Insert``. For example, to override the option so that
+   ``Ctrl+V`` is sent for all windows, call:
+
+   .. code-block:: js
+
+       config('window_paste_with_ctrl_v_regex', '.*')
 
    Correct functionality depends a lot on target application and window
    manager.
 
-   :throws Error: Thrown if paste operation fails.
+   :throws Error: Thrown if paste operation fails. This can indicate that
+      sending the shortcut failed, the target current window could not be
+      retrieved. In such case, see logs for more details.
 
    Example:
 
    .. code-block:: js
 
+       copy(text)
        try {
            paste()
        } catch (e) {
-           // Pasting failed!
            popup('Pasting Failed', e)
            abort()
        }
@@ -804,9 +831,9 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: setData(mimeType, data)
 
-   Modifies data for :js:func:`data` and new clipboard item.
+   Set data for automatic and display commands, or the current item selection.
 
-   Next automatic command will get updated data.
+   Next automatic command will receive the updated data.
 
    This is also the data used to create new item from clipboard.
 
@@ -833,7 +860,7 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: removeData(mimeType)
 
-   Removes data for :js:func:`data` and new clipboard item.
+   Removes data for automatic and display commands, or the current item selection.
 
 .. js:function:: dataFormats()
 
@@ -2105,24 +2132,24 @@ Types
 
        let req = NetworkRequest();
 
-       # allow redirects
+       // allow redirects
        req.maxRedirects = 5;
 
-       # set request headers
+       // set request headers
        req.headers = {
           'User-Agent': req.headers['User-Agent'],
           'Accept': 'application/json',
        };
 
-       # create JSON data
+       // create JSON data
        const data = JSON.stringify({text: 'Hello, **world**!'});
 
-       # send POST request
+       // send POST request
        const reply = req.request(
            'POST', 'https://api.github.com/markdown', data)
 
-       # the request is synchronous and may not be finished
-       # until a property is called (like reply.data or reply.status)
+       // the request is synchronous and may not be finished
+       // until a property is called (like reply.data or reply.status)
        if (!reply.finished) { serverLog('Processing...'); }
        print(reply.data);
 

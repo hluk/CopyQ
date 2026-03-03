@@ -1482,8 +1482,7 @@ QJSValue Scriptable::info()
 {
     m_skipArguments = 1;
 
-    const QString logFile = QStringLiteral("%1-*.log*")
-        .arg(logFileName().section('-', 0, -3));
+    const QString logFile = logFileName();
     using InfoMap = QMap<QString, QString>;
     InfoMap info;
     info.insert("config", QSettings().fileName());
@@ -1701,7 +1700,7 @@ QJSValue Scriptable::setData()
     if ( !toItemData(argument(1), mime, &m_data) )
         return false;
 
-    if (!m_modifyDisplayDataOnly)
+    if (m_modifySelectionData)
         m_proxy->setSelectedItemsData(mime, m_data.value(mime), m_tabName);
 
     return true;
@@ -1714,7 +1713,7 @@ QJSValue Scriptable::removeData()
     const QString mime = arg(0);
     m_data.remove(mime);
 
-    if (!m_modifyDisplayDataOnly)
+    if (m_modifySelectionData)
         m_proxy->setSelectedItemsData(mime, QVariant(), m_tabName);
 
     return true;
@@ -2161,7 +2160,7 @@ QJSValue Scriptable::setEnv()
     m_skipArguments = 2;
     const QString name = arg(0);
     const QByteArray value = makeByteArray(argument(1));
-    return qputenv(name.toUtf8().constData(), value);
+    return qputenv(name.toLocal8Bit().constData(), value);
 }
 
 QJSValue Scriptable::sleep()
@@ -2487,12 +2486,15 @@ void Scriptable::clearClipboardData()
 
 QJSValue Scriptable::runAutomaticCommands()
 {
-    return runCommands(CommandType::Automatic);
+    m_modifySelectionData = false;
+    const auto result = runCommands(CommandType::Automatic);
+    m_modifySelectionData = true;
+    return result;
 }
 
 void Scriptable::runDisplayCommands()
 {
-    m_modifyDisplayDataOnly = true;
+    m_modifySelectionData = false;
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, [&]() {
@@ -2534,7 +2536,7 @@ void Scriptable::runDisplayCommands()
     if (m_abort == Abort::None)
         loop.exec();
 
-    m_modifyDisplayDataOnly = false;
+    m_modifySelectionData = true;
 }
 
 void Scriptable::runMenuCommandFilters()
@@ -3016,7 +3018,8 @@ QJSValue Scriptable::copy(ClipboardMode mode)
         const QVariantMap data = createDataMap(mime, value);
         m_proxy->setClipboard(data, mode);
 
-        m_proxy->copyFromCurrentWindow();
+        if ( !m_proxy->copyFromCurrentWindow() )
+            return throwError( QStringLiteral("Failed to copy from current window") );
 
         // Wait for clipboard to be set.
         for (int i = 0; i < 10; ++i) {

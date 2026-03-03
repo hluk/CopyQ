@@ -24,12 +24,10 @@ void Tests::readLog()
     QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
 
-    QVERIFY2( stdoutActual.endsWith("/tests-*.log*\n"), stdoutActual );
+    QCOMPARE(stdoutActual, qEnvironmentVariable("COPYQ_LOG_FILE") + "\n");
 
     const QString logFile = logFileName();
-    QCOMPARE(
-        logFile.section('-', 0, -3),
-        QString::fromUtf8(stdoutActual).section('-', 0, -2) );
+    QCOMPARE(stdoutActual, logFile + "\n");
 
     const QByteArray log = readLogFile(maxReadLogSize);
     QVERIFY2(!log.isEmpty(), logFile.toUtf8());
@@ -43,6 +41,31 @@ void Tests::readLog()
     const auto monitorPattern = QStringLiteral(
         R"(^\[.*\] DEBUG <Server-\d+>: Starting monitor$)");
     QVERIFY2(count(lines, monitorPattern), log);
+
+    {
+        QTemporaryDir tmpDir;
+        QVERIFY(tmpDir.isValid());
+        m_test->setEnv("COPYQ_LOG_FILE", "");
+        m_test->setEnv("COPYQ_LOG_DIR", tmpDir.path());
+        QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        const QString actualPattern = QString::fromUtf8(stdoutActual)
+            .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
+        const QString expectedPattern = QStringLiteral("%1/copyq*").arg(tmpDir.path());
+        QCOMPARE( actualPattern, expectedPattern );
+    }
+
+    {
+        m_test->setEnv("COPYQ_LOG_FILE", "");
+        m_test->setEnv("COPYQ_LOG_DIR", "");
+        QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        const QString actualPattern = QString::fromUtf8(stdoutActual)
+            .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
+        const QString expectedPattern = QStringLiteral("%1/copyq*")
+            .arg(getDefaultLogFilePath());
+        QCOMPARE( actualPattern, expectedPattern );
+    }
 }
 
 void Tests::rotateLog()

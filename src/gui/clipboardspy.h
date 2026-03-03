@@ -4,6 +4,7 @@
 
 
 #include "common/clipboardmode.h"
+#include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QObject>
@@ -32,6 +33,7 @@ private:
 
     ClipboardMode m_mode;
     PlatformClipboardPtr m_clipboard;
+    ClipboardConnectionPtr m_connection;
     QByteArray m_oldOwnerData;
     bool m_settingClipboard = false;
 };

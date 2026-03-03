@@ -17,6 +17,7 @@ enum LogLevel {
 constexpr int logFileSize = 512 * 1024;
 constexpr int logFileCount = 10;
 
+QString getDefaultLogFilePath();
 const QString &logFileName();
 
 QByteArray readLogFile(int maxReadSize);

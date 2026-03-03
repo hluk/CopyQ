@@ -54,7 +54,6 @@ bool testStderr(
         plain("QXcbClipboard: SelectionRequest too old"),
         plain("libpng warning: iCCP: known incorrect sRGB profile"),
         plain("QMime::convertToMime: unhandled mimetype: text/plain"),
-        plain("[kf.notifications] Failed to notify \"Created too many similar notifications in quick succession\""),
         plain("Failed to register with host portal"),
         plain("Deleting keychain failed"),
 
@@ -63,12 +62,18 @@ bool testStderr(
         plain("Unexpected wl_keyboard.enter event"),
         plain("The compositor sent a wl_pointer.enter"),
         plain("QObject::connect: No such signal QPlatformNativeInterface::systemTrayWindowChanged(QScreen*)"),
+        plain("Could not init WaylandClipboard, falling back to QtClipboard."),
+
+        // KDE Frameworks (Linux)
+        plain("[kf.notifications]"),
+        plain("[kf.statusnotifieritem]"),
 
         // Windows
+        plain("QWindowsPipeWriter: write failed"),
         plain("QWindowsWindow::setGeometry: Unable to set geometry"),
         plain("QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event."),
         plain("setGeometry: Unable to set geometry"),
-        plain("ERROR: QWindowsPipeWriter:"),
+        plain("Failed to raise: "),
 
         plain("[kf.notifications] Received a response for an unknown notification."),
         // KStatusNotifierItem

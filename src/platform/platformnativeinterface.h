@@ -15,9 +15,11 @@ class QKeyEvent;
 
 class PlatformWindow;
 class PlatformClipboard;
+class ClipboardConnection;
 
 using PlatformWindowPtr = std::shared_ptr<PlatformWindow>;
 using PlatformClipboardPtr = std::shared_ptr<PlatformClipboard>;
+using ClipboardConnectionPtr = std::unique_ptr<ClipboardConnection>;
 
 /**
  * Interface for platform dependent code.

@@ -4,6 +4,8 @@
 
 #include "common/encryption.h"
 
+#include <functional>
+
 struct ClipboardBrowserShared;
 class QWidget;
 class QAbstractItemModel;
@@ -34,12 +36,16 @@ Encryption::SecureArray promptForNewPassword(
  * prompting the user for password (with confirmation on first setup),
  * and verifying against stored hash.
  */
-Encryption::EncryptionKey promptForEncryptionPassword(QWidget *parent, PasswordSource prompt);
+void promptForEncryptionPasswordAsync(
+    QWidget *parent,
+    PasswordSource prompt,
+    std::function<void(const Encryption::EncryptionKey &key, bool passwordEnteredManually)> callback);
 
 /**
  * Change encryption password with user dialogs for verification and confirmation.
  */
-Encryption::EncryptionKey promptForEncryptionPasswordChange(QWidget *parent);
+Encryption::EncryptionKey promptForEncryptionPasswordChange(
+    const Encryption::EncryptionKey &currentKey, QWidget *parent);
 
 /**
  * Re-encrypt tabs when enabling or disabling encryption.

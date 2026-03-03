@@ -135,6 +135,7 @@ private:
     int m_textTabSize = 8;
     bool m_saveOnDeactivate = true;
     bool m_preventScreenCapture = false;
+    bool m_loadingSettings = false;
 
     ClipboardBrowserSharedPtr m_sharedData;
 
@@ -159,4 +160,11 @@ private:
         ScriptableProxy *proxy = nullptr;
     };
     QMap<ClientSocketId, ClientData> m_clients;
+
+    struct ClientMessage {
+        QByteArray message;
+        int messageCode;
+        ClientSocketId clientId;
+    };
+    QList<ClientMessage> m_pendingMessages;
 };

@@ -24,6 +24,7 @@
     <url type="faq">https://copyq.readthedocs.io/en/latest/faq.html</url>
     <url type="donation">https://liberapay.com/CopyQ/</url>
     <url type="translate">https://hosted.weblate.org/engage/copyq/</url>
+    <url type="vcs-browser">https://github.com/hluk/CopyQ</url>
 
     <releases>
         <release version="13.0.0" date="2025-10-22" />
@@ -73,6 +74,7 @@
     <screenshots>
         <screenshot type="default">
             <image>https://hluk.github.io/CopyQ/images/application.png</image>
+            <caption>The main application window with tab tree and items</caption>
         </screenshot>
     </screenshots>
 

@@ -35,9 +35,11 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("copy", "copy(text)", "Sets clipboard plain text.");
     addDocumentation("copy", "copy(mimeType, data, [mimeType, data]...)", "Sets clipboard data.");
     addDocumentation("copy", "copy(Item)", "Function override with an item argument.");
-    addDocumentation("copy", "copy()", "Sends `Ctrl+C` to current window.");
-    addDocumentation("copySelection", "copySelection(...)", "Same as `copy()` for `Linux mouse selection`_.");
-    addDocumentation("paste", "paste()", "Pastes current clipboard.");
+    addDocumentation("copy", "copy()", "Sends `Ctrl+C` to the current application or window to trigger a copy operation.");
+    addDocumentation("copySelection", "copySelection(text)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
+    addDocumentation("copySelection", "copySelection(mimeType, data, [mimeType, data]...)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
+    addDocumentation("copySelection", "copySelection(Item)", "Equivalent to the `copy` function with the same arguments, but for `Linux mouse selection`_.");
+    addDocumentation("paste", "paste()", "Sends `Shift+Insert` (or `Ctrl+V`) to the current application or window to trigger a paste operation.");
     addDocumentation("tab", "tab() -> array of strings", "Returns tab names.");
     addDocumentation("tab", "tab(tabName)", "Sets current tab for the script.");
     addDocumentation("removeTab", "removeTab(tabName)", "Removes tab.");
@@ -90,8 +92,8 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("toUnicode", "toUnicode(ByteArray, encodingName) -> string", "Returns string for bytes with given encoding.");
     addDocumentation("fromUnicode", "fromUnicode(String, encodingName) -> `ByteArray`", "Returns encoded text.");
     addDocumentation("data", "data(mimeType) -> `ByteArray`", "Returns data for automatic commands or selected items.");
-    addDocumentation("setData", "setData(mimeType, data) -> bool", "Modifies data for `data()` and new clipboard item.");
-    addDocumentation("removeData", "removeData(mimeType)", "Removes data for `data()` and new clipboard item.");
+    addDocumentation("setData", "setData(mimeType, data) -> bool", "Set data for automatic and display commands, or the current item selection.");
+    addDocumentation("removeData", "removeData(mimeType)", "Removes data for automatic and display commands, or the current item selection.");
     addDocumentation("dataFormats", "dataFormats() -> array of strings", "Returns formats available for `data()`.");
     addDocumentation("print", "print(value)", "Prints value to standard output.");
     addDocumentation("serverLog", "serverLog(value)", "Prints value to application log.");

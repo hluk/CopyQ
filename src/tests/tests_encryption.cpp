@@ -3,6 +3,8 @@
 #include "test_utils.h"
 #include "tests.h"
 
+#include "common/commandstatus.h"
+
 #include <QRegularExpression>
 #include <QStandardPaths>
 
@@ -48,9 +50,9 @@ void Tests::tabEncryption()
 
 #ifdef WITH_QCA_ENCRYPTION
     // Password is needed when disabling encryption
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
+    RUN_MULTIPLE(
+        [&]{ KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
+        [&]{ RUN("config" << "encrypt_tabs" << "false", "false\n"); }
     );
     KEYS(clipboardBrowserId);
 #endif
@@ -72,8 +74,8 @@ void Tests::tabEncryptionPasswordNew()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -81,7 +83,7 @@ void Tests::tabEncryptionPasswordNew()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 
@@ -116,7 +118,10 @@ void Tests::tabEncryptionPasswordCurrent()
     RUN("config" << "encrypt_tabs" << "true", "true\n");
 
     m_test->setEnv("COPYQ_PASSWORD", ":TEST");
-    m_test->ignoreErrors(QRegularExpression("Loaded password does not match the stored hash"));
+    m_test->ignoreErrors(QRegularExpression(
+        "Unwrap DEK: authentication failed"
+        "|Loaded password does not unlock wrapped key"
+    ));
     TEST( m_test->stopServer() );
     TEST( m_test->startServer() );
 
@@ -138,8 +143,8 @@ void Tests::tabEncryptionPasswordRetry()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password - attempt 1
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -151,7 +156,7 @@ void Tests::tabEncryptionPasswordRetry()
                 << passwordEntryRetypeId << ":TEST123" << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
     KEYS(clipboardBrowserId);
 #else
@@ -168,8 +173,8 @@ void Tests::tabEncryptionPasswordRetryFail()
     RUN("show", "");
     KEYS(clipboardBrowserId);
 
-    runMultiple(
-        [&]() {
+    RUN_MULTIPLE(
+        [&]{
             KEYS(
                 // Choose new password - attempt 1
                 passwordEntryNewId << ":TEST123" << "ENTER"
@@ -189,11 +194,42 @@ void Tests::tabEncryptionPasswordRetryFail()
                 << passwordMessageFailedId << "ENTER"
             );
         },
-        [&]() { RUN("config" << "encrypt_tabs" << "true", "true\n"); }
+        [&]{ RUN("config" << "encrypt_tabs" << "true", "true\n"); }
     );
 
     // If the initial password was not provided, encryption should be disabled.
     RUN("config" << "encrypt_tabs", "false\n");
+#else
+    SKIP("Encryption support not built-in");
+#endif
+}
+
+void Tests::tabEncryptionPasswordAbortRetry()
+{
+#ifdef WITH_QCA_ENCRYPTION
+    TEST( m_test->stopServer() );
+    TEST( m_test->startServer() );
+    RUN("show", "");
+    KEYS(clipboardBrowserId);
+
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
+
+    TEST( m_test->stopServer() );
+    m_test->setEnv("COPYQ_PASSWORD", "");
+    TEST( m_test->startServer() );
+
+    m_test->ignoreErrors(QRegularExpression("Tab encryption password required but not provided"));
+    KEYS(passwordEntryCurrentId << "ESC");
+    KEYS(clipboardBrowserRefreshButtonId);
+
+    RUN_EXPECT_ERROR_WITH_STDERR("add('A')", CommandException, "Invalid tab");
+
+    KEYS(clipboardBrowserRefreshButtonId << "SPACE");
+    KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER");
+    KEYS(clipboardBrowserId);
+
+    RUN("add('A')", "");
+    RUN("read(0)", "A");
 #else
     SKIP("Encryption support not built-in");
 #endif
@@ -267,88 +303,6 @@ void Tests::tabEncryptionChangePassword()
     TEST( m_test->startServer() );
 
     RUN(args << "size", "3\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-#else
-    SKIP("Encryption support not built-in");
-#endif
-}
-
-void Tests::tabEncryptionMissingHash()
-{
-    // Ensure that missing hash file does not lock users out from their data.
-#ifdef WITH_QCA_ENCRYPTION
-    RUN("config" << "encrypt_tabs" << "true", "true\n");
-
-    const auto tab = testTab(1);
-    const auto args = Args("tab") << tab;
-    RUN("show" << tab, "");
-
-    RUN(args << "add" << "3" << "2" << "1", "");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-
-    TEST( m_test->stopServer() );
-
-    // Remove hash file
-    const QString path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QVERIFY2( QFile::remove(path + "/.keydata"), "Hash file should exist" );
-    m_test->ignoreErrors(QRegularExpression("Hash is missing, accepting any password"));
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-
-    TEST( m_test->stopServer() );
-
-    // Set wrong password
-    m_test->setEnv("COPYQ_PASSWORD", "TEST1234");
-    m_test->ignoreErrors(QRegularExpression(
-        "Hash is missing, accepting any password"
-        "|Unwrap DEK: finalization failed"
-        "|Cannot decrypt data .* no valid encryption key provided"
-    ));
-
-    TEST( m_test->startServer() );
-    RUN("show" << "", "");
-    KEYS(clipboardBrowserId);
-    RUN(args << "size", "0\n");
-    RUN_EXPECT_ERROR_WITH_STDERR(
-        args << "add" << "TEST", 4, "ScriptError: Invalid tab");
-
-    // Try to disable decryption with a wrong password
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST1234" << "ENTER"); },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
-    );
-    KEYS(clipboardBrowserId);
-    RUN("config" << "encrypt_tabs", "true\n");
-
-    TEST( m_test->stopServer() );
-
-    m_test->setEnv("COPYQ_PASSWORD", "TEST123");
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
-    RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
-
-    // Disable decryption
-    runMultiple(
-        [&]() { KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER"); },
-        [&]() { RUN("config" << "encrypt_tabs" << "false", "false\n"); }
-    );
-    KEYS(clipboardBrowserId);
-    RUN("config" << "encrypt_tabs", "false\n");
-
-    TEST( m_test->stopServer() );
-
-    m_test->setEnv("COPYQ_PASSWORD", "");
-    m_test->ignoreErrors({});
-    QVERIFY2( dropLogsToFileCountAndSize(0, 0), "Failed to remove log files" );
-
-    TEST( m_test->startServer() );
-    RUN("show" << tab, "");
-    KEYS(clipboardBrowserId);
     RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
 #else
     SKIP("Encryption support not built-in");

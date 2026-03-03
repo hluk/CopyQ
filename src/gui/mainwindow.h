@@ -18,6 +18,7 @@
 #include <QTimer>
 #include <QtContainerFwd>
 
+enum class PasswordSource;
 class Action;
 class ActionDialog;
 class AppConfig;
@@ -671,8 +672,8 @@ private:
     void onItemDoubleClicked();
 
     void promptForEncryptionPasswordIfNeeded(AppConfig *appConfig);
-    void reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig);
-    void reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig);
+    void reencryptTabsIfNeeded(AppConfig *appConfig);
+    void reencryptTabsIfNeededHelper(AppConfig *appConfig);
 
     /**
      * Update tab name in placeholder and configuration.
@@ -753,4 +754,6 @@ private:
     QVector<int> m_overrides;
     int m_maxEventHandlerScripts = 10;
     QPointer<Action> m_actionCollectOverrides;
+
+    bool m_usedKeyStore = false;
 };

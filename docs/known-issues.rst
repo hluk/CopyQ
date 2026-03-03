@@ -61,6 +61,15 @@ installed or updated.
     - `Issue #1030 <https://github.com/hluk/CopyQ/issues/1030>`__
     - `Issue #1245 <https://github.com/hluk/CopyQ/issues/1245>`__
 
+.. _known-issue-gnome:
+
+On GNOME, new clipboard is not stored
+-------------------------------------
+
+The app requires CopyQ Clipboard Monitor GNOME extension to be enabled so it
+can watch clipboard changes and store them. The GNOME extension can be
+installed with CopyQ 14.0.0.
+
 .. _known-issue-wayland:
 
 On Linux, global shortcuts, pasting or clipboard monitoring does not work

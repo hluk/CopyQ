@@ -12,7 +12,7 @@ namespace {
 const QString exportFilePath(const QString &suffix = QStringLiteral("1"))
 {
     return QStringLiteral("%1/copyq-test-%2.cpq")
-        .arg(QString::fromUtf8(qgetenv("COPYQ_SETTINGS_PATH")), suffix);
+        .arg(qEnvironmentVariable("COPYQ_SETTINGS_PATH"), suffix);
 }
 
 } // namespace

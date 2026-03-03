@@ -37,6 +37,26 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(fileWatcher)
 Q_LOGGING_CATEGORY(fileWatcher, "copyq.plugin.itemsync.filewatcher")
 
+class FileWatcherLock final {
+public:
+    explicit FileWatcherLock(FileWatcher *fileWatcher)
+        : m_fileWatcher(fileWatcher)
+    {}
+
+    ~FileWatcherLock() {
+        if (m_locked)
+            m_fileWatcher->unlock();
+    }
+
+    bool lock() {
+        m_locked = m_locked || m_fileWatcher->lock();
+        return m_locked;
+    }
+private:
+    FileWatcher *m_fileWatcher;
+    bool m_locked = false;
+};
+
 } // namespace
 
 class SyncDataFile {
@@ -429,6 +449,42 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
         QFile::remove(path + extValue.toString());
 }
 
+int variantTypeId(const QVariant &value)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    return value.userType();
+#else
+    return value.typeId();
+#endif
+}
+
+void rebaseSyncDataFilePaths(QVariantMap *itemData, const QVariantMap &mimeToExtension, const QString &oldBasePath, const QString &newBasePath)
+{
+    const QString dataExt = mimeToExtension.value(mimeUnknownFormats).toString();
+    const int syncDataFileType = qMetaTypeId<SyncDataFile>();
+    for (auto it = itemData->begin(); it != itemData->end(); ++it) {
+        if (variantTypeId(it.value()) != syncDataFileType)
+            continue;
+
+        SyncDataFile syncDataFile = it.value().value<SyncDataFile>();
+        QString newPath;
+        if ( !oldBasePath.isEmpty() && syncDataFile.path().startsWith(oldBasePath) ) {
+            const QString suffix = syncDataFile.path().mid(oldBasePath.size());
+            newPath = newBasePath + suffix;
+        } else {
+            const QString ext = syncDataFile.format().isEmpty()
+                ? mimeToExtension.value(it.key()).toString()
+                : dataExt;
+            if (ext.isEmpty())
+                continue;
+            newPath = newBasePath + ext;
+        }
+
+        syncDataFile.setPath(newPath);
+        it.value() = QVariant::fromValue(syncDataFile);
+    }
+}
+
 bool renameToUnique(
         const QDir &dir, const QSet<QString> &baseNames, QString *name,
         const QList<FileFormat> &formatSettings)
@@ -696,7 +752,8 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
 
 void FileWatcher::updateItems()
 {
-    if ( !lock() ) {
+    FileWatcherLock lock(this);
+    if ( !lock.lock() ) {
         m_updateTimer.start(m_interval);
         return;
     }
@@ -753,7 +810,6 @@ void FileWatcher::updateItems()
 
         if ( t.elapsed() > 20 ) {
             m_lastBatchIndex = i;
-            unlock();
             m_updateTimer.start(batchItemUpdateIntervalMs);
             return;
         }
@@ -768,8 +824,6 @@ void FileWatcher::updateItems()
 
     m_fileList.clear();
     m_batchIndexData.clear();
-
-    unlock();
 
     if (m_updatesEnabled)
         m_updateTimer.start(m_interval);
@@ -834,8 +888,8 @@ void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QMo
     //
     // The update is postponed and batched since it may need to go through a
     // lot of items.
-    const int count = end - start + 1;
     if (destinationRow < start) {
+        const int count = end - start + 1;
         m_moveEnd = std::max(m_moveEnd, destinationRow + count - 1);
     } else if (destinationRow > end) {
         m_moveEnd = std::max(m_moveEnd, destinationRow - 1);
@@ -847,8 +901,9 @@ void FileWatcher::onRowsMoved(const QModelIndex &, int start, int end, const QMo
 
 void FileWatcher::updateMovedRows()
 {
-    if ( !lock() ) {
-        m_moveTimer.start();
+    FileWatcherLock lock(this);
+    if ( !lock.lock() ) {
+        m_moveTimer.start(0);
         return;
     }
 
@@ -881,8 +936,6 @@ void FileWatcher::updateMovedRows()
 
     if ( !renameMoveCopy(m_dir, indexList, UpdateType::Changed) )
         return;
-
-    unlock();
 
     m_moveEnd = batchStart - 1;
     if (0 <= m_moveEnd)
@@ -958,7 +1011,8 @@ QList<QPersistentModelIndex> FileWatcher::indexList(int first, int last)
 
 void FileWatcher::saveItems(int first, int last, UpdateType updateType)
 {
-    if ( !lock() )
+    FileWatcherLock lock(this);
+    if ( !lock.lock() )
         return;
 
     if ( !m_batchIndexData.isEmpty() )
@@ -1040,8 +1094,6 @@ void FileWatcher::saveItems(int first, int last, UpdateType updateType)
             removeFormatFiles(filePath, oldMimeToExtension);
         }
     }
-
-    unlock();
 }
 
 bool FileWatcher::renameMoveCopy(
@@ -1082,12 +1134,16 @@ bool FileWatcher::renameMoveCopy(
             const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
             const QString newBasePath = m_dir.absoluteFilePath(baseName);
 
+            QString oldBasePath;
             if ( !syncPath.isEmpty() ) {
-                copyFormatFiles(syncPath + '/' + oldBaseName, newBasePath, mimeToExtension);
+                oldBasePath = syncPath + '/' + oldBaseName;
+                copyFormatFiles(oldBasePath, newBasePath, mimeToExtension);
             } else if ( !olderBaseName.isEmpty() ) {
-                moveFormatFiles(m_dir.absoluteFilePath(olderBaseName), newBasePath, mimeToExtension);
+                oldBasePath = m_dir.absoluteFilePath(olderBaseName);
+                moveFormatFiles(oldBasePath, newBasePath, mimeToExtension);
             }
 
+            rebaseSyncDataFilePaths(&itemData, mimeToExtension, oldBasePath, newBasePath);
             itemData.remove(mimeSyncPath);
             itemData.insert(mimeBaseName, baseName);
             updateIndexData(index, &itemData);

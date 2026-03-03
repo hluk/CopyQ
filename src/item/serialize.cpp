@@ -390,27 +390,17 @@ void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDa
         if ( (itemDataThreshold >= 0 && dataLength > itemDataThreshold) || mime.startsWith(mimeFilePrefix) ) {
             QString path = dataFile.path();
             const bool shouldEncrypt = encryptionKey && encryptionKey->isValid();
-
-            if ( path.isEmpty() ) {
-                QByteArray bytes = value.toByteArray();
-
 #ifdef WITH_QCA_ENCRYPTION
-                // Encrypt data if encryption key is provided
-                if (shouldEncrypt) {
-                    const QByteArray encryptedBytes = Encryption::encrypt(bytes, *encryptionKey);
-                    if ( encryptedBytes.isEmpty() ) {
-                        qCCritical(serializeCategory) << "Failed to encrypt data file content";
-                        stream->setStatus(QDataStream::WriteFailed);
-                        return;
-                    }
-                    bytes = encryptedBytes;
-                }
+            const bool hasEncryptedDataFile = dataFile.encryptionKey().isValid();
+#else
+            const bool hasEncryptedDataFile = false;
 #endif
 
+            auto writeDataFile = [&](const QByteArray &bytes) -> bool {
                 path = dataFilePath(bytes, true);
                 if ( path.isEmpty() ) {
                     stream->setStatus(QDataStream::WriteFailed);
-                    return;
+                    return false;
                 }
 
                 if ( !QFile::exists(path) ) {
@@ -421,9 +411,39 @@ void serializeDataItems(QDataStream *stream, const QVariantMap &data, int itemDa
                             << f.errorString();
                         stream->setStatus(QDataStream::WriteFailed);
                         f.cancelWriting();
-                        return;
+                        return false;
                     }
                 }
+
+                return true;
+            };
+
+            if (shouldEncrypt
+#ifdef WITH_QCA_ENCRYPTION
+                && (!hasEncryptedDataFile || path.isEmpty())
+#endif
+            ) {
+                QByteArray bytes = value.toByteArray();
+
+                // Encrypt data if encryption key is provided
+                const QByteArray encryptedBytes = Encryption::encrypt(bytes, *encryptionKey);
+                if ( encryptedBytes.isEmpty() ) {
+                    qCCritical(serializeCategory) << "Failed to encrypt data file content";
+                    stream->setStatus(QDataStream::WriteFailed);
+                    return;
+                }
+                bytes = encryptedBytes;
+
+                if (!writeDataFile(bytes))
+                    return;
+            } else if (!shouldEncrypt && hasEncryptedDataFile) {
+                const QByteArray bytes = value.toByteArray();
+                if (!writeDataFile(bytes))
+                    return;
+            } else if (path.isEmpty()) {
+                QByteArray bytes = value.toByteArray();
+                if (!writeDataFile(bytes))
+                    return;
             }
 
             // Always use FILE prefix in MIME type
@@ -670,15 +690,16 @@ bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::Encryp
                 return false;
 
             if ( !encryptionKey || !encryptionKey->isValid() ) {
-                // Cannot enumerate files without valid encryption key - skip this item
-                qCDebug(serializeCategory) << "Skipping encrypted item in file enumeration (no key)";
-                continue;
+                qCWarning(serializeCategory)
+                    << "Cannot enumerate encrypted item files: missing valid encryption key";
+                return false;
             }
 
             const QByteArray decryptedBytes = Encryption::decrypt(encryptedBytes, *encryptionKey);
             if ( decryptedBytes.isEmpty() ) {
-                qCWarning(serializeCategory) << "Failed to decrypt item for file enumeration - skipping";
-                continue;
+                qCWarning(serializeCategory)
+                    << "Cannot enumerate encrypted item files: decryption failed";
+                return false;
             }
 
             // Parse decrypted data to extract file paths

@@ -14,6 +14,7 @@ void Tests::expireTabs()
         settings.setValue("name", "temp1");
         settings.setValue("icon", "x");
         settings.setValue("store_items", false);
+        settings.setValue("encrypted_expire_seconds", 7);
         settings.endArray();
     }
 
@@ -41,6 +42,7 @@ void Tests::expireTabs()
         QCOMPARE(settings.value("name"), tabName); \
         QCOMPARE(settings.value("icon"), "x"); \
         QCOMPARE(settings.value("store_items").toBool(), false); \
+        QCOMPARE(settings.value("encrypted_expire_seconds").toInt(), 7); \
         settings.endArray(); \
     } while(false)
 

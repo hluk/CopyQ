@@ -74,6 +74,7 @@ namespace {
 
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
+constexpr bool hasPriority = false;
 
 void registerMetaTypes() {
     static bool registered = false;
@@ -136,7 +137,8 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
 #define INVOKE_(function, arguments, functionCallId) do { \
     static const auto f = FunctionCallSerializer(QByteArrayLiteral(STR(#function))).withSlotArguments arguments; \
     const auto args = f.argumentList arguments; \
-    emit sendMessage(f.serialize(functionCallId, args), CommandFunctionCall); \
+    emit sendMessage(f.serialize(functionCallId, args), \
+        hasPriority ? CommandFunctionCallPriority : CommandFunctionCall); \
 } while(false)
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
@@ -626,6 +628,8 @@ void setGeometryWithoutSave(QWidget *window, QRect geometry)
 {
     setGeometryGuardBlockedUntilHidden(window, true);
 
+    window->setWindowState(window->windowState() & ~Qt::WindowMaximized);
+
     const auto pos = (geometry.x() == -1 && geometry.y() == -1)
             ? QCursor::pos()
             : geometry.topLeft();
@@ -851,6 +855,7 @@ void ScriptableProxy::abortEvaluation()
 
 QVariantMap ScriptableProxy::getActionData(int id)
 {
+    constexpr bool hasPriority = true;
     INVOKE(getActionData, (id));
     m_actionData = m_wnd->actionData(id);
     m_actionId = id;
@@ -869,6 +874,7 @@ void ScriptableProxy::setActionData(int id, const QVariantMap &data)
 
 void ScriptableProxy::exit()
 {
+    constexpr bool hasPriority = true;
     INVOKE2(exit, ());
     qApp->quit();
 }
@@ -904,10 +910,12 @@ bool ScriptableProxy::pasteToCurrentWindow()
     INVOKE(pasteToCurrentWindow, ());
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
-    if (!window)
+    if (!window) {
+        log("Failed to get current window for pasting from clipboard", LogWarning);
         return false;
-    window->pasteClipboard();
-    return true;
+    }
+
+    return window->pasteFromClipboard();
 }
 
 bool ScriptableProxy::copyFromCurrentWindow()
@@ -915,10 +923,12 @@ bool ScriptableProxy::copyFromCurrentWindow()
     INVOKE(copyFromCurrentWindow, ());
 
     PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
-    if (!window)
+    if (!window) {
+        log("Failed to get current window for copying to clipboard", LogWarning);
         return false;
-    window->copy();
-    return true;
+    }
+
+    return window->copyToClipboard();
 }
 
 bool ScriptableProxy::isMonitoringEnabled()
@@ -1810,6 +1820,7 @@ void ScriptableProxy::selectionSort(int id, const QVector<int> &indexes)
 
 QVariant ScriptableProxy::callPlugin(const QVariantList &arguments)
 {
+    constexpr bool hasPriority = true;
     INVOKE(callPlugin, (arguments));
     return m_wnd->callPlugin(arguments);
 }
@@ -2021,6 +2032,7 @@ QString ScriptableProxy::filter()
 
 QVector<Command> ScriptableProxy::commands()
 {
+    constexpr bool hasPriority = true;
     INVOKE(commands, ());
     return loadAllCommands();
 }
@@ -2313,18 +2325,21 @@ QVariantMap ScriptableProxy::setDisplayData(int actionId, const QVariantMap &dis
 
 QVector<Command> ScriptableProxy::automaticCommands()
 {
+    constexpr bool hasPriority = true;
     INVOKE(automaticCommands, ());
     return m_wnd->automaticCommands();
 }
 
 QVector<Command> ScriptableProxy::displayCommands()
 {
+    constexpr bool hasPriority = true;
     INVOKE(displayCommands, ());
     return m_wnd->displayCommands();
 }
 
 QVector<Command> ScriptableProxy::scriptCommands()
 {
+    constexpr bool hasPriority = true;
     INVOKE(scriptCommands, ());
     return m_wnd->scriptCommands();
 }

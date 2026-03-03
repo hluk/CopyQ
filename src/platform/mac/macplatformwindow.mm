@@ -326,11 +326,11 @@ void MacPlatformWindow::raise()
     }
 }
 
-void MacPlatformWindow::pasteClipboard()
+bool MacPlatformWindow::pasteFromClipboard()
 {
     if (!m_runningApplication) {
         log("Failed to paste to unknown window", LogWarning);
-        return;
+        return false;
     }
 
     const AppConfig config;
@@ -348,13 +348,15 @@ void MacPlatformWindow::pasteClipboard()
     } else {
         sendShortcut(kVK_Command, keyCodeV);
     }
+
+    return true;
 }
 
-void MacPlatformWindow::copy()
+bool MacPlatformWindow::copyToClipboard()
 {
     if (!m_runningApplication) {
         log("Failed to copy from unknown window", LogWarning);
-        return;
+        return false;
     }
 
     const AppConfig config;
@@ -368,4 +370,5 @@ void MacPlatformWindow::copy()
     const int keyPressTimeMs = config.option<Config::window_key_press_time_ms>();
     const auto keyCodeC = keyCodeFromChar('c', kVK_ANSI_C);
     delayedSendShortcut(kVK_Command, keyCodeC, keyPressTimeMs, 5, m_window);
+    return true;
 }

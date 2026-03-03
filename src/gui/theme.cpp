@@ -755,9 +755,9 @@ QStringList themePaths()
 {
     QStringList paths;
 
-    const QByteArray customThemsPath = qgetenv("COPYQ_THEME_PREFIX");
+    const QString customThemsPath = qEnvironmentVariable("COPYQ_THEME_PREFIX");
     if ( !customThemsPath.isEmpty() )
-        paths.append(QString::fromLocal8Bit(customThemsPath));
+        paths.append(customThemsPath);
 
     const QString userThemesPath = defaultUserThemePath();
     QDir themesDir(userThemesPath);

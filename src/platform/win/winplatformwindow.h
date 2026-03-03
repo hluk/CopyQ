@@ -21,11 +21,11 @@ public:
 
     void raise() override;
 
-    void pasteClipboard() override;
-    void copy() override;
+    bool pasteFromClipboard() override;
+    bool copyToClipboard() override;
 
 private:
-    void sendKeyPress(WORD modifier, WORD key, const AppConfig &config);
+    bool sendKeyPress(WORD modifier, WORD key, const AppConfig &config);
 
     HWND m_window;
 };

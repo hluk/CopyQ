@@ -42,6 +42,7 @@
 #include "gui/navigation.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
+#include "gui/passwordprompt.h"
 #include "gui/selectiondata.h"
 #include "gui/tabdialog.h"
 #include "gui/tabicons.h"
@@ -50,6 +51,7 @@
 #include "gui/traymenu.h"
 #include "gui/windowgeometryguard.h"
 #include "item/itemfactory.h"
+#include "item/itemstore.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
 #include "platform/platformnativeinterface.h"
@@ -765,6 +767,7 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 {
     ui->setupUi(this);
 
+    m_sharedData->passwordPrompt = new PasswordPrompt(this);
     m_sharedData->menuItems = menuItems();
 
     setWindowRole(QStringLiteral("main"));
@@ -1693,11 +1696,6 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
                  this, &MainWindow::onBrowserLoaded );
         connect( placeholder, &ClipboardBrowserPlaceholder::browserDestroyed,
                  this, [this, placeholder]() { onBrowserDestroyed(placeholder); } );
-        connect( placeholder, &ClipboardBrowserPlaceholder::browserAboutToReload,
-                 this, [this]() {
-                    AppConfig appConfig;
-                    promptForEncryptionPasswordIfNeeded(&appConfig);
-                } );
 
         ui->tabWidget->addTab(placeholder, name);
         saveTabPositions();
@@ -1705,6 +1703,9 @@ ClipboardBrowserPlaceholder *MainWindow::createTab(const QString &name, TabNameM
 
     const TabProperties tab = tabs.tabProperties(name);
     placeholder->setStoreItems(tab.storeItems);
+    placeholder->setEncryptedExpireSeconds(
+        tab.encryptedExpireSeconds > 0
+        ? tab.encryptedExpireSeconds : m_sharedData->encryptedExpireSeconds);
 
     int maxItemCount = tab.maxItemCount;
     if (maxItemCount <= 0)
@@ -2125,7 +2126,7 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from tray menu to: %1")
                        .arg(lastWindow->getTitle()) );
-            lastWindow->pasteClipboard();
+            lastWindow->pasteFromClipboard();
         }
     }
 }
@@ -2241,7 +2242,7 @@ QVariantMap MainWindow::exportTabData(const QString &tab, bool *ok)
     const bool wasLoaded = placeholder->isDataLoaded();
     auto c = placeholder->createBrowserAgain();
     if (!c) {
-        qCCritical(logCategory) << "Failed to open tab" << tab << "for export" << tab;
+        qCCritical(logCategory) << "Failed to open tab for export" << tab;
         *ok = false;
         return {};
     }
@@ -2944,7 +2945,8 @@ bool MainWindow::event(QEvent *event)
         setHideTabs(m_options.hideTabs);
         m_timerUpdateFocusWindows.start();
     } else if (type == QEvent::Hide) {
-        m_wasMaximized = isMaximized();
+        if ( !isGeometryGuardBlockedUntilHidden(this) )
+            m_wasMaximized = isMaximized();
     } else if (type == QEvent::Show && m_showItemPreview) {
         updateItemPreviewAfterMs(0);
     }
@@ -2997,13 +2999,13 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     if ( ui->tabWidget->count() != 0 ) {
         if ( m_timerSaveTabPositions.isActive() )
             doSaveTabPositions(appConfig);
-        ui->tabWidget->saveTabInfo();
+        saveTabs();
     }
 
-    const QStringList tabNames = savedTabs();
-
     promptForEncryptionPasswordIfNeeded(appConfig);
-    reencryptTabsIfNeeded(tabNames, appConfig);
+    reencryptTabsIfNeeded(appConfig);
+
+    const QStringList tabNames = savedTabs();
 
     // tab bar position
     const bool tabTreeEnabled = appConfig->option<Config::tab_tree>();
@@ -3138,7 +3140,7 @@ void MainWindow::showWindow()
 
     moveToCurrentWorkspace(this);
 
-    if (m_wasMaximized || isMaximized())
+    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) )
         showMaximized();
     else
         showNormal();
@@ -3682,7 +3684,7 @@ void MainWindow::activateCurrentItemHelper()
         } else if (lastWindow) {
             COPYQ_LOG( QStringLiteral("Pasting item from main window to: %1")
                        .arg(lastWindow->getTitle()) );
-            lastWindow->pasteClipboard();
+            lastWindow->pasteFromClipboard();
         }
     }
 }
@@ -3701,31 +3703,37 @@ void MainWindow::onItemDoubleClicked()
 
 void MainWindow::promptForEncryptionPasswordIfNeeded(AppConfig *appConfig)
 {
+    // If key store was disabled, remove password from it - this avoids
+    // removing the password every time when configuration changes - locked key
+    // store would prompt for password to allow that.
     const bool useKeyStore = appConfig->option<Config::use_key_store>();
-    if (!useKeyStore)
+    if (m_usedKeyStore && !useKeyStore)
         removePasswordFromKeychain();
+    m_usedKeyStore = useKeyStore;
 
     if ( !appConfig->option<Config::encrypt_tabs>() ) {
         m_sharedData->encryptionKey.clear();
     } else if ( !m_sharedData->encryptionKey.isValid() ) {
-        const auto prompt = useKeyStore
-            ? PasswordSource::UseEnvAndKeychain
-            : PasswordSource::UseEnvOnly;
-        m_sharedData->encryptionKey = promptForEncryptionPassword(this, prompt);
+        m_sharedData->passwordPrompt->prompt(
+            useKeyStore ? PasswordSource::UseEnvAndKeychain : PasswordSource::UseEnvOnly,
+            [this](const Encryption::EncryptionKey &key){
+                if (key.isValid())
+                    m_sharedData->encryptionKey = key;
+            });
     }
 }
 
-void MainWindow::reencryptTabsIfNeeded(const QStringList &tabNames, AppConfig *appConfig)
+void MainWindow::reencryptTabsIfNeeded(AppConfig *appConfig)
 {
     if (m_reencrypting)
         return;
 
     m_reencrypting = true;
-    reencryptTabsIfNeededHelper(tabNames, appConfig);
+    reencryptTabsIfNeededHelper(appConfig);
     m_reencrypting = false;
 }
 
-void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppConfig *appConfig)
+void MainWindow::reencryptTabsIfNeededHelper(AppConfig *appConfig)
 {
     const bool isEncrypted = appConfig->option<Config::encrypt_tabs>();
     if (m_wasEncrypted == isEncrypted)
@@ -3736,13 +3744,17 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
     // Always ask for the previous password when re-encrypting.
     Encryption::EncryptionKey oldEncryptionKey;
     if (m_wasEncrypted) {
-        oldEncryptionKey = promptForEncryptionPassword(
-            this, PasswordSource::IgnoreEnvAndKeychain);
+        oldEncryptionKey = m_sharedData->passwordPrompt->prompt(PasswordSource::IgnoreEnvAndKeychain);
     }
+
+    // Items may change while waiting for password prompt, persist and refresh tab list.
+    saveTabs();
+    const QStringList tabNames = savedTabs();
 
     // Revert encryption option if password was not provided.
     if (!oldEncryptionKey.isValid() && !newEncryptionKey.isValid()) {
         appConfig->setOption(Config::encrypt_tabs::name(), m_wasEncrypted);
+        m_sharedData->tabsEncrypted = m_wasEncrypted;
         return;
     }
 
@@ -3757,6 +3769,9 @@ void MainWindow::reencryptTabsIfNeededHelper(const QStringList &tabNames, AppCon
 
     m_wasEncrypted = isEncrypted;
     m_sharedData->encryptionKey = newEncryptionKey;
+
+    if (allEncrypted)
+        ::cleanDataFiles(tabNames, &m_sharedData->encryptionKey);
 
     // If saving some tabs failed, keep the keys and the encryption enabled,
     // otherwise remove unneeded key files.

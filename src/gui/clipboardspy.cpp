@@ -16,11 +16,6 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
     , m_clipboard(platformNativeInterface()->clipboard())
 {
     m_oldOwnerData = owner.isEmpty() ? currentOwnerData() : owner;
-
-    // Disable checking the selection/clipboard unnecessarily
-    m_clipboard->setMonitoringEnabled(
-        mode == ClipboardMode::Clipboard ? ClipboardMode::Selection : ClipboardMode::Clipboard,
-        false);
 }
 
 void ClipboardSpy::wait(int ms, int checkIntervalMs)
@@ -52,8 +47,14 @@ bool ClipboardSpy::setClipboardData(const QVariantMap &data)
     m_settingClipboard = true;
     m_oldOwnerData = currentOwnerData();
 
-    m_clipboard->startMonitoring( QStringList(mimeOwner) );
-    connect(m_clipboard.get(), &PlatformClipboard::changed, this, &ClipboardSpy::emitChangeIfChanged);
+    if (!m_connection) {
+        const auto mode = m_mode == ClipboardMode::Clipboard
+            ? ClipboardModeFlag::Clipboard
+            : ClipboardModeFlag::Selection;
+        m_connection = m_clipboard->createConnection(QStringList(mimeOwner), mode);
+        connect(m_connection.get(), &ClipboardConnection::changed,
+                this, &ClipboardSpy::emitChangeIfChanged);
+    }
 
     m_clipboard->setData(m_mode, data);
     wait();

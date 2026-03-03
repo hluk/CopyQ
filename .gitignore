@@ -46,7 +46,7 @@ CMakeLists.txt.user*
 .qmake.stash
 *.pyc
 *.dmg
-/build
+/build*
 *.qm
 
 # Generated Sphinx files

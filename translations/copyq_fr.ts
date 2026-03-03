@@ -508,12 +508,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="277"/>
         <source>Save Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Commandes d&apos;enregistrement</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="278"/>
         <source>Failed to save commands to file &quot;%1&quot;: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;enregistrement des commandes dans le fichier &quot;%1&quot;&#xa0;: %2</translation>
     </message>
 </context>
 <context>
@@ -757,11 +757,12 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished">Passer la commande si le texte d&apos;entré ne correspond pas à l&apos;expression régulière (laisser vide pour correspondre à tout).
+        <translation>Ignore la commande si le texte d&apos;entrée ne correspond pas à l&apos;expression régulière (laisser vide pour tout faire correspondre).
 
-%2 au travers %9 (ou argument[1] et haut dans le script) dans Commande et Filtre sera remplacé par le texte capturé.
+Les paramètres %2 à %9 (ou argument[1] et suivants dans un script) dans la commande et le filtre seront remplacés par les textes capturés.
 
 Exemples&#xa0;:
+
 — Correspondance d&apos;URL&#xa0;: ^(https?|ftp)://
 — Correspondance de nom de PDF&#xa0;: \.pdf$
 — Correspondance d&apos;un caractère&#xa0;: ^.$
@@ -1126,17 +1127,17 @@ appuyer sur F2 pour modifier.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Empêcher la capture des fenêtres d&apos;application dans les captures d&apos;écran et les enregistrements</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Masquer des captures d&apos;écran et des enregistrements</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="171"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Style de navigation / Configuration du clavier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="181"/>
@@ -1746,7 +1747,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="493"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Cette action réinitialise tous les paramètres (dans tous les onglets) vers les valeurs par défaut.&lt;br /&gt;&lt;br /&gt;&lt;strong&gt;Êtes-vous certain&lt;/strong&gt; de vouloir réinitialiser tous les paramètres ?</translation>
+        <translation>Cette action réinitialise tous les paramètres (dans tous les onglets) vers les valeurs par défaut.&lt;br /&gt;&lt;br /&gt;Êtes-vous certain de vouloir &lt;strong&gt;réinitialiser tous les paramètres&lt;/strong&gt;&#x202f;?</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
@@ -2075,7 +2076,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="77"/>
         <source>Not all items in the tab &lt;strong&gt;%1&lt;/strong&gt; were loaded successfully. Do you still want to load the tab and potentially lose some items?</source>
-        <translation>Tous les éléments de l&apos;onglet &lt;strong&gt;% 1 &lt;/strong&gt; n&apos;ont pas été chargés avec succès. Voulez-vous toujours charger l&apos;onglet et perdre potentiellement certains éléments?</translation>
+        <translation>Tous les éléments de l&apos;onglet &lt;strong&gt;% 1 &lt;/strong&gt; n&apos;ont pas été chargés avec succès. Voulez-vous toujours charger l&apos;onglet et perdre potentiellement certains éléments&#x202f;?</translation>
     </message>
 </context>
 <context>
@@ -2281,7 +2282,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itempinned/itempinned.h" line="86"/>
         <source>&lt;p&gt;Pin items to lock them in current row and avoid deletion (unless unpinned).&lt;/p&gt;&lt;p&gt;Provides shortcuts and scripting functionality.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Épinglez des éléments pour les verrouiller dans la ligne en cours et éviter leur suppression.&lt;/p&gt;&lt;p&gt;Fournit des raccourcis et une fonctionnalité de script&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Épinglez des éléments pour les verrouiller dans la ligne en cours et éviter leur suppression.&lt;/p&gt;&lt;p&gt;Fournit des raccourcis et une fonctionnalité de script.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2411,7 +2412,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="166"/>
         <source>Toggle Tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Basculer l&apos;étiquette %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="597"/>
@@ -2706,7 +2707,7 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4291"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Voulez-vous supprimer l&apos;onglet&lt;strong&gt;%1&lt;/strong&gt; ?</translation>
+        <translation>Voulez-vous supprimer l&apos;onglet &lt;strong&gt;%1&lt;/strong&gt;&#x202f;?</translation>
     </message>
 </context>
 <context>
@@ -3103,7 +3104,7 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Maj+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>

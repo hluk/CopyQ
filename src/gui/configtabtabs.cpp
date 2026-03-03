@@ -38,6 +38,7 @@ private:
         widget->setIconName(m_tabProperties.iconName);
         widget->setMaxItemCount(m_tabProperties.maxItemCount);
         widget->setStoreItems(m_tabProperties.storeItems);
+        widget->setEncryptedExpireSeconds(m_tabProperties.encryptedExpireSeconds);
 
         QObject::connect( widget, &TabPropertiesWidget::iconNameChanged,
                           [&](const QString &icon) { m_tabProperties.iconName = icon; } );
@@ -45,6 +46,8 @@ private:
                           [&](int count) { m_tabProperties.maxItemCount = count; } );
         QObject::connect( widget, &TabPropertiesWidget::storeItemsChanged,
                           [&](bool store) { m_tabProperties.storeItems = store; } );
+        QObject::connect( widget, &TabPropertiesWidget::encryptedExpireSecondsChanged,
+                          [&](int seconds) { m_tabProperties.encryptedExpireSeconds = seconds; } );
 
         QObject::connect(
             widget, &TabPropertiesWidget::iconNameChanged,

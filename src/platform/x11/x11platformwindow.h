@@ -5,8 +5,6 @@
 
 #include "platform/platformwindow.h"
 
-#include <memory>
-
 class AppConfig;
 class QWidget;
 
@@ -21,16 +19,16 @@ public:
 
     void raise() override;
 
-    void pasteClipboard() override;
+    bool pasteFromClipboard() override;
 
-    void copy() override;
+    bool copyToClipboard() override;
 
     bool isValid() const;
 
 private:
     bool waitForFocus(int ms);
 
-    void sendKeyPress(int modifier, int key, const AppConfig &config);
+    bool sendKeyPress(int modifier, int key, const AppConfig &config);
 
     quintptr m_window;
 };

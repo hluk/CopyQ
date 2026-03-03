@@ -23,10 +23,16 @@ QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
     return QClipboard::Clipboard;
 }
 
-void DummyClipboard::startMonitoring(const QStringList &)
+void DummyClipboard::startMonitoringBackend(const QStringList &, ClipboardModeMask)
 {
     connect(QGuiApplication::clipboard(), &QClipboard::changed,
             this, &DummyClipboard::onClipboardChanged);
+}
+
+void DummyClipboard::stopMonitoringBackend()
+{
+    disconnect(QGuiApplication::clipboard(), &QClipboard::changed,
+               this, &DummyClipboard::onClipboardChanged);
 }
 
 QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const
@@ -83,7 +89,9 @@ bool DummyClipboard::isHidden(const QMimeData &data) const
 void DummyClipboard::onChanged(int mode)
 {
     if (mode == QClipboard::Clipboard)
-        emit changed(ClipboardMode::Clipboard);
+        emitConnectionChanged(ClipboardMode::Clipboard);
+    else if (mode == QClipboard::Selection)
+        emitConnectionChanged(ClipboardMode::Selection);
 }
 
 void DummyClipboard::onClipboardChanged(QClipboard::Mode mode)

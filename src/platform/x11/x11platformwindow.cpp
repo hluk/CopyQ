@@ -41,19 +41,35 @@ private:
 };
 
 #ifdef HAS_X11TEST
-void fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress, unsigned long delayMs = CurrentTime)
+bool fakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress, unsigned long delayMs = CurrentTime)
 {
-    XTestFakeKeyEvent(display, keyCode, isPress, delayMs);
+    if (!XTestFakeKeyEvent(display, keyCode, isPress, delayMs)) {
+        log( QStringLiteral("Failed to send key event (key code: %1, isPress: %2)")
+               .arg(keyCode)
+               .arg(isPress), LogWarning );
+        return false;
+    }
+
     XSync(display, False);
+    return true;
 }
 
-void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
+bool simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
 {
     for (int modCode : modCodes) {
         const auto keySym = static_cast<KeySym>(modCode);
-        KeyCode keyCode = XKeysymToKeycode(display, keySym);
-        fakeKeyEvent(display, keyCode, keyDown);
+        const KeyCode keyCode = XKeysymToKeycode(display, keySym);
+        if (keyCode == 0) {
+            log( QStringLiteral("Failed to get X11 modifier key code for key symbol: %1")
+                   .arg(modCode), LogWarning );
+            return false;
+        }
+
+        if ( !fakeKeyEvent(display, keyCode, keyDown) )
+            return false;
     }
+
+    return true;
 }
 
 bool isModifierPressed(Display *display)
@@ -87,28 +103,46 @@ bool waitForModifiersReleased(Display *display, const AppConfig &config)
     return !isModifierPressed(display);
 }
 
-void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key, const AppConfig &config)
+bool simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key, const AppConfig &config)
 {
     // Wait for user to release modifiers.
-    if (!waitForModifiersReleased(display, config))
-        return;
+    if (!waitForModifiersReleased(display, config)) {
+        log("Failed to simulate key presses while modifiers are pressed", LogWarning);
+        return false;
+    }
 
-    simulateModifierKeyPress(display, modCodes, True);
+    if ( !simulateModifierKeyPress(display, modCodes, True) )
+        return false;
 
     const KeyCode keyCode = XKeysymToKeycode(display, key);
+    if (keyCode == 0) {
+        log( QStringLiteral("Failed to get X11 key code for key symbol: %1")
+                   .arg(key), LogWarning );
+        simulateModifierKeyPress(display, modCodes, False);
+        return false;
+    }
 
-    fakeKeyEvent(display, keyCode, True);
+    if ( !fakeKeyEvent(display, keyCode, True) ) {
+        simulateModifierKeyPress(display, modCodes, False);
+        return false;
+    }
+
     // This is needed to paste into URL bar in Chrome.
     const unsigned long delayMs = config.option<Config::window_key_press_time_ms>();
-    fakeKeyEvent(display, keyCode, False, delayMs);
+    if ( !fakeKeyEvent(display, keyCode, False, delayMs) ) {
+        simulateModifierKeyPress(display, modCodes, False);
+        return false;
+    }
 
-    simulateModifierKeyPress(display, modCodes, False);
+    if ( !simulateModifierKeyPress(display, modCodes, False) )
+        return false;
 
     XSync(display, False);
+    return true;
 }
 #else
 
-void simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
+bool simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
 {
     XKeyEvent event;
     XEvent *xev = reinterpret_cast<XEvent *>(&event);
@@ -123,15 +157,29 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
     event.y_root      = 1;
     event.same_screen = True;
     event.keycode     = XKeysymToKeycode(display, key);
+    if (event.keycode == 0) {
+        log( QStringLiteral("Failed to get X11 key code for key symbol: %1")
+               .arg(key), LogWarning );
+        return false;
+    }
     event.state       = modifiers;
 
     event.type = KeyPress;
-    XSendEvent(display, window, True, KeyPressMask, xev);
+    if (!XSendEvent(display, window, True, KeyPressMask, xev)) {
+        log( QStringLiteral("Failed to send X11 key press event (key code: %1)")
+               .arg(event.keycode), LogWarning );
+        return false;
+    }
     XSync(display, False);
 
     event.type = KeyRelease;
-    XSendEvent(display, window, True, KeyPressMask, xev);
+    if (!XSendEvent(display, window, True, KeyPressMask, xev)) {
+        log( QStringLiteral("Failed to send X11 key release event (key code: %1)")
+               .arg(event.keycode), LogWarning );
+        return false;
+    }
     XSync(display, False);
+    return true;
 }
 #endif
 
@@ -263,21 +311,23 @@ void X11PlatformWindow::raise()
     }
 }
 
-void X11PlatformWindow::pasteClipboard()
+bool X11PlatformWindow::pasteFromClipboard()
 {
     const AppConfig config;
     if ( pasteWithCtrlV(*this, config) )
-        sendKeyPress(XK_Control_L, XK_V, config);
-    else
-        sendKeyPress(XK_Shift_L, XK_Insert, config);
+        return sendKeyPress(XK_Control_L, XK_V, config);
+
+    return sendKeyPress(XK_Shift_L, XK_Insert, config);
 }
 
-void X11PlatformWindow::copy()
+bool X11PlatformWindow::copyToClipboard()
 {
     const AppConfig config;
     ClipboardSpy spy(ClipboardMode::Clipboard, QByteArray());
-    sendKeyPress(XK_Control_L, XK_C, config);
+    if ( !sendKeyPress(XK_Control_L, XK_C, config) )
+        return false;
     spy.wait();
+    return true;
 }
 
 bool X11PlatformWindow::isValid() const
@@ -298,34 +348,45 @@ bool X11PlatformWindow::waitForFocus(int ms)
         }
     }
 
-    return m_window == getCurrentWindow();
+    const auto currentWindow = getCurrentWindow();
+    if (m_window != currentWindow) {
+        log( QStringLiteral("Unexpected window focus:\n  expected-title: [%1]\n  current-title: [%2]")
+                .arg(getTitle())
+                .arg(X11PlatformWindow(currentWindow).getTitle()), LogWarning );
+        return false;
+    }
+
+    return true;
 }
 
-void X11PlatformWindow::sendKeyPress(int modifier, int key, const AppConfig &config)
+bool X11PlatformWindow::sendKeyPress(int modifier, int key, const AppConfig &config)
 {
     Q_ASSERT( isValid() );
 
     if ( !waitForFocus(config.option<Config::window_wait_before_raise_ms>()) ) {
         raise();
         if ( !waitForFocus(config.option<Config::window_wait_raised_ms>()) ) {
-            COPYQ_LOG( QString("Failed to focus window \"%1\"").arg(getTitle()) );
-            return;
+            log( QString("Failed to focus window \"%1\"").arg(getTitle()), LogWarning );
+            return false;
         }
     }
 
     waitMs(config.option<Config::window_wait_after_raised_ms>());
 
     if (!X11Info::isPlatformX11())
-        return;
+        return false;
 
     auto display = X11Info::display();
     if (!display)
-        return;
+        return false;
 
 #ifdef HAS_X11TEST
-    simulateKeyPress(display, QList<int>() << modifier, static_cast<uint>(key), config);
+    if ( !simulateKeyPress(display, QList<int>() << modifier, static_cast<uint>(key), config) )
+        return false;
 #else
     const int modifierMask = (modifier == XK_Control_L) ? ControlMask : ShiftMask;
-    simulateKeyPress(display, m_window, modifierMask, key);
+    if ( !simulateKeyPress(display, m_window, modifierMask, key) )
+        return false;
 #endif
+    return true;
 }

@@ -1,50 +1,16 @@
 This is step-by-step description on how to release new version of CopyQ.
 
-# Verify the Builds
-
-- [copyq-beta Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq-beta)
-- [copyq on OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5)
-- [Windows builds](https://ci.appveyor.com/project/hluk/copyq)
-
 # Update Version and Changelog
 
 Update `CHANGES.md` file (go through all commits since the last release tag).
 
 Bump the version:
 
-    utils/bump_version.sh 9.1.0
+    utils/bump_version.sh 14.0.0
 
 Verify and push the changes:
 
     for r in origin gitlab; do git push --follow-tags $r master || break; done
-
-# Launchpad: Build Ubuntu Packages
-
-Upload source files for [copyq Ubuntu package](https://launchpad.net/~hluk/+archive/ubuntu/copyq):
-
-    git checkout v9.1.0
-    utils/debian/create_source_packages.sh
-    dput ppa:hluk/copyq ../copyq_9.1.0~*.changes
-
-# openSUSE Build Service: Build Other Linux Packages
-
-Build on [OBS](https://build.opensuse.org/package/show/home:lukho:copyq/CopyQ-Qt5):
-
-    osc co home:lukho:copyq
-    cd home:lukho:copyq/CopyQ-Qt5
-    bash create_beta_package.sh
-    $EDITOR debian.changelog
-    osc commit
-
-NOTE: In case of system package conflicts like the following one, update
-[project
-configuration](https://build.opensuse.org/projects/home:lukho:copyq/prjconf)
-(for example: `Prefer: clang13-libs util-linux-core`).
-
-    have choice for libclang.so.13()(64bit) needed by qt5-doctools: clang-libs
-    clang13-libs, have choice for libclang.so.13(LLVM_13)(64bit) needed by
-    qt5-doctools: clang-libs clang13-libs, have choice for (util-linux-core or
-    util-linux) needed by systemd: util-linux util-linux-core
 
 # Build Flatpak
 
@@ -62,16 +28,12 @@ Download:
 
 - Binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq):
 
-      $COPYQ_SOURCE/utils/download_window_builds.sh 9.1.0
+      $COPYQ_SOURCE/utils/download_window_builds.sh 14.0.0
 
 - Binaries for OS X from [github](https://github.com/hluk/CopyQ/releases)
 - Create source package:
 
-      $COPYQ_SOURCE/utils/create_source_package.sh 9.1.0
-
-- OBS packages:
-
-      $COPYQ_SOURCE/utils/download_obs_packages.sh 9.1.0 1.1
+      $COPYQ_SOURCE/utils/create_source_package.sh 14.0.0
 
 # Checksums and Signing
 
@@ -90,14 +52,5 @@ Upload packages and binaries to:
 
 - [github](https://github.com/hluk/CopyQ/releases) (include `checksums-sha512.txt` and `cosign.bundle`)
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
-- [fosshub](https://www.fosshub.com/CopyQ.html)
-
-      ./utils/fosshub.py 9.1.0 $TOKEN
-
-Update Homebrew package for OS X.
-
-    brew install vitorgalvao/tiny-scripts/cask-repair
-    brew upgrade cask-repair
-    cask-repair copyq
 
 Write release announcement to [CopyQ group](https://groups.google.com/forum/#!forum/copyq).
