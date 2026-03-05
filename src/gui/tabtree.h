@@ -43,6 +43,7 @@ public:
     void previousTab() override;
 
     void setCurrentTab(int index) override;
+    void moveTab(int from, int to) override;
 
     void adjustSize() override;
 

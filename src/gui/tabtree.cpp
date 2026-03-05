@@ -477,6 +477,11 @@ void TabTree::setCurrentTab(int index)
         setCurrentItem(item);
 }
 
+void TabTree::moveTab(int from, int to)
+{
+    m_tabs.move(from, to);
+}
+
 void TabTree::adjustSize()
 {
     updateSize();

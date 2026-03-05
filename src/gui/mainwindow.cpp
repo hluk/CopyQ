@@ -3361,13 +3361,41 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
     AppConfig appConfig;
     Tabs tabs;
 
-    // Rename tabs if needed.
+    // The stacked widget was already reordered by onTabsMoved before this
+    // slot fires.  Capture the original tab order from config so we can
+    // restore it if rollback is needed.
+    const QStringList originalTabOrder = appConfig.option<Config::tabs>();
+
+    // Rename tabs if needed, tracking successes for rollback.
+    struct RenamedTab { int index; QString oldName; };
+    QVector<RenamedTab> renamedTabs;
+    bool failed = false;
+
     for (int i = 0 ; i < newTabNames.size(); ++i) {
         const QString &newTabName = newTabNames[i];
         auto placeholder = getPlaceholder(i);
         const QString oldTabName = placeholder->tabName();
-        if (newTabName != oldTabName)
-            updateTabName(placeholder, newTabName, &appConfig, &tabs);
+        if (newTabName != oldTabName) {
+            if ( updateTabName(placeholder, newTabName, &appConfig, &tabs) ) {
+                renamedTabs.append({i, oldTabName});
+            } else {
+                ui->tabWidget->setTabName(i, oldTabName);
+                failed = true;
+                break;
+            }
+        }
+    }
+
+    if (failed && !renamedTabs.isEmpty()) {
+        log("Rolling back tab renames after partial failure", LogWarning);
+        for (auto it = renamedTabs.crbegin(); it != renamedTabs.crend(); ++it) {
+            const auto &r = *it;
+            auto placeholder = getPlaceholder(r.index);
+            if ( !updateTabName(placeholder, r.oldName, &appConfig, &tabs) )
+                log("Failed to roll back tab rename", LogError);
+            ui->tabWidget->setTabName(r.index, r.oldName);
+        }
+        ui->tabWidget->reorderTabs(originalTabOrder);
     }
 
     const QStringList tabNames = ui->tabWidget->tabs();
