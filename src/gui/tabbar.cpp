@@ -114,6 +114,12 @@ void TabBar::removeTab(int index)
     QTabBar::removeTab(index);
 }
 
+void TabBar::moveTab(int from, int to)
+{
+    const QSignalBlocker blocker(this);
+    QTabBar::moveTab(from, to);
+}
+
 void TabBar::updateTabIcons(const QHash<QString, QString> &tabIcons)
 {
     for (int i = 0; i < count(); ++i) {

@@ -43,6 +43,7 @@ public:
     virtual void previousTab() = 0;
 
     virtual void setCurrentTab(int index) = 0;
+    virtual void moveTab(int from, int to) = 0;
 
     virtual void adjustSize() = 0;
 

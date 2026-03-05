@@ -79,6 +79,7 @@ public:
     void setTabItemCount(const QString &tabName, int itemCount);
 
     void setTabsOrder(const QStringList &tabs);
+    void reorderTabs(const QStringList &tabs);
 
 signals:
     /// Tabs moved in tab bar.

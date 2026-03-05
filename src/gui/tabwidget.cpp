@@ -304,6 +304,15 @@ void TabWidget::setTabItemCount(const QString &tabName, int itemCount)
 
 void TabWidget::setTabsOrder(const QStringList &tabs)
 {
+    if (this->tabs() == tabs)
+        return;
+
+    reorderTabs(tabs);
+    setTreeModeEnabled(m_toolBarCurrent == m_toolBarTree, this->tabs());
+}
+
+void TabWidget::reorderTabs(const QStringList &tabs)
+{
     QStringList currentTabs = this->tabs();
     if (tabs == currentTabs)
         return;
@@ -317,11 +326,11 @@ void TabWidget::setTabsOrder(const QStringList &tabs)
             m_stackedWidget->removeWidget(widget);
             m_stackedWidget->insertWidget(i, widget);
             currentTabs.move(tabIndex, i);
+            m_tabs->moveTab(tabIndex, i);
         }
     }
 
     m_stackedWidget->setCurrentIndex( currentIndex() );
-    setTreeModeEnabled(m_toolBarCurrent == m_toolBarTree, currentTabs);
 
     m_ignoreCurrentTabChanges = false;
 }

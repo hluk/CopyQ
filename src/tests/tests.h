@@ -341,6 +341,8 @@ private slots:
     void dragNDropItemToTabTree();
     void dragNDropTreeTab();
     void dragNDropTreeTabNested();
+    void dragNDropTreeTabChildCollision();
+    void dragNDropTreeTabPartialRenameFailure();
 
     void tabEncryption();
     void tabEncryptionPasswordNew();
