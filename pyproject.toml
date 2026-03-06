@@ -4,6 +4,7 @@ skip = [
     '*.svg',
     './build/',
     './plugins/itemfakevim/fakevim',
+    './shared/com.github.hluk.copyq.desktop.in',
     './shared/gpl-3.0.rtf',
     './src/gui/icon_list.h',
     './src/platform/x11/systemclipboard/wlr-data-control-unstable-v1.xml',
