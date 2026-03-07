@@ -80,7 +80,7 @@ jobs:
             -qca${{ env.QCA_VERSION }}
             -qtkeychain${{ env.QTKEYCHAIN_VERSION }}
             -snoretoast${{ env.SNORETOAST_VERSION }}
-            -${{ hashFiles('utils/appveyor/patches/**') }}
+            -${{ hashFiles('utils/patches/**') }}
 
       - name: Build KDE dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'

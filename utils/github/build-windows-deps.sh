@@ -23,7 +23,7 @@ SNORETOAST_BASE_URL="https://invent.kde.org/libraries/snoretoast/-/archive/v${SN
 INSTALL_PREFIX=${DEPS_PREFIX:-$GITHUB_WORKSPACE/deps/install}
 DOWNLOADS_DIR=$GITHUB_WORKSPACE/deps/downloads
 BUILD_DIR=$GITHUB_WORKSPACE/deps/build
-PATCH_DIR=$GITHUB_WORKSPACE/utils/appveyor/patches
+PATCH_DIR=$GITHUB_WORKSPACE/utils/patches
 
 mkdir -p "$INSTALL_PREFIX" "$DOWNLOADS_DIR" "$BUILD_DIR"
 export PATH=$INSTALL_PREFIX/bin:$PATH

@@ -3,8 +3,7 @@
 # These are fully covered by Linux CI and exercise no OS-specific behavior
 # (no clipboard, window focus, tray, shortcuts, or dialog interaction).
 #
-# Sourced by: utils/appveyor/test.sh, utils/github/test-windows.sh
-# Update both if this file moves.
+# Sourced by: utils/github/test-windows.sh
 
 SKIP_TESTS=(
     # Scripting engine
