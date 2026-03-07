@@ -44,7 +44,7 @@ Q_DECLARE_LOGGING_CATEGORY(testCategory)
 Q_LOGGING_CATEGORY(testCategory, "copyq.tests")
 
 const QString defaultTestId = QStringLiteral("CORE");
-const QString defaultTestPlugins = QStringLiteral("itemtext,itemnotes");
+const QString defaultTestPlugins = QStringLiteral("*itemtext*,*itemnotes*");
 
 class PerformanceTimer final {
 public:
@@ -572,7 +572,7 @@ public:
     {
         m_testId = id;
         m_settings = settings.toMap();
-        m_env.insert("COPYQ_ALLOW_PLUGINS", "itemtests," + allowPlugins);
+        m_env.insert("COPYQ_ALLOW_PLUGINS", "*itemtests*,*" + allowPlugins + "*");
         m_envBeforeTest = m_env;
     }
 

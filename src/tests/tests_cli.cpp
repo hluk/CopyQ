@@ -104,6 +104,18 @@ void Tests::rotateLog()
     QVERIFY2( logFiles.isEmpty(), logFilesMessage(logFileCount) );
 }
 
+void Tests::pluginsDisabled()
+{
+    // Ensure that plugins that could interfere with tests are disabled
+    RUN_EXPECT_ERROR("plugins.itemsync", CommandException);
+    RUN_EXPECT_ERROR("plugins.itemencrypted", CommandException);
+    RUN_EXPECT_ERROR("plugins.itempinned", CommandException);
+
+    const QByteArray log = readLogFile(maxReadLogSize);
+    QVERIFY2( !log.contains("itemencrypted"), log );
+    QVERIFY2( !log.contains("[copyq.plugin"), log );
+}
+
 void Tests::commandHelp()
 {
     QByteArray stdoutActual;

@@ -546,6 +546,11 @@ bool ItemFactory::loadPlugins()
             log(QStringLiteral("Failed to load plugin: %1").arg(path), LogError);
     }
 
+    const QStringList allowPlugins =
+        qEnvironmentVariable("COPYQ_ALLOW_PLUGINS")
+        .split(QChar(','), Qt::SkipEmptyParts);
+    pluginsDir.setNameFilters(allowPlugins);
+
     for (const auto &fileName : pluginsDir.entryList(QDir::Files)) {
         const QString path = pluginsDir.absoluteFilePath(fileName);
         auto loader = loadPlugin(path, QString());
@@ -676,8 +681,5 @@ bool ItemFactory::loadItemFactorySettings(const ItemLoaderPtr &loader, QSettings
 
     settings->endGroup();
 
-    static const QStringList plugins =
-        qEnvironmentVariable("COPYQ_ALLOW_PLUGINS")
-        .split(QChar(','), Qt::SkipEmptyParts);
-    return plugins.isEmpty() ? enabled : plugins.contains(loader->id());
+    return enabled;
 }
