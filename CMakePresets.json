@@ -60,6 +60,20 @@
                 "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_FLAGS": "-Wno-deprecated-declarations"
             }
+        },
+        {
+            "name": "Windows",
+            "generator": "Ninja",
+            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "installDir": "${sourceParentDir}/install/copyq/${presetName}",
+            "cacheVariables": {
+                "WITH_QT6": "TRUE",
+                "WITH_TESTS": "TRUE",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
+                "CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION": "."
+            }
         }
     ],
     "buildPresets": [
@@ -84,6 +98,12 @@
         {
             "name": "macOS-12-m1",
             "configurePreset": "macOS-12-m1",
+            "configuration": "Release",
+            "targets": "install"
+        },
+        {
+            "name": "Windows",
+            "configurePreset": "Windows",
             "configuration": "Release",
             "targets": "install"
         }
