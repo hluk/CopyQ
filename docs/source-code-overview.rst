@@ -200,11 +200,9 @@ CI servers.
     -  Screenshots are taken while GUI tests are running. These are
        available if a test fails.
 
--  `AppVeyor <https://ci.appveyor.com/project/hluk/copyq>`__
-    -  Builds installers and portable packages for Windows.
+-  `GitHub Actions <https://github.com/hluk/CopyQ/actions>`__
+    -  Builds and runs tests for Windows.
     -  Provides downloads for recent commits.
-    -  Release build are based on gcc-compiled binaries (Visual Studio
-       builds are also available).
 
 -  `OBS Linux Packages <https://build.opensuse.org/project/show/home:lukho:copyq>`__
     -  Builds release packages for various Linux distributions.
