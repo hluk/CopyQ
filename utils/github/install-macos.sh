@@ -20,14 +20,21 @@ rm -rf \
     /usr/local/bin/python3* \
     /usr/local/bin/python3-config*
 
-brew uninstall cmake
-
-# Install Homebrew: https://brew.sh/
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-
 brew tap copyq/kde utils/github/homebrew/
 
 brew install qt@6 qca qtkeychain
-brew install --verbose \
-    copyq/kde/kf6-knotifications \
-    copyq/kde/kf6-kstatusnotifieritem
+
+# Install KDE frameworks (skip build if restored from cache).
+if brew list --versions kf6-kstatusnotifieritem >/dev/null 2>&1; then
+    echo "KDE frameworks restored from cache, re-linking..."
+    brew link --overwrite \
+        extra-cmake-modules \
+        kf6-kconfig \
+        kf6-kwindowsystem \
+        kf6-knotifications \
+        kf6-kstatusnotifieritem
+else
+    brew install --verbose \
+        copyq/kde/kf6-knotifications \
+        copyq/kde/kf6-kstatusnotifieritem
+fi

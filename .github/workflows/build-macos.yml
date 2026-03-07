@@ -41,10 +41,34 @@ jobs:
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
         with:
           key: ${{ github.job }}-${{ matrix.os }}
+          max-size: 1G
 
       - name: Set up ccache
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+
+      - name: Determine Homebrew prefix
+        id: brew
+        run: echo "prefix=$(brew --prefix)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Homebrew downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/Homebrew/downloads
+          key: brew-downloads-${{ matrix.os }}-${{ hashFiles('utils/github/install-macos.sh') }}
+          restore-keys: |
+            brew-downloads-${{ matrix.os }}-
+
+      - name: Cache KDE frameworks
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ steps.brew.outputs.prefix }}/Cellar/extra-cmake-modules
+            ${{ steps.brew.outputs.prefix }}/Cellar/kf6-kconfig
+            ${{ steps.brew.outputs.prefix }}/Cellar/kf6-kwindowsystem
+            ${{ steps.brew.outputs.prefix }}/Cellar/kf6-knotifications
+            ${{ steps.brew.outputs.prefix }}/Cellar/kf6-kstatusnotifieritem
+          key: kde-${{ matrix.os }}-${{ hashFiles('utils/github/homebrew/Formula/*.rb') }}
 
       - name: Install dependencies
         env:
