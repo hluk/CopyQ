@@ -708,6 +708,7 @@ bool Tests::hasTab(const QString &tabName)
 
 int main(int argc, char **argv)
 {
+
     // Avoid verbose logs on stderr if tests are not failing
     qunsetenv("COPYQ_LOG_LEVEL");
 
@@ -741,6 +742,7 @@ int main(int argc, char **argv)
     setSessionName(sessionName);
     const auto platform = platformNativeInterface();
     std::unique_ptr<QGuiApplication> app( platform->createTestApplication(argc, argv) );
+
     initSession(app.get(), sessionName);
 
     // Set higher default tests timeout.

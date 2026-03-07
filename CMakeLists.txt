@@ -29,6 +29,11 @@ OPTION(WITH_GNOME_CLIPBOARD_EXTENSION "Install GNOME extension, required for cli
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
 
+if (WIN32)
+    # Prevent windows.h from defining min/max macros that conflict with std::min/std::max.
+    add_definitions( -DNOMINMAX )
+endif()
+
 # Unix-specific options
 if (UNIX AND NOT APPLE)
     include(GNUInstallDirs)
