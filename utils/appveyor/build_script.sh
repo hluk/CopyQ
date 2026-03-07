@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 set -exo pipefail
 
-cmake --build build/ --config Release
+cmake --build build/ --config Release --parallel

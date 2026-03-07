@@ -21,24 +21,48 @@ if [[ $WITH_QCA_ENCRYPTION == ON ]]; then
             -DBUILD_WITH_QT6="$WITH_QT6" \
             -DBUILD_TESTS=OFF \
             -DBUILD_TOOLS=OFF \
-            -DBUILD_PLUGINS=ossl
+            -DBUILD_PLUGINS=ossl &
+    qca_pid=$!
 
     URL_PATH="$QTKEYCHAIN_VERSION" \
     DOWNLOAD_SUFFIX=tar.gz \
         "$build" qtkeychain "$QTKEYCHAIN_VERSION" "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags" \
             -DBUILD_WITH_QT6="$WITH_QT6" \
             -DBUILD_TRANSLATIONS=OFF \
-            -DBUILD_TEST_APPLICATION=OFF
+            -DBUILD_TEST_APPLICATION=OFF &
+    qtkeychain_pid=$!
 fi
 
 if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
     DOWNLOAD_SUFFIX=zip \
-        "$build" snoretoast "v$SNORETOAST_VERSION" "$SNORETOAST_BASE_URL"
-    "$build" extra-cmake-modules
-    "$build" kconfig "" "" "-DKCONFIG_USE_DBUS=OFF" "-DKCONFIG_USE_GUI=OFF"
-    "$build" kwindowsystem
-    "$build" knotifications
-    "$build" kstatusnotifieritem
+        "$build" snoretoast "v$SNORETOAST_VERSION" "$SNORETOAST_BASE_URL" &
+    snoretoast_pid=$!
+
+    "$build" extra-cmake-modules &
+    ecm_pid=$!
+fi
+
+# Wait for Group A (no inter-dependencies)
+if [[ $WITH_QCA_ENCRYPTION == ON ]]; then
+    wait "$qca_pid" "$qtkeychain_pid"
+fi
+
+if [[ $WITH_NATIVE_NOTIFICATIONS == ON ]]; then
+    wait "$snoretoast_pid" "$ecm_pid"
+
+    # Group B: both depend on ECM only
+    "$build" kconfig "" "" "-DKCONFIG_USE_DBUS=OFF" "-DKCONFIG_USE_GUI=OFF" &
+    kconfig_pid=$!
+    "$build" kwindowsystem &
+    kwindowsystem_pid=$!
+    wait "$kconfig_pid" "$kwindowsystem_pid"
+
+    # Group C: depend on kconfig + kwindowsystem
+    "$build" knotifications &
+    knotifications_pid=$!
+    "$build" kstatusnotifieritem &
+    kstatusnotifieritem_pid=$!
+    wait "$knotifications_pid" "$kstatusnotifieritem_pid"
 fi
 
 # Create and upload dependencies zip file.
@@ -55,6 +79,7 @@ cmake -B"$BUILD_PATH" -DCMAKE_BUILD_TYPE=Release \
     -G "$CMAKE_GENERATOR" "${cmake_args[@]}" \
     -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
     -DCMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION=. \
+    -DCMAKE_CXX_FLAGS="-MP" \
     -DWITH_NATIVE_NOTIFICATIONS="$WITH_NATIVE_NOTIFICATIONS" \
     -DWITH_QCA_ENCRYPTION="$WITH_QCA_ENCRYPTION" \
     -DWITH_KEYCHAIN="$WITH_QCA_ENCRYPTION" \

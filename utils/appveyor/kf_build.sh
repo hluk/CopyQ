@@ -70,7 +70,7 @@ fi
         -DBUILD_TESTING=OFF \
         "${extra_cmake_args[@]}"
 
-    cmake --build "$DEPENDENCY_BUILD_PATH/$name" --config Release --target install
+    cmake --build "$DEPENDENCY_BUILD_PATH/$name" --config Release --target install --parallel
 )
 
 mv "$state_new" "$state_old"
