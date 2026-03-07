@@ -15,11 +15,8 @@ translation).
 Modify and Test Installation
 ----------------------------
 
-Normally the installation file is generated automatically by Appveyor
-which executes
-`appveyor-after-build.bat <https://github.com/hluk/CopyQ/blob/master/utils/appveyor-after-build.bat>`__
-to generate portable app folder from build files and runs Inno Setup
-(the last line).
+Normally the installation file is generated automatically by CI
+which creates a portable app folder from build files and runs Inno Setup.
 
 You don't have to build the app again, you just need:
 

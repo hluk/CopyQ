@@ -134,6 +134,30 @@ target_link_libraries(copyq-common ${copyq_LIBRARIES})
 target_include_directories(copyq-common PRIVATE ${CMAKE_CURRENT_BINARY_DIR} .)
 target_include_directories(${COPYQ_EXECUTABLE_NAME} PRIVATE .)
 
+# Precompiled headers for faster MSVC builds.
+# Clang with -Weverything and ccache+PCH cause issues on other platforms.
+if (MSVC)
+    target_precompile_headers(copyq-common PRIVATE
+        <QApplication>
+        <QByteArray>
+        <QCoreApplication>
+        <QDir>
+        <QFile>
+        <QList>
+        <QLoggingCategory>
+        <QMimeData>
+        <QObject>
+        <QRegularExpression>
+        <QSettings>
+        <QString>
+        <QStringList>
+        <QTimer>
+        <QVariant>
+        <QVariantMap>
+        <QWidget>
+    )
+endif()
+
 # install
 if (WIN32)
     install(TARGETS ${COPYQ_EXECUTABLE_NAME}
