@@ -47,7 +47,9 @@ jobs:
         with:
           version: ${{ env.QT_VERSION }}
           arch: win64_msvc2022_64
+          modules: qt5compat
           cache: true
+          set-env: true
 
       - name: Install OpenSSL
         shell: pwsh
@@ -66,8 +68,9 @@ jobs:
           DEPS_PREFIX="${GITHUB_WORKSPACE}/deps/install"
           echo "DEPS_PREFIX=$DEPS_PREFIX" >> "$GITHUB_ENV"
           echo "$DEPS_PREFIX/bin" >> "$GITHUB_PATH"
-          # Extend CMAKE_PREFIX_PATH (set by install-qt-action) with KDE deps.
-          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${CMAKE_PREFIX_PATH}" >> "$GITHUB_ENV"
+          # Extend CMAKE_PREFIX_PATH with Qt and KDE deps.
+          # install-qt-action sets QT_ROOT_DIR but may not set CMAKE_PREFIX_PATH.
+          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${QT_ROOT_DIR}/lib/cmake" >> "$GITHUB_ENV"
 
       - name: Cache KDE dependencies
         id: cache-deps
@@ -88,6 +91,8 @@ jobs:
 
       - name: Build with CMake
         uses: lukka/run-cmake@v10
+        env:
+          VCPKG_ROOT: ''
         with:
           configurePreset: Windows
           buildPreset: Windows
