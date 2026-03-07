@@ -345,7 +345,7 @@ void Tests::automaticCommandNoOutputTab()
     WAIT_ON_OUTPUT("commands().length", "1\n");
 
     TEST( m_test->setClipboard("TEST") );
-    waitFor(1000);
+    WAIT_ON_OUTPUT("clipboard", "TEST");
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 

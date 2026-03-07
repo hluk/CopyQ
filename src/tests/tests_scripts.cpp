@@ -528,10 +528,15 @@ void Tests::commandsGetSetItem()
 
 void Tests::commandsChecksums()
 {
-    RUN("md5sum" << "TEST", "033bd94b1168d7e4f0d644c3c95e35bf\n");
-    RUN("sha1sum" << "TEST", "984816fd329622876e14907634264e6f332e9fb3\n");
-    RUN("sha256sum" << "TEST", "94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2\n");
-    RUN("sha512sum" << "TEST", "7bfa95a688924c47c7d22381f20cc926f524beacb13f84e203d4bd8cb6ba2fce81c57a5f059bf3d509926487bde925b3bcee0635e4f7baeba054e5dba696b2bf\n");
+    RUN("eval" <<
+        "[md5sum('TEST'), sha1sum('TEST'),"
+        " sha256sum('TEST'), sha512sum('TEST')]"
+        ,
+        "033bd94b1168d7e4f0d644c3c95e35bf\n"
+        "984816fd329622876e14907634264e6f332e9fb3\n"
+        "94ee059335e587e501cc4bf90613e0814f00a7b08bc7c648fd865a2af6a22cc2\n"
+        "7bfa95a688924c47c7d22381f20cc926f524beacb13f84e203d4bd8cb6ba2fce81c57a5f059bf3d509926487bde925b3bcee0635e4f7baeba054e5dba696b2bf\n"
+    );
 }
 
 void Tests::commandEscapeHTML()
@@ -599,16 +604,16 @@ void Tests::commandSleep()
         [&]{
             QElapsedTimer t;
             t.start();
-            RUN("sleep" << "1000", "");
-            const auto afterElapsed1000Ms = t.elapsed();
-            QVERIFY(afterElapsed1000Ms > 1000);
+            RUN("sleep" << "200", "");
+            const auto afterElapsed200Ms = t.elapsed();
+            QVERIFY(afterElapsed200Ms > 200);
         },
         [&]{
             QElapsedTimer t;
             t.start();
-            RUN("sleep" << "100", "");
-            const auto afterElapsed100Ms = t.elapsed();
-            QVERIFY(afterElapsed100Ms > 100);
+            RUN("sleep" << "50", "");
+            const auto afterElapsed50Ms = t.elapsed();
+            QVERIFY(afterElapsed50Ms > 50);
         }
     );
 }
@@ -1071,21 +1076,28 @@ void Tests::commandFilter()
 
 void Tests::commandMimeTypes()
 {
-    RUN("print(mimeText)", mimeText);
-    RUN("print(mimeHtml)", mimeHtml);
-    RUN("print(mimeUriList)", mimeUriList);
-    RUN("print(mimeWindowTitle)", mimeWindowTitle);
-    RUN("print(mimeItems)", mimeItems);
-    RUN("print(mimeItemNotes)", mimeItemNotes);
-    RUN("print(mimeOwner)", mimeOwner);
-    RUN("print(mimeClipboardMode)", mimeClipboardMode);
-    RUN("print(mimeCurrentTab)", mimeCurrentTab);
-    RUN("print(mimeSelectedItems)", mimeSelectedItems);
-    RUN("print(mimeCurrentItem)", mimeCurrentItem);
-    RUN("print(mimeHidden)", mimeHidden);
-    RUN("print(mimeShortcut)", mimeShortcut);
-    RUN("print(mimeColor)", mimeColor);
-    RUN("print(mimeOutputTab)", mimeOutputTab);
+    RUN("eval" <<
+        "[mimeText, mimeHtml, mimeUriList, mimeWindowTitle,"
+        " mimeItems, mimeItemNotes, mimeOwner, mimeClipboardMode,"
+        " mimeCurrentTab, mimeSelectedItems, mimeCurrentItem,"
+        " mimeHidden, mimeShortcut, mimeColor, mimeOutputTab]"
+        ,
+        QByteArray(mimeText.data()) + "\n"
+        + mimeHtml + "\n"
+        + mimeUriList + "\n"
+        + mimeWindowTitle + "\n"
+        + mimeItems + "\n"
+        + mimeItemNotes + "\n"
+        + mimeOwner + "\n"
+        + mimeClipboardMode + "\n"
+        + mimeCurrentTab + "\n"
+        + mimeSelectedItems + "\n"
+        + mimeCurrentItem + "\n"
+        + mimeHidden + "\n"
+        + mimeShortcut + "\n"
+        + mimeColor + "\n"
+        + mimeOutputTab + "\n"
+    );
 }
 
 void Tests::commandUnload()

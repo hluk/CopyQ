@@ -228,8 +228,7 @@ private slots:
 
     void configAutostart();
 
-    void configPathEnvVariable();
-    void itemDataPathEnvVariable();
+    void envVariablePaths();
 
     void configTabs();
 
@@ -282,9 +281,7 @@ private slots:
 
     void synchronizeInternalCommands();
 
-    void queryKeyboardModifiersCommand();
-    void pointerPositionCommand();
-    void setPointerPositionCommand();
+    void utilityCommands();
 
     void setTabName();
 
@@ -312,11 +309,7 @@ private slots:
 
     void changeAlwaysOnTop();
 
-    void networkGet();
-    void networkPost();
-    void networkHeaders();
-    void networkRedirects();
-    void networkGetPostAsync();
+    void networkTests();
 
     void pluginNotInstalled();
 
