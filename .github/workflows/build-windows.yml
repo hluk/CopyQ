@@ -110,7 +110,7 @@ jobs:
 
       - name: Test
         working-directory: ${{ runner.workspace }}/build/copyq/Windows
-        run: '${{ github.workspace }}/utils/github/test-windows.sh'
+        run: '"$GITHUB_WORKSPACE"/utils/github/test-windows.sh'
         env:
           COPYQ_PLUGINS: ${{ runner.workspace }}/build/copyq/Windows/src/itemtests.dll
           GPGPATH: C:/Program Files/Git/usr/bin
