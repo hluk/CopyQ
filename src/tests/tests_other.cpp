@@ -522,8 +522,6 @@ void Tests::openAndSavePreferences()
     // Focus and set wrap text option.
     // This behavior could differ on some systems and in other languages.
     KEYS(configurationDialogId << "ALT+1");
-    // Wait for any checkbox animation or delay
-    waitFor(1000);
     KEYS(configurationDialogId << "ENTER" << clipboardBrowserId);
     WAIT_ON_OUTPUT("config" << "check_clipboard", "true\n");
 }
@@ -550,8 +548,6 @@ void Tests::pasteFromMainWindow()
             KEYS(clipboardBrowserId << "ENTER");
 
             WAIT_FOR_CLIPBOARD("TEST");
-            waitFor(waitMsPasteClipboard);
-
             KEYS("focus::QLineEdit<.*:QDialog" << "ENTER");
         }
     );
@@ -566,8 +562,7 @@ void Tests::pasteNext()
     const auto tab2 = testTab(2);
     RUN("tab" << tab2 << "add" << "test3" << "test2" << "test1", "");
     RUN("tab" << tab2 << "next(); paste(); next()", "");
-    waitFor(waitMsPasteClipboard);
-
+    waitFor(250);
     KEYS(editorId);
     WAIT_FOR_CLIPBOARD("test3");
     KEYS(editorId << "F2");
@@ -583,32 +578,33 @@ void Tests::configAutostart()
     RUN("config" << "autostart", "false\n");
 }
 
-void Tests::configPathEnvVariable()
+void Tests::envVariablePaths()
 {
-    const auto path = QDir::home().absoluteFilePath("copyq-settings");
-    const auto environment = QStringList("COPYQ_SETTINGS_PATH=" + path);
+    {
+        const auto path = QDir::home().absoluteFilePath("copyq-settings");
+        const auto environment = QStringList("COPYQ_SETTINGS_PATH=" + path);
 
-    QByteArray out;
-    QByteArray err;
-    run(Args() << "info" << "config", &out, &err, QByteArray(), environment);
-    QVERIFY2( testStderr(err), err );
+        QByteArray out;
+        QByteArray err;
+        run(Args() << "info" << "config", &out, &err, QByteArray(), environment);
+        QVERIFY2( testStderr(err), err );
 
-    const auto expectedOut = path.toUtf8();
-    QCOMPARE( out.left(expectedOut.size()), expectedOut );
-}
+        const auto expectedOut = path.toUtf8();
+        QCOMPARE( out.left(expectedOut.size()), expectedOut );
+    }
 
-void Tests::itemDataPathEnvVariable()
-{
-    const auto path = QDir::home().absoluteFilePath("copyq-data");
-    const auto environment = QStringList("COPYQ_ITEM_DATA_PATH=" + path);
+    {
+        const auto path = QDir::home().absoluteFilePath("copyq-data");
+        const auto environment = QStringList("COPYQ_ITEM_DATA_PATH=" + path);
 
-    QByteArray out;
-    QByteArray err;
-    run(Args() << "info" << "data", &out, &err, QByteArray(), environment);
-    QVERIFY2( testStderr(err), err );
+        QByteArray out;
+        QByteArray err;
+        run(Args() << "info" << "data", &out, &err, QByteArray(), environment);
+        QVERIFY2( testStderr(err), err );
 
-    const auto expectedOut = path.toUtf8();
-    QCOMPARE( out.left(expectedOut.size()), expectedOut );
+        const auto expectedOut = path.toUtf8();
+        QCOMPARE( out.left(expectedOut.size()), expectedOut );
+    }
 }
 
 void Tests::configTabs()
@@ -698,22 +694,18 @@ void Tests::synchronizeInternalCommands()
     RUN("commands()[0].cmd", "copyq: toggle()\n");
 }
 
-void Tests::queryKeyboardModifiersCommand()
+void Tests::utilityCommands()
 {
+    // queryKeyboardModifiers
     RUN("queryKeyboardModifiers()", "");
-    // TODO: Is there a way to press modifiers?
-}
 
-void Tests::pointerPositionCommand()
-{
+    // pointerPosition
     QCursor::setPos(1, 2);
     RUN("pointerPosition", "1\n2\n");
     QCursor::setPos(2, 3);
     RUN("pointerPosition", "2\n3\n");
-}
 
-void Tests::setPointerPositionCommand()
-{
+    // setPointerPosition
     RUN("setPointerPosition(1,2)", "");
     QCOMPARE(QPoint(1, 2), QCursor::pos());
     RUN("setPointerPosition(2,3)", "");
@@ -781,60 +773,53 @@ void Tests::changeAlwaysOnTop()
     WAIT_ON_OUTPUT("focused", "false\n");
 }
 
-void Tests::networkGet()
+void Tests::networkTests()
 {
-    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
-
-    RUN("r = networkGet('https://www.example.com'); r.status", "200\n");
-}
-
-void Tests::networkPost()
-{
-    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
-
-    const auto script = R"(
-        r = NetworkRequest();
-        r.headers['Content-Type'] = 'text/plain';
-        s = r.request('POST', 'https://httpcan.org/post?hello=1', 'Hello');
-        json = s.data;
-        try {
-            data = JSON.parse(str(json));
-            userAgent = data.headers['user-agent'].replace(/\\/.*/, '/xyz');
-            [data.data, JSON.stringify(data.args), userAgent, s.status];
-        } catch (e) {
-            [`Error parsing JSON response: ${e}\n`, json, s.status];
-        }
-    )";
-    RUN(script, "Hello\n{\"hello\":\"1\"}\nCopyQ/xyz\n200\n");
-}
-
-void Tests::networkHeaders()
-{
-    // Default user-agent is "CopyQ/<version>"
+    // networkHeaders (no network needed)
     RUN("print(NetworkRequest().headers['User-Agent'])", copyqUserAgent());
     RUN("r = NetworkRequest(); r.headers['X'] = 'Y'; r.headers['X']", "Y\n");
-}
 
-void Tests::networkRedirects()
-{
-    SKIP_ON_ENV("COPYQ_TESTS_NO_NETWORK");
-
-    RUN("r = networkGet('https://httpcan.org/redirect-to?url=https://httpcan.org'); r.status", "302\n");
-    const auto script = R"(
-        r = NetworkRequest();
-        r.maxRedirects = 1;
-        s = r.request('GET', 'https://httpcan.org');
-        [s.status, s.url]
-    )";
-    RUN(script, "200\nhttps://httpcan.org\n");
-}
-
-void Tests::networkGetPostAsync()
-{
+    // networkGetPostAsync (no network needed)
     RUN("r = networkGetAsync('copyq-test://example.com'); print([r.finished,r.error,r.finished])",
         "false,Protocol \"copyq-test\" is unknown,true");
     RUN("r = networkPostAsync('copyq-test://example.com'); print([r.finished,r.error,r.finished])",
         "false,Protocol \"copyq-test\" is unknown,true");
+
+    if (qgetenv("COPYQ_TESTS_NO_NETWORK") == "1")
+        return;
+
+    // networkGet
+    RUN("r = networkGet('https://httpcan.org'); r.status", "200\n");
+
+    // networkPost
+    {
+        const auto script = R"(
+            r = NetworkRequest();
+            r.headers['Content-Type'] = 'text/plain';
+            s = r.request('POST', 'https://httpcan.org/post?hello=1', 'Hello');
+            json = s.data;
+            try {
+                data = JSON.parse(str(json));
+                userAgent = data.headers['user-agent'].replace(/\\/.*/, '/xyz');
+                [data.data, JSON.stringify(data.args), userAgent, s.status];
+            } catch (e) {
+                [`Error parsing JSON response: ${e}\n`, json, s.status];
+            }
+        )";
+        RUN(script, "Hello\n{\"hello\":\"1\"}\nCopyQ/xyz\n200\n");
+    }
+
+    // networkRedirects
+    RUN("r = networkGet('https://httpcan.org/redirect-to?url=https://httpcan.org'); r.status", "302\n");
+    {
+        const auto script = R"(
+            r = NetworkRequest();
+            r.maxRedirects = 1;
+            s = r.request('GET', 'https://httpcan.org');
+            [s.status, s.url]
+        )";
+        RUN(script, "200\nhttps://httpcan.org\n");
+    }
 }
 
 void Tests::pluginNotInstalled()
@@ -881,9 +866,8 @@ void Tests::avoidStoringPasswords()
     RUN("count", "0\n");
 
     KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
-    waitFor(waitMsPasteClipboard);
+    WAIT_ON_OUTPUT("count", "1\n");
     RUN("read" << "0" << "1" << "2", "secret\n\n");
-    RUN("count", "1\n");
 }
 
 void Tests::scriptsForPasswords()
@@ -985,7 +969,7 @@ void Tests::saveLargeItem()
     const auto tab2 = testTab(2);
     const auto args2 = Args("tab") << tab2;
     RUN("show" << tab2, "");
-    waitFor(waitMsPasteClipboard);
+    waitFor(250);
     KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
     RUN(args2 << "read(0).left(20)", "12345678901234567890");
     RUN(args2 << "read(0).length", "100000\n");

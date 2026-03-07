@@ -22,8 +22,8 @@ void Tests::expireEncryptionPassword()
     QTest::qWait(1500);
     KEYS(clipboardBrowserId);
 
-    RUN("config" << "expire_encrypted_tab_seconds" << "3", "3\n");
-    const int waitToExpireMs = 3500;
+    RUN("config" << "expire_encrypted_tab_seconds" << "2", "2\n");
+    const int waitToExpireMs = 2500;
     KEYS(clipboardBrowserId);
 
     TEST( m_test->stopServer() );
