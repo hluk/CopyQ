@@ -5,4 +5,4 @@ lupdate_args=(
     -ts
     ${1:-translations/*.ts}
 )
-exec "${LUPDATE:-lupdate-qt5}" "${lupdate_args[@]}"
+exec "${LUPDATE:-lupdate}" "${lupdate_args[@]}"
