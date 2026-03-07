@@ -30,6 +30,7 @@ private slots:
     void configPath();
     void readLog();
     void rotateLog();
+    void pluginsDisabled();
     void commandHelp();
     void commandVersion();
     void badCommand();
