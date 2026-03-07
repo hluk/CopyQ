@@ -12,11 +12,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  QT_VERSION: '6.8.3'
-  KF_VERSION: '6.15'
+  QT_VERSION: '6.10.2'
+  KF_VERSION: '6.23'
   KF_PATCH: '0'
   KF_BRANCH: stable
-  SNORETOAST_VERSION: '0.9.0'
+  SNORETOAST_VERSION: '0.9.1'
   QCA_VERSION: '2.3.10'
   QTKEYCHAIN_VERSION: '0.15.0'
   COPYQ_TESTS_SKIP_DRAG_AND_DROP: '1'
@@ -31,32 +31,36 @@ jobs:
         shell: bash
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
           # Full history needed for git describe (version string).
           fetch-depth: 0
 
       - name: Set up MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
         with:
           arch: x64
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v4
+        uses: jurplel/install-qt-action@d325aaf2a8baeeda41ad0b5d39f84a6af9bcf005 # v4
         with:
           version: ${{ env.QT_VERSION }}
           arch: win64_msvc2022_64
+          modules: qtimageformats qt5compat
           cache: true
+          set-env: true
 
       - name: Install OpenSSL
         shell: pwsh
         run: |
           choco install openssl --no-progress -y
-          echo "OPENSSL_ROOT_DIR=C:\Program Files\OpenSSL-Win64" >> $env:GITHUB_ENV
+          # Chocolatey installs OpenSSL to 'C:\Program Files\OpenSSL' (not OpenSSL-Win64).
+          $sslDir = if (Test-Path 'C:/Program Files/OpenSSL-Win64') { 'C:/Program Files/OpenSSL-Win64' } else { 'C:/Program Files/OpenSSL' }
+          echo "OPENSSL_ROOT_DIR=$sslDir" >> $env:GITHUB_ENV
 
       - name: Enable sccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
         with:
           variant: sccache
           key: windows-msvc
@@ -66,12 +70,13 @@ jobs:
           DEPS_PREFIX="${GITHUB_WORKSPACE}/deps/install"
           echo "DEPS_PREFIX=$DEPS_PREFIX" >> "$GITHUB_ENV"
           echo "$DEPS_PREFIX/bin" >> "$GITHUB_PATH"
-          # Extend CMAKE_PREFIX_PATH (set by install-qt-action) with KDE deps.
-          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${CMAKE_PREFIX_PATH}" >> "$GITHUB_ENV"
+          # Extend CMAKE_PREFIX_PATH with Qt and KDE deps.
+          # install-qt-action sets QT_ROOT_DIR but may not set CMAKE_PREFIX_PATH.
+          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${QT_ROOT_DIR}/lib/cmake" >> "$GITHUB_ENV"
 
       - name: Cache KDE dependencies
         id: cache-deps
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ${{ github.workspace }}/deps/install
           key: >-
@@ -80,14 +85,16 @@ jobs:
             -qca${{ env.QCA_VERSION }}
             -qtkeychain${{ env.QTKEYCHAIN_VERSION }}
             -snoretoast${{ env.SNORETOAST_VERSION }}
-            -${{ hashFiles('utils/appveyor/patches/**') }}
+            -${{ hashFiles('utils/patches/**') }}
 
       - name: Build KDE dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: utils/github/build-windows-deps.sh
 
       - name: Build with CMake
-        uses: lukka/run-cmake@v10
+        uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
+        env:
+          VCPKG_ROOT: ''
         with:
           configurePreset: Windows
           buildPreset: Windows
@@ -98,21 +105,61 @@ jobs:
             '-DWITH_KEYCHAIN=TRUE'
             ]
 
-      - name: Create gnupg directory for tests
-        run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
+
+      - name: Get version string
+        id: version
+        run: |
+          version=$(git describe --tags --always HEAD | sed -E \
+            -e 's/^v([0-9]+\.[0-9]+\.[0-9]+)/\1/' \
+            -e 's/-([0-9]+).*/\.\1/')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Version: $version"
+
+      - name: Deploy application
+        run: utils/github/deploy-windows.sh
+        env:
+          APP_VERSION: ${{ steps.version.outputs.version }}
+          BUILD_DIR: ${{ runner.workspace }}/build/copyq/Windows
+
+      - name: Set up GPG for tests
+        shell: pwsh
+        run: |
+          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
+          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
+          gpg --version
 
       - name: Test
-        working-directory: ${{ runner.workspace }}/build/copyq/Windows
-        run: '${{ github.workspace }}/utils/github/test-windows.sh'
+        working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
+        shell: cmd
+        run: |
+          set "PATH=%CD%;C:\Program Files\Git\usr\bin"
+          .\copyq-tests.exe
         env:
-          COPYQ_PLUGINS: ${{ runner.workspace }}/build/copyq/Windows/src/itemtests.dll
-          GPGPATH: C:/Program Files/Git/usr/bin
+          QT_FORCE_STDERR_LOGGING: 1
+          COPYQ_LOG_LEVEL: DEBUG
+          COPYQ_TESTS_RERUN_FAILED: 1
+          COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ steps.version.outputs.version }}\itemtests.dll
 
-      - name: Upload test logs
-        if: failure()
-        uses: actions/upload-artifact@v4
+      - name: Create portable zip
+        run: 7z a "copyq-${{ steps.version.outputs.version }}.zip" "copyq-${{ steps.version.outputs.version }}"
+
+      - name: Build installer
+        shell: cmd
+        run: |
+          "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" /O"%GITHUB_WORKSPACE%" ^
+            /DAppVersion="${{ steps.version.outputs.version }}" ^
+            /DRoot="%GITHUB_WORKSPACE%\copyq-${{ steps.version.outputs.version }}" ^
+            /DSource="%GITHUB_WORKSPACE%" ^
+            "%GITHUB_WORKSPACE%\shared\copyq.iss"
+
+      - name: Upload portable zip
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: test-logs
-          path: |
-            ${{ runner.workspace }}/build/copyq/Windows/**/*.log*
-          if-no-files-found: ignore
+          name: copyq-${{ steps.version.outputs.version }}.zip
+          path: copyq-${{ steps.version.outputs.version }}.zip
+
+      - name: Upload installer
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: copyq-${{ steps.version.outputs.version }}-setup.exe
+          path: copyq-${{ steps.version.outputs.version }}-setup.exe
