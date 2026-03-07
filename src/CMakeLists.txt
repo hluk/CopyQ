@@ -13,11 +13,12 @@ file(GLOB copyq_FORMS
     ui/*.ui
     )
 
+# translations
+file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
+
 set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
-set(copyq_DEFINITIONS ${${copyq_qt}Widgets_DEFINITIONS})
-
 include(notifications.cmake)
 include(platform/platform.cmake)
 
@@ -30,12 +31,6 @@ if (USE_QXT)
     list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut.cpp)
     list(APPEND copyq_DEFINITIONS QXT_STATIC COPYQ_GLOBAL_SHORTCUTS)
 endif()
-
-# translations
-file(GLOB copyq_TRANSLATIONS ../translations/*.ts)
-
-find_package(${copyq_qt}LinguistTools REQUIRED)
-qt_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 
 qt_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
 qt_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
@@ -64,6 +59,12 @@ set(copyq_COMPILE
     ${copyq_VERSION_FILE}
     )
 add_library(copyq-common OBJECT ${copyq_COMPILE})
+
+find_package(${copyq_qt} REQUIRED COMPONENTS LinguistTools)
+qt_add_translations(copyq-common
+    TS_FILES ${copyq_TRANSLATIONS}
+    QM_FILES_OUTPUT_VARIABLE copyq_QM
+)
 
 if (NOT copyq_version)
     message(FATAL_ERROR "Application version is unset")
@@ -129,8 +130,8 @@ endforeach()
 
 set_target_properties(copyq-common PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
-target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
 target_link_libraries(copyq-common ${copyq_LIBRARIES})
+target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
 target_include_directories(copyq-common PRIVATE ${CMAKE_CURRENT_BINARY_DIR} .)
 target_include_directories(${COPYQ_EXECUTABLE_NAME} PRIVATE .)
 
