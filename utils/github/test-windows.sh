@@ -6,7 +6,7 @@
 #   GPGPATH        - path to GPG binaries
 #
 # Run from the build directory containing copyq-tests.exe.
-set -exuo pipefail
+set -xuo pipefail
 
 export PATH="$GPGPATH:$PATH"
 mkdir -p ~/.gnupg
@@ -38,9 +38,19 @@ done
 
 echo "Running ${#run_tests[@]} of $(echo "$all_tests" | wc -w) core tests (skipping ${#SKIP_TESTS[@]} platform-independent tests)"
 
+exit_code=0
+
 # Run selected core tests first. Passing test names as arguments disables
 # plugin tests (see tests.cpp), so we run plugins separately below.
-"$TESTS_BIN" "${run_tests[@]}"
+"$TESTS_BIN" "${run_tests[@]}" || exit_code=$?
+
+echo "Core tests exit code: $exit_code"
 
 # Run all plugin tests (these exercise Windows-specific plugin behavior).
-"$TESTS_BIN" PLUGINS:.
+"$TESTS_BIN" PLUGINS:. || {
+    plugin_exit=$?
+    echo "Plugin tests exit code: $plugin_exit"
+    exit_code=$((exit_code > 0 ? exit_code : plugin_exit))
+}
+
+exit $exit_code
