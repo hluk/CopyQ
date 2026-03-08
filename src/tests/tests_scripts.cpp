@@ -647,8 +647,15 @@ void Tests::commandCopy()
     WAIT_FOR_CLIPBOARD2("B", "DATA");
 
     // Test copying UTF-8 text.
-    RUN("--" << "copy({[mimeText]: '\\\\u2705', [mimeTextUtf8]: '✅'})", "true\n");
-    WAIT_FOR_CLIPBOARD2("✅", mimeTextUtf8);
+    // On macOS, text/plain and text/plain;charset=utf-8 map to the same UTI
+    // (public.utf8-plain-text), so setting both with different values causes
+    // the pasteboard to return the wrong one. Only set mimeTextUtf8 on macOS.
+#ifdef Q_OS_MAC
+    RUN("--" << "copy({[mimeTextUtf8]: '\u2705'})", "true\n");
+#else
+    RUN("--" << "copy({[mimeText]: '\\\\u2705', [mimeTextUtf8]: '\u2705'})", "true\n");
+#endif
+    WAIT_FOR_CLIPBOARD2("\u2705", mimeTextUtf8);
 
     RUN( Args() << "copy"
          << "DATA3" << "C"
