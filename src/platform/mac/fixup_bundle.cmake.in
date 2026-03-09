@@ -9,65 +9,73 @@ set(_bundle "@BUNDLE@")
 set(_libpaths "@COPYQ_DEPLOY_LIBPATHS@")
 set(_fwk_dir "${_bundle}/Contents/Frameworks")
 
-message(STATUS "Fixup bundle: searching for missing deps in: ${_libpaths}")
+# Collect all Mach-O binaries (dylibs + framework executables) under directories.
+function(collect_bundle_binaries out_var)
+    set(_result "")
+    foreach(_dir ${ARGN})
+        file(GLOB_RECURSE _dylibs "${_dir}/*.dylib")
+        list(APPEND _result ${_dylibs})
+        file(GLOB_RECURSE _fwk_files "${_dir}/*.framework/Versions/*")
+        foreach(_f ${_fwk_files})
+            get_filename_component(_name "${_f}" NAME)
+            if(NOT IS_DIRECTORY "${_f}" AND NOT IS_SYMLINK "${_f}" AND NOT _name MATCHES "\\.")
+                list(APPEND _result "${_f}")
+            endif()
+        endforeach()
+    endforeach()
+    set(${out_var} ${_result} PARENT_SCOPE)
+endfunction()
 
-# Iterate up to 5 times to handle transitive dependencies.
-foreach(_iter RANGE 1 5)
-    # Gather all binaries in the bundle.
-    file(GLOB_RECURSE _bundle_bins
-        "${_bundle}/Contents/Frameworks/*.dylib"
-        "${_bundle}/Contents/PlugIns/*.dylib"
+# Return all @rpath-relative references from a binary via otool -L.
+function(get_rpath_deps bin out_var)
+    execute_process(
+        COMMAND otool -L "${bin}"
+        OUTPUT_VARIABLE _output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
     )
-    # Also gather framework binaries (files without extension inside Versions/X/).
-    file(GLOB_RECURSE _fwk_bins "${_bundle}/Contents/Frameworks/*.framework/Versions/*")
-    foreach(_fb ${_fwk_bins})
-        get_filename_component(_fb_name "${_fb}" NAME)
-        if(NOT IS_DIRECTORY "${_fb}" AND NOT IS_SYMLINK "${_fb}" AND NOT _fb_name MATCHES "\\.")
-            list(APPEND _bundle_bins "${_fb}")
+    set(_refs "")
+    string(REPLACE "\n" ";" _lines "${_output}")
+    foreach(_line ${_lines})
+        if(_line MATCHES "^[ \t]+@rpath/([^ ]+)")
+            list(APPEND _refs "${CMAKE_MATCH_1}")
         endif()
     endforeach()
+    set(${out_var} ${_refs} PARENT_SCOPE)
+endfunction()
+
+# --- Phase 1: Copy missing transitive dependencies into the bundle. ---
+message(STATUS "Fixup bundle: searching for missing deps in: ${_libpaths}")
+foreach(_iter RANGE 1 5)
+    collect_bundle_binaries(_bins "${_bundle}/Contents/Frameworks" "${_bundle}/Contents/PlugIns")
 
     set(_found_new FALSE)
-    foreach(_bin ${_bundle_bins})
-        if(NOT EXISTS "${_bin}" OR IS_DIRECTORY "${_bin}" OR IS_SYMLINK "${_bin}")
-            continue()
-        endif()
-
-        execute_process(
-            COMMAND otool -L "${_bin}"
-            OUTPUT_VARIABLE _deps
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            ERROR_QUIET
-        )
-
-        string(REPLACE "\n" ";" _dep_lines "${_deps}")
-        foreach(_line ${_dep_lines})
-            if(_line MATCHES "^[ \t]+@rpath/([^ ]+)")
-                set(_rel "${CMAKE_MATCH_1}")
-                if(NOT EXISTS "${_fwk_dir}/${_rel}")
-                    # Try to find in search dirs.
-                    foreach(_sd ${_libpaths})
-                        if(EXISTS "${_sd}/${_rel}")
-                            # Framework or dylib?
-                            if(_rel MATCHES "^([^/]+\\.framework)/")
-                                set(_fname "${CMAKE_MATCH_1}")
-                                if(NOT EXISTS "${_fwk_dir}/${_fname}")
-                                    message(STATUS "  Bundling framework: ${_fname}")
-                                    file(COPY "${_sd}/${_fname}" DESTINATION "${_fwk_dir}")
-                                    set(_found_new TRUE)
-                                endif()
-                            else()
-                                get_filename_component(_dest "${_fwk_dir}/${_rel}" DIRECTORY)
-                                file(MAKE_DIRECTORY "${_dest}")
-                                message(STATUS "  Bundling library: ${_rel}")
-                                file(COPY "${_sd}/${_rel}" DESTINATION "${_dest}")
-                                set(_found_new TRUE)
-                            endif()
-                            break()
-                        endif()
-                    endforeach()
-                endif()
+    foreach(_bin ${_bins})
+        get_rpath_deps("${_bin}" _refs)
+        foreach(_rel ${_refs})
+            if(EXISTS "${_fwk_dir}/${_rel}")
+                continue()
             endif()
+            foreach(_sd ${_libpaths})
+                if(NOT EXISTS "${_sd}/${_rel}")
+                    continue()
+                endif()
+                if(_rel MATCHES "^([^/]+\\.framework)/")
+                    set(_fname "${CMAKE_MATCH_1}")
+                    if(NOT EXISTS "${_fwk_dir}/${_fname}")
+                        message(STATUS "  Bundling framework: ${_fname}")
+                        file(COPY "${_sd}/${_fname}" DESTINATION "${_fwk_dir}")
+                        set(_found_new TRUE)
+                    endif()
+                else()
+                    get_filename_component(_dest "${_fwk_dir}/${_rel}" DIRECTORY)
+                    file(MAKE_DIRECTORY "${_dest}")
+                    message(STATUS "  Bundling library: ${_rel}")
+                    file(COPY "${_sd}/${_rel}" DESTINATION "${_dest}")
+                    set(_found_new TRUE)
+                endif()
+                break()
+            endforeach()
         endforeach()
     endforeach()
 
@@ -77,43 +85,17 @@ foreach(_iter RANGE 1 5)
     endif()
 endforeach()
 
-# Rewrite @rpath references to @executable_path/../Frameworks/.
-file(GLOB_RECURSE _all_bins
-    "${_bundle}/Contents/Frameworks/*.dylib"
-    "${_bundle}/Contents/PlugIns/*.dylib"
-)
-file(GLOB_RECURSE _all_fwk_bins "${_bundle}/Contents/Frameworks/*.framework/Versions/*")
-foreach(_fb ${_all_fwk_bins})
-    get_filename_component(_fb_name "${_fb}" NAME)
-    if(NOT IS_DIRECTORY "${_fb}" AND NOT IS_SYMLINK "${_fb}" AND NOT _fb_name MATCHES "\\.")
-        list(APPEND _all_bins "${_fb}")
-    endif()
-endforeach()
-
+# --- Phase 2: Rewrite @rpath references to @executable_path/../Frameworks/. ---
+collect_bundle_binaries(_all_bins "${_bundle}/Contents/Frameworks" "${_bundle}/Contents/PlugIns")
 foreach(_bin ${_all_bins})
-    if(NOT EXISTS "${_bin}" OR IS_DIRECTORY "${_bin}" OR IS_SYMLINK "${_bin}")
-        continue()
-    endif()
-
-    execute_process(
-        COMMAND otool -L "${_bin}"
-        OUTPUT_VARIABLE _deps
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
-    )
-
-    string(REPLACE "\n" ";" _dep_lines "${_deps}")
-    foreach(_line ${_dep_lines})
-        if(_line MATCHES "^[ \t]+(@rpath/[^ ]+)")
-            set(_old "${CMAKE_MATCH_1}")
-            string(REPLACE "@rpath/" "" _rel "${_old}")
-            if(EXISTS "${_fwk_dir}/${_rel}")
-                set(_new "@executable_path/../Frameworks/${_rel}")
-                execute_process(
-                    COMMAND install_name_tool -change "${_old}" "${_new}" "${_bin}"
-                    ERROR_QUIET
-                )
-            endif()
+    get_rpath_deps("${_bin}" _refs)
+    foreach(_rel ${_refs})
+        if(EXISTS "${_fwk_dir}/${_rel}")
+            execute_process(
+                COMMAND install_name_tool -change
+                    "@rpath/${_rel}" "@executable_path/../Frameworks/${_rel}" "${_bin}"
+                ERROR_QUIET
+            )
         endif()
     endforeach()
 endforeach()
