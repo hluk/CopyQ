@@ -8,8 +8,6 @@ on:
   pull_request:
     branches: [master]
 
-permissions:
-  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -47,7 +45,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: Enable ccache
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
@@ -95,21 +93,29 @@ jobs:
         with:
           configurePreset: '${{ matrix.cmake_preset }}'
           buildPreset: '${{ matrix.cmake_preset }}'
-          packagePreset: '${{ matrix.cmake_preset }}'
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
+      - name: Get version string
+        id: version
+        run: |
+          version=$(git describe --tags --always HEAD | sed -E \
+            -e 's/^v([0-9]+\.[0-9]+\.[0-9]+)/\1/' \
+            -e 's/-([0-9]+).*/\.\1/')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Version: $version"
+
       - name: Create macOS bundle
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
         # Retry cpack due to frequent errors: "hdiutil: create failed - Resource busy"
-        run: cpack || cpack || cpack && mv -v copyq-*.dmg CopyQ.dmg
+        run: (cpack || cpack || cpack) && mv -v copyq-*.dmg 'CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
 
       - name: Upload macOS bundle
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v4
         with:
-          name: 'CopyQ${{ matrix.bundle_suffix }}.dmg'
-          path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ.dmg'
+          name: 'CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
+          path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
 
       - name: Test
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
@@ -124,14 +130,18 @@ jobs:
           if-no-files-found: ignore
 
 
-      - name: Rename DMG for release
-        if: startsWith(github.ref, 'refs/tags/v')
-        working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
-        run: mv CopyQ.dmg 'CopyQ${{ matrix.bundle_suffix }}.dmg'
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
 
       - name: Upload to release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
         with:
           draft: true
-          files: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ${{ matrix.bundle_suffix }}.dmg'
+          files: 'CopyQ-*/*.dmg'

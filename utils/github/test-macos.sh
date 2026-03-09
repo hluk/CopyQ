@@ -1,7 +1,7 @@
 #!/bin/bash
 set -xeuo pipefail
 
-hdiutil attach CopyQ.dmg
+hdiutil attach CopyQ*.dmg
 ls -Rl /Volumes
 app_bundle_path=$(echo /Volumes/copyq-*/CopyQ.app)
 executable="$app_bundle_path/Contents/MacOS/CopyQ"
@@ -35,7 +35,7 @@ export COPYQ_TESTS_EXECUTABLE="$executable"
 echo '--- Checking bundle for unresolved @rpath references ---'
 frameworks_dir="$app_bundle_path/Contents/Frameworks"
 unresolved=$(
-    find "$app_bundle_path" -type f \( -name '*.dylib' -o -perm +111 \) -print0 |
+    find "$app_bundle_path" -type f \( -name '*.dylib' -o -perm /111 \) -print0 |
     xargs -0 otool -L 2>/dev/null |
     grep -o '@rpath/[^ ]*' |
     sort -u |
@@ -56,6 +56,14 @@ echo 'OK: All @rpath references resolve within the bundle.'
 # Verify minimum macOS deployment target is at most 13.0.
 echo '--- Checking minimum macOS version ---'
 min_version=$(otool -l "$executable" | awk '/LC_BUILD_VERSION/{found=1} found && /minos/{print $2; exit}')
+if [ -z "$min_version" ]; then
+    # Fallback: try LC_VERSION_MIN_MACOSX
+    min_version=$(otool -l "$executable" | awk '/LC_VERSION_MIN_MACOSX/{found=1} found && /version/{print $2; exit}')
+fi
+if [ -z "$min_version" ]; then
+    echo 'ERROR: Could not determine minimum macOS version from binary.'
+    exit 1
+fi
 echo "Minimum macOS version: $min_version"
 major=${min_version%%.*}
 if [ "$major" -gt 13 ]; then
