@@ -24,13 +24,16 @@ Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 
 # Download Packages
 
-Download:
+Pushing the version tag triggers GitHub Actions workflows that build and upload
+packages to the draft GitHub Release automatically:
 
-- Binaries for Windows from [AppVeyor](https://ci.appveyor.com/project/hluk/copyq):
+- Windows installer (`copyq-VERSION-setup.exe`)
+- Windows portable zip (`copyq-VERSION.zip`)
+- macOS Intel DMG (`CopyQ-macos-13.dmg`)
+- macOS Apple Silicon DMG (`CopyQ-macos-12-m1.dmg`)
 
-      $COPYQ_SOURCE/utils/download_window_builds.sh 14.0.0
+Check the [Actions tab](https://github.com/hluk/CopyQ/actions) for build progress.
 
-- Binaries for OS X from [github](https://github.com/hluk/CopyQ/releases)
 - Create source package:
 
       $COPYQ_SOURCE/utils/create_source_package.sh 14.0.0
