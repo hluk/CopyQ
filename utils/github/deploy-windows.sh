@@ -71,6 +71,7 @@ cp -v "$OPENSSL_ROOT_DIR"/bin/libssl-*.dll "$DEST"
     --no-compiler-runtime \
     --no-opengl-sw \
     --no-quick \
+    --skip-plugin-types qmltooling,generic,networkinformation \
     "${kf_libraries[@]}" \
     "${crypto_libraries[@]}" \
     "$DEST/copyq.exe"
