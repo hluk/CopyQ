@@ -1,0 +1,14 @@
+# Deploy script for CopyQ macOS bundle.
+# Generated from deploy.cmake.in by configure_file(@ONLY).
+
+include("@QT_DEPLOY_SUPPORT@")
+
+set(_bundle "@BUNDLE@")
+
+# Run macdeployqt for Qt libraries and plugins.
+qt_deploy_runtime_dependencies(
+    EXECUTABLE "${_bundle}"
+    GENERATE_QT_CONF
+    VERBOSE
+    NO_APP_STORE_COMPLIANCE
+)
