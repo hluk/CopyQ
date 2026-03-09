@@ -58,7 +58,7 @@ build_dep() {
         done
     fi
 
-    # Configure + build + install.
+    # Configure + build.
     cmake -B "$BUILD_DIR/$name" -S "$src_dir" -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
@@ -67,7 +67,12 @@ build_dep() {
         "${extra_cmake_args[@]}"
 
     cmake --build "$BUILD_DIR/$name" --parallel
-    cmake --install "$BUILD_DIR/$name"
+}
+
+# Install a previously built dependency.
+#   install_dep NAME
+install_dep() {
+    cmake --install "$BUILD_DIR/$1"
 }
 
 # Group A: No inter-dependencies, build in parallel.
@@ -91,6 +96,9 @@ build_dep extra-cmake-modules "$KF_FULLVER" "$KF_BASE_URL" &
 ecm_pid=$!
 
 wait "$qca_pid" "$qtkeychain_pid" "$ecm_pid"
+install_dep qca
+install_dep qtkeychain
+install_dep extra-cmake-modules
 
 # Group B: Depend on ECM.
 build_dep kconfig "$KF_FULLVER" "$KF_BASE_URL" \
@@ -102,6 +110,8 @@ build_dep kwindowsystem "$KF_FULLVER" "$KF_BASE_URL" &
 kwindowsystem_pid=$!
 
 wait "$kconfig_pid" "$kwindowsystem_pid"
+install_dep kconfig
+install_dep kwindowsystem
 
 # Group C: Depend on kconfig + kwindowsystem.
 build_dep knotifications "$KF_FULLVER" "$KF_BASE_URL" \
@@ -113,5 +123,7 @@ build_dep kstatusnotifieritem "$KF_FULLVER" "$KF_BASE_URL" \
 kstatusnotifieritem_pid=$!
 
 wait "$knotifications_pid" "$kstatusnotifieritem_pid"
+install_dep knotifications
+install_dep kstatusnotifieritem
 
 echo "All dependencies built successfully."

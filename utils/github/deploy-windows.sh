@@ -67,6 +67,8 @@ cp -v "$OPENSSL_ROOT_DIR"/bin/libssl-*.dll "$DEST"
 "$QT_ROOT_DIR/bin/windeployqt" --help
 "$QT_ROOT_DIR/bin/windeployqt" \
     --no-system-d3d-compiler \
+    --no-system-dxc-compiler \
+    --no-compiler-runtime \
     --no-opengl-sw \
     --no-quick \
     "${kf_libraries[@]}" \
