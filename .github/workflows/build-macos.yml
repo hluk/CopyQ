@@ -11,6 +11,14 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  QT_VERSION: '6.10.2'
+  KF_VERSION: '6.23'
+  KF_PATCH: '0'
+  KF_BRANCH: stable
+  QCA_VERSION: '2.3.10'
+  QTKEYCHAIN_VERSION: '0.15.0'
+
 jobs:
   build:
     name: ${{matrix.buildname}}
@@ -41,17 +49,42 @@ jobs:
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
         with:
           key: ${{ github.job }}-${{ matrix.os }}
+          max-size: 1G
 
       - name: Set up ccache
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
-      - name: Install dependencies
-        env:
-          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
-          HOMEBREW_NO_AUTO_UPDATE: 1
-          HOMEBREW_NO_INSTALL_CLEANUP: 1
-        run: '${{github.workspace}}/utils/github/install-macos.sh'
+      - name: Install Qt
+        uses: jurplel/install-qt-action@d325aaf2a8baeeda41ad0b5d39f84a6af9bcf005 # v4
+        with:
+          version: ${{ env.QT_VERSION }}
+          modules: qtimageformats qt5compat
+          cache: true
+          set-env: true
+
+      - name: Set up dependency paths
+        run: |
+          DEPS_PREFIX=$GITHUB_WORKSPACE/deps/install
+          # install-qt-action sets QT_ROOT_DIR but may not set CMAKE_PREFIX_PATH.
+          echo "DEPS_PREFIX=$DEPS_PREFIX" >> "$GITHUB_ENV"
+          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${QT_ROOT_DIR}/lib/cmake" >> "$GITHUB_ENV"
+
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ github.workspace }}/deps/install
+          key: >-
+            macos-deps-kf${{ env.KF_VERSION }}.${{ env.KF_PATCH
+            }}-qca${{ env.QCA_VERSION
+            }}-qtkeychain${{ env.QTKEYCHAIN_VERSION
+            }}-${{ runner.arch
+            }}-${{ hashFiles('utils/patches/**') }}
+
+      - name: Build dependencies
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: '${{ github.workspace }}/utils/github/build-macos-deps.sh'
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
