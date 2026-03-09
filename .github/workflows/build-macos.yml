@@ -4,8 +4,12 @@ name: macOS
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
     branches: [master]
+
+permissions:
+  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -118,3 +122,16 @@ jobs:
           name: 'crash-reports${{ matrix.bundle_suffix }}'
           path: '~/Library/Logs/DiagnosticReports/*'
           if-no-files-found: ignore
+
+
+      - name: Rename DMG for release
+        if: startsWith(github.ref, 'refs/tags/v')
+        working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
+        run: mv CopyQ.dmg 'CopyQ${{ matrix.bundle_suffix }}.dmg'
+
+      - name: Upload to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
+        with:
+          draft: true
+          files: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ${{ matrix.bundle_suffix }}.dmg'

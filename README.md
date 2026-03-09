@@ -4,7 +4,7 @@
 [![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 [![Linux Build Status](https://github.com/hluk/CopyQ/actions/workflows/build-linux.yml/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3ALinux)
 [![macOS Build Status](https://github.com/hluk/CopyQ/actions/workflows/build-macos.yml/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3AmacOS)
-[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
+[![Windows Build Status](https://github.com/hluk/CopyQ/actions/workflows/build-windows.yml/badge.svg?branch=master&event=push)](https://github.com/hluk/CopyQ/actions?query=branch%3Amaster+event%3Apush+workflow%3AWindows)
 [![Coverage Status](https://codecov.io/gh/hluk/CopyQ/branch/master/graph/badge.svg)](https://codecov.io/gh/hluk/CopyQ)
 
 CopyQ is an advanced clipboard manager with powerful editing and scripting features.
@@ -73,8 +73,7 @@ choco install copyq
 
 ### macOS
 
-macOS 13 and above are supported (this mainly depends on [Qt in
-Homebrew](https://github.com/Homebrew/homebrew-core/blob/main/Formula/q/qt.rb)).
+macOS 13 and above are supported (this mainly depends on the [Qt version](https://doc.qt.io/qt-6/macos.html)).
 
 [![Homebrew package](https://repology.org/badge/version-for-repo/homebrew_casks/copyq.svg)](https://repology.org/metapackage/copyq)
 

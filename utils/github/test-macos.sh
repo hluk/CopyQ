@@ -30,9 +30,36 @@ export COPYQ_TESTS_SKIP_SLOW_CLIPBOARD=1
 export COPYQ_TESTS_EXECUTABLE="$executable"
 ./copyq-tests
 
-# Verify the bundle is self-contained by checking linked libraries.
-echo "--- Checking bundle dependencies ---"
-otool -L "$executable"
-otool -L "$app_bundle_path/Contents/PlugIns/"*/*.dylib 2>/dev/null || true
-otool -L "$app_bundle_path/Contents/PlugIns/copyq/"* 2>/dev/null || true
-otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/*/Qt* 2>/dev/null || true
+# Verify the bundle is self-contained: every @rpath reference resolves to a
+# library that is actually present in the Frameworks directory.
+echo '--- Checking bundle for unresolved @rpath references ---'
+frameworks_dir="$app_bundle_path/Contents/Frameworks"
+unresolved=$(
+    find "$app_bundle_path" -type f \( -name '*.dylib' -o -perm +111 \) -print0 |
+    xargs -0 otool -L 2>/dev/null |
+    grep -o '@rpath/[^ ]*' |
+    sort -u |
+    while read -r ref; do
+        rel=${ref#@rpath/}
+        if [ ! -e "$frameworks_dir/$rel" ]; then
+            echo "$ref"
+        fi
+    done || true
+)
+if [ -n "$unresolved" ]; then
+    echo 'ERROR: Unresolved @rpath references in bundle:'
+    echo "$unresolved"
+    exit 1
+fi
+echo 'OK: All @rpath references resolve within the bundle.'
+
+# Verify minimum macOS deployment target is at most 13.0.
+echo '--- Checking minimum macOS version ---'
+min_version=$(otool -l "$executable" | awk '/LC_BUILD_VERSION/{found=1} found && /minos/{print $2; exit}')
+echo "Minimum macOS version: $min_version"
+major=${min_version%%.*}
+if [ "$major" -gt 13 ]; then
+    echo "ERROR: Minimum macOS version $min_version exceeds 13.x"
+    exit 1
+fi
+echo 'OK: Minimum macOS version is acceptable.'
