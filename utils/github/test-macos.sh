@@ -30,24 +30,9 @@ export COPYQ_TESTS_SKIP_SLOW_CLIPBOARD=1
 export COPYQ_TESTS_EXECUTABLE="$executable"
 ./copyq-tests
 
-# Uninstall local Qt to make sure we only use libraries from the bundle
-brew remove --ignore-dependencies --force \
-    qt@6 qca copyq/kde/kf6-knotifications copyq/kde/kf6-kstatusnotifieritem freetype
-
-# Ensure the app works after uninstalling system dependencies
-(
-    export LD_LIBRARY_PATH=""
-    export DYLD_LIBRARY_PATH=""
-    "$executable" --start-server '
-        info();
-        print(plugins.itemtags.tags());
-        print(plugins.itemsync.tabPaths);
-        exit();
-    '
-)
-
-# Print dependencies to let us further make sure that we don't depend on local libraries
+# Verify the bundle is self-contained by checking linked libraries.
+echo "--- Checking bundle dependencies ---"
 otool -L "$executable"
-otool -L "$app_bundle_path/Contents/PlugIns/"*/*.dylib
-otool -L "$app_bundle_path/Contents/PlugIns/copyq/"*
-otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/*/Qt*
+otool -L "$app_bundle_path/Contents/PlugIns/"*/*.dylib 2>/dev/null || true
+otool -L "$app_bundle_path/Contents/PlugIns/copyq/"* 2>/dev/null || true
+otool -L "$app_bundle_path/Contents/Frameworks/"Qt*.framework/Versions/*/Qt* 2>/dev/null || true

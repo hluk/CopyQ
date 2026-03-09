@@ -68,7 +68,7 @@ jobs:
           DEPS_PREFIX=$GITHUB_WORKSPACE/deps/install
           # install-qt-action sets QT_ROOT_DIR but may not set CMAKE_PREFIX_PATH.
           echo "DEPS_PREFIX=$DEPS_PREFIX" >> "$GITHUB_ENV"
-          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX}/lib/cmake;${DEPS_PREFIX}/share/ECM/cmake;${QT_ROOT_DIR}/lib/cmake" >> "$GITHUB_ENV"
+          echo "CMAKE_PREFIX_PATH=${DEPS_PREFIX};${QT_ROOT_DIR}" >> "$GITHUB_ENV"
 
       - name: Cache dependencies
         id: cache-deps
