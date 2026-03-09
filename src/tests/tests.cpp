@@ -465,6 +465,13 @@ public:
                 const auto path = settingsDir.absoluteFilePath(fileName);
                 QFile settingsFile(path);
                 if ( settingsFile.exists() && !settingsFile.remove() ) {
+#ifdef Q_OS_WIN
+                    // On Windows, a monitor subprocess may briefly hold
+                    // a lock file after the server exits.
+                    SleepTimer t(5000);
+                    while ( !settingsFile.remove() && t.sleep() ) {}
+                    if ( settingsFile.exists() )
+#endif
                     return QString::fromLatin1("Failed to remove settings file \"%1\": %2")
                         .arg(path, settingsFile.errorString())
                         .toUtf8();
