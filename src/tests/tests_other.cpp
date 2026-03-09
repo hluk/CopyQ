@@ -544,11 +544,14 @@ void Tests::pasteFromMainWindow()
         [&]{ RUN("dialog('text')", "TEST\n"); },
         [&]{
             KEYS("focus::QLineEdit<.*:QDialog");
+
+            QTest::qWait(250);
             RUN("show", "");
+            QTest::qWait(250);
             KEYS(clipboardBrowserId << "ENTER");
 
             WAIT_FOR_CLIPBOARD("TEST");
-            KEYS("focus::QLineEdit<.*:QDialog" << "ENTER");
+            KEYS("focus::QLineEdit'TEST'<.*:QDialog" << "ENTER");
         }
     );
 }
