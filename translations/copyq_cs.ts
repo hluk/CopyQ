@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
@@ -3915,12 +3915,12 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation>Nepodařilo se exportovat soubor „%1"</translation>
+        <translation>Nepodařilo se exportovat soubor „%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation>Nepodařilo se importovat soubor „%1"</translation>
+        <translation>Nepodařilo se importovat soubor „%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="720"/>
@@ -4078,7 +4078,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Název záložky musí být neprázdný a unikátní&lt;br /&gt;
+        <translation>Název záložky musí být neprázdný a unikátní.&lt;br /&gt;
 Záložka &lt;b&gt;Zá&amp;amp;pisky&lt;/b&gt; může být otevřena pomocí &lt;b&gt;Alt+p&lt;/b&gt;.&lt;br /&gt;
 Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.</translation>
     </message>
