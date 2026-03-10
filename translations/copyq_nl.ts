@@ -1301,11 +1301,6 @@ Set to 0 not to unload tabs.</source>
 Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="122"/>
-        <source> minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
         <translation type="unfinished"></translation>
@@ -1315,11 +1310,6 @@ Stel in op 0 om tabbladen nooit in de slaapstand te zetten.</translation>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configtabhistory.ui" line="164"/>
-        <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4060,11 +4050,6 @@ Set to 0 to use global setting.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/tabpropertieswidget.ui" line="111"/>
-        <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

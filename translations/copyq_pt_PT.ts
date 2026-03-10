@@ -1310,9 +1310,8 @@ Set to 0 not to unload tabs.</source>
 Definir para 0 para não descarregar os separadores.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="122"/>
         <source> minutes</source>
-        <translation> minutos</translation>
+        <translation type="vanished"> minutos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
@@ -1329,9 +1328,8 @@ Set to 0 to disable globally.</source>
 Escolha 0 para desactivar.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="164"/>
         <source> seconds</source>
-        <translation> segundos</translation>
+        <translation type="vanished"> segundos</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -4148,9 +4146,8 @@ Escolha 0 para usar a definição global.</translation>
         <translation>global</translation>
     </message>
     <message>
-        <location filename="../src/ui/tabpropertieswidget.ui" line="111"/>
         <source> seconds</source>
-        <translation> segundos</translation>
+        <translation type="vanished"> segundos</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>

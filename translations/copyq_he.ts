@@ -1224,11 +1224,6 @@ Set to 0 not to unload tabs.</source>
 הגדרת 0 כדי לא לפרוק לשוניות.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="122"/>
-        <source> minutes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
         <translation type="unfinished"></translation>
@@ -1238,11 +1233,6 @@ Set to 0 not to unload tabs.</source>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configtabhistory.ui" line="164"/>
-        <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3800,11 +3790,6 @@ Set to 0 to use global setting.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/tabpropertieswidget.ui" line="111"/>
-        <source> seconds</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
