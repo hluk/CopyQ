@@ -53,13 +53,8 @@ jobs:
           cache: true
           set-env: true
 
-      - name: Install OpenSSL
-        shell: pwsh
-        run: |
-          choco install openssl --no-progress -y
-          # Chocolatey installs OpenSSL to 'C:\Program Files\OpenSSL' (not OpenSSL-Win64).
-          $sslDir = if (Test-Path 'C:/Program Files/OpenSSL-Win64') { 'C:/Program Files/OpenSSL-Win64' } else { 'C:/Program Files/OpenSSL' }
-          echo "OPENSSL_ROOT_DIR=$sslDir" >> $env:GITHUB_ENV
+      - name: Set OpenSSL path
+        run: echo "OPENSSL_ROOT_DIR=C:/Program Files/OpenSSL" >> "$GITHUB_ENV"
 
       - name: Enable sccache
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
