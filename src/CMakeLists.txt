@@ -57,14 +57,18 @@ set(copyq_COMPILE
     ${copyq_SOURCES}
     ${copyq_FORMS_HEADERS}
     ${copyq_VERSION_FILE}
-    )
+   )
 add_library(copyq-common OBJECT ${copyq_COMPILE})
 
 find_package(${copyq_qt} REQUIRED COMPONENTS LinguistTools)
-qt_add_translations(copyq-common
-    TS_FILES ${copyq_TRANSLATIONS}
-    QM_FILES_OUTPUT_VARIABLE copyq_QM
-)
+if("${QT_VERSION_MAJOR}" STREQUAL "5")
+    qt5_add_translation(copyq_QM ${copyq_TRANSLATIONS})
+else()
+    qt_add_translations(copyq-common
+        TS_FILES ${copyq_TRANSLATIONS}
+        QM_FILES_OUTPUT_VARIABLE copyq_QM
+    )
+endif()
 
 if (NOT copyq_version)
     message(FATAL_ERROR "Application version is unset")
