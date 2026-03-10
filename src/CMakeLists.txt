@@ -61,7 +61,7 @@ set(copyq_COMPILE
 add_library(copyq-common OBJECT ${copyq_COMPILE})
 
 find_package(${copyq_qt} REQUIRED COMPONENTS LinguistTools)
-if("${QT_VERSION_MAJOR}" STREQUAL "5")
+if("${QT_DEFAULT_MAJOR_VERSION}" STREQUAL "5")
     qt5_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 else()
     qt_add_translations(copyq-common
