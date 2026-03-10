@@ -54,7 +54,7 @@ mkdir -p "$DEST/themes"
 cp -v "$GITHUB_WORKSPACE/shared/themes/"* "$DEST/themes"
 
 mkdir -p "$DEST/translations"
-cp -v "$BUILD_DIR/src/"*.qm "$DEST/translations" || true
+cp -v "$BUILD_DIR/src/"*.qm "$DEST/translations"
 
 mkdir -p "$DEST/plugins"
 cp -v "$BUILD_DIR/plugins/"*.dll "$DEST/plugins"
@@ -86,10 +86,10 @@ cp -v "$QT_ROOT_DIR/bin/Qt6Test.dll" "$DEST/"
 cp -v "$BUILD_DIR/src/itemtests.dll" "$DEST/"
 
 # Remove system-installed OpenSSL to verify bundled libs are used.
-rm -vf /c/Windows/System32/libcrypto-* || true
-rm -vf /c/Windows/System32/libssl-* || true
-rm -vf /c/Windows/SysWOW64/libcrypto-* || true
-rm -vf /c/Windows/SysWOW64/libssl-* || true
+rm -vf /c/Windows/System32/libcrypto-*
+rm -vf /c/Windows/System32/libssl-*
+rm -vf /c/Windows/SysWOW64/libcrypto-*
+rm -vf /c/Windows/SysWOW64/libssl-*
 
 # Verify the deployed binary works with only bundled libraries.
 OldPath=$PATH
