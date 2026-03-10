@@ -1311,11 +1311,6 @@ Set to 0 not to unload tabs.</source>
 Nastav na 0 pro zachování záložek v paměti.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabhistory.ui" line="122"/>
-        <source> minutes</source>
-        <translation> minut</translation>
-    </message>
-    <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
         <translation>Vyžadovat heslo po uplynutí intervalu:</translation>
@@ -1328,11 +1323,6 @@ Set to 0 to disable globally.</source>
         <translation>Časový limit v sekundách pro opětovné vyžádání hesla u šifrovaných záložek.
 
 Nastav na 0 pro globální vypnutí.</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configtabhistory.ui" line="164"/>
-        <source> seconds</source>
-        <translation> sekund</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -4138,11 +4128,6 @@ Nastav na 0 pro použití globálního nastavení.</translation>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
         <translation>globální</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/tabpropertieswidget.ui" line="111"/>
-        <source> seconds</source>
-        <translation> sekund</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
