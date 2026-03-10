@@ -422,6 +422,7 @@ void TabTree::updateCollapsedTabs(QList<QString> *tabs) const
 
 void TabTree::setCollapsedTabs(const QList<QString> &collapsedPaths)
 {
+    m_collapsedPaths = collapsedPaths;
     for (const auto &path : collapsedPaths) {
         QTreeWidgetItem *item = findTreeItem(path);
         if ( isTabGroup(item) )
@@ -579,7 +580,7 @@ void TabTree::dropEvent(QDropEvent *event)
         const QString oldPrefix = getTabPath(current);
 
         QSet<QTreeWidgetItem*> collapsedItems;
-        for ( QTreeWidgetItemIterator it(current); *it; ++it ) {
+        for ( QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it ) {
             auto item = *it;
             if ( !item->isExpanded() )
                 collapsedItems.insert(item);
@@ -679,6 +680,16 @@ void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
 void TabTree::showEvent(QShowEvent *event)
 {
     QTreeWidget::showEvent(event);
+
+    // Re-apply collapsed state after the first layout. QTreeWidget may
+    // auto-expand items during deferred layout before the widget is shown.
+    for (const auto &path : m_collapsedPaths) {
+        QTreeWidgetItem *item = findTreeItem(path);
+        if ( isTabGroup(item) )
+            item->setExpanded(false);
+    }
+    m_collapsedPaths.clear();
+
     updateSize();
 }
 

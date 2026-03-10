@@ -94,4 +94,5 @@ private:
 
     QTimer m_timerUpdate;
     QList<QTreeWidgetItem*> m_tabs;
+    QList<QString> m_collapsedPaths;
 };
