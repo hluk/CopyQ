@@ -4,6 +4,7 @@
 #include "tests.h"
 #include <QFile>
 #include <QRegularExpression>
+#include <QSettings>
 
 #include "common/config.h"
 
@@ -175,4 +176,38 @@ void Tests::dragNDropTreeTabPartialRenameFailure()
 
     RUN("tab", "a/x\na/y\nb/z\nCLIPBOARD\n");
     RUN("config('tabs')", "a/x\na/y\nb/z\nCLIPBOARD\n");
+}
+
+void Tests::dragNDropTreeTabKeepsCollapsedState()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
+
+    RUN("config" << "tab_tree" << "true", "true\n");
+    RUN("config('tabs', ['a/b','a/c','x'])", "a/b\na/c\nx\n");
+    WAIT_ON_OUTPUT("tab", "a/b\na/c\nx\nCLIPBOARD\n");
+
+    // Stop the server, inject collapsed state for group 'a', and restart.
+    const QString tabsIniPath = getConfigurationFilePath("_tabs.ini");
+    TEST( m_test->stopServer() );
+    {
+        QSettings settings(tabsIniPath, QSettings::IniFormat);
+        settings.setValue("TabWidget/collapsed_tabs", QStringList{"a"});
+        settings.sync();
+    }
+    TEST( m_test->startServer() );
+    RUN("show", "");
+
+    // Drag tab 'x' onto group 'a' \u2014 it becomes 'a/x'.
+    // Group 'a' was collapsed; it must stay collapsed after the move.
+    DRAG("tab_tree", TAB("x"), TAB("a"));
+    RUN("tab", "a/b\na/c\na/x\nCLIPBOARD\n");
+
+    // Verify collapsed state is preserved in the config file.
+    {
+        QSettings settings(tabsIniPath, QSettings::IniFormat);
+        const QStringList collapsed = settings.value("TabWidget/collapsed_tabs").toStringList();
+        QVERIFY2(collapsed.contains("a"),
+            qPrintable("Group 'a' should remain collapsed but collapsed_tabs = ["
+                       + collapsed.join(", ") + "]"));
+    }
 }

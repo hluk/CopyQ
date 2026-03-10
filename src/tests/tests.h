@@ -337,6 +337,7 @@ private slots:
     void dragNDropTreeTabNested();
     void dragNDropTreeTabChildCollision();
     void dragNDropTreeTabPartialRenameFailure();
+    void dragNDropTreeTabKeepsCollapsedState();
 
     void tabEncryption();
     void tabEncryptionPasswordNew();
