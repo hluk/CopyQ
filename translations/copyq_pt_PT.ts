@@ -3443,32 +3443,32 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao alterar a senha. A senha antiga ainda está activa. Veja os diários para mais detalhes.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Senha alterada com sucesso</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>A senha foi alterada com sucesso.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>A re-encriptar os separadores...</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>A re-encriptar o separador %1 de %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3477,12 +3477,16 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao encriptar os separadores seguintes:
+
+%1
+
+Por favor, veja os diários para mais detalhes.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao encriptar</translation>
     </message>
 </context>
 <context>
