@@ -1156,32 +1156,32 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Encrypt tab data on disk (requires password to be set)</source>
-        <translation type="unfinished"></translation>
+        <translation>对磁盘上的标签页数据进行加密（需要设置密码）</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Encrypt &amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>加密标签</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Use an available external key store for the encryption password (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</source>
-        <translation type="unfinished"></translation>
+        <translation>使用可用的外部密钥库作为加密密码（Windows 凭据存储、macOS 钥匙串、GNOME 密钥环、KWallet）</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>&amp;Use external key store</source>
-        <translation type="unfinished"></translation>
+        <translation>使用外部密钥库</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="204"/>
         <source>Change the password used to encrypt tab data</source>
-        <translation type="unfinished"></translation>
+        <translation>更改用于加密标签页数据的密码</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="207"/>
         <source>Change Encryption &amp;Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>更改加密方式和密码……</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1298,7 +1298,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>间隔一段时间后卸载标签页：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
@@ -1312,14 +1312,16 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>间隔一段时间后需要输入密码：</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="159"/>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
+        <translation>加密标签页再次需要输入密码的超时时间（秒）。
+
+设置为 0 可全局禁用。</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -2669,34 +2671,36 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="530"/>
         <source>Encryption Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>加密不可用</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="531"/>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
-        <translation type="unfinished"></translation>
+        <translation>加密功能不可用（详情请查看日志）。
+
+未来将可以对标签页数据进行加密和解密。</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>Import Password</source>
-        <translation type="unfinished"></translation>
+        <translation>导入密码</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="594"/>
         <source>Enter password for import:</source>
-        <translation type="unfinished"></translation>
+        <translation>请输入导入密码：</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="617"/>
         <source>Export Password</source>
-        <translation type="unfinished"></translation>
+        <translation>导出密码</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="618"/>
         <source>Enter password for export (empty for no encryption):</source>
-        <translation type="unfinished"></translation>
+        <translation>请输入导出密码（留空则不加密）：</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="857"/>
@@ -3335,38 +3339,38 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="155"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="265"/>
         <source>New Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>新标签页加密密码</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="266"/>
         <source>Enter new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>请输入新密码：</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>密码不匹配。请重试 (%1/%2)：</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>更改密码</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="338"/>
         <source>New password cannot be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>新密码不能为空。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="177"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>密码设置失败</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3374,84 +3378,84 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>密码尝试次数已达上限。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>确认加密密码</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>请重新输入密码以确认：</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>当前标签页加密密码</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>请输入当前用于加密标签页数据的密码：</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>密码无效。请重试 (%1/%2)：</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>密码验证失败</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>加密文件已损坏</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>加密文件丢失或损坏。严格模式无法自动恢复加密标签页。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
         <source>Change Password Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>更改密码失败</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>密码更改失败。您的旧密码仍然有效。请查看日志了解详情。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>密码更改成功</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>密码已成功更改。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>正在重新加密标签页……</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>正在重新加密标签页 %1 of %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3460,12 +3464,16 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>以下标签页加密失败：
+
+%1
+
+请查看日志了解详情。</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>加密失败</translation>
     </message>
 </context>
 <context>
@@ -3899,12 +3907,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>导出文件 &quot;%1&quot; 失败</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>导入文件 &quot;%1&quot; 失败</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="720"/>
@@ -4110,19 +4118,21 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>间隔一段时间后需要输入密码：</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>每个标签页再次需要输入加密密码的超时时间（以秒为单位）。
+
+设置为 0 可使用全局设置。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>全局</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
