@@ -60,17 +60,25 @@ QScreen *currentScreen()
 void raiseWindow(QWidget *window)
 {
     window->raise();
-    if (qApp->applicationState() == Qt::ApplicationActive)
-        return;
 
-    window->activateWindow();
-    QApplication::setActiveWindow(window);
-    QTimer::singleShot(0, window, [window]{
-        const auto wid = window->winId();
-        const auto platformWindow = platformNativeInterface()->getWindow(wid);
-        if (platformWindow)
-            platformWindow->raise();
-    });
+    // When the app is already active (e.g. dialog opened from the main
+    // window), the activation calls are redundant and can interfere with
+    // focus/key dispatch on some platforms.
+    if (QApplication::applicationState() != Qt::ApplicationActive) {
+        window->activateWindow();
+        QApplication::setActiveWindow(window);
+    }
+
+    // Synchronous platform raise: the window manager must process the
+    // raise before we return, otherwise macOS (and potentially other
+    // platforms) can suppress or hide the window before the raise takes
+    // effect.  A previous version deferred this via QTimer::singleShot(0),
+    // which caused tray menus and windows triggered by global shortcuts to
+    // require multiple attempts to appear.  (See issue #3445.)
+    const auto wid = window->winId();
+    const auto platformWindow = platformNativeInterface()->getWindow(wid);
+    if (platformWindow)
+        platformWindow->raise();
 }
 
 void WindowGeometryGuard::create(QWidget *window)

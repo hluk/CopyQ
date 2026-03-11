@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #include "copyqpasteboardmime.h"
+#include "cfref.h"
 
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -45,12 +46,10 @@ namespace {
 
     QString convertUtiOrMime(const QString &in, CFStringRef (*convert)(CFStringRef)) {
         NSString *inString = in.toNSString();
-        CFStringRef outRef = convert((__bridge CFStringRef)inString);
+        CFRef<CFStringRef> outRef = convert((__bridge CFStringRef)inString);
         QString out;
-        if (outRef) {
-            out = QString::fromNSString((__bridge NSString *)outRef);
-            CFRelease(outRef);
-        }
+        if (outRef)
+            out = QString::fromNSString((__bridge NSString *)outRef.get());
         return out;
     }
 

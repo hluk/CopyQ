@@ -192,3 +192,22 @@ void Tests::configTrayTabIsCurrent()
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
+
+void Tests::trayMenuToggleRapid()
+{
+    RUN("add" << "X" << "Y" << "Z", "");
+
+    // Verify the menu can be opened, closed, and reopened reliably.
+    // Regression test for #3445: on macOS, the first shortcut press
+    // failed to show the menu due to deferred focus-stealing.
+    for (int i = 0; i < 3; ++i) {
+        KEYS(clipboardBrowserId);
+        RUN("menu", "");
+        KEYS(trayMenuId << "ESCAPE");
+    }
+
+    // Final open + activate to confirm the menu is functional.
+    KEYS(clipboardBrowserId);
+    RUN("menu", "");
+    ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "Z");
+}

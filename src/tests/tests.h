@@ -52,6 +52,7 @@ private slots:
     void commandVisible();
     void commandToggle();
     void commandShowHide();
+    void commandShowHideRapid();
     void commandShowAt();
     void commandFocused();
 
@@ -219,6 +220,7 @@ private slots:
     void traySearch();
     void trayPaste();
     void trayShowHideAction();
+    void trayMenuToggleRapid();
 
     void pasteNext();
 
