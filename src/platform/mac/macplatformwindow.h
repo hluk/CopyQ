@@ -2,19 +2,15 @@
 
 #pragma once
 
+#include "objcstrong.h"
 
 #include "platform/platformwindow.h"
 
 // For WId
 #include <QWidget>
 
-#ifdef __OBJC__
 @class NSWindow;
 @class NSRunningApplication;
-#else
-using NSWindow = void;
-using NSRunningApplication = void;
-#endif
 
 class MacPlatformWindow final : public PlatformWindow
 {
@@ -40,7 +36,7 @@ private:
     // Don't allow copies
     Q_DISABLE_COPY(MacPlatformWindow)
 
-    long int m_windowNumber;
-    NSWindow *m_window;
-    NSRunningApplication *m_runningApplication;
+    long int m_windowNumber = -1;
+    ObjCStrong<NSWindow> m_window;
+    ObjCStrong<NSRunningApplication> m_runningApplication;
 };

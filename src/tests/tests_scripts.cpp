@@ -149,6 +149,21 @@ void Tests::commandShowHide()
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
+
+void Tests::commandShowHideRapid()
+{
+    // Verify the main window can be hidden and reshown reliably in
+    // rapid succession.  Regression test for #3445: deferred platform
+    // raise in raiseWindow() could prevent the window from appearing.
+    for (int i = 0; i < 3; ++i) {
+        RUN("visible", "true\n");
+        RUN("hide", "");
+        WAIT_ON_OUTPUT("visible", "false\n");
+
+        RUN("show", "");
+        WAIT_ON_OUTPUT("visible", "true\n");
+    }
+}
 void Tests::commandShowAt()
 {
     RUN("visible", "true\n");
@@ -737,7 +752,7 @@ void Tests::commandEditItem()
     KEYS("END" << ":LINE 1" << "F2");
     const auto expected = QByteArrayLiteral("TESTLINE 1");
 #ifdef Q_OS_WIN
-    const auto expectedClipboard = QByteArrayLiteral("<!--StartFragment-->TESTLINE 1<!--EndFragment-->", mimeHtml);
+    const auto expectedClipboard = QByteArrayLiteral("<!--StartFragment-->TESTLINE 1<!--EndFragment-->");
 #else
     const auto expectedClipboard = expected;
 #endif

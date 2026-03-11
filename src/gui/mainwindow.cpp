@@ -2155,6 +2155,13 @@ void MainWindow::activateMenuItem(ClipboardBrowserPlaceholder *placeholder, cons
     PlatformWindowPtr lastWindow = m_windowForMenuPaste;
 
     if ( m_options.trayItemPaste && !omitPaste && canPaste() ) {
+        // Raise the target window before paste so that getCurrentWindow()
+        // returns it even when the scripted paste() path is taken.  On
+        // macOS, closing the menu transitions the app to background, so
+        // without this raise getCurrentWindow() returns the wrong window.
+        if (lastWindow)
+            lastWindow->raise();
+
         if (isScriptOverridden(ScriptOverrides::Paste)) {
             COPYQ_LOG("Pasting item with paste()");
             runScript(QStringLiteral("paste()"));
@@ -2174,7 +2181,21 @@ bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
     }
 
     menu->popup( toScreen(pos, menu) );
+
+#ifdef Q_OS_MACOS
+    // On macOS, menus need the full activation sequence even when Qt
+    // considers the app already active (popup() created a Qt window, so
+    // applicationState() returns ApplicationActive even though macOS may
+    // not have granted real focus yet).  Flush events between activation
+    // and raiseWindow so the activation-policy change from
+    // ForegroundBackgroundFilter is fully processed before the
+    // platform-level focus steal.
+    menu->activateWindow();
+    QApplication::setActiveWindow(menu);
+    QApplication::processEvents();
+#endif
     raiseWindow(menu);
+
     return true;
 }
 
