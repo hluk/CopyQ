@@ -48,10 +48,16 @@ on global shortcut Win+Alt+T.
 Play Sound when Copying to Clipboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Following command will play an audio file whenever something is copied
-clipboard.
+The following commands will play an audio file whenever something is
+copied to the clipboard.
 
-On Windows:
+Windows
+^^^^^^^
+
+Plays the user-specified audio file whenever something is copied to the
+clipboard. By default, this adds to the sound associated to native
+notifications rather than replacing it, so you may want to use Qt
+(non-native) notifications to use this.
 
 .. code-block:: ini
 
@@ -63,7 +69,10 @@ On Windows:
     Automatic=true
     Icon=\xf028
 
-On Linux (requires VLC multimedia player):
+GNU/Linux
+^^^^^^^^^
+
+Requires VLC multimedia player:
 
 .. code-block:: ini
 
@@ -74,6 +83,8 @@ On Linux (requires VLC multimedia player):
          cvlc --play-and-exit ~/audio/example.mp3"
     Automatic=true
     Icon=\xf028
+
+`Alternative using the mpv player <https://github.com/hluk/copyq-commands/blob/master/commands/play-sound-when-copying-to-clipboard-linux.ini>`__
 
 Edit and Paste
 ~~~~~~~~~~~~~~
