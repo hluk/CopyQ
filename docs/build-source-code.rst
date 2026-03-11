@@ -26,9 +26,9 @@ The build requires:
 - `CMake <https://cmake.org/download/>`__
 - `Qt <https://download.qt.io/archive/qt/>`__
 
-Ubuntu
-^^^^^^
-On **Ubuntu** you can install all build dependencies with:
+Debian / Ubuntu
+^^^^^^^^^^^^^^^
+On **Debian** and derivatives you can install all build dependencies with:
 
 ::
 
@@ -37,10 +37,6 @@ On **Ubuntu** you can install all build dependencies with:
       cmake \
       extra-cmake-modules \
       git \
-      libqca-qt6-2 \
-      libqca-qt6-dev \
-      libqca-qt6-plugins \
-      libqt6svg6 \
       libqt6svg6-dev \
       libqt6waylandclient6 \
       libwayland-dev \
@@ -58,13 +54,21 @@ On **Ubuntu** you can install all build dependencies with:
       qt6-wayland-dev-tools \
       qtkeychain-qt6-dev
 
-On Ubuntu 25.04 and newer, you can also install `KF6` packages:
+
+On Debian 13 or Ubuntu 24.04 and newer, you can also install `QCA` packages:
 
 ::
 
     sudo apt install \
-      libkf6guiaddons \
-      libkf6guiaddons-dev \
+      libqca-qt6-dev \
+      libqca-qt6-plugins
+
+On Debian 13 or Ubuntu 25.04 and newer, you can also install `KF6` packages:
+
+::
+
+    sudo apt install \
+      libkf6guiaddons-dev
 
 Fedora / RHEL / CentOS
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -103,7 +107,8 @@ Build the source code with CMake and make or using an IDE of your choice (see ne
 
     cd CopyQ
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local .
-    # Add -DWITH_NATIVE_NOTIFICATIONS=OFF for Ubuntu systems without `KF6` packages
+    # Add -DWITH_QCA_ENCRYPTION=OFF for systems without `QCA` packages
+    # Add -DWITH_NATIVE_NOTIFICATIONS=OFF for systems without `KF6` packages
     make
     make install
 
