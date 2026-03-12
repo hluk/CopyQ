@@ -1134,32 +1134,32 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Encrypt tab data on disk (requires password to be set)</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрувати дані вкладок на диску (потрібно встановити пароль)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Encrypt &amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрувати &amp;вкладки</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Use an available external key store for the encryption password (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовувати зовнішнє сховище ключів для пароля шифрування (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>&amp;Use external key store</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Використовувати зовнішнє сховище ключів</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="204"/>
         <source>Change the password used to encrypt tab data</source>
-        <translation type="unfinished"></translation>
+        <translation>Зміна паролю для шифрування даних вкладки</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="207"/>
         <source>Change Encryption &amp;Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінити &amp;пароль шифрування...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1276,7 +1276,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Вивантажити вкладку через:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
@@ -1290,14 +1290,16 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимагати пароль через:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="159"/>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
+        <translation>Час в секундах для зашифрованих вкладок, після якого буде повторно запитуватись пароль.
+
+Встановіть 0, щоб глобально вимкнути це.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -2403,7 +2405,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set media type to &lt;strong&gt;-&lt;/strong&gt; (minus character) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; media type.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Вкажіть тип медіа як &lt;strong&gt;-&lt;/strong&gt; (символ мінусу), щоб ігнорувати файли. Усі інші невідомі або приховані файли ігноруються.&lt;/p&gt;
+        <translation>&lt;p&gt;Вкажіть для типу медіа &lt;strong&gt;-&lt;/strong&gt; (символ мінусу), щоб ігнорувати файли. Усі інші невідомі або приховані файли ігноруються.&lt;/p&gt;
 &lt;p&gt;Приклад: завантажувати розширення файлу&lt;strong&gt;txt&lt;/strong&gt; як тип медіа &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -2669,34 +2671,36 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="530"/>
         <source>Encryption Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрування недоступне</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="531"/>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Шифрування недоступне (подробиці див. в журналі).
+
+Можна буде зашифрувати та розшифровувати дані вкладок.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>Import Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Імпортувати пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="594"/>
         <source>Enter password for import:</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть пароль для імпорту:</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="617"/>
         <source>Export Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Експортувати пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="618"/>
         <source>Enter password for export (empty for no encryption):</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть пароль для експорту (якщо не вказати, шифрування не буде):</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1080"/>
@@ -3293,38 +3297,38 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="155"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="265"/>
         <source>New Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Новий пароль для шифрування вкладки</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="266"/>
         <source>Enter new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть новий пароль:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Паролі не збігаються. Спробуйте ще раз (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Змінити пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="338"/>
         <source>New password cannot be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Новий пароль не може бути порожнім.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="177"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалось встановити пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3332,84 +3336,84 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Забагато спроб ввести пароль.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Підтвердьте пароль шифрування</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть пароль ще раз:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Поточний пароль для шифрування вкладки</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Введіть поточний пароль для шифрування даних вкладки:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Недійсний пароль. Спробуйте ще раз (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося перевірити пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли шифрування пошкоджені</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Файли шифрування відсутні або пошкоджені. В суворому режимі не вдається автоматично відновити зашифровані вкладки.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
         <source>Change Password Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося змінити пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося змінити пароль. Ваш старий пароль все ще дійсний. Подробиці див. в журналі.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль успішно змінено</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль було успішно змінено.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Повторне шифрування вкладок...</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Скасувати</translation>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Повторне шифрування вкладки %1 з %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3418,12 +3422,16 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося зашифрувати наступні вкладки:
+
+%1
+
+Подробиці див. в журналі.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Помилка шифрування</translation>
     </message>
 </context>
 <context>
@@ -3805,12 +3813,12 @@ Use %1 in PROGRAM to pass text as argument.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося експортувати файл &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося імпортувати файл &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="720"/>
@@ -3958,7 +3966,7 @@ Use %1 in PROGRAM to pass text as argument.</source>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Назва вкладки повинна бути не порожньою та унікальною.&lt;br /&gt;
-Вкладку &lt;b&gt;&amp;amp;Примітки&lt;/b&gt; можна відкрити клавішами &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+Вкладку &lt;b&gt;П&amp;amp;римітки&lt;/b&gt; можна відкрити клавішами &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Використовуйте &lt;b&gt;/&lt;/b&gt; як роздільник шляху у режимі дерева вкладок.</translation>
     </message>
     <message>
@@ -4002,19 +4010,21 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вимагати пароль через:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Час в секундах для кожної вкладки, після якого буде повторно запитуватись пароль шифрування.
+
+Якщо встановити 0, будуть використовуватись глобальні налаштування.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>глобальні</translation>
     </message>
 </context>
 <context>
