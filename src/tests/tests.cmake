@@ -4,6 +4,7 @@ file(GLOB copyq_tests_SOURCES tests/*.cpp)
 add_executable(copyq-tests
     ${copyq_tests_SOURCES}
     $<TARGET_OBJECTS:copyq-common>
+    ${MINIAUDIO_OBJECTS}
 )
 set_target_properties(copyq-tests PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 

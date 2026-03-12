@@ -145,6 +145,8 @@ public slots:
 
     void showMessage(const MessageData &messageData);
 
+    QString playSound(const QString &filePath, float volume);
+
     QVariantMap nextItem(const QString &tabName, int where);
     void browserMoveToClipboard(const QString &tabName, int row);
     void browserSetCurrent(const QString &tabName, int arg1);

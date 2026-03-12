@@ -1,0 +1,36 @@
+name: Download miniaudio
+description: Downloads and verifies miniaudio.h from a pinned commit (cached)
+
+runs:
+  using: composite
+  steps:
+    - name: Set miniaudio version
+      shell: bash
+      run: |
+        # 0.11.25
+        echo 'MINIAUDIO_COMMIT=9634bedb5b5a2ca38c1ee7108a9358a4e233f14d' >> "$GITHUB_ENV"
+        echo 'MINIAUDIO_SHA256=ac7af4de748b7e26b777f37e01cee313a308a7296a3eb080e2906b320cc55c89' >> "$GITHUB_ENV"
+
+    - name: Cache miniaudio header
+      id: cache
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      with:
+        path: src/miniaudio.h
+        key: miniaudio-${{ env.MINIAUDIO_COMMIT }}
+
+    - name: Download and verify miniaudio
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        curl -sSLo src/miniaudio.h --fail-with-body --retry 3 \
+          "https://raw.githubusercontent.com/mackron/miniaudio/$MINIAUDIO_COMMIT/miniaudio.h"
+
+        if command -v sha256sum >/dev/null 2>&1; then
+          sha256cmd='sha256sum -c'
+        elif command -v shasum >/dev/null 2>&1; then
+          sha256cmd='shasum -a 256 -c'
+        else
+          echo '::error::No SHA-256 utility found'; exit 1
+        fi
+
+        echo "$MINIAUDIO_SHA256  src/miniaudio.h" | $sha256cmd

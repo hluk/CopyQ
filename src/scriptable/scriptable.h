@@ -226,6 +226,7 @@ public slots:
     void action();
     void popup();
     QJSValue notification();
+    QJSValue playSound();
 
     QJSValue exportTab();
     void exporttab() { exportTab(); }

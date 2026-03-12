@@ -122,6 +122,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("sha512sum", "sha512sum(data) -> `ByteArray`", "Returns SHA512 checksum of data.");
     addDocumentation("open", "open(url, ...) -> bool", "Tries to open URLs in appropriate applications.");
     addDocumentation("execute", "execute(argument, ..., null, stdinData, ...) -> `FinishedCommand`", "Executes a command.");
+    addDocumentation("playSound", "playSound(fileOrObject)", "Plays audio file.");
     addDocumentation("currentWindowTitle", "String currentWindowTitle() -> string", "Returns window title of currently focused window.");
     addDocumentation("currentClipboardOwner", "String currentClipboardOwner() -> string", "Returns name of the current clipboard owner.");
     addDocumentation("dialog", "dialog(...)", "Shows messages or asks user for input.");

@@ -23,6 +23,8 @@ env:
   QTKEYCHAIN_VERSION: '0.15.0'
   COPYQ_TESTS_SKIP_DRAG_AND_DROP: '1'
   COPYQ_TESTS_NO_SYMLINKS: '1'
+  # There is no audio device on the CI system
+  COPYQ_TESTS_SKIP_AUDIO: '1'
 
 jobs:
   build:
@@ -87,6 +89,9 @@ jobs:
       - name: Build KDE dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: utils/github/build-windows-deps.sh
+
+      - name: Download miniaudio
+        uses: ./.github/actions/download-miniaudio
 
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10

@@ -3,6 +3,7 @@
 #include "scriptableproxy.h"
 
 #include "common/action.h"
+#include "common/audioplayer.h"
 #include "common/appconfig.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
@@ -1085,6 +1086,12 @@ void ScriptableProxy::showMessage(const MessageData &messageData)
     notification->setButtons(messageData.buttons.items);
     notification->setUrgency(messageData.urgency);
     notification->setPersistency(messageData.persistency);
+}
+
+QString ScriptableProxy::playSound(const QString &filePath, float volume)
+{
+    INVOKE(playSound, (filePath, volume));
+    return AudioPlayer::instance().play(filePath, volume);
 }
 
 QVariantMap ScriptableProxy::nextItem(const QString &tabName, int where)
