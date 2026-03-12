@@ -51,6 +51,37 @@ Play Sound when Copying to Clipboard
 The following commands will play an audio file whenever something is
 copied to the clipboard.
 
+Built-in (Cross-Platform)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The built-in audio capabilities are available since version 14.0.0 and supports
+WAV, MP3 and FLAC formats on all platforms.
+
+.. code-block:: ini
+
+    [Command]
+    Name=Play Sound on Copy
+    Command="
+         copyq:
+         playSound('/path/to/notification.wav')"
+    Automatic=true
+    Icon=\xf028
+
+To play at a lower volume:
+
+.. code-block:: ini
+
+    [Command]
+    Name=Play Sound on Copy (Quiet)
+    Command="
+         copyq:
+         playSound({file: '/path/to/notification.wav', volume: 25})"
+    Automatic=true
+    Icon=\xf028
+
+Alternatively, if audio is not available in the app itself, you can use
+external utilities to play audio file mentioned below.
+
 Windows
 ^^^^^^^
 

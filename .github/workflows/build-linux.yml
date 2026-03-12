@@ -151,6 +151,9 @@ jobs:
             ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0 procps' || '' }}
             ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
 
+      - name: Download miniaudio
+        uses: ./.github/actions/download-miniaudio
+
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
         with:

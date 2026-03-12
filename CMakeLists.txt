@@ -26,6 +26,7 @@ OPTION(WITH_PLUGINS "Compile plugins" ON)
 OPTION(WITH_QCA_ENCRYPTION "Enable QCA-based tab encryption" ON)
 OPTION(WITH_KEYCHAIN "Enable system keyring integration using QtKeychain" ON)
 OPTION(WITH_GNOME_CLIPBOARD_EXTENSION "Install GNOME extension, required for clipboard monitoring" ON)
+OPTION(WITH_AUDIO "Build with audio playback support (miniaudio)" ON)
 
 add_definitions( -DQT_USE_STRINGBUILDER  )
 

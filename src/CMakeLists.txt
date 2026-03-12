@@ -20,6 +20,9 @@ set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
 include(notifications.cmake)
+if (WITH_AUDIO)
+    include(audio.cmake)
+endif()
 include(platform/platform.cmake)
 
 set_source_files_properties(
@@ -81,6 +84,7 @@ if (NOT APPLE)
         ${copyq_RESOURCES_RCC}
         ${copyq_QM}
         $<TARGET_OBJECTS:copyq-common>
+        ${MINIAUDIO_OBJECTS}
     )
 else()
     FIND_LIBRARY(CARBON_LIBRARY Carbon REQUIRED)
@@ -118,6 +122,7 @@ else()
         ${copyq_RESOURCES_RCC}
         ${copyq_QM}
         $<TARGET_OBJECTS:copyq-common>
+        ${MINIAUDIO_OBJECTS}
         "${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns"
     )
 endif()
@@ -137,6 +142,14 @@ set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LI
 target_link_libraries(copyq-common ${copyq_LIBRARIES})
 target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})
 target_include_directories(copyq-common PRIVATE ${CMAKE_CURRENT_BINARY_DIR} .)
+if (WITH_AUDIO)
+    # SYSTEM suppresses warnings from the third-party header on Clang/GCC.
+    if (MSVC)
+        target_include_directories(copyq-common PRIVATE "${MINIAUDIO_INCLUDE_DIR}")
+    else()
+        target_include_directories(copyq-common SYSTEM PRIVATE "${MINIAUDIO_INCLUDE_DIR}")
+    endif()
+endif()
 target_include_directories(${COPYQ_EXECUTABLE_NAME} PRIVATE .)
 
 # Precompiled headers for faster MSVC builds.

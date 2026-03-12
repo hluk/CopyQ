@@ -123,6 +123,11 @@ QString AboutDialog::aboutPage(const Theme &theme)
                       "Copyright (c) Fonticons, Inc.", "https://fontawesome.com")
             + helpLib("LibQxt",
                       "Copyright (c), the LibQxt project", "https://bitbucket.org/libqxt/libqxt/wiki/Home")
+#ifdef WITH_AUDIO
+            + helpLib("miniaudio",
+                      "Copyright (c) David Reid",
+                      "https://miniaud.io/")
+#endif
             + helpLib("Solarized",
                       "Copyright (c) Ethan Schoonover", "https://ethanschoonover.com/solarized")
 

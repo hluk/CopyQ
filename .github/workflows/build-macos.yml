@@ -88,6 +88,9 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: '${{ github.workspace }}/utils/github/build-macos-deps.sh'
 
+      - name: Download miniaudio
+        uses: ./.github/actions/download-miniaudio
+
       - name: Build with CMake
         uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
         with:

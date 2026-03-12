@@ -58,7 +58,8 @@ Run a script - requires server to be running:
     # the above command is equivalent to
     build/copyq 'source("script.js")'
 
-Scripting API documentation is in @docs/scripting-api.rst.
+Scripting API documentation is in @docs/scripting-api.rst. After changing it,
+run @utils/script_docs_to_cpp.py to update the completion popup in the GUI.
 
 Useful scripts (omit the `tab(...)` call to use the default tab):
 

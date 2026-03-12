@@ -1095,6 +1095,41 @@ unlike in GUI, where row numbers start from 1 by default.
 
    Returns object for the finished command or ``undefined`` on failure.
 
+.. js:function:: playSound(fileOrObject)
+
+   Plays audio file.
+
+   The argument can be a file path string or an object with ``file`` and
+   optional ``volume`` properties.
+
+   Supports WAV, MP3 and FLAC formats. The function starts playback and
+   returns immediately.
+
+   An exception is thrown if the file doesn't exist or cannot be played.
+
+   Requires the application to be built with audio capabilities. You can verify
+   this with ``info('has-audio')``.
+
+   :param fileOrObject: Path to the audio file, or an object
+       ``{file: 'path', volume: 50}``.
+   :type fileOrObject: string or object
+
+   The ``volume`` property is a percentage (default ``100``). Values above
+   ``100`` amplify the sound; the maximum is ``200``.
+
+   Example --- play a notification sound:
+
+   .. code-block:: js
+
+       playSound('/path/to/notification.wav')
+
+   Example --- play at 50% volume:
+
+   .. code-block:: js
+
+       playSound({file: '/path/to/notification.wav', volume: 50})
+
+
 .. js:function:: String currentWindowTitle()
 
    Returns window title of currently focused window.

@@ -5,6 +5,7 @@
 #include "app/clipboardmonitor.h"
 #include "common/action.h"
 #include "common/appconfig.h"
+#include "common/audioplayer.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
@@ -38,7 +39,6 @@
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
-#include <QFileInfo>
 #include <QMap>
 #include <QMimeData>
 #include <QMetaProperty>
@@ -737,6 +737,7 @@ QJSValue Scriptable::version()
             + "\n"
             + "Arch: " + QSysInfo::buildAbi() + "\n"
             + "OS: " + QSysInfo::prettyProductName() + "\n"
+            + "Audio: " + audioBackendVersion() + "\n"
             ;
 }
 
@@ -1291,6 +1292,38 @@ void Scriptable::popup()
     m_proxy->showMessage(messageData);
 }
 
+QJSValue Scriptable::playSound()
+{
+    m_skipArguments = 1;
+    const QJSValue value = argument(0);
+
+    QString filePath;
+    float volume = 1.0f;
+    // CLI string arguments arrive as ByteArray objects; treat those as file paths.
+    // A plain JS object (not ByteArray) is parsed as an options object.
+    if (value.isObject() && !getByteArray(value)) {
+        const QJSValue fileProp = value.property(QStringLiteral("file"));
+        if (!fileProp.isString() || fileProp.toString().isEmpty())
+            return throwError("playSound: object argument requires a 'file' string property");
+
+        filePath = fileProp.toString();
+
+        const QJSValue volProp = value.property(QStringLiteral("volume"));
+        if (!volProp.isUndefined()) {
+            if (!volProp.isNumber())
+                return throwError("playSound: 'volume' must be a number");
+            volume = static_cast<float>(volProp.toNumber()) / 100.0f;
+        }
+    } else {
+        filePath = arg(0);
+    }
+
+    if (const auto error = m_proxy->playSound(filePath, volume); !error.isEmpty())
+        return throwError(error);
+
+    return {};
+}
+
 QJSValue Scriptable::notification()
 {
     m_skipArguments = -1;
@@ -1559,6 +1592,14 @@ QJSValue Scriptable::info()
 
     info.insert("has-keychain",
 #ifdef WITH_KEYCHAIN
+                "1"
+#else
+                "0"
+#endif
+                );
+
+    info.insert("has-audio",
+#ifdef WITH_AUDIO
                 "1"
 #else
                 "0"
