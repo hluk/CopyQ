@@ -33,6 +33,8 @@ private slots:
 
     void keepPinnedIfMaxItemsChanges();
 
+    void noDuplicateWhenAllPinned();
+
 private:
     TestInterfacePtr m_test;
 };
