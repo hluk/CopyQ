@@ -167,3 +167,50 @@ void ItemPinnedTests::keepPinnedIfMaxItemsChanges()
     RUN("config" << "maxitems" << "1", "1\n");
     RUN(read << "0" << "1" << "2", "pin1 pin2 ");
 }
+
+void ItemPinnedTests::noDuplicateWhenAllPinned()
+{
+    const auto read = Args() << "separator" << " " << "read";
+
+    RUN("config" << "move" << "true", "true\n");
+
+    // Add items and pin them all.
+    RUN("add" << "c" << "b" << "a", "");
+    RUN("-e" << "plugins.itempinned.pin(0,1,2)", "");
+    RUN(read << "0" << "1" << "2", "a b c");
+    RUN("size", "3\n");
+
+    // Activate second pinned item by pressing ENTER.
+    // This sets the clipboard but must not move or duplicate the item.
+    RUN("show", "");
+    KEYS(clipboardBrowserId << "DOWN" << "ENTER");
+    WAIT_FOR_CLIPBOARD("b");
+
+    // Use a sentinel clipboard change to ensure all prior
+    // async clipboard processing (provideClipboard exit) completed.
+    TEST(m_test->setClipboard("d"));
+    WAIT_FOR_CLIPBOARD("d");
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2" << "3", "a\nb\nc\nd");
+
+    // Pinned items must stay in place; only the sentinel "d" was added.
+    RUN("size", "4\n");
+    RUN(read << "0" << "1" << "2" << "3", "a b c d");
+
+    // Set clipboard to same text as a pinned item externally.
+    // This triggers addUnique() which must detect the duplicate
+    // even though the pinned item's data contains mimePinned
+    // but the clipboard data does not.
+    TEST(m_test->setClipboard("a"));
+    WAIT_FOR_CLIPBOARD("a");
+
+    // Another sentinel to confirm the above was fully processed.
+    TEST(m_test->setClipboard("e"));
+    WAIT_FOR_CLIPBOARD("e");
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2" << "3" << "4", "a\nb\nc\ne\nd");
+
+    // Verify: 5 items total (a, b, c pinned + e, d new), no duplicates.
+    // "e" appears before "d" because new unpinned items are inserted
+    // at the top and shifted past pinned items.
+    RUN("size", "5\n");
+    RUN(read << "0" << "1" << "2" << "3" << "4", "a b c e d");
+}

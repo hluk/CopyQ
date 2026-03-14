@@ -27,7 +27,6 @@ bool isPluginFormat(const QString &mime)
     return mime.startsWith(mimePrivatePrefix) || (
         mime.startsWith(mimePluginPrefix)
         && mime.size() > mimePluginPrefix.size()
-        && mime[mimePluginPrefix.size()] != '-'
     );
 }
 
