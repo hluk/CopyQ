@@ -94,7 +94,7 @@ set(copyq_ICON_PREFIX     src/images/icon)
 set(copyq_ICON_NORMAL     src/images/icon.svg)
 set(copyq_ICON_MASK       src/images/icon_mask.svg)
 set(copyq_DESKTOP         shared/${copyq_APP_ID}.desktop)
-set(copyq_APPDATA         shared/${copyq_APP_ID}.appdata.xml)
+set(copyq_APPDATA         shared/${copyq_APP_ID}.metainfo.xml)
 set(copyq_BASH_COMPLETION shared/copyq-completion)
 set(copyq_MANPAGE         shared/copyq.1)
 

@@ -16,7 +16,7 @@ set -euo pipefail
 version=$1
 
 version_file=src/version.cmake
-appdata_file=shared/com.github.hluk.copyq.appdata.xml
+appdata_file=shared/com.github.hluk.copyq.metainfo.xml
 itemwidget_file=src/item/itemwidget.h
 changes_file=CHANGES.md
 
