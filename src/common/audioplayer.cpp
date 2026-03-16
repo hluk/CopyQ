@@ -5,11 +5,9 @@
 
 #include <miniaudio.h>
 
-#include <QEventLoop>
 #include <QFileInfo>
 #include <QLoggingCategory>
 #include <QThread>
-#include <QTimer>
 
 #include <algorithm>
 #include <atomic>
@@ -108,7 +106,10 @@ AudioPlayer::AudioPlayer()
 
     // Run ma_engine_init on a helper thread so we can bail out if the
     // PulseAudio (or other) backend deadlocks during device enumeration.
-    // A nested QEventLoop keeps the UI responsive while we wait.
+    // We use QThread::wait() instead of QEventLoop to avoid reentrancy:
+    // a nested event loop would process pending events (e.g. clipboard
+    // change timers) that could call playSound() and deadlock on the
+    // static-local initialization guard of instance().
     auto initResult = std::make_shared<std::atomic<ma_result>>(MA_ERROR);
 
     // The engine is shared between AudioPlayer and the init worker thread.
@@ -119,19 +120,15 @@ AudioPlayer::AudioPlayer()
         delete e;
     });
 
-    QEventLoop loop;
-
     auto *worker = QThread::create([initResult, engine = d->engine]() mutable {
         initResult->store(ma_engine_init(nullptr, engine.get()), std::memory_order_release);
         engine.reset(); // release this thread's reference to the engine
     });
-    QObject::connect(worker, &QThread::finished, &loop, &QEventLoop::quit);
     worker->start();
 
-    QTimer::singleShot(initTimeoutMs(), &loop, &QEventLoop::quit);
-    loop.exec();
+    const bool finished = worker->wait(initTimeoutMs());
 
-    if (!worker->isFinished()) {
+    if (!finished) {
         qCWarning(logCategory)
             << "miniaudio engine init timed out after"
             << initTimeoutMs() / 1000 << "seconds \u2014 audio disabled";
