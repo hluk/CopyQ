@@ -179,10 +179,12 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
         out.setVersion(QDataStream::Qt_5_0);
         out << static_cast<qint32>(messageCode);
         out.writeRawData( message.constData(), message.length() );
-        if ( writeMessage(m_socket, msg) )
+        if ( writeMessage(m_socket, msg) ) {
+            m_socket->flush();
             SOCKET_LOG("Message sent to client.");
-        else
+        } else {
             SOCKET_LOG("Failed to send message to client!");
+        }
     }
 }
 

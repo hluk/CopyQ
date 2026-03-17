@@ -2546,12 +2546,7 @@ void Scriptable::runDisplayCommands()
     QTimer timer;
     timer.setSingleShot(true);
     timer.setInterval(0);
-    connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
-        if (receivedBytes == "ABORT") {
-            abortEvaluation(Abort::AllEvaluations);
-            return;
-        }
-
+    connect(this, &Scriptable::dataReceived, &loop, [&]() {
         timer.start();
     });
 
@@ -2594,11 +2589,6 @@ void Scriptable::runMenuCommandFilters()
     timer.setInterval(0);
 
     connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
-        if (receivedBytes == "ABORT") {
-            abortEvaluation(Abort::AllEvaluations);
-            return;
-        }
-
         bytes = receivedBytes;
         if ( !bytes.isEmpty() )
             timer.start();
@@ -3399,6 +3389,18 @@ void Scriptable::provideClipboard(ClipboardMode mode)
             return;
 
         log( QStringLiteral("Failed to provide %1").arg(type), LogWarning );
+        return;
+    }
+
+    if (m_abort != Abort::None)
+        return;
+
+    // Register this action as the clipboard provider for the given mode.
+    // The server sends CommandStop to the previous provider and waits for it to
+    // exit. Returns false if another provider registered during the call
+    // (re-entrancy in the nested event loop), meaning this provider is stale.
+    if ( !m_proxy->registerClipboardProviderAction(m_actionId, mode) ) {
+        COPYQ_LOG( QStringLiteral("Not providing %1: another provider registered").arg(type) );
         return;
     }
 

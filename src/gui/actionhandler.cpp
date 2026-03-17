@@ -19,6 +19,7 @@
 #include "item/serialize.h"
 
 #include <QDialog>
+#include <QTimer>
 
 #include <cmath>
 
@@ -104,8 +105,19 @@ void ActionHandler::action(Action *action)
 void ActionHandler::terminateAction(int id)
 {
     Action *action = m_actions.value(id);
-    if (action)
-        action->terminate();
+    if (!action || !action->isRunning())
+        return;
+
+    action->requestTerminate();
+    const int terminateTimeout =
+        AppConfig().option<Config::terminate_action_timeout_ms>();
+    QTimer::singleShot(terminateTimeout, action, &Action::requestKill);
+}
+
+Action *ActionHandler::findAction(int id) const
+{
+    auto it = m_actions.find(id);
+    return it != m_actions.end() ? it.value() : nullptr;
 }
 
 void ActionHandler::closeAction(Action *action)
@@ -176,7 +188,9 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
     for (const auto &line : lines)
         msg.append(QStringLiteral("\n%1. %2").arg(++lineNumber, lineNumberWidth).arg(line));
 
-    log(QStringLiteral("%1\n%2").arg(title, msg));
+    auto logMsg = QStringLiteral("%1: %2").arg(title, msg);
+    logMsg.replace(QLatin1Char('\n'), QLatin1String(" | "));
+    log(logMsg, LogWarning);
 
     auto notification = m_notificationDaemon->createNotification(notificationId);
     notification->setTitle(title);

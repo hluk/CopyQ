@@ -20,12 +20,16 @@ ClipboardSpy::ClipboardSpy(ClipboardMode mode, const QByteArray &owner)
 
 void ClipboardSpy::wait(int ms, int checkIntervalMs)
 {
+    if (m_stopped)
+        return;
+
     if (m_mode == ClipboardMode::Selection && !m_clipboard->isSelectionSupported())
         return;
 
     QEventLoop loop;
     connect( this, &ClipboardSpy::changed, &loop, &QEventLoop::quit );
     connect( this, &ClipboardSpy::stopped, &loop, &QEventLoop::quit );
+    connect( QCoreApplication::instance(), &QCoreApplication::aboutToQuit, &loop, &QEventLoop::quit );
 
     QTimer timerStop;
     if (ms >= 0) {
@@ -70,6 +74,7 @@ QByteArray ClipboardSpy::currentOwnerData() const
 
 void ClipboardSpy::stop()
 {
+    m_stopped = true;
     emit stopped();
 }
 

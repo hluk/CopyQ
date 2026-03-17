@@ -370,6 +370,7 @@ public:
     void setClipboard(const QVariantMap &data);
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
     void setClipboardAndSelection(const QVariantMap &data);
+    bool registerClipboardProviderAction(int actionId, ClipboardMode mode);
     void moveToClipboard(ClipboardBrowser *c, int row);
 
     const QMimeData *getClipboardData(ClipboardMode mode);
@@ -448,6 +449,8 @@ signals:
     void disableClipboardStoringRequest(bool disable);
 
     void sendActionData(int actionId, const QByteArray &bytes);
+
+    void stopAction(int actionId);
 
     void clipboardTabChanged();
 
@@ -620,7 +623,7 @@ private:
     void interruptMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
     void stopMenuCommandFilters(MenuMatchCommands *menuMatchCommands);
 
-    void terminateAction(int *actionId);
+    bool abortAction(int &actionId, int waitMs = 0, int terminateAfterMs = 5000, int killAfterMs = 5000);
 
     bool isItemMenuDefaultActionValid() const;
 
@@ -754,6 +757,9 @@ private:
     QVector<int> m_overrides;
     int m_maxEventHandlerScripts = 10;
     QPointer<Action> m_actionCollectOverrides;
+
+    int m_provideClipboardActionId = -1;
+    int m_provideSelectionActionId = -1;
 
     bool m_usedKeyStore = false;
 };

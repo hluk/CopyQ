@@ -13,6 +13,7 @@
 #include <memory>
 
 class QRegularExpression;
+class QProcess;
 
 /**
  * Interface for tests.
@@ -103,6 +104,9 @@ public:
     virtual void ignoreErrors(const QRegularExpression &re) = 0;
 
     virtual bool writeOutErrors(const QByteArray &errors) = 0;
+
+    /// Start a client process with the given arguments without waiting for completion.
+    virtual bool startClient(QProcess *p, const QStringList &arguments) = 0;
 
     TestInterface(const TestInterface &) = delete;
     TestInterface &operator=(const TestInterface &) = delete;

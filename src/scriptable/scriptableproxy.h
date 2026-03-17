@@ -5,6 +5,7 @@
 
 #include "common/clipboardmode.h"
 #include "common/command.h"
+#include "common/clientsocket.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/notificationbutton.h"
 #include "gui/notification.h"
@@ -96,6 +97,8 @@ public:
     void callFunction(const QByteArray &serializedFunctionCall);
 
     int actionId() const { return m_actionId; }
+    ClientSocketId clientSocketId() const { return m_clientSocketId; }
+    void setClientSocketId(ClientSocketId id) { m_clientSocketId = id; }
 
     void setFunctionCallReturnValue(const QByteArray &bytes);
     void setInputDialogResult(const QByteArray &bytes);
@@ -125,6 +128,7 @@ public slots:
     bool preview(const QVariant &arg);
     void disableMonitoring(bool arg1);
     void setClipboard(const QVariantMap &data, ClipboardMode mode);
+    bool registerClipboardProviderAction(int actionId, ClipboardMode mode);
 
     QString renameTab(const QString &arg1, const QString &arg2);
 
@@ -295,6 +299,8 @@ signals:
     void inputDialogFinished(int dialogId, const NamedValueList &result);
     void sendMessage(const QByteArray &message, int messageCode);
     void abortEvaluationRequest();
+    void actionIdChanged(int actionId);
+    void clipboardProviderRegistered(ClientSocketId clientId, ClipboardMode mode);
 
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
@@ -336,6 +342,7 @@ private:
     QMap<int, ItemSelection> m_selections;
 
     bool m_disconnected = false;
+    ClientSocketId m_clientSocketId = 0;
 };
 
 QString pluginsPath();

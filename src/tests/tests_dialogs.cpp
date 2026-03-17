@@ -275,10 +275,80 @@ void Tests::exitNoConfirm()
 void Tests::exitStopCommands()
 {
     RUN("config" << "confirm_exit" << "false", "false\n");
+    m_test->ignoreErrors(QRegularExpression("Exit code: 10"));
     RUN("action" << "copyq sleep 999999", "");
     KEYS(clipboardBrowserId << "CTRL+Q");
     KEYS(runningCommandsExitDialogId);
     // Ignore status here since the client will be interrupted
     run(Args("plugins.itemtests.keys('ENTER')"));
     TEST( m_test->waitForServerToStop() );
+}
+
+
+void Tests::terminateActionRequestTerminate()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_BASH");
+
+    // Action whose process writes a sentinel on SIGTERM, then exits cleanly.
+    // Use 'settings' to avoid shell-quoting issues with tab names.
+    // Use 'sleep &; wait' so bash's trap handler fires immediately on SIGTERM
+    // (a foreground sleep would block trap dispatch until sleep exits).
+    const auto cmd = R"(
+        bash:
+        copyq() { "$COPYQ" "$@"; }
+        trap "copyq settings term_test TERMINATED" TERM
+        copyq settings term_test READY
+        sleep 999 & wait
+    )";
+    m_test->ignoreErrors(QRegularExpression("Terminating action|Exit code|Failed to notify"));
+    RUN("action" << cmd << "", "");
+
+    // Wait for the action's process to be running.
+    WAIT_ON_OUTPUT("settings" << "term_test", "READY");
+
+    // Open Process Manager, filter to our action, select it, Terminate.
+    KEYS(clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId);
+    KEYS(actionHandlerFilterId << ":sleep" << "TAB" << actionHandlerTableId);
+    KEYS(actionHandlerTableId << "CTRL+A");
+    KEYS(actionHandlerTableId << "mouse|CLICK|terminateButton");
+    KEYS(actionHandlerDialogId << "ESCAPE" << clipboardBrowserId);
+
+    // The SIGTERM handler fires, writing "TERMINATED".
+    WAIT_ON_OUTPUT("settings" << "term_test", "TERMINATED");
+}
+
+void Tests::terminateActionRequestKill()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_BASH");
+
+    // Action that ignores SIGTERM -- only SIGKILL can stop it.
+    const auto cmd = R"(
+        bash:
+        copyq() { "$COPYQ" "$@"; }
+        trap "" TERM
+        copyq settings kill_test READY
+        sleep 999 & wait
+    )";
+    // Expect warnings and non-zero exit from SIGKILL.
+    m_test->ignoreErrors(QRegularExpression(
+        "Process crashed|Exit code|Terminating action|Killing action|Failed to notify"));
+    RUN("action" << cmd << "", "");
+    RUN("config" << "terminate_action_timeout_ms" << "100", "100\n");
+
+    // Wait for the action's process to be running.
+    WAIT_ON_OUTPUT("settings" << "kill_test", "READY");
+
+    // Open Process Manager, filter to our action, select it and Terminate.
+    KEYS(clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId);
+    KEYS(actionHandlerFilterId << ":sleep" << "TAB" << actionHandlerTableId);
+
+    KEYS(actionHandlerTableId << "CTRL+A");
+    KEYS(actionHandlerTableId + QStringLiteral(".*{Running}.*"));
+
+    KEYS(actionHandlerTableId << "mouse|CLICK|terminateButton");
+    QTest::qWait(500);
+
+    KEYS("mouse|CLICK|tableView");
+    KEYS(actionHandlerTableId << "CTRL+A");
+    KEYS(actionHandlerTableId + QStringLiteral(".*{Error}.*{Error: Process crashed}"));
 }

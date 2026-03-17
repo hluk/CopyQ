@@ -2,7 +2,6 @@
 
 #include "action.h"
 
-#include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/process.h"
 #include "common/processsignals.h"
@@ -11,12 +10,16 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QEventLoop>
+#include <QLoggingCategory>
 #include <QPointer>
 #include <QProcessEnvironment>
 #include <QRegularExpression>
 #include <QTimer>
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.action")
 
 void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenModeFlag mode)
 {
@@ -413,6 +416,28 @@ void Action::terminate()
     waitForFinished(5000);
     for (auto p : m_processes)
         terminateProcess(p);
+}
+
+void Action::requestTerminate()
+{
+    if (m_processes.empty() || !isRunning())
+        return;
+
+    qCWarning(logCategory) << "Terminating action:" << commandLine();
+    for (auto p : m_processes)
+        p->terminate();
+}
+
+void Action::requestKill()
+{
+    if (m_processes.empty() || !isRunning())
+        return;
+
+    qCWarning(logCategory) << "Killing action:" << commandLine();
+    for (auto p : m_processes) {
+        if (p->state() != QProcess::NotRunning)
+            p->kill();
+    }
 }
 
 void Action::closeSubCommands()

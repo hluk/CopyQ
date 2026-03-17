@@ -368,6 +368,8 @@ void ConfigurationManager::initOptions()
     bind<Config::close_on_unfocus_extra_delay_ms>();
 
     bind<Config::frameless_window>();
+
+    bind<Config::terminate_action_timeout_ms>();
 }
 
 template <typename Config, typename Widget>
