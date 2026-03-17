@@ -1287,7 +1287,9 @@ void MainWindow::onAboutToQuit()
 
     stopMenuCommandFilters(&m_itemMenuMatchCommands);
     stopMenuCommandFilters(&m_trayMenuMatchCommands);
-    terminateAction(&m_displayActionId);
+    abortAction(m_displayActionId);
+    abortAction(m_provideClipboardActionId);
+    abortAction(m_provideSelectionActionId);
 }
 
 void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
@@ -1884,17 +1886,50 @@ void MainWindow::stopMenuCommandFilters(MainWindow::MenuMatchCommands *menuMatch
     ++menuMatchCommands->currentRun;
     menuMatchCommands->matchCommands.clear();
     menuMatchCommands->actions.clear();
-    terminateAction(&menuMatchCommands->actionId);
+    abortAction(menuMatchCommands->actionId);
 }
 
-void MainWindow::terminateAction(int *actionId)
+bool MainWindow::abortAction(int &actionId, int waitMs, int terminateAfterMs, int killAfterMs)
 {
-    if (*actionId == -1)
-        return;
+    if (actionId == -1)
+        return true;
 
-    const int id = *actionId;
-    *actionId = -1;
-    emit sendActionData(id, "ABORT");
+    const int oldActionId = actionId;
+
+    // Send CommandStop for clean exit.
+    emit stopAction(oldActionId);
+
+    if (Action *action = m_sharedData->actions->findAction(oldActionId)) {
+        if (waitMs > 0)
+            action->waitForFinished(waitMs);
+        if (action->isRunning()) {
+            if (terminateAfterMs >= 0)
+                QTimer::singleShot(terminateAfterMs, action, &Action::requestTerminate);
+            if (killAfterMs >= 0)
+                QTimer::singleShot(terminateAfterMs + killAfterMs, action, &Action::requestKill);
+        }
+    }
+
+    // Re-entrancy guard: if another call for the same tracked action ID
+    // ran during the nested event loop, it already set actionId.
+    if (actionId != oldActionId)
+        return false;
+
+    actionId = -1;
+    return true;
+}
+
+bool MainWindow::registerClipboardProviderAction(int actionId, ClipboardMode mode)
+{
+    int &tracked = mode == ClipboardMode::Clipboard
+        ? m_provideClipboardActionId
+        : m_provideSelectionActionId;
+
+    if (tracked != actionId && !abortAction(tracked, 1000))
+        return false;
+
+    tracked = actionId;
+    return true;
 }
 
 bool MainWindow::isItemMenuDefaultActionValid() const
@@ -2965,7 +3000,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 {
     stopMenuCommandFilters(&m_itemMenuMatchCommands);
     stopMenuCommandFilters(&m_trayMenuMatchCommands);
-    terminateAction(&m_displayActionId);
+    abortAction(m_displayActionId);
 
     theme().decorateMainWindow(this);
     ui->scrollAreaItemPreview->setObjectName("ClipboardBrowser");
@@ -3630,6 +3665,15 @@ void MainWindow::setClipboard(const QVariantMap &data)
 
 void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
+    int &actionId = mode == ClipboardMode::Clipboard
+        ? m_provideClipboardActionId
+        : m_provideSelectionActionId;
+
+    // Abort the previous provider. Returns false if a re-entrant
+    // setClipboard() already handled this mode during the wait.
+    if (!abortAction(actionId, 1000))
+        return;
+
     m_clipboard->setData(mode, data);
 
     auto act = new Action();
@@ -3642,6 +3686,7 @@ void MainWindow::setClipboard(const QVariantMap &data, ClipboardMode mode)
           : QStringLiteral("provideSelection")
     });
     runInternalAction(act);
+    actionId = act->id();
 }
 
 void MainWindow::setClipboardAndSelection(const QVariantMap &data)

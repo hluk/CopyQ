@@ -563,6 +563,15 @@ struct frameless_window : Config<bool> {
     }
 };
 
+struct terminate_action_timeout_ms : Config<int> {
+    static QString name() { return QStringLiteral("terminate_action_timeout_ms"); }
+    static Value defaultValue() { return 5000; }
+    static const char *description() {
+        return "Time to wait for action to be terminated before sending kill signal";
+    }
+    static Value value(Value v) { return qMax(0, v); }
+};
+
 } // namespace Config
 
 class AppConfig final

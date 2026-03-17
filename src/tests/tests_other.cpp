@@ -11,6 +11,8 @@
 
 #include <QProcess>
 
+#include <algorithm>
+
 namespace {
 
 QString copyqUserAgent()
@@ -997,4 +999,32 @@ void Tests::clipboardUriList()
     const QByteArray uri = "https://test1.example.com";
     TEST( m_test->setClipboard(uri, mimeUriList) );
     WAIT_ON_OUTPUT("clipboard(mimeUriList)", uri);
+}
+
+void Tests::singleClipboardProvider()
+{
+    // Start multiple provider processes. The server should stop all but
+    // the last one that registers.
+    std::array<QProcess, 3> providers;
+    const QStringList args{"--clipboard-access", "provideClipboard"};
+    for (auto &p : providers)
+        QVERIFY2(m_test->startClient(&p, args), "Failed to start provider");
+
+    // Wait until all but one have exited.
+    const auto isRunning = [](const QProcess &p) {
+        return p.state() != QProcess::NotRunning;
+    };
+    QVERIFY(QTest::qWaitFor(
+        [&]() { return 1 == std::count_if(std::begin(providers), std::end(providers), isRunning); },
+        10000));
+
+    // Take clipboard ownership so the surviving provider detects the
+    // change and exits on its own (tests the self-termination path).
+    RUN("copy" << "TEST", "true\n");
+    for (auto &p : providers) {
+        if (p.state() != QProcess::NotRunning) {
+            QVERIFY2(p.waitForFinished(10000),
+                "Provider did not exit after clipboard ownership change");
+        }
+    }
 }

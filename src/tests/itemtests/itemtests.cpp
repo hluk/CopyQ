@@ -2,8 +2,10 @@
 
 #include "itemtests.h"
 
+#include <QAbstractItemView>
 #include <QCheckBox>
 #include <QDrag>
+#include <QItemSelectionModel>
 #include <QLoggingCategory>
 #include <QRegularExpression>
 #include <QTest>
@@ -14,6 +16,43 @@ namespace {
 Q_DECLARE_LOGGING_CATEGORY(plugin)
 Q_LOGGING_CATEGORY(plugin, "copyq.keys")
 
+/// Selected items texts for item views: {item1}{item2}...
+QString selectedItemsTexts(QWidget *widget)
+{
+    const auto view = qobject_cast<QAbstractItemView*>(widget);
+    if (!view)
+        return {};
+
+    const auto sel = view->selectionModel();
+    if (!sel)
+        return {};
+
+    QString items;
+    for (const QModelIndex &ind : sel->selectedIndexes()) {
+        const QString text = ind.data().toString().replace("\n", "\\n");
+        items.append(QStringLiteral("{%1}").arg(text));
+    }
+    return items;
+}
+
+/// A text visible in the widget
+QString widgetText(QWidget *widget)
+{
+    QString text = widget->property("text").toString()
+        .remove('&')
+        // Remove HTML tags
+        .remove(QRegularExpression(QStringLiteral("</?[^>]*>")));
+
+    if ( text.isEmpty() && widget->isWindow() )
+        text = widget->windowTitle();
+
+    return text.isEmpty() ? QString() : QStringLiteral("'%1'").arg(text);
+}
+
+/// Widget's full address string.
+/// Examples:
+///   :QPushButton'OK'<qt_msgbox_buttonbox:QDialogButtonBox<:QMessageBox'Change Password'<MainWindow
+///   tableView:QTableView{selected_item_text1}{selected_item_text2}<ActionHandlerDialog:QDialog'Process Manager'<MainWindow
 QString widgetAddress(QWidget *widget)
 {
     if (!widget)
@@ -33,14 +72,8 @@ QString widgetAddress(QWidget *widget)
             if (!result.isEmpty())
                 result.append('<');
             result.append(name);
-            QString text = current->property("text").toString()
-                .remove('&')
-                // Remove HTML tags
-                .remove(QRegularExpression(QStringLiteral("</?[^>]*>")));
-            if ( text.isEmpty() && current->isWindow() )
-                text = current->windowTitle();
-            if ( !text.isEmpty() )
-                result.append(QStringLiteral("'%1'").arg(text));
+            result.append(widgetText(current));
+            result.append(selectedItemsTexts(current));
         }
         current = current->parentWidget();
     }

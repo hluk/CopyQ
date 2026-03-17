@@ -84,6 +84,12 @@ public:
     /** Terminate (kill) process. */
     void terminate();
 
+    /** Async: send SIGTERM to child processes, no blocking wait. */
+    void requestTerminate();
+
+    /** Async: send SIGKILL to still-running child processes, no blocking wait. */
+    void requestKill();
+
 signals:
     /** Emitted when finished. */
     void actionFinished(Action *act);

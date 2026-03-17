@@ -619,6 +619,11 @@ private:
         QCOMPARE( settings.value(QStringLiteral("tabs")).toStringList(), QStringList() );
     }
 
+    bool startClient(QProcess *p, const QStringList &arguments) override
+    {
+        return startTestProcess(p, arguments);
+    }
+
     bool startTestProcess(QProcess *p, const QStringList &arguments,
                           QIODevice::OpenMode mode = QIODevice::ReadWrite,
                           const QStringList &environment = QStringList())

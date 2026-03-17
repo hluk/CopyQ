@@ -40,6 +40,7 @@
 #include <QPushButton>
 #include <QSessionManager>
 #include <QStyleFactory>
+#include <QTimer>
 #include <QTextEdit>
 #include <QWindow>
 
@@ -187,6 +188,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
              this, &ClipboardServer::onDisableClipboardStoringRequest );
     connect( m_wnd, &MainWindow::sendActionData,
              this, &ClipboardServer::sendActionData );
+    connect( m_wnd, &MainWindow::stopAction,
+             this, &ClipboardServer::stopAction );
 
     // notify window if configuration changes
     connect( m_wnd, &MainWindow::configurationChanged,
@@ -443,7 +446,8 @@ bool ClipboardServer::hasRunningCommands() const
 
 void ClipboardServer::terminateClients(int waitMs)
 {
-    for (auto it = m_clients.constBegin(); it != m_clients.constEnd(); ++it) {
+    const auto clients = m_clients;
+    for (auto it = clients.constBegin(); it != clients.constEnd(); ++it) {
         const auto &clientData = it.value();
         if (clientData.isValid())
             clientData.client->sendMessage(QByteArray(), CommandStop);
@@ -503,6 +507,19 @@ void ClipboardServer::sendActionData(int actionId, const QByteArray &bytes)
     }
 }
 
+void ClipboardServer::stopAction(int actionId)
+{
+    const auto client = findClient(actionId);
+    if (client) {
+        client->sendMessage(QByteArray(), CommandStop);
+    } else {
+        m_pendingStopActionIds.insert(actionId);
+        QTimer::singleShot(10000, this, [this, actionId]() {
+            m_pendingStopActionIds.remove(actionId);
+        });
+    }
+}
+
 void ClipboardServer::cleanDataFiles()
 {
     COPYQ_LOG("Cleaning unused item files");
@@ -523,6 +540,7 @@ void ClipboardServer::setPreventScreenCapture(bool prevent)
 void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
 {
     auto proxy = new ScriptableProxy(m_wnd);
+    proxy->setClientSocketId(client->id());
     connect( client.get(), &ClientSocket::destroyed,
              proxy, &ScriptableProxy::safeDeleteLater );
     connect( proxy, &ScriptableProxy::sendMessage,
@@ -540,6 +558,16 @@ void ClipboardServer::onClientNewConnection(const ClientSocketPtr &client)
     connect( client.get(), &ClientSocket::connectionFailed,
              this, &ClipboardServer::onClientConnectionFailed );
     client->start();
+    std::weak_ptr<ClientSocket> weakClient = client;
+    connect( proxy, &ScriptableProxy::actionIdChanged, this, [this, weakClient](int actionId) {
+        if (m_pendingStopActionIds.remove(actionId)) {
+            if (auto c = weakClient.lock())
+                c->sendMessage(QByteArray(), CommandStop);
+        }
+    });
+
+    connect( proxy, &ScriptableProxy::clipboardProviderRegistered,
+             this, &ClipboardServer::onClipboardProviderRegistered );
 
     if (m_ignoreNewConnections) {
         COPYQ_LOG("Ignoring new client while exiting");
@@ -584,7 +612,26 @@ void ClipboardServer::onClientMessageReceived(
 
 void ClipboardServer::onClientDisconnected(ClientSocketId clientId)
 {
+    if (m_provideClipboardClientId == clientId)
+        m_provideClipboardClientId = 0;
+    if (m_provideSelectionClientId == clientId)
+        m_provideSelectionClientId = 0;
     m_clients.remove(clientId);
+}
+
+void ClipboardServer::onClipboardProviderRegistered(ClientSocketId clientId, ClipboardMode mode)
+{
+    ClientSocketId &tracked = mode == ClipboardMode::Clipboard
+        ? m_provideClipboardClientId
+        : m_provideSelectionClientId;
+
+    if (tracked != 0 && tracked != clientId) {
+        auto it = m_clients.find(tracked);
+        if (it != m_clients.end() && it->isValid())
+            it->client->sendMessage(QByteArray(), CommandStop);
+    }
+
+    tracked = clientId;
 }
 
 void ClipboardServer::onClientConnectionFailed(ClientSocketId clientId)

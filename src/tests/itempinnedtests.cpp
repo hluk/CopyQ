@@ -186,6 +186,11 @@ void ItemPinnedTests::noDuplicateWhenAllPinned()
     KEYS(clipboardBrowserId << "DOWN" << "ENTER");
     WAIT_FOR_CLIPBOARD("b");
 
+    // Wait for provideClipboard to take clipboard ownership before
+    // setting clipboard externally — otherwise provideClipboard may
+    // overwrite the external clipboard data.
+    WAIT_ON_OUTPUT("str(clipboard(mimeOwner)).includes('provideClipboard')", "true\n");
+
     // Use a sentinel clipboard change to ensure all prior
     // async clipboard processing (provideClipboard exit) completed.
     TEST(m_test->setClipboard("d"));

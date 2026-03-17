@@ -34,6 +34,7 @@ public:
     void action(Action *action);
 
     void terminateAction(int id);
+    Action *findAction(int id) const;
 
 private:
     /** Delete finished action and its menu item. */

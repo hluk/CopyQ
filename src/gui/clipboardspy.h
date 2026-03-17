@@ -24,6 +24,7 @@ public:
 
     void stop();
 
+
 signals:
     void changed();
     void stopped();
@@ -36,4 +37,5 @@ private:
     ClipboardConnectionPtr m_connection;
     QByteArray m_oldOwnerData;
     bool m_settingClipboard = false;
+    bool m_stopped = false;
 };

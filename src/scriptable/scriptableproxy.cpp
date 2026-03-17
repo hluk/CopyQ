@@ -860,6 +860,7 @@ QVariantMap ScriptableProxy::getActionData(int id)
     INVOKE(getActionData, (id));
     m_actionData = m_wnd->actionData(id);
     m_actionId = id;
+    emit actionIdChanged(id);
 
     auto data = m_actionData;
     data.remove(mimeSelectedItems);
@@ -977,6 +978,15 @@ void ScriptableProxy::setClipboard(const QVariantMap &data, ClipboardMode mode)
 {
     INVOKE2(setClipboard, (data, mode));
     m_wnd->setClipboard(data, mode);
+}
+
+bool ScriptableProxy::registerClipboardProviderAction(int actionId, ClipboardMode mode)
+{
+    INVOKE(registerClipboardProviderAction, (actionId, mode));
+    const bool ok = m_wnd->registerClipboardProviderAction(actionId, mode);
+    if (ok)
+        emit clipboardProviderRegistered(m_clientSocketId, mode);
+    return ok;
 }
 
 QString ScriptableProxy::renameTab(const QString &arg1, const QString &arg2)

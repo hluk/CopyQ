@@ -305,6 +305,8 @@ private slots:
     void exitConfirm();
     void exitNoConfirm();
     void exitStopCommands();
+    void terminateActionRequestTerminate();
+    void terminateActionRequestKill();
 
     void abortInputReader();
 
@@ -320,6 +322,7 @@ private slots:
     void scriptsForPasswords();
 
     void currentClipboardOwner();
+    void singleClipboardProvider();
 
     void saveLargeItem();
 
