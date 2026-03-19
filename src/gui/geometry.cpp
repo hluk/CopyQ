@@ -13,6 +13,12 @@
 #include <QWidget>
 #include <QWindow>
 
+#ifdef COPYQ_MOVE_TO_WORKSPACE
+#include "platform/x11/x11info.h"
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#endif
+
 #define GEOMETRY_LOG(window) \
     qCDebug(geometryCategory) << "Window \"" << window->objectName() << "\": "
 
@@ -214,12 +220,77 @@ void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &
     setGeometryOptionValue(optionName, state);
 }
 
+#ifdef COPYQ_MOVE_TO_WORKSPACE
+/// Returns the value of a single-long CARDINAL X window property, or -1 on failure.
+static long getCardinalProperty(Display *display, Window window, Atom property)
+{
+    Atom type;
+    int format;
+    unsigned long nitems, bytes_after;
+    unsigned char *data = nullptr;
+
+    long value = -1;
+    if (XGetWindowProperty(display, window, property, 0, 1, False,
+                           XA_CARDINAL, &type, &format, &nitems, &bytes_after, &data) == Success) {
+        if (data) {
+            if (type == XA_CARDINAL && format == 32 && nitems == 1)
+                value = *reinterpret_cast<long*>(data);
+            XFree(data);
+        }
+    }
+
+    return value;
+}
+#endif
+
 void moveToCurrentWorkspace(QWidget *w)
 {
 #ifdef COPYQ_MOVE_TO_WORKSPACE
-    /* Re-initialize window in window manager so it can popup on current workspace. */
-    if (w->isVisible()) {
-        GEOMETRY_LOG(w) << "Move to current workspace";
+    if (!w->isVisible())
+        return;
+
+    if (X11Info::isPlatformX11()) {
+        auto display = X11Info::display();
+        if (!display)
+            return;
+
+        const Window root = DefaultRootWindow(display);
+        const Window wid = w->winId();
+
+        static Atom atomCurrentDesktop = XInternAtom(display, "_NET_CURRENT_DESKTOP", False);
+        static Atom atomWmDesktop = XInternAtom(display, "_NET_WM_DESKTOP", False);
+
+        const long currentDesktop = getCardinalProperty(display, root, atomCurrentDesktop);
+        const long windowDesktop = getCardinalProperty(display, wid, atomWmDesktop);
+
+        // 0xFFFFFFFF means "sticky" (visible on all desktops) — no move needed
+        if (windowDesktop == currentDesktop
+            || currentDesktop < 0
+            || static_cast<unsigned long>(windowDesktop) == 0xFFFFFFFF) {
+            return;
+        }
+
+        GEOMETRY_LOG(w) << "Move to current workspace" << currentDesktop;
+
+        XClientMessageEvent e{};
+        e.type = ClientMessage;
+        e.display = display;
+        e.window = wid;
+        e.message_type = atomWmDesktop;
+        e.format = 32;
+        e.data.l[0] = currentDesktop;
+        // Source indication 2 (direct user action): CopyQ activates via global
+        // shortcut, so the WM should comply unconditionally.  Matches the
+        // source indication used in raise() for _NET_ACTIVE_WINDOW.
+        e.data.l[1] = 2;
+        XSendEvent(display, root, False,
+                   SubstructureNotifyMask | SubstructureRedirectMask,
+                   reinterpret_cast<XEvent*>(&e));
+        XFlush(display);
+    } else {
+        // Wayland: hide+show re-initializes the window in the compositor,
+        // allowing it to steal focus when shown by the caller.
+        GEOMETRY_LOG(w) << "Move to current workspace (hide for re-show)";
         const bool blockUntilHide = isGeometryGuardBlockedUntilHidden(w);
         w->hide();
         if (blockUntilHide)

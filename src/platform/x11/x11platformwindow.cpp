@@ -222,8 +222,6 @@ Window getCurrentWindow()
     if (!display)
         return 0L;
 
-    XSync(display, False);
-
     static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
 
     X11WindowProperty property(display, DefaultRootWindow(display), atomWindow, 0l, 1l, XA_WINDOW);
@@ -304,10 +302,15 @@ void X11PlatformWindow::raise()
         XSendEvent(display, wattr.screen->root, False,
                    SubstructureNotifyMask | SubstructureRedirectMask,
                    reinterpret_cast<XEvent*>(&e));
-        XSync(display, False);
         XRaiseWindow(display, m_window);
         XSetInputFocus(display, m_window, RevertToPointerRoot, CurrentTime);
-        XSync(display, False);
+        // XFlush (not XSync): push all requests to the X server without
+        // blocking for a round-trip.  The WM processes the raise
+        // asynchronously regardless — XSync only waits for the server to
+        // acknowledge receipt, not for the WM to act.  Avoiding the
+        // round-trip eliminates the multi-second stall when the
+        // server/compositor is slow to respond after idle (#2877).
+        XFlush(display);
     }
 }
 
