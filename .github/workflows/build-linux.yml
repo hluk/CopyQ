@@ -83,7 +83,7 @@ env:
 
 jobs:
   build:
-    name: ${{matrix.buildname}}
+    name: Build ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
       # Avoid canceling all jobs on transient failures.
@@ -97,6 +97,7 @@ jobs:
             with_qt6: false
             with_native_notifications: true
             cmake_preset: Debug
+            artifact_name: qt5
 
           - os: ubuntu-latest
             buildname: Qt 6
@@ -114,6 +115,7 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
               -fprofile-update=atomic
+            artifact_name: qt6
 
           - os: ubuntu-latest
             buildname: Qt 6 Clang
@@ -122,6 +124,7 @@ jobs:
             with_qt6: true
             with_native_notifications: false
             cmake_preset: Debug
+            artifact_name: qt6-clang
 
     steps:
       - name: Checkout source code
@@ -167,6 +170,86 @@ jobs:
             '-DWITH_QT6=${{matrix.with_qt6}}',
             '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}'
             ]
+
+      - name: Create build tarball
+        working-directory: ${{ runner.workspace }}
+        run: tar cf build-artifact.tar build install
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v4
+        with:
+          name: build-${{ matrix.artifact_name }}
+          path: ${{ runner.workspace }}/build-artifact.tar
+          compression-level: 0
+          retention-days: 1
+
+  test:
+    name: Test ${{matrix.buildname}}
+    needs: build
+    runs-on: ${{matrix.os}}
+    strategy:
+      # Avoid canceling all jobs on transient failures.
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            buildname: Qt 5
+            compiler_package: g++
+            with_qt6: false
+            test_wayland: false
+            test_gnome: false
+            coverage: false
+            cmake_preset: Debug
+            artifact_name: qt5
+
+          - os: ubuntu-latest
+            buildname: Qt 6
+            compiler_package: g++
+            with_qt6: true
+            test_wayland: true
+            test_gnome: true
+            coverage: true
+            cmake_preset: Debug
+            artifact_name: qt6
+
+          - os: ubuntu-latest
+            buildname: Qt 6 Clang
+            compiler_package: clang
+            with_qt6: true
+            test_wayland: false
+            test_gnome: false
+            coverage: false
+            cmake_preset: Debug
+            artifact_name: qt6-clang
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
+        with:
+          submodules: false
+          fetch-depth: 1
+
+      - name: Install dependencies
+        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
+        with:
+          version: 1.0
+          packages: >-
+            ${{ matrix.compiler_package }}
+            ${{ env.common_packages }}
+            ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+            ${{ matrix.coverage && 'lcov' || '' }}
+            ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0 procps' || '' }}
+            ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: build-${{ matrix.artifact_name }}
+          path: ${{ runner.workspace }}
+
+      - name: Extract build artifacts
+        working-directory: ${{ runner.workspace }}
+        run: tar xf build-artifact.tar
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg

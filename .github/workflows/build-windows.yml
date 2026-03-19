@@ -31,6 +31,8 @@ jobs:
   build:
     name: Windows
     runs-on: windows-2025
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     defaults:
       run:
         shell: bash
@@ -124,24 +126,13 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.version }}
           BUILD_DIR: ${{ runner.workspace }}/build/copyq/Windows
 
-      - name: Set up GPG for tests
-        shell: pwsh
-        run: |
-          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
-          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
-          gpg --version
-
-      - name: Test
-        working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
-        shell: cmd
-        run: |
-          set "PATH=%CD%;C:\Program Files\Git\usr\bin"
-          .\copyq-tests.exe
-        env:
-          QT_FORCE_STDERR_LOGGING: 1
-          COPYQ_LOG_LEVEL: DEBUG
-          COPYQ_TESTS_RERUN_FAILED: 1
-          COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ steps.version.outputs.version }}\itemtests.dll
+      - name: Upload deployed directory
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: deploy-windows
+          path: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
+          compression-level: 0
+          retention-days: 1
 
       - name: Create portable zip
         run: 7z a "copyq-${{ steps.version.outputs.version }}.zip" "copyq-${{ steps.version.outputs.version }}"
@@ -168,9 +159,43 @@ jobs:
           path: copyq-${{ steps.version.outputs.version }}-setup.exe
 
 
+  test:
+    name: Test Windows
+    needs: build
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Download deployed directory
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: deploy-windows
+          path: ${{ github.workspace }}/copyq-${{ needs.build.outputs.version }}
+
+      - name: Set up GPG for tests
+        shell: pwsh
+        run: |
+          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
+          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
+          gpg --version
+
+      - name: Test
+        working-directory: ${{ github.workspace }}/copyq-${{ needs.build.outputs.version }}
+        shell: cmd
+        run: |
+          set "PATH=%CD%;C:\Program Files\Git\usr\bin"
+          .\copyq-tests.exe
+        env:
+          QT_FORCE_STDERR_LOGGING: 1
+          COPYQ_LOG_LEVEL: DEBUG
+          COPYQ_TESTS_RERUN_FAILED: 1
+          COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ needs.build.outputs.version }}\itemtests.dll
+
+
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
+    needs: [build, test]
     runs-on: ubuntu-latest
     permissions:
       contents: write

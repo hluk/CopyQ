@@ -34,11 +34,13 @@ jobs:
             buildname: macOS 13
             bundle_suffix: '-macos-13'
             cmake_preset: macOS-13
+            artifact_name: macos-13
 
           - os: macos-14
             buildname: macOS 12 M1
             bundle_suffix: '-macos-12-m1'
             cmake_preset: macOS-12-m1
+            artifact_name: macos-12-m1
 
     steps:
       - name: Checkout source code
@@ -97,9 +99,6 @@ jobs:
           configurePreset: '${{ matrix.cmake_preset }}'
           buildPreset: '${{ matrix.cmake_preset }}'
 
-      - name: Create gnupg directory for tests
-        run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
-
       - name: Get version string
         id: version
         run: |
@@ -120,6 +119,69 @@ jobs:
           name: 'CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
           path: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
 
+      - name: Save version for test job
+        run: echo '${{ steps.version.outputs.version }}' > '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/build-version.txt'
+
+      - name: Upload test binaries
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v4
+        with:
+          name: test-binaries-${{ matrix.artifact_name }}
+          path: |
+            ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/copyq-tests
+            ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/build-version.txt
+          compression-level: 0
+          retention-days: 1
+
+
+  test:
+    name: Test ${{matrix.buildname}}
+    needs: build
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-15-intel
+            buildname: macOS 13
+            bundle_suffix: '-macos-13'
+            cmake_preset: macOS-13
+            artifact_name: macos-13
+
+          - os: macos-14
+            buildname: macOS 12 M1
+            bundle_suffix: '-macos-12-m1'
+            cmake_preset: macOS-12-m1
+            artifact_name: macos-12-m1
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
+        with:
+          submodules: false
+          fetch-depth: 1
+
+      - name: Download test binaries
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: test-binaries-${{ matrix.artifact_name }}
+          path: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+
+      - name: Read version
+        id: version
+        run: echo "version=$(cat '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/build-version.txt')" >> "$GITHUB_OUTPUT"
+
+      - name: Download macOS bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: 'CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
+          path: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+
+      - name: Create gnupg directory for tests
+        run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
+
+      - name: Make test binary executable
+        run: chmod +x '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/copyq-tests'
+
       - name: Test
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'
         run: '${{github.workspace}}/utils/github/test-macos.sh'
@@ -135,7 +197,7 @@ jobs:
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: build
+    needs: [build, test]
     runs-on: ubuntu-latest
     permissions:
       contents: write
