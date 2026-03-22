@@ -393,9 +393,10 @@ void Tests::externalEditor()
     ).arg(editorTab) + " %1";
     RUN("config" << "editor" << cmd, cmd + "\n");
 
-    // Set clipboard.
+    // Set clipboard with mimeOwner to avoid adding new item
+    // (this should trigger Scriptable::onOwnClipboardChanged)
     const QByteArray data1 = generateData();
-    TEST( m_test->setClipboard(data1) );
+    TEST( m_test->setClipboard({{mimeText, data1}, {mimeOwner, "TEST"}}) );
     RUN("clipboard", data1);
 
 #define EDIT(DATA1, DATA2) \
