@@ -243,6 +243,17 @@ MacPlatformWindow::MacPlatformWindow() = default;
 
 MacPlatformWindow::~MacPlatformWindow() = default;
 
+bool MacPlatformWindow::matchesWidget(const QWidget *widget) const
+{
+    if (!widget || !widget->windowHandle())
+        return false;
+    WId wid = widget->winId();
+    if (NSView *view = objc_cast<NSView>((id)wid))
+        return [[view window] windowNumber] == m_windowNumber;
+    return static_cast<long int>(wid) == m_windowNumber;
+}
+
+
 QString MacPlatformWindow::getTitle()
 {
     QString appTitle;

@@ -25,6 +25,8 @@ public:
 
     bool isValid() const;
 
+    bool matchesWidget(const QWidget *widget) const override;
+
 private:
     bool waitForFocus(int ms);
 

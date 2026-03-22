@@ -9,6 +9,8 @@
 #include "gui/clipboardspy.h"
 #include "platform/platformcommon.h"
 
+#include <QWidget>
+
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/keysym.h>
@@ -244,6 +246,14 @@ X11PlatformWindow::X11PlatformWindow(quintptr winId)
     : m_window(winId)
 {
 }
+
+bool X11PlatformWindow::matchesWidget(const QWidget *widget) const
+{
+    return widget
+        && widget->windowHandle()
+        && static_cast<quintptr>(widget->winId()) == m_window;
+}
+
 
 QString X11PlatformWindow::getTitle()
 {

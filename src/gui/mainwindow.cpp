@@ -4022,35 +4022,27 @@ void MainWindow::updateFocusWindows()
 {
     m_isActiveWindow = isActiveWindow();
 
-    if ( QApplication::activePopupWidget() )
+    if ( QApplication::activePopupWidget() ) {
+        qCDebug(logCategory) << "Focus: popup";
         return;
+    }
 
     auto platform = platformNativeInterface();
     PlatformWindowPtr lastWindow = platform->getCurrentWindow();
-    if (lastWindow) {
-        const QWidget *activeWindow = qApp->activeWindow();
-        if (activeWindow) {
-            if (activeWindow == m_trayMenu || activeWindow == m_menu) {
-                COPYQ_LOG(
-                    QStringLiteral("Focus window is \"%1\" - tray menu")
-                    .arg(lastWindow->getTitle()) );
-            } else if (activeWindow == this) {
-                COPYQ_LOG(QStringLiteral("Focus window is the main window"));
-                m_windowForMenuPaste = lastWindow;
-            } else {
-                COPYQ_LOG(QStringLiteral("Focus window is \"%1\": [%2] %3").arg(
-                    lastWindow->getTitle(),
-                    QLatin1String(activeWindow->metaObject()->className()),
-                    activeWindow->windowTitle()
-                ));
-                m_windowForMainPaste = lastWindow;
-                m_windowForMenuPaste = lastWindow;
-            }
-        } else {
-            COPYQ_LOG( QStringLiteral("Focus window is \"%1\"").arg(lastWindow->getTitle()) );
-            m_windowForMainPaste = lastWindow;
-            m_windowForMenuPaste = lastWindow;
-        }
+    if (!lastWindow)
+        return;
+
+    if (lastWindow->matchesWidget(this)) {
+        qCDebug(logCategory) << "Focus: main window";
+        m_windowForMenuPaste = lastWindow;
+    } else if (lastWindow->matchesWidget(m_trayMenu)) {
+        qCDebug(logCategory) << "Focus: tray menu";
+    } else if (lastWindow->matchesWidget(m_menu)) {
+        qCDebug(logCategory) << "Focus: menu";
+    } else {
+        qCDebug(logCategory) << "Focus:" << lastWindow->getTitle();
+        m_windowForMainPaste = lastWindow;
+        m_windowForMenuPaste = lastWindow;
     }
 }
 

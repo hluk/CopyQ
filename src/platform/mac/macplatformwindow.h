@@ -31,6 +31,7 @@ public:
     void raise() override;
     bool pasteFromClipboard() override;
     bool copyToClipboard() override;
+    bool matchesWidget(const QWidget *widget) const override;
 
 private:
     // Don't allow copies
