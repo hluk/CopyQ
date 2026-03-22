@@ -46,5 +46,4 @@ private:
     QCoreApplication *m_app;
     int m_exitCode;
     bool m_started;
-    bool m_closed;
 };

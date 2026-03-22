@@ -2,15 +2,13 @@
 
 #include "mactimer.h"
 
-#include <Cocoa/Cocoa.h>
 #include <QPointer>
 
 MacTimer::MacTimer(QObject *parent) :
     QObject(parent),
     m_interval(0),
     m_tolerance(0),
-    m_singleShot(false),
-    m_nsTimer(0)
+    m_singleShot(false)
 {
 }
 
@@ -21,15 +19,15 @@ MacTimer::~MacTimer()
 
 void MacTimer::stop()
 {
-    if (m_nsTimer) {
-        CFRunLoopTimerInvalidate((CFRunLoopTimerRef) m_nsTimer);
+    if (m_cfTimer) {
+        CFRunLoopTimerInvalidate(m_cfTimer);
+        m_cfTimer = nullptr;
     }
-    m_nsTimer = 0;
 }
 
 void MacTimer::restart()
 {
-    if (m_nsTimer) {
+    if (m_cfTimer) {
         stop();
         start();
     }
@@ -65,7 +63,7 @@ void MacTimer::start() {
     // Use QPointer to make it auto-null, and use a 'weak reference' in the
     // block
     QPointer<MacTimer> weakThis(this);
-    double intervalSeconds = (float)m_interval / 1000.0;
+    double intervalSeconds = (double)m_interval / 1000.0;
 
     // Create a timer which kicks into a block
     CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(NULL,
@@ -79,12 +77,15 @@ void MacTimer::start() {
         }
     );
 
-    // Set the tolerance using an NSTimer as there is no CF way of doing so
-    if ([m_nsTimer respondsToSelector:@selector(setTolerance:)]) {
-        double toleranceSeconds = (double)m_tolerance / 1000.0;
-        [m_nsTimer setTolerance:toleranceSeconds];
-    }
+    if (!timer)
+        return;
 
-    // add timer to the hidden run loop
+    // Set tolerance so macOS can coalesce timer firings for power efficiency.
+    double toleranceSeconds = (double)m_tolerance / 1000.0;
+    CFRunLoopTimerSetTolerance(timer, toleranceSeconds);
+
+    // Add timer to the current run loop. The run loop retains its own
+    // reference; CFRef adopts the Create-rule +1 for stop()/invalidate.
     CFRunLoopAddTimer(CFRunLoopGetCurrent(), timer, kCFRunLoopDefaultMode);
+    m_cfTimer = timer;
 }

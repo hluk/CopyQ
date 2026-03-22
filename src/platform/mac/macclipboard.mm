@@ -23,14 +23,32 @@
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
+namespace {
+
+int clipboardMonitorIntervalMs()
+{
+    bool ok = false;
+    const int ms = qEnvironmentVariableIntValue("COPYQ_CLIPBOARD_MONITOR_INTERVAL_MS", &ok);
+    return (ok && ms > 0) ? ms : 500;
+}
+
+int clipboardMonitorToleranceMs()
+{
+    bool ok = false;
+    const int ms = qEnvironmentVariableIntValue("COPYQ_CLIPBOARD_MONITOR_TOLERANCE_MS", &ok);
+    return (ok && ms >= 0) ? ms : 5000;
+}
+
+} // namespace
+
 void MacClipboard::startMonitoringBackend(const QStringList &formats, ClipboardModeMask modes)
 {
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     m_prevChangeCount = [pasteboard changeCount];
 
     m_timer = new MacTimer(this);
-    m_timer->setInterval(250);
-    m_timer->setTolerance(500);
+    m_timer->setInterval(clipboardMonitorIntervalMs());
+    m_timer->setTolerance(clipboardMonitorToleranceMs());
     connect(m_timer, &MacTimer::timeout, this, &MacClipboard::clipboardTimeout);
     m_timer->start();
 
@@ -95,5 +113,8 @@ void MacClipboard::onChanged(int mode)
 }
 
 void MacClipboard::clipboardTimeout() {
+    m_timer->stop();
     onChanged(QClipboard::Clipboard);
+    if (m_timer)
+        m_timer->start();
 }

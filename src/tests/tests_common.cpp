@@ -41,6 +41,7 @@ bool testStderr(
         plain("Cannot connect to server! Start CopyQ server first."),
         plain("Aborting clipboard cloning"),
         plain("Failed to provide clipboard"),
+        plain("Failed to provide selection"),
         regex("Warning <.*>: ELAPSED .* ms accessing"),
         regex("ERROR <.*>: Connection lost!"),
 
@@ -74,16 +75,15 @@ bool testStderr(
         plain("QWinEventNotifier: no event dispatcher, application shutting down? Cannot deliver event."),
         plain("setGeometry: Unable to set geometry"),
         plain("Failed to raise: "),
+        plain("[qt.qpa.mime] Retrying to obtain clipboard."),
+        plain("[qt.qpa.mime] Unable to obtain clipboard."),
+        plain("[default] QSystemTrayIcon::setVisible: No Icon set"),
 
         plain("[kf.notifications] Received a response for an unknown notification."),
         // KStatusNotifierItem
         plain("[kf.windowsystem] Could not find any platform plugin"),
 
         regex("QTemporaryDir: Unable to remove .* most likely due to the presence of read-only files."),
-
-        // Windows Qt 5.15.2
-        plain("[qt.qpa.mime] Retrying to obtain clipboard."),
-        plain("[default] QSystemTrayIcon::setVisible: No Icon set"),
 
         // macOS
         plain("Failed to get QCocoaScreen for NSObject(0x0)"),

@@ -154,6 +154,12 @@ bool ClipboardDataGuard::isExpired() {
     if (!m_data)
         return true;
 
+    if (qApp && qApp->property("CopyQ_quitting").toBool()) {
+        m_data = nullptr;
+        log( QByteArrayLiteral("Aborting clipboard cloning: Application quitting"), LogWarning );
+        return true;
+    }
+
     if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal) {
         m_data = nullptr;
         log( QByteArrayLiteral("Aborting clipboard cloning: Clipboard changed again"), LogWarning );
