@@ -2474,12 +2474,17 @@ QString ScriptableProxy::stats()
         stats[className] += 1;
 
         const QString objectName = addressObj.obj->objectName();
-        if (!objectName.isEmpty() && objectName != className)
-            stats[objectName] += 1;
+        if (!objectName.isEmpty())
+            stats["#" + objectName] += 1;
 
-        const QString address = objectName.isEmpty()
-            ? QStringLiteral("%1/%2").arg(addressObj.address, className)
-            : QStringLiteral("%1/%2").arg(addressObj.address, objectName);
+        const auto normalizeName = [](const QString &name){
+            return QString(name).remove('_').remove('Q').toLower();
+        };
+        const QString segment =
+            (objectName.isEmpty() || objectName == className) ? className
+            : (className == QLatin1String("QWidget") || normalizeName(objectName).startsWith(normalizeName(className))) ? QStringLiteral("#%1").arg(objectName)
+            : QStringLiteral("%1#%2").arg(className, objectName);
+        const QString address = QStringLiteral("%1/%2").arg(addressObj.address, segment);
         if (!addressObj.address.isEmpty())
             stats[address] += 1;
 

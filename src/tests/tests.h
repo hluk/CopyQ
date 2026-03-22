@@ -142,6 +142,7 @@ private slots:
 
     void commandStats();
     void statsQObjectLeak();
+    void statsItemPreview();
 
     void classByteArray();
     void classFile();

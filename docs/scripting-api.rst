@@ -1762,7 +1762,9 @@ unlike in GUI, where row numbers start from 1 by default.
    enabled/disabled state, log file sizes, and process memory usage.
 
    :returns: Multi-line string with statistics including:
-      ``TYPE: COUNT`` for QObject instances,
+      ``#ObjectName: COUNT`` for QObject instances with object name,
+      ``/Path/To#The/#Object: COUNT`` for QObject instances with specific path,
+      ``TYPE: COUNT`` for QObject instances of specific type/class,
       ``MODEL path: rows=N, dataSize=B (human)`` for item models,
       ``DATA_DIR path: size=B (human)`` for the item data directory,
       ``TABS: total=N, loaded=N`` for tab load state,
