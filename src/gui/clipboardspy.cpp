@@ -57,7 +57,7 @@ bool ClipboardSpy::setClipboardData(const QVariantMap &data)
             : ClipboardModeFlag::Selection;
         m_connection = m_clipboard->createConnection(QStringList(mimeOwner), mode);
         connect(m_connection.get(), &ClipboardConnection::changed,
-                this, &ClipboardSpy::emitChangeIfChanged);
+                this, &ClipboardSpy::emitChangeIfChanged, Qt::QueuedConnection);
     }
 
     m_clipboard->setData(m_mode, data);
@@ -75,11 +75,15 @@ QByteArray ClipboardSpy::currentOwnerData() const
 void ClipboardSpy::stop()
 {
     m_stopped = true;
+    m_connection.reset();
     emit stopped();
 }
 
 void ClipboardSpy::emitChangeIfChanged()
 {
+    if (m_stopped)
+        return;
+
     const auto newOwner = currentOwnerData();
     if (m_oldOwnerData != newOwner) {
         emit changed();

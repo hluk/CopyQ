@@ -121,7 +121,6 @@ App::App(QCoreApplication *application,
     : m_app(application)
     , m_exitCode(0)
     , m_started(false)
-    , m_closed(false)
 {
     registerDataFileConverter();
 
@@ -168,11 +167,11 @@ void App::exit(int exitCode)
         ::exit(exitCode);
 
     m_exitCode = exitCode;
-    m_closed = true;
+    m_app->setProperty("CopyQ_quitting", true);
     QCoreApplication::exit(exitCode);
 }
 
 bool App::wasClosed() const
 {
-    return m_closed;
+    return m_app->property("CopyQ_quitting").toBool();
 }

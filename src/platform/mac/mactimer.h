@@ -3,14 +3,11 @@
 #pragma once
 
 
+#include "cfref.h"
+
 #include <QObject>
 
-#ifdef __OBJC__
-@class NSTimer;
-#else
-using NSTimer = void;
-#endif
-
+#include <CoreFoundation/CoreFoundation.h>
 /**
  * Class similar to a QTimer but allows setting a tolerance, which
  * makes timers more battery-friendly on OSX.
@@ -28,9 +25,8 @@ public:
     inline void setSingleShot(bool singleShot);
 
     /**
-     * Set the tolerance for the timer. See NSTimer::setTolerance.
-     *
-     * Tolerance is ignored on OS X < 10.9.
+     * Set the tolerance for the timer.
+     * See CFRunLoopTimerSetTolerance.
      */
     void setTolerance(int msec);
     int tolerance() const { return m_tolerance; }
@@ -52,5 +48,5 @@ private:
     int m_tolerance;
     bool m_singleShot;
 
-    NSTimer *m_nsTimer;
+    CFRef<CFRunLoopTimerRef> m_cfTimer;
 };

@@ -120,6 +120,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     , m_ignoreKeysTimer()
     , m_sharedData(std::make_shared<ClipboardBrowserShared>())
 {
+    // Server-spawned subprocesses connect back to an already-running server.
+    // Skip the connection retry delay so they fail fast during shutdown.
+    qputenv("COPYQ_WAIT_FOR_SERVER_MS", "0");
+
     m_server = new Server(clipboardServerName(sessionName), this);
 
     if ( m_server->isListening() ) {
