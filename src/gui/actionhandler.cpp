@@ -52,7 +52,7 @@ QStringList ActionHandler::copyqStats() const
 ActionHandler::ActionHandler(NotificationDaemon *notificationDaemon, QObject *parent)
     : QObject(parent)
     , m_notificationDaemon(notificationDaemon)
-    , m_actionModel(new ActionTableModel(parent))
+    , m_actionModel(new ActionTableModel(this))
 {
 }
 
