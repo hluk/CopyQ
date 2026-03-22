@@ -24,6 +24,8 @@ public:
     bool pasteFromClipboard() override;
     bool copyToClipboard() override;
 
+    bool matchesWidget(const QWidget *widget) const override;
+
 private:
     bool sendKeyPress(WORD modifier, WORD key, const AppConfig &config);
 

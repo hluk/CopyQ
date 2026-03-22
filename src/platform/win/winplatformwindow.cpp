@@ -11,6 +11,7 @@
 #include <QElapsedTimer>
 #include <QString>
 #include <QVector>
+#include <QWidget>
 
 namespace {
 
@@ -147,6 +148,14 @@ WinPlatformWindow::WinPlatformWindow(HWND window)
     : m_window(window)
 {
 }
+
+bool WinPlatformWindow::matchesWidget(const QWidget *widget) const
+{
+    return widget
+        && widget->windowHandle()
+        && reinterpret_cast<HWND>(widget->winId()) == m_window;
+}
+
 
 QString WinPlatformWindow::getTitle()
 {

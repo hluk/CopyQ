@@ -6,6 +6,7 @@
 #include <QByteArray>
 
 class QString;
+class QWidget;
 
 /**
  * Window storage class for platform. Used to raise/focus window and paste to window.
@@ -36,6 +37,11 @@ public:
      * Copy to clipboard from window.
      */
     virtual bool copyToClipboard() = 0;
+
+    /**
+     * Return true if this native window belongs to the given widget.
+     */
+    virtual bool matchesWidget(const QWidget *widget) const = 0;
 
     PlatformWindow(const PlatformWindow &) = delete;
     PlatformWindow &operator=(const PlatformWindow &) = delete;
