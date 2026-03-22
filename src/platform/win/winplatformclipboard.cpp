@@ -4,7 +4,6 @@
 
 #include <QClipboard>
 #include <QMimeData>
-#include <QTimer>
 
 namespace {
 
@@ -20,27 +19,9 @@ void WinPlatformClipboard::startMonitoringBackend(const QStringList &formats, Cl
     Q_UNUSED(modes)
     m_lastClipboardSequenceNumber = GetClipboardSequenceNumber();
 
-    /* Clipboard needs to be checked in intervals since
-     * the QClipboard::changed() signal is not emitted in some cases on Windows.
-     */
-    m_timer = new QTimer(this);
-    m_timer->setInterval(500);
-    connect( m_timer, &QTimer::timeout, this, [this](){
-        onClipboardChanged(QClipboard::Clipboard);
-    });
-    m_timer->start();
-
+    // Clipboard changes are detected via QClipboard::changed signal
+    // (Qt 6 uses AddClipboardFormatListener / WM_CLIPBOARDUPDATE).
     DummyClipboard::startMonitoringBackend(formats, modes);
-}
-
-void WinPlatformClipboard::stopMonitoringBackend()
-{
-    if (m_timer) {
-        m_timer->stop();
-        m_timer->deleteLater();
-        m_timer = nullptr;
-    }
-    DummyClipboard::stopMonitoringBackend();
 }
 
 bool WinPlatformClipboard::isHidden(const QMimeData &data) const
