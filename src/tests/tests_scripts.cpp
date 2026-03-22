@@ -1198,12 +1198,13 @@ void Tests::commandStats()
     QVERIFY2( stats.value(0).startsWith("TOTAL: "), stdoutActual);
     QVERIFY2( stats.contains("QApplication: 1"), stdoutActual);
     QVERIFY2( stats.contains("MainWindow: 1"), stdoutActual);
-    QVERIFY2( stats.contains("tabWidget: 1"), stdoutActual);
-    QVERIFY2( stats.contains("searchBar: 1"), stdoutActual);
-    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget: 1"), stdoutActual);
-    QVERIFY2( stats.contains("/MainWindow/centralWidget/searchBar: 1"), stdoutActual);
-    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget/QStackedWidget/ClipboardBrowserPlaceholder/ClipboardBrowser: 1"), stdoutActual);
-    QVERIFY2( stats.contains("/MainWindow/centralWidget/tabWidget/QStackedWidget/ClipboardBrowserPlaceholder: 1"), stdoutActual);
+    QVERIFY2( stats.contains("#MainWindow: 1"), stdoutActual);
+    QVERIFY2( stats.contains("#tabWidget: 1"), stdoutActual);
+    QVERIFY2( stats.contains("#searchBar: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/#centralWidget/#tabWidget: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/#centralWidget/Utils::FilterLineEdit#searchBar: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/#centralWidget/#tabWidget/QStackedWidget/ClipboardBrowserPlaceholder/ClipboardBrowser: 1"), stdoutActual);
+    QVERIFY2( stats.contains("/MainWindow/#centralWidget/#tabWidget/QStackedWidget/ClipboardBrowserPlaceholder: 1"), stdoutActual);
 
     // Verify model stats
     RUN("add" << "test_item", "");
@@ -1317,6 +1318,43 @@ void Tests::statsQObjectLeak()
             .arg(baselineTotal).arg(afterTotal).toUtf8()
     );
 }
+
+void Tests::statsItemPreview()
+{
+    RUN("add" << "test_item", "");
+
+    const QByteArray previewItemLine =
+        "/MainWindow/#dockWidgetItemPreview"
+        "/#dockWidgetItemPreviewContents/QScrollArea#ClipboardBrowser"
+        "/#item_preview/ItemText#item: 1";
+
+    QByteArray statsOutput;
+    auto fetchStats = [&]() {
+        QByteArray stderrActual;
+        run(Args("stats"), &statsOutput, &stderrActual);
+    };
+    auto statsContainPreviewItem = [&]() {
+        return statsOutput.split('\n').contains(previewItemLine);
+    };
+
+    // Preview disabled — no preview item widget in stats.
+    RUN("preview", "false\n");
+    fetchStats();
+    QVERIFY2(!statsContainPreviewItem(), statsOutput);
+
+    // Enable preview — item widget should appear.
+    KEYS(clipboardBrowserId << "F7");
+    RUN("preview", "true\n");
+    fetchStats();
+    QVERIFY2(statsContainPreviewItem(), statsOutput);
+
+    // Disable preview — item widget must be gone (not leaked).
+    KEYS(clipboardBrowserId << "F7");
+    RUN("preview", "false\n");
+    fetchStats();
+    QVERIFY2(!statsContainPreviewItem(), statsOutput);
+}
+
 
 void Tests::chainingCommands()
 {

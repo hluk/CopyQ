@@ -788,9 +788,12 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     m_showItemPreview = !ui->dockWidgetItemPreview->isHidden();
 
     // Disable the show-preview option when the preview dock is closed.
-    connect( ui->dockWidgetItemPreview, &QDockWidget::visibilityChanged,
-             this, [this]() {
-                if ( ui->dockWidgetItemPreview->isHidden() )
+    // Capture the dock pointer directly: during ~QWidget::hideChildren() the
+    // dock is still alive but the Ui struct (holding the pointer) is already freed.
+    auto *dockPreview = ui->dockWidgetItemPreview;
+    connect( dockPreview, &QDockWidget::visibilityChanged,
+             this, [this, dockPreview]() {
+                if ( dockPreview->isHidden() )
                     setItemPreviewVisible(false);
              } );
 
@@ -1227,7 +1230,11 @@ void MainWindow::updateItemPreviewTimeout()
                 : nullptr;
 
         ui->scrollAreaItemPreview->setVisible(w != nullptr);
-        ui->scrollAreaItemPreview->setWidget(w);
+        if (w) {
+            ui->scrollAreaItemPreview->setWidget(w);
+        } else if (auto *old = ui->scrollAreaItemPreview->takeWidget()) {
+            old->deleteLater();
+        }
         if (w) {
             ui->dockWidgetItemPreview->setStyleSheet( c->styleSheet() );
             w->show();
