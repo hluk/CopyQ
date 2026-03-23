@@ -3234,6 +3234,8 @@ void MainWindow::showWindow()
     else
         showNormal();
 
+    ensureWindowOnScreen(this);
+
     auto c = browser();
     if (c) {
         if ( !c->isInternalEditorOpen() )
