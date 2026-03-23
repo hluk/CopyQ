@@ -109,6 +109,8 @@ QString resolutionTag(const QWidget &widget, bool openOnCurrentScreen)
     return tag;
 }
 
+} // namespace
+
 void ensureWindowOnScreen(QWidget *widget)
 {
     const QSize frame  = frameSize(widget);
@@ -147,8 +149,6 @@ void ensureWindowOnScreen(QWidget *widget)
         widget->move(x, y);
     }
 }
-
-} // namespace
 
 QVariant geometryOptionValue(const QString &optionName)
 {
@@ -197,6 +197,9 @@ void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
 void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 {
+    if (w->isMinimized())
+        return;
+
     const QString optionName = geometryOptionName(*w, openOnCurrentScreen);
     const QString tag = resolutionTag(*w, openOnCurrentScreen);
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );

@@ -24,4 +24,6 @@ void moveToCurrentWorkspace(QWidget *w);
 void moveWindowOnScreen(QWidget *w, QPoint pos);
 
 void setGeometryGuardBlockedUntilHidden(QWidget *w, bool blocked);
+
+void ensureWindowOnScreen(QWidget *w);
 bool isGeometryGuardBlockedUntilHidden(const QWidget *w);

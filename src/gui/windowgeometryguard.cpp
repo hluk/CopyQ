@@ -114,7 +114,7 @@ bool WindowGeometryGuard::eventFilter(QObject *, QEvent *event)
 
     case QEvent::Move:
     case QEvent::Resize:
-        if ( !isWindowGeometryLocked() && m_window->isVisible() )
+        if ( !isWindowGeometryLocked() && m_window->isVisible() && !m_window->isMinimized() )
             m_timerSaveGeometry.start();
         break;
 
