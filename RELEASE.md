@@ -12,6 +12,33 @@ Verify and push the changes:
 
     for r in origin gitlab; do git push --follow-tags $r master || break; done
 
+# Draft Release
+
+Run the release script:
+
+    utils/github/draft-release.sh 14.0.0
+
+This automates the following steps:
+
+1. Creates a draft GitHub Release with the changelog from `CHANGES.md`.
+2. Creates the source tarball and uploads it to the release.
+3. Waits for CI to attach build artifacts (`.dmg`, `.zip`, `.exe`) to the release.
+4. Downloads the release assets, generates `checksums-sha512.txt`, and signs it
+   with `cosign` (opens a browser for OIDC authentication).
+5. Uploads `checksums-sha512.txt` and `cosign.bundle` to the release.
+
+The script is idempotent. If interrupted, rerun it with the same working
+directory to resume:
+
+    utils/github/draft-release.sh 14.0.0 ./release-14.0.0
+
+Artifacts produced by CI (attached automatically by GitHub Actions):
+
+- Windows installer (`copyq-VERSION-setup.exe`)
+- Windows portable zip (`copyq-VERSION.zip`)
+- macOS Intel DMG (`CopyQ-VERSION-macos-13.dmg`)
+- macOS Apple Silicon DMG (`CopyQ-VERSION-macos-12-m1.dmg`)
+
 # Build Flatpak
 
 Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
@@ -22,38 +49,12 @@ Update [flathub package](https://github.com/flathub/com.github.hluk.copyq):
 4. Verify the build when the build finishes (flathubbot will add comments).
 5. Merge the changes if the build is OK.
 
-# Download Packages
-
-Pushing the version tag triggers GitHub Actions workflows that build and upload
-packages to the draft GitHub Release automatically:
-
-- Windows installer (`copyq-VERSION-setup.exe`)
-- Windows portable zip (`copyq-VERSION.zip`)
-- macOS Intel DMG (`CopyQ-macos-13.dmg`)
-- macOS Apple Silicon DMG (`CopyQ-macos-12-m1.dmg`)
-
-Check the [Actions tab](https://github.com/hluk/CopyQ/actions) for build progress.
-
-- Create source package:
-
-      $COPYQ_SOURCE/utils/create_source_package.sh 14.0.0
-
-# Checksums and Signing
-
-Create checksums and sign all new packages, source tarball and binaries:
-
-    $COPYQ_SOURCE/utils/sign_released_files.sh
-
-This creates `checksums-sha512.txt` with the checksums and its signature in
-`cosign.bundle`.
-
 # Publish Release
 
-Create [release on GitHub](https://github.com/hluk/CopyQ/releases) for the new version tag.
+Review and publish the draft release on GitHub.
 
 Upload packages and binaries to:
 
-- [github](https://github.com/hluk/CopyQ/releases) (include `checksums-sha512.txt` and `cosign.bundle`)
 - [sourceforge](https://sourceforge.net/projects/copyq/files/)
 
 Write release announcement to [CopyQ group](https://groups.google.com/forum/#!forum/copyq).
