@@ -27,6 +27,7 @@
     <url type="vcs-browser">https://github.com/hluk/CopyQ</url>
 
     <releases>
+        <release version="14.0.0" date="2026-03-24" />
         <release version="13.0.0" date="2025-10-22" />
         <release version="12.0.1" date="2025-09-30" />
         <release version="12.0.0" date="2025-09-29" />
