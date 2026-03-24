@@ -1,3 +1,93 @@
+# 14.0.0
+
+## Added
+
+- Tab encryption support. Allows encrypting all tab data on disk using a single
+  custom password. Common keychain software to store the password can be also
+  enabled with password expiration (locking tabs).
+
+  *Note for packagers:* This requires QCA and QtKeychain libraries, but it can be
+  disabled at build time with CMake options `WITH_QCA_ENCRYPTION` and
+  `WITH_KEYCHAIN` (#2617).
+
+- Audio playback via `playSound()` script function for playing WAV, MP3 and
+  FLAC files.
+
+  *Note for packagers:* This requires miniaudio library, but it can be disabled
+  at build time with CMake option `WITH_AUDIO`.
+
+- New script function `stats()` for gathering runtime statistics (memory usage,
+  UI elements, tab state, loaded plugins, running actions).
+
+- Nord themes. Thanks to @ArtyomBabiy.
+
+- Theme is applied to the About dialog (#3296).
+
+- Log directory can be changed using `COPYQ_LOG_DIR` environment variable
+  (if `COPYQ_LOG_FILE` is not used).
+
+- GNOME: Clipboard monitoring support using a custom GNOME extension
+  (#2342, #1243).
+
+- X11: Portal for global shortcuts can be enabled with `COPYQ_USE_PORTAL`
+  environment variable.
+
+## Changed
+
+- Long texts in the editor are no longer syntax-highlighted to avoid
+  slowdowns (#3340).
+
+- `ItemSelection()` and `selectItems()` preserve the original selection
+  order (#3271).
+
+- "Show the tray menu" command is excluded from the tray menu (#3353).
+
+- Content dialog now shows data for the first format when opened (#3404).
+
+- Option `close_on_unfocus_extra_delay_ms` can now be changed via `config()` (#3286).
+
+- Use `COPYQ_LOG_FILE` for logging into single file without adding extra suffix
+  for process PID.
+
+- Tests are no longer part of the application (#3274).
+
+- X11: Reduced blocking calls when showing the main window, improving
+  responsiveness after idle (#2877).
+
+## Fixed
+
+- Fixes pinned item duplication on clipboard re-read (#3131, #3042).
+
+- Fixes potential data loss on partial tab rename failure during drag-and-drop.
+
+- Fixes drag-and-drop expanding collapsed tab groups.
+
+- Fixes window becoming invisible when started minimized (#3440).
+
+- Fixes `showAt()` when the main window is maximized; restores original
+  geometry afterward (#3412, #3384).
+
+- Fixes hiding the main window from the tray menu (#3352).
+
+- Fixes overriding selection data in automatic commands (#3324).
+
+- Fixes "Hide from screenshots" option state in Preferences.
+
+- Fixes reading environment variables in correct encoding.
+
+- Fixes copy/paste error handling (#3428).
+
+- Synchronize plugin: Fixes updating items after they are moved (#3424).
+
+- macOS: Fixes tray menu not appearing and crash on paste.
+
+- Windows: Fixes copy/paste with the Win modifier held (#3398).
+
+- Windows: Fixes default installation folder for single-user mode (#3358).
+
+- Windows: Fixes overriding custom `COPYQ_LOG_FILE`.
+
+
 # 13.0.0
 
 ## Added
