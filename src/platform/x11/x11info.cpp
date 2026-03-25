@@ -4,15 +4,12 @@
 
 #include <QGuiApplication>
 
-#ifdef COPYQ_WITH_X11
-#   if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#       include <QX11Info>
-#   else
-#       include <QtGui/private/qtx11extras_p.h>
-#   endif
-#   include <X11/Xlib.h>
-#else
+#ifndef COPYQ_WITH_X11
 struct _XDisplay {};
+#elif QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#   include <QX11Info>
+#else
+#   include <X11/Xlib.h>
 #endif
 
 bool X11Info::isPlatformX11()
@@ -22,9 +19,12 @@ bool X11Info::isPlatformX11()
 
 Display *X11Info::display()
 {
-#ifdef COPYQ_WITH_X11
+#ifndef COPYQ_WITH_X11
+    return nullptr;
+#elif QT_VERSION < QT_VERSION_CHECK(6,0,0)
     return QX11Info::display();
 #else
-    return nullptr;
+    auto *x11App = qGuiApp->nativeInterface<QNativeInterface::QX11Application>();
+    return x11App ? x11App->display() : nullptr;
 #endif
 }

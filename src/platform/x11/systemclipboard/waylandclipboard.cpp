@@ -17,7 +17,11 @@
 #include <QMimeData>
 #include <QThread>
 #include <QtWaylandClient/QWaylandClientExtension>
-#include <qpa/qplatformnativeinterface.h>
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+#  include <QGuiApplication>
+#else
+#  include <qpa/qplatformnativeinterface.h>
+#endif
 #include <qtwaylandclientversion.h>
 
 #include <errno.h>
@@ -105,6 +109,34 @@ private:
 
 } // namespace
 
+namespace {
+
+struct ::wl_display *getWaylandDisplay()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    auto *waylandApp = qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+    return waylandApp ? waylandApp->display() : nullptr;
+#else
+    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
+    return native ? static_cast<struct ::wl_display *>(
+        native->nativeResourceForIntegration("wl_display")) : nullptr;
+#endif
+}
+
+struct ::wl_seat *getWaylandSeat()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    auto *waylandApp = qGuiApp->nativeInterface<QNativeInterface::QWaylandApplication>();
+    return waylandApp ? waylandApp->seat() : nullptr;
+#else
+    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
+    return native ? static_cast<struct ::wl_seat *>(
+        native->nativeResourceForIntegration("wl_seat")) : nullptr;
+#endif
+}
+
+} // namespace
+
 class Keyboard;
 // We are binding to Seat/Keyboard manually because we want to react to gaining focus but inside Qt the events are Qt and arrive to late
 class KeyboardFocusWatcher : public QWaylandClientExtensionTemplate<KeyboardFocusWatcher>, public QtWayland::wl_seat
@@ -121,10 +153,10 @@ public:
         // to be have access to data_control immediately.
         QMetaObject::invokeMethod(this, "addRegistryListener");
 #endif
-        QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
-        auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
+        auto *display = getWaylandDisplay();
         // so we get capabilities
-        wl_display_roundtrip(display);
+        if (display)
+            wl_display_roundtrip(display);
     }
     ~KeyboardFocusWatcher() override
     {
@@ -357,9 +389,9 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type 
      * However this isn't actually any worse than X.
      */
 
-    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
-    auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
-    wl_display_flush(display);
+    auto *display = getWaylandDisplay();
+    if (display)
+        wl_display_flush(display);
 
     QFile readPipe;
     if (readPipe.open(pipeFds[0], QIODevice::ReadOnly)) {
@@ -654,11 +686,7 @@ WaylandClipboard::WaylandClipboard(QObject *parent)
 {
     connect(m_manager.get(), &DataControlDeviceManager::activeChanged, this, [this]() {
         if (m_manager->isActive()) {
-            QPlatformNativeInterface *native = qApp->platformNativeInterface();
-            if (!native) {
-                return;
-            }
-            auto seat = static_cast<struct ::wl_seat *>(native->nativeResourceForIntegration("wl_seat"));
+            auto *seat = getWaylandSeat();
             if (!seat) {
                 return;
             }
@@ -706,9 +734,9 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
     }
 
     // roundtrip to have accurate focus state when losing focus but setting mime data before processing wayland events.
-    QPlatformNativeInterface *native = qGuiApp->platformNativeInterface();
-    auto display = static_cast<struct ::wl_display *>(native->nativeResourceForIntegration("wl_display"));
-    wl_display_roundtrip(display);
+    auto *display = getWaylandDisplay();
+    if (display)
+        wl_display_roundtrip(display);
 
     // If the application is focused, use the normal mechanism so a future paste will not deadlock itself
     if (m_keyboardFocusWatcher->hasFocus()) {
@@ -716,7 +744,8 @@ void WaylandClipboard::setMimeData(QMimeData *mime, QClipboard::Mode mode)
         // if we short-circuit the wlr_data_device, when we receive the data
         // we cannot identify ourselves as the owner
         // because of that we act like it's a synchronous action to not confuse klipper.
-        wl_display_roundtrip(display);
+        if (display)
+            wl_display_roundtrip(display);
         return;
     }
     // If not, set the clipboard once the app receives focus to avoid the deadlock
