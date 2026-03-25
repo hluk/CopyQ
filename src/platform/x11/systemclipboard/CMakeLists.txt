@@ -1,4 +1,6 @@
-include_directories(SYSTEM ${${copyq_qt}Gui_PRIVATE_INCLUDE_DIRS}) # for native interface to get wl_seat
+if(NOT WITH_QT6 OR Qt6_VERSION VERSION_LESS "6.5.0")
+    include_directories(SYSTEM ${${copyq_qt}Gui_PRIVATE_INCLUDE_DIRS}) # for native interface to get wl_seat
+endif()
 find_package(Wayland 1.15 COMPONENTS Client)
 find_package(${copyq_qt} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS WaylandClient)
 
@@ -36,7 +38,9 @@ target_link_libraries(systemclipboard
                       ${copyq_qt}::WaylandClient
                       Wayland::Client
 )
-if (TARGET ${copyq_qt}::GuiPrivate)
-    # for native interface to get wl_seat
-    target_link_libraries(systemclipboard ${copyq_qt}::GuiPrivate)
+if(NOT WITH_QT6 OR Qt6_VERSION VERSION_LESS "6.5.0")
+    if (TARGET ${copyq_qt}::GuiPrivate)
+        # for native interface to get wl_seat
+        target_link_libraries(systemclipboard ${copyq_qt}::GuiPrivate)
+    endif()
 endif()
