@@ -39,8 +39,10 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
-          # Full history needed for git describe (version string).
+          # Full commit history needed for sortable version string (git describe in CMake).
+          # Blobless filter skips file content for historical commits to speed up clone.
           fetch-depth: 0
+          filter: blob:none
 
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
@@ -111,12 +113,18 @@ jobs:
 
       - name: Get version string
         id: version
+        uses: ./.github/actions/get-version
+        with:
+          build_dir: ${{ runner.workspace }}/build/copyq/Windows
+
+      - name: Compute numeric version for installer
+        id: version_numeric
+        shell: bash
         run: |
-          version=$(git describe --tags --always HEAD | sed -E \
-            -e 's/^v([0-9]+\.[0-9]+\.[0-9]+)/\1/' \
-            -e 's/-([0-9]+).*/\.\1/')
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Version: $version"
+          # VersionInfoVersion requires numeric-only (x.x.x or x.x.x.x).
+          numeric="${{ steps.version.outputs.version }}"
+          numeric="${numeric%-g*}"
+          echo "value=$numeric" >> "$GITHUB_OUTPUT"
 
       - name: Deploy application
         run: utils/github/deploy-windows.sh
@@ -151,6 +159,7 @@ jobs:
         run: |
           "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" /O"%GITHUB_WORKSPACE%" ^
             /DAppVersion="${{ steps.version.outputs.version }}" ^
+            /DAppVersionNumeric="${{ steps.version_numeric.outputs.value }}" ^
             /DRoot="%GITHUB_WORKSPACE%\copyq-${{ steps.version.outputs.version }}" ^
             /DSource="%GITHUB_WORKSPACE%" ^
             "%GITHUB_WORKSPACE%\shared\copyq.iss"

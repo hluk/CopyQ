@@ -165,6 +165,18 @@ void Tests::commandVersion()
     QVERIFY( version.contains(QRegularExpression("\\bCopyQ\\b.*" + QRegularExpression::escape(versionString))) );
     // Version contains Qt version.
     QVERIFY( version.contains(QRegularExpression("\\bQt:\\s+\\d")) );
+
+    // Version string format: Major.Minor.Patch[.N-gSHA]
+    //   14.0.0                (tagged release)
+    //   14.0.0.4-g1175475d    (4 commits after tag)
+    const QRegularExpression re(
+        "^\\d+\\.\\d+\\.\\d+"     // Major.Minor.Patch
+        "(\\.\\d+-g[0-9a-f]+)?$"  // optional .commits-gSHA suffix
+    );
+    QVERIFY2(
+        re.match(versionString).hasMatch(),
+        qPrintable(QStringLiteral("versionString '%1' does not match expected format").arg(versionString))
+    );
 }
 
 void Tests::badCommand()

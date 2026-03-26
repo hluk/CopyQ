@@ -10,6 +10,11 @@
 #define MyAppCopyrightStartYear  "2009"
 #define MyAppCopyrightEndYear    GetDateTimeString('yyyy','','')
 
+; Default AppVersionNumeric to AppVersion for standalone builds.
+#ifndef AppVersionNumeric
+#define AppVersionNumeric AppVersion
+#endif
+
 [Setup]
 AppId={{9DF1F443-EA0B-4C75-A4D3-767A7783228E}
 AppName={#MyAppName}
@@ -25,7 +30,7 @@ AppUpdatesURL=http://hluk.github.io/CopyQ/
 
 VersionInfoDescription={#MyAppName} installer
 VersionInfoProductName={#MyAppName} {#AppVersion}
-VersionInfoVersion={#AppVersion}
+VersionInfoVersion={#AppVersionNumeric}
 
 UninstallDisplayName={#MyAppName} {#AppVersion}
 UninstallDisplayIcon={app}\copyq.exe
