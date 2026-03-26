@@ -591,8 +591,16 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 {
     const bool isSelected = option.state & QStyle::State_Selected;
 
-    // Render background (selected, alternate, ...).
+    // Draw the list widget background clipped to the item rect so that
+    // rounded corners reveal the correct background (including gradients).
+    painter->save();
+    painter->setClipRect(option.rect);
+    QStyleOption bgOpt;
+    bgOpt.initFrom(m_view);
+    bgOpt.rect = m_view->viewport()->rect();
     QStyle *style = m_view->style();
+    style->drawPrimitive(QStyle::PE_Widget, &bgOpt, painter, m_view);
+    painter->restore();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     // Colorize item.
