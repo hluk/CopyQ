@@ -3333,13 +3333,13 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwörter stimmen nicht überein. Bitte nochmal versuchen (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort ändern</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
@@ -3352,7 +3352,7 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Einrichtung des Passworts ist gescheitert</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3360,49 +3360,49 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Passwortversuche wurden überschritten.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigung des Verschlüsselungs-Passworts</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zur Bestätigung Passwort erneut eingeben:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüsselungs-Passwort des aktuellen Reiters</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie das aktuelle Passwort ein, um die Daten des Reiters zu verschlüsseln:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Falsches Passwort. Bitte erneut versuchen (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Passwort-Überprüfung ist fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Verschlüsselungsdateien sind beschädigt</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Verschlüsselungsdateien fehlen oder sind beschädigt. Der strikte Modus kann verschlüsselte Registerkarten nicht automatisch wiederherstellen.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
@@ -3427,17 +3427,17 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Reiter werden erneut verschlüsselt...</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüssele Reiter %1 von %2 erneut: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3446,7 +3446,11 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Konnte die folgenden Reiter nicht verschlüsseln:
+
+%1
+
+Bitte für weitere Informationen die Logs überprüfen.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
@@ -3878,12 +3882,12 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 konnte nicht exportiert werden</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 konnte nicht importiert werden</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="720"/>
@@ -4096,19 +4100,21 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfadtrennzeichen ver
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Verlange Passwort nach einem Zeitraum:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro-Reiter-Zeitlimit in Sekunden, nach dem das Verschlüsselungspasswort erneut eingegeben werden muss
+
+Auf 0 setzen, um globale Einstellung zu verwenden.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>Global</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
