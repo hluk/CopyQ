@@ -45,7 +45,10 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
+          # Full commit history needed for sortable version string (git describe in CMake).
+          # Blobless filter skips file content for historical commits to speed up clone.
           fetch-depth: 0
+          filter: blob:none
 
       - name: Enable ccache
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
@@ -102,12 +105,9 @@ jobs:
 
       - name: Get version string
         id: version
-        run: |
-          version=$(git describe --tags --always HEAD | sed -E \
-            -e 's/^v([0-9]+\.[0-9]+\.[0-9]+)/\1/' \
-            -e 's/-([0-9]+).*/\.\1/')
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "Version: $version"
+        uses: ./.github/actions/get-version
+        with:
+          build_dir: ${{ runner.workspace }}/build/copyq/${{ matrix.cmake_preset }}
 
       - name: Create macOS bundle
         working-directory: '${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}'

@@ -1,0 +1,45 @@
+name: Get version string
+description: >-
+  Extracts the full version string from CMake's generated version.cpp and validates it.
+
+inputs:
+  build_dir:
+    description: CMake binary directory (contains src/common/version.cpp)
+    required: true
+
+outputs:
+  version:
+    description: >-
+      Full version as produced by CMake / git describe.
+      Tagged release: 14.0.0  Dev build: 14.0.0.5-ge2d457e4
+    value: ${{ steps.extract.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Extract and validate version
+      id: extract
+      shell: bash
+      env:
+        VERSION_FILE: ${{ inputs.build_dir }}/src/common/version.cpp
+      run: |
+        if [[ ! -f "$VERSION_FILE" ]]; then
+          echo "::error::Version file not found: $VERSION_FILE"
+          exit 1
+        fi
+
+        version=$(sed -n 's/.*versionString("\(.*\)").*/\1/p' "$VERSION_FILE")
+        if [[ -z "$version" ]]; then
+          echo "::error::Failed to extract version from $VERSION_FILE"
+          exit 1
+        fi
+
+        # Validate format: Major.Minor.Patch with optional .N-gSHA suffix.
+        # Must match the regex in src/tests/tests_cli.cpp.
+        if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+-g[0-9a-f]+)?$ ]]; then
+          echo "::error::Version '$version' does not match expected format"
+          exit 1
+        fi
+
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+        echo "Version: $version"
