@@ -497,6 +497,8 @@ void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
         return;
 
     ww->setProperty(propertySelectedItem, selected);
+    for (auto *w : ww->findChildren<QWidget*>())
+        w->setProperty(propertySelectedItem, selected);
     ww->setStyleSheet(m_view->styleSheet());
 }
 

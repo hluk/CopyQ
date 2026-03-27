@@ -11,7 +11,6 @@
 #include <QBoxLayout>
 #include <QMessageBox>
 #include <QModelIndex>
-#include <QPalette>
 #include <QPainter>
 
 #include <algorithm>
@@ -57,30 +56,25 @@ ItemPinned::ItemPinned(ItemWidget *childItem)
 
 void ItemPinned::paintEvent(QPaintEvent *paintEvent)
 {
-    const auto *parent = parentWidget();
-    auto color = parent->palette().color(QPalette::Window);
-    const int lightThreshold = 100;
-    const bool menuBackgrounIsLight = color.lightness() > lightThreshold;
-    color.setHsl(
-                color.hue(),
-                color.saturation(),
-                qMax(0, qMin(255, color.lightness() + (menuBackgrounIsLight ? -200 : 200)))
-                );
+    QWidget::paintEvent(paintEvent);
 
     QPainter painter(this);
-    const int border = pointsToPixels(6, this);
-    const QRect rect(width() - border, 0, width(), height());
-    painter.setOpacity(0.15);
-    painter.fillRect(rect, color);
-
-    QWidget::paintEvent(paintEvent);
+    QColor color;
+    if (m_indicatorColor.isValid()) {
+        color = m_indicatorColor;
+    } else {
+        color = painter.pen().color();
+        color.setAlpha(50);
+    }
+    const int border = pointsToPixels(m_indicatorWidth, this);
+    painter.fillRect(width() - border, 0, border, height(), color);
 }
 
 void ItemPinned::updateSize(QSize maximumSize, int idealWidth)
 {
     setMinimumWidth(idealWidth);
     setMaximumWidth(maximumSize.width());
-    const int border = pointsToPixels(12, this);
+    const int border = pointsToPixels(2 * m_indicatorWidth, this);
     const int childItemWidth = idealWidth - border;
     const auto childItemMaximumSize = QSize(maximumSize.width() - border, maximumSize.height());
     ItemWidgetWrapper::updateSize(childItemMaximumSize, childItemWidth);
