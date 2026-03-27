@@ -1,26 +1,26 @@
-#ClipboardBrowser,#item,#item_child{
+#ClipboardBrowser{
     ;${font}
     ;color: ${fg}
     ;background: ${bg}
 }
-
 #ClipboardBrowser::item:alternate:!hover:!selected{
     ;color: ${alt_fg}
     ;background: ${alt_bg}
 }
-
-#ClipboardBrowser::item:selected
-,#item[CopyQ_selected="true"]
-,#item[CopyQ_selected="true"] #item_child
-{
+#ClipboardBrowser::item:selected{
     ;color: ${sel_fg}
     ;background: ${sel_bg}
 }
 
-#item #item_child
+#item,#item_child{
+    ;${font}
+    ;color: ${fg}
+    ;background: transparent
+}
+#item[CopyQ_selected="true"]
 ,#item[CopyQ_selected="true"] #item_child
 {
-    ;background: transparent
+    ;color: ${sel_fg}
 }
 
 ${hsv_saturation_factor = 0.5}
