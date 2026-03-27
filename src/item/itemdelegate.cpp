@@ -335,9 +335,10 @@ void ItemDelegate::highlightMatches(ItemWidget *itemWidget) const
 
 void ItemDelegate::updateAllRows()
 {
+    const auto margins = m_sharedData->theme.margins();
     const int s = m_view->spacing();
     const int space = 2 * s;
-    int y = -m_view->verticalOffset() + s;
+    int y = -m_view->verticalOffset() + s + margins.height();
 
     for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
         const bool hide = m_view->isRowHidden(row);
@@ -469,7 +470,7 @@ QPoint ItemDelegate::findPositionForWidget(const QModelIndex &index) const
         if ( ww->isHidden() )
             continue;
 
-        y = ww->geometry().top() - margins.height() + m_items[row].size.height()
+        y = ww->geometry().top() - margins.height() + m_items[row].size.height() + s
             + skipped * (defaultItemHeight + 2 * s);
         break;
     }
