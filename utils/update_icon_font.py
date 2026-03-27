@@ -1,4 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env -S uv run --script
+# /// script
+# dependencies = [
+#   "brotli",
+#   "fonttools",
+# ]
+# ///
 '''
 Updates icon font and header files for CopyQ repository.
 
@@ -14,8 +20,8 @@ from fontTools.merge import Merger
 from fontTools.ttLib import TTFont
 
 FONTS = [
-    'fa-solid-900.ttf',
-    'fa-brands-400.ttf',
+    'fa-solid-900.woff2',
+    'fa-brands-400.woff2',
 ]
 FONT_FILENAME = 'fontawesome.ttf'
 
@@ -70,9 +76,6 @@ def write_icon_list_header_file(header_icon_list, icons):
 def write_icons_header_file(header_icons, icons):
     with open(header_icons, 'w') as header_file:
         write_header_file_preamble(header_file)
-        header_file.write('#ifndef ICONS_H\n')
-        header_file.write('#define ICONS_H\n')
-        header_file.write('\n')
         header_file.write('enum IconId {\n')
 
         for name, icon in icons.items():
@@ -81,8 +84,6 @@ def write_icons_header_file(header_icons, icons):
             header_file.write(f'    Icon{label} = 0x{code},' + '\n')
 
         header_file.write('};\n')
-        header_file.write('\n')
-        header_file.write('#endif // ICONS_H\n')
 
 
 def rename_font_family(path):
