@@ -106,3 +106,55 @@ Here are some special placeholders for CSS files:
   the style sheet
 - ``${hsv_value_factor = 0.9}`` - set value for colors in the rest of the style
   sheet
+
+Plugin Indicators
+~~~~~~~~~~~~~~~~~
+
+Some plugins draw visual indicators on items. The **pinned** plugin draws a
+vertical border on the right edge, and the **notes** plugin draws a small bar
+next to the note text.
+
+Both indicators derive their color from the CSS ``color`` property of the item
+widget and are rendered semi-transparent by default.
+
+To set the indicator color or width explicitly, use the ``qproperty-`` CSS
+properties on the plugin widget class. When a color property is set, it is used
+exactly as specified with no alpha modification.
+
+.. note::
+
+    Qt ``qproperty-`` values are applied once when the rule matches and are not
+    reverted when the rule stops matching. To vary a property by state (e.g.
+    selected vs. unselected), you must set explicit values for **both** states.
+
+**Pinned indicator properties:**
+
+- ``qproperty-pinnedIndicatorColor`` --- indicator color (default: text color at 20% opacity)
+- ``qproperty-pinnedIndicatorWidth`` --- border width in points (default: ``6``)
+
+.. code-block:: css
+
+    /* Solid red pinned indicator, wider border */
+    ItemPinned {
+        qproperty-pinnedIndicatorColor: rgba(255, 0, 0, 255);
+        qproperty-pinnedIndicatorWidth: 10;
+    }
+
+    /* Different indicator color when selected (both rules required) */
+    ItemPinned { qproperty-pinnedIndicatorColor: rgba(0, 0, 255, 128); }
+    ItemPinned[CopyQ_selected="true"] {
+        qproperty-pinnedIndicatorColor: rgba(255, 204, 0, 255);
+    }
+
+**Notes indicator properties:**
+
+- ``qproperty-notesIndicatorColor`` --- indicator color (default: text color at 31% opacity)
+- ``qproperty-notesIndicatorWidth`` --- bar indent/width in pixels (default: ``16``)
+
+.. code-block:: css
+
+    /* Custom notes indicator color */
+    ItemNotes { qproperty-notesIndicatorColor: rgba(100, 200, 100, 180); }
+
+    /* Wider notes bar */
+    ItemNotes { qproperty-notesIndicatorWidth: 24; }

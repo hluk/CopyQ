@@ -8,11 +8,13 @@
 
 #include <QVariant>
 #include <QWidget>
+#include <QColor>
 
 namespace Ui {
 class ItemNotesSettings;
 }
 
+class QHBoxLayout;
 class QTextEdit;
 class QTimer;
 
@@ -25,12 +27,22 @@ enum NotesPosition {
 class ItemNotes final : public QWidget, public ItemWidgetWrapper
 {
     Q_OBJECT
+    Q_PROPERTY(QColor notesIndicatorColor READ notesIndicatorColor
+               WRITE setNotesIndicatorColor)
+    Q_PROPERTY(int notesIndicatorWidth READ notesIndicatorWidth
+               WRITE setNotesIndicatorWidth)
 
 public:
     ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
               NotesPosition notesPosition, bool showToolTip);
 
     void setCurrent(bool current) override;
+
+    QColor notesIndicatorColor() const { return m_indicatorColor; }
+    void setNotesIndicatorColor(const QColor &color) { m_indicatorColor = color; }
+
+    int notesIndicatorWidth() const { return m_indicatorWidth; }
+    void setNotesIndicatorWidth(int width);
 
 protected:
     void updateSize(QSize maximumSize, int idealWidth) override;
@@ -44,9 +56,12 @@ private:
 
     QTextEdit *m_notes;
     QWidget *m_icon;
+    QHBoxLayout *m_labelLayout;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
     bool m_isCurrent = false;
+    QColor m_indicatorColor;
+    int m_indicatorWidth = 0;
 };
 
 class ItemNotesLoader final : public QObject, public ItemLoaderInterface
