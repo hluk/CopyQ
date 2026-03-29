@@ -96,19 +96,35 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: version()
 
-   Returns version string.
+   Returns versions, features and host system information.
 
-   :returns: Version string.
+   :returns: Versions, features and host system information
    :rtype: string
 
-   Example of the version string::
+   Example return value::
 
-       CopyQ Clipboard Manager v4.0.0-19-g93d95a7f
-       Qt: 5.15.2
-       KNotifications: 5.79.0
-       Compiler: GCC
+       CopyQ Clipboard Manager 14.0.0.14-g0e004828
        Arch: x86_64-little_endian-lp64
-       OS: Fedora 33 (Workstation Edition)
+       Audio: miniaudio 0.11.25
+       Compiler: GCC
+       DISPLAY: :0
+       KGuiAddons: 6.24.0
+       KNotifications: 6.24.0
+       KStatusNotifierItem: 6.24.0
+       OS: Fedora Linux 43 (Workstation Edition)
+       QCA: 2.3.10
+       Qt: 6.10.2
+       QtKeychain: 0.15.0
+       WAYLAND_DISPLAY: wayland-0
+       XDG_CURRENT_DESKTOP: KDE
+       XDG_SESSION_DESKTOP: KDE
+       XDG_SESSION_TYPE: wayland
+       has-audio: 1
+       has-encryption: 1
+       has-global-shortcuts: 1
+       has-keychain: 1
+       has-mouse-selection: 1
+       platform: Linux/X11
 
 .. js:function:: help()
 
@@ -724,7 +740,15 @@ unlike in GUI, where row numbers start from 1 by default.
 
 .. js:function:: info([pathName])
 
-   Returns paths and flags used by the application.
+   Returns diagnostic info: versions, features, platform, environment variables
+   and common paths.
+
+   On Linux, also includes environment variables: ``DISPLAY``,
+   ``WAYLAND_DISPLAY``, ``XDG_CURRENT_DESKTOP``, ``XDG_SESSION_DESKTOP``,
+   ``XDG_SESSION_TYPE``.
+
+   When called without arguments, non-path entries are listed first,
+   followed by paths at the end.
 
    :returns: Path for given identifier.
    :rtype: string
@@ -734,7 +758,6 @@ unlike in GUI, where row numbers start from 1 by default.
    .. code-block:: js
 
        info('config')
-
 .. js:function:: eval(script)
 
    Evaluates script and returns result.

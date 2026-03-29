@@ -11,6 +11,7 @@
 #include "common/common.h"
 #include "common/config.h"
 #include "common/contenttype.h"
+#include "common/diagnostics.h"
 #include "common/display.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -2170,24 +2171,6 @@ void ScriptableProxy::setPointerPosition(int x, int y)
         QCursor::setPos(screen, pos);
 }
 
-QString ScriptableProxy::pluginsPath()
-{
-    INVOKE(pluginsPath, ());
-    return ::pluginsPath();
-}
-
-QString ScriptableProxy::themesPath()
-{
-    INVOKE(themesPath, ());
-    return ::themesPath();
-}
-
-QString ScriptableProxy::translationsPath()
-{
-    INVOKE(translationsPath, ());
-    return ::translationsPath();
-}
-
 QString ScriptableProxy::iconColor()
 {
     INVOKE(iconColor, ());
@@ -2717,25 +2700,6 @@ bool ScriptableProxy::getSelectionData()
     for (auto it = data.constBegin(); it != data.constEnd(); ++it)
         m_actionData[it.key()] = it.value();
     return true;
-}
-
-QString pluginsPath()
-{
-    QDir dir;
-    if (platformNativeInterface()->findPluginDir(&dir))
-        return dir.absolutePath();
-
-    return QString();
-}
-
-QString themesPath()
-{
-    return platformNativeInterface()->themePrefix();
-}
-
-QString translationsPath()
-{
-    return platformNativeInterface()->translationPrefix();
 }
 
 void setClipboardMonitorRunning(bool running)

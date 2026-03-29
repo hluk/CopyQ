@@ -27,17 +27,19 @@ Before continuing, make sure a similar request or a known issue does not exists 
 
 **Version, OS and Environment**
 <!--
-Get details from `copyq version` command, or copy from the CopyQ main window:
-1. Open Action dialog (F5 shortcut).
-2. Enter command: `copyq: copy(version())`
-3. Click OK - the details should be copied to the system clipboard.
-4. Paste the details in the report.
--->
+Get details using one of these methods:
 
-- Application Version (for example 10.0.0)
-- OS (for example Windows 11, Ubuntu 24.04, Fedora 42, macOS Sonoma 14.4)
-- Desktop environment, window manager (if applicable)
-- Installation method (for example Windows installer, portable zip, Flatpak, Homebrew, manual build)
+a. In versions newer than 14.0.0: from the menu bar, Help > About (Shift+F1) - select and copy the diagnostic information at the bottom.
+b. From the menu bar, Action... (F5) - enter command `copyq: copy(version())` and click OK - the details are copied to the clipboard.
+c. From the command line (works without the graphical interface): `copyq version` (but see [known issue on Windows](https://copyq.readthedocs.io/en/latest/known-issues.html#on-windows-copyq-does-not-print-anything-on-console))
+d. If the application cannot be started, at minimum provide:
+   - Application version (for example 10.0.0)
+   - OS (for example Windows 11, Ubuntu 24.04, Fedora 42, macOS Sonoma 14.4)
+   - Desktop environment, window manager (if applicable)
+   - Installation method (for example Windows installer, portable zip, Flatpak, Homebrew, manual build)
+
+Paste the details in the report.
+-->
 
 **Additional context**
 <!--

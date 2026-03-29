@@ -7,6 +7,7 @@
 #include "common/appconfig.h"
 #include "common/audioplayer.h"
 #include "common/command.h"
+#include "common/diagnostics.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
 #include "common/common.h"
@@ -61,10 +62,6 @@
 #else
 #   include <QStringDecoder>
 #   include <QStringEncoder>
-#endif
-
-#ifdef WITH_NATIVE_NOTIFICATIONS
-#   include <knotifications_version.h>
 #endif
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -717,28 +714,8 @@ QJSValue Scriptable::NetworkRequest() const
 QJSValue Scriptable::version()
 {
     m_skipArguments = 0;
-    return tr("CopyQ Clipboard Manager") + " " + versionString + "\n"
-            + "Qt: " QT_VERSION_STR "\n"
-#ifdef WITH_NATIVE_NOTIFICATIONS
-            + "KNotifications: " KNOTIFICATIONS_VERSION_STRING "\n"
-#endif
-            + "Compiler: "
-#if defined(Q_CC_GNU)
-            "GCC"
-#elif defined(Q_CC_CLANG)
-            "Clang"
-#elif defined(Q_CC_MINGW)
-            "MinGW"
-#elif defined(Q_CC_MSVC)
-            "MSVC"
-#else
-            "???"
-#endif
-            + "\n"
-            + "Arch: " + QSysInfo::buildAbi() + "\n"
-            + "OS: " + QSysInfo::prettyProductName() + "\n"
-            + "Audio: " + audioBackendVersion() + "\n"
-            ;
+    return tr("CopyQ Clipboard Manager")
+        + " " + versionString + "\n" + diagnosticText();
 }
 
 QJSValue Scriptable::help()
@@ -1515,122 +1492,22 @@ QJSValue Scriptable::info()
 {
     m_skipArguments = 1;
 
-    const QString logFile = logFileName();
-    using InfoMap = QMap<QString, QString>;
-    InfoMap info;
-    info.insert("config", QSettings().fileName());
-    info.insert("exe", QCoreApplication::applicationFilePath());
-    info.insert("log", logFile);
-    info.insert("data", itemDataPath());
-
-    info.insert("plugins",
-#ifdef COPYQ_PLUGIN_PREFIX
-                COPYQ_PLUGIN_PREFIX
-#else
-                m_proxy ? m_proxy->pluginsPath() : pluginsPath()
-#endif
-                );
-
-    info.insert("themes",
-#ifdef COPYQ_THEME_PREFIX
-                COPYQ_THEME_PREFIX
-#else
-                m_proxy ? m_proxy->themesPath() : themesPath()
-#endif
-                );
-
-    info.insert("translations",
-#ifdef COPYQ_TRANSLATION_PREFIX
-                COPYQ_TRANSLATION_PREFIX
-#else
-                m_proxy ? m_proxy->translationsPath() : translationsPath()
-#endif
-                );
-
-    info.insert("themes(custom)", qgetenv("COPYQ_THEME_PREFIX"));
-    info.insert("translations(custom)", qgetenv("COPYQ_TRANSLATION_PREFIX"));
-
-    info.insert("icons",
-#ifdef COPYQ_ICON_PREFIX
-                COPYQ_ICON_PREFIX
-#else
-                QString()
-#endif
-                );
-
-    info.insert("desktop",
-#ifdef COPYQ_DESKTOP_FILE
-                COPYQ_DESKTOP_FILE
-#else
-                QString()
-#endif
-                );
-
-    info.insert("has-mouse-selection",
-#ifdef HAS_MOUSE_SELECTIONS
-                "1"
-#else
-                "0"
-#endif
-                );
-
-    info.insert("has-global-shortcuts",
-#ifdef COPYQ_GLOBAL_SHORTCUTS
-                "1"
-#else
-                "0"
-#endif
-                );
-
-    info.insert("has-encryption",
-#ifdef WITH_QCA_ENCRYPTION
-                "1"
-#else
-                "0"
-#endif
-                );
-
-    info.insert("has-keychain",
-#ifdef WITH_KEYCHAIN
-                "1"
-#else
-                "0"
-#endif
-                );
-
-    info.insert("has-audio",
-#ifdef WITH_AUDIO
-                "1"
-#else
-                "0"
-#endif
-                );
-
-    info.insert("platform",
-#if defined(Q_OS_WIN)
-                "Windows"
-#elif defined(Q_OS_MAC)
-                "OS X"
-#elif defined(Q_OS_LINUX)
-                "Linux"
-#elif defined(Q_OS_UNIX)
-                "Unix"
-#else
-                "?"
-#endif
-
-#ifdef COPYQ_WITH_X11
-                "/X11"
-#endif
-                );
+    const auto paths = pathMap();
+    const auto info = infoMap();
 
     const QString name = arg(0);
-    if (!name.isEmpty())
+    if (!name.isEmpty()) {
+        const auto it = paths.constFind(name);
+        if (it != paths.constEnd())
+            return it.value();
         return info.value(name);
+    }
 
     QString result;
     for (auto it = info.constBegin(); it != info.constEnd(); ++it)
-        result.append( QStringLiteral("%1: %2\n").arg(it.key(), it.value()) );
+        result.append(QStringLiteral("%1: %2\n").arg(it.key(), it.value()));
+    for (auto it = paths.constBegin(); it != paths.constEnd(); ++it)
+        result.append(QStringLiteral("%1: %2\n").arg(it.key(), it.value()));
     result.chop(1);
 
     return result;
