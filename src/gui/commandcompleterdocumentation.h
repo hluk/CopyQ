@@ -5,7 +5,7 @@ template <typename AddDocumentationCallback>
 void addDocumentation(AddDocumentationCallback addDocumentation)
 {
 
-    addDocumentation("version", "version() -> string", "Returns version string.");
+    addDocumentation("version", "version() -> string", "Returns versions, features and host system information.");
     addDocumentation("help", "help() -> string", "Returns help string.");
     addDocumentation("help", "help(searchString, ...) -> string", "Returns help for matched commands.");
     addDocumentation("show", "show()", "Shows main window.");
@@ -81,7 +81,7 @@ void addDocumentation(AddDocumentationCallback addDocumentation)
     addDocumentation("config", "config(optionName, value) -> string", "Sets application option and returns new value.");
     addDocumentation("config", "config(optionName, value, ...) -> string", "Sets multiple application options and return list with values in format `optionName=newValue`.");
     addDocumentation("toggleConfig", "toggleConfig(optionName) -> bool", "Toggles an option (true to false and vice versa) and returns the new value.");
-    addDocumentation("info", "info([pathName]) -> string", "Returns paths and flags used by the application.");
+    addDocumentation("info", "info([pathName]) -> string", "Returns diagnostic info: versions, features, platform, environment variables and common paths.");
     addDocumentation("eval", "eval(script)", "Evaluates script and returns result.");
     addDocumentation("source", "source(fileName)", "Evaluates script file and returns result of last expression in the script.");
     addDocumentation("currentPath", "currentPath() -> string", "Get current path.");

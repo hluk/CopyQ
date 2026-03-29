@@ -256,10 +256,6 @@ public slots:
     QPoint pointerPosition();
     void setPointerPosition(int x, int y);
 
-    QString pluginsPath();
-    QString themesPath();
-    QString translationsPath();
-
     QString iconColor();
     bool setIconColor(const QString &name);
 
@@ -346,10 +342,6 @@ private:
     bool m_disconnected = false;
     ClientSocketId m_clientSocketId = 0;
 };
-
-QString pluginsPath();
-QString themesPath();
-QString translationsPath();
 
 void setClipboardMonitorRunning(bool running);
 bool isClipboardMonitorRunning();

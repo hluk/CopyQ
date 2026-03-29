@@ -4,6 +4,7 @@
 #include "ui_aboutdialog.h"
 
 #include "common/textdata.h"
+#include "common/diagnostics.h"
 #include "common/version.h"
 #include "gui/icons.h"
 #include "gui/iconfont.h"
@@ -33,11 +34,35 @@ QString helpLink(const QString &name, const QString &link, ushort icon)
 
 QString helpLib(const char *name, const QString &copyright, const char *url)
 {
-    return QString("<p><span class='library'>%1</span>"
+    return QString("<span class='library'>%1</span>"
                    "&nbsp;&nbsp;&nbsp;<br />"
-                   "<span class='copyright'>%2</span><br />"
-                   "%3</p>")
+                   "<span class='copyright'>\u00a9 %2</span><br />"
+                   "%3")
             .arg( name, copyright, helpUrl(url) );
+}
+
+QString helpLibColumns(int columns, const QStringList &libs)
+{
+    const QString width = QString::number(100 / columns) + QLatin1Char('%');
+    QString html = QStringLiteral("<p><table width='100%'>");
+    for (int i = 0; i < libs.size(); i += columns) {
+        html += QLatin1String("<tr>");
+        for (int j = 0; j < columns; ++j) {
+            html += QLatin1String("<td width='") + width + QLatin1String("' valign='top'>");
+            if (i + j < libs.size())
+                html += libs[i + j];
+            html += QLatin1String("</td>");
+        }
+        html += QLatin1String("</tr>");
+    }
+    html += QLatin1String("</table></p>");
+    return html;
+}
+
+QString diagnosticSection()
+{
+    return "<br/><h3><a name='diagnostics'>Diagnostic Information</a></h3>"
+           "<pre>" + escapeHtml("CopyQ " + QString(versionString) + "\n" + diagnosticText()) + "</pre>";
 }
 
 } // namespace
@@ -76,6 +101,8 @@ QString AboutDialog::aboutPage(const Theme &theme)
         ".icon{font-family: \"" + iconFontFamily() + "\"}"
         ".help-icon{color:" + link + ";padding-left:1em;padding-right:1em}"
         ".library{font-size:12pt}"
+        "h3{font-size:14pt}"
+        "pre{font-size:9pt;white-space:pre-wrap;margin:0.5em 0}"
         "</style></head>"
 
         "<body>"
@@ -99,39 +126,45 @@ QString AboutDialog::aboutPage(const Theme &theme)
         "</table>"
         "</p>"
 
-        "<p class='copyright'>Copyright (c) 2009 - 2024</p>"
+        "<p><a href='#diagnostics'><span class='icon'>&#" + QString::number(IconCircleInfo) + ";</span> Diagnostic Information</a></p>"
 
-        "<p></p>"
+        "<p class='copyright'>&copy; 2009 - 2026</p>"
 
         + "<p>"
             + helpUrl("https://github.com/hluk/CopyQ/graphs/contributors")
             +
         "</p>"
 
-            + helpLib("Qt Toolkit",
-                      "Copyright (c) The Qt Company Ltd. and other contributors",
-                      "https://www.qt.io/")
-            + helpLib("KDE Frameworks",
-                      "Copyright (c) KDE Community",
-                      "https://develop.kde.org/products/frameworks/")
-            + helpLib("Snoretoast",
-                      "Copyright (c) Hannah von Reth",
-                      "https://invent.kde.org/libraries/snoretoast")
-            + helpLib("Weblate",
-                      "Copyright (c) Michal &#268;iha&#345;", "https://weblate.org")
-            + helpLib("Font Awesome",
-                      "Copyright (c) Fonticons, Inc.", "https://fontawesome.com")
-            + helpLib("LibQxt",
-                      "Copyright (c), the LibQxt project", "https://bitbucket.org/libqxt/libqxt/wiki/Home")
-#ifdef WITH_AUDIO
-            + helpLib("miniaudio",
-                      "Copyright (c) David Reid",
-                      "https://miniaud.io/")
-#endif
-            + helpLib("Solarized",
-                      "Copyright (c) Ethan Schoonover", "https://ethanschoonover.com/solarized")
+        + helpLibColumns(2, {
+            helpLib("Qt Framework",
+                    "The Qt Company and other contributors",
+                    "https://www.qt.io/development/qt-framework"),
+            helpLib("KDE Frameworks",
+                    "KDE Community",
+                    "https://develop.kde.org/products/frameworks/"),
+            helpLib("Qt Cryptographic Architecture",
+                    "Justin Karneges, Brad Hards, Ivan Romanov",
+                    "https://invent.kde.org/libraries/qca"),
+            helpLib("QtKeychain",
+                    "Frank Osterfeld",
+                    "https://github.com/frankosterfeld/qtkeychain"),
+            helpLib("LibQxt",
+                    "the LibQxt project", "https://bitbucket.org/libqxt/libqxt/wiki/Home"),
+            helpLib("Weblate",
+                    "Michal &#268;iha&#345;", "https://weblate.org"),
+            helpLib("Font Awesome",
+                    "Fonticons, Inc.", "https://fontawesome.com"),
+            helpLib("Solarized",
+                    "Ethan Schoonover", "https://ethanschoonover.com/solarized"),
+            helpLib("Snoretoast",
+                    "Hannah von Reth",
+                    "https://invent.kde.org/libraries/snoretoast"),
+            helpLib("miniaudio",
+                    "David Reid",
+                    "https://miniaud.io/"),
+        })
 
-        + "<p></p>"
+        + diagnosticSection()
 
-        "</body></html>";
+        + "</body></html>";
 }
