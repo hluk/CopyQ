@@ -21,6 +21,9 @@ if [[ -z "${COPYQ_TESTS_GNOME_EXTENSION_INIT:-}" ]]; then
     env --ignore-environment \
         COPYQ_TESTS_GNOME_EXTENSION_INIT=1 \
         HOME="$tmp_dir" \
+        PATH="$PATH" \
+        ${LD_LIBRARY_PATH:+LD_LIBRARY_PATH="$LD_LIBRARY_PATH"} \
+        ${QT_PLUGIN_PATH:+QT_PLUGIN_PATH="$QT_PLUGIN_PATH"} \
         COPYQ_LOG_LEVEL="${COPYQ_LOG_LEVEL:-DEBUG}" \
         QT_LOGGING_RULES="${QT_LOGGING_RULES:-*.debug=true;qt.*.debug=false;qt.*.warning=true}" \
         COPYQ_GNOME_EXTENSION_DEBUG="${COPYQ_GNOME_EXTENSION_DEBUG:-1}" \

@@ -2229,6 +2229,17 @@ bool MainWindow::toggleMenu(TrayMenu *menu, QPoint pos)
 #endif
     raiseWindow(menu);
 
+    // On Wayland the menu is a frameless toplevel (not a popup), so
+    // raiseWindow's activation guard ("app already active") is not
+    // sufficient — the compositor won't move focus from another toplevel
+    // (e.g. an open dialog) to the newly mapped menu window without an
+    // explicit activation request after the raise.
+    if (!menu->windowFlags().testFlag(Qt::Popup)) {
+        menu->activateWindow();
+        QApplication::setActiveWindow(menu);
+        menu->setFocus();
+    }
+
     return true;
 }
 

@@ -21,14 +21,14 @@ env:
     extra-cmake-modules
     libwayland-dev
 
+    libegl-dev
+
     gnupg2
 
     xvfb
     openbox
     xdotool
   qt6_packages: >-
-    libegl-dev
-
     qt6-base-private-dev
     qt6-base-dev
     qt6-base-dev-tools
@@ -77,6 +77,10 @@ env:
     libqca-qt5-2-plugins
 
     qtkeychain-qt5-dev
+
+  QCA_VERSION: '2.3.10'
+  QTKEYCHAIN_VERSION: '0.15.0'
+
   # FIXME: Sending signal to client process does not cause the process
   # to exit with non-zero code with GitHub Actions. Why?
   COPYQ_TESTS_SKIP_SIGNAL: '1'
@@ -103,6 +107,7 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_qt6: true
+            custom_qt: '6.10.2'
             with_native_notifications: false
             test_wayland: true
             test_gnome: true
@@ -146,10 +151,46 @@ jobs:
           packages: >-
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
-            ${{ matrix.with_qt6 && env.qt6_packages || env.qt5_packages }}
+            ${{ !matrix.custom_qt && (matrix.with_qt6 && env.qt6_packages || env.qt5_packages) || '' }}
             ${{ matrix.coverage && 'lcov' || '' }}
-            ${{ matrix.coverage && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0 procps' || '' }}
+            ${{ matrix.test_wayland && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0' || '' }}
+            ${{ matrix.custom_qt && 'libssl-dev libsecret-1-dev pkg-config' || '' }}
+            ${{ matrix.coverage && 'procps' || '' }}
             ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
+
+      - name: Install Qt
+        if: matrix.custom_qt
+        uses: jurplel/install-qt-action@d325aaf2a8baeeda41ad0b5d39f84a6af9bcf005 # v4
+        with:
+          version: ${{ matrix.custom_qt }}
+          modules: qt5compat
+
+
+      - name: Build QCA and QtKeychain
+        if: matrix.custom_qt
+        run: |
+          set -e
+          git clone --depth 1 --branch v${{ env.QCA_VERSION }} https://github.com/KDE/qca.git /tmp/qca
+          cmake -G Ninja -S /tmp/qca -B /tmp/qca-build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DBUILD_WITH_QT6=ON \
+            -DBUILD_TESTS=OFF \
+            -DBUILD_TOOLS=OFF \
+            -DBUILD_PLUGINS=ossl
+          cmake --build /tmp/qca-build --parallel
+          sudo cmake --install /tmp/qca-build
+
+          git clone --depth 1 --branch ${{ env.QTKEYCHAIN_VERSION }} https://github.com/frankosterfeld/qtkeychain.git /tmp/qtkeychain
+          cmake -G Ninja -S /tmp/qtkeychain -B /tmp/qtkeychain-build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DBUILD_WITH_QT6=ON \
+            -DBUILD_TRANSLATIONS=OFF
+          cmake --build /tmp/qtkeychain-build --parallel
+          sudo cmake --install /tmp/qtkeychain-build
+
+          echo "LD_LIBRARY_PATH=/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
 
       - name: Download miniaudio
         uses: ./.github/actions/download-miniaudio
@@ -165,7 +206,7 @@ jobs:
             '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
             '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
             '-DWITH_QT6=${{matrix.with_qt6}}',
-            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}'
+            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}',
             ]
 
       - name: Create gnupg directory for tests
