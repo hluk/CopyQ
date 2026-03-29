@@ -64,6 +64,7 @@ bool testStderr(
         plain("The compositor sent a wl_pointer.enter"),
         plain("QObject::connect: No such signal QPlatformNativeInterface::systemTrayWindowChanged(QScreen*)"),
         plain("Could not init WaylandClipboard, falling back to QtClipboard."),
+        plain("QDBusTrayIcon encountered a D-Bus error"),
 
         // KDE Frameworks (Linux)
         plain("[kf.notifications]"),

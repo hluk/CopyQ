@@ -13,6 +13,7 @@ default_wayland_tests=(
     clipboardToItem
     itemToClipboard
     avoidStoringPasswords
+    trayShowHideAction
 )
 
 kwin_wayland --virtual --socket=copyq-wayland &

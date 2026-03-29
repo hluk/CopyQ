@@ -46,14 +46,16 @@ endif()
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 if (WITH_QT6 AND ECM_VERSION VERSION_GREATER "6.2.0")
+    find_package(KF6GuiAddons QUIET)
+endif()
+if (KF6GuiAddons_FOUND)
     message(STATUS "Using clipboard support from KGuiAddons.")
-    find_package(KF6GuiAddons REQUIRED)
     list(APPEND copyq_DEFINITIONS HAS_KGUIADDONS)
     list(APPEND copyq_LIBRARIES KF6::GuiAddons)
 else()
     message(WARNING
         "Using built-in clipboard support."
-        " Requires Qt 6 and 'kf6-kguiaddons', 'libkf6guiaddons' or similar"
+        " Install 'kf6-kguiaddons', 'libkf6guiaddons' or similar"
         " for better Wayland clipboard integration.")
     set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
     include_directories(${CMAKE_CURRENT_BINARY_DIR}/platform/x11/systemclipboard)

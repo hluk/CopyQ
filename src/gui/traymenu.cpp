@@ -17,8 +17,13 @@
 #include <QModelIndex>
 #include <QPixmap>
 #include <QRegularExpression>
+#include <QLoggingCategory>
+#include <QWindow>
 
 namespace {
+
+Q_DECLARE_LOGGING_CATEGORY(logCategory)
+Q_LOGGING_CATEGORY(logCategory, "copyq.traymenu")
 
 const char propertyTextFormat[] = "CopyQ_text_format";
 
@@ -64,6 +69,26 @@ TrayMenu::TrayMenu(QWidget *parent)
     m_customActionsSeparator = addSeparator();
     initSingleShotTimer( &m_timerUpdateActiveAction, 0, this, &TrayMenu::doUpdateActiveAction );
     setAttribute(Qt::WA_InputMethodEnabled);
+
+    // WORKAROUND: Starting with Qt 6.9 (qtbase commit 8c0dd12f), popups
+    // without a focused transient parent are rejected with an asynchronous
+    // close event instead of falling back to a toplevel.  When the tray
+    // menu is triggered via a global shortcut on Wayland, no CopyQ window
+    // has focus, so the popup is immediately closed (QTBUG-139921, #3325).
+    // Remove the Popup flag to turn the menu into a normal toplevel, and
+    // close it explicitly when an action fires (hideUpToMenuBar() is a
+    // no-op for non-popup menus).
+#if QT_VERSION >= QT_VERSION_CHECK(6, 9, 0)
+    if (QGuiApplication::platformName() == QLatin1String("wayland")) {
+        qCDebug(logCategory) << "Wayland detected, removing Popup flag";
+        setWindowFlag(Qt::Popup, false);
+        setWindowFlag(Qt::Window, true);
+        setWindowFlag(Qt::FramelessWindowHint, true);
+        setWindowFlag(Qt::WindowStaysOnTopHint, true);
+
+        connect(this, &QMenu::triggered, this, &QMenu::close);
+    }
+#endif
 }
 
 void TrayMenu::updateTextFromData(QAction *act, const QVariantMap &data)
