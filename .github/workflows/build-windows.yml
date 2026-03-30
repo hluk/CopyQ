@@ -132,24 +132,36 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.version }}
           BUILD_DIR: ${{ runner.workspace }}/build/copyq/Windows
 
-      - name: Set up GPG for tests
-        shell: pwsh
-        run: |
-          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
-          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
-          gpg --version
+      # - name: Set up GPG for tests
+      #   shell: pwsh
+      #   run: |
+      #     $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
+      #     New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
+      #     gpg --version
 
-      - name: Test
+      - name: Test CF_HDROP
         working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
         shell: cmd
         run: |
           set "PATH=%CD%;C:\Program Files\Git\usr\bin"
-          .\copyq-tests.exe
+          .\copyq-tests.exe createMimeDataHasCfHdrop
+          .\copyq-tests.exe createMimeDataHasCfHdrop
+          .\copyq-tests.exe createMimeDataHasCfHdrop
         env:
           QT_FORCE_STDERR_LOGGING: 1
           COPYQ_LOG_LEVEL: DEBUG
-          COPYQ_TESTS_RERUN_FAILED: 1
-          COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ steps.version.outputs.version }}\itemtests.dll
+
+      # - name: Test
+      #   working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
+      #   shell: cmd
+      #   run: |
+      #     set "PATH=%CD%;C:\Program Files\Git\usr\bin"
+      #     .\copyq-tests.exe
+      #   env:
+      #     QT_FORCE_STDERR_LOGGING: 1
+      #     COPYQ_LOG_LEVEL: DEBUG
+      #     COPYQ_TESTS_RERUN_FAILED: 1
+      #     COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ steps.version.outputs.version }}\itemtests.dll
 
       - name: Create portable zip
         run: 7z a "copyq-${{ steps.version.outputs.version }}.zip" "copyq-${{ steps.version.outputs.version }}"

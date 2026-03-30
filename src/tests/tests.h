@@ -334,6 +334,7 @@ private slots:
 
     void slowClipboard();
     void clipboardUriList();
+    void createMimeDataHasCfHdrop();
 
     void handleUnexpectedTypes();
 
