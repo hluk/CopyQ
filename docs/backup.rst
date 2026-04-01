@@ -66,9 +66,11 @@ configuration and commands within the application.
 
 .. warning::
 
-    Tabs are exported **without any encryption** by default (you would need
-    CopyQ 14.0.0 and above) and if a tab is synchronized with directory on disk
-    the files themselves will not be exported.
+    Exported data is **not encrypted by default**. When exporting from the GUI,
+    CopyQ prompts for an optional export password — if provided, tab data in the
+    export file is encrypted with that password. The ``exportData`` script
+    command does not support this and always exports unencrypted. If a tab is
+    synchronized with a directory on disk, the files themselves are not exported.
 
 To export the data click "Export..." in "File" menu, select what to
 export, confirm with OK button and select target file to save.
