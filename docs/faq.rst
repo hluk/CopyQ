@@ -448,18 +448,19 @@ Alternatively, run the following command::
 Why does encryption ask for password so often?
 ----------------------------------------------
 
-CopyQ 14.0.0 and above has a built-in encryption support, which requires
-password only at start (and when changing encryption password). Even that can
-be avoided if "Use external key store" option is enabled and the system
-supports it (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet).
+With built-in encryption (the recommended approach), CopyQ asks for the
+password at startup and when changing the encryption password. If **Require
+password after an interval** is enabled (in the "History" configuration tab),
+the password is also requested periodically. The startup prompt can be avoided
+by enabling the **Use external key store** option, which stores the password in
+the platform key store (Windows Credential Store, macOS Keychain, GNOME Keyring,
+or KWallet) — but the periodic prompt, if enabled, still applies.
 
-In older versions, there is an Encryption plugin which uses ``gpg2`` utility to
-decrypt tabs and items. The password usually needs to be entered once every few
-minutes.
-
-If the password prompt is showing up too often, either increase tab unloading
-interval ("Unload tab after an interval" option in "History" tab in
-Preferences), or change ``gpg`` configuration (see `#946
+If you are using the legacy **Encryption plugin** (which relies on ``gpg2``),
+the password usually needs to be re-entered once every few minutes. To reduce
+prompts, either increase the tab unloading interval ("Unload tab after an
+interval" option in "History" tab in Preferences) or change ``gpg``
+configuration (see `#946
 <https://github.com/hluk/CopyQ/issues/946#issuecomment-389538964>`__).
 
 How to fix "copyq: command not found" errors?

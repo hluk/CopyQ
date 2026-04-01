@@ -3,19 +3,58 @@
 Password Protection
 ===================
 
-This page describes how to encrypt and protect selected tabs and single
-items with a password.
+This page describes how to encrypt clipboard data stored by CopyQ. The
+recommended approach is the built-in encryption available since version 14.0.0.
+A legacy plugin using GnuPG is also documented below for older versions or
+per-item encryption needs.
+
+Built-in Encryption
+-------------------
+
+CopyQ can encrypt all stored tab data with a user-set password. No external
+software is required.
+
+To enable it, open **Preferences** and check the **Encrypt Tabs** option.
+You will be prompted to set a password. The password is needed when CopyQ
+starts and when changing the encryption password. If **Require password after
+an interval** is enabled (in the "History" configuration tab), the password is
+also requested periodically.
+
+To avoid entering the password at startup, enable **Use external key store**.
+This delegates password storage to a platform key store (note that this does
+not bypass the periodic prompt when password expiry is enabled):
+
+- **Windows** — Credential Store
+- **macOS** — Keychain
+- **Linux** — GNOME Keyring or KWallet
+
+Unlike the legacy Encryption plugin, built-in encryption automatically covers
+all tabs loaded by the application — there is no per-tab or per-item setup.
 
 .. note::
 
-   CopyQ 14.0.0 and above will support encrypting all data using a custom
-   Password. This can be enabled with "Encrypt Tabs" option in Preferences. As
-   An alternative, available in older versions, the below describes using
-   Encryption plugin to encrypt specific tabs or single items (this requires a
-   GnuPG utility to be installed).
+   Built-in encryption protects data at rest but does **not** encrypt exported
+   data. The ``exportTab`` and ``exportData`` script commands always write
+   unencrypted files. When exporting from the GUI (**File — Export**), CopyQ
+   prompts for an optional export password — if provided, tab data in the
+   export file is encrypted with that password. See :ref:`backup` for details.
+
+Encryption Plugin (Legacy)
+--------------------------
+
+.. deprecated:: 14.0.0
+   The Encryption plugin is obsolete. Use the built-in encryption described
+   above instead. The plugin remains available for users who need per-item
+   encryption or are running CopyQ versions older than 14.0.0.
+
+.. warning::
+
+   The plugin depends on GnuPG (``gpg2``), which introduces external key
+   management complexity and version-compatibility issues. The password must
+   be re-entered every few minutes.
 
 Installation
-------------
+~~~~~~~~~~~~
 
 To enable this feature you need to have "Encryption" item plugin.
 
@@ -35,7 +74,7 @@ Configuration dialog) may prompt you to install
    distributions.
 
 Generate Keys and Set Password
-------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To be able to encrypt tabs and items you first need to generate private
 and public key files.
@@ -58,7 +97,7 @@ section).
 Click "OK" button to confirm Configuration dialog.
 
 Protect Tabs
-------------
+~~~~~~~~~~~~
 
 Now you can create the tabs you want to encrypt (Ctrl+T to create new
 tab).
@@ -77,7 +116,7 @@ click on "Reload" button in tab to enter password again.
 .. image:: images/encryption-reload.png
 
 Protect Single Items
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 To protect items in unprotected tab you can add menu and tool bar
 actions with keyboard shortcut.
