@@ -488,6 +488,63 @@ you can **fix it by using** ``COPYQ`` environment variable instead.
     text="SOME TEXT"
     "$COPYQ" copy "$text"
 
+.. _faq-memory-usage:
+
+How can I reduce CopyQ memory usage?
+------------------------------------
+
+When a tab is loaded, its item data are kept in memory. This includes smaller
+items (stored in the tab data file) and visible larger items (stored in
+separate files in data directory). A tab data loads when it is first accessed
+and stays resident until explicitly unloaded, the unload interval expires,
+configuration changes, or the application restarts.
+
+Each item can include multiple data formats. By default new items are
+automatically added when the clipboard changes. The stored formats depend on
+which plugins are loaded and any custom commands that modify clipboard
+processing.
+
+In version 14.0.0 and later, you can copy memory statistics to the clipboard
+by running the following command in the Action dialog (``F5``) or a terminal::
+
+    copyq stats | copyq copy -
+
+Key lines to look at:
+
+- ``MODEL`` lines — in-memory data size for loaded tabs and other data models.
+- ``DATA_DIR`` — item data directory size. Larger item data (above the
+  ``item_data_threshold`` option, default 1024 bytes) are stored as separate
+  files here and loaded into memory only when the item is displayed or read.
+  Smaller data are stored directly in tab data files and loaded with the tab.
+- ``TABS: total=N, loaded=N`` — how many tabs are loaded vs total.
+- ``MEMORY: rss=...`` — process resident memory.
+
+See :js:func:`stats` API documentation for details.
+
+Options to reduce memory usage:
+
+- Reduce maximum items per tab — the default is 200. Lower it in
+  Preferences in the History section.
+- Enable "Unload tab after an interval" in the History section in Preferences.
+  Tabs that have not been accessed recently will be unloaded automatically.
+  You can also unload all tabs on demand with :js:func:`unload` or
+  :js:func:`forceUnload`.
+- Disable unused item plugins in Preferences in the Items section. Plugins for
+  images, rich text and other non-text formats keep extra data per item.
+- Lower ``item_data_threshold`` so that more item data are stored as separate
+  files instead of inline in the tab data file. Data in separate files are
+  loaded only on demand, while inline data are loaded with the entire tab.
+  For example, to store all item data as separate files::
+
+      copyq config item_data_threshold 0
+
+  Conversely, ``-1`` disables the data directory and stores everything inline,
+  which can speed up item lookups but increases memory usage.
+
+  Changing this options has effect only when tab is saved again (items change).
+
+See also :ref:`faq-config-path` for finding data files.
+
 What to do when CopyQ crashes or misbehaves?
 --------------------------------------------
 
