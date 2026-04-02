@@ -3104,8 +3104,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     // Show the tray icon early so it is visible while the encryption
     // password dialog blocks (see https://github.com/hluk/CopyQ/issues/3502).
-    if (m_options.nativeTrayMenu != appConfig->option<Config::native_tray_menu>())
-        m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();
+    m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();
     setTrayEnabled( !appConfig->option<Config::disable_tray>() );
     updateIcon();
 
@@ -4094,7 +4093,9 @@ void MainWindow::findNextOrPrevious()
 
 void MainWindow::enterBrowseMode()
 {
-    getPlaceholder()->setFocus();
+    auto placeholder = getPlaceholder();
+    if (placeholder)
+        placeholder->setFocus();
     ui->searchBar->hide();
 
     auto c = browserOrNull();
