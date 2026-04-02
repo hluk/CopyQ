@@ -196,7 +196,7 @@ jobs:
         uses: ./.github/actions/download-miniaudio
 
       - name: Build with CMake
-        uses: lukka/run-cmake@af1be47fd7c933593f687731bc6fdbee024d3ff4 # v10
+        uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10
         with:
           configurePreset: '${{ matrix.cmake_preset }}'
           buildPreset: '${{ matrix.cmake_preset }}'
@@ -259,7 +259,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v5
         with:
           files: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
           fail_ci_if_error: true
