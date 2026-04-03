@@ -1266,6 +1266,7 @@ void ClipboardBrowser::filterItems(const ItemFilterPtr &filter)
     }
 
     d.updateAllRows();
+    preloadCurrentPage();
 }
 
 void ClipboardBrowser::filterBatch(int filterId, const QPersistentModelIndex &lastIndex)
@@ -1301,6 +1302,9 @@ void ClipboardBrowser::filterBatch(int filterId, const QPersistentModelIndex &la
             break;
         }
     }
+
+    d.updateAllRows();
+    preloadCurrentPage();
 
     const int percentCompleted = (row * 100) / length();
     emit filterProgressChanged(percentCompleted);
