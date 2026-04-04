@@ -110,7 +110,8 @@ install_dep extra-cmake-modules
 # Group B: Depend on ECM.
 build_dep kconfig "$KF_FULLVER" "$KF_BASE_URL" \
     -DKCONFIG_USE_DBUS=OFF \
-    -DKCONFIG_USE_GUI=OFF &
+    -DKCONFIG_USE_GUI=OFF \
+    -DKCONFIG_USE_QML=OFF &
 kconfig_pid=$!
 
 build_dep kwindowsystem "$KF_FULLVER" "$KF_BASE_URL" &
