@@ -22,3 +22,22 @@ list(APPEND copyq_COMPILE
 if (MSVC)
     set(copyq_LINK_FLAGS ${copyq_LINK_FLAGS} "/ENTRY:mainCRTStartup")
 endif()
+
+
+# Console-subsystem wrapper (copyq.com).
+# Windows prefers .com over .exe, so "copyq" in a terminal runs this
+# wrapper which launches the GUI-subsystem copyq.exe with inherited
+# console handles.  This gives proper shell integration: the shell
+# waits, stdout works, piping works, exit codes propagate.
+add_executable(copyq-console-wrapper
+    platform/win/copyq_console_wrapper.cpp
+    ${copyq_RC}
+)
+set_target_properties(copyq-console-wrapper PROPERTIES
+    OUTPUT_NAME copyq
+    SUFFIX .com
+    WIN32_EXECUTABLE FALSE
+)
+install(TARGETS copyq-console-wrapper
+    RUNTIME DESTINATION . COMPONENT Runtime
+)

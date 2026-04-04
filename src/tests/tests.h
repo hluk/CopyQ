@@ -36,6 +36,12 @@ private slots:
     void badCommand();
     void badSessionName();
 
+#ifdef Q_OS_WIN
+    void consoleWrapperVersion();
+    void consoleWrapperHelp();
+    void consoleWrapperExitCode();
+#endif
+
     void commandCatchExceptions();
 
     void commandExit();

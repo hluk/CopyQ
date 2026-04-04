@@ -32,9 +32,43 @@
 
 namespace {
 
-void setBinaryFor(int fd)
+// Connect a C runtime FILE* to its inherited Win32 standard handle.
+// On native Windows, the UCRT startup (_ioinit) already bridges inherited
+// handles to fds 0/1/2.  In that case we just set binary mode.  The
+// fallback path handles environments where the CRT did not initialize
+// the stream (fd is -2): it creates a new fd via _open_osfhandle and
+// transfers the FILE* state to the pre-allocated standard stream.
+void reopenStdHandle(DWORD nStdHandle, FILE *stream, const char *mode)
 {
-    _setmode(fd, _O_BINARY);
+    HANDLE h = GetStdHandle(nStdHandle);
+    if (h == INVALID_HANDLE_VALUE || h == NULL)
+        return;
+
+    // If the CRT already initialized this stream during startup
+    // (native Windows with inherited handles), just set binary mode.
+    const int existingFd = _fileno(stream);
+    if (existingFd >= 0) {
+        _setmode(existingFd, _O_BINARY);
+        setvbuf(stream, NULL, _IONBF, 0);
+        return;
+    }
+
+    // CRT did not initialize the stream (fd is -2).  Bridge the Win32
+    // handle to a properly initialized FILE*.  This technique is used
+    // by Blender, GIMP, and other GUI-subsystem apps.
+    const int flags = _O_BINARY
+        | ((stream == stdin) ? _O_RDONLY : _O_WRONLY);
+    const int fd = _open_osfhandle(reinterpret_cast<intptr_t>(h), flags);
+    if (fd < 0)
+        return;
+
+    // The FILE struct allocated by _fdopen is intentionally leaked;
+    // its internal state is now owned by `stream`.
+    FILE *fp = _fdopen(fd, mode);
+    if (fp) {
+        *stream = *fp;
+        setvbuf(stream, NULL, _IONBF, 0);
+    }
 }
 
 QString portableFolder()
@@ -169,8 +203,13 @@ void uninstallControlHandler()
 void initApplication(QCoreApplication *app)
 {
     installControlHandler();
-    setBinaryFor(0);
-    setBinaryFor(1);
+
+    // In a GUI-subsystem binary, C runtime stdio is disconnected.
+    // Reconnect to inherited Win32 handles so QFile::open(stdout, ...)
+    // and similar calls work when launched from copyq.com or a pipe.
+    reopenStdHandle(STD_INPUT_HANDLE,  stdin,  "rb");
+    reopenStdHandle(STD_OUTPUT_HANDLE, stdout, "wb");
+    reopenStdHandle(STD_ERROR_HANDLE,  stderr, "wb");
 
     // Don't use Windows registry.
     QSettings::setDefaultFormat(QSettings::IniFormat);

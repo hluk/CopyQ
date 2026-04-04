@@ -12,6 +12,13 @@
 
 #include <QRegularExpression>
 
+#ifdef Q_OS_WIN
+#include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QProcess>
+#endif
+
 void Tests::configPath()
 {
     RUN("print(info('config'))", Settings().fileName());
@@ -208,3 +215,59 @@ void Tests::commandCatchExceptions()
     RUN("try { removeTab('MISSING') } catch(e) { print(e) }",
         "Error: Tab with given name doesn't exist!");
 }
+
+#ifdef Q_OS_WIN
+
+void Tests::consoleWrapperVersion()
+{
+    const QString wrapper = QDir(QCoreApplication::applicationDirPath())
+                                .absoluteFilePath("copyq.com");
+    if (!QFile::exists(wrapper))
+        QSKIP("copyq.com not found in build directory");
+
+    QProcess p;
+    p.start(wrapper, {"version"});
+    QVERIFY(p.waitForFinished(10000));
+    QCOMPARE(p.exitCode(), 0);
+
+    const QByteArray out = p.readAllStandardOutput();
+    QVERIFY2(!out.isEmpty(), "copyq.com version produced no stdout");
+    const QString version = QString::fromUtf8(out);
+    QVERIFY(version.contains(QRegularExpression("\\bCopyQ\\b")));
+    QVERIFY(version.contains(QRegularExpression("\\bQt:\\s+\\d")));
+}
+
+void Tests::consoleWrapperHelp()
+{
+    const QString wrapper = QDir(QCoreApplication::applicationDirPath())
+                                .absoluteFilePath("copyq.com");
+    if (!QFile::exists(wrapper))
+        QSKIP("copyq.com not found in build directory");
+
+    QProcess p;
+    p.start(wrapper, {"help"});
+    QVERIFY(p.waitForFinished(10000));
+    QCOMPARE(p.exitCode(), 0);
+
+    const QByteArray out = p.readAllStandardOutput();
+    QVERIFY2(!out.isEmpty(), "copyq.com help produced no stdout");
+    const QString help = QString::fromUtf8(out);
+    QVERIFY(help.contains("show"));
+    QVERIFY(help.contains("exit"));
+}
+
+void Tests::consoleWrapperExitCode()
+{
+    const QString wrapper = QDir(QCoreApplication::applicationDirPath())
+                                .absoluteFilePath("copyq.com");
+    if (!QFile::exists(wrapper))
+        QSKIP("copyq.com not found in build directory");
+
+    QProcess p;
+    p.start(wrapper, {"thisCommandDoesNotExist12345"});
+    QVERIFY(p.waitForFinished(10000));
+    QVERIFY2(p.exitCode() != 0,
+             "Expected non-zero exit code for unknown command");
+}
+
+#endif // Q_OS_WIN

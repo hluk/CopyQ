@@ -5,12 +5,11 @@ Tabs, items, clipboard and configuration can be changed through command
 line interface. Run command ``copyq help`` to see complete list of
 commands and their description.
 
-.. warning::
+.. note::
 
-    On Windows, you may not see any output when executing CopyQ in
-    terminal/console (PowerShell or cmd).
+    On Windows, use ``copyq`` (not ``copyq.exe``) in a terminal for
+    proper console output.  See :ref:`known-issue-windows-console-output`.
 
-    See workarounds in :ref:`known-issue-windows-console-output`.
 
 To add new item to tab with name "notes" run:
 
