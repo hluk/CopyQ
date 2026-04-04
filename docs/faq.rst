@@ -257,11 +257,11 @@ If pasting still doesn't work, it could be caused by either of these problems:
 - CopyQ fails to focus the target window correctly.
 - The format copied to the clipboard is not supported by the target application.
 
-How to open the menu or context menu with only the keyboard?
-------------------------------------------------------------
+How to open the context menu for selected items with only the keyboard?
+-----------------------------------------------------------------------
 
-Use ``Alt+I`` to open the item menu or use the ``Menu`` key on your keyboard
-to open the context menu for selected items.
+In the main CopyQ window, press the ``Menu`` key (or ``Shift+F10``) to open
+the context menu for selected items.
 
 .. _faq-hide-menu-bar:
 
