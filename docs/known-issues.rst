@@ -23,23 +23,20 @@ status are not restored after the application is restarted or after logging in.
 On Windows, CopyQ does not print anything on console
 ----------------------------------------------------
 
-On Windows, you may not see any output when executing CopyQ in a
-console/terminal application (PowerShell or cmd).
+Running ``copyq.exe`` directly from a terminal produces no console output
+because it is a GUI-subsystem process.
 
-**Workarounds:**
-
-* Use different console application: Git Bash, Cygwin or similar.
-* Use Action dialog in CopyQ (``F5`` shortcut) and set "Store standard output"
-  to "text/plain" to save the output as new item in current tab.
-* Append ``| Write-Output`` to commands in PowerShell:
-
-  .. code-block:: powershell
-
-    & 'C:\Program Files\CopyQ\copyq.exe' help | Write-Output
+Use ``copyq`` (or ``copyq.com``) instead — Windows prefers ``.com`` over
+``.exe``, so typing ``copyq`` in a terminal uses the console wrapper
+automatically.  The wrapper provides proper terminal integration: the shell
+waits for the process, stdout/stderr are connected, and piping works.
 
 .. seealso::
 
     `Issue #349 <https://github.com/hluk/CopyQ/issues/349>`__
+
+    `Issue #2937 <https://github.com/hluk/CopyQ/issues/2937>`__
+
 
 .. _known-issue-macos-paste-after-install:
 

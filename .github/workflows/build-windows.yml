@@ -132,6 +132,64 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.version }}
           BUILD_DIR: ${{ runner.workspace }}/build/copyq/Windows
 
+      - name: Test console wrapper (cmd)
+        working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
+        shell: cmd
+        run: |
+          @echo off
+
+          rem --- Test 1: stdout capture via redirect ---
+          copyq.com version > __out.txt 2>nul
+          if %ERRORLEVEL% neq 0 (echo FAIL: exit code %ERRORLEVEL% & exit /b 1)
+          findstr /C:"CopyQ" __out.txt >nul || (echo FAIL: no CopyQ in output & type __out.txt & exit /b 1)
+          del __out.txt
+
+          rem --- Test 2: piping works ---
+          copyq.com version 2>nul | findstr /C:"CopyQ" >nul
+          if %ERRORLEVEL% neq 0 (echo FAIL: pipe did not contain CopyQ & exit /b 1)
+
+          rem --- Test 3: exit code propagation for errors ---
+          copyq.com thisCommandDoesNotExist12345 >nul 2>nul
+          if %ERRORLEVEL% equ 0 (echo FAIL: expected non-zero exit code & exit /b 1)
+
+          rem --- Test 4: terminal still functional after wrapper exits ---
+          echo AFTER_WRAPPER | findstr /C:"AFTER_WRAPPER" >nul
+          if %ERRORLEVEL% neq 0 (echo FAIL: terminal corrupted & exit /b 1)
+
+          echo All cmd console wrapper tests passed.
+
+      - name: Test console wrapper (pwsh)
+        working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
+        shell: pwsh
+        run: |
+          # GitHub Actions prepends $ErrorActionPreference = 'Stop' to pwsh
+          # scripts.  Native commands that emit stderr (Qt debug/warnings)
+          # generate ErrorRecords that terminate the script before 2>$null
+          # can suppress them.  Override to Continue and check manually.
+          $ErrorActionPreference = 'Continue'
+          $PSNativeCommandUseErrorActionPreference = $false
+
+          # Test 1: stdout capture
+          $version = (& .\copyq.com version) -join "`n"
+          if ($LASTEXITCODE -ne 0) { throw "FAIL Test 1: exit code $LASTEXITCODE" }
+          if (-not $version) { throw 'FAIL Test 1: copyq.com version produced no output' }
+          if ($version -notmatch 'CopyQ') { throw "FAIL Test 1: no CopyQ in: $version" }
+
+          # Test 2: piping
+          $piped = & .\copyq.com version | Select-String 'CopyQ'
+          if (-not $piped) { throw 'FAIL Test 2: piped output missing CopyQ' }
+
+          # Test 3: exit code propagation
+          & .\copyq.com thisCommandDoesNotExist12345 | Out-Null
+          if ($LASTEXITCODE -eq 0) { throw 'FAIL Test 3: expected non-zero exit code' }
+
+          # Test 4: terminal still works
+          $check = 'AFTER_WRAPPER'
+          if ($check -ne 'AFTER_WRAPPER') { throw 'FAIL Test 4: terminal corrupted' }
+
+          Write-Host 'All pwsh console wrapper tests passed.'
+          exit 0
+
       - name: Set up GPG for tests
         shell: pwsh
         run: |
