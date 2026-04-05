@@ -1,9 +1,7 @@
 OPTION(WITH_NATIVE_NOTIFICATIONS "Build with native notification support" ON)
 
 if (WITH_NATIVE_NOTIFICATIONS)
-    set(KF5_MIN_VERSION "5.18.0")
-
-    find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+    find_package(ECM REQUIRED NO_MODULE)
     list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
     if (WITH_QT6)
@@ -11,6 +9,7 @@ if (WITH_NATIVE_NOTIFICATIONS)
         find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Notifications StatusNotifierItem)
         list(APPEND copyq_LIBRARIES KF6::Notifications KF6::StatusNotifierItem)
     else()
+        set(KF5_MIN_VERSION "5.18.0")
         find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Notifications)
         list(APPEND copyq_LIBRARIES KF5::Notifications)
     endif()
