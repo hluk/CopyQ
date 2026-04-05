@@ -26,9 +26,20 @@ The build requires:
 - `CMake <https://cmake.org/download/>`__
 - `Qt <https://download.qt.io/archive/qt/>`__
 
-Optional:
+Optional (enabled by default, disable with the corresponding CMake option):
 
-- `miniaudio <https://miniaud.io/>`__ -- for built-in audio playback (``playSound``)
+- `QCA <https://invent.kde.org/libraries/qca>`__ (Qt Cryptographic
+  Architecture) -- for tab encryption (``-DWITH_QCA_ENCRYPTION=OFF`` to
+  disable)
+- `QtKeychain <https://github.com/frankosterfeld/qtkeychain>`__ -- for storing
+  encryption passwords in the system keychain (``-DWITH_KEYCHAIN=OFF`` to
+  disable)
+- `KNotifications <https://invent.kde.org/frameworks/knotifications>`__ and
+  `ECM <https://invent.kde.org/frameworks/extra-cmake-modules>`__ (Extra CMake
+  Modules) -- for native notifications on Linux/BSD
+  (``-DWITH_NATIVE_NOTIFICATIONS=OFF`` to disable)
+- `miniaudio <https://miniaud.io/>`__ -- for built-in audio playback
+  (``playSound``) (``-DWITH_AUDIO=OFF`` to disable)
 
 Debian / Ubuntu
 ^^^^^^^^^^^^^^^
