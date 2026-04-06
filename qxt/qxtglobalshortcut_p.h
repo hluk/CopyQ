@@ -67,6 +67,7 @@ public:
         const QByteArray &eventType, void *message, NativeEventResult *result) override;
 
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);
+    static void onKeyboardLayoutChanged();
 
 private:
     void initFallback();

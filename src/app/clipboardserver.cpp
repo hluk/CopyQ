@@ -7,6 +7,7 @@
 #include "common/clientsocket.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
+#include "common/commandstore.h"
 #include "common/config.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -233,6 +234,12 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     setClipboardMonitorRunning(false);
     startMonitoring();
 
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+    QxtGlobalShortcut::setLayoutChangedCallback([this]() {
+        onKeyboardLayoutChanged();
+    });
+#endif
+
     callback(QStringLiteral("onStart"));
 }
 
@@ -240,6 +247,9 @@ ClipboardServer::~ClipboardServer()
 {
     qApp->setProperty("CopyQ_server", QVariant());
 
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+    QxtGlobalShortcut::setLayoutChangedCallback(nullptr);
+#endif
     removeGlobalShortcuts();
 
     delete m_wnd;
@@ -303,13 +313,12 @@ void ClipboardServer::removeGlobalShortcuts()
     m_shortcutActions.clear();
 }
 
-void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
+void ClipboardServer::addGlobalShortcuts(const QVector<Command> &commands)
 {
-#ifdef COPYQ_GLOBAL_SHORTCUTS
-    removeGlobalShortcuts();
-
+#ifndef COPYQ_GLOBAL_SHORTCUTS
+    Q_UNUSED(commands)
+#else
     QList<QKeySequence> usedShortcuts;
-
     for (const auto &command : commands) {
         if (command.type() & CommandType::GlobalShortcut) {
             for (const auto &shortcutText : command.globalShortcuts) {
@@ -321,6 +330,23 @@ void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
             }
         }
     }
+#endif
+}
+
+void ClipboardServer::onKeyboardLayoutChanged()
+{
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+    COPYQ_LOG("Keyboard layout changed, re-registering shortcuts");
+    removeGlobalShortcuts();
+    addGlobalShortcuts(loadAllCommands());
+#endif
+}
+
+void ClipboardServer::onCommandsSaved(const QVector<Command> &commands)
+{
+#ifdef COPYQ_GLOBAL_SHORTCUTS
+    removeGlobalShortcuts();
+    addGlobalShortcuts(commands);
 #endif
 
     const auto hash = monitorCommandStateHash(commands);
