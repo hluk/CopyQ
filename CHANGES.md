@@ -1,3 +1,53 @@
+# 14.1.0
+
+## Added
+
+- CSS properties for pinned/notes indicator color and width. See
+  [Plugin Indicators](https://copyq.readthedocs.io/en/latest/theme.html#plugin-indicators).
+
+      ItemPinned { qproperty-pinnedIndicatorColor: rgba(0, 0, 255, 128); }
+      ItemPinned[CopyQ_selected="true"] {
+        qproperty-pinnedIndicatorColor: rgba(255, 204, 0, 255);
+      }
+      ItemNotes { qproperty-notesIndicatorColor: rgba(100, 200, 100, 180); }
+      ItemNotes { qproperty-notesIndicatorWidth: 24; }
+
+- One Dark theme. Thanks to @jetm (Javier Tia).
+
+- Diagnostic information in About dialog and version output for easier
+  troubleshooting.
+
+## Changed
+
+- "Show under mouse cursor" shortcut now hides the window if it is already
+  visible (#2272).
+
+- Updated icon font to Font Awesome 7.2.0.
+
+- Dropped private Qt header usage (replaced with public QNativeInterface API).
+
+  *Note for packagers:* The application no longer links against private Qt
+  headers, so it does not need to be rebuilt on Qt minor version updates.
+
+## Fixed
+
+- Fixed blank items appearing in search results.
+
+- Fixed rounded item corners showing wrong background color.
+
+- Fixed item background rendering on some systems and themes (#3495).
+
+- Fixed item vertical misalignment (missing top margin).
+
+- Fixed tray icon not showing before encryption password prompt (#3502).
+
+- Fixed tray menu not showing on Wayland when triggered via shortcut (#3325).
+
+- Fixed version string (#3516).
+
+- Windows: Excludes unnecessary test executable and some libraries from
+  installer and portable zip.
+
 # 14.0.0
 
 ## Added
