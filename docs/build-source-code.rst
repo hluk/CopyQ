@@ -35,16 +35,16 @@ Optional (enabled by default, disable with the corresponding CMake option):
   encryption passwords in the system keychain (``-DWITH_KEYCHAIN=OFF`` to
   disable)
 - `KNotifications <https://invent.kde.org/frameworks/knotifications>`__ -- for
-  native notifications on Linux/BSD (``-DWITH_NATIVE_NOTIFICATIONS=OFF`` to
-  disable)
+  native notifications (``-DWITH_NATIVE_NOTIFICATIONS=OFF`` to disable)
 - `miniaudio <https://miniaud.io/>`__ -- for built-in audio playback
   (``playSound``) (``-DWITH_AUDIO=OFF`` to disable)
 
 Conditional:
 
 - `ECM <https://invent.kde.org/frameworks/extra-cmake-modules>`__ (Extra CMake
-  Modules) -- for Wayland clipboard support (KGuiAddons) and native notifications
-  on Linux/BSD (can be disabled entirely on non-Linux platforms)
+  Modules) -- for native notifications and Wayland clipboard support
+- `KGuiAddons <https://invent.kde.org/frameworks/kguiaddons>`__ -- for Wayland
+  clipboard support
 
 Debian / Ubuntu
 ^^^^^^^^^^^^^^^
