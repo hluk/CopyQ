@@ -11,6 +11,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
+#include "platform/platformnativeinterface.h"
 #include "gui/actionhandlerdialog.h"
 #include "gui/icons.h"
 #include "gui/notification.h"
@@ -40,11 +41,24 @@ QStringList ActionHandler::copyqStats() const
 {
     QStringList lines;
     for (auto it = m_actions.constBegin(); it != m_actions.constEnd(); ++it) {
-        if (m_internalActions.contains(it.key()))
-            continue;
-        QString desc = actionDescription(*it.value());
-        desc.replace('\n', " | ");
-        lines.append(QStringLiteral("ACTION ") + desc);
+        constexpr int maxDescriptionLength = 150;
+        QString desc = actionDescription(*it.value()).simplified();
+        desc.replace(QLatin1Char('\''), QLatin1Char('"'));
+        if (desc.size() > maxDescriptionLength)
+            desc = desc.left(maxDescriptionLength) + QStringLiteral("...");
+
+        const QList<qint64> pids = it.value()->processIds();
+        QStringList pidParts;
+        for (const qint64 pid : pids) {
+            const qint64 rss = platformNativeInterface()->processResidentMemoryBytes(pid);
+            if (rss >= 0) {
+                pidParts.append(QStringLiteral("pid=%1 rss=%2 (%3)")
+                    .arg(pid).arg(rss).arg(formatDataSize(rss)));
+            } else {
+                pidParts.append(QStringLiteral("pid=%1").arg(pid));
+            }
+        }
+        lines.append( QStringLiteral("ACTION '%1' | %2").arg(desc, pidParts.join(QStringLiteral(", "))) );
     }
     return lines;
 }
@@ -186,10 +200,9 @@ void ActionHandler::showActionErrors(Action *action, const QString &message, ush
 
     const int maxWidthPoints =
             AppConfig().option<Config::notification_maximum_width>();
-    const QString command = action->commandLine()
-            .replace(QLatin1String("copyq eval --"), QLatin1String("copyq:"));
+    const QString command = action->commandLine();
     const QString name = action->name().isEmpty()
-            ? QString(command).replace('\n', QLatin1String(" "))
+            ? command.simplified()
             : action->name();
     const QString format = tr("Command %1").arg(quoteString("%1"));
     const QString title = elideText(name, QFont(), format, pointsToPixels(maxWidthPoints));

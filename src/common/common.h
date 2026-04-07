@@ -82,3 +82,5 @@ bool canDropToTab(const QDropEvent &event);
  * Accept any proposed drop action, preferably "move" if items data available.
  */
 void acceptDrag(QDropEvent *event);
+
+QString formatDataSize(qint64 bytes);

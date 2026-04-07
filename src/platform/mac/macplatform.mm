@@ -12,6 +12,7 @@
 #include "urlpasteboardmime.h"
 #include "macclipboard.h"
 
+#include <libproc.h>
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
@@ -278,13 +279,11 @@ void MacPlatform::setAutostartEnabled(bool shouldEnable)
         }
     }
 }
-
-qint64 MacPlatform::processResidentMemoryBytes()
+qint64 MacPlatform::processResidentMemoryBytes(qint64 pid)
 {
-    struct mach_task_basic_info info;
-    mach_msg_type_number_t count = MACH_TASK_BASIC_INFO_COUNT;
-    if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
-                  (task_info_t)&info, &count) != KERN_SUCCESS)
+    struct proc_taskinfo pti;
+    const int size = proc_pidinfo(static_cast<int>(pid), PROC_PIDTASKINFO, 0, &pti, sizeof(pti));
+    if (size != sizeof(pti))
         return -1;
-    return static_cast<qint64>(info.resident_size);
+    return static_cast<qint64>(pti.pti_resident_size);
 }

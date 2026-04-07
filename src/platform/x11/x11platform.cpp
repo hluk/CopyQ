@@ -331,9 +331,9 @@ QString X11Platform::translationPrefix()
     return QString();
 }
 
-qint64 X11Platform::processResidentMemoryBytes()
+qint64 X11Platform::processResidentMemoryBytes(qint64 pid)
 {
-    QFile statm(QStringLiteral("/proc/self/statm"));
+    QFile statm(QStringLiteral("/proc/%1/statm").arg(pid));
     if (!statm.open(QIODevice::ReadOnly))
         return -1;
     const QList<QByteArray> fields = statm.readAll().split(' ');

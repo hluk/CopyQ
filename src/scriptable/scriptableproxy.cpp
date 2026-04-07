@@ -81,17 +81,6 @@ const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 constexpr bool hasPriority = false;
 
-QString formatDataSize(qint64 bytes)
-{
-    if (bytes < 1024)
-        return QStringLiteral("%1 B").arg(bytes);
-    if (bytes < 1024 * 1024)
-        return QStringLiteral("%1 KiB").arg(bytes / 1024.0, 0, 'f', 1);
-    if (bytes < 1024 * 1024 * 1024)
-        return QStringLiteral("%1 MiB").arg(bytes / (1024.0 * 1024.0), 0, 'f', 1);
-    return QStringLiteral("%1 GiB").arg(bytes / (1024.0 * 1024.0 * 1024.0), 0, 'f', 1);
-}
-
 void registerMetaTypes() {
     static bool registered = false;
     if (registered)
@@ -2530,7 +2519,7 @@ QString ScriptableProxy::stats()
 
     // Process memory via platform interface
     {
-        const qint64 rss = platformNativeInterface()->processResidentMemoryBytes();
+        const qint64 rss = platformNativeInterface()->processResidentMemoryBytes(QCoreApplication::applicationPid());
         if (rss >= 0) {
             result += QStringLiteral("MEMORY: rss=%1 (%2)")
                 .arg(rss).arg(formatDataSize(rss));

@@ -60,6 +60,8 @@ public:
 
     bool isRunning() const;
 
+    QList<qint64> processIds() const;
+
     /** Set human-readable name for action. */
     void setName(const QString &actionName) { m_name = actionName; }
 
