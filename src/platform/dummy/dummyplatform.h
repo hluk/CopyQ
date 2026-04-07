@@ -48,5 +48,5 @@ public:
 
     QString themePrefix() override { return QString(); }
 
-    qint64 processResidentMemoryBytes() override { return -1; }
+    qint64 processResidentMemoryBytes(qint64) override { return -1; }
 };

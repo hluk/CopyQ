@@ -384,10 +384,15 @@ void WinPlatform::setAutostartEnabled(bool enable)
     }
 }
 
-qint64 WinPlatform::processResidentMemoryBytes()
+qint64 WinPlatform::processResidentMemoryBytes(qint64 pid)
 {
-    PROCESS_MEMORY_COUNTERS pmc;
-    if (!GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+    HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, static_cast<DWORD>(pid));
+    if (!hProcess)
         return -1;
-    return static_cast<qint64>(pmc.WorkingSetSize);
+    PROCESS_MEMORY_COUNTERS pmc;
+    qint64 result = -1;
+    if (GetProcessMemoryInfo(hProcess, &pmc, sizeof(pmc)))
+        result = static_cast<qint64>(pmc.WorkingSetSize);
+    CloseHandle(hProcess);
+    return result;
 }

@@ -1791,7 +1791,7 @@ unlike in GUI, where row numbers start from 1 by default.
       ``MODEL path: rows=N, dataSize=B (human)`` for item models,
       ``DATA_DIR path: size=B (human)`` for the item data directory,
       ``TABS: total=N, loaded=N`` for tab load state,
-      ``ACTION description`` for each running action,
+      ``ACTION description | pid=P rss=B (human), ...`` for each running action with per-sub-process memory,
       ``COMMANDS: automatic=N, display=N, menu=N, tray_menu=N, script=N`` for command counts,
       ``PLUGIN id: enabled/disabled`` for each loaded plugin,
       ``LOG_FILES: count=N, size=B (human)`` for log file total size,

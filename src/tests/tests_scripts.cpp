@@ -10,6 +10,7 @@
 #include <QElapsedTimer>
 #include <QRegularExpression>
 #include <QTemporaryFile>
+#include <algorithm>
 
 void Tests::commandExit()
 {
@@ -1258,6 +1259,14 @@ void Tests::commandStats()
     QVERIFY2(hasTabs, stdoutActual);
     QVERIFY2(hasCommands, stdoutActual);
     QVERIFY2(hasLogFiles, stdoutActual);
+
+    // Verify monitorClipboard internal action appears with per-sub-process pid/rss
+    const auto isMonitorAction = [](const QByteArray &line) {
+        return line.startsWith("ACTION ") && line.contains("monitorClipboard");
+    };
+    const auto it = std::find_if(stats2.cbegin(), stats2.cend(), isMonitorAction);
+    QVERIFY2(it != stats2.cend(), stdoutActual);
+    QVERIFY2(it->contains("pid="), *it);
 }
 
 void Tests::statsQObjectLeak()

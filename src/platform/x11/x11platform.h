@@ -62,5 +62,5 @@ public:
 
     QString themePrefix() override { return QString(); }
 
-    qint64 processResidentMemoryBytes() override;
+    qint64 processResidentMemoryBytes(qint64 pid) override;
 };

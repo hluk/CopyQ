@@ -184,16 +184,17 @@ Action::~Action()
 
 QString Action::commandLine() const
 {
-    QString text;
-    for ( const auto &line : m_cmds ) {
-        for ( const auto &args : line ) {
-            if ( !text.isEmpty() )
-                text.append(QChar('|'));
-            text.append(args.join(" "));
+    QStringList groups;
+    for (const auto &line : m_cmds) {
+        QStringList cmds;
+        for (const auto &args : line) {
+            auto cmd = args.join(QLatin1Char(' '));
+            cmd.replace(QLatin1String("copyq eval --"), QLatin1String("copyq:"));
+            cmds.append(cmd);
         }
-        text.append('\n');
+        groups.append(cmds.join(QLatin1String(" | ")));
     }
-    return text.trimmed();
+    return groups.join(QLatin1String("; "));
 }
 
 void Action::setCommand(const QString &command, const QStringList &arguments)
@@ -315,6 +316,19 @@ bool Action::waitForFinished(int msecs)
 bool Action::isRunning() const
 {
     return !m_processes.empty() && m_processes.back()->state() != QProcess::NotRunning;
+}
+
+QList<qint64> Action::processIds() const
+{
+    QList<qint64> pids;
+    for (const auto *proc : m_processes) {
+        if (proc->state() != QProcess::NotRunning) {
+            const auto pid = proc->processId();
+            if (pid != 0)
+                pids.append(pid);
+        }
+    }
+    return pids;
 }
 
 void Action::setData(const QVariantMap &data)
