@@ -27,6 +27,14 @@ namespace {
 const char propertySelectedItem[] = "CopyQ_selected";
 constexpr int defaultMaxItemHeight = 2048 * 8;
 
+void updatePalette(QWidget *widget)
+{
+    const QPalette palette = widget->palette();
+    for ( auto *child : widget->findChildren<QWidget*>() ) {
+        child->setPalette(palette);
+    }
+}
+
 } // namespace
 
 ItemDelegate::ItemDelegate(ClipboardBrowser *view, const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
@@ -445,6 +453,11 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
             updateItemWidgetSize(row);
         }
 
+        // Re-apply theme palette after sizing. updateItemWidgetSize()
+        // may call setDocument() on QTextEdit children, which can
+        // recreate scrollbar widgets that miss the initial palette.
+        updatePalette(ww);
+
         ww->installEventFilter(this);
         updateItemSize(index, ww->size());
         updateLater();
@@ -493,13 +506,15 @@ void ItemDelegate::setCurrentRow(int row, bool current)
 
 void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
 {
-    if ( ww->property(propertySelectedItem).toBool() == selected )
+    const auto oldValue = ww->property(propertySelectedItem);
+    if ( oldValue.isValid() && oldValue.toBool() == selected )
         return;
 
     ww->setProperty(propertySelectedItem, selected);
     for (auto *w : ww->findChildren<QWidget*>())
         w->setProperty(propertySelectedItem, selected);
     ww->setStyleSheet(m_view->styleSheet());
+    updatePalette(ww);
 }
 
 int ItemDelegate::findWidgetRow(const QObject *obj) const
