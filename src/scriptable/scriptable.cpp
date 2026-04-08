@@ -5,7 +5,6 @@
 #include "app/clipboardmonitor.h"
 #include "common/action.h"
 #include "common/appconfig.h"
-#include "common/audioplayer.h"
 #include "common/command.h"
 #include "common/diagnostics.h"
 #include "common/commandstatus.h"
@@ -383,7 +382,6 @@ Scriptable::Scriptable(
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
                 "_copyqArguments = null;"
-                "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return v;"
             "};"
             "f._copyq = name;"
@@ -396,7 +394,6 @@ Scriptable::Scriptable(
                 "_copyqArguments = arguments;"
                 "var v = from[name]();"
                 "_copyqArguments = null;"
-                "if (_copyqHasUncaughtException) throw _copyqUncaughtException;"
                 "return ByteArray(v);"
             "};"
             "f._copyq = 1;"
@@ -588,8 +585,6 @@ bool Scriptable::hasUncaughtException() const
 void Scriptable::clearExceptions()
 {
     m_hasUncaughtException = false;
-    m_uncaughtException = QJSValue();
-    m_uncaughtExceptionStack.clear();
 
     if (m_abort == Abort::CurrentEvaluation) {
         m_engine->setInterrupted(false);
@@ -603,9 +598,8 @@ void Scriptable::setUncaughtException(const QJSValue &exc)
     if (m_abort != Abort::None || m_hasUncaughtException)
         return;
 
-    m_uncaughtException = exc;
     m_hasUncaughtException = true;
-    m_uncaughtExceptionStack = m_stack;
+    logUncaughtException(exc);
 }
 
 QJSValue Scriptable::getPlugins()
@@ -634,6 +628,9 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QVariantList
 
 QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList &arguments)
 {
+    if ( hasUncaughtException() )
+        return {};
+
     m_stack.prepend(label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
     const auto v = m_safeCall.callWithInstance(*fn, arguments);
@@ -1517,8 +1514,6 @@ QJSValue Scriptable::eval()
 {
     const auto script = arg(0);
     const auto result = eval(script);
-    if ( result.isError() )
-        setUncaughtException(result);
     m_skipArguments = -1;
     return result;
 }
@@ -1900,7 +1895,7 @@ QJSValue Scriptable::currentWindowTitle()
 
 QJSValue Scriptable::currentClipboardOwner()
 {
-    return eval("currentWindowTitle()");
+    return call(QStringLiteral("currentWindowTitle"));
 }
 
 QJSValue Scriptable::dialog()
@@ -2141,9 +2136,6 @@ QJSValue Scriptable::afterMilliseconds()
 
 QVariant Scriptable::call(const QString &method, const QVariantList &arguments)
 {
-    if ( hasUncaughtException() )
-        return QVariant();
-
     auto fn = m_engine->globalObject().property(method);
     const auto result = call(method, &fn, arguments);
     m_skipArguments = -1;
@@ -2278,26 +2270,24 @@ QJSValue Scriptable::loadTheme()
 
 void Scriptable::onClipboardChanged()
 {
-    eval(R"(
-    if (!hasData()) {
-        updateClipboardData();
-    } else if (runAutomaticCommands()) {
-        saveData();
-        updateClipboardData();
+    if (!call(QStringLiteral("hasData")).toBool()) {
+        call(QStringLiteral("updateClipboardData"));
+    } else if (call(QStringLiteral("runAutomaticCommands")).toBool()) {
+        call(QStringLiteral("saveData"));
+        call(QStringLiteral("updateClipboardData"));
     } else {
-        clearClipboardData();
+        call(QStringLiteral("clearClipboardData"));
     }
-    )", "onClipboardChanged()");
 }
 
 void Scriptable::onOwnClipboardChanged()
 {
-    eval("updateClipboardData()");
+    call(QStringLiteral("updateClipboardData"));
 }
 
 void Scriptable::onHiddenClipboardChanged()
 {
-    eval("updateClipboardData()");
+    call(QStringLiteral("updateClipboardData"));
 }
 
 void Scriptable::onClipboardUnchanged()
@@ -2308,7 +2298,7 @@ void Scriptable::onSecretClipboardChanged()
 {
     // Drop secret data by default
     m_data = {{mimeSecret, m_data.value(mimeSecret)}};
-    eval("updateClipboardData()");
+    call(QStringLiteral("updateClipboardData"));
 }
 
 void Scriptable::synchronizeToSelection()
@@ -2383,23 +2373,19 @@ void Scriptable::hideDataNotification()
 
 void Scriptable::updateClipboardData()
 {
-    eval(R"(
-    if (isClipboard()) {
-        updateTitle();
-        showDataNotification();
-        setClipboardData();
+    if (call(QStringLiteral("isClipboard")).toBool()) {
+        call(QStringLiteral("updateTitle"));
+        call(QStringLiteral("showDataNotification"));
+        call(QStringLiteral("setClipboardData"));
     }
-    )", "updateClipboardData()");
 }
 
 void Scriptable::clearClipboardData()
 {
-    eval(R"(
-    if (isClipboard()) {
-        setTitle();
-        hideDataNotification();
+    if (call(QStringLiteral("isClipboard")).toBool()) {
+        call(QStringLiteral("setTitle"));
+        call(QStringLiteral("hideDataNotification"));
     }
-    )", "clearClipboardData()");
 }
 
 QJSValue Scriptable::runAutomaticCommands()
@@ -2525,7 +2511,9 @@ void Scriptable::monitorClipboard()
         return;
 
     ClipboardMonitor monitor(
-        fromScriptValue<QStringList>(eval("clipboardFormatsToSave()"), m_engine) );
+        fromScriptValue<QStringList>(call(QStringLiteral("clipboardFormatsToSave")), m_engine) );
+
+    clearExceptions();
 
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
@@ -2544,10 +2532,7 @@ void Scriptable::monitorClipboard()
     connect( &monitor, &ClipboardMonitor::fetchCurrentClipboardOwner,
              this, &Scriptable::onFetchCurrentClipboardOwner );
     connect( &monitor, &ClipboardMonitor::saveData,
-             m_proxy, [this](const QVariantMap &data) {
-                 m_data = data;
-                 eval("if (hasData()) { saveData(); }");
-             } );
+             this, &Scriptable::onSaveData);
 
     monitor.startMonitoring();
     setClipboardMonitorRunning(true);
@@ -2683,9 +2668,21 @@ void Scriptable::onSynchronizeSelection(ClipboardMode sourceMode, uint sourceTex
 
 void Scriptable::onFetchCurrentClipboardOwner(QString *owner)
 {
-    const QJSValue result = eval("currentClipboardOwner()");
+    const QJSValue result = call(QStringLiteral("currentClipboardOwner"));
     if ( !result.isError() )
         *owner = toString(result);
+
+    clearExceptions();
+}
+
+void Scriptable::onSaveData(const QVariantMap &data)
+{
+    m_data = data;
+    if (call(QStringLiteral("hasData")).toBool())
+        call(QStringLiteral("saveData"));
+    m_data.clear();
+
+    clearExceptions();
 }
 
 bool Scriptable::sourceScriptCommands()
@@ -2695,10 +2692,8 @@ bool Scriptable::sourceScriptCommands()
         const auto script = QStringLiteral("(function(){%1\n;})()").arg(command.cmd);
         const auto label = QStringLiteral("source@<%1>").arg(command.name);
         eval(script, label);
-        if ( hasUncaughtException() ) {
-            processUncaughtException(label);
+        if ( hasUncaughtException() )
             return false;
-        }
     }
 
     return true;
@@ -2782,38 +2777,30 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     if (m_abort != Abort::None)
         return m_abortWithSuccess ? CommandFinished : CommandStop;
 
-    if ( hasUncaughtException() ) {
-        processUncaughtException(QString());
+    if ( hasUncaughtException() )
         return CommandException;
-    }
 
     const auto message = serializeScriptValue(result);
     print(message);
     return CommandFinished;
 }
 
-void Scriptable::processUncaughtException(const QString &cmd)
+void Scriptable::logUncaughtException(const QJSValue &exc)
 {
-    const auto exceptionName = m_uncaughtException.toString()
+    const auto exceptionName = exc.toString()
             .remove(QRegularExpression("^Error: "))
             .trimmed();
 
-    const QString backtraceText = exceptionBacktrace(m_uncaughtException, m_uncaughtExceptionStack);
+    const QString backtraceText = exceptionBacktrace(exc, m_stack);
     const auto exceptionText = QStringLiteral("ScriptError: %3%4").arg(exceptionName, backtraceText);
 
     // Show exception popups only if the script was launched from application.
     // (avoid it if launched from command line).
     if (m_actionId != -1) {
         showExceptionMessage(exceptionName);
-
-        auto label = m_actionName;
-        if ( !cmd.isEmpty() )
-            label.append("::" + cmd);
-
-        if (label.isEmpty())
-            label = QStringLiteral("Exception in command: ");
-        else
-            label = QStringLiteral("Exception in command \"%1\": ").arg(label);
+        const QString label = m_actionName.isEmpty()
+            ? QStringLiteral("Exception in command: ")
+            : QStringLiteral("Exception in command \"%1\": ").arg(m_actionName);
         m_proxy->serverLog(label + exceptionText);
     }
 
@@ -3056,6 +3043,9 @@ QJSValue Scriptable::screenshot(bool select)
 
 QJSValue Scriptable::eval(const QString &script, const QString &label)
 {
+    if (hasUncaughtException())
+        return QJSValue();
+
     m_stack.prepend(QStringLiteral("eval:") + label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
     const auto result = m_safeEval.call({QJSValue(script)});
@@ -3078,6 +3068,12 @@ void Scriptable::setActionName(const QString &actionName)
 QJSValue Scriptable::eval(const QString &script)
 {
     return eval(script, scriptToLabel(script));
+}
+
+QJSValue Scriptable::call(const QString &functionName)
+{
+    auto fn = m_engine->globalObject().property(functionName);
+    return call(functionName, &fn);
 }
 
 bool Scriptable::runAction(Action *action)
