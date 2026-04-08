@@ -37,11 +37,7 @@ class QxtGlobalShortcut;
 
 #include <QAbstractNativeEventFilter>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 using NativeEventResult = qintptr;
-#else
-using NativeEventResult = long;
-#endif
 
 class QxtGlobalShortcutPrivate
     : public QAbstractNativeEventFilter

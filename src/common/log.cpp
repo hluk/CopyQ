@@ -211,11 +211,7 @@ bool dropLogsToFileCountAndSize(int maxFileCount, int keepMaxSize)
         const auto begin = logFiles.cbegin() + maxFileCount;
         for (auto it = begin; it != logFiles.cend(); ++it)
             success = removeLogFile(*it) && success;
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
         logFiles.erase(begin);
-#else
-        logFiles.erase(logFiles.begin() + maxFileCount);
-#endif
     }
 
     if (keepMaxSize < 0)

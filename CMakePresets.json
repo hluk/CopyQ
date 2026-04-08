@@ -21,7 +21,6 @@
             "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
             "installDir": "${sourceParentDir}/build/copyq/${presetName}",
             "cacheVariables": {
-                "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
                 "CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
@@ -36,7 +35,6 @@
             "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
             "installDir": "${sourceParentDir}/build/copyq/${presetName}",
             "cacheVariables": {
-                "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
                 "CMAKE_OSX_DEPLOYMENT_TARGET": "13.0",
@@ -51,7 +49,6 @@
             "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
             "installDir": "${sourceParentDir}/build/copyq/${presetName}",
             "cacheVariables": {
-                "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
                 "CMAKE_OSX_DEPLOYMENT_TARGET": "12",
@@ -67,7 +64,6 @@
             "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
             "installDir": "${sourceParentDir}/install/copyq/${presetName}",
             "cacheVariables": {
-                "WITH_QT6": "TRUE",
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
                 "CMAKE_BUILD_TYPE": "Release",

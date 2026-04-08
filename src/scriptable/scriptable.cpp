@@ -56,12 +56,8 @@
 #include <QThread>
 #include <QTimer>
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#   include <QTextCodec>
-#else
-#   include <QStringDecoder>
-#   include <QStringEncoder>
-#endif
+#include <QStringDecoder>
+#include <QStringEncoder>
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
@@ -252,45 +248,6 @@ QString scriptToLabel(const QString &script)
     return script;
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-QTextCodec *codecFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
-{
-    const auto codec = QTextCodec::codecForName( scriptable->makeByteArray(codecName) );
-    if (!codec) {
-        QString codecs;
-        for (const auto &availableCodecName : QTextCodec::availableCodecs())
-            codecs.append( "\n" + QLatin1String(availableCodecName) );
-        scriptable->throwError("Available codecs are:" + codecs);
-    }
-    return codec;
-}
-
-QJSValue toUnicode(const QByteArray &bytes, const QJSValue &codecName, Scriptable *scriptable)
-{
-    const auto codec = codecFromNameOrThrow(codecName, scriptable);
-    if (!codec)
-        return QJSValue();
-
-    return codec->toUnicode(bytes);
-}
-
-QJSValue toUnicode(const QByteArray &bytes, Scriptable *scriptable)
-{
-    const auto codec = QTextCodec::codecForUtfText(bytes, nullptr);
-    if (!codec)
-        return scriptable->throwError("Failed to detect encoding");
-    return codec->toUnicode(bytes);
-}
-
-QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable *scriptable)
-{
-    const auto codec = codecFromNameOrThrow(codecName, scriptable);
-    if (!codec)
-        return QJSValue();
-
-    return scriptable->newByteArray( codec->fromUnicode(text) );
-}
-#else
 std::optional<QStringConverter::Encoding> encodingFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
 {
     const auto encoding = QStringConverter::encodingForName( scriptable->makeByteArray(codecName) );
@@ -328,7 +285,6 @@ QJSValue fromUnicode(const QString &text, const QJSValue &codecName, Scriptable 
     return scriptable->newByteArray(
         QStringEncoder(*encoding, flags).encode(text) );
 }
-#endif
 
 bool isGuiApplication()
 {
@@ -558,7 +514,6 @@ QString Scriptable::arg(int i, const QString &defaultValue)
 
 QJSValue Scriptable::throwError(const QString &errorMessage)
 {
-    // QJSEngine::throwError() is available in Qt 5.12.
     QJSValue throwFn = evaluateStrict(m_engine,  QStringLiteral(
         "(function(text) {throw new Error(text);})"
     ));

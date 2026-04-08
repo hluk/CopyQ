@@ -274,11 +274,7 @@ class ClipboardBrowser final : public QListView
         void mouseReleaseEvent(QMouseEvent *event) override;
         void mouseMoveEvent(QMouseEvent *event) override;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
         void enterEvent(QEnterEvent *event) override;
-#else
-        void enterEvent(QEvent *event) override;
-#endif
 
         void scrollContentsBy(int dx, int dy) override;
 

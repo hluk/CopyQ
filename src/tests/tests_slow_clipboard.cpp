@@ -31,11 +31,7 @@ public:
     }
 
 protected:
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     QVariant retrieveData(const QString &mimeType, QMetaType) const override
-#else
-    QVariant retrieveData(const QString &mimeType, QVariant::Type) const override
-#endif
     {
         if (formats().contains(mimeType)) {
             waitFor(m_delayMs);

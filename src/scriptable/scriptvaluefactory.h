@@ -97,12 +97,6 @@ struct ScriptValueListFactory {
 template <typename T>
 struct ScriptValueFactory< QList<T> > : ScriptValueListFactory< QList<T>, T > {};
 
-// QVector is alias for a QList in Qt 6.
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-template <typename T>
-struct ScriptValueFactory< QVector<T> > : ScriptValueListFactory< QVector<T>, T > {};
-#endif
-
 template <>
 struct ScriptValueFactory<QVariantMap> {
     static QJSValue toScriptValue(const QVariantMap &dataMap, QJSEngine *engine)
@@ -137,21 +131,6 @@ struct ScriptValueFactory<QByteArray> {
         return newByteArray(new ScriptableByteArray(bytes), engine);
     }
 };
-
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-template <>
-struct ScriptValueFactory<QStringList> {
-    static QJSValue toScriptValue(const QStringList &list, QJSEngine *engine)
-    {
-        return ScriptValueFactory< QList<QString> >::toScriptValue(list, engine);
-    }
-
-    static QStringList fromScriptValue(const QJSValue &value, QJSEngine *engine)
-    {
-        return ScriptValueFactory< QList<QString> >::fromScriptValue(value, engine);
-    }
-};
-#endif
 
 template <>
 struct ScriptValueFactory<QString> {

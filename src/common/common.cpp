@@ -25,13 +25,8 @@
 #include <QThread>
 #include <QUrl>
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#   include <QTextCodec>
-using Encoding = QTextCodec*;
-#else
-#   include <QStringDecoder>
+#include <QStringDecoder>
 using Encoding = std::optional<QStringConverter::Encoding>;
-#endif
 
 #include <algorithm>
 #include <memory>
@@ -42,11 +37,7 @@ const int maxElidedTextLineLength = 512;
 
 class MimeData final : public QMimeData {
 protected:
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     QVariant retrieveData(const QString &mimeType, QMetaType preferredType) const override
-#else
-    QVariant retrieveData(const QString &mimeType, QVariant::Type preferredType) const override
-#endif
     {
         COPYQ_LOG_VERBOSE( QStringLiteral("Providing \"%1\"").arg(mimeType) );
         return QMimeData::retrieveData(mimeType, preferredType);
@@ -122,11 +113,7 @@ bool setImageData(
 
 Encoding encodingForName(const char *name)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    return QTextCodec::codecForName(name);
-#else
     return QStringConverter::encodingForName(name);
-#endif
 }
 
 Encoding encodingForText(const QByteArray &bytes)
@@ -462,16 +449,6 @@ void renameToUnique(QString *name, const QStringList &names)
 
 QString dataToText(const QByteArray &bytes, const QString &mime)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    auto codec = (mime == mimeHtml)
-            ? QTextCodec::codecForHtml(bytes, nullptr)
-            : QTextCodec::codecForUtfText(bytes, nullptr);
-
-    if (!codec)
-        codec = encodingForText(bytes);
-
-    return codec->toUnicode(bytes);
-#else
     auto encoding = (mime == mimeHtml)
             ? QStringConverter::encodingForHtml(bytes)
             : QStringConverter::encodingForData(bytes);
@@ -480,7 +457,6 @@ QString dataToText(const QByteArray &bytes, const QString &mime)
         encoding = encodingForText(bytes);
 
     return QStringDecoder(*encoding).decode(bytes);
-#endif
 }
 
 bool isClipboardData(const QVariantMap &data)

@@ -53,30 +53,6 @@ env:
     libqca-qt6-plugins
 
     qtkeychain-qt6-dev
-  qt5_packages: >-
-    qtbase5-dev
-    qtbase5-dev-tools
-    qtbase5-private-dev
-    qtdeclarative5-dev
-    qttools5-dev
-    qttools5-dev-tools
-
-    libqt5x11extras5-dev
-
-    libqt5svg5-dev
-    libqt5svg5
-
-    libqt5waylandclient5-dev
-    qtwayland5
-    qtwayland5-dev-tools
-
-    libkf5notifications-dev
-
-    libqca-qt5-2-dev
-    libqca-qt5-2
-    libqca-qt5-2-plugins
-
-    qtkeychain-qt5-dev
 
   QCA_VERSION: '2.3.10'
   QTKEYCHAIN_VERSION: '0.15.0'
@@ -94,19 +70,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-22.04
-            buildname: Qt 5
-            compiler: g++
-            compiler_package: g++
-            with_qt6: false
-            with_native_notifications: true
-            cmake_preset: Debug
-
           - os: ubuntu-latest
             buildname: Qt 6
             compiler: g++
             compiler_package: g++
-            with_qt6: true
             custom_qt: '6.10.2'
             with_native_notifications: false
             test_wayland: true
@@ -124,7 +91,6 @@ jobs:
             buildname: Qt 6 Clang
             compiler: clang++
             compiler_package: clang
-            with_qt6: true
             with_native_notifications: false
             cmake_preset: Debug
 
@@ -151,7 +117,7 @@ jobs:
           packages: >-
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
-            ${{ !matrix.custom_qt && (matrix.with_qt6 && env.qt6_packages || env.qt5_packages) || '' }}
+            ${{ !matrix.custom_qt && env.qt6_packages || '' }}
             ${{ matrix.coverage && 'lcov' || '' }}
             ${{ matrix.test_wayland && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0' || '' }}
             ${{ matrix.custom_qt && 'libssl-dev libsecret-1-dev pkg-config' || '' }}
@@ -174,7 +140,6 @@ jobs:
           cmake -G Ninja -S /tmp/qca -B /tmp/qca-build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
-            -DBUILD_WITH_QT6=ON \
             -DBUILD_TESTS=OFF \
             -DBUILD_TOOLS=OFF \
             -DBUILD_PLUGINS=ossl
@@ -185,7 +150,6 @@ jobs:
           cmake -G Ninja -S /tmp/qtkeychain -B /tmp/qtkeychain-build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
-            -DBUILD_WITH_QT6=ON \
             -DBUILD_TRANSLATIONS=OFF
           cmake --build /tmp/qtkeychain-build --parallel
           sudo cmake --install /tmp/qtkeychain-build
@@ -205,7 +169,6 @@ jobs:
             '-DCMAKE_CXX_COMPILER=${{matrix.compiler}}',
             '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
             '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
-            '-DWITH_QT6=${{matrix.with_qt6}}',
             '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}',
             ]
 
@@ -237,8 +200,6 @@ jobs:
         env:
           COPYQ_TESTS_EXECUTABLE: >-
             ${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin/copyq
-          COPYQ_TESTS_SKIP_DRAG_AND_DROP: >-
-            ${{ matrix.with_qt6 && '0' || '1' }}
 
       - name: Update coverage
         if: matrix.coverage

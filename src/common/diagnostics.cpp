@@ -15,9 +15,7 @@
 
 #ifdef WITH_NATIVE_NOTIFICATIONS
 #   include <knotifications_version.h>
-#   if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-#       include <kstatusnotifieritem_version.h>
-#   endif
+#   include <kstatusnotifieritem_version.h>
 #endif
 #ifdef HAS_KGUIADDONS
 #   include <kguiaddons_version.h>

@@ -18,6 +18,7 @@ ClientSocketId lastSocketId = 0;
 
 const quint32 protocolMagicNumber = 0x0C090701;
 const quint32 protocolVersion = 1;
+constexpr auto dataStreamVersion = QDataStream::Qt_6_2;
 
 template <typename T>
 int doStreamDataSize(T value)
@@ -25,7 +26,7 @@ int doStreamDataSize(T value)
     QByteArray bytes;
     {
         QDataStream dataStream(&bytes, QIODevice::WriteOnly);
-        dataStream.setVersion(QDataStream::Qt_5_0);
+        dataStream.setVersion(dataStreamVersion);
         dataStream << value;
     }
     return bytes.length();
@@ -43,7 +44,7 @@ int headerDataSize()
     QByteArray bytes;
     {
         QDataStream dataStream(&bytes, QIODevice::WriteOnly);
-        dataStream.setVersion(QDataStream::Qt_5_0);
+        dataStream.setVersion(dataStreamVersion);
         dataStream << protocolMagicNumber << protocolVersion;
     }
     return bytes.length();
@@ -53,7 +54,7 @@ template <typename T>
 bool readValue(T *value, QByteArray *message)
 {
     QDataStream stream(*message);
-    stream.setVersion(QDataStream::Qt_5_0);
+    stream.setVersion(dataStreamVersion);
     stream >> *value;
     message->remove(0, streamDataSize(*value));
     return stream.status() == QDataStream::Ok;
@@ -64,7 +65,7 @@ bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
     COPYQ_LOG_VERBOSE( QString("Write message (%1 bytes).").arg(msg.size()) );
 
     QDataStream out(socket);
-    out.setVersion(QDataStream::Qt_5_0);
+    out.setVersion(dataStreamVersion);
     // length is serialized as a quint32, followed by msg
     const auto length = static_cast<quint32>(msg.length());
     out << protocolMagicNumber << protocolVersion;
@@ -179,7 +180,7 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
     } else {
         QByteArray msg;
         QDataStream out(&msg, QIODevice::WriteOnly);
-        out.setVersion(QDataStream::Qt_5_0);
+        out.setVersion(dataStreamVersion);
         out << static_cast<qint32>(messageCode);
         out.writeRawData( message.constData(), message.length() );
         if ( writeMessage(m_socket, msg) ) {
@@ -217,7 +218,7 @@ void ClientSocket::onReadyRead()
 
             {
                 QDataStream stream(m_message);
-                stream.setVersion(QDataStream::Qt_5_0);
+                stream.setVersion(dataStreamVersion);
                 quint32 magicNumber;
                 quint32 version;
                 stream >> magicNumber >> version >> m_messageLength;

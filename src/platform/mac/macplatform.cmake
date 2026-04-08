@@ -7,10 +7,6 @@ file(GLOB copyq_SOURCES ${copyq_SOURCES}
 
 set(USE_QXT TRUE)
 
-if (NOT WITH_QT6)
-    list(APPEND copyq_qt_modules MacExtras)
-endif()
-
 # Install QCA ossl plugin into the bundle
 if (WITH_QCA_ENCRYPTION)
     # Find QCA plugin directory
@@ -57,46 +53,44 @@ endif()
 
 # Bundle non-Qt third-party libraries into the app.
 # macdeployqt only handles Qt libraries; we must handle the rest.
-if (WITH_QT6)
-    set(_bundle_fwk_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Frameworks")
+set(_bundle_fwk_dir "${COPYQ_EXECUTABLE_NAME}.app/Contents/Frameworks")
 
-    # Helper: bundle a target's library into the Frameworks directory.
-    function(copyq_bundle_library target)
-        if(NOT TARGET ${target})
-            return()
-        endif()
-        get_target_property(_loc ${target} IMPORTED_LOCATION)
-        if(NOT _loc)
-            get_target_property(_loc ${target} IMPORTED_LOCATION_RELEASE)
-        endif()
-        if(NOT _loc)
-            get_target_property(_loc ${target} IMPORTED_LOCATION_NOCONFIG)
-        endif()
-        if(NOT _loc)
-            return()
-        endif()
-        if(_loc MATCHES "\\.framework/")
-            string(REGEX REPLACE "(.*\\.framework)/.*" "\\1" _fwk_dir "${_loc}")
-            install(DIRECTORY "${_fwk_dir}"
-                DESTINATION "${_bundle_fwk_dir}"
-                COMPONENT Runtime)
-        else()
-            # Install the actual library and all versioned symlinks.
-            get_filename_component(_dir "${_loc}" DIRECTORY)
-            get_filename_component(_name "${_loc}" NAME)
-            # Get the base name (e.g. libqt6keychain from libqt6keychain.1.0.0.dylib)
-            string(REGEX REPLACE "\\.[0-9].*" "" _base "${_name}")
-            file(GLOB _all_files "${_dir}/${_base}*")
-            install(FILES ${_all_files}
-                DESTINATION "${_bundle_fwk_dir}"
-                COMPONENT Runtime)
-        endif()
-    endfunction()
+# Helper: bundle a target's library into the Frameworks directory.
+function(copyq_bundle_library target)
+    if(NOT TARGET ${target})
+        return()
+    endif()
+    get_target_property(_loc ${target} IMPORTED_LOCATION)
+    if(NOT _loc)
+        get_target_property(_loc ${target} IMPORTED_LOCATION_RELEASE)
+    endif()
+    if(NOT _loc)
+        get_target_property(_loc ${target} IMPORTED_LOCATION_NOCONFIG)
+    endif()
+    if(NOT _loc)
+        return()
+    endif()
+    if(_loc MATCHES "\\.framework/")
+        string(REGEX REPLACE "(.*\\.framework)/.*" "\\1" _fwk_dir "${_loc}")
+        install(DIRECTORY "${_fwk_dir}"
+            DESTINATION "${_bundle_fwk_dir}"
+            COMPONENT Runtime)
+    else()
+        # Install the actual library and all versioned symlinks.
+        get_filename_component(_dir "${_loc}" DIRECTORY)
+        get_filename_component(_name "${_loc}" NAME)
+        # Get the base name (e.g. libqt6keychain from libqt6keychain.1.0.0.dylib)
+        string(REGEX REPLACE "\\.[0-9].*" "" _base "${_name}")
+        file(GLOB _all_files "${_dir}/${_base}*")
+        install(FILES ${_all_files}
+            DESTINATION "${_bundle_fwk_dir}"
+            COMPONENT Runtime)
+    endif()
+endfunction()
 
-    copyq_bundle_library(qca-qt6)
-    copyq_bundle_library(qt6keychain)
-    copyq_bundle_library(KF6::ConfigCore)
-    copyq_bundle_library(KF6::WindowSystem)
-    copyq_bundle_library(KF6::Notifications)
-    copyq_bundle_library(KF6::StatusNotifierItem)
-endif()
+copyq_bundle_library(qca-qt6)
+copyq_bundle_library(qt6keychain)
+copyq_bundle_library(KF6::ConfigCore)
+copyq_bundle_library(KF6::WindowSystem)
+copyq_bundle_library(KF6::Notifications)
+copyq_bundle_library(KF6::StatusNotifierItem)

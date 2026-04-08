@@ -70,10 +70,6 @@ Q_DECLARE_METATYPE(VariantMapList)
 Q_DECLARE_METATYPE(KeyboardModifierList)
 Q_DECLARE_METATYPE(MessageData)
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-Q_DECLARE_METATYPE(ClipboardMode)
-#endif
-
 QDataStream &operator<<(QDataStream &out, const NotificationButtonList &list);
 QDataStream &operator>>(QDataStream &in, NotificationButtonList &list);
 QDataStream &operator<<(QDataStream &out, const NamedValueList &list);
