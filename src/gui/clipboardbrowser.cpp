@@ -486,7 +486,7 @@ void ClipboardBrowser::updateItemMaximumSize()
 void ClipboardBrowser::processDragAndDropEvent(QDropEvent *event)
 {
     acceptDrag(event);
-    m_dragTargetRow = getDropRow(event->pos());
+    m_dragTargetRow = getDropRow(event->position().toPoint());
     dragDropScroll();
 }
 

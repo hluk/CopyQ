@@ -116,7 +116,7 @@ struct ScriptValueFactory<QVariantMap> {
         while ( it.hasNext() ) {
             it.next();
             auto itemValue = ::fromScriptValue<QVariant>( it.value(), engine );
-            if (itemValue.type() == QVariant::String)
+            if (itemValue.typeId() == QMetaType::QString)
                 itemValue = itemValue.toString().toUtf8();
             result.insert(it.name(), itemValue);
         }
@@ -252,19 +252,19 @@ struct ScriptValueFactory<QVariant> {
         if ( !variant.isValid() )
             return QJSValue(QJSValue::UndefinedValue);
 
-        if (variant.type() == QVariant::Bool)
+        if (variant.typeId() == QMetaType::Bool)
             return ::toScriptValue(variant.toBool(), engine);
 
-        if (variant.type() == QVariant::ByteArray)
+        if (variant.typeId() == QMetaType::QByteArray)
             return ::toScriptValue(variant.toByteArray(), engine);
 
-        if (variant.type() == QVariant::String)
+        if (variant.typeId() == QMetaType::QString)
             return ::toScriptValue(variant.toString(), engine);
 
-        if (variant.type() == QVariant::Char)
+        if (variant.typeId() == QMetaType::QChar)
             return ::toScriptValue(variant.toString(), engine);
 
-        if (variant.type() == QVariant::RegularExpression)
+        if (variant.typeId() == QMetaType::QRegularExpression)
             return ::toScriptValue(variant.toRegularExpression(), engine);
 
         if (variant.canConvert<QVariantList>())
@@ -299,7 +299,7 @@ struct ScriptValueFactory<QVariant> {
             return ScriptValueFactory<QVariantList>::fromScriptValue(value, engine);
 
         const auto variant = toVariant(value);
-        if (variant.type() == QVariant::ByteArray)
+        if (variant.typeId() == QMetaType::QByteArray)
             return variant;
 
         if (value.isObject())

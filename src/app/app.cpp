@@ -51,7 +51,7 @@ void installTranslator()
 
     // 1. Qt translations
     installTranslator(QLatin1String("qt_") + locale, translationPrefix);
-    installTranslator(QLatin1String("qt_") + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    installTranslator(QLatin1String("qt_") + locale, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
 
     // 2. installed translations
     installTranslator(QLatin1String("copyq_") + locale, translationPrefix);

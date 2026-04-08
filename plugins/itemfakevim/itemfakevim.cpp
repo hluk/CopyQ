@@ -464,8 +464,6 @@ public:
     {
         const auto icon = m_statusBarIcon->style()->standardIcon(standardPixmap);
         const auto maxHeight = m_statusBarIcon->contentsRect().height();
-        const auto window = m_statusBarIcon->windowHandle();
-
         auto sizes = icon.availableSizes();
         std::sort(std::begin(sizes), std::end(sizes), [](const QSize &lhs, const QSize &rhs){
             return lhs.height() > rhs.height();
@@ -476,8 +474,8 @@ public:
             [](const QSize &size, int height){
                 return size.height() > height;
             });
-        const auto size = it == sizes.end() ? icon.actualSize(window, QSize(maxHeight, maxHeight)) : *it;
-        const auto pixmap = icon.pixmap(window, size);
+        const auto size = it == sizes.end() ? icon.actualSize(QSize(maxHeight, maxHeight)) : *it;
+        const auto pixmap = icon.pixmap(size);
         m_statusBarIcon->setPixmap(pixmap);
     }
 

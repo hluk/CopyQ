@@ -1172,7 +1172,7 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
             if ( deserializeData(&stream, &dataMap2) ) {
                 for (auto it = dataMap2.constBegin(); it != dataMap2.constEnd(); ++it) {
                     const QVariant &value = it.value();
-                    const qint64 size = value.type() == QVariant::ByteArray
+                    const qint64 size = value.typeId() == QMetaType::QByteArray
                         ? value.toByteArray().size()
                         : value.value<SyncDataFile>().size();
                     if (m_itemDataThreshold >= 0 && size > m_itemDataThreshold) {

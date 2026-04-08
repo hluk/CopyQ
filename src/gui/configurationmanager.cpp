@@ -425,9 +425,9 @@ QStringList ConfigurationManager::options() const
     QStringList options;
     for (auto it = m_options.constBegin(); it != m_options.constEnd(); ++it) {
         const auto &option = it.key();
-        if ( it.value().value().canConvert(QVariant::String) )
+        if ( it.value().value().canConvert<QString>() )
             options.append(option);
-        else if ( it.value().value().canConvert(QVariant::StringList) )
+        else if ( it.value().value().canConvert<QStringList>() )
             options.append(option);
     }
 

@@ -334,7 +334,7 @@ public:
         if ( std::is_same<QVariant, T>::value )
             return "QVariant";
 
-        return QMetaType::typeName(qMetaTypeId<T>());
+        return QMetaType(qMetaTypeId<T>()).name();
     }
 
 private:
@@ -573,22 +573,22 @@ QWidget *createWidget(const QString &name, const QVariant &value, InputDialog *i
 {
     QWidget *parent = inputDialog->parent;
 
-    switch ( value.type() ) {
-    case QVariant::Bool:
+    switch ( value.typeId() ) {
+    case QMetaType::Bool:
         return label(name, createAndSetWidget<QCheckBox>("checked", value, parent));
-    case QVariant::Int:
+    case QMetaType::Int:
         return createSpinBox(name, value, parent);
-    case QVariant::Date:
+    case QMetaType::QDate:
         return createDateTimeEdit(name, "date", value, parent);
-    case QVariant::Time:
+    case QMetaType::QTime:
         return createDateTimeEdit(name, "time", value, parent);
-    case QVariant::DateTime:
+    case QMetaType::QDateTime:
         return createDateTimeEdit(name, "dateTime", value, parent);
-    case QVariant::List:
-    case QVariant::StringList:
+    case QMetaType::QVariantList:
+    case QMetaType::QStringList:
         return createListWidget(name, value.toStringList(), inputDialog);
     default:
-        if ( value.type() == QVariant::Url ) {
+        if ( value.typeId() == QMetaType::QUrl ) {
             const auto path = value.toUrl();
             return createFileNameEdit(name, path.toLocalFile(), parent);
         }
@@ -1274,11 +1274,11 @@ QVariant ScriptableProxy::toggleConfig(const QString &optionName)
     QVariantList nameValue;
     nameValue.append(optionName);
     const auto values = m_wnd->config(nameValue);
-    if ( values.type() == QVariant::StringList )
+    if ( values.typeId() == QMetaType::QStringList )
         return values;
 
     const auto oldValue = values.toMap().constBegin().value();
-    if ( oldValue.type() != QVariant::Bool )
+    if ( oldValue.typeId() != QMetaType::Bool )
         return QVariant();
 
     const auto newValue = !QVariant(oldValue).toBool();
@@ -1946,8 +1946,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
     dialog.layout()->addWidget(buttons);
 
-    installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Enter);
-    installShortcutToCloseDialog(&dialog, &dialog, Qt::ControlModifier | Qt::Key_Return);
+    installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Enter).toCombined());
+    installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Return).toCombined());
 
     if (icon.isNull())
         icon = appIcon();

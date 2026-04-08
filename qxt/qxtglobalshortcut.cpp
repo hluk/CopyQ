@@ -84,7 +84,7 @@ void QxtGlobalShortcutPrivate::setKeySequence(const QKeySequence& shortcut)
 {
     const Qt::KeyboardModifiers allMods =
             Qt::ShiftModifier | Qt::ControlModifier | Qt::AltModifier | Qt::MetaModifier | Qt::KeypadModifier;
-    const auto xkeyCode = static_cast<uint>( shortcut.isEmpty() ? 0 : shortcut[0] );
+    const auto xkeyCode = static_cast<uint>( shortcut.isEmpty() ? 0 : shortcut[0].toCombined() );
     // WORKAROUND: Qt has convert some keys to upper case which
     //             breaks some shortcuts on some keyboard layouts.
     const uint keyCode = QChar::toLower(xkeyCode & ~allMods);
@@ -199,7 +199,7 @@ QxtGlobalShortcut::~QxtGlobalShortcut()
  */
 QKeySequence QxtGlobalShortcut::shortcut() const
 {
-    return QKeySequence( static_cast<int>(d_ptr->key | d_ptr->mods) );
+    return QKeySequence( QKeyCombination(d_ptr->mods, d_ptr->key) );
 }
 
 /*!

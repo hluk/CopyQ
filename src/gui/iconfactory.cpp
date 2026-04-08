@@ -595,10 +595,10 @@ QIcon getIcon(const QString &themeName, unsigned short id)
 
 QIcon getIcon(const QVariant &iconOrIconId)
 {
-    if (iconOrIconId.canConvert(QVariant::UInt))
+    if (iconOrIconId.canConvert<uint>())
         return getIcon( QString(), iconOrIconId.value<ushort>() );
 
-    if (iconOrIconId.canConvert(QVariant::Icon))
+    if (iconOrIconId.canConvert<QIcon>())
         return iconOrIconId.value<QIcon>();
 
     return QIcon();
@@ -655,7 +655,7 @@ QColor getDefaultIconColor(const QWidget &widget, bool selected)
 {
     const QWidget *parent = &widget;
     while ( parent->parentWidget()
-            && !parent->isTopLevel()
+            && !parent->isWindow()
             && !parent->testAttribute(Qt::WA_OpaquePaintEvent) )
     {
         parent = parent->parentWidget();

@@ -116,7 +116,7 @@ QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComp
 
 QTreeWidgetItem *dropItemsTarget(const QDropEvent &event, const QTreeWidget &parent)
 {
-    return canDropToTab(event) ? parent.itemAt( event.pos() ) : nullptr;
+    return canDropToTab(event) ? parent.itemAt( event.position().toPoint() ) : nullptr;
 }
 
 int itemLabelPadding()
@@ -558,7 +558,7 @@ void TabTree::dragMoveEvent(QDragMoveEvent *event)
 {
     if ( dropItemsTarget(*event, *this) )
         acceptDrag(event);
-    else if ( itemAt(event->pos()) )
+    else if ( itemAt(event->position().toPoint()) )
         QTreeWidget::dragMoveEvent(event);
     else
         event->ignore();
@@ -576,7 +576,7 @@ void TabTree::dropEvent(QDropEvent *event)
         emit dropItems( getTabPath(targetItem), event->mimeData(), &accepted );
         if (accepted)
             acceptDrag(event);
-    } else if ( itemAt(event->pos()) ) {
+    } else if ( itemAt(event->position().toPoint()) ) {
         const QString oldPrefix = getTabPath(current);
 
         QSet<QTreeWidgetItem*> collapsedItems;

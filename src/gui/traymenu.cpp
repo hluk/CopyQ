@@ -100,7 +100,8 @@ void TrayMenu::updateTextFromData(QAction *act, const QVariantMap &data)
 
 bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
 {
-    if ( !act->parentWidget() )
+    QWidget *menu = qobject_cast<QWidget*>(act->parent());
+    if (menu == nullptr)
         return false;
 
     const QString icon = data.value(mimeIcon).toString();
@@ -121,7 +122,7 @@ bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
         return true;
     }
 
-    const QColor color = getDefaultIconColor(*act->parentWidget());
+    const QColor color = getDefaultIconColor(*menu);
     act->setIcon( iconFromFile(icon, tag, color) );
     return true;
 }

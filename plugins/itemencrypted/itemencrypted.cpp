@@ -357,7 +357,7 @@ bool ItemEncryptedSaver::saveItems(const QString &, const QAbstractItemModel &mo
             QModelIndex index = model.index(i, 0);
             QVariantMap dataMap = index.data(contentType::data).toMap();
             for (auto it = dataMap.begin(); it != dataMap.end(); ++it) {
-                if (it.value().type() != QVariant::ByteArray)
+                if (it.value().typeId() != QMetaType::QByteArray)
                     it.value() = it.value().toByteArray();
             }
             stream << dataMap;
