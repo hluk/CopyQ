@@ -292,10 +292,8 @@ Dialog *openDialog(Ts... arguments)
 
 bool isItemActivationShortcut(const QKeySequence &shortcut)
 {
-    return (shortcut.matches(Qt::Key_Return) || shortcut.matches(Qt::Key_Enter))
-            && shortcut[1] == 0
-            && shortcut[2] == 0
-            && shortcut[3] == 0;
+    return shortcut.count() == 1
+            && (shortcut.matches(Qt::Key_Return) || shortcut.matches(Qt::Key_Enter));
 }
 
 QString importExportFileDialogFilter()

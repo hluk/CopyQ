@@ -54,7 +54,7 @@ uint hash(const QVariantMap &data)
         seed = hash(seed, mime);
 
         const auto &value = it.value();
-        if ( value.type() == QVariant::ByteArray )
+        if ( value.typeId() == QMetaType::QByteArray )
             seed = hash(seed, value.toByteArray());
         else
             seed = hash(seed, value.toString());

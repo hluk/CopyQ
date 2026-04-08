@@ -311,7 +311,7 @@ public:
                 return;
             }
 
-            const auto key = static_cast<uint>(shortcut[0]);
+            const auto key = static_cast<uint>(shortcut[0].toCombined());
             const QPointer<QWidget> target = widget;
             // Avoid blocking on modal dialogs
             runAfterInterval(0, [=](){

@@ -475,7 +475,7 @@ void acceptDrag(QDropEvent *event)
     // Default drop action in item list and tab bar/tree should be "move."
     if ( event->possibleActions().testFlag(Qt::MoveAction)
          && event->mimeData()->hasFormat(mimeOwner)
-         && !event->keyboardModifiers().testFlag(Qt::ControlModifier)
+         && !event->modifiers().testFlag(Qt::ControlModifier)
         )
     {
         event->setDropAction(Qt::MoveAction);

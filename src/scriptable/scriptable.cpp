@@ -170,7 +170,7 @@ QByteArray serializeScriptValue(const QJSValue &value, Scriptable *scriptable)
 
     if (bytes != nullptr) {
         data = *bytes;
-    } else if ( value.isArray() || value.toVariant().type() == QVariant::StringList ) {
+    } else if ( value.isArray() || value.toVariant().typeId() == QMetaType::QStringList ) {
         const quint32 len = value.property("length").toUInt();
         for (quint32 i = 0; i < len; ++i)
             data += serializeScriptValue(value.property(i), scriptable);
@@ -460,7 +460,7 @@ QByteArray Scriptable::makeByteArray(const QJSValue &value) const
         return *data;
 
     const QVariant variant = value.toVariant();
-    if (variant.type() == QVariant::ByteArray)
+    if (variant.typeId() == QMetaType::QByteArray)
         return variant.toByteArray();
 
     return fromString(value.toString());
@@ -1388,10 +1388,10 @@ QJSValue Scriptable::config()
         return m_proxy->configDescription();
 
     const auto result = m_proxy->config(nameValueInput);
-    if ( result.type() == QVariant::String )
+    if ( result.typeId() == QMetaType::QString )
         return result.toString();
 
-    if ( result.type() == QVariant::StringList ) {
+    if ( result.typeId() == QMetaType::QStringList ) {
         QString errors;
         const auto unknownOptions = result.toStringList();
         for (const auto &name : unknownOptions) {
@@ -1406,7 +1406,7 @@ QJSValue Scriptable::config()
     const auto nameValue = result.toMap();
     if ( nameValue.size() == 1 ) {
         const auto value = nameValue.constBegin().value();
-        return value.type() == QVariant::StringList || value.type() == QVariant::List
+        return value.typeId() == QMetaType::QStringList || value.typeId() == QMetaType::QVariantList
             ? toScriptValue(value, m_engine)
             : toScriptValue(value.toString(), m_engine);
     }
@@ -1416,7 +1416,7 @@ QJSValue Scriptable::config()
         const auto name = it.key();
         const auto value = it.value();
         const auto textValue =
-            value.type() == QVariant::StringList || value.type() == QVariant::List
+            value.typeId() == QMetaType::QStringList || value.typeId() == QMetaType::QVariantList
             ? value.toStringList().join(',')
             : value.toString();
         output.append( name + "=" + textValue );
@@ -1433,7 +1433,7 @@ QJSValue Scriptable::toggleConfig()
         return throwError(argumentError());
 
     const auto result = m_proxy->toggleConfig(optionName);
-    if ( result.type() != QVariant::Bool ) {
+    if ( result.typeId() != QMetaType::Bool ) {
         return throwError( QStringLiteral("Invalid boolean option \"%1\"!").arg(optionName) );
     }
 

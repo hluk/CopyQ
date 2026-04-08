@@ -140,6 +140,7 @@ jobs:
           cmake -G Ninja -S /tmp/qca -B /tmp/qca-build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DBUILD_WITH_QT6=ON \
             -DBUILD_TESTS=OFF \
             -DBUILD_TOOLS=OFF \
             -DBUILD_PLUGINS=ossl
@@ -150,6 +151,7 @@ jobs:
           cmake -G Ninja -S /tmp/qtkeychain -B /tmp/qtkeychain-build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
+            -DBUILD_WITH_QT6=ON \
             -DBUILD_TRANSLATIONS=OFF
           cmake --build /tmp/qtkeychain-build --parallel
           sudo cmake --install /tmp/qtkeychain-build

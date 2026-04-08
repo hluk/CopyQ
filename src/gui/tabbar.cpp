@@ -17,7 +17,7 @@ namespace {
 
 int dropItemsTabIndex(const QDropEvent &event, const QTabBar &parent)
 {
-    return canDropToTab(event) ? parent.tabAt( event.pos() ) : -1;
+    return canDropToTab(event) ? parent.tabAt( event.position().toPoint() ) : -1;
 }
 
 int tabIndex(const QString &tabName, const TabBar &parent)

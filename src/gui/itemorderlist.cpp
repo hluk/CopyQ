@@ -274,7 +274,7 @@ void ItemOrderList::dropEvent(QDropEvent *event)
     event->accept();
 
     QListWidget *list = ui->listWidgetItems;
-    const QPoint pos = list->mapFromParent(event->pos());
+    const QPoint pos = list->mapFromParent(event->position().toPoint());
 
     const int s = list->spacing();
     QModelIndex index = list->indexAt(pos);
