@@ -136,11 +136,7 @@ void registerSyncDataFileConverter()
 {
     QMetaType::registerConverter(&SyncDataFile::readAll);
     QMetaType::registerConverter(&SyncDataFile::toString);
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    qRegisterMetaTypeStreamOperators<SyncDataFile>("SyncDataFile");
-#else
     qRegisterMetaType<SyncDataFile>("SyncDataFile");
-#endif
 }
 
 struct Ext {
@@ -451,11 +447,7 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 
 int variantTypeId(const QVariant &value)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    return value.userType();
-#else
     return value.typeId();
-#endif
 }
 
 void rebaseSyncDataFilePaths(QVariantMap *itemData, const QVariantMap &mimeToExtension, const QString &oldBasePath, const QString &newBasePath)

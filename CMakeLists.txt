@@ -55,17 +55,10 @@ endif()
 
 set(CMAKE_AUTOMOC ON)
 
-OPTION(WITH_QT6 "Enable Qt 6" ON)
-if (WITH_QT6)
-    set(QT_DEFAULT_MAJOR_VERSION 6)
-    find_package(Qt6Widgets 6.2.0 REQUIRED)
-    set(copyq_qt Qt6)
-    add_definitions( -DQT_DEPRECATED_WARNINGS_SINCE=0x051500 )
-else()
-    set(QT_DEFAULT_MAJOR_VERSION 5)
-    find_package(Qt5Widgets 5.15.0 REQUIRED)
-    set(copyq_qt Qt5)
-endif()
+set(QT_DEFAULT_MAJOR_VERSION 6)
+find_package(Qt6Widgets 6.2.0 REQUIRED)
+set(copyq_qt Qt6)
+add_definitions( -DQT_DEPRECATED_WARNINGS_SINCE=0x060200 )
 
 list(APPEND copyq_LIBRARIES ${copyq_qt}::Widgets)
 

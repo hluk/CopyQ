@@ -40,12 +40,7 @@ struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 using NativeEventResult = qintptr;
-#else
-Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
-using NativeEventResult = long;
-#endif
 
 namespace Ui
 {

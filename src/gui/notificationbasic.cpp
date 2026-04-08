@@ -76,11 +76,7 @@ public:
     void adjust();
 
     void mousePressEvent(QMouseEvent *event) override;
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     void enterEvent(QEnterEvent *event) override;
-#else
-    void enterEvent(QEvent *event) override;
-#endif
     void leaveEvent(QEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
     void showEvent(QShowEvent *event) override;
@@ -313,11 +309,7 @@ void NotificationBasicWidget::mousePressEvent(QMouseEvent *)
     emit m_parent->closeNotification(m_parent);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 void NotificationBasicWidget::enterEvent(QEnterEvent *event)
-#else
-void NotificationBasicWidget::enterEvent(QEvent *event)
-#endif
 {
     setWindowOpacity(1.0);
     m_timer.stop();

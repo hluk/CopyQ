@@ -154,10 +154,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
             QStringLiteral("com.github.hluk.copyq-%1").arg(sessionName));
     }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-#endif
-
     QApplication::setQuitOnLastWindowClosed(false);
 
     ensureSettingsDirectoryExists();
@@ -183,9 +179,6 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     connect( qApp, &QGuiApplication::commitDataRequest, this, &ClipboardServer::onCommitData );
     connect( qApp, &QGuiApplication::saveStateRequest, this, &ClipboardServer::onSaveState );
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    qApp->setFallbackSessionManagementEnabled(false);
-#endif
 
     connect( m_wnd, &MainWindow::requestExit,
              this, &ClipboardServer::maybeQuit );

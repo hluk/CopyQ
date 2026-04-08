@@ -3,13 +3,8 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-#   include <QUtiMimeConverter>
+#include <QUtiMimeConverter>
 using CopyqPasteboardMimeBase = QUtiMimeConverter;
-#else
-#   include <QMacPasteboardMime>
-using CopyqPasteboardMimeBase = QMacPasteboardMime;
-#endif
 
 /**
  * Class for doing lossless conversions between OS X UTIs and "normal" mimeTypes.
@@ -27,18 +22,8 @@ using CopyqPasteboardMimeBase = QMacPasteboardMime;
 
 class CopyQPasteboardMime final : public CopyqPasteboardMimeBase {
 public:
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     QString mimeForUti(const QString &uti) const override;
     QString utiForMime(const QString &mime) const override;
     QVariant convertToMime(const QString &mime, const QList<QByteArray> &data, const QString &uti) const override;
     QList<QByteArray> convertFromMime(const QString &mime, const QVariant &data, const QString &uti) const override;
-#else
-    CopyQPasteboardMime() : CopyqPasteboardMimeBase(MIME_ALL) {}
-    QString convertorName() override;
-    QString flavorFor(const QString &mime) override;
-    QString mimeFor(QString uti) override;
-    bool canConvert(const QString &mime, QString uti) override;
-    QVariant convertToMime(const QString &mime, QList<QByteArray> data, QString uti) override;
-    QList<QByteArray> convertFromMime(const QString &mime, QVariant data, QString uti) override;
-#endif
 };

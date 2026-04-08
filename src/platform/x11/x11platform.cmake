@@ -36,16 +36,12 @@ if (WITH_X11)
     set(USE_QXT TRUE)
 
     set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
-
-    if(NOT WITH_QT6)
-        list(APPEND copyq_qt_modules X11Extras)
-    endif()
 endif()
 
 # Wayland clipboard
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
-if (WITH_QT6 AND ECM_VERSION VERSION_GREATER "6.2.0")
+if (ECM_VERSION VERSION_GREATER "6.2.0")
     find_package(KF6GuiAddons QUIET)
 endif()
 if (KF6GuiAddons_FOUND)

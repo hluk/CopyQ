@@ -80,24 +80,13 @@ namespace {
 const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 constexpr bool hasPriority = false;
+constexpr auto dataStreamVersion = QDataStream::Qt_6_2;
 
 void registerMetaTypes() {
     static bool registered = false;
     if (registered)
         return;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
-    qRegisterMetaTypeStreamOperators<ClipboardMode>("ClipboardMode");
-    qRegisterMetaTypeStreamOperators<Command>("Command");
-    qRegisterMetaTypeStreamOperators<NamedValueList>("NamedValueList");
-    qRegisterMetaTypeStreamOperators<NotificationButtonList>("NotificationButtonList");
-    qRegisterMetaTypeStreamOperators<QVector<int>>("QVector<int>");
-    qRegisterMetaTypeStreamOperators<QVector<Command>>("QVector<Command>");
-    qRegisterMetaTypeStreamOperators<VariantMapList>("VariantMapList");
-    qRegisterMetaTypeStreamOperators<KeyboardModifierList>("KeyboardModifierList");
-    qRegisterMetaTypeStreamOperators<MessageData>("MessageData");
-#else
     qRegisterMetaType<QPointer<QWidget>>("QPointer<QWidget>");
     qRegisterMetaType<ClipboardMode>("ClipboardMode");
     qRegisterMetaType<Command>("Command");
@@ -108,7 +97,6 @@ void registerMetaTypes() {
     qRegisterMetaType<VariantMapList>("VariantMapList");
     qRegisterMetaType<KeyboardModifierList>("KeyboardModifierList");
     qRegisterMetaType<MessageData>("MessageData");
-#endif
 
     registered = true;
 }
@@ -146,25 +134,13 @@ void selectionRemoveInvalid(QList<QPersistentModelIndex> *indexes)
         hasPriority ? CommandFunctionCallPriority : CommandFunctionCall); \
 } while(false)
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-#   define CHECK_STREAM_OPERATORS(CALL) \
-        static constexpr auto metaType = QMetaType::fromType<Result>(); \
-        COPYQ_LOG_VERBOSE( \
-            QStringLiteral("%1 invoking: %2 " CALL)\
-                .arg(m_wnd ? "Server" : "Client") \
-                .arg(metaType.name())); \
-        Q_ASSERT(metaType.hasRegisteredDataStreamOperators())
-#else
-#   define CHECK_STREAM_OPERATORS(CALL) \
-        if ( hasLogLevel(LogTrace) ) { \
-            static const auto metaTypeName = QMetaType::typeName(qMetaTypeId<Result>()); \
-            COPYQ_LOG_VERBOSE( \
-                QStringLiteral("%1 invoking: %2 " CALL)\
-                    .arg(m_wnd ? "Server" : "Client") \
-                    .arg(metaTypeName) \
-            ); \
-        }
-#endif
+#define CHECK_STREAM_OPERATORS(CALL) \
+    static constexpr auto metaType = QMetaType::fromType<Result>(); \
+    COPYQ_LOG_VERBOSE( \
+        QStringLiteral("%1 invoking: %2 " CALL)\
+            .arg(m_wnd ? "Server" : "Client") \
+            .arg(metaType.name())); \
+    Q_ASSERT(metaType.hasRegisteredDataStreamOperators())
 
 #define INVOKE(FUNCTION, ARGUMENTS) do { \
     using Result = decltype(FUNCTION ARGUMENTS); \
@@ -340,11 +316,7 @@ public:
     {
         QByteArray bytes;
         QDataStream stream(&bytes, QIODevice::WriteOnly);
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-        stream.setVersion(QDataStream::Qt_6_0);
-#else
-        stream.setVersion(QDataStream::Qt_5_0);
-#endif
+        stream.setVersion(dataStreamVersion);
         stream << serializedFunctionCallMagicNumber << serializedFunctionCallVersion
                << functionCallId << m_slotName << args;
         return bytes;
@@ -664,10 +636,8 @@ ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, QObject *parent)
     , m_wnd(mainWindow)
 {
     registerMetaTypes();
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     Q_ASSERT(QMetaType::fromType<Command>().hasRegisteredDataStreamOperators());
     Q_ASSERT(QMetaType::fromType<ClipboardMode>().hasRegisteredDataStreamOperators());
-#endif
 }
 
 void ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
@@ -697,7 +667,7 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
     int functionCallId;
     {
         QDataStream stream(serializedFunctionCall);
-        stream.setVersion(QDataStream::Qt_5_0);
+        stream.setVersion(dataStreamVersion);
 
         quint32 magicNumber;
         quint32 version;
@@ -776,14 +746,10 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         called = metaMethod.invoke(
                 this, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
     } else {
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
         const QMetaType metaType(typeId);
         COPYQ_LOG_VERBOSE(QStringLiteral("Script function return type: %1").arg(metaType.name()));
         Q_ASSERT(metaType.hasRegisteredDataStreamOperators());
         returnValue = QVariant(metaType, nullptr);
-#else
-        returnValue = QVariant(typeId, nullptr);
-#endif
         const auto genericReturnValue = returnValue.isValid()
                 ? QGenericReturnArgument( returnValue.typeName(), static_cast<void*>(returnValue.data()) )
                 : QGenericReturnArgument( "QVariant", static_cast<void*>(returnValue.data()) );

@@ -208,16 +208,6 @@ Build with the following commands:
     cmake --build .
     cpack
 
-To build with Qt 5 (make sure to install qt@5 yourself):
-
-::
-
-
-    cmake -DCMAKE_PREFIX_PATH="$(brew --prefix qt5)" -DWITH_QT6=OFF .
-    cmake --build .
-    cpack
-
-
 This will produce a self-contained application bundle ``CopyQ.app``
 which can then be copied or moved into ``/Applications``.
 

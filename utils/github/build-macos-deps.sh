@@ -78,7 +78,6 @@ install_dep() {
 # Group A: No inter-dependencies, build in parallel.
 BUILD_DEP_URL_PATH="${QCA_VERSION}/qca-${QCA_VERSION}" \
     build_dep qca "$QCA_VERSION" "https://download.kde.org/stable/qca" \
-        -DBUILD_WITH_QT6=ON \
         -DBUILD_TESTS=OFF \
         -DBUILD_TOOLS=OFF \
         -DBUILD_PLUGINS=ossl &
@@ -87,7 +86,6 @@ qca_pid=$!
 BUILD_DEP_URL_PATH="$QTKEYCHAIN_VERSION" BUILD_DEP_SUFFIX=tar.gz \
     build_dep qtkeychain "$QTKEYCHAIN_VERSION" \
         "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags" \
-        -DBUILD_WITH_QT6=ON \
         -DBUILD_TRANSLATIONS=OFF \
         -DBUILD_TEST_APPLICATION=OFF &
 qtkeychain_pid=$!

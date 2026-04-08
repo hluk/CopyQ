@@ -12,11 +12,7 @@
 #include <QClipboard>
 #include <QMimeData>
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
-#   include <QStringEncoder>
-#else
-#   include <QTextCodec>
-#endif
+#include <QStringEncoder>
 
 #include "mactimer.h"
 
@@ -74,18 +70,9 @@ void MacClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)
     // This converts text to UTF-16 without BOM.
     const auto text = getTextData(dataMap);
     if ( !text.isEmpty() ) {
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
         auto encoder = QStringEncoder(QStringConverter::Utf16);
         const QByteArray data = encoder.encode(text);
         dataMapForMac[QStringLiteral("public.utf16-plain-text")] = data;
-#else
-        auto codec = QTextCodec::codecForName(QStringLiteral("UTF-16"));
-        Q_ASSERT(codec != nullptr);
-        if (codec) {
-            auto encoder = codec->makeEncoder(QTextCodec::IgnoreHeader);
-            dataMapForMac[QStringLiteral("public.utf16-plain-text")] = encoder->fromUnicode(text);
-        }
-#endif
     }
 
     DummyClipboard::setData(mode, dataMapForMac);

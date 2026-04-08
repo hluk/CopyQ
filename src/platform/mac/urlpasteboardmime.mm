@@ -16,27 +16,12 @@
  */
 
 UrlPasteboardMime::UrlPasteboardMime(const QString &urlUti)
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     : UrlPasteboardMimeBase()
-#else
-    : UrlPasteboardMimeBase(MIME_ALL)
-#endif
     , m_urlUti(urlUti)
 {
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-QString UrlPasteboardMime::convertorName()
-{
-    return QLatin1String("CopyQ-URL-") + m_urlUti;
-}
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 QString UrlPasteboardMime::utiForMime(const QString &mime) const
-#else
-QString UrlPasteboardMime::flavorFor(const QString &mime)
-#endif
 {
     if (mime.startsWith(QLatin1String(mimeUriList))) {
         return m_urlUti;
@@ -44,27 +29,12 @@ QString UrlPasteboardMime::flavorFor(const QString &mime)
     return QString();
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 QString UrlPasteboardMime::mimeForUti(const QString &uti) const
-#else
-QString UrlPasteboardMime::mimeFor(QString uti)
-#endif
 {
     return (uti == m_urlUti) ? mimeUriList : QString();
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-bool UrlPasteboardMime::canConvert(const QString &mime, QString uti)
-{
-    return mime == QLatin1String(mimeUriList) && uti == m_urlUti;
-}
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 QVariant UrlPasteboardMime::convertToMime(const QString &mime, const QList<QByteArray> &data, const QString &uti) const
-#else
-QVariant UrlPasteboardMime::convertToMime(const QString &mime, QList<QByteArray> data, QString uti)
-#endif
 {
     if (!canConvert(mime, uti))
         return QVariant();
@@ -89,11 +59,7 @@ QVariant UrlPasteboardMime::convertToMime(const QString &mime, QList<QByteArray>
     return QVariant(ret);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 QList<QByteArray> UrlPasteboardMime::convertFromMime(const QString &mime, const QVariant &data, const QString &uti) const
-#else
-QList<QByteArray> UrlPasteboardMime::convertFromMime(const QString &mime, QVariant data, QString uti)
-#endif
 {
     QList<QByteArray> ret;
     if (!canConvert(mime, uti))

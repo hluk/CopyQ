@@ -312,11 +312,7 @@ protected:
         }
     }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QVariant retrieveData(const QString &mimeType, QMetaType type) const override;
-#else
-    QVariant retrieveData(const QString &mimeType, QVariant::Type type) const override;
-#endif
 
 private:
     /** reads data from a file descriptor with a timeout of 1 second
@@ -328,11 +324,7 @@ private:
     std::shared_ptr<KeyboardFocusWatcher> m_keyboardFocusWatcher;
 };
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type) const
-#else
-QVariant DataControlOffer::retrieveData(const QString &mimeType, QVariant::Type type) const
-#endif
 {
     Q_UNUSED(type);
 

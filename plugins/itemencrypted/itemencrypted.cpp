@@ -101,13 +101,8 @@ GpgVersion parseVersion(const QString &versionOutput)
     const auto firstLine = QStringView{versionOutput}.mid(0, lineEndIndex);
     const QRegularExpression versionRegex(QStringLiteral(R"( (\d+)\.(\d+))"));
     const QRegularExpressionMatch match = versionRegex.match(firstLine);
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
     const int major = match.hasMatch() ? match.capturedView(1).toInt() : 0;
     const int minor = match.hasMatch() ? match.capturedView(2).toInt() : 0;
-#else
-    const int major = match.hasMatch() ? match.capturedRef(1).toInt() : 0;
-    const int minor = match.hasMatch() ? match.capturedRef(2).toInt() : 0;
-#endif
     return GpgVersion{major, minor};
 }
 
