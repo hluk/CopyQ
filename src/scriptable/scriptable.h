@@ -53,7 +53,7 @@ class Scriptable final : public QObject
 
     Q_PROPERTY(QJSValue plugins READ getPlugins CONSTANT)
 
-    Q_PROPERTY(QJSValue _copyqUncaughtException WRITE setUncaughtException)
+    Q_PROPERTY(QJSValue _copyqUncaughtException READ uncaughtException WRITE setUncaughtException)
     Q_PROPERTY(QJSValue _copyqHasUncaughtException READ hasUncaughtException)
 
 public:
@@ -109,6 +109,7 @@ public:
 
     bool hasUncaughtException() const;
     void clearExceptions();
+    QJSValue uncaughtException() const { return {}; }
     void setUncaughtException(const QJSValue &exc);
 
     QJSEngine *engine() const { return m_engine; }
