@@ -60,7 +60,7 @@ int evaluate(
         functionArguments.append(argument);
 
     const auto result = function.call(functionArguments);
-    const bool hasUncaughtException = result.isError() || scriptable.hasUncaughtException();
+    const bool hasUncaughtException = result.isError() || engine.hasError();
 
     const auto output = scriptable.serializeScriptValue(result);
     if ( !output.isEmpty() ) {

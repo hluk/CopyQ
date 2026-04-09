@@ -317,26 +317,24 @@ Scriptable::Scriptable(
 
     m_safeCall = evaluateStrict(m_engine, QStringLiteral(
         "(function() {"
-            "try {return this.apply(global, arguments);}"
-            "catch(e) {_copyqUncaughtException = e; throw e;}"
-        "})"
-    ));
+            "try {return {result: this.apply(global, arguments)};}"
+            "catch(e) {throw {exception: e};}"
+        "})"));
 
     m_safeEval = evaluateStrict(m_engine, QStringLiteral(
         "(function(){"
-            "var _eval = eval;"
+            "const _eval = eval;"
             "return function(script) {"
-                "try {return _eval(script);}"
-                "catch(e) {_copyqUncaughtException = e; throw e;}"
+                "try {return {result: _eval(script)};}"
+                "catch(e) {throw {exception: e};}"
             "}"
-        "})()"
-    ));
+        "})()"));
 
     m_createFn = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
-            "var f = function() {"
+            "const f = function() {"
                 "_copyqArguments = arguments;"
-                "var v = from[name]();"
+                "const v = from[name]();"
                 "_copyqArguments = null;"
                 "return v;"
             "};"
@@ -346,9 +344,9 @@ Scriptable::Scriptable(
     ));
     m_createFnB = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
-            "var f = function() {"
+            "const f = function() {"
                 "_copyqArguments = arguments;"
-                "var v = from[name]();"
+                "const v = from[name]();"
                 "_copyqArguments = null;"
                 "return ByteArray(v);"
             "};"
@@ -514,11 +512,8 @@ QString Scriptable::arg(int i, const QString &defaultValue)
 
 QJSValue Scriptable::throwError(const QString &errorMessage)
 {
-    QJSValue throwFn = evaluateStrict(m_engine,  QStringLiteral(
-        "(function(text) {throw new Error(text);})"
-    ));
-    const auto exc = throwFn.call({errorMessage});
-    m_engine->throwError(QJSValue::GenericError, errorMessage);
+    auto exc = m_engine->newErrorObject(QJSValue::GenericError, errorMessage);
+    m_engine->throwError(exc);
     return exc;
 }
 
@@ -532,29 +527,27 @@ QJSValue Scriptable::throwImportError(const QString &filePath)
     return throwError( tr("Failed to import file \"%1\"").arg(filePath) );
 }
 
-bool Scriptable::hasUncaughtException() const
+QJSValue Scriptable::unwrapResultOrException(const QJSValue &resultOrException)
 {
-    return m_hasUncaughtException;
+    if (resultOrException.hasOwnProperty(QStringLiteral("result")))
+        return resultOrException.property(QStringLiteral("result"));
+
+    auto exc = resultOrException.property(QStringLiteral("exception"));
+    logUncaughtException(exc);
+    m_engine->throwError(exc);
+    return exc;
 }
 
 void Scriptable::clearExceptions()
 {
-    m_hasUncaughtException = false;
+    if (m_engine->hasError())
+        m_engine->catchError();
 
     if (m_abort == Abort::CurrentEvaluation) {
         m_engine->setInterrupted(false);
         m_abort = Abort::None;
         m_abortWithSuccess = false;
     }
-}
-
-void Scriptable::setUncaughtException(const QJSValue &exc)
-{
-    if (m_abort != Abort::None || m_hasUncaughtException)
-        return;
-
-    m_hasUncaughtException = true;
-    logUncaughtException(exc);
 }
 
 QJSValue Scriptable::getPlugins()
@@ -583,15 +576,18 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QVariantList
 
 QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList &arguments)
 {
-    if ( hasUncaughtException() )
+    if ( m_engine->hasError() )
         return {};
 
     m_stack.prepend(label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
+
     const auto v = m_safeCall.callWithInstance(*fn, arguments);
+    const auto result = unwrapResultOrException(v);
+
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
-    return v;
+    return result;
 }
 
 QJSValue Scriptable::ByteArray() const
@@ -2647,7 +2643,7 @@ bool Scriptable::sourceScriptCommands()
         const auto script = QStringLiteral("(function(){%1\n;})()").arg(command.cmd);
         const auto label = QStringLiteral("source@<%1>").arg(command.name);
         eval(script, label);
-        if ( hasUncaughtException() )
+        if ( m_engine->hasError() )
             return false;
     }
 
@@ -2706,7 +2702,7 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     const auto evalFn = globalObject.property("eval");
 
     QString label;
-    while ( skipArguments < fnArgs.size() && canContinue() && !hasUncaughtException() ) {
+    while ( skipArguments < fnArgs.size() && canContinue() && !m_engine->hasError() ) {
         if ( result.isCallable() ) {
             const auto arguments = fnArgs.mid(skipArguments);
             if ( result.strictlyEquals(evalFn) )
@@ -2724,7 +2720,7 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
         }
     }
 
-    if ( result.isCallable() && canContinue() && !hasUncaughtException() ) {
+    if ( result.isCallable() && canContinue() && !m_engine->hasError() ) {
         const QString label2 = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
         result = call( label2, &result, fnArgs.mid(skipArguments) );
     }
@@ -2732,7 +2728,7 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
     if (m_abort != Abort::None)
         return m_abortWithSuccess ? CommandFinished : CommandStop;
 
-    if ( hasUncaughtException() )
+    if ( m_engine->hasError() )
         return CommandException;
 
     const auto message = serializeScriptValue(result);
@@ -2998,12 +2994,15 @@ QJSValue Scriptable::screenshot(bool select)
 
 QJSValue Scriptable::eval(const QString &script, const QString &label)
 {
-    if (hasUncaughtException())
+    if (m_engine->hasError())
         return QJSValue();
 
     m_stack.prepend(QStringLiteral("eval:") + label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
-    const auto result = m_safeEval.call({QJSValue(script)});
+
+    const auto v = m_safeEval.call({QJSValue(script)});
+    const auto result = unwrapResultOrException(v);
+
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
     return result;
