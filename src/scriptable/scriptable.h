@@ -53,9 +53,6 @@ class Scriptable final : public QObject
 
     Q_PROPERTY(QJSValue plugins READ getPlugins CONSTANT)
 
-    Q_PROPERTY(QJSValue _copyqUncaughtException READ uncaughtException WRITE setUncaughtException)
-    Q_PROPERTY(QJSValue _copyqHasUncaughtException READ hasUncaughtException)
-
 public:
     Scriptable(
             QJSEngine *engine,
@@ -107,10 +104,7 @@ public:
     QJSValue throwExportError(const QString &filePath);
     QJSValue throwImportError(const QString &filePath);
 
-    bool hasUncaughtException() const;
     void clearExceptions();
-    QJSValue uncaughtException() const { return {}; }
-    void setUncaughtException(const QJSValue &exc);
 
     QJSEngine *engine() const { return m_engine; }
 
@@ -421,6 +415,7 @@ private:
     void onFetchCurrentClipboardOwner(QString *title);
     void onSaveData(const QVariantMap &data);
 
+    QJSValue unwrapResultOrException(const QJSValue &resultOrException);
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
     void logUncaughtException(const QJSValue &exc);
@@ -503,15 +498,13 @@ private:
 
     PlatformClipboardPtr m_clipboard;
 
-    bool m_hasUncaughtException = false;
-
     QStringList m_stack;
 
-    QJSValue m_safeCall;
-    QJSValue m_safeEval;
     QJSValue m_createFn;
     QJSValue m_createFnB;
     QJSValue m_createProperty;
+    QJSValue m_safeCall;
+    QJSValue m_safeEval;
 
     QJSValue m_byteArrayPrototype;
     QJSValue m_filePrototype;
