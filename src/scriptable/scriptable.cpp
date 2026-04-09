@@ -123,23 +123,20 @@ QString argumentError()
     return Scriptable::tr("Invalid number of arguments!");
 }
 
-QString exceptionBacktrace(const QJSValue &exception, const QStringList &stack = {})
+QString exceptionBacktrace(const QStringList &stack)
 {
-    const auto backtraceValue = exception.property("stack");
-    auto backtrace = backtraceValue.isUndefined() ? QStringList() : backtraceValue.toString().split("\n");
-    for (int i = backtrace.size() - 1; i >= 0; --i) {
-        if ( backtrace[i] == QLatin1String("@:1") )
-            backtrace.removeAt(i);
-    }
-    for (const auto &frame : stack)
-        backtrace.append(frame);
-
-    if ( backtrace.isEmpty() )
+    if ( stack.isEmpty() )
         return {};
 
     return QStringLiteral("\n\n--- backtrace ---\n%1\n--- end backtrace ---")
-        .arg(backtrace.join(QLatin1String("\n")));
+        .arg(stack.join(QLatin1String("\n")));
 
+}
+
+QString exceptionBacktrace(const QJSValue &exception)
+{
+    const auto backtraceValue = exception.property("stack");
+    return backtraceValue.isUndefined() ? QString() : exceptionBacktrace(backtraceValue.toString().split("\n"));
 }
 
 QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
@@ -314,21 +311,6 @@ Scriptable::Scriptable(
 
     QJSValue globalObject = m_engine->globalObject();
     globalObject.setProperty(QStringLiteral("global"), globalObject);
-
-    m_safeCall = evaluateStrict(m_engine, QStringLiteral(
-        "(function() {"
-            "try {return {result: this.apply(global, arguments)};}"
-            "catch(e) {throw {exception: e};}"
-        "})"));
-
-    m_safeEval = evaluateStrict(m_engine, QStringLiteral(
-        "(function(){"
-            "const _eval = eval;"
-            "return function(script) {"
-                "try {return {result: _eval(script)};}"
-                "catch(e) {throw {exception: e};}"
-            "}"
-        "})()"));
 
     m_createFn = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
@@ -527,19 +509,10 @@ QJSValue Scriptable::throwImportError(const QString &filePath)
     return throwError( tr("Failed to import file \"%1\"").arg(filePath) );
 }
 
-QJSValue Scriptable::unwrapResultOrException(const QJSValue &resultOrException)
-{
-    if (resultOrException.hasOwnProperty(QStringLiteral("result")))
-        return resultOrException.property(QStringLiteral("result"));
-
-    auto exc = resultOrException.property(QStringLiteral("exception"));
-    logUncaughtException(exc);
-    m_engine->throwError(exc);
-    return exc;
-}
-
 void Scriptable::clearExceptions()
 {
+    m_lastLoggedException = {};
+
     if (m_engine->hasError())
         m_engine->catchError();
 
@@ -579,14 +552,15 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
     if ( m_engine->hasError() )
         return {};
 
-    m_stack.prepend(label);
-    COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
+    QJSValue globalObject = engine()->globalObject();
+    globalObject.setProperty(QStringLiteral("_copyqFn"), *fn);
+    globalObject.setProperty(QStringLiteral("_copyqArgs"), toScriptValue(arguments, m_engine));
 
-    const auto v = m_safeCall.callWithInstance(*fn, arguments);
-    const auto result = unwrapResultOrException(v);
+    const auto result = evalAndCatch(QStringLiteral("_copyqFn(..._copyqArgs)"), label);
 
-    m_stack.pop_front();
-    COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
+    globalObject.deleteProperty(QStringLiteral("_copyqFn"));
+    globalObject.deleteProperty(QStringLiteral("_copyqArgs"));
+
     return result;
 }
 
@@ -2742,7 +2716,7 @@ void Scriptable::logUncaughtException(const QJSValue &exc)
             .remove(QRegularExpression("^Error: "))
             .trimmed();
 
-    const QString backtraceText = exceptionBacktrace(exc, m_stack);
+    const QString backtraceText = exceptionBacktrace(m_stack);
     const auto exceptionText = QStringLiteral("ScriptError: %3%4").arg(exceptionName, backtraceText);
 
     // Show exception popups only if the script was launched from application.
@@ -2997,14 +2971,32 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
     if (m_engine->hasError())
         return QJSValue();
 
-    m_stack.prepend(QStringLiteral("eval:") + label);
+    return evalAndCatch(script, label);
+}
+
+QJSValue Scriptable::evalAndCatch(const QString &script, const QString &label)
+{
+    m_stack.prepend(label);
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
 
-    const auto v = m_safeEval.call({QJSValue(script)});
-    const auto result = unwrapResultOrException(v);
+    QStringList exceptionStackTrace;
+    // Workarounds for QJSEngine::evaluate:
+    // - fileName argument is set to empty string, otherwise QJSEngine::evaluate leaks memory
+    // - exceptionStackTrace is only used to indicate that an exception was
+    //   thrown, since it cannot be clear from the result nor from
+    //   QJSEngine::hasError()
+    const auto result = m_engine->evaluate(script, QString(), 1, &exceptionStackTrace);
+    if (!exceptionStackTrace.isEmpty()) {
+        if (!m_lastLoggedException.equals(result)) {
+            m_lastLoggedException = result;
+            logUncaughtException(result);
+        }
+        m_engine->throwError(result);
+    }
 
     m_stack.pop_front();
     COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
+
     return result;
 }
 

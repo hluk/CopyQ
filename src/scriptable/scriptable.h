@@ -135,6 +135,7 @@ public:
     QJSValue getPlugins();
 
     QJSValue eval(const QString &script, const QString &label);
+    QJSValue evalAndCatch(const QString &script, const QString &label);
     QJSValue call(const QString &functionName);
 
     QJSValue call(const QString &label, QJSValue *fn, const QVariantList &arguments);
@@ -415,7 +416,6 @@ private:
     void onFetchCurrentClipboardOwner(QString *title);
     void onSaveData(const QVariantMap &data);
 
-    QJSValue unwrapResultOrException(const QJSValue &resultOrException);
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
     void logUncaughtException(const QJSValue &exc);
@@ -498,13 +498,12 @@ private:
 
     PlatformClipboardPtr m_clipboard;
 
+    QJSValue m_lastLoggedException;
     QStringList m_stack;
 
     QJSValue m_createFn;
     QJSValue m_createFnB;
     QJSValue m_createProperty;
-    QJSValue m_safeCall;
-    QJSValue m_safeEval;
 
     QJSValue m_byteArrayPrototype;
     QJSValue m_filePrototype;
