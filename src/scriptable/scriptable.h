@@ -419,6 +419,7 @@ private:
     bool sourceScriptCommands();
     void callDisplayFunctions(QJSValueList displayFunctions);
     void logUncaughtException(const QJSValue &exc);
+    QJSValue unwrapResultOrException(const QJSValue &resultOrException);
     void showExceptionMessage(const QString &message);
     QVector<int> getRows() const;
 
@@ -504,6 +505,7 @@ private:
     QJSValue m_createFn;
     QJSValue m_createFnB;
     QJSValue m_createProperty;
+    QJSValue m_safeCall;
 
     QJSValue m_byteArrayPrototype;
     QJSValue m_filePrototype;

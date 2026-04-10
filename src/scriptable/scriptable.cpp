@@ -130,7 +130,6 @@ QString exceptionBacktrace(const QStringList &stack)
 
     return QStringLiteral("\n\n--- backtrace ---\n%1\n--- end backtrace ---")
         .arg(stack.join(QLatin1String("\n")));
-
 }
 
 QString exceptionBacktrace(const QJSValue &exception)
@@ -293,6 +292,12 @@ bool isOverridden(const QJSValue &globalObject, const QString &property)
     return globalObject.property(property).property(QStringLiteral("_copyq")).toString() != property;
 }
 
+bool isSimpleIdentifier(QStringView s)
+{
+    return !s.isEmpty() && s[0].isLetter()
+        && std::all_of(s.cbegin() + 1, s.cend(), [](QChar c) { return c.isLetterOrNumber(); });
+}
+
 } // namespace
 
 Scriptable::Scriptable(
@@ -311,6 +316,13 @@ Scriptable::Scriptable(
 
     QJSValue globalObject = m_engine->globalObject();
     globalObject.setProperty(QStringLiteral("global"), globalObject);
+
+
+    m_safeCall = evaluateStrict(m_engine, QStringLiteral(
+        "(function() {"
+            "try {return {result: this.apply(global, arguments)};}"
+            "catch(e) {throw {exception: e};}"
+        "})"));
 
     m_createFn = evaluateStrict(m_engine, QStringLiteral(
         "(function(from, name) {"
@@ -509,6 +521,17 @@ QJSValue Scriptable::throwImportError(const QString &filePath)
     return throwError( tr("Failed to import file \"%1\"").arg(filePath) );
 }
 
+QJSValue Scriptable::unwrapResultOrException(const QJSValue &resultOrException)
+{
+    if (resultOrException.hasOwnProperty(QStringLiteral("result")))
+        return resultOrException.property(QStringLiteral("result"));
+
+    auto exc = resultOrException.property(QStringLiteral("exception"));
+    logUncaughtException(exc);
+    m_engine->throwError(exc);
+    return exc;
+}
+
 void Scriptable::clearExceptions()
 {
     m_lastLoggedException = {};
@@ -552,15 +575,14 @@ QJSValue Scriptable::call(const QString &label, QJSValue *fn, const QJSValueList
     if ( m_engine->hasError() )
         return {};
 
-    QJSValue globalObject = engine()->globalObject();
-    globalObject.setProperty(QStringLiteral("_copyqFn"), *fn);
-    globalObject.setProperty(QStringLiteral("_copyqArgs"), toScriptValue(arguments, m_engine));
+    m_stack.prepend(label);
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack push: %1").arg(m_stack.join('|')) );
 
-    const auto result = evalAndCatch(QStringLiteral("_copyqFn(..._copyqArgs)"), label);
+    const auto v = m_safeCall.callWithInstance(*fn, arguments);
+    const auto result = unwrapResultOrException(v);
 
-    globalObject.deleteProperty(QStringLiteral("_copyqFn"));
-    globalObject.deleteProperty(QStringLiteral("_copyqArgs"));
-
+    m_stack.pop_front();
+    COPYQ_LOG_VERBOSE( QStringLiteral("Stack pop: %1").arg(m_stack.join('|')) );
     return result;
 }
 
@@ -2694,10 +2716,8 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
         }
     }
 
-    if ( result.isCallable() && canContinue() && !m_engine->hasError() ) {
-        const QString label2 = QStringLiteral("eval(arguments[%1])()").arg(skipArguments - 1);
-        result = call( label2, &result, fnArgs.mid(skipArguments) );
-    }
+    if ( result.isCallable() && canContinue() && !m_engine->hasError() )
+        result = call( QStringLiteral("_()"), &result, fnArgs.mid(skipArguments) );
 
     if (m_abort != Abort::None)
         return m_abortWithSuccess ? CommandFinished : CommandStop;
@@ -2712,6 +2732,10 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
 
 void Scriptable::logUncaughtException(const QJSValue &exc)
 {
+    if (m_lastLoggedException.equals(exc))
+        return;
+    m_lastLoggedException = exc;
+
     const auto exceptionName = exc.toString()
             .remove(QRegularExpression("^Error: "))
             .trimmed();
@@ -2971,6 +2995,28 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
     if (m_engine->hasError())
         return QJSValue();
 
+    const QStringView trimmed = QStringView(script).trimmed();
+
+    // Fast path: simple identifier → global property lookup
+    if (isSimpleIdentifier(trimmed)) {
+        const auto name = trimmed.toString();
+        auto globalObj = m_engine->globalObject();
+        if (globalObj.hasProperty(name))
+            return globalObj.property(name);
+    }
+
+    // Fast path: identifier() → property lookup + direct call
+    if (trimmed.endsWith(QLatin1String("()"))) {
+        const QStringView name = trimmed.chopped(2);
+        if (isSimpleIdentifier(name)) {
+            const auto nameStr = name.toString();
+            auto globalObj = m_engine->globalObject();
+            auto fn = globalObj.property(nameStr);
+            if (fn.isCallable())
+                return call(scriptToLabel(nameStr), &fn);
+        }
+    }
+
     return evalAndCatch(script, label);
 }
 
@@ -2987,10 +3033,7 @@ QJSValue Scriptable::evalAndCatch(const QString &script, const QString &label)
     //   QJSEngine::hasError()
     const auto result = m_engine->evaluate(script, QString(), 1, &exceptionStackTrace);
     if (!exceptionStackTrace.isEmpty()) {
-        if (!m_lastLoggedException.equals(result)) {
-            m_lastLoggedException = result;
-            logUncaughtException(result);
-        }
+        logUncaughtException(result);
         m_engine->throwError(result);
     }
 
