@@ -123,19 +123,28 @@ QString argumentError()
     return Scriptable::tr("Invalid number of arguments!");
 }
 
-QString exceptionBacktrace(const QStringList &stack)
+QString exceptionBacktrace(const QJSValue &exception, const QStringList &stack)
 {
     if ( stack.isEmpty() )
         return {};
 
-    return QStringLiteral("\n\n--- backtrace ---\n%1\n--- end backtrace ---")
-        .arg(stack.join(QLatin1String("\n")));
-}
+    QStringList annotatedStack = stack;
+    for (auto &frame : annotatedStack) {
+        if (frame.contains('\n')) {
+            auto lines = frame.split('\n');
+            int i = 0;
+            for (auto &line : lines)
+                line.prepend(QStringLiteral("%1|").arg(++i, /*fieldWidth=*/2));
+            frame = lines.join('\n') + '\n';
+        }
+    }
 
-QString exceptionBacktrace(const QJSValue &exception)
-{
-    const auto backtraceValue = exception.property("stack");
-    return backtraceValue.isUndefined() ? QString() : exceptionBacktrace(backtraceValue.toString().split("\n"));
+    const auto lineNumber = exception.property("lineNumber");
+    const auto line = lineNumber.isNumber() ? lineNumber.toInt() : 0;
+    const auto lineIndicator = (line > 0) ? QStringLiteral("At line %1 in:\n").arg(line) : QString();
+
+    return QStringLiteral("\n\n--- backtrace ---\n%1%2\n--- end backtrace ---")
+        .arg(lineIndicator, annotatedStack.join(QLatin1String("\n")));
 }
 
 QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
@@ -144,7 +153,7 @@ QJSValue evaluateStrict(QJSEngine *engine, const QString &script)
     if ( v.isError() ) {
         const auto scriptText = QStringLiteral("--- SCRIPT BEGIN ---\n%1\n--- SCRIPT END ---").arg(script);
         log( QStringLiteral("Exception during evaluate: %1%2\n\n%3")
-            .arg(v.toString(), exceptionBacktrace(v), scriptText), LogError );
+            .arg(v.toString(), exceptionBacktrace(v, {}), scriptText), LogError );
     }
     return v;
 }
@@ -234,14 +243,6 @@ QJSValue checksumForArgument(Scriptable *scriptable, QCryptographicHash::Algorit
     const auto data = scriptable->makeByteArray(scriptable->argument(0));
     const QByteArray hash = QCryptographicHash::hash(data, method).toHex();
     return QLatin1String(hash);
-}
-
-QString scriptToLabel(const QString &script)
-{
-    constexpr auto maxScriptSize = 30;
-    if (maxScriptSize < script.size())
-        return script.left(maxScriptSize).simplified() + QLatin1String("...");
-    return script;
 }
 
 std::optional<QStringConverter::Encoding> encodingFromNameOrThrow(const QJSValue &codecName, Scriptable *scriptable)
@@ -2710,7 +2711,6 @@ int Scriptable::executeArgumentsSimple(const QStringList &args)
             skipArguments += m_skipArguments;
         } else {
             cmd = toString(fnArgs[skipArguments]);
-            label = scriptToLabel(cmd);
             result = eval(cmd, label);
             ++skipArguments;
         }
@@ -2740,7 +2740,7 @@ void Scriptable::logUncaughtException(const QJSValue &exc)
             .remove(QRegularExpression("^Error: "))
             .trimmed();
 
-    const QString backtraceText = exceptionBacktrace(m_stack);
+    const QString backtraceText = exceptionBacktrace(exc, m_stack);
     const auto exceptionText = QStringLiteral("ScriptError: %3%4").arg(exceptionName, backtraceText);
 
     // Show exception popups only if the script was launched from application.
@@ -3013,7 +3013,7 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
             auto globalObj = m_engine->globalObject();
             auto fn = globalObj.property(nameStr);
             if (fn.isCallable())
-                return call(scriptToLabel(nameStr), &fn);
+                return call(nameStr, &fn);
         }
     }
 
@@ -3056,7 +3056,7 @@ void Scriptable::setActionName(const QString &actionName)
 
 QJSValue Scriptable::eval(const QString &script)
 {
-    return eval(script, scriptToLabel(script));
+    return eval(script, script);
 }
 
 QJSValue Scriptable::call(const QString &functionName)
