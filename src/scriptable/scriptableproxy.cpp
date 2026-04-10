@@ -1762,7 +1762,8 @@ void ScriptableProxy::selectionSetItemsFormat(int id, const QString &mime, const
     INVOKE2(selectionSetItemsFormat, (id, mime, value));
 
     const auto selection = m_selections.value(id);
-    setItemsData(selection.browser, selection.indexes, mime, value);
+    if (selection.browser)
+        setItemsData(selection.browser, selection.indexes, mime, value);
 }
 
 void ScriptableProxy::selectionMove(int id, int row)
