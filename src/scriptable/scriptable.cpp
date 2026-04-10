@@ -2995,25 +2995,23 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
     if (m_engine->hasError())
         return QJSValue();
 
-    const QStringView trimmed = QStringView(script).trimmed();
+    // If script is just an identifier or a simple function call, look up the
+    // global function and call it to avoid much slower eval.
+    QStringView trimmed = QStringView(script).trimmed();
 
-    // Fast path: simple identifier → global property lookup
+    const bool needCall = trimmed.endsWith(QLatin1String("()"));
+    if (needCall)
+        trimmed.chop(2);
+
     if (isSimpleIdentifier(trimmed)) {
         const auto name = trimmed.toString();
         auto globalObj = m_engine->globalObject();
-        if (globalObj.hasProperty(name))
-            return globalObj.property(name);
-    }
-
-    // Fast path: identifier() → property lookup + direct call
-    if (trimmed.endsWith(QLatin1String("()"))) {
-        const QStringView name = trimmed.chopped(2);
-        if (isSimpleIdentifier(name)) {
-            const auto nameStr = name.toString();
-            auto globalObj = m_engine->globalObject();
-            auto fn = globalObj.property(nameStr);
-            if (fn.isCallable())
-                return call(nameStr, &fn);
+        if (globalObj.hasProperty(name)) {
+            auto obj = globalObj.property(name);
+            if (!needCall)
+                return obj;
+            if (obj.isCallable())
+                return call(name, &obj);
         }
     }
 
