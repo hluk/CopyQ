@@ -38,6 +38,7 @@ Artifacts produced by CI (attached automatically by GitHub Actions):
 - Windows portable zip (`copyq-VERSION.zip`)
 - macOS Intel DMG (`CopyQ-VERSION-macos-13.dmg`)
 - macOS Apple Silicon DMG (`CopyQ-VERSION-macos-12-m1.dmg`)
+- Linux AppImage (`CopyQ-VERSION-x86_64.AppImage`)
 
 # Build Flatpak
 

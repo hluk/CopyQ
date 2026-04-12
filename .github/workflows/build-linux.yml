@@ -4,6 +4,7 @@ name: Linux
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
     branches: [master]
 
@@ -89,6 +90,7 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
               -fprofile-update=atomic
+            test_x11: true
 
           - os: ubuntu-latest
             buildname: Qt 6 Clang
@@ -96,7 +98,16 @@ jobs:
             compiler_package: clang
             with_native_notifications: false
             cmake_preset: Debug
+            test_x11: true
 
+          - os: ubuntu-latest
+            buildname: AppImage
+            compiler: g++
+            compiler_package: g++
+            with_native_notifications: true
+            cmake_preset: Release
+            appimage: true
+            test_x11: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
@@ -114,7 +125,30 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
+      - name: Set up KDE Neon repo for KF6 packages
+        if: matrix.appimage
+        run: |
+          wget -qO - https://archive.neon.kde.org/public.key |
+            sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
+            sudo tee /etc/apt/sources.list.d/neon.list
+          sudo apt-get update
+
+      - name: Install dependencies (AppImage)
+        if: matrix.appimage
+        run: >-
+          sudo apt-get install -y
+          ninja-build libxfixes-dev libxtst-dev extra-cmake-modules libwayland-dev libegl-dev gnupg2 xvfb openbox xdotool
+          qt6-base-private-dev qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools qt6-declarative-dev
+          libqt6svg6-dev libqt6svg6
+          libkf6guiaddons-dev
+          libqt6waylandclient6 qt6-wayland qt6-wayland-dev qt6-wayland-dev-tools
+          libqca-qt6-dev libqca-qt6-2 libqca-qt6-plugins
+          qtkeychain-qt6-dev
+          libkf6notifications-dev kf6-kstatusnotifieritem-dev
+
       - name: Install dependencies
+        if: '!matrix.appimage'
         uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
         with:
           version: 1.0
@@ -134,7 +168,6 @@ jobs:
         with:
           version: ${{ matrix.custom_qt }}
           modules: qt5compat
-
 
       - name: Build QCA and QtKeychain
         if: matrix.custom_qt
@@ -202,10 +235,53 @@ jobs:
       - name: Test on X11
         working-directory: >-
           ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_x11 != false
         run: '${{github.workspace}}/utils/github/test-linux.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
             ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+
+      - name: Set up AppImage tools
+        if: matrix.appimage
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          wget -q -O "$HOME/.local/bin/linuxdeploy" https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          wget -q -O "$HOME/.local/bin/linuxdeploy-plugin-qt" https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+          wget -q -O "$HOME/.local/bin/linuxdeploy-plugin-appimage" https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+          chmod +x "$HOME/.local/bin"/linuxdeploy*
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Get version string
+        if: matrix.appimage
+        id: version
+        uses: ./.github/actions/get-version
+        with:
+          build_dir: ${{ github.workspace }}/build/copyq/${{ matrix.cmake_preset }}
+
+      - name: Create AppImage
+        if: matrix.appimage
+        env:
+          DESTDIR: ${{github.workspace}}/AppDir
+          EXTRA_QT_MODULES: svg
+          EXTRA_QT_PLUGINS: tls
+          EXTRA_PLATFORM_PLUGINS: libqwayland.so
+          QMAKE: qmake6
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          DESTDIR="$DESTDIR" cmake --install build/copyq/${{ matrix.cmake_preset }}
+          linuxdeploy --appdir "$DESTDIR" \
+            --desktop-file "$DESTDIR/usr/share/applications/com.github.hluk.copyq.desktop" \
+            --icon-file "$DESTDIR/usr/share/icons/hicolor/scalable/apps/copyq.svg" \
+            --executable "$DESTDIR/usr/bin/copyq" \
+            --plugin qt \
+            --output appimage
+
+      - name: Upload AppImage
+        if: matrix.appimage
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
+          path: CopyQ-*.AppImage
 
       - name: Update coverage
         if: matrix.coverage
@@ -232,3 +308,20 @@ jobs:
           fail_ci_if_error: true
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
+
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          draft: true
+          files: 'CopyQ-*/*.AppImage'
