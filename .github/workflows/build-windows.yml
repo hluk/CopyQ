@@ -65,7 +65,7 @@ jobs:
         run: echo "OPENSSL_ROOT_DIR=C:/Program Files/OpenSSL" >> "$GITHUB_ENV"
 
       - name: Enable sccache
-        uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
+        uses: hendrikmuhs/ccache-action@33522472633dbd32578e909b315f5ee43ba878ce # v1.2.22
         with:
           variant: sccache
           key: windows-msvc
