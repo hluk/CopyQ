@@ -4,8 +4,8 @@
         {
             "name": "Debug",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
-            "installDir": "${sourceParentDir}/install/copyq/${presetName}",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "${sourceDir}/_install/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "WITH_QCA_ENCRYPTION": "TRUE",
@@ -18,8 +18,8 @@
         {
             "name": "macOS-10",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
-            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "${sourceDir}/build/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
@@ -32,8 +32,8 @@
         {
             "name": "macOS-13",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
-            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "${sourceDir}/build/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
@@ -46,8 +46,8 @@
         {
             "name": "macOS-12-m1",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
-            "installDir": "${sourceParentDir}/build/copyq/${presetName}",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "${sourceDir}/build/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
@@ -61,8 +61,8 @@
         {
             "name": "Windows",
             "generator": "Ninja",
-            "binaryDir": "${sourceParentDir}/build/copyq/${presetName}",
-            "installDir": "${sourceParentDir}/install/copyq/${presetName}",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "${sourceDir}/_install/copyq/${presetName}",
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
