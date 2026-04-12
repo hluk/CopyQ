@@ -1,4 +1,4 @@
-set(copyq_version "14.0.0")
+set(copyq_version "15.0.0")
 
 set(copyq_git_describe_result 1)
 
