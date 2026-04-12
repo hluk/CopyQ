@@ -41,12 +41,12 @@ unresolved=$(
     sort -u |
     while read -r ref; do
         rel=${ref#@rpath/}
-        if [ ! -e "$frameworks_dir/$rel" ]; then
+        if [[ ! -e "$frameworks_dir/$rel" ]]; then
             echo "$ref"
         fi
     done || true
 )
-if [ -n "$unresolved" ]; then
+if [[ -n "$unresolved" ]]; then
     echo 'ERROR: Unresolved @rpath references in bundle:'
     echo "$unresolved"
     exit 1
@@ -56,17 +56,17 @@ echo 'OK: All @rpath references resolve within the bundle.'
 # Verify minimum macOS deployment target is at most 13.0.
 echo '--- Checking minimum macOS version ---'
 min_version=$(otool -l "$executable" | awk '/LC_BUILD_VERSION/{found=1} found && /minos/{print $2; exit}')
-if [ -z "$min_version" ]; then
+if [[ -z "$min_version" ]]; then
     # Fallback: try LC_VERSION_MIN_MACOSX
     min_version=$(otool -l "$executable" | awk '/LC_VERSION_MIN_MACOSX/{found=1} found && /version/{print $2; exit}')
 fi
-if [ -z "$min_version" ]; then
+if [[ -z "$min_version" ]]; then
     echo 'ERROR: Could not determine minimum macOS version from binary.'
     exit 1
 fi
 echo "Minimum macOS version: $min_version"
 major=${min_version%%.*}
-if [ "$major" -gt 13 ]; then
+if [[ "$major" -gt 13 ]]; then
     echo "ERROR: Minimum macOS version $min_version exceeds 13.x"
     exit 1
 fi

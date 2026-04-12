@@ -14,7 +14,7 @@ steps=(
     run
     )
 
-if [ -n "$CLANG_ROOT" ]; then
+if [[ -n "$CLANG_ROOT" ]]; then
     export PATH=$CLANG_ROOT:$PATH
 fi
 CXX=${CXX:-clang++}
@@ -25,7 +25,7 @@ export ASAN_OPTIONS=${ASAN_OPTIONS:-"detect_leaks=1 detect_stack_use_after_retur
 echo "=== Using sanitizers (directory \"$build_dir\") ==="
 
 step=2
-if [ -d "$build_dir" ]; then
+if [[ -d "$build_dir" ]]; then
     echo "Select starting point:"
     select step in "${steps[@]}"; do step=$REPLY; break; done
 fi

@@ -29,6 +29,8 @@ env:
 
 jobs:
   build:
+    permissions:
+      contents: read
     name: Windows
     runs-on: windows-2025
     defaults:
@@ -39,6 +41,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
+          persist-credentials: false
           # Full commit history needed for sortable version string (git describe in CMake).
           # Blobless filter skips file content for historical commits to speed up clone.
           fetch-depth: 0
@@ -78,7 +81,7 @@ jobs:
 
       - name: Cache KDE dependencies
         id: cache-deps
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           path: ${{ github.workspace }}/deps/install
           key: >-
@@ -92,6 +95,19 @@ jobs:
       - name: Build KDE dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: utils/github/build-windows-deps.sh
+
+      - name: Save dependency cache
+        if: github.event_name == 'push'
+        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        with:
+          path: ${{ github.workspace }}/deps/install
+          key: >-
+            windows-deps
+            -kf${{ env.KF_VERSION }}.${{ env.KF_PATCH }}
+            -qca${{ env.QCA_VERSION }}
+            -qtkeychain${{ env.QTKEYCHAIN_VERSION }}
+            -snoretoast${{ env.SNORETOAST_VERSION }}
+            -${{ hashFiles('utils/patches/**') }}
 
       - name: Download miniaudio
         uses: ./.github/actions/download-miniaudio
@@ -115,22 +131,24 @@ jobs:
         id: version
         uses: ./.github/actions/get-version
         with:
-          build_dir: ${{ runner.workspace }}/build/copyq/Windows
+          build_dir: ${{ github.workspace }}/build/copyq/Windows
 
       - name: Compute numeric version for installer
         id: version_numeric
         shell: bash
         run: |
           # VersionInfoVersion requires numeric-only (x.x.x or x.x.x.x).
-          numeric="${{ steps.version.outputs.version }}"
+          numeric="$APP_VERSION"
           numeric="${numeric%-g*}"
           echo "value=$numeric" >> "$GITHUB_OUTPUT"
+        env:
+          APP_VERSION: ${{ steps.version.outputs.version }}
 
       - name: Deploy application
         run: utils/github/deploy-windows.sh
         env:
           APP_VERSION: ${{ steps.version.outputs.version }}
-          BUILD_DIR: ${{ runner.workspace }}/build/copyq/Windows
+          BUILD_DIR: ${{ github.workspace }}/build/copyq/Windows
 
       - name: Set up GPG for tests
         shell: pwsh
@@ -141,10 +159,10 @@ jobs:
 
       - name: Test
         working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
-        shell: cmd
         run: |
-          set "PATH=%CD%;C:\Program Files\Git\usr\bin"
-          .\copyq-tests.exe
+          PATH="$(pwd):/c/Program Files/Git/usr/bin"
+          export PATH
+          ./copyq-tests.exe
         env:
           QT_FORCE_STDERR_LOGGING: 1
           COPYQ_LOG_LEVEL: DEBUG
@@ -153,24 +171,32 @@ jobs:
 
       - name: Separate test files from portable app
         run: |
-          APP="copyq-${{ steps.version.outputs.version }}"
+          APP="copyq-${APP_VERSION}"
           mkdir -p "${APP}-tests"
           mv "${APP}/copyq-tests.exe" "${APP}-tests/"
           mv "${APP}/itemtests.dll" "${APP}-tests/"
           mv "${APP}/Qt6Test.dll" "${APP}-tests/"
+        env:
+          APP_VERSION: ${{ steps.version.outputs.version }}
 
       - name: Build installer
-        shell: cmd
+        shell: pwsh
         run: |
-          "%ProgramFiles(x86)%\Inno Setup 6\ISCC.exe" /O"%GITHUB_WORKSPACE%" ^
-            /DAppVersion="${{ steps.version.outputs.version }}" ^
-            /DAppVersionNumeric="${{ steps.version_numeric.outputs.value }}" ^
-            /DRoot="%GITHUB_WORKSPACE%\copyq-${{ steps.version.outputs.version }}" ^
-            /DSource="%GITHUB_WORKSPACE%" ^
-            "%GITHUB_WORKSPACE%\shared\copyq.iss"
+          & "C:/Program Files (x86)/Inno Setup 6/ISCC.exe" `
+            /O"$env:GITHUB_WORKSPACE" `
+            /DAppVersion="$env:APP_VERSION" `
+            /DAppVersionNumeric="$env:APP_VERSION_NUMERIC" `
+            /DRoot="$env:GITHUB_WORKSPACE/copyq-$env:APP_VERSION" `
+            /DSource="$env:GITHUB_WORKSPACE" `
+            "$env:GITHUB_WORKSPACE/shared/copyq.iss"
+        env:
+          APP_VERSION: ${{ steps.version.outputs.version }}
+          APP_VERSION_NUMERIC: ${{ steps.version_numeric.outputs.value }}
 
       - name: Create portable zip
-        run: 7z a "copyq-${{ steps.version.outputs.version }}.zip" "copyq-${{ steps.version.outputs.version }}"
+        run: 7z a "copyq-${APP_VERSION}.zip" "copyq-${APP_VERSION}"
+        env:
+          APP_VERSION: ${{ steps.version.outputs.version }}
 
       - name: Upload portable zip
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
@@ -202,7 +228,7 @@ jobs:
       contents: write
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@3e5f45b3bb33fedc5a65e1c1f24ac66a1ced9384 # v8.0.1
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 
       - name: Upload to release
         uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2

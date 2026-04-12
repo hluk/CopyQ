@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [master]
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -100,6 +103,7 @@ jobs:
         with:
           submodules: false
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Enable ccache
         uses: hendrikmuhs/ccache-action@5ebbd400eff9e74630f759d94ddd7b6c26299639 # v1.2
@@ -179,34 +183,34 @@ jobs:
 
       - name: Test on GNOME
         working-directory: >-
-          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         if: matrix.test_gnome
         run: '${{github.workspace}}/utils/github/test-linux-gnome-extension.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
-            ${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
 
       - name: Test on Wayland
         working-directory: >-
-          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         if: matrix.test_wayland
         run: '${{github.workspace}}/utils/github/test-linux-wayland.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
-            ${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
 
       - name: Test on X11
         working-directory: >-
-          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: '${{github.workspace}}/utils/github/test-linux.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
-            ${{runner.workspace}}/install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
 
       - name: Update coverage
         if: matrix.coverage
         working-directory: >-
-          ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: |
           lcov --capture --directory . \
             --base-directory '${{github.workspace}}' \
@@ -224,7 +228,7 @@ jobs:
         if: matrix.coverage
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v5
         with:
-          files: ${{runner.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
+          files: ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
           fail_ci_if_error: true
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}

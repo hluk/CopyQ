@@ -22,8 +22,6 @@
 
 set -euo pipefail
 
-readonly POLL_INTERVAL=60
-readonly MAX_WAIT=7200
 
 die() { printf 'Error: %s\n' "$1" >&2; exit 1; }
 log() { printf '==> %s\n' "$1" >&2; }
@@ -32,21 +30,21 @@ log() { printf '==> %s\n' "$1" >&2; }
 
 repo_root="$(git rev-parse --show-toplevel)"
 changes_file="$repo_root/CHANGES.md"
-[ -f "$changes_file" ] || die "CHANGES.md not found at $changes_file"
+[[ -f "$changes_file" ]] || die "CHANGES.md not found at $changes_file"
 
 version="${1:-}"
-[ -n "$version" ] || die "Usage: $0 VERSION [WORKDIR]"
+[[ -n "$version" ]] || die "Usage: $0 VERSION [WORKDIR]"
 
 tag="$(git describe --tags --abbrev=0 HEAD)"
-[ -n "$tag" ] || die "No tags found"
+[[ -n "$tag" ]] || die "No tags found"
 
 expected_tag="v$version"
-[ "$tag" = "$expected_tag" ] || die "Latest tag is $tag but expected $expected_tag"
+[[ "$tag" = "$expected_tag" ]] || die "Latest tag is $tag but expected $expected_tag"
 
 # CHANGES.md must start with this version's section header.
 changes_header="$(head -n1 "$changes_file")"
 expected_header="# $version"
-[ "$changes_header" = "$expected_header" ] || die "CHANGES.md starts with '$changes_header' but expected '$expected_header'"
+[[ "$changes_header" = "$expected_header" ]] || die "CHANGES.md starts with '$changes_header' but expected '$expected_header'"
 log "Version: $version  (tag: $tag)"
 
 workdir="${2:-release-$version}"
@@ -69,7 +67,7 @@ extract_changelog() {
 }
 
 changelog_body="$(extract_changelog)"
-[ -n "$changelog_body" ] || die "No changelog entry for version $version in CHANGES.md"
+[[ -n "$changelog_body" ]] || die "No changelog entry for version $version in CHANGES.md"
 log "Extracted changelog ($(echo "$changelog_body" | wc -l) lines)"
 
 if gh release view "$tag" --json tagName >/dev/null 2>&1; then
@@ -83,7 +81,7 @@ fi
 # create source tarball and upload
 
 source_tarball="$workdir/CopyQ-$version.tar.gz"
-if [ -f "$source_tarball" ]; then
+if [[ -f "$source_tarball" ]]; then
     log "Source tarball already exists: $source_tarball"
 else
     log "Creating source tarball ..."
@@ -103,6 +101,33 @@ expected_assets=(
     "copyq-${version}.zip"
 )
 
+wait_for_builds() {
+    local tag_sha
+    tag_sha="$(git rev-list -n 1 "$tag")"
+    if [[ -z "$tag_sha" ]]; then
+        die "Could not resolve commit SHA for tag $tag"
+    fi
+
+    log "Getting macOS build run for tag $tag (commit $tag_sha)..."
+    local macos_run
+    macos_run="$(gh run list --workflow build-macos.yml --commit "$tag_sha" --limit 1 --json databaseId --jq '.[0].databaseId // empty')"
+    if [[ -z "$macos_run" ]]; then
+        die "Could not find macOS build run for commit $tag_sha"
+    fi
+    log "Watching macOS build (run $macos_run)..."
+    gh run watch "$macos_run" --exit-status --interval 30 || die "macOS build failed"
+
+    log "Getting Windows build run for tag $tag (commit $tag_sha)..."
+    local windows_run
+    windows_run="$(gh run list --workflow build-windows.yml --commit "$tag_sha" --limit 1 --json databaseId --jq '.[0].databaseId // empty')"
+    if [[ -z "$windows_run" ]]; then
+        die "Could not find Windows build run for commit $tag_sha"
+    fi
+    log "Watching Windows build (run $windows_run)..."
+    gh run watch "$windows_run" --exit-status --interval 30 || die "Windows build failed"
+    log "Both builds completed successfully"
+}
+
 has_all_assets() {
     local assets
     assets="$(gh release view "$tag" --json assets --jq '.assets[].name')"
@@ -117,18 +142,12 @@ has_all_assets() {
 if has_all_assets; then
     log "All expected build artifacts already on the release"
 else
-    log "Waiting for CI to attach build artifacts ..."
-    elapsed=0
-    while ! has_all_assets; do
-        if [ "$elapsed" -ge "$MAX_WAIT" ]; then
-            log "Current assets:"
-            gh release view "$tag" --json assets --jq '.assets[].name' >&2
-            die "Timed out waiting for build artifacts on release $tag"
-        fi
-        log "  Not all artifacts present yet, checking again in ${POLL_INTERVAL}s ..."
-        sleep "$POLL_INTERVAL"
-        elapsed=$((elapsed + POLL_INTERVAL))
-    done
+    wait_for_builds
+    if ! has_all_assets; then
+        log "Current release assets:"
+        gh release view "$tag" --json assets --jq '.assets[].name' >&2
+        die "CI builds completed but not all expected assets were uploaded to the release"
+    fi
     log "All expected build artifacts are now on the release"
 fi
 
@@ -142,7 +161,7 @@ all_assets=(
 checksums_file="$workdir/checksums-sha512.txt"
 cosign_bundle="$workdir/cosign.bundle"
 
-if [ -f "$cosign_bundle" ]; then
+if [[ -f "$cosign_bundle" ]]; then
     log "Checksums and signature already exist"
 else
     log "Downloading release assets ..."
