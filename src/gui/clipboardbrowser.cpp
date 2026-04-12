@@ -1725,7 +1725,7 @@ bool ClipboardBrowser::loadItems(const QByteArray &itemData)
 
     d.rowsInserted(QModelIndex(), 0, m.rowCount());
     if ( hasFocus() )
-        setCurrent(0);
+        setCurrent(std::min(1, m.rowCount() - 1));  // Select 2nd item if available, else 1st
     onItemCountChanged();
 
     return true;
