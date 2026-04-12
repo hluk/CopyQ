@@ -60,3 +60,19 @@ const QString &settingsDirectoryPath()
         QDir::cleanPath( getConfigurationFilePath() + QLatin1String("/..") );
     return path;
 }
+
+QString applicationExecutablePath()
+{
+    const QString appImage = qEnvironmentVariable("APPIMAGE");
+    if (!appImage.isEmpty())
+        return appImage;
+    return QCoreApplication::applicationFilePath();
+}
+
+QString appImageAdjustedPath(const QString &compiledPath)
+{
+    const QString appDir = qEnvironmentVariable("APPDIR");
+    if (!appDir.isEmpty())
+        return appDir + compiledPath;
+    return compiledPath;
+}

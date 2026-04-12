@@ -16,6 +16,18 @@
             }
         },
         {
+            "name": "Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "installDir": "/usr",
+            "cacheVariables": {
+                "WITH_QCA_ENCRYPTION": "TRUE",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
+            }
+        },
+        {
             "name": "macOS-10",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/copyq/${presetName}",
@@ -79,6 +91,11 @@
             "configurePreset": "Debug",
             "configuration": "Debug",
             "targets": "install"
+        },
+        {
+            "name": "Release",
+            "configurePreset": "Release",
+            "configuration": "Release"
         },
         {
             "name": "macOS-10",

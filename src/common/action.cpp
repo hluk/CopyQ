@@ -2,6 +2,7 @@
 
 #include "action.h"
 
+#include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/process.h"
 #include "common/processsignals.h"
@@ -27,7 +28,7 @@ void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenMod
 
     // Replace "copyq" command with full application path.
     if (executable == "copyq")
-        executable = QCoreApplication::applicationFilePath();
+        executable = applicationExecutablePath();
 
     process->start(executable, args.mid(1), mode);
 }

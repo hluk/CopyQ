@@ -38,7 +38,7 @@ namespace {
 bool findPluginDir(QDir *pluginsDir)
 {
 #ifdef COPYQ_PLUGIN_PREFIX
-    pluginsDir->setPath(COPYQ_PLUGIN_PREFIX);
+    pluginsDir->setPath(appImageAdjustedPath(QStringLiteral(COPYQ_PLUGIN_PREFIX)));
     if ( pluginsDir->isReadable() )
         return true;
 #endif
