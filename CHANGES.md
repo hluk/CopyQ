@@ -1,4 +1,4 @@
-# 14.1.0
+# 15.0.0
 
 ## Added
 
@@ -17,6 +17,8 @@
 - Diagnostic information in About dialog and version output for easier
   troubleshooting.
 
+- Script function `stats()` now includes per-process memory information.
+
 ## Changed
 
 - "Show under mouse cursor" shortcut now hides the window if it is already
@@ -28,6 +30,10 @@
 
   *Note for packagers:* The application no longer links against private Qt
   headers, so it does not need to be rebuilt on Qt minor version updates.
+
+- Dropped support for unmaintained Qt 5 version of the app.
+
+- Improved performance of scripts.
 
 ## Fixed
 
@@ -44,6 +50,13 @@
 - Fixed tray menu not showing on Wayland when triggered via shortcut (#3325).
 
 - Fixed version string (#3516).
+
+- Fixed crash when accessing invalid ItemSelection.
+
+- Fixed item scrollbar colors.
+
+- Fixed a memory leak in clipboard monitor process and other long running
+  client processes.
 
 - Windows: Excludes unnecessary test executable and some libraries from
   installer and portable zip.
