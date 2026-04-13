@@ -16,6 +16,20 @@
             }
         },
         {
+            "name": "AppImage-Release",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/copyq/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "/usr",
+                "WITH_APPIMAGE": "TRUE",
+                "WITH_TESTS": "TRUE",
+                "WITH_QCA_ENCRYPTION": "TRUE",
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_C_COMPILER_LAUNCHER": "ccache",
+                "CMAKE_CXX_COMPILER_LAUNCHER": "ccache"
+            }
+        },
+        {
             "name": "macOS-10",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/copyq/${presetName}",
@@ -79,6 +93,11 @@
             "configurePreset": "Debug",
             "configuration": "Debug",
             "targets": "install"
+        },
+        {
+            "name": "AppImage-Release",
+            "configurePreset": "AppImage-Release",
+            "configuration": "Release"
         },
         {
             "name": "macOS-10",

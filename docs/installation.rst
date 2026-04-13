@@ -53,8 +53,15 @@ On **Fedora**, install "copyq" package:
 
     sudo dnf install copyq
 
-On other Linux distributions, you can use `Flatpak <https://flatpak.org/>`__
-to install the app:
+On other Linux distributions, you can download the **AppImage** from the
+`Releases page <https://github.com/hluk/CopyQ/releases>`__:
+
+.. code-block:: bash
+
+    chmod +x CopyQ-*.AppImage
+    ./CopyQ-*.AppImage
+
+Alternatively, you can use `Flatpak <https://flatpak.org/>`__ to install the app:
 
 .. code-block:: bash
 

@@ -6,6 +6,7 @@
 
 #include <QCoreApplication>
 #include <QSocketNotifier>
+#include <QVariant>
 
 #include <csignal>
 #include <sys/socket.h>
@@ -52,8 +53,12 @@ void handleSignal()
     } else if (data.pid != QCoreApplication::applicationPid()) {
         log("PID not matching on a Unix signal", LogError);
     } else {
+        const int exitCode = 128 + data.code;
         log( QStringLiteral("Terminating application on signal %1").arg(data.code) );
-        QCoreApplication::exit(128 + data.code);
+        auto *app = QCoreApplication::instance();
+        app->setProperty("CopyQ_quitting", QVariant(true));
+        app->setProperty("CopyQ_signal_exit_code", QVariant(exitCode));
+        QCoreApplication::exit(exitCode);
     }
 
     signalFdNotifier->setEnabled(true);

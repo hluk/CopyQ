@@ -5,6 +5,7 @@ set -xeuo pipefail
 export COPYQ_SESSION_NAME=__COPYQ_SIGTEST
 
 source "$(dirname "$0")/test-start-server.sh"
+copyq="${COPYQ_TESTS_EXECUTABLE:-./copyq}"
 
 exit_code=0
 
@@ -12,14 +13,14 @@ exit_code=0
 if [[ ${COPYQ_TESTS_SKIP_SIGNAL:-0} == "1" ]]; then
     echo "⚠️ Skipping signal test"
 else
-    ./copyq 'sleep(100000)' &
+    "$copyq" 'sleep(100000)' &
     copyq_sleep_pid=$!
 
     sigterm=15
     expected_exit_code=$((128 + sigterm))
 
     sleep 2
-    if ! pkill -$sigterm -f '^\./copyq sleep\(100000\)$'; then
+    if ! kill -$sigterm $copyq_sleep_pid; then
         echo "❌ FAILED: Could not send SIGTERM to the command"
         kill $copyq_sleep_pid
         exit_code=1
@@ -39,10 +40,10 @@ else
     fi
 fi
 
-./copyq 'sleep(100000)' &
+"$copyq" 'sleep(100000)' &
 copyq_sleep_pid=$!
 
-./copyq 'while(true){read(9999999);}' &
+"$copyq" 'while(true){read(9999999);}' &
 copyq_loop_pid=$!
 
 trap "kill -9 $copyq_sleep_pid $copyq_loop_pid || true" TERM INT

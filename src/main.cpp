@@ -5,6 +5,7 @@
 #include "app/clipboardclient.h"
 #include "app/clipboardserver.h"
 #include "common/commandstatus.h"
+#include "common/config.h"
 #include "common/log.h"
 #include "common/messagehandlerforqt.h"
 #include "common/textdata.h"
@@ -21,6 +22,7 @@
 #include <QSettings>
 
 #include <exception>
+#include <cstring>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
@@ -130,10 +132,18 @@ int startServer(int argc, char *argv[], QString sessionName)
     return app.exec();
 }
 
-void startServerInBackground(const QString &applicationPath, QString sessionName)
+void startServerInBackground(const char *argv0, const QString &sessionName)
 {
+    // QCoreApplication is not yet instantiated, so applicationExecutablePath()
+    // cannot be used here. Duplicate its $APPIMAGE logic directly.
+#ifdef COPYQ_WITH_APPIMAGE
+    const QString appImage = qEnvironmentVariable("APPIMAGE");
+    const QString executable = appImage.isEmpty() ? QString::fromUtf8(argv0) : appImage;
+#else
+    const QString executable = QString::fromUtf8(argv0);
+#endif
     const QStringList arguments{QStringLiteral("-s"), sessionName};
-    const bool started = QProcess::startDetached(applicationPath, arguments);
+    const bool started = QProcess::startDetached(executable, arguments);
 
     if (!started)
         log("Failed to start the server", LogError);
@@ -279,6 +289,13 @@ int startApplication(int argc, char **argv)
     setSessionName(QString());
 
     const AppArguments args = parseArguments(argc, argv);
+    // Qt normalizes --session to -session and treats it as a Session Manager
+    // restore request. Skip the "--" prefix so Qt sees "session" instead.
+    if (!args.sessionName.isEmpty() && argc > 1
+        && std::strcmp(argv[1], "--session") == 0)
+    {
+        argv[1] += 2;
+    }
 
     setLogLabel( logLabelForType(args.appType, args.arguments) );
     installMessageHandlerForQt();
@@ -309,7 +326,7 @@ int startApplication(int argc, char **argv)
         return startClient(argc, argv, args.arguments, args.sessionName);
 
     case AppType::StartServerInBackground:
-        startServerInBackground( QString::fromUtf8(argv[0]), args.sessionName );
+        startServerInBackground(argv[0], args.sessionName);
         if (args.arguments.isEmpty())
             return 0;
         return startClient(argc, argv, args.arguments, args.sessionName);

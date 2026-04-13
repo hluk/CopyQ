@@ -98,7 +98,7 @@ public:
      * Initialize tab.
      * @return the first plugin (or nullptr) for which ItemLoaderInterface::initializeTab() returned true
      */
-    ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems);
+    ItemSaverPtr initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems) const;
 
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;

@@ -5,6 +5,7 @@
 #include "common/commandstore.h"
 #include "common/settings.h"
 #include "common/textdata.h"
+#include "common/config.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 #ifdef Q_OS_UNIX
@@ -41,7 +42,7 @@ void installTranslator()
     }
 
 #ifdef COPYQ_TRANSLATION_PREFIX
-    const QString translationPrefix = COPYQ_TRANSLATION_PREFIX;
+    const QString translationPrefix = adjustedInstallPath(QStringLiteral(COPYQ_TRANSLATION_PREFIX));
 #else
     const QString translationPrefix = platformNativeInterface()->translationPrefix();
 #endif
@@ -91,7 +92,7 @@ void setSessionName(const QString &sessionName)
 void initSession(QCoreApplication *app, const QString &sessionName)
 {
     qputenv("COPYQ_SESSION_NAME", sessionName.toLocal8Bit());
-    qputenv("COPYQ", QCoreApplication::applicationFilePath().toLocal8Bit());
+    qputenv("COPYQ", applicationExecutablePath().toLocal8Bit());
 
     const auto settingsPath = qEnvironmentVariable("COPYQ_SETTINGS_PATH");
     if ( !settingsPath.isEmpty() ) {
@@ -162,6 +163,11 @@ void App::exit(int exitCode)
 {
     if ( wasClosed() )
         return;
+
+    // Prefer signal exit code if a Unix signal triggered the shutdown.
+    const QVariant signalCode = m_app->property("CopyQ_signal_exit_code");
+    if (signalCode.isValid())
+        exitCode = signalCode.toInt();
 
     if (!m_started)
         ::exit(exitCode);

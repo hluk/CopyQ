@@ -4,11 +4,9 @@ name: Linux
 on:
   push:
     branches: [master]
+    tags: ['v*']
   pull_request:
     branches: [master]
-
-permissions:
-  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -44,7 +42,6 @@ env:
     libqt6svg6
 
     libkf6guiaddons-dev
-    libkf6guiaddons
 
     libqt6waylandclient6
     qt6-wayland
@@ -60,12 +57,17 @@ env:
   QCA_VERSION: '2.3.10'
   QTKEYCHAIN_VERSION: '0.15.0'
 
-  # FIXME: Sending signal to client process does not cause the process
-  # to exit with non-zero code with GitHub Actions. Why?
-  COPYQ_TESTS_SKIP_SIGNAL: '1'
+  LINUXDEPLOY_URL: 'https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage'
+  LINUXDEPLOY_SHA256: '4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a'
+  LINUXDEPLOY_PLUGIN_QT_URL: 'https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage'
+  LINUXDEPLOY_PLUGIN_QT_SHA256: '15106be885c1c48a021198e7e1e9a48ce9d02a86dd0a1848f00bdbf3c1c92724'
+  LINUXDEPLOY_PLUGIN_APPIMAGE_URL: 'https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-appimage-x86_64.AppImage'
+  LINUXDEPLOY_PLUGIN_APPIMAGE_SHA256: '992d502a248e14ab185448ddf6f6e7d25558cb84d4623c354c3af350c25fccb3'
 
 jobs:
   build:
+    permissions:
+      contents: read
     name: ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
@@ -89,6 +91,7 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
               -fprofile-update=atomic
+            test_x11: true
 
           - os: ubuntu-latest
             buildname: Qt 6 Clang
@@ -96,14 +99,27 @@ jobs:
             compiler_package: clang
             with_native_notifications: false
             cmake_preset: Debug
+            test_x11: true
 
+          # Pinned to ubuntu-24.04: KDE Neon repo below uses 'noble' (24.04 codename).
+          - os: ubuntu-24.04
+            buildname: AppImage
+            compiler: g++
+            compiler_package: g++
+            with_native_notifications: true
+            cmake_preset: AppImage-Release
+            appimage: true
+            test_x11: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
         with:
           submodules: false
-          fetch-depth: 1
           persist-credentials: false
+          # Full commit history needed for sortable version string (git describe in CMake).
+          # Blobless filter skips file content for historical commits to speed up clone.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Enable ccache
         uses: hendrikmuhs/ccache-action@33522472633dbd32578e909b315f5ee43ba878ce # v1.2.22
@@ -114,7 +130,28 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
+      - name: Set up KDE Neon repo for KF6 packages
+        if: matrix.appimage
+        run: |
+          wget -qO - https://archive.neon.kde.org/public.key |
+            sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
+            sudo tee /etc/apt/sources.list.d/neon.list
+          sudo apt-get update
+
+      - name: Install dependencies (AppImage)
+        if: matrix.appimage
+        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
+        with:
+          version: 1.0
+          packages: >-
+            ${{ matrix.compiler_package }}
+            ${{ env.common_packages }}
+            ${{ env.qt6_packages }}
+            libkf6notifications-dev kf6-kstatusnotifieritem-dev
+
       - name: Install dependencies
+        if: '!matrix.appimage'
         uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
         with:
           version: 1.0
@@ -134,7 +171,6 @@ jobs:
         with:
           version: ${{ matrix.custom_qt }}
           modules: qt5compat
-
 
       - name: Build QCA and QtKeychain
         if: matrix.custom_qt
@@ -202,10 +238,105 @@ jobs:
       - name: Test on X11
         working-directory: >-
           ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_x11 != false
         run: '${{github.workspace}}/utils/github/test-linux.sh'
         env:
           COPYQ_TESTS_EXECUTABLE: >-
             ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+
+      - name: Set up AppImage tools
+        if: matrix.appimage
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          dest="$HOME/.local/bin"
+
+          wget -q -O "$dest/linuxdeploy" "$LINUXDEPLOY_URL"
+          echo "$LINUXDEPLOY_SHA256  $dest/linuxdeploy" | sha256sum -c
+
+          wget -q -O "$dest/linuxdeploy-plugin-qt" "$LINUXDEPLOY_PLUGIN_QT_URL"
+          echo "$LINUXDEPLOY_PLUGIN_QT_SHA256  $dest/linuxdeploy-plugin-qt" | sha256sum -c
+
+          wget -q -O "$dest/linuxdeploy-plugin-appimage" "$LINUXDEPLOY_PLUGIN_APPIMAGE_URL"
+          echo "$LINUXDEPLOY_PLUGIN_APPIMAGE_SHA256  $dest/linuxdeploy-plugin-appimage" | sha256sum -c
+
+          chmod +x "$dest"/linuxdeploy*
+          echo "$dest" >> "$GITHUB_PATH"
+
+      - name: Get version string
+        if: matrix.appimage
+        id: version
+        uses: ./.github/actions/get-version
+        with:
+          build_dir: ${{ github.workspace }}/build/copyq/${{ matrix.cmake_preset }}
+
+      - name: Create AppImage
+        if: matrix.appimage
+        env:
+          DESTDIR: ${{github.workspace}}/AppDir
+          EXTRA_QT_MODULES: svg;tls
+          EXTRA_PLATFORM_PLUGINS: libqwayland.so
+          QMAKE: qmake6
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          DESTDIR="$DESTDIR" cmake --install build/copyq/${{ matrix.cmake_preset }}
+
+          # Bundle KF6 KWindowSystem platform plugins. These are loaded at
+          # runtime via QPluginLoader, so linuxdeploy-plugin-qt doesn't detect
+          # them. Without them KWindowSystem logs:
+          #   "Could not find any platform plugin"
+          kws_src="$(qmake6 -query QT_INSTALL_PLUGINS)/kf6/kwindowsystem"
+          kws_dst="$DESTDIR/usr/plugins/kf6/kwindowsystem"
+          if [ -d "$kws_src" ]; then
+            mkdir -p "$kws_dst"
+            cp -a "$kws_src"/*.so "$kws_dst/"
+          fi
+
+          linuxdeploy --appdir "$DESTDIR" \
+            --desktop-file "$DESTDIR/usr/share/applications/com.github.hluk.copyq.desktop" \
+            --icon-file "$DESTDIR/usr/share/icons/hicolor/scalable/apps/copyq.svg" \
+            --executable "$DESTDIR/usr/bin/copyq" \
+            --plugin qt \
+            --output appimage
+
+      - name: Upload AppImage
+        if: matrix.appimage
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          path: CopyQ-*.AppImage
+          archive: false
+
+      - name: Smoke-test AppImage
+        if: matrix.appimage
+        run: APPIMAGE_EXTRACT_AND_RUN=1 "$APPIMAGE" --version
+        env:
+          APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
+
+      - name: Set up AppImage for tests
+        if: matrix.appimage
+        working-directory: >-
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        run: |
+          # Extract the AppImage to get the same filesystem layout as a FUSE
+          # mount. The binary uses RUNPATH=$ORIGIN/../lib for bundled libraries
+          # and APPDIR + compiled-in prefixes for plugins/translations/themes.
+          # Extraction is needed (instead of APPIMAGE_EXTRACT_AND_RUN) because
+          # the AppImage runtime's fork()+execv() does not forward signals,
+          # which breaks test-signals.sh (upstream: AppImageKit#1053).
+          "$APPIMAGE" --appimage-extract
+          ln -sf "$PWD/squashfs-root/usr/bin/copyq" ./copyq
+        env:
+          APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
+
+      - name: Test AppImage on X11
+        if: matrix.appimage
+        working-directory: >-
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        run: '${{github.workspace}}/utils/github/test-linux.sh'
+        env:
+          COPYQ_TESTS_EXECUTABLE: >-
+            ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/copyq
+          APPDIR: >-
+            ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/squashfs-root
 
       - name: Update coverage
         if: matrix.coverage
@@ -232,3 +363,21 @@ jobs:
           fail_ci_if_error: true
           verbose: true
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: 'CopyQ-*.AppImage'
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
+        with:
+          draft: true
+          files: 'CopyQ-*/*.AppImage'

@@ -35,6 +35,7 @@ private slots:
     void commandVersion();
     void badCommand();
     void badSessionName();
+    void commandSession();
 
     void commandCatchExceptions();
 

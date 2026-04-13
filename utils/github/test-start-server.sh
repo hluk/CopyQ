@@ -6,15 +6,18 @@
 export COPYQ_LOG_LEVEL=DEBUG
 export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false;qt.*.warning=true"
 
-./copyq &
+copyq="${COPYQ_TESTS_EXECUTABLE:-./copyq}"
+
+"$copyq" &
 copyq_pid=$!
 
 # Wait for server to start
-for i in {1..3}; do
+retries=3
+for i in {1..$retries}; do
     echo "Trying to start CopyQ server ($i)"
-    if ./copyq 'serverLog("Server started")'; then
+    if "$copyq" 'serverLog("Server started")'; then
         break
-    elif [[ $i == 5 ]]; then
+    elif [[ $i == $retries ]]; then
         echo "❌ FAILED: Could not start CopyQ server"
         exit 1
     fi
