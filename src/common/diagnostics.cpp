@@ -3,6 +3,7 @@
 #include "common/diagnostics.h"
 
 #include "common/audioplayer.h"
+#include "common/config.h"
 #include "common/log.h"
 #include "common/version.h"
 #include "item/serialize.h"
@@ -29,7 +30,7 @@ namespace {
 QString pluginsPath()
 {
 #ifdef COPYQ_PLUGIN_PREFIX
-    return QStringLiteral(COPYQ_PLUGIN_PREFIX);
+    return adjustedInstallPath(QStringLiteral(COPYQ_PLUGIN_PREFIX));
 #else
     QDir dir;
     if (platformNativeInterface()->findPluginDir(&dir))
@@ -41,7 +42,7 @@ QString pluginsPath()
 QString themesPath()
 {
 #ifdef COPYQ_THEME_PREFIX
-    return QStringLiteral(COPYQ_THEME_PREFIX);
+    return adjustedInstallPath(QStringLiteral(COPYQ_THEME_PREFIX));
 #else
     return platformNativeInterface()->themePrefix();
 #endif
@@ -50,7 +51,7 @@ QString themesPath()
 QString translationsPath()
 {
 #ifdef COPYQ_TRANSLATION_PREFIX
-    return QStringLiteral(COPYQ_TRANSLATION_PREFIX);
+    return adjustedInstallPath(QStringLiteral(COPYQ_TRANSLATION_PREFIX));
 #else
     return platformNativeInterface()->translationPrefix();
 #endif

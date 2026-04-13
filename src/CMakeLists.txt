@@ -134,6 +134,11 @@ foreach (copyq_qt_module ${copyq_qt_modules})
 endforeach()
 
 set_target_properties(copyq-common PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
+
+if(WITH_APPIMAGE)
+    target_compile_definitions(copyq-common PRIVATE COPYQ_WITH_APPIMAGE)
+    target_compile_definitions(${COPYQ_EXECUTABLE_NAME} PRIVATE COPYQ_WITH_APPIMAGE)
+endif()
 set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
 target_link_libraries(copyq-common ${copyq_LIBRARIES})
 target_link_libraries(${COPYQ_EXECUTABLE_NAME} ${copyq_LIBRARIES})

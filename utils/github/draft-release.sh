@@ -3,8 +3,9 @@
 # Drafts a GitHub release for the latest tag.
 #
 #
-# CI workflows (build-macos.yml, build-windows.yml) attach .dmg, .zip,
-# and .exe files to the draft release directly. This script adds: source
+# CI workflows (build-linux.yml, build-macos.yml, build-windows.yml) attach
+# .AppImage, .dmg, .zip, and .exe files to the draft release directly. This
+# script adds: source
 # tarball, checksums-sha512.txt, and cosign.bundle.
 #
 # Requirements:
@@ -86,7 +87,7 @@ if [[ -f "$source_tarball" ]]; then
 else
     log "Creating source tarball ..."
     git -C "$repo_root" archive --format=tar.gz \
-        --prefix="Copyq-$version/" --output="$source_tarball" "$tag"
+        --prefix="CopyQ-$version/" --output="$source_tarball" "$tag"
 fi
 
 log "Uploading source tarball to release $tag ..."
@@ -95,6 +96,7 @@ gh release upload "$tag" "$source_tarball" --clobber
 # wait for CI build artifacts on the release
 
 expected_assets=(
+    "CopyQ-${version}-x86_64.AppImage"
     "CopyQ-${version}-macos-12-m1.dmg"
     "CopyQ-${version}-macos-13.dmg"
     "copyq-${version}-setup.exe"
@@ -107,6 +109,15 @@ wait_for_builds() {
     if [[ -z "$tag_sha" ]]; then
         die "Could not resolve commit SHA for tag $tag"
     fi
+
+    log "Getting Linux build run for tag $tag (commit $tag_sha)..."
+    local linux_run
+    linux_run="$(gh run list --workflow build-linux.yml --commit "$tag_sha" --limit 1 --json databaseId --jq '.[0].databaseId // empty')"
+    if [[ -z "$linux_run" ]]; then
+        die "Could not find Linux build run for commit $tag_sha"
+    fi
+    log "Watching Linux build (run $linux_run)..."
+    gh run watch "$linux_run" --exit-status --interval 30 || die "Linux build failed"
 
     log "Getting macOS build run for tag $tag (commit $tag_sha)..."
     local macos_run
@@ -125,7 +136,7 @@ wait_for_builds() {
     fi
     log "Watching Windows build (run $windows_run)..."
     gh run watch "$windows_run" --exit-status --interval 30 || die "Windows build failed"
-    log "Both builds completed successfully"
+    log "All builds completed successfully"
 }
 
 has_all_assets() {

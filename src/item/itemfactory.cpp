@@ -38,7 +38,7 @@ namespace {
 bool findPluginDir(QDir *pluginsDir)
 {
 #ifdef COPYQ_PLUGIN_PREFIX
-    pluginsDir->setPath(COPYQ_PLUGIN_PREFIX);
+    pluginsDir->setPath(adjustedInstallPath(QStringLiteral(COPYQ_PLUGIN_PREFIX)));
     if ( pluginsDir->isReadable() )
         return true;
 #endif
@@ -467,7 +467,7 @@ ItemSaverPtr ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *
     return nullptr;
 }
 
-ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems)
+ItemSaverPtr ItemFactory::initializeTab(const QString &tabName, QAbstractItemModel *model, int maxItems) const
 {
     for (const auto &loader : m_loaders) {
         if ( loader->isEnabled() && loader->canSaveItems(tabName) ) {

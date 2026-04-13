@@ -211,7 +211,7 @@ QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 QString themePrefix()
 {
 #ifdef COPYQ_THEME_PREFIX
-    return COPYQ_THEME_PREFIX;
+    return adjustedInstallPath(QStringLiteral(COPYQ_THEME_PREFIX));
 #else
     return platformNativeInterface()->themePrefix();
 #endif

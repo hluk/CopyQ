@@ -203,6 +203,11 @@ void Tests::badSessionName()
     RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
 }
 
+void Tests::commandSession()
+{
+    RUN("--session" << sessionName << "eval" << "print(1)", "1");
+}
+
 void Tests::commandCatchExceptions()
 {
     RUN("try { removeTab('MISSING') } catch(e) { print(e) }",
