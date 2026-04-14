@@ -2,7 +2,6 @@
 
 #include "action.h"
 
-#include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/process.h"
 #include "common/processsignals.h"
@@ -27,8 +26,11 @@ void startProcess(QProcess *process, const QStringList &args, QIODevice::OpenMod
     QString executable = args.value(0);
 
     // Replace "copyq" command with full application path.
+    // Use applicationFilePath() (resolves to the binary inside the current
+    // FUSE mount for AppImages) so that child processes reuse the parent's
+    // mount instead of creating a new one.
     if (executable == "copyq")
-        executable = applicationExecutablePath();
+        executable = QCoreApplication::applicationFilePath();
 
     process->start(executable, args.mid(1), mode);
 }

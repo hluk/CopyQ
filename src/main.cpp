@@ -134,8 +134,8 @@ int startServer(int argc, char *argv[], QString sessionName)
 
 void startServerInBackground(const char *argv0, const QString &sessionName)
 {
-    // QCoreApplication is not yet instantiated, so applicationExecutablePath()
-    // cannot be used here. Duplicate its $APPIMAGE logic directly.
+    // QCoreApplication is not yet instantiated. Resolve the $APPIMAGE path
+    // directly so the detached server launches via the AppImage entry point.
 #ifdef COPYQ_WITH_APPIMAGE
     const QString appImage = qEnvironmentVariable("APPIMAGE");
     const QString executable = appImage.isEmpty() ? QString::fromUtf8(argv0) : appImage;
@@ -286,6 +286,16 @@ QByteArray logLabelForType(AppType appType, const QStringList &arguments)
 
 int startApplication(int argc, char **argv)
 {
+#ifdef COPYQ_WITH_APPIMAGE
+    // Override QT_PLUGIN_PATH so the bundled Qt plugins are used instead of
+    // any host-provided plugins (which may be linked against an incompatible
+    // Qt version).  The linuxdeploy AppRun sets APPDIR and LD_LIBRARY_PATH
+    // but does not handle Qt-specific env vars — qt.conf alone is not
+    // sufficient when the host session sets QT_PLUGIN_PATH.
+    if (const QByteArray appDir = qgetenv("APPDIR"); !appDir.isEmpty())
+        qputenv("QT_PLUGIN_PATH", appDir + "/usr/plugins");
+#endif
+
     setSessionName(QString());
 
     const AppArguments args = parseArguments(argc, argv);
@@ -318,6 +328,9 @@ int startApplication(int argc, char **argv)
     // If server hasn't been run yet and no argument were specified
     // then run this process as server.
     case AppType::Server:
+        // Set before QApplication construction so portal registration and
+        // taskbar icon matching use the correct app ID.
+        QGuiApplication::setDesktopFileName(QStringLiteral("com.github.hluk.copyq"));
         return startServer(argc, argv, args.sessionName);
 
     // If argument was specified and server is running

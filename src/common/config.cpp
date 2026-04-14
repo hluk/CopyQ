@@ -61,7 +61,7 @@ const QString &settingsDirectoryPath()
     return path;
 }
 
-QString applicationExecutablePath()
+QString applicationLaunchPath()
 {
 #ifdef COPYQ_WITH_APPIMAGE
     if (const QString appImage = qEnvironmentVariable("APPIMAGE"); !appImage.isEmpty())

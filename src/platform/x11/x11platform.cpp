@@ -78,8 +78,12 @@ QString getDesktopFilename()
     if ( QFile::exists(path) )
         return path;
 
+    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    const QString desktopName = sessionName.isEmpty()
+        ? QGuiApplication::desktopFileName()
+        : QStringLiteral("%1-%2").arg(QGuiApplication::desktopFileName(), sessionName);
     return QStringLiteral("%1/autostart/%2.desktop")
-        .arg( configDir, QGuiApplication::desktopFileName() );
+        .arg( configDir, desktopName );
 }
 #endif
 
@@ -217,7 +221,7 @@ void X11Platform::setAutostartEnabled(bool enable)
 #ifdef COPYQ_AUTOSTART_COMMAND
     QString cmd = COPYQ_AUTOSTART_COMMAND;
 #else
-    QString cmd = "\"" + applicationExecutablePath() + "\"";
+    QString cmd = "\"" + applicationLaunchPath() + "\"";
 #endif
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
     if ( !sessionName.isEmpty() )

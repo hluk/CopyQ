@@ -92,7 +92,7 @@ void setSessionName(const QString &sessionName)
 void initSession(QCoreApplication *app, const QString &sessionName)
 {
     qputenv("COPYQ_SESSION_NAME", sessionName.toLocal8Bit());
-    qputenv("COPYQ", applicationExecutablePath().toLocal8Bit());
+    qputenv("COPYQ", applicationLaunchPath().toLocal8Bit());
 
     const auto settingsPath = qEnvironmentVariable("COPYQ_SETTINGS_PATH");
     if ( !settingsPath.isEmpty() ) {

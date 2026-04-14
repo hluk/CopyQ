@@ -145,13 +145,10 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
 
     if ( sessionName.isEmpty() ) {
         QGuiApplication::setApplicationDisplayName(QStringLiteral("CopyQ"));
-        QGuiApplication::setDesktopFileName(QStringLiteral("com.github.hluk.copyq"));
     } else {
         log( QStringLiteral("Session: %1").arg(sessionName) );
         QGuiApplication::setApplicationDisplayName(
             QStringLiteral("CopyQ-%1").arg(sessionName));
-        QGuiApplication::setDesktopFileName(
-            QStringLiteral("com.github.hluk.copyq-%1").arg(sessionName));
     }
 
     QApplication::setQuitOnLastWindowClosed(false);
