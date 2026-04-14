@@ -13,11 +13,18 @@ QString getConfigurationFilePath(const char *suffix);
 const QString &settingsDirectoryPath();
 
 /**
- * Returns the path to the CopyQ executable. When built with AppImage support
- * and running inside an AppImage, returns the AppImage path ($APPIMAGE) so
- * that child processes go through the AppRun wrapper.
+ * Returns the path to launch CopyQ from outside the current process.
+ *
+ * Inside an AppImage, the running binary lives on a temporary FUSE mount
+ * (e.g. /tmp/.mount_CopyQXXXXXX/usr/bin/copyq) that disappears when the
+ * AppImage exits. Callers that persist the path -- the $COPYQ env var
+ * exported to user scripts, and the Exec= line in the autostart desktop
+ * file -- need the stable AppImage file path ($APPIMAGE) instead.
+ *
+ * When $APPIMAGE is unset (non-AppImage build or env var not propagated),
+ * falls back to QCoreApplication::applicationFilePath().
  */
-QString applicationExecutablePath();
+QString applicationLaunchPath();
 
 /**
  * Adjusts a compile-time install path for the runtime environment.

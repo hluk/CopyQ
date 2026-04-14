@@ -81,8 +81,6 @@ jobs:
             compiler_package: g++
             custom_qt: '6.10.2'
             with_native_notifications: false
-            test_wayland: true
-            test_gnome: true
             coverage: true
             cmake_preset: Debug
             compiler_flags: >-
@@ -91,6 +89,8 @@ jobs:
               -ftest-coverage
               -fprofile-abs-path
               -fprofile-update=atomic
+            test_wayland: true
+            test_gnome: true
             test_x11: true
 
           - os: ubuntu-latest
@@ -109,7 +109,8 @@ jobs:
             with_native_notifications: true
             cmake_preset: AppImage-Release
             appimage: true
-            test_x11: false
+            test_wayland: true
+            test_x11: true
     steps:
       - name: Checkout source code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v5
@@ -149,6 +150,7 @@ jobs:
             ${{ env.common_packages }}
             ${{ env.qt6_packages }}
             libkf6notifications-dev kf6-kstatusnotifieritem-dev
+            kwin-wayland kwin-wayland-backend-virtual libwayland-server0
 
       - name: Install dependencies
         if: '!matrix.appimage'
@@ -217,32 +219,9 @@ jobs:
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
 
-      - name: Test on GNOME
-        working-directory: >-
-          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
-        if: matrix.test_gnome
-        run: '${{github.workspace}}/utils/github/test-linux-gnome-extension.sh'
-        env:
-          COPYQ_TESTS_EXECUTABLE: >-
-            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
-
-      - name: Test on Wayland
-        working-directory: >-
-          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
-        if: matrix.test_wayland
-        run: '${{github.workspace}}/utils/github/test-linux-wayland.sh'
-        env:
-          COPYQ_TESTS_EXECUTABLE: >-
-            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
-
-      - name: Test on X11
-        working-directory: >-
-          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
-        if: matrix.test_x11 != false
-        run: '${{github.workspace}}/utils/github/test-linux.sh'
-        env:
-          COPYQ_TESTS_EXECUTABLE: >-
-            ${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq
+      - name: Set up test environment
+        run: |
+          echo "COPYQ_TESTS_EXECUTABLE=${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq" >> "$GITHUB_ENV"
 
       - name: Set up AppImage tools
         if: matrix.appimage
@@ -280,16 +259,23 @@ jobs:
         run: |
           DESTDIR="$DESTDIR" cmake --install build/copyq/${{ matrix.cmake_preset }}
 
-          # Bundle KF6 KWindowSystem platform plugins. These are loaded at
-          # runtime via QPluginLoader, so linuxdeploy-plugin-qt doesn't detect
-          # them. Without them KWindowSystem logs:
-          #   "Could not find any platform plugin"
-          kws_src="$(qmake6 -query QT_INSTALL_PLUGINS)/kf6/kwindowsystem"
-          kws_dst="$DESTDIR/usr/plugins/kf6/kwindowsystem"
-          if [ -d "$kws_src" ]; then
-            mkdir -p "$kws_dst"
-            cp -a "$kws_src"/*.so "$kws_dst/"
-          fi
+          # Bundle Qt plugin directories that linuxdeploy-plugin-qt does not
+          # detect automatically.  Pre-placing them lets linuxdeploy resolve
+          # their shared-library dependencies (libQt6WaylandClient, etc.).
+          qt_plugins="$(qmake6 -query QT_INSTALL_PLUGINS)"
+          for dir in \
+              kf6/kwindowsystem \
+              wayland-shell-integration \
+              wayland-decoration-client \
+              wayland-graphics-integration-client \
+          ; do
+              src="$qt_plugins/$dir"
+              dst="$DESTDIR/usr/plugins/$dir"
+              if [ -d "$src" ]; then
+                  mkdir -p "$dst"
+                  cp -a "$src"/*.so "$dst/"
+              fi
+          done
 
           linuxdeploy --appdir "$DESTDIR" \
             --desktop-file "$DESTDIR/usr/share/applications/com.github.hluk.copyq.desktop" \
@@ -324,19 +310,28 @@ jobs:
           # which breaks test-signals.sh (upstream: AppImageKit#1053).
           "$APPIMAGE" --appimage-extract
           ln -sf "$PWD/squashfs-root/usr/bin/copyq" ./copyq
+          echo "COPYQ_TESTS_EXECUTABLE=$PWD/copyq" >> "$GITHUB_ENV"
+          echo "APPDIR=$PWD/squashfs-root" >> "$GITHUB_ENV"
         env:
           APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
 
-      - name: Test AppImage on X11
-        if: matrix.appimage
+      - name: Test on GNOME
         working-directory: >-
           ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_gnome
+        run: '${{github.workspace}}/utils/github/test-linux-gnome-extension.sh'
+
+      - name: Test on Wayland
+        working-directory: >-
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_wayland
+        run: '${{github.workspace}}/utils/github/test-linux-wayland.sh'
+
+      - name: Test on X11
+        working-directory: >-
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_x11
         run: '${{github.workspace}}/utils/github/test-linux.sh'
-        env:
-          COPYQ_TESTS_EXECUTABLE: >-
-            ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/copyq
-          APPDIR: >-
-            ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/squashfs-root
 
       - name: Update coverage
         if: matrix.coverage
