@@ -7,10 +7,10 @@ export COPYQ_SESSION_NAME=__COPYQ_SHORTCUT
 source "$(dirname "$0")/test-start-server.sh"
 trap "kill $copyq_pid || true" QUIT TERM INT HUP EXIT
 
-./copyq removeTab TEST || true
+"$copyq" removeTab TEST || true
 
 # register Ctrl+Alt+T to exit CopyQ
-./copyq - <<EOF
+"$copyq" - <<EOF
 setCommands(
     [
         {
@@ -35,7 +35,7 @@ trigger_shortcut() {
 
 trigger_shortcut
 
-if [[ $(./copyq tab TEST count) == 1 ]]; then
+if [[ $("$copyq" tab TEST count) == 1 ]]; then
     echo "✅ PASSED: Global shortcut registered: Command executed"
 else
     echo "❌ FAILED: Global shortcut registered: Command not executed"
@@ -43,10 +43,10 @@ else
 fi
 
 # Unregister the shortcut
-./copyq 'setCommands([])'
+"$copyq" 'setCommands([])'
 trigger_shortcut
 
-if [[ $(./copyq tab TEST count) == 1 ]]; then
+if [[ $("$copyq" tab TEST count) == 1 ]]; then
     echo "✅ PASSED: Global shortcut unregistered: Command not executed"
 else
     echo "❌ FAILED: Global shortcut unregistered: Command executed"
