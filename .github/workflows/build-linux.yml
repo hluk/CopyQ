@@ -264,10 +264,10 @@ jobs:
         run: |
           DESTDIR="$DESTDIR" cmake --install build/copyq/${{ matrix.cmake_preset }}
 
-          # Bundle Qt plugin directories that linuxdeploy-plugin-qt does not
-          # detect automatically.  Pre-placing them lets linuxdeploy resolve
-          # their shared-library dependencies (libQt6WaylandClient, etc.).
+          # Bundle Qt/KF6 plugin directories that linuxdeploy-plugin-qt does
+          # not detect automatically.
           qt_plugins="$(qmake6 -query QT_INSTALL_PLUGINS)"
+          deps_only_flags=()
           for dir in \
               kf6/kwindowsystem \
               wayland-shell-integration \
@@ -279,12 +279,12 @@ jobs:
               if [ -d "$src" ]; then
                   mkdir -p "$dst"
                   cp -a "$src"/*.so "$dst/"
+                  deps_only_flags+=(--deploy-deps-only "$dst")
               fi
           done
 
           # Bundle QCA ossl plugin.  Its location varies across distros
-          # (e.g. lib/qca-qt6/crypto, lib64/qt6/plugins/crypto).  Search
-          # common prefixes so linuxdeploy resolves its dependencies.
+          # (e.g. lib/qca-qt6/crypto, lib64/qt6/plugins/crypto).
           mkdir -p "$DESTDIR/usr/plugins/crypto"
           qca_ossl=$(find /usr/lib /usr/lib64 /usr/lib/x86_64-linux-gnu \
               -name 'libqca-ossl.so' -print -quit 2>/dev/null)
@@ -294,11 +294,13 @@ jobs:
           fi
           echo "Found QCA ossl plugin: $qca_ossl"
           cp -a "$qca_ossl" "$DESTDIR/usr/plugins/crypto/"
+          deps_only_flags+=(--deploy-deps-only "$DESTDIR/usr/plugins/crypto")
 
           linuxdeploy --appdir "$DESTDIR" \
             --desktop-file "$DESTDIR/usr/share/applications/com.github.hluk.copyq.desktop" \
             --icon-file "$DESTDIR/usr/share/icons/hicolor/scalable/apps/copyq.svg" \
             --executable "$DESTDIR/usr/bin/copyq" \
+            "${deps_only_flags[@]}" \
             --plugin qt \
             --output appimage
 
@@ -317,14 +319,7 @@ jobs:
 
       - name: Set up AppImage for tests
         if: matrix.appimage
-        working-directory: >-
-          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: |
-          # Symlink ./copyq to the AppImage so test scripts that reference
-          # ./copyq (e.g. test-linux-global-shortcuts.sh) run through it.
-          # FUSE is available (libfuse2t64 installed above), so the AppImage
-          # runs natively — no extraction, no signal-forwarding issues.
-          ln -sf "$APPIMAGE" ./copyq
           echo "COPYQ_TESTS_EXECUTABLE=$APPIMAGE" >> "$GITHUB_ENV"
         env:
           APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
@@ -344,8 +339,25 @@ jobs:
       - name: Test on X11
         working-directory: >-
           ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
-        if: matrix.test_x11
+        if: matrix.test_x11 && !matrix.appimage
         run: '${{github.workspace}}/utils/github/test-linux.sh'
+
+      - name: Test on X11 (AppImage)
+        working-directory: >-
+          ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
+        if: matrix.test_x11 && matrix.appimage
+        run: |
+          ${{github.workspace}}/utils/github/test-linux.sh \
+            clipboardToItem \
+            itemToClipboard \
+            commandClipboard \
+            commandHasClipboardFormat \
+            tabEncryption \
+            tabEncryptionPasswordNew \
+            tabEncryptionPasswordCurrent \
+            expireEncryptionPassword
+
+          ${{github.workspace}}/utils/github/test-linux.sh PLUGINS:encrypted
 
       - name: Update coverage
         if: matrix.coverage
