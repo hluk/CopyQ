@@ -264,6 +264,7 @@ jobs:
           # their shared-library dependencies (libQt6WaylandClient, etc.).
           qt_plugins="$(qmake6 -query QT_INSTALL_PLUGINS)"
           for dir in \
+              crypto \
               kf6/kwindowsystem \
               wayland-shell-integration \
               wayland-decoration-client \
