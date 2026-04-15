@@ -155,6 +155,7 @@ jobs:
             ${{ env.qt6_packages }}
             libkf6notifications-dev kf6-kstatusnotifieritem-dev
             kwin-wayland kwin-wayland-backend-virtual libwayland-server0
+            libfuse2t64
 
       - name: Install dependencies
         if: '!matrix.appimage'
@@ -297,7 +298,7 @@ jobs:
 
       - name: Smoke-test AppImage
         if: matrix.appimage
-        run: APPIMAGE_EXTRACT_AND_RUN=1 "$APPIMAGE" --version
+        run: '"$APPIMAGE" --version'
         env:
           APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
 
@@ -306,16 +307,12 @@ jobs:
         working-directory: >-
           ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}
         run: |
-          # Extract the AppImage to get the same filesystem layout as a FUSE
-          # mount. The binary uses RUNPATH=$ORIGIN/../lib for bundled libraries
-          # and APPDIR + compiled-in prefixes for plugins/translations/themes.
-          # Extraction is needed (instead of APPIMAGE_EXTRACT_AND_RUN) because
-          # the AppImage runtime's fork()+execv() does not forward signals,
-          # which breaks test-signals.sh (upstream: AppImageKit#1053).
-          "$APPIMAGE" --appimage-extract
-          ln -sf "$PWD/squashfs-root/usr/bin/copyq" ./copyq
-          echo "COPYQ_TESTS_EXECUTABLE=$PWD/copyq" >> "$GITHUB_ENV"
-          echo "APPDIR=$PWD/squashfs-root" >> "$GITHUB_ENV"
+          # Symlink ./copyq to the AppImage so test scripts that reference
+          # ./copyq (e.g. test-linux-global-shortcuts.sh) run through it.
+          # FUSE is available (libfuse2t64 installed above), so the AppImage
+          # runs natively — no extraction, no signal-forwarding issues.
+          ln -sf "$APPIMAGE" ./copyq
+          echo "COPYQ_TESTS_EXECUTABLE=$APPIMAGE" >> "$GITHUB_ENV"
         env:
           APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
 
