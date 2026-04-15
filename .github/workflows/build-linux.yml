@@ -134,8 +134,12 @@ jobs:
       - name: Set up KDE Neon repo for KF6 packages
         if: matrix.appimage
         run: |
-          wget -qO - https://archive.neon.kde.org/public.key |
-            sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg
+          key=$(mktemp)
+          curl --fail --show-error --silent --location \
+            --retry 3 --retry-delay 5 --retry-all-errors \
+            -o "$key" https://archive.neon.kde.org/public.key
+          sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg "$key"
+          rm -f "$key"
           echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
             sudo tee /etc/apt/sources.list.d/neon.list
           sudo apt-get update
