@@ -58,9 +58,10 @@ bool initializeQCA()
 {
     qCDebug(logCategory) << "Initializing QCA";
 
-#ifdef Q_OS_MACOS
-    // Disable automatic QCA plugin loading to prevent loading Homebrew plugins
-    // which would cause crashes due to ABI mismatches
+#ifdef COPYQ_QCA_PLUGIN_RELATIVE_PATH
+    // Disable automatic QCA plugin loading to prevent loading host plugins
+    // which would cause ABI mismatches (macOS) or make AppImage tests
+    // pass without actually testing the bundled plugin.
     qputenv("QCA_NO_PLUGINS", "1");
     qCDebug(logCategory) << "Disabled automatic QCA plugin loading (QCA_NO_PLUGINS=1)";
 #endif
@@ -69,14 +70,16 @@ bool initializeQCA()
     static auto qcaInit = new QCA::Initializer();
     Q_UNUSED(qcaInit);
 
-#ifdef Q_OS_MACOS
-    // Manually load the bundled ossl plugin since we disabled automatic loading
+#ifdef COPYQ_QCA_PLUGIN_RELATIVE_PATH
+    // Manually load the bundled ossl plugin since we disabled automatic loading.
     const QString appDir = QCoreApplication::applicationDirPath();
-    const QString osslPluginPath = appDir + "/../PlugIns/crypto/libqca-ossl.dylib";
+    const QString osslPluginPath =
+        appDir + QStringLiteral(COPYQ_QCA_PLUGIN_RELATIVE_PATH);
 
     QPluginLoader pluginLoader(osslPluginPath);
     if (!pluginLoader.load()) {
-        qCCritical(logCategory) << "Failed to load bundled ossl plugin:" << pluginLoader.errorString();
+        qCCritical(logCategory) << "Failed to load bundled ossl plugin:"
+                                << pluginLoader.errorString();
         return false;
     }
 
@@ -88,23 +91,27 @@ bool initializeQCA()
 
     QCAPlugin *qcaPlugin = qobject_cast<QCAPlugin*>(plugin);
     if (!qcaPlugin) {
-        qCCritical(logCategory) << "Plugin does not implement QCAPlugin interface";
+        qCCritical(logCategory)
+            << "Plugin does not implement QCAPlugin interface";
         return false;
     }
 
     QCA::Provider *provider = qcaPlugin->createProvider();
     if (!provider) {
-        qCCritical(logCategory) << "Failed to create provider from plugin";
+        qCCritical(logCategory)
+            << "Failed to create provider from plugin";
         return false;
     }
 
     if (!QCA::insertProvider(provider)) {
-        qCCritical(logCategory) << "Failed to insert provider into QCA";
+        qCCritical(logCategory)
+            << "Failed to insert provider into QCA";
         delete provider;
         return false;
     }
 
-    qCDebug(logCategory) << "Successfully loaded bundled ossl plugin:" << provider->name();
+    qCDebug(logCategory)
+        << "Successfully loaded bundled ossl plugin:" << provider->name();
 #endif
 
     if ( !QCA::isSupported(encryptionCipher.data()) ) {
