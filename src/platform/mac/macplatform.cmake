@@ -46,6 +46,8 @@ if (WITH_QCA_ENCRYPTION)
         endif()
     endforeach()
 
+    set(QCA_OSSL_RELATIVE_PATH "/../PlugIns/crypto/libqca-ossl.dylib")
+
     if(NOT QCA_OSSL_PLUGIN_FOUND)
         message(FATAL_ERROR "QCA ossl plugin (libqca-ossl.dylib) not found. Searched paths: ${QCA_PLUGIN_SEARCH_PATHS}")
     endif()

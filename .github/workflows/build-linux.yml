@@ -282,6 +282,19 @@ jobs:
               fi
           done
 
+          # Bundle QCA ossl plugin.  Its location varies across distros
+          # (e.g. lib/qca-qt6/crypto, lib64/qt6/plugins/crypto).  Search
+          # common prefixes so linuxdeploy resolves its dependencies.
+          mkdir -p "$DESTDIR/usr/plugins/crypto"
+          qca_ossl=$(find /usr/lib /usr/lib64 /usr/lib/x86_64-linux-gnu \
+              -name 'libqca-ossl.so' -print -quit 2>/dev/null)
+          if [ -z "$qca_ossl" ]; then
+              echo "::error::QCA ossl plugin (libqca-ossl.so) not found"
+              exit 1
+          fi
+          echo "Found QCA ossl plugin: $qca_ossl"
+          cp -a "$qca_ossl" "$DESTDIR/usr/plugins/crypto/"
+
           linuxdeploy --appdir "$DESTDIR" \
             --desktop-file "$DESTDIR/usr/share/applications/com.github.hluk.copyq.desktop" \
             --icon-file "$DESTDIR/usr/share/icons/hicolor/scalable/apps/copyq.svg" \

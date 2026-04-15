@@ -137,7 +137,13 @@ set_target_properties(copyq-common PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFIN
 
 if(WITH_APPIMAGE)
     target_compile_definitions(copyq-common PRIVATE COPYQ_WITH_APPIMAGE)
+    set(QCA_OSSL_RELATIVE_PATH "/../plugins/crypto/libqca-ossl.so")
     target_compile_definitions(${COPYQ_EXECUTABLE_NAME} PRIVATE COPYQ_WITH_APPIMAGE)
+endif()
+
+if(QCA_OSSL_RELATIVE_PATH)
+    target_compile_definitions(copyq-common PRIVATE
+        COPYQ_QCA_PLUGIN_RELATIVE_PATH="${QCA_OSSL_RELATIVE_PATH}")
 endif()
 set_target_properties(${COPYQ_EXECUTABLE_NAME} PROPERTIES LINK_FLAGS "${copyq_LINK_FLAGS}")
 target_link_libraries(copyq-common ${copyq_LIBRARIES})
