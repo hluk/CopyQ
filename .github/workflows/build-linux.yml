@@ -41,8 +41,6 @@ env:
     libqt6svg6-dev
     libqt6svg6
 
-    libkf6guiaddons-dev
-
     libqt6waylandclient6
     qt6-wayland
     qt6-wayland-dev
@@ -53,6 +51,10 @@ env:
     libqca-qt6-plugins
 
     qtkeychain-qt6-dev
+  test_wayland_packages: >-
+    kwin-wayland
+    kwin-wayland-backend-virtual
+    libwayland-server0
 
   QCA_VERSION: '2.3.10'
   QTKEYCHAIN_VERSION: '0.15.0'
@@ -81,6 +83,7 @@ jobs:
             compiler_package: g++
             custom_qt: '6.10.2'
             with_native_notifications: false
+            with_kf6_wayland_clipboard: false
             coverage: true
             cmake_preset: Debug
             compiler_flags: >-
@@ -98,6 +101,7 @@ jobs:
             compiler: clang++
             compiler_package: clang
             with_native_notifications: false
+            with_kf6_wayland_clipboard: false
             cmake_preset: Debug
             test_x11: true
 
@@ -107,6 +111,7 @@ jobs:
             compiler: g++
             compiler_package: g++
             with_native_notifications: true
+            with_kf6_wayland_clipboard: true
             cmake_preset: AppImage-Release
             appimage: true
             test_wayland: true
@@ -132,45 +137,30 @@ jobs:
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
       - name: Set up KDE Neon repo for KF6 packages
-        if: matrix.appimage
+        if: matrix.with_native_notifications || matrix.with_kf6_wayland_clipboard
         run: |
-          key=$(mktemp)
-          curl --fail --show-error --silent --location \
-            --retry 3 --retry-delay 5 --retry-all-errors \
-            -o "$key" https://archive.neon.kde.org/public.key
-          sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg "$key"
-          rm -f "$key"
+          sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg \
+            utils/github/kde-neon-public.key
           echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
             sudo tee /etc/apt/sources.list.d/neon.list
-          sudo apt-get update
-
-      - name: Install dependencies (AppImage)
-        if: matrix.appimage
-        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
-        with:
-          version: 1.0
-          packages: >-
-            ${{ matrix.compiler_package }}
-            ${{ env.common_packages }}
-            ${{ env.qt6_packages }}
-            libkf6notifications-dev kf6-kstatusnotifieritem-dev
-            kwin-wayland kwin-wayland-backend-virtual libwayland-server0
-            libfuse2t64
 
       - name: Install dependencies
-        if: '!matrix.appimage'
-        uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1
-        with:
-          version: 1.0
-          packages: >-
+        env:
+          PACKAGES: >-
             ${{ matrix.compiler_package }}
             ${{ env.common_packages }}
             ${{ !matrix.custom_qt && env.qt6_packages || '' }}
             ${{ matrix.coverage && 'lcov' || '' }}
-            ${{ matrix.test_wayland && 'kwin-wayland kwin-wayland-backend-virtual libwayland-server0' || '' }}
+            ${{ matrix.test_wayland && env.test_wayland_packages || '' }}
             ${{ matrix.custom_qt && 'libssl-dev libsecret-1-dev pkg-config' || '' }}
             ${{ matrix.coverage && 'procps' || '' }}
             ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
+            ${{ matrix.with_native_notifications && 'libkf6notifications-dev kf6-kstatusnotifieritem-dev' || '' }}
+            ${{ matrix.with_kf6_wayland_clipboard && 'libkf6guiaddons-dev' || '' }}
+            ${{ matrix.appimage && 'libfuse2t64' || '' }}
+        run: |
+          sudo apt-get update
+          echo "$PACKAGES" | xargs sudo apt-get install -y --no-install-recommends
 
       - name: Install Qt
         if: matrix.custom_qt
@@ -398,7 +388,9 @@ jobs:
           pattern: 'CopyQ-*.AppImage'
 
       - name: Upload to release
-        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
-        with:
-          draft: true
-          files: 'CopyQ-*/*.AppImage'
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --notes "" 2>/dev/null || true
+          gh release upload "$GITHUB_REF_NAME" CopyQ-*/*.AppImage --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}

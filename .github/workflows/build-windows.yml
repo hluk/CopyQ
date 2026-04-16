@@ -231,9 +231,9 @@ jobs:
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
 
       - name: Upload to release
-        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2
-        with:
-          draft: true
-          files: |
-            copyq-*/*.zip
-            copyq-*/*.exe
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --notes "" 2>/dev/null || true
+          gh release upload "$GITHUB_REF_NAME" copyq-*/*.zip copyq-*/*.exe --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
