@@ -262,6 +262,23 @@ void Tests::copyItems()
     RUN("size", "6\n");
 }
 
+void Tests::copyItemsNullCharacter()
+{
+    // Items with embedded null characters should have nulls stripped
+    // when concatenated for the clipboard (GitHub issue #3515).
+    const auto tab = QString(clipboardTabName);
+    RUN("write(0,"
+        "{'text/plain': 'A' + String.fromCharCode(0) + 'B'},"
+        "{'text/plain': 'CD'})", "");
+
+    // Select and copy all items.
+    KEYS("CTRL+A" << keyNameFor(QKeySequence::Copy));
+
+    // Clipboard should contain both items without null characters.
+    WAIT_ON_OUTPUT("clipboard", "CD\nAB");
+}
+
+
 void Tests::selectAndCopyOrder()
 {
     const auto tab = testTab(1);

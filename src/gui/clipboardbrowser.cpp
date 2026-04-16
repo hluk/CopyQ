@@ -129,7 +129,11 @@ void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *li
 
     if ( !lines->isEmpty() )
         lines->append('\n');
-    lines->append(text.toUtf8());
+    // Remove null characters to avoid truncating concatenated text
+    // when pasted into applications that treat '\0' as string terminator.
+    auto utf8 = text.toUtf8();
+    utf8.replace('\0', "");
+    lines->append(utf8);
 }
 
 void moveIndexes(QList<QPersistentModelIndex> &indexesToMove, int targetRow, ClipboardModel *model, MoveType moveType)
@@ -1797,8 +1801,11 @@ const QString ClipboardBrowser::selectedText() const
 {
     QString result;
 
-    for ( const auto &ind : selectionModel()->selectedIndexes() )
-        result += ind.data(Qt::EditRole).toString() + QString('\n');
+    for ( const auto &ind : selectionModel()->selectedIndexes() ) {
+        auto text = ind.data(Qt::EditRole).toString();
+        text.remove(QChar('\0'));
+        result += text + QString('\n');
+    }
     result.chop(1);
 
     return result;
