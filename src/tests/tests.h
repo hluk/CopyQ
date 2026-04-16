@@ -181,6 +181,7 @@ private slots:
     void searchManyItems();
     void copyItems();
     void selectAndCopyOrder();
+    void copyItemsNullCharacter();
 
     void sortAndReverse();
 
