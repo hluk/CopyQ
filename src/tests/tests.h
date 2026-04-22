@@ -337,6 +337,13 @@ private slots:
 
     void slowClipboard();
     void clipboardUriList();
+    void clipboardMimeSizeLimit();
+    void clipboardMimeSizeLimitConfig();
+    void clipboardMimeSizeLimitSuffixes();
+    void clipboardMimeSizeLimitNoLimit();
+    void clipboardMimeSizeLimitInvalidRules();
+    void clipboardMimeSizeLimitRulePriority();
+    void clipboardMimeSizeLimitBlockedFormats();
 
     void handleUnexpectedTypes();
 

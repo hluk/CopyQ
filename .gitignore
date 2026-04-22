@@ -63,3 +63,4 @@ CMakeLists.txt.user*
 # Files for utils/launchpad/build.sh
 .gitconfig
 launchpad.key
+compile_commands.json

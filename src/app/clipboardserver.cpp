@@ -777,6 +777,9 @@ void ClipboardServer::loadSettings(AppConfig *appConfig)
         return;
 
     m_loadingSettings = true;
+
+    const int gen = qApp->property("CopyQ_config_generation").toInt();
+    qApp->setProperty("CopyQ_config_generation", gen + 1);
     COPYQ_LOG("Loading configuration");
 
     QSettings &settings = appConfig->settings();

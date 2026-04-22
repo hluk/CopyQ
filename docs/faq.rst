@@ -210,6 +210,34 @@ On Windows (in PowerShell):
     echo "Logs will be written to $env:COPYQ_LOG_FILE"
     & 'C:\Program Files\CopyQ\copyq.exe'
 
+.. _faq-clipboard-size-limits:
+
+How to limit clipboard data size?
+---------------------------------
+
+Set the ``COPYQ_CLIPBOARD_MIME_SIZE_LIMIT`` environment variable to control the
+maximum size of clipboard data that CopyQ will store. The value is a
+semicolon-delimited list of ``pattern:bytes`` entries, where each pattern is a
+regular expression matched against the MIME type. The byte value supports
+``K``, ``M``, and ``G`` suffixes (case-insensitive, binary units: 1K = 1024).
+The first matching rule wins.
+
+For example::
+
+    COPYQ_CLIPBOARD_MIME_SIZE_LIMIT="text/html.*:0;.*:100M"
+
+This skips HTML data entirely and limits everything else to 100 MiB.
+The built-in default limits all MIME types to 100 MiB. Custom rules replace
+the default only when at least one valid rule is parsed; otherwise the default
+applies. Set ``.*:-1`` to disable all limits.
+
+The same format can also be set from the CopyQ scripting API::
+
+    copyq config clipboard_mime_size_limit "text/html.*:0;.*:100M"
+
+The environment variable takes precedence over the ``config`` option. If both
+are set, the environment variable value is used.
+
 How to preserve the order of copied items when copying or pasting multiple items?
 ---------------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@
 #include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/log.h"
+#include "common/appconfig.h"
 #include "common/mimetypes.h"
 #include "common/textdata.h"
 
@@ -11,6 +12,11 @@
 #include <QObject>
 #include <QUrl>
 #include <QCoreApplication>
+
+#include <QRegularExpression>
+
+#include <limits>
+#include <new>
 
 namespace {
 
@@ -25,6 +31,107 @@ const QMimeData *dummyMimeData()
 {
     static QMimeData mimeData;
     return &mimeData;
+}
+
+struct MimeSizeRule {
+    QRegularExpression pattern;
+    qint64 maxBytes;
+};
+
+QRegularExpression anchoredMimePattern(const QString &pattern)
+{
+    return QRegularExpression(QRegularExpression::anchoredPattern(pattern));
+}
+
+qint64 parseByteSize(const QString &str, bool *ok)
+{
+    const QStringView s = QStringView(str).trimmed();
+    if (s.isEmpty()) {
+        *ok = false;
+        return 0;
+    }
+
+    const QChar last = s.last();
+    qint64 multiplier = 1;
+    QStringView num = s;
+
+    if (last.toUpper() == QLatin1Char('K')) {
+        multiplier = 1024LL;
+        num = s.chopped(1);
+    } else if (last.toUpper() == QLatin1Char('M')) {
+        multiplier = 1024LL * 1024;
+        num = s.chopped(1);
+    } else if (last.toUpper() == QLatin1Char('G')) {
+        multiplier = 1024LL * 1024 * 1024;
+        num = s.chopped(1);
+    }
+
+    const qint64 value = num.toLongLong(ok);
+    if (!*ok)
+        return 0;
+    // Negative means "no limit", consistent with maxBytesForMime() returning -1.
+    if (value < 0)
+        return value;
+    if (multiplier > 1 && value > std::numeric_limits<qint64>::max() / multiplier)
+        return -1; // overflow → treat as no limit
+    return value * multiplier;
+}
+
+QList<MimeSizeRule> mimeSizeRules()
+{
+    QList<MimeSizeRule> result;
+
+    // Env var takes precedence over config option.
+    QString spec = qEnvironmentVariable("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
+    if (spec.isEmpty()) {
+        AppConfig appConfig;
+        spec = appConfig.option<Config::clipboard_mime_size_limit>();
+    }
+
+    if (!spec.isEmpty()) {
+        const auto entries = spec.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+        for (const auto &entry : entries) {
+            const int sep = entry.lastIndexOf(QLatin1Char(':'));
+            if (sep <= 0)
+                continue;
+            const QString pattern = entry.left(sep).trimmed();
+            bool ok = false;
+            const qint64 bytes = parseByteSize(entry.mid(sep + 1), &ok);
+            if (!ok)
+                continue;
+            QRegularExpression re = anchoredMimePattern(pattern);
+            if (re.isValid())
+                result.append({std::move(re), bytes});
+        }
+        if (!result.isEmpty())
+            return result;
+        log(QStringLiteral("clipboard_mime_size_limit: no valid rules in \"%1\", using default (.*:100M)").arg(spec), LogWarning);
+    }
+
+    // Built-in default: limit everything to 100 MiB.
+    // To disable, set `.*:-1`.
+    return {
+        {anchoredMimePattern(QStringLiteral(".*")), 100 * 1024 * 1024LL},
+    };
+}
+
+// Returns -1 when no rule matches (no limit).
+qint64 maxBytesForMime(const QString &mime)
+{
+    static int cachedGeneration = -1;
+    static QList<MimeSizeRule> rules;
+
+    const int generation = qApp ? qApp->property("CopyQ_config_generation").toInt() : 0;
+    if (generation != cachedGeneration) {
+        cachedGeneration = generation;
+        rules = mimeSizeRules();
+    }
+
+    for (const auto &rule : rules) {
+        if (rule.pattern.match(mime).hasMatch())
+            return rule.maxBytes;
+    }
+    return -1;
 }
 
 class ElapsedGuard {
@@ -87,19 +194,57 @@ bool ClipboardDataGuard::hasFormat(const QString &mime)
 QByteArray ClipboardDataGuard::data(const QString &mime)
 {
     ElapsedGuard _(QStringLiteral("data"), mime);
-    return mimeData()->data(mime);
+
+    const qint64 maxBytes = maxBytesForMime(mime);
+    if (maxBytes == 0)
+        return {};
+
+    const QMimeData *md = mimeData();
+    QByteArray bytes;
+    try {
+        bytes = md->data(mime);
+    } catch (const std::bad_alloc &) {
+        log(QStringLiteral("Out of memory reading clipboard data for %1").arg(mime), LogError);
+        return {};
+    }
+
+    if (maxBytes > 0 && bytes.size() > maxBytes) {
+        log( QStringLiteral("Skipping oversized clipboard data for %1: %2 bytes (limit: %3)")
+            .arg(mime).arg(bytes.size()).arg(maxBytes), LogNote );
+        return {};
+    }
+
+    return bytes;
 }
 
 QList<QUrl> ClipboardDataGuard::urls()
 {
     ElapsedGuard _(QString(), QStringLiteral("urls"));
-    return mimeData()->urls();
+    const qint64 maxBytes = maxBytesForMime(mimeUriList);
+    if (maxBytes == 0)
+        return {};
+    const QMimeData *md = mimeData();
+    try {
+        return md->urls();
+    } catch (const std::bad_alloc &) {
+        log(QStringLiteral("Out of memory reading clipboard URLs"), LogError);
+        return {};
+    }
 }
 
 QString ClipboardDataGuard::text()
 {
     ElapsedGuard _(QString(), QStringLiteral("text"));
-    return mimeData()->text();
+    const qint64 maxBytes = maxBytesForMime(mimeText);
+    if (maxBytes == 0)
+        return {};
+    const QMimeData *md = mimeData();
+    try {
+        return md->text();
+    } catch (const std::bad_alloc &) {
+        log(QStringLiteral("Out of memory reading clipboard text"), LogError);
+        return {};
+    }
 }
 
 bool ClipboardDataGuard::hasText()
@@ -112,15 +257,34 @@ QImage ClipboardDataGuard::getImageData()
 {
     ElapsedGuard _(QString(), QStringLiteral("imageData"));
 
-    // NOTE: Application hangs if using multiple sessions and
-    //       calling QMimeData::hasImage() on X11 clipboard.
-    QImage image = mimeData()->imageData().value<QImage>();
+    const qint64 maxBytes = maxBytesForMime(QStringLiteral("image/png"));
+    if (maxBytes == 0)
+        return {};
+
+    const QMimeData *md = mimeData();
+    QImage image;
+    try {
+        // NOTE: Application hangs if using multiple sessions and
+        //       calling QMimeData::hasImage() on X11 clipboard.
+        image = md->imageData().value<QImage>();
+    } catch (const std::bad_alloc &) {
+        log(QStringLiteral("Out of memory reading clipboard image data"), LogError);
+        return {};
+    }
+
     if ( image.isNull() ) {
         image.loadFromData( data(QStringLiteral("image/png")), "png" );
         if ( image.isNull() ) {
             image.loadFromData( data(QStringLiteral("image/bmp")), "bmp" );
         }
     }
+
+    if (maxBytes > 0 && !image.isNull() && image.sizeInBytes() > maxBytes) {
+        log( QStringLiteral("Skipping oversized image data: %1 bytes (limit: %2)")
+            .arg(image.sizeInBytes()).arg(maxBytes), LogNote );
+        return {};
+    }
+
     COPYQ_LOG_VERBOSE(
         QStringLiteral("Image is %1")
         .arg(image.isNull() ? QStringLiteral("invalid") : QStringLiteral("valid")) );
@@ -131,23 +295,38 @@ QByteArray ClipboardDataGuard::getUtf8Data(const QString &format)
 {
     ElapsedGuard _(QStringLiteral("UTF8"), format);
 
-    if (format == mimeUriList) {
-        QByteArray bytes;
-        for ( const auto &url : urls() ) {
-            if ( !bytes.isEmpty() )
-                bytes += '\n';
-            bytes += url.toString().toUtf8();
+    const qint64 maxBytes = maxBytesForMime(format);
+    if (maxBytes == 0)
+        return {};
+
+    QByteArray bytes;
+
+    try {
+        if (format == mimeUriList) {
+            for ( const auto &url : urls() ) {
+                if ( !bytes.isEmpty() )
+                    bytes += '\n';
+                bytes += url.toString().toUtf8();
+            }
+        } else if ( format == mimeText && !hasFormat(mimeText) ) {
+            bytes = text().toUtf8();
+        } else if ( format.startsWith(QLatin1String("text/")) ) {
+            bytes = dataToText( data(format), format ).toUtf8();
+        } else {
+            bytes = data(format);
         }
-        return bytes;
+    } catch (const std::bad_alloc &) {
+        log(QStringLiteral("Out of memory reading clipboard data for %1").arg(format), LogError);
+        return {};
     }
 
-    if ( format == mimeText && !hasFormat(mimeText) )
-        return text().toUtf8();
+    if (maxBytes > 0 && bytes.size() > maxBytes) {
+        log( QStringLiteral("Skipping oversized clipboard data for %1: %2 bytes (limit: %3)")
+            .arg(format).arg(bytes.size()).arg(maxBytes), LogNote );
+        return {};
+    }
 
-    if ( format.startsWith(QLatin1String("text/")) )
-        return dataToText( data(format), format ).toUtf8();
-
-    return data(format);
+    return bytes;
 }
 
 bool ClipboardDataGuard::isExpired() {
