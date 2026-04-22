@@ -10,6 +10,7 @@
 #include "itempinnedtests.h"
 #include "itemsynctests.h"
 #include "itemtagstests.h"
+#include "tests_clipboarddataguard.h"
 
 #include "app/app.h"
 #include "common/client_server.h"
@@ -769,6 +770,14 @@ int main(int argc, char **argv)
         exitCode = std::max(exitCode, test->runTests(tests, argc, argv));
         test->stopServer();
     };
+
+    // Run standalone unit tests (no server needed).
+    // Only run when no specific test functions are requested (full test run)
+    // to avoid false failures from function names not found in this class.
+    if (runPluginTests) {
+        ClipboardDataGuardTests guardTests;
+        exitCode = std::max(exitCode, QTest::qExec(&guardTests, argc, argv));
+    }
 
     if (onlyPlugins.pattern().isEmpty()) {
         test->setupTest("CORE", defaultTestPlugins, QVariant());

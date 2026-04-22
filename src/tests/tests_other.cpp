@@ -131,6 +131,140 @@ void Tests::clipboardToItem()
     WAIT_ON_OUTPUT("read" << "0", bytes);
 }
 
+void Tests::clipboardMimeSizeLimit()
+{
+    // Restart server with size limits: text/plain max 10 bytes, all other text/* rejected.
+    TEST( m_test->stopServer() );
+    m_test->setEnv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT", "text/plain:10;text/.*:0");
+    TEST( m_test->startServer() );
+
+    // Data under the limit should be stored.
+    TEST( m_test->setClipboard("SHORT") );
+    WAIT_ON_OUTPUT("read" << "0", "SHORT");
+
+    // Oversized text/plain should be skipped.
+    // Use the QVariantMap overload to set clipboard without server-side verification,
+    // since the size limit also affects the clipboard scripting command.
+    const QVariantMap oversizedData{{"text/plain", "THIS TEXT IS OVER TEN BYTES"}};
+    TEST( m_test->setClipboard(oversizedData) );
+
+    // Set another small item; if the oversized data were stored it would
+    // appear between SHORT and AFTER, changing item count to 3.
+    TEST( m_test->setClipboard("AFTER") );
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "AFTER\nSHORT\n");
+
+    // HTML with plain text: HTML should be rejected (text/.*:0), plain text kept.
+    const QVariantMap htmlData{{mimeHtml, "<b>hello</b>"}, {mimeText, "hello"}};
+    TEST( m_test->setClipboard(htmlData) );
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2" << "3", "hello\nAFTER\nSHORT\n");
+    RUN("read" << mimeHtml << "0", "");
+}
+
+void Tests::clipboardMimeSizeLimitConfig()
+{
+    // Set size limits via config: text/plain max 10 bytes, all other text/* rejected.
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:10;text/.*:0", "text/plain:10;text/.*:0\n");
+
+    // Data under the limit should be stored.
+    TEST( m_test->setClipboard("SHORT") );
+    WAIT_ON_OUTPUT("read" << "0", "SHORT");
+
+    // Oversized text/plain should be skipped.
+    const QVariantMap oversizedData{{"text/plain", "THIS TEXT IS OVER TEN BYTES"}};
+    TEST( m_test->setClipboard(oversizedData) );
+
+    TEST( m_test->setClipboard("AFTER") );
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "AFTER\nSHORT\n");
+
+    // Restore default (empty = built-in defaults).
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
+void Tests::clipboardMimeSizeLimitSuffixes()
+{
+    // Plain bytes (no suffix) — stored under limit.
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:20", "text/plain:20\n");
+    TEST( m_test->setClipboard("SHORT") );  // 5 bytes, under 20
+    WAIT_ON_OUTPUT("read" << "0", "SHORT");
+
+    // Plain bytes — skipped over limit.
+    const QVariantMap oversizedPlain{{"text/plain", "THIS IS OVER TWENTY BYTES LONG!!"}};
+    TEST( m_test->setClipboard(oversizedPlain) );
+    TEST( m_test->setClipboard("NEXT") );  // sentinel
+    WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "NEXT\nSHORT\n");  // oversized absent
+
+    // K suffix — stored under limit.
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:1K", "text/plain:1K\n");
+    TEST( m_test->setClipboard("KTEST") );  // 5 bytes, under 1024
+    WAIT_ON_OUTPUT("read" << "0", "KTEST");
+
+    // G suffix — stored (small data, huge limit).
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:1G", "text/plain:1G\n");
+    TEST( m_test->setClipboard("GTEST") );
+    WAIT_ON_OUTPUT("read" << "0", "GTEST");
+
+    // Restore default.
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
+void Tests::clipboardMimeSizeLimitNoLimit()
+{
+    // Negative value = no limit.
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:-1", "text/plain:-1\n");
+    TEST( m_test->setClipboard("NOLIMIT") );
+    WAIT_ON_OUTPUT("read" << "0", "NOLIMIT");
+
+    // Overflow = no limit (9999999G overflows qint64 -> -1).
+    RUN("config" << "clipboard_mime_size_limit" << ".*:9999999G", ".*:9999999G\n");
+    TEST( m_test->setClipboard("OVERFLOW") );
+    WAIT_ON_OUTPUT("read" << "0", "OVERFLOW");
+
+    // Restore default.
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
+void Tests::clipboardMimeSizeLimitInvalidRules()
+{
+    // Invalid rules -> default fallback (.*:100M) — small data still stored.
+    // The expected warning about invalid rules must be suppressed.
+    m_test->ignoreErrors(QRegularExpression("clipboard_mime_size_limit: no valid rules"));
+    RUN("config" << "clipboard_mime_size_limit" << ".*:abc", ".*:abc\n");
+    TEST( m_test->setClipboard("FALLBACK") );
+    WAIT_ON_OUTPUT("read" << "0", "FALLBACK");
+
+    // Restore default.
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
+void Tests::clipboardMimeSizeLimitRulePriority()
+{
+    // First-match-wins: first rule blocks text/plain, second allows everything.
+    RUN("config" << "clipboard_mime_size_limit" << "text/plain:0;.*:100M", "text/plain:0;.*:100M\n");
+    const QVariantMap blocked{{"text/plain", "BLOCKED"}};
+    TEST( m_test->setClipboard(blocked) );
+    // Use add command for sentinel since setClipboard("SENTINEL") would also
+    // set text/plain which is blocked by the size limit rule.
+    RUN("add" << "SENTINEL", "");
+    WAIT_ON_OUTPUT("read" << "0" << "1", "SENTINEL\n");
+
+    // Restore default.
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
+void Tests::clipboardMimeSizeLimitBlockedFormats()
+{
+    // Block text/uri-list specifically.
+    RUN("config" << "clipboard_mime_size_limit" << "text/uri-list:0;.*:100M", "text/uri-list:0;.*:100M\n");
+    const QVariantMap uriData{{"text/uri-list", "https://example.com"}, {"text/plain", "URI_KEPT"}};
+    TEST( m_test->setClipboard(uriData) );
+    WAIT_ON_OUTPUT("read" << "0", "URI_KEPT");
+    // text/uri-list should be empty (blocked).
+    RUN("read" << "text/uri-list" << "0", "");
+
+    // Restore default.
+    RUN("config" << "clipboard_mime_size_limit" << "", "\n");
+}
+
 void Tests::itemToClipboard()
 {
     RUN("add" << "TESTING2" << "TESTING1", "");

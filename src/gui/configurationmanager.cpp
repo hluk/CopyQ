@@ -370,6 +370,7 @@ void ConfigurationManager::initOptions()
     bind<Config::frameless_window>();
 
     bind<Config::terminate_action_timeout_ms>();
+    bind<Config::clipboard_mime_size_limit>();
 }
 
 template <typename Config, typename Widget>
