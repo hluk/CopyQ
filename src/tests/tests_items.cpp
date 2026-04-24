@@ -10,7 +10,7 @@
 #include <QKeySequence>
 #include <QRegularExpression>
 
-void Tests::configMaxitems()
+void CoreTests::configMaxitems()
 {
     RUN("config" << "maxitems" << "3", "3\n");
     RUN("add" << "A" << "B" << "C", "");
@@ -59,7 +59,7 @@ void Tests::configMaxitems()
     RUN("size", "0\n");
 }
 
-void Tests::keysAndFocusing()
+void CoreTests::keysAndFocusing()
 {
     RUN("disable", "");
     KEYS(clipboardBrowserId << "CTRL+T");
@@ -71,7 +71,7 @@ void Tests::keysAndFocusing()
     RUN("enable", "");
 }
 
-void Tests::selectItems()
+void CoreTests::selectItems()
 {
     const auto tab = QString(clipboardTabName);
     RUN("add" << "C" << "B" << "A", "");
@@ -103,7 +103,7 @@ void Tests::selectItems()
     TEST_SELECTED(tab + " 3 0 2\n");
 }
 
-void Tests::moveItems()
+void CoreTests::moveItems()
 {
     const auto tab = QString(clipboardTabName);
     const auto args = Args() << "separator" << " ";
@@ -120,7 +120,7 @@ void Tests::moveItems()
     TEST_SELECTED(tab + " 1 0 1\n");
 }
 
-void Tests::deleteItems()
+void CoreTests::deleteItems()
 {
     const auto tab = QString(clipboardTabName);
     const auto args = Args() << "separator" << ",";
@@ -136,14 +136,14 @@ void Tests::deleteItems()
     RUN(args << "size", "0\n");
 }
 
-void Tests::searchItems()
+void CoreTests::searchItems()
 {
     RUN("add" << "a" << "b" << "c", "");
     KEYS(":b" << "TAB");
     TEST_SELECTED(QString(clipboardTabName) + " 1 1\n");
 }
 
-void Tests::searchItemsAndSelect()
+void CoreTests::searchItemsAndSelect()
 {
     RUN("add" << "xx1" << "a" << "xx2" << "c" << "xx3" << "d", "");
     KEYS(":xx" << filterEditId);
@@ -158,14 +158,14 @@ void Tests::searchItemsAndSelect()
     KEYS(filterEditId << "TAB" << clipboardBrowserId);
 }
 
-void Tests::searchItemsAndCopy()
+void CoreTests::searchItemsAndCopy()
 {
     RUN("add" << "TEST_ITEM", "");
     KEYS(":test" << "CTRL+C" << filterEditId);
     WAIT_FOR_CLIPBOARD("TEST_ITEM");
 }
 
-void Tests::searchRowNumber()
+void CoreTests::searchRowNumber()
 {
     RUN("add" << "d2" << "c" << "b2" << "a", "");
 
@@ -200,14 +200,14 @@ void Tests::searchRowNumber()
     TEST_SELECTED(QString(clipboardTabName) + " _\n");
 }
 
-void Tests::searchAccented()
+void CoreTests::searchAccented()
 {
     RUN("add" << "a" << "väčšina" << "a", "");
     RUN("filter" << "vacsina", "");
     WAIT_ON_OUTPUT("testSelected", QByteArray(clipboardTabName) + " 1 1\n");
 }
 
-void Tests::searchManyItems()
+void CoreTests::searchManyItems()
 {
     RUN("config"
         << "maxitems" << "100000"
@@ -245,7 +245,7 @@ void Tests::searchManyItems()
     );
 }
 
-void Tests::copyItems()
+void CoreTests::copyItems()
 {
     const auto tab = QString(clipboardTabName);
     RUN("add" << "C" << "B" << "A", "");
@@ -262,7 +262,7 @@ void Tests::copyItems()
     RUN("size", "6\n");
 }
 
-void Tests::copyItemsNullCharacter()
+void CoreTests::copyItemsNullCharacter()
 {
     // Items with embedded null characters should have nulls stripped
     // when concatenated for the clipboard (GitHub issue #3515).
@@ -279,7 +279,7 @@ void Tests::copyItemsNullCharacter()
 }
 
 
-void Tests::selectAndCopyOrder()
+void CoreTests::selectAndCopyOrder()
 {
     const auto tab = testTab(1);
     const Args args = Args("tab") << tab << "separator" << " ";
@@ -293,7 +293,7 @@ void Tests::selectAndCopyOrder()
     WAIT_ON_OUTPUT("clipboard", "D\nC\nB\nA");
 }
 
-void Tests::sortAndReverse()
+void CoreTests::sortAndReverse()
 {
     const auto tab = testTab(1);
     const Args args = Args("tab") << tab << "separator" << " ";
@@ -320,7 +320,7 @@ void Tests::sortAndReverse()
     TEST_SELECTED(tab + " 1 0 1 2 3\n");
 }
 
-void Tests::editItems()
+void CoreTests::editItems()
 {
     RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
@@ -343,7 +343,7 @@ void Tests::editItems()
     RUN("read" << "2", "Line 3\nLine 4");
 }
 
-void Tests::createNewItem()
+void CoreTests::createNewItem()
 {
     RUN("config" << "edit_ctrl_return" << "true", "true\n");
 
@@ -354,7 +354,7 @@ void Tests::createNewItem()
     RUN("read" << "0", "Line 3\nLine 4");
 }
 
-void Tests::editNotes()
+void CoreTests::editNotes()
 {
     const auto script = R"(
         add(
@@ -383,7 +383,7 @@ void Tests::editNotes()
     RUN("read" << mimeText << "0" << mimeItemNotes << "0" << "F2", "A\nA Note");
 }
 
-void Tests::editHtml()
+void CoreTests::editHtml()
 {
     // Create new item with bold text
     KEYS("CTRL+N" << editorId << ":BOLD"

@@ -9,7 +9,7 @@
 
 #include <QRegularExpression>
 
-void Tests::scriptCommandLoaded()
+void CoreTests::scriptCommandLoaded()
 {
     const auto script = R"(
         setCommands([{
@@ -21,7 +21,7 @@ void Tests::scriptCommandLoaded()
     RUN("read(0)", "LOADED");
 }
 
-void Tests::scriptCommandAddFunction()
+void CoreTests::scriptCommandAddFunction()
 {
     const auto script = R"(
         setCommands([{
@@ -33,7 +33,7 @@ void Tests::scriptCommandAddFunction()
     RUN("test", "TEST\n");
 }
 
-void Tests::scriptCommandOverrideFunction()
+void CoreTests::scriptCommandOverrideFunction()
 {
     const auto script = R"(
         setCommands([{
@@ -45,7 +45,7 @@ void Tests::scriptCommandOverrideFunction()
     RUN("popup" << "test" << "xxx", "test");
 }
 
-void Tests::scriptCommandEnhanceFunction()
+void CoreTests::scriptCommandEnhanceFunction()
 {
     const auto script = R"(
         setCommands([
@@ -63,7 +63,7 @@ void Tests::scriptCommandEnhanceFunction()
     RUN("popup" << "test", "test1test2\n");
 }
 
-void Tests::scriptCommandEndingWithComment()
+void CoreTests::scriptCommandEndingWithComment()
 {
     /*
     With Qml scripts in Qt 5, it's not possible to execute script in new context,
@@ -90,7 +90,7 @@ void Tests::scriptCommandEndingWithComment()
     RUN("popup" << "test", "test1\n");
 }
 
-void Tests::scriptCommandWithError()
+void CoreTests::scriptCommandWithError()
 {
     const auto script = R"(
         setCommands([
@@ -117,7 +117,7 @@ void Tests::scriptCommandWithError()
     );
 }
 
-void Tests::scriptPaste()
+void CoreTests::scriptPaste()
 {
     const auto script = R"(
         setCommands([
@@ -133,7 +133,7 @@ void Tests::scriptPaste()
     WAIT_ON_OUTPUT("read(0)", "PASTE");
 }
 
-void Tests::scriptOnTabSelected()
+void CoreTests::scriptOnTabSelected()
 {
     const auto script = R"(
         setCommands([
@@ -153,7 +153,7 @@ void Tests::scriptOnTabSelected()
     WAIT_ON_OUTPUT("tab" << tab2 << "read(0)", tab2);
 }
 
-void Tests::scriptOnItemsRemoved()
+void CoreTests::scriptOnItemsRemoved()
 {
     const auto script = R"(
         setCommands([
@@ -211,7 +211,7 @@ void Tests::scriptOnItemsRemoved()
     RUN("tab" << tab3 << "separator" << "," << "read(0,1,2,3,4)", ",,,,");
 }
 
-void Tests::scriptOnItemsAdded()
+void CoreTests::scriptOnItemsAdded()
 {
     const auto script = R"(
         setCommands([
@@ -235,7 +235,7 @@ void Tests::scriptOnItemsAdded()
     WAIT_ON_OUTPUT("tab" << tab1 << "separator" << "," << "read(0,1,2)", "A:0,A:1,");
 }
 
-void Tests::scriptOnItemsChanged()
+void CoreTests::scriptOnItemsChanged()
 {
     const auto script = R"(
         setCommands([
@@ -261,7 +261,7 @@ void Tests::scriptOnItemsChanged()
     WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", "C:B,C:A,");
 }
 
-void Tests::scriptOnItemsLoaded()
+void CoreTests::scriptOnItemsLoaded()
 {
     const auto script = R"(
         setCommands([
@@ -288,7 +288,7 @@ void Tests::scriptOnItemsLoaded()
     WAIT_ON_OUTPUT("separator" << "," << "read(0,1,2)", tab2 + "," + tab1 + ",");
 }
 
-void Tests::scriptEventMaxRecursion()
+void CoreTests::scriptEventMaxRecursion()
 {
     const auto script = R"(
         setCommands([
@@ -311,7 +311,7 @@ void Tests::scriptEventMaxRecursion()
     RUN("separator" << "," << "read(0,1,2,3,4,5,6,7,8,9,10)", "A,A,A,A,A,A,A,A,A,A,");
 }
 
-void Tests::scriptSlowCollectOverrides()
+void CoreTests::scriptSlowCollectOverrides()
 {
     const auto script = R"(
         setCommands([
@@ -335,7 +335,7 @@ void Tests::scriptSlowCollectOverrides()
     WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", tab1);
 }
 
-void Tests::displayCommand()
+void CoreTests::displayCommand()
 {
     const auto testMime = COPYQ_MIME_PREFIX "test";
     const auto script = QString(R"(
@@ -366,7 +366,7 @@ void Tests::displayCommand()
                 .toUtf8() );
 }
 
-void Tests::displayCommandForMenu()
+void CoreTests::displayCommandForMenu()
 {
     const auto tab = testTab(1);
     const auto args = Args("tab") << tab << "separator" << ",";

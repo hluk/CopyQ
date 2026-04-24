@@ -32,15 +32,19 @@ Install: `cmake -B build --target install`
 Tests require X11 session (or Wayland) and a window manager. Use `Xvfb` and
 `openbox` to initialize the testing environment.
 
-Avoid running all tests, always specify a list tests functions to run.
+Avoid running all tests, always specify a list of test functions to run.
 
 Run tests after build: `build/copyq-tests $TEST_FUNCTIONS`
 
-Run tests for specific plugin: `build/copyq-tests PLUGINS:sync $TEST_FUNCTIONS`
+Run a specific test by group and tag: `build/copyq-tests "testCore:configPath"`
 
-List tests function names: `build/copyq-tests -functions`
+Run all tests for a plugin group: `build/copyq-tests testItemSync`
 
-List tests function names for a plugin: `build/copyq-tests PLUGINS:image -functions`
+List test group names: `build/copyq-tests -functions`
+
+List all individual test methods: `build/copyq-tests -datatags`
+
+Filter tests by name substring: `COPYQ_TESTS_FILTER=clipboard build/copyq-tests`
 
 Start the server process: `build/copyq`
 

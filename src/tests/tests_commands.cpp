@@ -6,21 +6,21 @@
 
 #include "common/sleeptimer.h"
 
-void Tests::shortcutCommand()
+void CoreTests::shortcutCommand()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Ctrl+F1'], cmd: 'copyq add OK'}])", "");
     KEYS("CTRL+F1");
     WAIT_ON_OUTPUT("read" << "0", "OK");
 }
 
-void Tests::shortcutCommandOverrideEnter()
+void CoreTests::shortcutCommandOverrideEnter()
 {
     RUN("setCommands([{name: 'test', inMenu: true, shortcuts: ['Enter'], cmd: 'copyq add OK'}])", "");
     KEYS("ENTER" << "ENTER");
     WAIT_ON_OUTPUT("read" << "0" << "1", "OK\nOK");
 }
 
-void Tests::shortcutCommandMatchInput()
+void CoreTests::shortcutCommandMatchInput()
 {
     // Activate only one of the two actions depending on input MIME format.
     const auto script = R"(
@@ -49,7 +49,7 @@ void Tests::shortcutCommandMatchInput()
     RUN("tab" << QString(clipboardTabName) << "size", "4\n");
 }
 
-void Tests::shortcutCommandMatchCmd()
+void CoreTests::shortcutCommandMatchCmd()
 {
     const auto tab = testTab(1);
     const Args args = Args("tab") << tab;
@@ -79,7 +79,7 @@ void Tests::shortcutCommandMatchCmd()
     WAIT_ON_OUTPUT(args << "plugins.itemtests.keys('Ctrl+F1'); read(0)", "test2");
 }
 
-void Tests::shortcutCommandSelectedItemData()
+void CoreTests::shortcutCommandSelectedItemData()
 {
     const auto tab1 = testTab(1);
     const auto script = R"(
@@ -100,7 +100,7 @@ void Tests::shortcutCommandSelectedItemData()
     WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "C");
 }
 
-void Tests::shortcutCommandSetSelectedItemData()
+void CoreTests::shortcutCommandSetSelectedItemData()
 {
     const auto script = R"(
         setCommands([{
@@ -119,7 +119,7 @@ void Tests::shortcutCommandSetSelectedItemData()
     RUN("read" << "DATA" << "2", "TEST");
 }
 
-void Tests::shortcutCommandSelectedItemsData()
+void CoreTests::shortcutCommandSelectedItemsData()
 {
     const auto tab1 = testTab(1);
     const auto script = R"(
@@ -141,7 +141,7 @@ void Tests::shortcutCommandSelectedItemsData()
     WAIT_ON_OUTPUT("tab" << tab1 << "read" << "0", "B,C,");
 }
 
-void Tests::shortcutCommandSetSelectedItemsData()
+void CoreTests::shortcutCommandSetSelectedItemsData()
 {
     const auto script = R"(
         setCommands([{
@@ -159,7 +159,7 @@ void Tests::shortcutCommandSetSelectedItemsData()
     WAIT_ON_OUTPUT("read" << "0" << "1" << "2", "A\nX\nY");
 }
 
-void Tests::shortcutCommandSelectedAndCurrent()
+void CoreTests::shortcutCommandSelectedAndCurrent()
 {
     const auto script = R"(
         setCommands([{
@@ -180,7 +180,7 @@ void Tests::shortcutCommandSelectedAndCurrent()
     WAIT_ON_OUTPUT("tab" << tab1 << "read(0)", "1,2|2|" + tab1.toUtf8());
 }
 
-void Tests::shortcutCommandMoveSelected()
+void CoreTests::shortcutCommandMoveSelected()
 {
     const QString script = R"(
         setCommands([{
@@ -223,7 +223,7 @@ void Tests::shortcutCommandMoveSelected()
 #undef MOVE_SELECTED
 }
 
-void Tests::automaticCommandIgnore()
+void CoreTests::automaticCommandIgnore()
 {
     const auto script = R"(
         setCommands([
@@ -245,7 +245,7 @@ void Tests::automaticCommandIgnore()
     RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,OK,");
 }
 
-void Tests::automaticCommandRemove()
+void CoreTests::automaticCommandRemove()
 {
     const auto script = R"(
         setCommands([
@@ -265,7 +265,7 @@ void Tests::automaticCommandRemove()
     RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,OK,");
 }
 
-void Tests::automaticCommandInput()
+void CoreTests::automaticCommandInput()
 {
     const auto script = R"(
         setCommands([
@@ -281,7 +281,7 @@ void Tests::automaticCommandInput()
     RUN("read" << "DATA" << "0", "");
 }
 
-void Tests::automaticCommandRegExp()
+void CoreTests::automaticCommandRegExp()
 {
     const auto script = R"(
         setCommands([
@@ -302,7 +302,7 @@ void Tests::automaticCommandRegExp()
     RUN("read" << "0", "SHOULD NOT BE CHANGED");
 }
 
-void Tests::automaticCommandSetData()
+void CoreTests::automaticCommandSetData()
 {
     RUN("add" << "TEST", "");
     RUN("read" << "0", "TEST");
@@ -321,7 +321,7 @@ void Tests::automaticCommandSetData()
     RUN("read" << "1", "TEST");
 }
 
-void Tests::automaticCommandOutputTab()
+void CoreTests::automaticCommandOutputTab()
 {
     const auto tab1 = testTab(1);
     const auto script = R"(
@@ -336,7 +336,7 @@ void Tests::automaticCommandOutputTab()
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 
-void Tests::automaticCommandNoOutputTab()
+void CoreTests::automaticCommandNoOutputTab()
 {
     const auto script = R"(
         setCommands([{automatic: true, cmd: 'copyq: removeData(mimeOutputTab)'}])
@@ -349,7 +349,7 @@ void Tests::automaticCommandNoOutputTab()
     RUN("tab" << QString(clipboardTabName) << "size", "0\n");
 }
 
-void Tests::automaticCommandChaining()
+void CoreTests::automaticCommandChaining()
 {
     const auto script = R"(
         setCommands([
@@ -365,7 +365,7 @@ void Tests::automaticCommandChaining()
     WAIT_ON_OUTPUT("read" << "0", "123");
 }
 
-void Tests::automaticCommandCopyToTab()
+void CoreTests::automaticCommandCopyToTab()
 {
     const auto tab1 = testTab(1);
     const auto script = R"(
@@ -379,7 +379,7 @@ void Tests::automaticCommandCopyToTab()
     RUN("tab" << tab1 << "read" << "0", "TEST");
 }
 
-void Tests::automaticCommandStoreSpecialFormat()
+void CoreTests::automaticCommandStoreSpecialFormat()
 {
     const auto script = R"(
         setCommands([
@@ -393,7 +393,7 @@ void Tests::automaticCommandStoreSpecialFormat()
     WAIT_ON_OUTPUT("separator" << "," << "read" << "test-format" << "0" << "1", "DATA,");
 }
 
-void Tests::automaticCommandIgnoreSpecialFormat()
+void CoreTests::automaticCommandIgnoreSpecialFormat()
 {
     const auto script = R"(
         setCommands([
@@ -412,7 +412,7 @@ void Tests::automaticCommandIgnoreSpecialFormat()
     WAIT_ON_OUTPUT("separator" << "," << "read" << "0" << "1" << "2" << "3", "SHOULD NOT BE IGNORED,CMD2,CMD1,");
 }
 
-void Tests::globalCommandInMenu()
+void CoreTests::globalCommandInMenu()
 {
     const auto script = R"(
         setCommands([

@@ -12,7 +12,7 @@
     KEYS(WIDGET_ID); \
     WAIT_FOR_CLIPBOARD(CONTENT)
 
-void Tests::tray()
+void CoreTests::tray()
 {
     RUN("add" << "A", "");
     KEYS(clipboardBrowserId);
@@ -20,7 +20,7 @@ void Tests::tray()
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "A");
 }
 
-void Tests::menu()
+void CoreTests::menu()
 {
     const auto tab = testTab(1);
 
@@ -54,7 +54,7 @@ void Tests::menu()
     WAIT_FOR_CLIPBOARD("3");
 }
 
-void Tests::traySearch()
+void CoreTests::traySearch()
 {
     RUN("add" << "C" << "B" << "A", "");
 
@@ -64,7 +64,7 @@ void Tests::traySearch()
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
-void Tests::trayPaste()
+void CoreTests::trayPaste()
 {
     RUN("config" << "tray_tab_is_current" << "false", "false\n");
 
@@ -93,7 +93,7 @@ void Tests::trayPaste()
     RUN("tab" << tab1 << "read" << "0", "NEW ");
 }
 
-void Tests::trayShowHideAction()
+void CoreTests::trayShowHideAction()
 {
 #ifdef Q_OS_MAC
     SKIP("Tests seem unable to trigger Show/Hide from tray on macOS");
@@ -122,7 +122,7 @@ void Tests::trayShowHideAction()
     WAIT_ON_OUTPUT("focused", "true\n");
 }
 
-void Tests::configTrayTab()
+void CoreTests::configTrayTab()
 {
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "A", "");
@@ -147,7 +147,7 @@ void Tests::configTrayTab()
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
-void Tests::configMove()
+void CoreTests::configMove()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_CONFIG_MOVE");
 
@@ -172,7 +172,7 @@ void Tests::configMove()
     RUN("read" << "0" << "1", "B\nA");
 }
 
-void Tests::configTrayTabIsCurrent()
+void CoreTests::configTrayTabIsCurrent()
 {
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "A", "");
@@ -193,7 +193,7 @@ void Tests::configTrayTabIsCurrent()
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "B");
 }
 
-void Tests::trayMenuToggleRapid()
+void CoreTests::trayMenuToggleRapid()
 {
     RUN("add" << "X" << "Y" << "Z", "");
 

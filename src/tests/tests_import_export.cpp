@@ -17,7 +17,7 @@ const QString exportFilePath(const QString &suffix = QStringLiteral("1"))
 
 } // namespace
 
-void Tests::exportImport(int flags)
+void CoreTests::exportImport(int flags)
 {
 #ifdef Q_OS_MAC
     if (flags & (ExportSettings | ExportCommands))
@@ -113,14 +113,14 @@ void Tests::exportImport(int flags)
     }
 }
 
-void Tests::exportImportNoPasswordTab() { exportImport(ExportTab); }
-void Tests::exportImportNoPasswordSettingsOnly() { exportImport(ExportSettings); }
-void Tests::exportImportNoPasswordCommandsOnly() { exportImport(ExportCommands); }
-void Tests::exportImportPasswordTab() { exportImport(ExportWithPassword | ExportTab); }
-void Tests::exportImportPasswordSettingsOnly() { exportImport(ExportWithPassword | ExportSettings); }
-void Tests::exportImportPasswordCommandsOnly() { exportImport(ExportWithPassword | ExportCommands); }
+void CoreTests::exportImportNoPasswordTab() { exportImport(ExportTab); }
+void CoreTests::exportImportNoPasswordSettingsOnly() { exportImport(ExportSettings); }
+void CoreTests::exportImportNoPasswordCommandsOnly() { exportImport(ExportCommands); }
+void CoreTests::exportImportPasswordTab() { exportImport(ExportWithPassword | ExportTab); }
+void CoreTests::exportImportPasswordSettingsOnly() { exportImport(ExportWithPassword | ExportSettings); }
+void CoreTests::exportImportPasswordCommandsOnly() { exportImport(ExportWithPassword | ExportCommands); }
 
-void Tests::exportImportErrors()
+void CoreTests::exportImportErrors()
 {
 #ifdef Q_OS_WIN
     const auto fileNotFound = QStringLiteral("The system cannot find the path specified.");

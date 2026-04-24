@@ -3,7 +3,7 @@
 #include "test_utils.h"
 #include "tests.h"
 
-void Tests::expireEncryptionPassword()
+void CoreTests::expireEncryptionPassword()
 {
 #ifdef WITH_QCA_ENCRYPTION
     const QString tab1 = testTab(1);
@@ -115,7 +115,7 @@ void Tests::expireEncryptionPassword()
 #endif
 }
 
-void Tests::expireEncryptionPasswordOnConfigChange()
+void CoreTests::expireEncryptionPasswordOnConfigChange()
 {
     // Expired tabs should require password,
     // even if the expiration was disabled afterwards

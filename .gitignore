@@ -64,3 +64,4 @@ CMakeLists.txt.user*
 .gitconfig
 launchpad.key
 compile_commands.json
+uv.lock

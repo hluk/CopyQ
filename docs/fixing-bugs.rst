@@ -29,32 +29,34 @@ Run Tests
 You can run automated tests if the application is built either in debug
 mode, with CMake flag ``-DWITH_TESTS=ON``.
 
-Run the tests with following command.
+Run the tests with the following command.
 
 .. code-block:: bash
 
-    copyq tests
+    copyq-tests
 
-This command will execute all test cases in new special CopyQ session so
+This command will execute all test cases in a new special CopyQ session so
 that user configuration, tabs and items are not modified. It's better to
 close any other CopyQ session before running tests since they can affect
 test results.
 
 While running tests there must be **no keyboard and mouse interaction**.
 Preferably you can execute the tests in separate virtual environment. On
-Linux you can run the tests on virtual X11 server with ``xvfb-run``.
+Linux you can run the tests on a virtual X11 server with ``xvfb-run``.
 
 .. code-block:: bash
 
-    xvfb-run sh -c 'openbox & sleep 1; copyq tests'
+    xvfb-run sh -c 'openbox & sleep 1; copyq-tests'
 
 Test invocation examples:
 
-- Print help for tests: ``copyq tests --help``
-- Run specific tests: ``copyq tests commandHelp commandVersion``
-- Run specific tests for a plugin: ``copyq tests 'PLUGINS:pinned' isPinned``
-- Run tests only for specific plugins: ``copyq tests 'PLUGINS:pinned|tags'``
-- List tests: ``copyq tests -functions``
-- List tests for a plugin: ``copyq tests PLUGINS:tags -functions``
-- Less verbose tests: ``copyq tests -silent``
-- Slower GUI tests: ``COPYQ_TESTS_KEYS_WAIT=1000 COPYQ_TESTS_KEY_DELAY=50 copyq tests editItems``
+- Print help for tests: ``copyq-tests --help``
+- Run specific tests: ``copyq-tests testCore:commandHelp testCore:commandVersion``
+- Run all tests in a plugin group: ``copyq-tests testItemPinned``
+- Run a specific plugin test: ``copyq-tests "testItemPinned:isPinned"``
+- Run multiple plugin groups: ``copyq-tests testItemPinned testItemTags``
+- List test groups: ``copyq-tests -functions``
+- List individual test methods: ``copyq-tests -datatags``
+- Filter tests by name substring: ``COPYQ_TESTS_FILTER=clipboard copyq-tests``
+- Less verbose tests: ``copyq-tests -silent``
+- Slower GUI tests: ``COPYQ_TESTS_KEYS_WAIT=1000 COPYQ_TESTS_KEY_DELAY=50 copyq-tests testCore:editItems``

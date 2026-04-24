@@ -47,8 +47,9 @@ qint64 parseByteSize(const QString &str, bool *ok)
 {
     const QStringView s = QStringView(str).trimmed();
     if (s.isEmpty()) {
-        *ok = false;
-        return 0;
+        // Empty size (e.g. "text/plain:") means no limit.
+        *ok = true;
+        return -1;
     }
 
     const QChar last = s.last();
@@ -257,12 +258,15 @@ QImage ClipboardDataGuard::getImageData()
 {
     ElapsedGuard _(QString(), QStringLiteral("imageData"));
 
-    const qint64 maxBytes = maxBytesForMime(QStringLiteral("image/png"));
+    // Use "image/" as probe: matches broad rules like image/.*:0
+    // but not format-specific ones like image/png:0.
+    const qint64 maxBytes = maxBytesForMime(QStringLiteral("image/"));
     if (maxBytes == 0)
         return {};
 
     const QMimeData *md = mimeData();
     QImage image;
+
     try {
         // NOTE: Application hangs if using multiple sessions and
         //       calling QMimeData::hasImage() on X11 clipboard.
@@ -272,6 +276,8 @@ QImage ClipboardDataGuard::getImageData()
         return {};
     }
 
+    // Fall back to serialized image formats.
+    // data() enforces per-MIME size limits for image/png and image/bmp.
     if ( image.isNull() ) {
         image.loadFromData( data(QStringLiteral("image/png")), "png" );
         if ( image.isNull() ) {

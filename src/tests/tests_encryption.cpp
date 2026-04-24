@@ -8,7 +8,7 @@
 #include <QRegularExpression>
 #include <QStandardPaths>
 
-void Tests::tabEncryption()
+void CoreTests::tabEncryption()
 {
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab << "separator" << " ";
@@ -65,7 +65,7 @@ void Tests::tabEncryption()
     RUN(args << "read" << "0" << "1" << "2", "test data 1 test data 2 test data 3");
 }
 
-void Tests::tabEncryptionPasswordNew()
+void CoreTests::tabEncryptionPasswordNew()
 {
 #ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
@@ -108,7 +108,7 @@ void Tests::tabEncryptionPasswordNew()
 #endif
 }
 
-void Tests::tabEncryptionPasswordCurrent()
+void CoreTests::tabEncryptionPasswordCurrent()
 {
 #ifdef WITH_QCA_ENCRYPTION
     const QString tab = testTab(1);
@@ -134,7 +134,7 @@ void Tests::tabEncryptionPasswordCurrent()
 #endif
 }
 
-void Tests::tabEncryptionPasswordRetry()
+void CoreTests::tabEncryptionPasswordRetry()
 {
 #ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
@@ -164,7 +164,7 @@ void Tests::tabEncryptionPasswordRetry()
 #endif
 }
 
-void Tests::tabEncryptionPasswordRetryFail()
+void CoreTests::tabEncryptionPasswordRetryFail()
 {
 #ifdef WITH_QCA_ENCRYPTION
     m_test->setEnv("COPYQ_PASSWORD", "");
@@ -204,7 +204,7 @@ void Tests::tabEncryptionPasswordRetryFail()
 #endif
 }
 
-void Tests::tabEncryptionPasswordAbortRetry()
+void CoreTests::tabEncryptionPasswordAbortRetry()
 {
 #ifdef WITH_QCA_ENCRYPTION
     TEST( m_test->stopServer() );
@@ -235,7 +235,7 @@ void Tests::tabEncryptionPasswordAbortRetry()
 #endif
 }
 
-void Tests::tabEncryptionLargeItems()
+void CoreTests::tabEncryptionLargeItems()
 {
 #ifdef WITH_QCA_ENCRYPTION
     RUN("config" << "encrypt_tabs" << "true", "true\n");
@@ -267,7 +267,7 @@ void Tests::tabEncryptionLargeItems()
 #endif
 }
 
-void Tests::tabEncryptionChangePassword()
+void CoreTests::tabEncryptionChangePassword()
 {
 #ifdef WITH_QCA_ENCRYPTION
     RUN("config" << "encrypt_tabs" << "true", "true\n");

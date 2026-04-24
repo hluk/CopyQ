@@ -14,13 +14,13 @@ const QString navigate = QStringLiteral(R"(
 
 } // namespace
 
-void Tests::navigationTestInit()
+void CoreTests::navigationTestInit()
 {
     RUN("tab" << "tab1" << "add(1,2,3)", "");
     RUN("setCurrentTab('tab1')", "");
 }
 
-void Tests::navigationTestDownUp(const QString &down, const QString &up)
+void CoreTests::navigationTestDownUp(const QString &down, const QString &up)
 {
     RUN("selectItems(0)", "true\n");
     KEYS(clipboardBrowserId);
@@ -39,7 +39,7 @@ void Tests::navigationTestDownUp(const QString &down, const QString &up)
     RUN(navigate << "SHIFT+" + up, "tab1 0 0");
 }
 
-void Tests::navigationTestEndHome(const QString &end, const QString &home)
+void CoreTests::navigationTestEndHome(const QString &end, const QString &home)
 {
     RUN("selectItems(0)", "true\n");
     KEYS(clipboardBrowserId);
@@ -51,13 +51,13 @@ void Tests::navigationTestEndHome(const QString &end, const QString &home)
     RUN(navigate << home, "tab1 0 0");
 }
 
-void Tests::navigationTestEscapeEditor(const QString &esc, const QString &editor)
+void CoreTests::navigationTestEscapeEditor(const QString &esc, const QString &editor)
 {
     KEYS(editor << editorId);
     KEYS(esc << clipboardBrowserId);
 }
 
-void Tests::navigationTestEscapeSearch(const QString &esc, const QString &search)
+void CoreTests::navigationTestEscapeSearch(const QString &esc, const QString &search)
 {
     KEYS(search << filterEditId << ":test");
     RUN("filter", "test\n");
@@ -65,7 +65,7 @@ void Tests::navigationTestEscapeSearch(const QString &esc, const QString &search
     RUN("filter", "\n");
 }
 
-void Tests::navigationDefault()
+void CoreTests::navigationDefault()
 {
     RUN("config" << "navigation_style", "0\n");
     navigationTestInit();
@@ -75,7 +75,7 @@ void Tests::navigationDefault()
     navigationTestEscapeEditor("ESC", "F2");
 }
 
-void Tests::navigationVi()
+void CoreTests::navigationVi()
 {
     RUN("config" << "navigation_style" << "1", "1\n");
     navigationTestInit();
@@ -85,7 +85,7 @@ void Tests::navigationVi()
     navigationTestEscapeEditor("CTRL+[", "F2");
 }
 
-void Tests::navigationEmacs()
+void CoreTests::navigationEmacs()
 {
     RUN("config" << "navigation_style" << "2", "2\n");
     navigationTestInit();

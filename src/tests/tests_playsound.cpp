@@ -66,7 +66,7 @@ bool writeSilentWav(QTemporaryFile &tmp, int durationMs)
 
 } // namespace
 
-void Tests::commandPlaySound()
+void CoreTests::commandPlaySound()
 {
     // Object argument with missing file property
     RUN_EXPECT_ERROR_WITH_STDERR(

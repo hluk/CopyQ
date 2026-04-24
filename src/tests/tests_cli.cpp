@@ -12,12 +12,12 @@
 
 #include <QRegularExpression>
 
-void Tests::configPath()
+void CoreTests::configPath()
 {
     RUN("print(info('config'))", Settings().fileName());
 }
 
-void Tests::readLog()
+void CoreTests::readLog()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -68,7 +68,7 @@ void Tests::readLog()
     }
 }
 
-void Tests::rotateLog()
+void CoreTests::rotateLog()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -104,7 +104,7 @@ void Tests::rotateLog()
     QVERIFY2( logFiles.isEmpty(), logFilesMessage(logFileCount) );
 }
 
-void Tests::pluginsDisabled()
+void CoreTests::pluginsDisabled()
 {
     // Ensure that plugins that could interfere with tests are disabled
     RUN_EXPECT_ERROR("plugins.itemsync", CommandException);
@@ -116,7 +116,7 @@ void Tests::pluginsDisabled()
     QVERIFY2( !log.contains("[copyq.plugin"), log );
 }
 
-void Tests::commandHelp()
+void CoreTests::commandHelp()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -152,7 +152,7 @@ void Tests::commandHelp()
     RUN_EXPECT_ERROR("help" << "xxx", CommandException);
 }
 
-void Tests::commandVersion()
+void CoreTests::commandVersion()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -179,7 +179,7 @@ void Tests::commandVersion()
     );
 }
 
-void Tests::badCommand()
+void CoreTests::badCommand()
 {
     RUN_EXPECT_ERROR_WITH_STDERR("xxx", CommandException, "xxx");
     RUN_EXPECT_ERROR_WITH_STDERR("tab" << testTab(1) << "yyy", CommandException, "yyy");
@@ -193,7 +193,7 @@ void Tests::badCommand()
              .contains(QRegularExpression("^" + QRegularExpression::escape(testTab(1)) + "$")) );
 }
 
-void Tests::badSessionName()
+void CoreTests::badSessionName()
 {
     m_test->ignoreErrors(QRegularExpression(
         "ERROR: Session name must contain at most 16 characters"
@@ -203,12 +203,12 @@ void Tests::badSessionName()
     RUN_EXPECT_ERROR("-s" << "spaces disallowed" << "", CommandBadSyntax);
 }
 
-void Tests::commandSession()
+void CoreTests::commandSession()
 {
     RUN("--session" << sessionName << "eval" << "print(1)", "1");
 }
 
-void Tests::commandCatchExceptions()
+void CoreTests::commandCatchExceptions()
 {
     RUN("try { removeTab('MISSING') } catch(e) { print(e) }",
         "Error: Tab with given name doesn't exist!");

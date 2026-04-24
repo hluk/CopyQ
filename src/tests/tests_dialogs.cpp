@@ -6,7 +6,7 @@
 
 #include "common/mimetypes.h"
 
-void Tests::createTabDialog()
+void CoreTests::createTabDialog()
 {
     const auto tab1 = testTab(1);
     KEYS(
@@ -15,14 +15,14 @@ void Tests::createTabDialog()
     TEST_SELECTED(tab1 + "\n");
 }
 
-void Tests::showHideAboutDialog()
+void CoreTests::showHideAboutDialog()
 {
     const auto aboutShortcut = keyNameFor(QKeySequence::QKeySequence::WhatsThis);
     KEYS(clipboardBrowserId << aboutShortcut << aboutDialogId);
     KEYS(aboutDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
-void Tests::showHideClipboardDialog()
+void CoreTests::showHideClipboardDialog()
 {
     TEST( m_test->setClipboard("TEST", "test-format") );
     KEYS(clipboardBrowserId << "CTRL+SHIFT+C" << clipboardDialogId);
@@ -39,7 +39,7 @@ void Tests::showHideClipboardDialog()
     KEYS(clipboardDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
-void Tests::showHideItemDialog()
+void CoreTests::showHideItemDialog()
 {
     RUN("write" << "test-format" << "TEST", "");
     RUN("selectItems" << "0", "true\n");
@@ -57,7 +57,7 @@ void Tests::showHideItemDialog()
     KEYS(clipboardDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
-void Tests::showHideLogDialog()
+void CoreTests::showHideLogDialog()
 {
     KEYS(clipboardBrowserId << "F12" << logDialogId);
 
@@ -68,7 +68,7 @@ void Tests::showHideLogDialog()
     KEYS(logDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
-void Tests::showHideActionHandlerDialog()
+void CoreTests::showHideActionHandlerDialog()
 {
     KEYS(clipboardBrowserId << "CTRL+SHIFT+Z" << actionHandlerDialogId);
 
@@ -80,7 +80,7 @@ void Tests::showHideActionHandlerDialog()
     KEYS(actionHandlerDialogId << "ESCAPE" << clipboardBrowserId);
 }
 
-void Tests::shortcutDialogAddShortcut()
+void CoreTests::shortcutDialogAddShortcut()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -99,7 +99,7 @@ void Tests::shortcutDialogAddShortcut()
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
-void Tests::shortcutDialogAddTwoShortcuts()
+void CoreTests::shortcutDialogAddTwoShortcuts()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -123,7 +123,7 @@ void Tests::shortcutDialogAddTwoShortcuts()
     RUN("commands()[0].shortcuts", "ctrl+f1\nf1\nf2\n");
 }
 
-void Tests::shortcutDialogChangeShortcut()
+void CoreTests::shortcutDialogChangeShortcut()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -143,7 +143,7 @@ void Tests::shortcutDialogChangeShortcut()
     RUN("commands()[0].shortcuts", "f1\nf4\nf3\n");
 }
 
-void Tests::shortcutDialogSameShortcut()
+void CoreTests::shortcutDialogSameShortcut()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -162,7 +162,7 @@ void Tests::shortcutDialogSameShortcut()
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
-void Tests::shortcutDialogCancel()
+void CoreTests::shortcutDialogCancel()
 {
 #ifdef Q_OS_MAC
     SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
@@ -182,7 +182,7 @@ void Tests::shortcutDialogCancel()
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
-void Tests::actionDialogCancel()
+void CoreTests::actionDialogCancel()
 {
     const auto script = R"(
         setCommands([{
@@ -200,7 +200,7 @@ void Tests::actionDialogCancel()
     RUN("settings" << "test", "");
 }
 
-void Tests::actionDialogAccept()
+void CoreTests::actionDialogAccept()
 {
     const auto script = R"(
         setCommands([{
@@ -223,7 +223,7 @@ void Tests::actionDialogAccept()
     WAIT_ON_OUTPUT("settings" << "test", "SHOULD_BE_SET");
 }
 
-void Tests::actionDialogSelectionInputOutput()
+void CoreTests::actionDialogSelectionInputOutput()
 {
     const auto script = R"(
         setCommands([{
@@ -258,21 +258,21 @@ void Tests::actionDialogSelectionInputOutput()
     WAIT_ON_OUTPUT(args << "read" << "0", "A\nC");
 }
 
-void Tests::exitConfirm()
+void CoreTests::exitConfirm()
 {
     KEYS(clipboardBrowserId << "CTRL+Q" << confirmExitDialogId);
     KEYS(confirmExitDialogId << "ENTER");
     TEST( m_test->waitForServerToStop() );
 }
 
-void Tests::exitNoConfirm()
+void CoreTests::exitNoConfirm()
 {
     RUN("config" << "confirm_exit" << "false", "false\n");
     KEYS(clipboardBrowserId << "CTRL+Q");
     TEST( m_test->waitForServerToStop() );
 }
 
-void Tests::exitStopCommands()
+void CoreTests::exitStopCommands()
 {
     RUN("config" << "confirm_exit" << "false", "false\n");
     m_test->ignoreErrors(QRegularExpression("Exit code: 10"));
@@ -285,7 +285,7 @@ void Tests::exitStopCommands()
 }
 
 
-void Tests::terminateActionRequestTerminate()
+void CoreTests::terminateActionRequestTerminate()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_BASH");
 
@@ -317,7 +317,7 @@ void Tests::terminateActionRequestTerminate()
     WAIT_ON_OUTPUT("settings" << "term_test", "TERMINATED");
 }
 
-void Tests::terminateActionRequestKill()
+void CoreTests::terminateActionRequestKill()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_BASH");
 
