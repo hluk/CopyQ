@@ -12,7 +12,7 @@
 #include <QTemporaryFile>
 #include <algorithm>
 
-void Tests::commandExit()
+void CoreTests::commandExit()
 {
     RUN("exit", "");
 
@@ -21,7 +21,7 @@ void Tests::commandExit()
     QCOMPARE( run(Args("exit")), 1 );
 }
 
-void Tests::commandEval()
+void CoreTests::commandEval()
 {
     RUN("eval" << "", "");
     RUN("eval" << "1", "1\n");
@@ -33,7 +33,7 @@ void Tests::commandEval()
     RUN("-e" << "1", "1\n");
 }
 
-void Tests::commandEvalThrows()
+void CoreTests::commandEvalThrows()
 {
     RUN_EXPECT_ERROR_WITH_STDERR(
         "throw Error('Some exception')", CommandException,
@@ -53,7 +53,7 @@ void Tests::commandEvalThrows()
     RUN_EXPECT_ERROR("eval" << "throw 1", CommandException);
 }
 
-void Tests::commandEvalThrowsWithLineNumber()
+void CoreTests::commandEvalThrowsWithLineNumber()
 {
     // Multi-line script: exception on a specific line
     RUN_EXPECT_ERROR_WITH_STDERR(
@@ -106,18 +106,18 @@ void Tests::commandEvalThrowsWithLineNumber()
 }
 
 
-void Tests::commandEvalSyntaxError()
+void CoreTests::commandEvalSyntaxError()
 {
     RUN_EXPECT_ERROR_WITH_STDERR("eval" << "(", CommandException, "SyntaxError");
 }
 
-void Tests::commandEvalArguments()
+void CoreTests::commandEvalArguments()
 {
     RUN("eval" << "str(arguments[1]) + ', ' + str(arguments[2])" << "Test 1" << "Test 2",
         "Test 1, Test 2\n");
 }
 
-void Tests::commandEvalEndingWithComment()
+void CoreTests::commandEvalEndingWithComment()
 {
     /*
     With Qml scripts in Qt 5, it's not possible to get uncaught exceptions
@@ -137,13 +137,13 @@ void Tests::commandEvalEndingWithComment()
     RUN("eval" << "1 // TEST", "1\n");
 }
 
-void Tests::commandPrint()
+void CoreTests::commandPrint()
 {
     RUN("print" << "1", "1");
     RUN("print" << "TEST", "TEST");
 }
 
-void Tests::commandAbort()
+void CoreTests::commandAbort()
 {
     RUN("abort(); 1", "");
     RUN("eval" << "abort(); 1", "");
@@ -151,7 +151,7 @@ void Tests::commandAbort()
     RUN("eval" << "execute('copyq', 'eval', '--', 'abort(); print(1)'); 2", "2\n");
 }
 
-void Tests::commandFail()
+void CoreTests::commandFail()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -160,7 +160,7 @@ void Tests::commandFail()
     QCOMPARE( stdoutActual, QByteArray() );
 }
 
-void Tests::commandSource()
+void CoreTests::commandSource()
 {
     const auto script =
             R"(
@@ -178,12 +178,12 @@ void Tests::commandSource()
     RUN("source" << scriptFileName << "test()", "SOURCED TEST\n");
 }
 
-void Tests::commandVisible()
+void CoreTests::commandVisible()
 {
     RUN("visible", "true\n");
 }
 
-void Tests::commandToggle()
+void CoreTests::commandToggle()
 {
     RUN("visible", "true\n");
     RUN("toggle", "false\n");
@@ -193,7 +193,7 @@ void Tests::commandToggle()
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
-void Tests::commandShowHide()
+void CoreTests::commandShowHide()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
@@ -204,7 +204,7 @@ void Tests::commandShowHide()
 }
 
 
-void Tests::commandShowHideRapid()
+void CoreTests::commandShowHideRapid()
 {
     // Verify the main window can be hidden and reshown reliably in
     // rapid succession.  Regression test for #3445: deferred platform
@@ -218,7 +218,7 @@ void Tests::commandShowHideRapid()
         WAIT_ON_OUTPUT("visible", "true\n");
     }
 }
-void Tests::commandShowAt()
+void CoreTests::commandShowAt()
 {
     RUN("visible", "true\n");
     RUN("hide", "");
@@ -228,14 +228,14 @@ void Tests::commandShowAt()
     WAIT_ON_OUTPUT("visible", "true\n");
 }
 
-void Tests::commandFocused()
+void CoreTests::commandFocused()
 {
     RUN("focused", "true\n");
     RUN("hide", "");
     RUN("focused", "false\n");
 }
 
-void Tests::commandsUnicode()
+void CoreTests::commandsUnicode()
 {
     const auto text = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
     RUN_WITH_INPUT("eval" << "input()", text, text);
@@ -247,7 +247,7 @@ void Tests::commandsUnicode()
     RUN_WITH_INPUT("eval" << "toUnicode( fromUnicode(str(input()), 'utf16le') )", text, text + "\n");
 }
 
-void Tests::commandsAddRead()
+void CoreTests::commandsAddRead()
 {
     RUN("add" << "A", "");
     RUN("read" << "0", "A");
@@ -263,7 +263,7 @@ void Tests::commandsAddRead()
     RUN("read" << "3", "A");
 }
 
-void Tests::commandsWriteRead()
+void CoreTests::commandsWriteRead()
 {
     const QByteArray input("\x00\x01\x02\x03\x04", 5);
     const auto arg1 = QString::fromLatin1("\x01\x02\x03\x04");
@@ -298,14 +298,14 @@ void Tests::commandsWriteRead()
         CommandException, "Unexpected uneven number of mimeType/data arguments");
 }
 
-void Tests::commandsReadUtf8ByDefault()
+void CoreTests::commandsReadUtf8ByDefault()
 {
     RUN("add({[mimeText]: 'A', [mimeTextUtf8]: 'B'})", "");
     RUN("read(mimeText, 0)", "A");
     RUN("read(0)", "B");
 }
 
-void Tests::commandChange()
+void CoreTests::commandChange()
 {
     RUN("add" << "C" << "B" << "A", "");
     RUN("change" << "1" << "text/plain" << "b", "");
@@ -319,14 +319,14 @@ void Tests::commandChange()
     RUN("read" << "?" << "1", "text/plain\n");
 }
 
-void Tests::commandSetCurrentTab()
+void CoreTests::commandSetCurrentTab()
 {
     const auto tab = testTab(1);
     RUN("setCurrentTab" << tab, "");
     TEST_SELECTED(tab + "\n");
 }
 
-void Tests::commandConfig()
+void CoreTests::commandConfig()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -363,7 +363,7 @@ void Tests::commandConfig()
     RUN("config" << "tab_tree", "false\n");
 }
 
-void Tests::commandToggleConfig()
+void CoreTests::commandToggleConfig()
 {
     RUN("toggleConfig" << "check_clipboard", "false\n");
     RUN("config" << "check_clipboard", "false\n");
@@ -375,7 +375,7 @@ void Tests::commandToggleConfig()
     RUN_EXPECT_ERROR_WITH_STDERR("toggleConfig" << "clipboard_tab", CommandException, "clipboard_tab");
 }
 
-void Tests::commandDialog()
+void CoreTests::commandDialog()
 {
     KEYS(clipboardBrowserId);
     RUN_MULTIPLE(
@@ -462,12 +462,12 @@ void Tests::commandDialog()
     );
 }
 
-void Tests::commandDialogCloseOnDisconnect()
+void CoreTests::commandDialogCloseOnDisconnect()
 {
     RUN("afterMilliseconds(0, abort); dialog()", "");
 }
 
-void Tests::commandMenuItems()
+void CoreTests::commandMenuItems()
 {
     KEYS(clipboardBrowserId);
     RUN_MULTIPLE(
@@ -508,7 +508,7 @@ void Tests::commandMenuItems()
     RUN("afterMilliseconds(0, abort); menuItems('a', 'b', 'c')", "");
 }
 
-void Tests::commandsPackUnpack()
+void CoreTests::commandsPackUnpack()
 {
     QMap<QLatin1String, QByteArray> data;
     data[mimeText] = "plain text";
@@ -540,7 +540,7 @@ void Tests::commandsPackUnpack()
     }
 }
 
-void Tests::commandsBase64()
+void CoreTests::commandsBase64()
 {
     const QByteArray data = "0123456789\001\002\003\004\005\006\007abcdefghijklmnopqrstuvwxyz!";
     const QByteArray base64 = data.toBase64();
@@ -562,7 +562,7 @@ void Tests::commandsBase64()
               "OK", data) );
 }
 
-void Tests::commandsGetSetItem()
+void CoreTests::commandsGetSetItem()
 {
     QMap<QByteArray, QByteArray> data;
     data["text/plain"] = "plain text";
@@ -595,7 +595,7 @@ void Tests::commandsGetSetItem()
     RUN(args << "eval" << "print(getitem(1)['text/html'])", "<b>HTML text 2</b>");
 }
 
-void Tests::commandsChecksums()
+void CoreTests::commandsChecksums()
 {
     RUN("eval" <<
         "[md5sum('TEST'), sha1sum('TEST'),"
@@ -608,12 +608,12 @@ void Tests::commandsChecksums()
     );
 }
 
-void Tests::commandEscapeHTML()
+void CoreTests::commandEscapeHTML()
 {
     RUN("escapeHTML" << "&\n<\n>", "&amp;<br />&lt;<br />&gt;\n");
 }
 
-void Tests::commandExecute()
+void CoreTests::commandExecute()
 {
     const QByteArray script =
             "function test(c, expected_stdout, expected_exit_code) {"
@@ -642,7 +642,7 @@ void Tests::commandExecute()
         , "plain text");
 }
 
-void Tests::commandSettings()
+void CoreTests::commandSettings()
 {
     RUN("config" << "clipboard_tab" << "TEST", "TEST\n");
 
@@ -655,7 +655,7 @@ void Tests::commandSettings()
     RUN("config" << "clipboard_tab", "TEST\n");
 }
 
-void Tests::commandsEnvSetEnv()
+void CoreTests::commandsEnvSetEnv()
 {
     RUN("eval" <<
         "\n var name = 'COPYQ_ENV_TEST'"
@@ -667,7 +667,7 @@ void Tests::commandsEnvSetEnv()
         );
 }
 
-void Tests::commandSleep()
+void CoreTests::commandSleep()
 {
     RUN_MULTIPLE(
         [&]{
@@ -687,7 +687,7 @@ void Tests::commandSleep()
     );
 }
 
-void Tests::commandsData()
+void CoreTests::commandsData()
 {
     RUN("eval" << "setData('x', 'X'); data('x')", "X");
     RUN("eval" << "setData('x', 'X'); setData('y', 'Y'); str(data('x')) + str(data('y'))", "XY\n");
@@ -700,14 +700,14 @@ void Tests::commandsData()
     RUN("eval" << "setData('x'); setData('y'); removeData('y'); dataFormats()", "x\n");
 }
 
-void Tests::commandCurrentWindowTitle()
+void CoreTests::commandCurrentWindowTitle()
 {
     RUN("disable", "");
     WAIT_ON_OUTPUT("currentWindowTitle", appWindowTitle("*Clipboard Storing Disabled*"));
     RUN("enable", "");
 }
 
-void Tests::commandCopy()
+void CoreTests::commandCopy()
 {
     RUN("copy" << "A", "true\n");
     WAIT_FOR_CLIPBOARD("A");
@@ -747,7 +747,7 @@ void Tests::commandCopy()
         CommandException, "Expected single item");
 }
 
-void Tests::commandClipboard()
+void CoreTests::commandClipboard()
 {
     TEST( m_test->setClipboard("A") );
     WAIT_FOR_CLIPBOARD("A");
@@ -757,7 +757,7 @@ void Tests::commandClipboard()
     RUN("clipboard" << "DATA", "B");
 }
 
-void Tests::commandHasClipboardFormat()
+void CoreTests::commandHasClipboardFormat()
 {
     TEST( m_test->setClipboard("B", "DATA") );
     WAIT_FOR_CLIPBOARD2("B", "DATA");
@@ -768,7 +768,7 @@ void Tests::commandHasClipboardFormat()
     WAIT_ON_OUTPUT("hasClipboardFormat('text/plain')", "true\n");
 }
 
-void Tests::commandEdit()
+void CoreTests::commandEdit()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_COMMAND_EDIT");
 
@@ -794,7 +794,7 @@ void Tests::commandEdit()
     WAIT_FOR_CLIPBOARD("LINE 1");
 }
 
-void Tests::commandEditItem()
+void CoreTests::commandEditItem()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_COMMAND_EDIT");
 
@@ -832,7 +832,7 @@ void Tests::commandEditItem()
     WAIT_FOR_CLIPBOARD("");
 }
 
-void Tests::commandGetSetCurrentPath()
+void CoreTests::commandGetSetCurrentPath()
 {
     RUN("currentPath", QDir::currentPath() + "\n");
 
@@ -847,7 +847,7 @@ void Tests::commandGetSetCurrentPath()
               newPath, newPath) );
 }
 
-void Tests::commandSelectItems()
+void CoreTests::commandSelectItems()
 {
     RUN("add" << "C" << "B" << "A", "");
 
@@ -869,7 +869,7 @@ void Tests::commandSelectItems()
     TEST_SELECTED(tab + " 2 1 2\n");
 }
 
-void Tests::commandsExportImport()
+void CoreTests::commandsExportImport()
 {
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
@@ -908,7 +908,7 @@ void Tests::commandsExportImport()
     RUN("tab" << tab2 << "read" << "0", "1");
 }
 
-void Tests::commandsGetSetCommands()
+void CoreTests::commandsGetSetCommands()
 {
     RUN("commands().length", "0\n");
 
@@ -924,7 +924,7 @@ void Tests::commandsGetSetCommands()
     RUN("commands()[0].enable", "true\n");
 }
 
-void Tests::commandsImportExportCommands()
+void CoreTests::commandsImportExportCommands()
 {
    const QString commands =
            R"('
@@ -941,7 +941,7 @@ void Tests::commandsImportExportCommands()
    RUN("importCommands(exportCommands([{},{name: 'Test 2'}]))[1].name", "Test 2\n");
 }
 
-void Tests::commandsImportExportCommandsFixIndentation()
+void CoreTests::commandsImportExportCommandsFixIndentation()
 {
     {
         const QString commands =
@@ -958,7 +958,7 @@ void Tests::commandsImportExportCommandsFixIndentation()
     }
 }
 
-void Tests::commandsAddCommandsRegExp()
+void CoreTests::commandsAddCommandsRegExp()
 {
     const QString commands =
             "[Command]\n"
@@ -983,12 +983,12 @@ void Tests::commandsAddCommandsRegExp()
     RUN("commands()[0].wndre", "/(?:)/\n");
 }
 
-void Tests::commandScreenshot()
+void CoreTests::commandScreenshot()
 {
     RUN("screenshot().size() > 0", "true\n");
 }
 
-void Tests::commandNotification()
+void CoreTests::commandNotification()
 {
     const auto script = R"(
         notification(
@@ -1009,7 +1009,7 @@ void Tests::commandNotification()
                 "notification('.message', 'message', 'BAD')", CommandException, "Unknown argument: BAD");
 }
 
-void Tests::commandNotificationUrgency()
+void CoreTests::commandNotificationUrgency()
 {
     RUN("notification('.urgency', 'low')", "");
     RUN("notification('.urgency', 'normal')", "");
@@ -1021,7 +1021,7 @@ void Tests::commandNotificationUrgency()
         "Unknown value for '.urgency' notification field: unknown");
 }
 
-void Tests::commandNotificationPersistent()
+void CoreTests::commandNotificationPersistent()
 {
     RUN("notification('.persistent', true)", "");
     RUN("notification('.persistent', false)", "");
@@ -1035,7 +1035,7 @@ void Tests::commandNotificationPersistent()
         "Unknown value for '.persistent' notification field: unknown");
 }
 
-void Tests::commandIcon()
+void CoreTests::commandIcon()
 {
     RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
 
@@ -1052,7 +1052,7 @@ void Tests::commandIcon()
     RUN("iconColor", QByteArray(defaultSessionColor) + "\n");
 }
 
-void Tests::commandIconTag()
+void CoreTests::commandIconTag()
 {
     RUN("iconTag", "\n");
 
@@ -1063,7 +1063,7 @@ void Tests::commandIconTag()
     RUN("iconTag", "\n");
 }
 
-void Tests::commandIconTagColor()
+void CoreTests::commandIconTagColor()
 {
     RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
 
@@ -1077,7 +1077,7 @@ void Tests::commandIconTagColor()
     RUN("iconTagColor", QByteArray(defaultTagColor) + "\n");
 }
 
-void Tests::commandLoadTheme()
+void CoreTests::commandLoadTheme()
 {
     RUN_EXPECT_ERROR_WITH_STDERR(
         "loadTheme" << "a non-existent file", CommandException, "ScriptError: Failed to read theme");
@@ -1112,7 +1112,7 @@ void Tests::commandLoadTheme()
     }
 }
 
-void Tests::commandDateString()
+void CoreTests::commandDateString()
 {
     const auto dateFormat = "TEST:yyyy-MM-dd";
     const auto dateTime = QDateTime::currentDateTime();
@@ -1120,7 +1120,7 @@ void Tests::commandDateString()
     RUN("dateString" << dateFormat, today + "\n");
 }
 
-void Tests::commandAfterMilliseconds()
+void CoreTests::commandAfterMilliseconds()
 {
     const QString script = "afterMilliseconds(100, function(){ print('TEST'); abort(); });";
     RUN(script, "");
@@ -1128,12 +1128,12 @@ void Tests::commandAfterMilliseconds()
     RUN(script + "sleep(200)", "TEST");
 }
 
-void Tests::commandAsync()
+void CoreTests::commandAsync()
 {
     RUN("afterMilliseconds(0, function() { print(currentItem()); abort(); }); dialog()", "-1");
 }
 
-void Tests::commandFilter()
+void CoreTests::commandFilter()
 {
     RUN("filter", "\n");
     RUN("filter" << "test", "");
@@ -1150,7 +1150,7 @@ void Tests::commandFilter()
     RUN("filter", "\n");
 }
 
-void Tests::commandMimeTypes()
+void CoreTests::commandMimeTypes()
 {
     RUN("eval" <<
         "[mimeText, mimeHtml, mimeUriList, mimeWindowTitle,"
@@ -1176,7 +1176,7 @@ void Tests::commandMimeTypes()
     );
 }
 
-void Tests::commandUnload()
+void CoreTests::commandUnload()
 {
     // Failure if tab is visible.
     RUN("unload", "");
@@ -1199,7 +1199,7 @@ void Tests::commandUnload()
     RUN("unload" << "missing-tab", "missing-tab\n");
 }
 
-void Tests::commandForceUnload()
+void CoreTests::commandForceUnload()
 {
     RUN("forceUnload", "");
     RUN_EXPECT_ERROR_WITH_STDERR("add" << "A", CommandException, "ScriptError: Invalid tab");
@@ -1220,7 +1220,7 @@ void Tests::commandForceUnload()
     RUN("add" << "B", "");
 }
 
-void Tests::commandServerLogAndLogs()
+void CoreTests::commandServerLogAndLogs()
 {
     const QByteArray data1 = generateData();
     QRegularExpression re("\\[[^]]+\\] Note <Server-[0-9]+>: " + QRegularExpression::escape(data1));
@@ -1241,7 +1241,7 @@ void Tests::commandServerLogAndLogs()
     QVERIFY2( QString::fromUtf8(stdoutActual).contains(re), stdoutActual );
 }
 
-void Tests::commandStats()
+void CoreTests::commandStats()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
@@ -1322,7 +1322,7 @@ void Tests::commandStats()
     QVERIFY2(it->contains("pid="), *it);
 }
 
-void Tests::statsQObjectLeak()
+void CoreTests::statsQObjectLeak()
 {
     // Set up items and commands that produce QObjects on selection change:
     // - inMenu commands trigger context menu rebuilds (updateContextMenu)
@@ -1381,7 +1381,7 @@ void Tests::statsQObjectLeak()
     );
 }
 
-void Tests::statsItemPreview()
+void CoreTests::statsItemPreview()
 {
     RUN("add" << "test_item", "");
 
@@ -1418,7 +1418,7 @@ void Tests::statsItemPreview()
 }
 
 
-void Tests::chainingCommands()
+void CoreTests::chainingCommands()
 {
     const auto tab1 = testTab(1);
     RUN("tab" << tab1 << "add" << "C" << "B" << "A", "");
@@ -1434,7 +1434,7 @@ void Tests::chainingCommands()
     RUN("eval" << "arguments[1]" << "--" << "TEST", "TEST");
 }
 
-void Tests::insertRemoveItems()
+void CoreTests::insertRemoveItems()
 {
     const Args args = Args("tab") << testTab(1) << "separator" << ",";
 
@@ -1453,7 +1453,7 @@ void Tests::insertRemoveItems()
     RUN(args << "read" << "0" << "1" << "2" << "3" << "4", "abc,ABC,ghi,,");
 }
 
-void Tests::handleUnexpectedTypes()
+void CoreTests::handleUnexpectedTypes()
 {
     RUN("add(version)", "");
     RUN("add([version])", "");

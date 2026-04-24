@@ -19,7 +19,7 @@
 
 #define TAB(TEXT) "tab_tree_item|text=" TEXT
 
-void Tests::dragNDropItemOrder()
+void CoreTests::dragNDropItemOrder()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -38,7 +38,7 @@ void Tests::dragNDropItemOrder()
     RUN("read(0,1,2,3)", "ITEM2\nITEM1\nITEM3\n");
 }
 
-void Tests::dragNDropItemToTabTree()
+void CoreTests::dragNDropItemToTabTree()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -56,7 +56,7 @@ void Tests::dragNDropItemToTabTree()
     RUN("tab" << "TAB2" << "read(0,1,2,3)", "ITEM1\n\n\n");
 }
 
-void Tests::dragNDropTreeTab()
+void CoreTests::dragNDropTreeTab()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -68,7 +68,7 @@ void Tests::dragNDropTreeTab()
     RUN("tab", "TAB1\nTAB1/TAB2\nCLIPBOARD\n");
 }
 
-void Tests::dragNDropTreeTabNested()
+void CoreTests::dragNDropTreeTabNested()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -80,7 +80,7 @@ void Tests::dragNDropTreeTabNested()
     RUN("tab", "a/c\na/c/d\nCLIPBOARD\n");
 }
 
-void Tests::dragNDropTreeTabChildCollision()
+void CoreTests::dragNDropTreeTabChildCollision()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -124,7 +124,7 @@ void Tests::dragNDropTreeTabChildCollision()
     QVERIFY2(foundMovedTab, "Moved tab 'a/x' should exist under a unique name after collision");
 }
 
-void Tests::dragNDropTreeTabPartialRenameFailure()
+void CoreTests::dragNDropTreeTabPartialRenameFailure()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 
@@ -178,7 +178,7 @@ void Tests::dragNDropTreeTabPartialRenameFailure()
     RUN("config('tabs')", "a/x\na/y\nb/z\nCLIPBOARD\n");
 }
 
-void Tests::dragNDropTreeTabKeepsCollapsedState()
+void CoreTests::dragNDropTreeTabKeepsCollapsedState()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_DRAG_AND_DROP");
 

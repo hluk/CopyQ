@@ -46,7 +46,7 @@ private:
 
 } // namespace
 
-void Tests::slowClipboard()
+void CoreTests::slowClipboard()
 {
     SKIP_ON_ENV("COPYQ_TESTS_SKIP_SLOW_CLIPBOARD");
 

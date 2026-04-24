@@ -227,9 +227,15 @@ For example::
     COPYQ_CLIPBOARD_MIME_SIZE_LIMIT="text/html.*:0;.*:100M"
 
 This skips HTML data entirely and limits everything else to 100 MiB.
+
+To skip storing images from the clipboard::
+
+    COPYQ_CLIPBOARD_MIME_SIZE_LIMIT="image/.*:0;.*:100M"
+
 The built-in default limits all MIME types to 100 MiB. Custom rules replace
 the default only when at least one valid rule is parsed; otherwise the default
-applies. Set ``.*:-1`` to disable all limits.
+applies. Set ``.*:-1`` to disable all limits. An empty size (e.g. ``text/plain:``)
+also means no limit.
 
 The same format can also be set from the CopyQ scripting API::
 

@@ -6,7 +6,7 @@
 
 #include "common/appconfig.h"
 
-void Tests::classByteArray()
+void CoreTests::classByteArray()
 {
     RUN("ByteArray", "");
     RUN("ByteArray('test')", "test");
@@ -38,12 +38,12 @@ void Tests::classByteArray()
     RUN("ByteArray('a') + 'b'", "ab\n");
 }
 
-void Tests::classFile()
+void CoreTests::classFile()
 {
     RUN("var f = new File('/copyq_missing_file'); f.exists()", "false\n");
 }
 
-void Tests::classDir()
+void CoreTests::classDir()
 {
     RUN("var d = new Dir('/missing_directory/')"
         "; d.exists()"
@@ -123,7 +123,7 @@ void Tests::classDir()
     RUN("Dir().cleanPath('/a//b/../c/')", QDir::cleanPath("/a//b/../c/") + "\n");
 }
 
-void Tests::classTemporaryFile()
+void CoreTests::classTemporaryFile()
 {
     RUN("var f = new TemporaryFile(); f.open()", "true\n");
 
@@ -218,7 +218,7 @@ void Tests::classTemporaryFile()
     RUN("TemporaryFile().fileTemplate()", QDir::temp().filePath(QStringLiteral("copyq-%1.XXXXXX").arg(sessionName)) + "\n");
 }
 
-void Tests::classItemSelection()
+void CoreTests::classItemSelection()
 {
     const auto tab1 = testTab(1);
     const Args args = Args("tab") << tab1 << "separator" << ",";
@@ -324,7 +324,7 @@ void Tests::classItemSelection()
     RUN(args << "ItemSelection().select('A').str()", outRows.arg(""));
 }
 
-void Tests::classItemSelectionGetCurrent()
+void CoreTests::classItemSelectionGetCurrent()
 {
     const auto tab1 = testTab(1);
     const Args args = Args("tab") << tab1 << "separator" << ",";
@@ -348,7 +348,7 @@ void Tests::classItemSelectionGetCurrent()
     WAIT_ON_OUTPUT(args << "read(0)", "ItemSelection(tab=\"" + tab1 + "\", rows=[3,2])");
 }
 
-void Tests::classItemSelectionByteArray()
+void CoreTests::classItemSelectionByteArray()
 {
     const auto tab1 = testTab(1);
     const Args args = Args("tab") << tab1 << "separator" << ",";
@@ -361,7 +361,7 @@ void Tests::classItemSelectionByteArray()
              << "read(mimeText, 0)", "C");
 }
 
-void Tests::classItemSelectionSort()
+void CoreTests::classItemSelectionSort()
 {
     const auto tab1 = testTab(1);
     const Args args = Args("tab") << tab1 << "separator" << ",";
@@ -394,7 +394,7 @@ void Tests::classItemSelectionSort()
     RUN(args << "size", "5\n");
 }
 
-void Tests::classSettings()
+void CoreTests::classSettings()
 {
     TemporaryFile configFile;
     const QString fileName = configFile.fileName();
@@ -449,7 +449,7 @@ void Tests::classSettings()
     RUN("Settings().value('Options/tabs')", QStringLiteral("%1\n").arg(clipboardTabName));
 }
 
-void Tests::calledWithInstance()
+void CoreTests::calledWithInstance()
 {
     // These would fail with the old deprecated Qt Script module.
     RUN("f=ByteArray().size; f()", "0\n");

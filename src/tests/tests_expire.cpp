@@ -3,7 +3,7 @@
 
 #include "common/settings.h"
 
-void Tests::expireTabs()
+void CoreTests::expireTabs()
 {
     {
         Settings settings;

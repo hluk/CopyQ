@@ -4,16 +4,16 @@ set -xeuo pipefail
 
 # Run only specific tests that are expected to work on Wayland.
 default_wayland_tests=(
-    configPath
-    readLog
-    commandShowHide
-    commandCopy
-    commandClipboard
-    commandHasClipboardFormat
-    clipboardToItem
-    itemToClipboard
-    avoidStoringPasswords
-    trayShowHideAction
+    testCore:configPath
+    testCore:readLog
+    testCore:commandShowHide
+    testCore:commandCopy
+    testCore:commandClipboard
+    testCore:commandHasClipboardFormat
+    testCore:clipboardToItem
+    testCore:itemToClipboard
+    testCore:avoidStoringPasswords
+    testCore:trayShowHideAction
 )
 
 kwin_wayland --virtual --socket=copyq-wayland &

@@ -29,15 +29,19 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
+#include <QHash>
 #include <QLoggingCategory>
 #include <QMap>
+#include <QMetaMethod>
 #include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTest>
 #include <QTimer>
 
+#include <functional>
 #include <memory>
+#include <utility>
 
 namespace {
 
@@ -541,9 +545,6 @@ public:
         const QByteArray errors = isServerRunning() ? stopServer() : QByteArray();
         m_ignoreErrors = {};
 
-        if ( !errors.isEmpty() || QTest::currentTestFailed() )
-            m_failed.append( QString::fromUtf8(QTest::currentTestFunction()) );
-
         return errors;
     }
 
@@ -583,28 +584,6 @@ public:
         m_env.insert("COPYQ_ALLOW_PLUGINS", "*itemtests*,*" + allowPlugins + "*");
         m_envBeforeTest = m_env;
     }
-
-    int runTests(QObject *testObject, int argc = 0, char **argv = nullptr)
-    {
-        int exitCode = QTest::qExec(testObject, argc, argv);
-
-        const int maxRuns = m_env.value("COPYQ_TESTS_RERUN_FAILED", "0").toInt();
-        for (int runCounter = 0; exitCode != 0 && !m_failed.isEmpty() && runCounter < maxRuns; ++runCounter) {
-            qInfo() << QString::fromLatin1("Rerunning %1 failed tests (%2/%3): %4")
-                       .arg(m_failed.size())
-                       .arg(runCounter + 1)
-                       .arg(maxRuns)
-                       .arg(m_failed.join(", "));
-            QStringList args = m_failed;
-            m_failed.clear();
-            args.prepend( QString::fromUtf8(argv[0]) );
-            exitCode = QTest::qExec(testObject, args);
-        }
-        m_failed.clear();
-
-        return exitCode;
-    }
-
 private:
     bool testStderr(const QByteArray &stderrData)
     {
@@ -672,52 +651,206 @@ private:
     QVariantMap m_settings;
     QRegularExpression m_ignoreErrors;
 
-    QStringList m_failed;
-
     PlatformClipboardPtr m_clipboard;
 };
 
 } // namespace
 
-Tests::Tests(const TestInterfacePtr &test, QObject *parent)
+CoreTests::CoreTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+    setProperty("CopyQ_test_id", defaultTestId);
+    setProperty("CopyQ_allow_plugins", defaultTestPlugins);
 }
 
-void Tests::initTestCase()
+void CoreTests::initTestCase()
 {
     TEST(m_test->initTestCase());
 }
 
-void Tests::cleanupTestCase()
+void CoreTests::cleanupTestCase()
 {
     TEST(m_test->cleanupTestCase());
 }
 
-void Tests::init()
+void CoreTests::init()
 {
     TEST(m_test->init());
 }
 
-void Tests::cleanup()
+void CoreTests::cleanup()
 {
     TEST( m_test->cleanup() );
 }
 
-int Tests::run(
+int CoreTests::run(
         const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in,
         const QStringList &environment)
 {
     return m_test->run(arguments, stdoutData, stderrData, in, environment);
 }
 
-bool Tests::hasTab(const QString &tabName)
+bool CoreTests::hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
     return splitLines(out).contains(tabName);
 }
+
+#define IMPL_TEST_GROUP(Name) \
+    QObject *m_group##Name = addTestGroup<Name##Tests>("test" #Name); \
+    Q_SLOT void test##Name##_data() { populateTestRows(m_group##Name, "test" #Name); } \
+    Q_SLOT void test##Name() { dispatchCurrentTest(); }
+
+class Tests : public QObject {
+    Q_OBJECT
+public:
+    explicit Tests(
+        std::shared_ptr<TestInterfaceImpl> test,
+        const QString &filter = {},
+        QObject *parent = nullptr)
+        : QObject(parent)
+        , m_test(std::move(test))
+        , m_filter(filter) {}
+
+    QStringList m_failed;
+
+private:
+    std::shared_ptr<TestInterfaceImpl> m_test;
+    QRegularExpression m_filter;
+    QHash<QByteArray, QObject*> m_groups;
+    QObject *m_activeGroup = nullptr;
+
+    template <typename TestClass>
+    QObject *addTestGroup(const char *groupName)
+    {
+        QObject *group = new TestClass(m_test, this);
+        m_groups.insert(groupName, group);
+        return group;
+    }
+
+    static int findMethod(const QMetaObject *meta, const char *name)
+    {
+        for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
+            if (meta->method(i).name() == name)
+                return i;
+        }
+        return -1;
+    }
+
+    static void invokeMethod(QObject *obj, const char *name)
+    {
+        if (!obj)
+            return;
+        const int idx = findMethod(obj->metaObject(), name);
+        if (idx >= 0)
+            obj->metaObject()->method(idx).invoke(obj, Qt::DirectConnection);
+    }
+
+    static bool isLifecycleSlot(const QByteArray &name)
+    {
+        return name == "initTestCase" || name == "cleanupTestCase"
+            || name == "init" || name == "cleanup";
+    }
+
+    static bool isTestSlot(const QMetaMethod &method, const QByteArray &name)
+    {
+        return method.access() == QMetaMethod::Private
+            && method.methodType() == QMetaMethod::Slot
+            && method.parameterCount() == 0
+            && !isLifecycleSlot(name)
+            && !name.endsWith("_data");
+    }
+
+    QObject *currentGroup()
+    {
+        const auto it = m_groups.find(QTest::currentTestFunction());
+        return it == m_groups.end() ? nullptr : it.value();
+    }
+
+    void activateGroup(QObject *group)
+    {
+        m_activeGroup = group;
+        const auto id = group->property("CopyQ_test_id").toString();
+        const auto allowPlugins = group->property("CopyQ_allow_plugins");
+        const QString plugins = allowPlugins.isValid() ? allowPlugins.toString() : id;
+        const auto settings = group->property("CopyQ_test_settings");
+        m_test->setupTest(id, plugins, settings.isValid() ? settings : QVariant());
+    }
+
+    void populateTestRows(QObject *group, const char *groupName)
+    {
+        const QMetaObject *meta = group->metaObject();
+
+        QTest::addColumn<int>("methodIndex");
+
+        for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
+            const QMetaMethod method = meta->method(i);
+            const QByteArray name = method.name();
+            if (!isTestSlot(method, name))
+                continue;
+
+            if (m_filter.isValid() && !m_filter.pattern().isEmpty()) {
+                const QString fullName = QStringLiteral("%1:%2").arg(groupName, name);
+                if (!m_filter.match(fullName).hasMatch())
+                    continue;
+            }
+
+            QTest::newRow(name.constData()) << i;
+        }
+    }
+
+    void dispatchCurrentTest()
+    {
+        if (!QTest::currentDataTag()) {
+            QSKIP("No matching tests in this group");
+            return;
+        }
+
+        QFETCH(int, methodIndex);
+
+        QObject *group = currentGroup();
+        Q_ASSERT(group);
+        group->metaObject()->method(methodIndex).invoke(group, Qt::DirectConnection);
+    }
+
+    Q_SLOT void initTestCase() {}
+
+    Q_SLOT void cleanupTestCase()
+    {
+        invokeMethod(m_activeGroup, "cleanupTestCase");
+    }
+
+    Q_SLOT void init()
+    {
+        QObject *group = currentGroup();
+        if (group != m_activeGroup) {
+            invokeMethod(m_activeGroup, "cleanupTestCase");
+            activateGroup(group);
+            invokeMethod(m_activeGroup, "initTestCase");
+        }
+        invokeMethod(m_activeGroup, "init");
+    }
+
+    Q_SLOT void cleanup() {
+        invokeMethod(currentGroup(), "cleanup");
+        if (QTest::currentTestFailed()) {
+            const QString tag = QString::fromUtf8(QTest::currentDataTag());
+            const QString fn = QString::fromUtf8(QTest::currentTestFunction());
+            m_failed.append(QStringLiteral("%1:%2").arg(fn, tag));
+        }
+    }
+
+    IMPL_TEST_GROUP(Core)
+    IMPL_TEST_GROUP(ClipboardDataGuard)
+    IMPL_TEST_GROUP(ItemEncrypted)
+    IMPL_TEST_GROUP(ItemFakeVim)
+    IMPL_TEST_GROUP(ItemImage)
+    IMPL_TEST_GROUP(ItemPinned)
+    IMPL_TEST_GROUP(ItemSync)
+    IMPL_TEST_GROUP(ItemTags)
+};
 
 int main(int argc, char **argv)
 {
@@ -734,23 +867,6 @@ int main(int argc, char **argv)
     qputenv("COPYQ_LOG_FILE", configDir.absoluteFilePath(QStringLiteral("tests.log")).toLocal8Bit());
     qputenv("COPYQ_ITEM_DATA_PATH", configDir.absoluteFilePath(QStringLiteral("items")).toLocal8Bit());
 
-    QRegularExpression onlyPlugins;
-    bool runPluginTests = true;
-
-    if (argc > 1) {
-        QString arg = argv[1];
-        if (arg.startsWith("PLUGINS:")) {
-            arg.remove(QRegularExpression("^PLUGINS:"));
-            onlyPlugins = QRegularExpression(arg, QRegularExpression::CaseInsensitiveOption);
-            --argc;
-            ++argv;
-        } else {
-            // Omit plugin tests if specific core tests requested.
-            const QString lastArg(argv[argc - 1]);
-            runPluginTests = lastArg.startsWith("-");
-        }
-    }
-
     setSessionName(sessionName);
     const auto platform = platformNativeInterface();
     std::unique_ptr<QGuiApplication> app( platform->createTestApplication(argc, argv) );
@@ -764,46 +880,24 @@ int main(int argc, char **argv)
     if (!ok || timeout <= 0)
         qputenv("QTEST_FUNCTION_TIMEOUT", QByteArray::number(15 * 60 * 1000));
 
-    int exitCode = 0;
-    std::shared_ptr<TestInterfaceImpl> test(new TestInterfaceImpl);
-    const auto runTests = [&](QObject *tests){
-        exitCode = std::max(exitCode, test->runTests(tests, argc, argv));
-        test->stopServer();
-    };
+    auto test = std::make_shared<TestInterfaceImpl>();
+    Tests aggregator(test, qEnvironmentVariable("COPYQ_TESTS_FILTER"));
+    int exitCode = QTest::qExec(&aggregator, argc, argv);
 
-    // Run standalone unit tests (no server needed).
-    // Only run when no specific test functions are requested (full test run)
-    // to avoid false failures from function names not found in this class.
-    if (runPluginTests) {
-        ClipboardDataGuardTests guardTests;
-        exitCode = std::max(exitCode, QTest::qExec(&guardTests, argc, argv));
-    }
-
-    if (onlyPlugins.pattern().isEmpty()) {
-        test->setupTest("CORE", defaultTestPlugins, QVariant());
-        Tests tc(test);
-        runTests(&tc);
-    }
-
-    if (runPluginTests) {
-        const QList<QObject*> pluginTests{
-            new ItemEncryptedTests(test),
-            new ItemFakeVimTests(test),
-            new ItemImageTests(test),
-            new ItemPinnedTests(test),
-            new ItemSyncTests(test),
-            new ItemTagsTests(test),
-        };
-        for (const auto pluginTest : pluginTests) {
-            const auto pluginId = pluginTest->property("CopyQ_test_id").toString();
-            if ( !pluginId.contains(onlyPlugins) )
-                continue;
-
-            const auto settings = pluginTest->property("CopyQ_test_settings");
-            test->setupTest(pluginId, pluginId, settings);
-            runTests(pluginTest);
-        }
+    const int maxReruns = qEnvironmentVariableIntValue("COPYQ_TESTS_RERUN_FAILED", &ok);
+    for (int run = 0; exitCode != 0 && !aggregator.m_failed.isEmpty() && run < maxReruns; ++run) {
+        qInfo() << QString::fromLatin1("Rerunning %1 failed tests (%2/%3): %4")
+                       .arg(aggregator.m_failed.size())
+                       .arg(run + 1)
+                       .arg(maxReruns)
+                       .arg(aggregator.m_failed.join(", "));
+        QStringList args = aggregator.m_failed;
+        aggregator.m_failed.clear();
+        args.prepend(QString::fromUtf8(argv[0]));
+        exitCode = QTest::qExec(&aggregator, args);
     }
 
     return exitCode;
 }
+
+#include "tests.moc"

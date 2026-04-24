@@ -338,16 +338,16 @@ jobs:
         if: matrix.test_x11 && matrix.appimage
         run: |
           ${{github.workspace}}/utils/github/test-linux.sh \
-            clipboardToItem \
-            itemToClipboard \
-            commandClipboard \
-            commandHasClipboardFormat \
-            tabEncryption \
-            tabEncryptionPasswordNew \
-            tabEncryptionPasswordCurrent \
-            expireEncryptionPassword
+            testCore:clipboardToItem \
+            testCore:itemToClipboard \
+            testCore:commandClipboard \
+            testCore:commandHasClipboardFormat \
+            testCore:tabEncryption \
+            testCore:tabEncryptionPasswordNew \
+            testCore:tabEncryptionPasswordCurrent \
+            testCore:expireEncryptionPassword
 
-          ${{github.workspace}}/utils/github/test-linux.sh PLUGINS:encrypted
+          ${{github.workspace}}/utils/github/test-linux.sh testItemEncrypted
 
       - name: Update coverage
         if: matrix.coverage

@@ -184,4 +184,4 @@ test_clipboard PRIMARY 'PRIMARY TEXT'
 
 "$COPYQ_TESTS_EXECUTABLE" exit
 
-"$COPYQ_TESTS_TESTS_EXECUTABLE" commandHasClipboardFormat commandCopy commandClipboard
+"$COPYQ_TESTS_TESTS_EXECUTABLE" testCore:commandHasClipboardFormat testCore:commandCopy testCore:commandClipboard
