@@ -78,12 +78,8 @@ QString getDesktopFilename()
     if ( QFile::exists(path) )
         return path;
 
-    const QString sessionName = qApp->property("CopyQ_session_name").toString();
-    const QString desktopName = sessionName.isEmpty()
-        ? QGuiApplication::desktopFileName()
-        : QStringLiteral("%1-%2").arg(QGuiApplication::desktopFileName(), sessionName);
     return QStringLiteral("%1/autostart/%2.desktop")
-        .arg( configDir, desktopName );
+        .arg( configDir, QGuiApplication::desktopFileName() );
 }
 #endif
 
