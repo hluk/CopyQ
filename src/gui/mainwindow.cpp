@@ -3103,6 +3103,7 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     // Show the tray icon early so it is visible while the encryption
     // password dialog blocks (see https://github.com/hluk/CopyQ/issues/3502).
     m_options.nativeTrayMenu = appConfig->option<Config::native_tray_menu>();
+    m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
     setTrayEnabled( !appConfig->option<Config::disable_tray>() );
     updateIcon();
 
@@ -3135,7 +3136,6 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
                                                       : Qt::ToolButtonTextUnderIcon);
 
-    m_options.hideMainWindow = appConfig->option<Config::hide_main_window>();
     m_options.closeOnUnfocus = appConfig->option<Config::close_on_unfocus>();
 
     WindowFlags flags(this);
