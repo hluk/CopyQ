@@ -164,18 +164,23 @@ window.  This can cause side effects in the target application such as:
 * Application menus closing
 * Auto-hide windows hiding (e.g. ConEmu Quake mode)
 
-**Workaround:** Use global shortcuts to cycle through clipboard history and
+.. seealso::
+    - `Issue #3540 <https://github.com/hluk/CopyQ/issues/3540>`__
+
+Workaround
+^^^^^^^^^^
+Use global shortcuts to cycle through clipboard history and
 paste without showing the CopyQ window.
 
 The `Cycle Items - Quick
 <https://github.com/hluk/copyq-commands/blob/master/README.md#cycle-items---quick>`__
-command previews items in popups and automatically pastes the selected item
-when the shortcut modifiers are released -- without ever opening the CopyQ
+command previews items in notifications and automatically pastes the selected item
+when the shortcut modifier(s) are released―without ever opening the main
 window.
 
 A simpler alternative is to assign a global shortcut to ``next()`` or
-``previous()``, which cycle through clipboard history and update the system
-clipboard silently:
+``previous()``. These functions cycle through clipboard history and update the system
+clipboard silently. For example, the following command updates to the next item:
 
 .. code-block:: js
 
