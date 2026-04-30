@@ -84,6 +84,8 @@ private:
     void shortcutActivated(QxtGlobalShortcut *shortcut);
 
     void removeGlobalShortcuts();
+    void addGlobalShortcuts(const QVector<Command> &commands);
+    void onKeyboardLayoutChanged();
 
     /** Called when new commands are available. */
     void onCommandsSaved(const QVector<Command> &commands);
