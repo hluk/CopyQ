@@ -188,4 +188,3 @@ clipboard silently. For example, the following command updates to the next item:
 
 The item can then be pasted with the normal system paste shortcut
 (``Ctrl+V`` or ``Cmd+V``).
-
