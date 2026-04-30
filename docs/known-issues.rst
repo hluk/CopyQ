@@ -189,8 +189,3 @@ clipboard silently. For example, the following command updates to the next item:
 The item can then be pasted with the normal system paste shortcut
 (``Ctrl+V`` or ``Cmd+V``).
 
-.. seealso::
-
-    - `Cycle Items - Quick <https://github.com/hluk/copyq-commands/blob/master/README.md#cycle-items---quick>`__
-    - `Cycle Items <https://github.com/hluk/copyq-commands/blob/master/README.md#cycle-items>`__
-    - `Issue #3540 <https://github.com/hluk/CopyQ/issues/3540>`__
