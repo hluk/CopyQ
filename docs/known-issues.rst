@@ -147,3 +147,44 @@ An alternative under Windows is to use a Powershell script to override the ``cop
     Name=Override copy()
 
 The delays are added to make sure no focus issues occur and the text is copied to the clipboard.
+
+
+.. _known-issue-focus-stealing:
+
+CopyQ steals keyboard focus when showing window or menu
+-------------------------------------------------------
+
+When CopyQ shows its main window or tray menu (via global shortcut, tray icon
+click, or script), it transfers keyboard focus from the previously active
+window.  This can cause side effects in the target application such as:
+
+* File renames aborting (e.g. pressing F2 in file managers)
+* Combo boxes selecting all their content
+* Short-lived widgets dismissing (Start menu, PowerToys, extension dialogs)
+* Application menus closing
+* Auto-hide windows hiding (e.g. ConEmu Quake mode)
+
+.. seealso::
+    - `Issue #3540 <https://github.com/hluk/CopyQ/issues/3540>`__
+
+Workaround
+^^^^^^^^^^
+Use global shortcuts to cycle through clipboard history and
+paste without showing the CopyQ window.
+
+The `Cycle Items - Quick
+<https://github.com/hluk/copyq-commands/blob/master/README.md#cycle-items---quick>`__
+command previews items in notifications and automatically pastes the selected item
+when the shortcut modifier(s) are released―without ever opening the main
+window.
+
+A simpler alternative is to assign a global shortcut to ``next()`` or
+``previous()``. These functions cycle through clipboard history and update the system
+clipboard silently. For example, the following command updates to the next item:
+
+.. code-block:: js
+
+    next()
+
+The item can then be pasted with the normal system paste shortcut
+(``Ctrl+V`` or ``Cmd+V``).
