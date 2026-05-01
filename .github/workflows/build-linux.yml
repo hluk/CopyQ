@@ -128,7 +128,7 @@ jobs:
           filter: blob:none
 
       - name: Enable ccache
-        uses: hendrikmuhs/ccache-action@33522472633dbd32578e909b315f5ee43ba878ce # v1.2.22
+        uses: hendrikmuhs/ccache-action@d62db5f07c26379fc4b4e0916f098a92573c3b03 # v1.2.23
         with:
           key: ${{ github.job }}-${{ matrix.os }}
 
@@ -164,7 +164,7 @@ jobs:
 
       - name: Install Qt
         if: matrix.custom_qt
-        uses: jurplel/install-qt-action@d325aaf2a8baeeda41ad0b5d39f84a6af9bcf005 # v4
+        uses: jurplel/install-qt-action@48d3ad6db93f3627c8ee7a0454bc6f3744f7e730 # v4
         with:
           version: ${{ matrix.custom_qt }}
           modules: qt5compat
@@ -296,7 +296,7 @@ jobs:
 
       - name: Upload AppImage
         if: matrix.appimage
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: CopyQ-*.AppImage
           archive: false
