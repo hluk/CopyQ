@@ -54,7 +54,7 @@ jobs:
           persist-credentials: false
 
       - name: Enable ccache
-        uses: hendrikmuhs/ccache-action@33522472633dbd32578e909b315f5ee43ba878ce # v1.2.22
+        uses: hendrikmuhs/ccache-action@d62db5f07c26379fc4b4e0916f098a92573c3b03 # v1.2.23
         with:
           key: ${{ github.job }}-${{ matrix.os }}
           max-size: 1G
@@ -64,7 +64,7 @@ jobs:
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@d325aaf2a8baeeda41ad0b5d39f84a6af9bcf005 # v4
+        uses: jurplel/install-qt-action@48d3ad6db93f3627c8ee7a0454bc6f3744f7e730 # v4
         with:
           version: ${{ env.QT_VERSION }}
           modules: qtimageformats qt5compat
@@ -80,7 +80,7 @@ jobs:
 
       - name: Restore cached dependencies
         id: cache-deps
-        uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ github.workspace }}/deps/install
           key: >-
@@ -96,7 +96,7 @@ jobs:
 
       - name: Save dependency cache
         if: github.event_name == 'push'
-        uses: actions/cache/save@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ github.workspace }}/deps/install
           key: >-
@@ -133,7 +133,7 @@ jobs:
           BUNDLE_SUFFIX: ${{ matrix.bundle_suffix }}
 
       - name: Upload macOS bundle
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: 'CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
           path: '${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/CopyQ-${{ steps.version.outputs.version }}${{ matrix.bundle_suffix }}.dmg'
@@ -145,7 +145,7 @@ jobs:
 
       - name: Upload crash reports
         if: failure()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: 'crash-reports${{ matrix.bundle_suffix }}'
           path: '~/Library/Logs/DiagnosticReports/*'
