@@ -36,24 +36,12 @@ void ItemImageTests::cleanup()
     TEST( m_test->cleanup() );
 }
 
-void ItemImageTests::supportedFormats()
-{
-    const auto supportedRead = QImageReader::supportedImageFormats();
-    QVERIFY(supportedRead.contains("png"));
-    QVERIFY(supportedRead.contains("bmp"));
-
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    QVERIFY(supportedRead.contains("gif"));
-    QVERIFY(supportedRead.contains("webp"));
-#endif
-
-    const auto supportedWrite = QImageWriter::supportedImageFormats();
-    QVERIFY(supportedWrite.contains("png"));
-    QVERIFY(supportedWrite.contains("bmp"));
-}
-
 void ItemImageTests::savePng()
 {
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_PNG");
+    QVERIFY(QImageReader::supportedImageFormats().contains("png"));
+    QVERIFY(QImageWriter::supportedImageFormats().contains("png"));
+
     QImage image({8, 8}, QImage::Format_RGB32);
     image.fill(Qt::green);
 
@@ -70,6 +58,10 @@ void ItemImageTests::savePng()
 
 void ItemImageTests::saveBmp()
 {
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_BMP");
+    QVERIFY(QImageReader::supportedImageFormats().contains("bmp"));
+    QVERIFY(QImageWriter::supportedImageFormats().contains("bmp"));
+
     QImage image({8, 8}, QImage::Format_RGB32);
     image.fill(Qt::green);
 
@@ -86,8 +78,8 @@ void ItemImageTests::saveBmp()
 
 void ItemImageTests::saveGif()
 {
-    if ( !QImageReader::supportedImageFormats().contains("gif") )
-        SKIP("GIF image format is unsopported on this platform");
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_GIF");
+    QVERIFY(QImageReader::supportedImageFormats().contains("gif"));
 
     const auto data = QByteArray::fromBase64(
         "R0lGODlhCAAIAPQAAAAAAE5WUURsU0ZuVVxkX3Jycnx8fFKCZFyRcFyScF6Ucl+Wc1+WdGmLdmuMeGGadmqqgmurg5OUlJubm56dnaGhobW1tb2+vgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAAIf8LSW1hZ2VNYWdpY2sNZ2FtbWE9MC40NTQ1NQAsAAAAAAgACAAABSYgAAwiKSZLkjCJ+AhRJDzikTTOcohAIF0EHmBSsVCEhkLBIGwCQgA7");
@@ -99,8 +91,8 @@ void ItemImageTests::saveGif()
 
 void ItemImageTests::saveWebp()
 {
-    if ( !QImageReader::supportedImageFormats().contains("webp") )
-        SKIP("WEBP image format is unsopported on this platform");
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_WEBP");
+    QVERIFY(QImageReader::supportedImageFormats().contains("webp"));
 
     const auto data = QByteArray::fromBase64(
         "UklGRrgAAABXRUJQVlA4WAoAAAAQAAAABwAABwAAQUxQSEEAAAAACFmTUFCTWQhN3url5ereTXLuwPn5wO5yLrvx/v7xuy4AIbD//7AhAAARw/z8wxEAAA2vqKivDAAAAEc2NkcAAABWUDggUAAAAPABAJ0BKggACAACADQljAJ0AQ8M/qJ2gAD+3i3bP+bdQx6F+ZyiDZNsPKvgXJjteWOHwsl4XY+Utm/aW5R74XTu3MMrnj1KVx5aDzswFkAA");

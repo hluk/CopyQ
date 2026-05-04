@@ -17,7 +17,6 @@ private slots:
     void init();
     void cleanup();
 
-    void supportedFormats();
     void savePng();
     void saveBmp();
     void saveGif();

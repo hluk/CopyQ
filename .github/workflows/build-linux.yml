@@ -84,6 +84,7 @@ jobs:
             custom_qt: '6.10.2'
             with_native_notifications: false
             with_kf6_wayland_clipboard: false
+            has_webp: false
             coverage: true
             cmake_preset: Debug
             compiler_flags: >-
@@ -102,6 +103,7 @@ jobs:
             compiler_package: clang
             with_native_notifications: false
             with_kf6_wayland_clipboard: false
+            has_webp: false
             cmake_preset: Debug
             test_x11: true
 
@@ -112,6 +114,7 @@ jobs:
             compiler_package: g++
             with_native_notifications: true
             with_kf6_wayland_clipboard: true
+            has_webp: true
             cmake_preset: AppImage-Release
             appimage: true
             test_wayland: true
@@ -233,6 +236,7 @@ jobs:
       - name: Set up test environment
         run: |
           echo "COPYQ_TESTS_EXECUTABLE=${{github.workspace}}/_install/copyq/${{ matrix.cmake_preset }}/bin/copyq" >> "$GITHUB_ENV"
+          echo "COPYQ_TESTS_SKIP_WEBP=${{ !matrix.has_webp && 1 || 0 }}" >> "$GITHUB_ENV"
 
       - name: Set up AppImage tools
         if: matrix.appimage
