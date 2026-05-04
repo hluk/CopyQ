@@ -158,9 +158,25 @@ jobs:
             ${{ matrix.with_native_notifications && 'libkf6notifications-dev kf6-kstatusnotifieritem-dev' || '' }}
             ${{ matrix.with_kf6_wayland_clipboard && 'libkf6guiaddons-dev' || '' }}
             ${{ matrix.appimage && 'libfuse2t64' || '' }}
+          RETRY_COUNT: "4"
+          RETRY_INITIAL_DELAY_SECONDS: "10"
         run: |
-          sudo apt-get update
-          echo "$PACKAGES" | xargs sudo apt-get install -y --no-install-recommends
+          retry() {
+            local delay="$RETRY_INITIAL_DELAY_SECONDS"
+            local attempts=$((RETRY_COUNT + 1))
+            for attempt in $(seq 0 "$RETRY_COUNT"); do
+              if [ "$attempt" -gt 0 ]; then sleep "$delay"; delay=$((delay * 2)); fi
+              if "$@"; then return 0; fi
+              echo "::warning::Command failed (attempt $attempt/$attempts)"
+            done
+            echo "::error::Command failed after $attempts attempts"
+            return 1
+          }
+          retry sudo apt-get update -y
+          install_packages() {
+            echo "$PACKAGES" | xargs sudo apt-get install -y --no-install-recommends
+          }
+          retry install_packages
 
       - name: Install Qt
         if: matrix.custom_qt
