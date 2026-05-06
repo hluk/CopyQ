@@ -15,6 +15,7 @@
 #include <QFileInfo>
 #include <QKeyEvent>
 #include <QMetaObject>
+#include <QMessageBox>
 #include <QSettings>
 #include <QStringList>
 #include <QWidget>
@@ -291,7 +292,36 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
 bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
 {
     HWND window = reinterpret_cast<HWND>(winId);
-    return window && SetWindowDisplayAffinity(
+    if (!window)
+        return false;
+
+    // Remote desktop clients are screen capture systems — applying
+    // WDA_EXCLUDEFROMCAPTURE makes windows invisible to the remote viewer.
+    if (prevent && GetSystemMetrics(SM_REMOTESESSION)) {
+        static bool logged = false;
+        if (!logged) {
+            logged = true;
+            log("Skipping screen capture prevention in remote desktop session", LogWarning);
+
+            const QLatin1String optionKey("Options/screen_capture_warning_acknowledged");
+            Settings settings;
+            if (!settings.value(optionKey, false).toBool()) {
+                QMessageBox::warning(
+                    nullptr,
+                    QObject::tr("Screen Capture Prevention Unavailable"),
+                    QObject::tr(
+                        "The option to hide from screenshots is enabled but cannot"
+                        " take effect in a remote desktop session. Window content"
+                        " may be visible to screen capture."));
+                settings.setValue(optionKey, true);
+            }
+        }
+
+        SetWindowDisplayAffinity(window, WDA_NONE);
+        return false;
+    }
+
+    return SetWindowDisplayAffinity(
         window, prevent ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE);
 }
 
