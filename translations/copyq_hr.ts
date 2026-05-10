@@ -1146,7 +1146,7 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="207"/>
         <source>Change Encryption &amp;Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni lozinku za šifriranje …</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1277,7 +1277,7 @@ Postavi na 0 za neuklanjanje kartica.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatraži lozinku nakon određenog intervala:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="159"/>
@@ -2032,7 +2032,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="968"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="971"/>
         <source>Cancel</source>
-        <translation>Prekini</translation>
+        <translation>Odustani</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="970"/>
@@ -2042,7 +2042,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="973"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Za šifriranje elemenata, najprije se&lt;strong&gt;moraju generirati&lt;/strong&gt; ključevi za šifriranje.</translation>
+        <translation>Ključevi za šifriranje elemenata se &lt;strong&gt;moraju generirati&lt;/strong&gt; prije nego što se šifriranje može koristiti.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="976"/>
@@ -2585,7 +2585,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="530"/>
         <source>Encryption Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriranje nije dostupno</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="531"/>
@@ -2597,22 +2597,22 @@ It will be possible to encrypt and decrypt tab data.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
         <source>Import Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Uvezi lozinku</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="594"/>
         <source>Enter password for import:</source>
-        <translation type="unfinished"></translation>
+        <translation>Unesi lozinku za uvoz:</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="617"/>
         <source>Export Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Izvezi lozinku</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="618"/>
         <source>Enter password for export (empty for no encryption):</source>
-        <translation type="unfinished"></translation>
+        <translation>Unesi lozinku za izvoz (prazno ako nema šifriranja):</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="857"/>
@@ -3294,32 +3294,32 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="266"/>
         <source>Enter new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Unesi novu lozinku:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinke se ne podudaraju. Pokušaj ponovo (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni lozinku</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="338"/>
         <source>New password cannot be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova lozinka ne može biti prazna.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="177"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Postavljanje lozinke nije uspjelo</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3327,19 +3327,19 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premašen je maksimalan broj pokušaja lozinke.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrdi lozinku za šifriranje</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovo unesi lozinku za potvrdu:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
@@ -3354,12 +3354,12 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Neispravna lozinka. Pokušaj ponovo (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Potvrđivanje lozinke nije uspjelo</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
@@ -3374,7 +3374,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
         <source>Change Password Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijenjanje lozinke nije uspjelo</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
@@ -3384,12 +3384,12 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Mijenjanje lozinke je uspjelo</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka je uspješno promijenjena.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
@@ -3399,7 +3399,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Prekini</translation>
+        <translation>Odustani</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
@@ -3418,7 +3418,7 @@ Please check the logs for details.</source>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriranje nije uspjelo</translation>
     </message>
 </context>
 <context>
@@ -3805,12 +3805,12 @@ Standardno se koristi prva kartica.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="578"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Izvoz datoteke „%1” nije uspio</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="583"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Uvoz datoteke „%1” nije uspio</translation>
     </message>
     <message>
         <source>Cannot save to file &quot;%1&quot;!</source>
@@ -3997,7 +3997,7 @@ Koristi &lt;b&gt;/&lt;/b&gt; kao znak razdvajanja staza u stablastom prikazu kar
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zatraži lozinku nakon određenog intervala:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
@@ -4009,7 +4009,7 @@ Set to 0 to use global setting.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>globalno</translation>
     </message>
 </context>
 <context>
