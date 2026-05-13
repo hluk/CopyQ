@@ -114,7 +114,7 @@ Naredbu je moguće postaviti u postavkama.</translation>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="135"/>
         <source>Exit code: %1</source>
-        <translation>Kod za zatvaranje: %1</translation>
+        <translation>Kod za izlaz: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="169"/>
@@ -1176,12 +1176,12 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="281"/>
         <source>Save and restore history of item filters</source>
-        <translation>Spremi i obnovi kronologiju filtara elemenata</translation>
+        <translation>Spremi i obnovi povijest filtara elemenata</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="284"/>
         <source>Save Filter History</source>
-        <translation>Spremi kronologiju filtara</translation>
+        <translation>Spremi povijest filtara</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="291"/>
@@ -1221,7 +1221,7 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="333"/>
         <source>Save clipboard in history</source>
-        <translation>Spremi međuspremnik u kronologiju</translation>
+        <translation>Spremi međuspremnik u povijest</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="336"/>
@@ -1231,7 +1231,7 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="346"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation>Spremi mišem odabrani tekst (primarni odabir) u kronologiju</translation>
+        <translation>Spremi mišem odabrani tekst (primarni odabir) u povijest</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="349"/>
@@ -1249,7 +1249,7 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="65"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>&amp;Maksimalni broj elemenata u kronologiji:</translation>
+        <translation>&amp;Maksimalni broj elemenata u povijesti:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="77"/>
@@ -1724,7 +1724,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="164"/>
         <source>History</source>
-        <translation>Kronologija</translation>
+        <translation>Povijest</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="165"/>
@@ -2094,7 +2094,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Odredi imena kartica (jedno ime po retku) koje će se automatski šifrirati i dešifrirati.&lt;/p&gt;
-&lt;p&gt;Postavi vrijeme za uklanjanje kartice u kartici kronologije za sigurno uklanjanje dešifriranih elemenata iz memorije.&lt;/p&gt;</translation>
+&lt;p&gt;Postavi vrijeme za uklanjanje kartice u kartici povijesti za sigurno uklanjanje dešifriranih elemenata iz memorije.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2164,7 +2164,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>Maksimalna širina slike prikazana u kronologiji (postavi na nula za izvornu veličinu)</translation>
+        <translation>Maksimalna širina slike prikazana u povijesti (postavi na nula za izvornu veličinu)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
@@ -2174,7 +2174,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation>Maksimalna visina slike prikazana u kronologiji (postavi na nula za izvornu veličinu)</translation>
+        <translation>Maksimalna visina slike prikazana u povijesti (postavi na nula za izvornu veličinu)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
@@ -2574,7 +2574,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/logdialog.ui" line="14"/>
         <source>Log</source>
-        <translation>Log-zapis</translation>
+        <translation>Zapisnik</translation>
     </message>
 </context>
 <context>
@@ -3217,7 +3217,7 @@ Bit će moguće šifrirati i dešifrirati podatke kartica.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
         <source>&amp;Show Log</source>
-        <translation>&amp;Prikaži log-zapis</translation>
+        <translation>&amp;Prikaži zapisnik</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="148"/>
@@ -3656,7 +3656,7 @@ Koristi „%1” u PROGRAMU za proslijeđivanje teksta kao argument.</translatio
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
         <translation>Pokreni naredbu na kartici sa zadanim imenom.
-Kartica će se stvoriti, ako ne postoji.
+Ako ne postoji, kartica će se stvoriti.
 Standardno se koristi prva kartica.</translation>
     </message>
     <message>
