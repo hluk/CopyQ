@@ -1121,27 +1121,27 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Encrypt tab data on disk (requires password to be set)</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriraj podatke kartica na disk (mora se postaviti lozinka)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Encrypt &amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriraj &amp;kartice</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Use an available external key store for the encryption password (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</source>
-        <translation type="unfinished"></translation>
+        <translation>Koristi dostupno eksterno spremište ključeva za lozinku za šifriranje (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>&amp;Use external key store</source>
-        <translation type="unfinished"></translation>
+        <translation>Koristi &amp;eksterni spremnik ključeva</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="204"/>
         <source>Change the password used to encrypt tab data</source>
-        <translation type="unfinished"></translation>
+        <translation>Promijeni lozinku koja se koristi za šifriranje podataka kartice</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="207"/>
@@ -1263,16 +1263,16 @@ pritisni F2 za uređivanje.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Isprazni karticu nakon:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>Ukloni svaku karticu iz memorije nakon određenog vremena neaktivnosti u minutama.
+        <translation>Isprazni svaku karticu iz memorije nakon određenog vremena neaktivnosti u minutama.
 
-Postavi na 0 za neuklanjanje kartica.</translation>
+Postavi na 0 za nepražnjenje kartica.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
@@ -1284,7 +1284,9 @@ Postavi na 0 za neuklanjanje kartica.</translation>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vremensko ograničenje u sekundama za ponovno zahtijevanje lozinke za šifrirane kartice.
+
+Postavi na 0 za globalno deaktiviranje.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -2592,7 +2594,9 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriranje nije dostupno (pogledaj zapisnike za detalje).
+
+Bit će moguće šifrirati i dešifrirati podatke kartica.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="593"/>
@@ -3288,7 +3292,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="155"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="265"/>
         <source>New Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka za šifriranje nove kartice</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
@@ -3344,12 +3348,12 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Lozinka za šifriranje trenutačne kartice</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Upiši trenutačnu lozinku za šifriranje podataka kartice:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
@@ -3364,12 +3368,12 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>Datoteke šifriranje su pokvarene</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Datoteke za šifriranje nedostaju ili su oštećene. Strogi način rada ne može automatski oporaviti šifrirane kartice.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
@@ -3379,7 +3383,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Promjena lozinke nije uspjela. Tvoja stara lozinka je još uvijek aktivna. Provjeri zapisnike za detalje.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
@@ -3394,7 +3398,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovno šifriranje kartica …</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
@@ -3404,7 +3408,7 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponovno šifriranje kartica %1 od %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3413,7 +3417,11 @@ Dopušteni znakovi su slova, znamenke, crtica ili trotočka!</translation>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Šifriranje sljedećih kartica nije uspjelo:
+
+%1
+
+Provjeri zapisnike za detalje.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
@@ -4004,7 +4012,9 @@ Koristi &lt;b&gt;/&lt;/b&gt; kao znak razdvajanja staza u stablastom prikazu kar
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vremensko ograničenje po kartici u sekundama za ponovno zahtijevanje lozinke za šifriranje.
+
+Postavi na 0 za korištenje globalnih postavki.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
