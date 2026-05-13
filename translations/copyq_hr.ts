@@ -976,7 +976,7 @@ Napomena: Ako se ovo automatski primijeni, ostale automatske naredbe se ne izvr�
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation>Pretprikaz:</translation>
+        <translation>Pregled:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="160"/>
@@ -1343,7 +1343,7 @@ Napomena: Uređeni elementi mogu se spremiti pomoću tipke F2, zanemarujući ovu
 Use Item Preview to display whole items.</source>
         <translation>Prikaži jednoredni opis svakog elementa.
 
-Koristi „Element &gt; Prikaži pretprikaz” za prikaz cijelih elemenata.</translation>
+Koristi „Element &gt; Prikaži pregled” za prikaz cijelih elemenata.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="255"/>
@@ -1697,12 +1697,12 @@ Postavi 0 za deaktiviranje prikaza.</translation>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="180"/>
         <source>Show image preview next to menu items</source>
-        <translation>Prikaži pretprikaz slike pored elemenata izbornika</translation>
+        <translation>Prikaži pregled slike pored elemenata izbornika</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabtray.ui" line="183"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation>Prikaži pretprikaz slike ka&amp;o ikonu elementa izbornika</translation>
+        <translation>Prikaži pregled slike ka&amp;o ikonu elementa izbornika</translation>
     </message>
 </context>
 <context>
@@ -2883,7 +2883,7 @@ Bit će moguće šifrirati i dešifrirati podatke kartica.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="56"/>
         <source>&amp;Show Preview</source>
-        <translation>Prikaži &amp;pretprikaz</translation>
+        <translation>Prikaži &amp;pregled</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="57"/>
