@@ -39,6 +39,7 @@ Icon=copyq
 GenericName=Clipboard Manager
 Type=Application
 Terminal=false
+StartupNotify=false
 X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false
 X-KDE-UniqueApplet=true

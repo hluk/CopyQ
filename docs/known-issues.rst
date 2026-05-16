@@ -120,6 +120,22 @@ For **Flatpak** application, see `this workaround
 
     `Issue #27 <https://github.com/hluk/CopyQ/issues/27>`__
 
+
+.. _known-issue-gnome-busy-cursor:
+
+On GNOME, busy cursor after selecting tray menu item
+----------------------------------------------------
+
+When using the AppIndicator/KStatusNotifierItem GNOME Shell extension, selecting
+an item from the CopyQ tray menu may cause a busy cursor for about 15 seconds.
+This is a bug in the extension — it triggers startup notification unconditionally
+without checking the application's ``StartupNotify`` desktop entry key.
+
+.. seealso::
+
+    - `Issue #3586 <https://github.com/hluk/CopyQ/issues/3586>`__
+    - `AppIndicator extension issue #443
+      <https://github.com/ubuntu/gnome-shell-extension-appindicator/issues/443>`__
 Scripting command "copy()" fails
 --------------------------------
 
