@@ -1,3 +1,31 @@
+# 16.0.0
+
+## Added
+
+- Per-MIME clipboard size limits and OOM protection via `clipboard_mime_size_limit`
+  config option and `COPYQ_CLIPBOARD_MIME_SIZE_LIMIT` environment variable. For
+  example `text/html.*:0;.*:100M` disables storing HTML and sets 100MiB max
+  size for all other formats (this size limit is the default: `.*:100M`).
+
+- AppImage support (`WITH_APPIMAGE` CMake build option).
+
+## Fixed
+
+- Fixed thumbnails hidden for tagged image items with `show_simple_items`
+  enabled (#3602).
+
+- Fixed window invisible in remote desktop sessions (#3593, #3582, #3400).
+
+- Fixed null characters in concatenated selected items breaking paste in
+  other applications.
+
+- Avoids potential crash on fetching very large data in clipboard.
+
+- Wayland: Fixed portal shortcuts handling in non-default app sessions.
+
+- Wayland: Fixed main window shown on startup with tray disabled on wlroots
+  compositors (#3567).
+
 # 15.0.0
 
 ## Added
