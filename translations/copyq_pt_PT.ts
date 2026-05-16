@@ -3489,12 +3489,12 @@ Por favor, veja os diários para mais detalhes.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevenção de capturas de ecrã indisponível</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>A opção para ocultar de capturas está activa, mas não funciona em ambiente de trabalho remoto. O conteúdo da janela poderá ser visível numa captura de ecrã.</translation>
     </message>
 </context>
 <context>
