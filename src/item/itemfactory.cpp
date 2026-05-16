@@ -173,7 +173,7 @@ public:
 
     void setTagged(bool tagged) override
     {
-        setVisible( !tagged || (m_hasText && !m_data.contains(mimeHidden)) );
+        setVisible( !tagged || ((m_hasText || hasPixmap()) && !m_data.contains(mimeHidden)) );
     }
 
 private:
