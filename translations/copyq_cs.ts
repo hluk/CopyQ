@@ -3483,12 +3483,12 @@ Podrobnosti naleznete v záznamech.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevence snímání obrazovky není k dispozici</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Možnost skrýt ze screenshotů je povolena, ale nemůže mít vliv na vzdálené ploše relace. Obsah okna může být viditelný pro snímání obrazovky.</translation>
     </message>
 </context>
 <context>
