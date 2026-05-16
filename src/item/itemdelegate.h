@@ -4,6 +4,7 @@
 
 
 #include "gui/clipboardbrowsershared.h"
+#include "item/persistentdisplayitem.h"
 
 #include <QItemDelegate>
 #include <QTimer>
@@ -17,7 +18,6 @@ class ItemEditorWidget;
 class ItemFactory;
 class ItemFilter;
 class ItemWidget;
-class PersistentDisplayItem;
 using ItemFilterPtr = std::shared_ptr<ItemFilter>;
 
 constexpr int defaultItemHeight = 100;

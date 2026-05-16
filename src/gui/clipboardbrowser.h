@@ -18,7 +18,6 @@
 
 class ItemEditorWidget;
 class ItemFactory;
-class PersistentDisplayItem;
 class QPersistentModelIndex;
 class QProgressBar;
 class QPushButton;
