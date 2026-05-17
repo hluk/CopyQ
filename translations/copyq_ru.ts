@@ -3468,12 +3468,12 @@ Please check the logs for details.</source>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Предотвращение захвата экрана недоступно</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Функция скрытия на скриншотах включена, но не может действовать в сеансе удалённого рабочего стола. Содержимое окна может быть видно при захвате экрана.</translation>
     </message>
 </context>
 <context>
