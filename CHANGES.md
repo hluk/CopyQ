@@ -11,8 +11,8 @@
 
 ## Fixed
 
-- Fixed thumbnails hidden for tagged image items with `show_simple_items`
-  enabled (#3602).
+- Fixed thumbnails hidden for tagged image items if "Show simple items" option
+  is enabled (#3602).
 
 - Fixed window invisible in remote desktop sessions (#3593, #3582, #3400).
 
