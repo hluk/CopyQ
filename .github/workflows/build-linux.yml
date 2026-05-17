@@ -218,17 +218,13 @@ jobs:
         uses: ./.github/actions/download-miniaudio
 
       - name: Build with CMake
-        uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10
-        with:
-          configurePreset: '${{ matrix.cmake_preset }}'
-          buildPreset: '${{ matrix.cmake_preset }}'
-          configurePresetAdditionalArgs: >-
-            [
-            '-DCMAKE_CXX_COMPILER=${{matrix.compiler}}',
-            '-DCMAKE_CXX_FLAGS=${{matrix.compiler_flags}}',
-            '-DCMAKE_C_FLAGS=${{matrix.compiler_flags}}',
-            '-DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}',
-            ]
+        run: |
+          cmake --preset '${{ matrix.cmake_preset }}' \
+            -DCMAKE_CXX_COMPILER=${{matrix.compiler}} \
+            -DCMAKE_CXX_FLAGS="${{matrix.compiler_flags}}" \
+            -DCMAKE_C_FLAGS="${{matrix.compiler_flags}}" \
+            -DWITH_NATIVE_NOTIFICATIONS=${{matrix.with_native_notifications}}
+          cmake --build --preset '${{ matrix.cmake_preset }}'
 
       - name: Create gnupg directory for tests
         run: mkdir -p ~/.gnupg && chmod go-rwx ~/.gnupg
