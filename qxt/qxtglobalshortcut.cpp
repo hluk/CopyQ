@@ -38,6 +38,7 @@
 namespace {
 
 int referenceCounter = 0;
+std::function<void()> layoutChangedCallback;
 
 QHash<QPair<quint32, quint32>, QxtGlobalShortcut*> shortcuts;
 
@@ -126,6 +127,12 @@ void QxtGlobalShortcutPrivate::activateShortcut(quint32 nativeKey, quint32 nativ
     QxtGlobalShortcut* shortcut = shortcuts.value(qMakePair(nativeKey, nativeMods));
     if (shortcut && shortcut->isEnabled())
         emit shortcut->activated(shortcut);
+}
+
+void QxtGlobalShortcutPrivate::onKeyboardLayoutChanged()
+{
+    if (layoutChangedCallback)
+        layoutChangedCallback();
 }
 
 /*!
@@ -305,4 +312,9 @@ void QxtGlobalShortcut::setEnabled(bool enabled)
 void QxtGlobalShortcut::setDisabled(bool disabled)
 {
     d_ptr->enabled = !disabled;
+}
+
+void QxtGlobalShortcut::setLayoutChangedCallback(LayoutChangedCallback callback)
+{
+    layoutChangedCallback = std::move(callback);
 }

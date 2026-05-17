@@ -57,11 +57,12 @@ bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
     Q_UNUSED(eventType)
     Q_UNUSED(result)
     MSG* msg = static_cast<MSG*>(message);
-    if (msg->message == WM_HOTKEY)
-    {
+    if (msg->message == WM_HOTKEY) {
         const quint32 keycode = HIWORD(msg->lParam);
         const quint32 modifiers = LOWORD(msg->lParam);
         activateShortcut(keycode, modifiers);
+    } else if (msg->message == WM_INPUTLANGCHANGE) {
+        onKeyboardLayoutChanged();
     }
     return false;
 }
