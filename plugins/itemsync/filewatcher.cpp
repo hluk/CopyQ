@@ -421,13 +421,57 @@ bool isUniqueBaseName(const QString &baseName, const QDir &dir,
     return parentDir.isEmpty();
 }
 
-void moveFormatFiles(const QString &oldPath, const QString &newPath,
+bool moveFormatFiles(const QString &oldPath, const QString &newPath,
                      const QVariantMap &mimeToExtension)
 {
+    // Track what happened to each file so we can clean up on failure
+    // and delete copied originals on success.
+    QStringList renamedExts;
+    QStringList copiedExts;
+
     for (const auto &extValue : mimeToExtension) {
         const QString ext = extValue.toString();
-        QFile::rename(oldPath + ext, newPath + ext);
+        const QString src = oldPath + ext;
+        const QString dst = newPath + ext;
+
+        QFile file(src);
+        if ( file.rename(dst) ) {
+            renamedExts.append(ext);
+            continue;
+        }
+
+        qCWarning(fileWatcher)
+            << "Failed to rename" << src << "to" << dst
+            << "-" << file.errorString();
+
+        // Rename failed; fall back to copy (needs only read access).
+        if ( !file.copy(dst) ) {
+            qCWarning(fileWatcher)
+                << "Failed to copy" << src << "to" << dst
+                << "-" << file.errorString();
+
+            // Clean up: reverse renames and delete copies.
+            for (const QString &rbExt : renamedExts)
+                QFile::rename(newPath + rbExt, oldPath + rbExt);
+            for (const QString &cpExt : copiedExts)
+                QFile::remove(newPath + cpExt);
+            return false;
+        }
+
+        copiedExts.append(ext);
     }
+
+    // Remove originals that were copied. Failures are non-fatal
+    // since the item is already complete under the new name.
+    for (const QString &ext : copiedExts) {
+        const QString original = oldPath + ext;
+        if ( !QFile::remove(original) ) {
+            qCWarning(fileWatcher)
+                << "Failed to remove original file" << original;
+        }
+    }
+
+    return true;
 }
 
 void copyFormatFiles(const QString &oldPath, const QString &newPath,
@@ -787,13 +831,22 @@ void FileWatcher::updateItems()
         QVariantMap dataMap;
         QVariantMap mimeToExtension;
 
-        if ( it != m_fileList.cend() ) {
+        const bool foundInFileList = it != m_fileList.cend();
+        if ( foundInFileList ) {
             updateDataAndWatchFile(m_dir, *it, &dataMap, &mimeToExtension);
             m_fileList.erase(it);
         }
 
         if ( mimeToExtension.isEmpty() ) {
-            m_model->removeRow(index.row());
+            if ( foundInFileList ) {
+                // Files exist on disk but couldn't be read;
+                // skip this item rather than removing it.
+                qCInfo(fileWatcher)
+                    << "Skipping update for" << baseName
+                    << "- files exist but could not be read";
+            } else {
+                m_model->removeRow(index.row());
+            }
         } else {
             dataMap.insert(mimeBaseName, baseName);
             dataMap.insert(mimeExtensionMap, mimeToExtension);
@@ -1132,7 +1185,12 @@ bool FileWatcher::renameMoveCopy(
                 copyFormatFiles(oldBasePath, newBasePath, mimeToExtension);
             } else if ( !olderBaseName.isEmpty() ) {
                 oldBasePath = m_dir.absoluteFilePath(olderBaseName);
-                moveFormatFiles(oldBasePath, newBasePath, mimeToExtension);
+                if ( !moveFormatFiles(oldBasePath, newBasePath, mimeToExtension) ) {
+                    qCWarning(fileWatcher)
+                        << "Skipping rename of" << olderBaseName
+                        << "to" << baseName;
+                    continue;
+                }
             }
 
             rebaseSyncDataFilePaths(&itemData, mimeToExtension, oldBasePath, newBasePath);
