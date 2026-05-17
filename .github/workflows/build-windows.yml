@@ -48,9 +48,15 @@ jobs:
           filter: blob:none
 
       - name: Set up MSVC
-        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
-        with:
-          arch: x64
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vsPath = & $vswhere -latest -property installationPath
+          cmd /c "`"$vsPath\VC\Auxiliary\Build\vcvarsall.bat`" x64 && set" | ForEach-Object {
+              if ($_ -match '^([^=]+)=(.*)$') {
+                  "$($matches[1])=$($matches[2])" >> $env:GITHUB_ENV
+              }
+          }
 
       - name: Install Qt
         uses: jurplel/install-qt-action@48d3ad6db93f3627c8ee7a0454bc6f3744f7e730 # v4
@@ -113,18 +119,14 @@ jobs:
         uses: ./.github/actions/download-miniaudio
 
       - name: Build with CMake
-        uses: lukka/run-cmake@5d55ea7949e25f69f0ecb516d8d572297e03a956 # v10
         env:
           VCPKG_ROOT: ''
-        with:
-          configurePreset: Windows
-          buildPreset: Windows
-          configurePresetAdditionalArgs: >-
-            [
-            '-DWITH_NATIVE_NOTIFICATIONS=TRUE',
-            '-DWITH_QCA_ENCRYPTION=TRUE',
-            '-DWITH_KEYCHAIN=TRUE'
-            ]
+        run: |
+          cmake --preset Windows \
+            -DWITH_NATIVE_NOTIFICATIONS=TRUE \
+            -DWITH_QCA_ENCRYPTION=TRUE \
+            -DWITH_KEYCHAIN=TRUE
+          cmake --build --preset Windows
 
 
       - name: Get version string
