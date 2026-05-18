@@ -3325,12 +3325,12 @@ Seiceáil na logaí le haghaidh sonraí.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Cosc Gabhála Scáileáin Gan Fáil</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tá an rogha chun dul i bhfolach ó scáileáin cumasaithe ach ní féidir é a chur i bhfeidhm i seisiún deisce cianda. D’fhéadfadh ábhar na fuinneoige a bheith le feiceáil le gabháil scáileáin.</translation>
     </message>
 </context>
 <context>
