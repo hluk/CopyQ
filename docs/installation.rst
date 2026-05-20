@@ -61,12 +61,13 @@ On other Linux distributions, you can download the **AppImage** from the
     chmod +x CopyQ-*.AppImage
     ./CopyQ-*.AppImage
 
-Alternatively, you can use `Flatpak <https://flatpak.org/>`__ to install the app:
+Alternatively, you can use `Flatpak <https://flatpak.org/>`__ to install
+`CopyQ from Flathub <https://flathub.org/apps/com.github.hluk.copyq>`__.
+See `Flathub Setup <https://flathub.org/setup>`__ for initial Flatpak/Flathub
+configuration.
+
+To start CopyQ from the command line:
 
 .. code-block:: bash
 
-    # Install from Flathub.
-    flatpak install --user --from https://flathub.org/repo/appstream/com.github.hluk.copyq.flatpakref
-
-    # Run the app.
     flatpak run com.github.hluk.copyq
