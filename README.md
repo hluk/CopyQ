@@ -128,11 +128,8 @@ chmod +x CopyQ-*.AppImage
 ```
 
 Alternatively, install [Flatpak](https://flatpak.org/) and `com.github.hluk.copyq` from
-[Flathub](https://flathub.org/).
-
-```bash
-flatpak install flathub com.github.hluk.copyq
-```
+[Flathub](https://flathub.org/apps/com.github.hluk.copyq).
+See [Flathub Setup](https://flathub.org/setup) for initial Flatpak/Flathub configuration.
 
 Start CopyQ from the menu or with the following command:
 
