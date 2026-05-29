@@ -29,8 +29,20 @@ Build: `cmake -B build --build`
 
 Install: `cmake -B build --target install`
 
-Tests require X11 session (or Wayland) and a window manager. Use `Xvfb` and
-`openbox` to initialize the testing environment.
+Tests and the app require a running X11 or Wayland session with a window
+manager. **You MUST start Xvfb and openbox (or a Wayland compositor) before
+running any `build/copyq` or `build/copyq-tests` command**, otherwise the
+process will crash (exit code 134 or SIGSEGV). X11 setup (once per session):
+
+    Xvfb :99 -screen 0 1280x1024x24 &
+    sleep 1
+    export DISPLAY=:99
+    openbox &
+    sleep 1
+
+Then export `DISPLAY=:99` alongside the other environment variables for every
+command. For Wayland, start a compositor and set `QT_QPA_PLATFORM=wayland`
+instead of `xcb`.
 
 Avoid running all tests, always specify a list of test functions to run.
 
