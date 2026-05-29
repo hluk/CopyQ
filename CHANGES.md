@@ -19,6 +19,9 @@
 - Fixed null characters in concatenated selected items breaking paste in
   other applications.
 
+- Handle possible file operation errors and locks when synchronizing items to
+  files on disk and shared storage (#3368, #3579).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.
