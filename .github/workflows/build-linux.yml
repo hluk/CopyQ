@@ -70,6 +70,8 @@ jobs:
   build:
     permissions:
       contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     name: ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
@@ -392,21 +394,24 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      APPIMAGE: CopyQ-${{ needs.build.outputs.version }}-x86_64.AppImage
     steps:
-      - name: Download artifacts
+      - name: Download artifact
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: 'CopyQ-*.AppImage'
+          name: ${{ env.APPIMAGE }}
+          skip-decompress: true
 
       - name: Upload to release
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           gh release create "$GITHUB_REF_NAME" --draft --notes "" 2>/dev/null || true
-          gh release upload "$GITHUB_REF_NAME" CopyQ-*/*.AppImage --clobber
+          gh release upload "$GITHUB_REF_NAME" "$APPIMAGE" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
