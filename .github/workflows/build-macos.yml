@@ -25,6 +25,8 @@ jobs:
   build:
     permissions:
       contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     name: ${{matrix.buildname}}
     runs-on: ${{matrix.os}}
     strategy:
@@ -152,19 +154,31 @@ jobs:
 
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      DMG_INTEL: CopyQ-${{ needs.build.outputs.version }}-macos-13.dmg
+      DMG_ARM: CopyQ-${{ needs.build.outputs.version }}-macos-12-m1.dmg
     steps:
-      - name: Download artifacts
+      - name: Download Intel DMG
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ${{ env.DMG_INTEL }}
+          skip-decompress: true
+
+      - name: Download ARM DMG
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ${{ env.DMG_ARM }}
+          skip-decompress: true
 
       - name: Upload to release
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           gh release create "$GITHUB_REF_NAME" --draft --notes "" 2>/dev/null || true
-          gh release upload "$GITHUB_REF_NAME" CopyQ-*/*.dmg --clobber
+          gh release upload "$GITHUB_REF_NAME" "$DMG_INTEL" "$DMG_ARM" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
