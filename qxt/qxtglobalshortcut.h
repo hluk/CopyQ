@@ -31,6 +31,7 @@
 
 #include <QObject>
 #include <QKeySequence>
+#include <functional>
 
 class QxtGlobalShortcutPrivate;
 
@@ -60,6 +61,9 @@ public:
     void activate();
 
     static void notifyRestartNeeded();
+
+    using LayoutChangedCallback = std::function<void()>;
+    static void setLayoutChangedCallback(LayoutChangedCallback callback);
 
 public Q_SLOTS:
     void setEnabled(bool enabled = true);

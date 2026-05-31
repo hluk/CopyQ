@@ -40,6 +40,12 @@ static QMap<quint32, EventHotKeyRef> keyRefs;
 static QHash<Identifier, quint32> keyIDs;
 static quint32 hotKeySerial = 0;
 static bool qxt_mac_handler_installed = false;
+static bool qxt_mac_layout_observer_installed = false;
+
+void qxt_mac_keyboard_layout_changed(CFNotificationCenterRef, void *, CFStringRef, const void *, CFDictionaryRef)
+{
+    QxtGlobalShortcutPrivate::onKeyboardLayoutChanged();
+}
 
 OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event, void* data)
 {
@@ -57,6 +63,16 @@ OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event,
 
 void QxtGlobalShortcutPrivate::init()
 {
+    if (!qxt_mac_layout_observer_installed) {
+        qxt_mac_layout_observer_installed = true;
+        CFNotificationCenterAddObserver(
+            CFNotificationCenterGetDistributedCenter(),
+            nullptr,
+            qxt_mac_keyboard_layout_changed,
+            kTISNotifySelectedKeyboardInputSourceChanged,
+            nullptr,
+            CFNotificationSuspensionBehaviorDeliverImmediately);
+    }
 }
 
 void QxtGlobalShortcutPrivate::destroy()
