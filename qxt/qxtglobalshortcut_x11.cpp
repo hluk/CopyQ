@@ -35,6 +35,7 @@
 
 #include <QApplication>
 #include <QDBusInterface>
+#include <QDBusServiceWatcher>
 #include <QDBusMetaType>
 #include <QDBusObjectPath>
 #include <QLoggingCategory>
@@ -48,6 +49,8 @@
 #include <X11/Xlib.h>
 
 #include <xcb/xcb.h>
+
+#include <memory>
 
 #include "xcbkeyboard.h"
 
@@ -123,7 +126,7 @@ private:
         qDBusRegisterMetaType<PortalShortcut>();
         qDBusRegisterMetaType<PortalShortcuts>();
 
-        QDBusMessage message = m_globalShortcutInterface.call(
+        QDBusMessage message = m_globalShortcutInterface->call(
             QStringLiteral("CreateSession"),
             QMap<QString, QVariant>{
                 {QStringLiteral("handle_token"), handleToken()},
@@ -254,7 +257,7 @@ private:
 
         qCDebug(qxtCategory) << "Binding portal global shortcuts:" << shortcuts;
 
-        const QDBusMessage message = m_globalShortcutInterface.call(
+        const QDBusMessage message = m_globalShortcutInterface->call(
             QStringLiteral("BindShortcuts"),
             m_objPathGlobalShortcuts,
             QVariant::fromValue(shortcuts),
@@ -274,11 +277,11 @@ private:
     }
 
     GlobalShortcutsPortal()
-        : m_globalShortcutInterface(
+        : m_globalShortcutInterface(std::make_unique<QDBusInterface>(
             QStringLiteral("org.freedesktop.portal.Desktop"),
             QStringLiteral("/org/freedesktop/portal/desktop"),
             QStringLiteral("org.freedesktop.portal.GlobalShortcuts")
-        )
+        ))
         , m_portalToken(
             // Use only valid token name characters.
             QCoreApplication::applicationName().replace(
@@ -288,11 +291,21 @@ private:
         m_timerBind.setSingleShot(true);
         m_timerBind.setInterval(0);
         connectPortal();
+
+        if (!m_globalShortcutInterface->isValid()) {
+            m_serviceWatcher.setConnection(QDBusConnection::sessionBus());
+            m_serviceWatcher.addWatchedService(
+                QStringLiteral("org.freedesktop.portal.Desktop"));
+            m_serviceWatcher.setWatchMode(QDBusServiceWatcher::WatchForRegistration);
+            connect(&m_serviceWatcher, &QDBusServiceWatcher::serviceRegistered,
+                    this, &GlobalShortcutsPortal::onPortalServiceRegistered);
+            qCDebug(qxtCategory) << "Portal service not available, watching for registration";
+        }
     }
 
     void listShortcuts()
     {
-        const QDBusMessage message = m_globalShortcutInterface.call(
+        const QDBusMessage message = m_globalShortcutInterface->call(
             QStringLiteral("ListShortcuts"),
             m_objPathGlobalShortcuts,
             QMap<QString, QVariant>{
@@ -399,16 +412,32 @@ private slots:
         qCWarning(qxtCategory) << "Portal global shortcut failed to activate:" << shortcutName;
     }
 
+    void onPortalServiceRegistered()
+    {
+        qCDebug(qxtCategory) << "Portal service registered, retrying connection";
+        m_globalShortcutInterface = std::make_unique<QDBusInterface>(
+            QStringLiteral("org.freedesktop.portal.Desktop"),
+            QStringLiteral("/org/freedesktop/portal/desktop"),
+            QStringLiteral("org.freedesktop.portal.GlobalShortcuts")
+        );
+        connectPortal();
+        if (isValid()) {
+            m_serviceWatcher.removeWatchedService(
+                QStringLiteral("org.freedesktop.portal.Desktop"));
+        }
+    }
+
 private:
     bool m_bound = false;
     PortalShortcuts m_boundShortcuts;
     bool m_notifyRestart = true;
-    QDBusInterface m_globalShortcutInterface;
+    std::unique_ptr<QDBusInterface> m_globalShortcutInterface;
     QString m_portalToken;
     QDBusObjectPath m_objPathCreateSession;
     QDBusObjectPath m_objPathListShortcuts;
     QDBusObjectPath m_objPathGlobalShortcuts;
     QTimer m_timerBind;
+    QDBusServiceWatcher m_serviceWatcher;
     QList<QPointer<QxtGlobalShortcut>> m_shortcuts;
 };
 
@@ -638,8 +667,6 @@ bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
         return setShortcutFallback(shortcut);
 
     auto portal = GlobalShortcutsPortal::instance();
-    if (!portal->isValid())
-        return false;
 
     setKeySequence(shortcut);
     portal->addShortcut(q_ptr);
