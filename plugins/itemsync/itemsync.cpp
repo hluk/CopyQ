@@ -469,9 +469,7 @@ void ItemSyncSaver::itemsRemovedByUser(const QList<QPersistentModelIndex> &index
     if ( m_tabPath.isEmpty() )
         return;
 
-    // Remove unneeded files (remaining records in the hash map).
-    for (const auto &index : indexList)
-        FileWatcher::removeFilesForRemovedIndex(m_tabPath, index);
+    FileWatcher::removeFilesForRemovedIndexes(m_tabPath, indexList);
 }
 
 QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)

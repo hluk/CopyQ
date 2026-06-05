@@ -930,6 +930,7 @@ void ItemSyncTests::saveLargeItem()
     RUN(args << "getItem(0)['application/x-copyq-test-data'].length", "260000\n");
 }
 
+
 void ItemSyncTests::sortItemsSimple()
 {
     TestDir dir1(1);

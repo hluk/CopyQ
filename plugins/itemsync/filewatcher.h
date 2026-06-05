@@ -64,7 +64,9 @@ public:
      */
     static bool isOwnBaseName(const QString &baseName);
 
-    static void removeFilesForRemovedIndex(const QString &tabPath, const QModelIndex &index);
+    static void removeFilesForRemovedIndexes(
+        const QString &tabPath, const QList<QPersistentModelIndex> &indexes,
+        bool ownOnly = false);
 
     static Hash calculateHash(const QByteArray &bytes);
 
