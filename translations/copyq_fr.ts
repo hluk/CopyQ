@@ -3464,12 +3464,12 @@ Veuillez consulter les journaux pour plus de détails.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Fonction de prévention des captures d&apos;écran non disponible</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;option permettant de masquer l&apos;écran sur les captures d&apos;écran est activée, mais elle ne prends pas effet dans le cadre d&apos;une session de bureau à distance. Le contenu de la fenêtre peut apparaître sur la capture d&apos;écran.</translation>
     </message>
 </context>
 <context>
@@ -4068,7 +4068,7 @@ Affiche la version du programme et de ses bibliothèques.</translation>
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <translation>Le nom de l&apos;onglet doit être non vide et unique.&lt;br /&gt;
-L&apos;onglet &lt;b&gt;Notes&lt;/b&gt; peut être ouvert avec &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
+L&apos;onglet &lt;b&gt;No&amp;amp;tes&lt;/b&gt; peut être ouvert avec &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Utiliser &lt;b&gt;/&lt;/b&gt; comme séparateur de chemin dans l&apos;arborescence de l&apos;onglet.</translation>
     </message>
     <message>
