@@ -2450,7 +2450,7 @@ QString ScriptableProxy::stats()
 
         for (const QObject *obj : addressObj.obj->findChildren<QObject*>(QString(), Qt::FindDirectChildrenOnly))
             toVisit.append(AddressObj{address, obj});
-    };
+    }
 
     QStringList result;
     result.reserve( stats.size() + 1 );
