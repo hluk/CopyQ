@@ -30,7 +30,7 @@ void addMenuItem(
         MenuItems &items, Actions::Id id, const QString &text, const QString &settingsKey,
         const QString &shortcutText, const QString &iconName, ushort iconId = 0)
 {
-    const QKeySequence shortcut = QKeySequence(shortcutText, QKeySequence::NativeText);
+    const auto shortcut = QKeySequence(shortcutText, QKeySequence::NativeText);
     addMenuItem(items, id, text, settingsKey, shortcut, iconName, iconId);
 }
 

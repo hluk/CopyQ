@@ -355,7 +355,7 @@ void Action::appendErrorOutput(const QByteArray &errorOutput)
 
 void Action::onSubProcessError(int error)
 {
-    QProcess *p = qobject_cast<QProcess*>(sender());
+    auto *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
     // Ignore write-to-process error, process can ignore the input.
@@ -394,7 +394,7 @@ void Action::onSubProcessOutput()
 
 void Action::onSubProcessErrorOutput()
 {
-    QProcess *p = qobject_cast<QProcess*>(sender());
+    auto *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
     if ( p->isReadable() )

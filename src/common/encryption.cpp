@@ -89,7 +89,7 @@ bool initializeQCA()
         return false;
     }
 
-    QCAPlugin *qcaPlugin = qobject_cast<QCAPlugin*>(plugin);
+    auto *qcaPlugin = qobject_cast<QCAPlugin*>(plugin);
     if (!qcaPlugin) {
         qCCritical(logCategory)
             << "Plugin does not implement QCAPlugin interface";

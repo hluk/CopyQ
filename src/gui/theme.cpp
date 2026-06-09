@@ -561,7 +561,7 @@ QSize Theme::rowNumberSize(int n) const
     if (!m_showRowNumber)
         return QSize(0, 0);
 
-    const QString number = QString::number(n + m_rowIndexFromOne);
+    const auto number = QString::number(n + m_rowIndexFromOne);
     return m_rowNumberFontMetrics.boundingRect(number).size()
         + m_margins + QSize(m_rowNumberMargin, 0);
 }
@@ -597,7 +597,7 @@ QString Theme::getStyleSheet(const QString &name, Values values, int maxRecursio
         return QString();
     }
 
-    const QString css = QString::fromUtf8( file.readAll() );
+    const auto css = QString::fromUtf8( file.readAll() );
     return parseStyleSheet(css, values, maxRecursion - 1);
 }
 

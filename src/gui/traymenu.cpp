@@ -100,7 +100,7 @@ void TrayMenu::updateTextFromData(QAction *act, const QVariantMap &data)
 
 bool TrayMenu::updateIconFromData(QAction *act, const QVariantMap &data)
 {
-    QWidget *menu = qobject_cast<QWidget*>(act->parent());
+    auto *menu = qobject_cast<QWidget*>(act->parent());
     if (menu == nullptr)
         return false;
 
@@ -403,7 +403,7 @@ void TrayMenu::setSearchMenuItem(const QString &text)
 
 void TrayMenu::onClipboardItemActionTriggered()
 {
-    QAction *act = qobject_cast<QAction *>(sender());
+    auto *act = qobject_cast<QAction *>(sender());
     Q_ASSERT(act != nullptr);
 
     const auto actionData = act->data().toMap();

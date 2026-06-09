@@ -170,7 +170,7 @@ bool ShortcutButton::focusNextPrevChild(bool next)
 
 void ShortcutButton::onShortcutButtonClicked()
 {
-    QAction *button = qobject_cast<QAction*>(sender());
+    auto *button = qobject_cast<QAction*>(sender());
     Q_ASSERT(button != nullptr);
     addShortcut(button);
 }

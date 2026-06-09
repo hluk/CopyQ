@@ -204,7 +204,7 @@ public:
 
         QWidget *viewport = editor()->viewport();
 
-        QPaintEvent *e = static_cast<QPaintEvent*>(ev);
+        auto *e = static_cast<QPaintEvent*>(ev);
 
         const QRect r = e->rect();
 
@@ -702,7 +702,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
     // Position text cursor at the beginning of text instead of selecting all.
     wrapper->setTextCursor( QTextCursor(wrapper->document()) );
 
-    QStatusBar *statusBar = new QStatusBar(textEdit);
+    auto *statusBar = new QStatusBar(textEdit);
     statusBar->setObjectName("editor_status_bar");
 
     const auto layout = textEdit->parentWidget()->layout();
@@ -770,7 +770,7 @@ void ItemFakeVimLoader::loadSettings(const QSettings &settings)
 QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemFakeVimSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
 
     ui->checkBoxEnable->setChecked(m_reallyEnabled);

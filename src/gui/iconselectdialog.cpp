@@ -154,13 +154,13 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
 
     addIcons();
 
-    QPushButton *browseButton = new QPushButton(tr("Browse..."), this);
+    auto *browseButton = new QPushButton(tr("Browse..."), this);
     if ( m_selectedIcon.size() > 2 )
         browseButton->setIcon(QIcon(m_selectedIcon));
     connect( browseButton, &QAbstractButton::clicked,
              this, &IconSelectDialog::onBrowse );
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(
+    auto *buttonBox = new QDialogButtonBox(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
     connect( buttonBox, &QDialogButtonBox::rejected,
              this, &QDialog::reject );

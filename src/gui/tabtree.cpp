@@ -126,7 +126,7 @@ int itemLabelPadding()
 
 QLabel *createLabel(const QString &objectName, QWidget *parent)
 {
-    QLabel *label = new QLabel(parent);
+    auto *label = new QLabel(parent);
     const int p = itemLabelPadding();
     label->setContentsMargins({p,p,p,p});
     label->setObjectName(objectName);

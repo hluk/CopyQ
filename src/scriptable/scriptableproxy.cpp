@@ -441,7 +441,7 @@ QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
 
         parent->layout()->addItem(layout);
 
-        QLabel *label = new QLabel(name + ":", parent);
+        auto *label = new QLabel(name + ":", parent);
         label->setBuddy(w);
         layout->addWidget(label);
         layout->addWidget(w, 1);
@@ -479,7 +479,7 @@ QWidget *createDateTimeEdit(
 
 void installShortcutToCloseDialog(QDialog *dialog, QWidget *shortcutParent, int shortcut)
 {
-    QShortcut *s = new QShortcut(QKeySequence(shortcut), shortcutParent);
+    auto *s = new QShortcut(QKeySequence(shortcut), shortcutParent);
     QObject::connect(s, &QShortcut::activated, dialog, &QDialog::accept);
     QObject::connect(s, &QShortcut::activatedAmbiguously, dialog, &QDialog::accept);
 }
@@ -537,7 +537,7 @@ QLineEdit *createLineEdit(const QVariant &value, QWidget *parent)
 
 QWidget *createFileNameEdit(const QString &name, const QString &path, QWidget *parent)
 {
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     parent->layout()->addWidget(w);
 
     auto layout = new QHBoxLayout(w);
@@ -546,9 +546,9 @@ QWidget *createFileNameEdit(const QString &name, const QString &path, QWidget *p
     QLineEdit *lineEdit = createLineEdit(path, w);
     lineEdit->setProperty(propertyWidgetName, name);
 
-    QPushButton *browseButton = new QPushButton("...");
+    auto *browseButton = new QPushButton("...");
 
-    FileDialog *dialog = new FileDialog(w, name, path);
+    auto *dialog = new FileDialog(w, name, path);
     QObject::connect( browseButton, &QAbstractButton::clicked,
                       dialog, &FileDialog::exec );
     QObject::connect( dialog, &FileDialog::fileSelected,
@@ -2409,7 +2409,7 @@ QString ScriptableProxy::stats()
 
         visited.insert(addressObj.obj);
 
-        const QString className = QString::fromUtf8(addressObj.obj->metaObject()->className());
+        const auto className = QString::fromUtf8(addressObj.obj->metaObject()->className());
         stats[className] += 1;
 
         const QString objectName = addressObj.obj->objectName();

@@ -77,7 +77,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 
     case QEvent::MouseButtonPress:
     case QEvent::MouseButtonDblClick: {
-        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        auto *e = static_cast<QMouseEvent*>(event);
 
         if ( !canMouseInteract(*e) )
             allowMouseInteraction = false;
@@ -88,7 +88,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     }
 
     case QEvent::MouseMove: {
-        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        auto *e = static_cast<QMouseEvent*>(event);
 
         if ( !canMouseInteract(*e) )
             allowMouseInteraction = false;
@@ -97,7 +97,7 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     }
 
     case QEvent::MouseButtonRelease: {
-        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+        auto *e = static_cast<QMouseEvent*>(event);
 
         if ( canMouseInteract(*e) && edit->textCursor().hasSelection() )
             edit->copy();

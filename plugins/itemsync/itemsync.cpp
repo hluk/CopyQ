@@ -614,7 +614,7 @@ void ItemSyncLoader::loadSettings(const QSettings &settings)
 QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemSyncSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
 
     // Init tab sync path table.

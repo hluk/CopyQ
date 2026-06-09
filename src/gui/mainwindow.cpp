@@ -2845,7 +2845,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *ev)
     if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
         return false;
 
-    QKeyEvent *event = static_cast<QKeyEvent *>(ev);
+    auto *event = static_cast<QKeyEvent *>(ev);
     const int key = event->key();
     const Qt::KeyboardModifiers modifiers = event->modifiers();
 

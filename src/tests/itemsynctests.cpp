@@ -702,7 +702,7 @@ void ItemSyncTests::customFormats()
 
     const auto files = dir1.files();
     QVERIFY2( files[0].startsWith("copyq_"), files[0].toUtf8() );
-    const QString fileData = QString(files[0]).replace("txt", "zzz");
+    const auto fileData = QString(files[0]).replace("txt", "zzz");
     QVERIFY2( fileData.endsWith(".zzz"), fileData.toUtf8() );
 
     // Check data

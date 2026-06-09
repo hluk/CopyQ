@@ -591,7 +591,7 @@ void ConfigurationManager::apply(AppConfig *appConfig)
 
         QWidget *w = m_tabItems->widget(i);
         if (w) {
-            PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
+            auto *pluginWidget = qobject_cast<PluginWidget *>(w);
             const auto &loader = pluginWidget->loader();
             loader->applySettings(settings);
         }

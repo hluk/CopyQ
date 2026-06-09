@@ -44,7 +44,7 @@ QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
 
         const int side = ratio * (iconFontSizePixels() + 2);
         p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        QLabel *label = new QLabel(parent);
+        auto *label = new QLabel(parent);
         const auto m = side / 4;
         label->setFixedSize( p.size() / ratio + QSize(m, m) );
         label->setAlignment(Qt::AlignCenter);
@@ -215,7 +215,7 @@ void ItemNotes::showToolTip()
     if ( !isVisible() )
         return;
 
-    QPoint toolTipPosition = QPoint(parentWidget()->contentsRect().width() - 16, height() - 16);
+    auto toolTipPosition = QPoint(parentWidget()->contentsRect().width() - 16, height() - 16);
     toolTipPosition = mapToGlobal(toolTipPosition);
 
     QToolTip::showText(toolTipPosition, m_toolTipText, this);
@@ -249,7 +249,7 @@ void ItemNotesLoader::loadSettings(const QSettings &settings)
 QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemNotesSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
 
     if (m_notesAtBottom)

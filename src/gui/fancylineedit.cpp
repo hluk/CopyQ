@@ -144,7 +144,7 @@ QAbstractButton *FancyLineEdit::button(FancyLineEdit::Side side) const
 
 void FancyLineEdit::iconClicked()
 {
-    IconButton *button = qobject_cast<IconButton *>(sender());
+    auto *button = qobject_cast<IconButton *>(sender());
     int index = -1;
     for (int i = 0; i < 2; ++i)
         if (d->m_iconbutton[i] == button)

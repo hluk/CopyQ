@@ -204,7 +204,7 @@ void ConfigTabAppearance::onPushButtonEditThemeClicked()
 #endif
                  );
 
-    ItemEditor *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
+    auto *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
 
     connect( editor, &ItemEditor::fileModified,
              this, &ConfigTabAppearance::onThemeModified );
@@ -371,11 +371,11 @@ void ConfigTabAppearance::updateFontButtons()
 
         const QString colorButtonName = "pushButtonColor" + m.captured(1);
 
-        QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
+        auto *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
         QColor colorFg = (buttonFg == nullptr) ? m_theme.color("fg")
                                             : evalColor( buttonFg->property("VALUE").toString(), m_theme );
 
-        QPushButton *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
+        auto *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
         QColor colorBg = (buttonBg == nullptr) ? m_theme.color("bg")
                                             : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 

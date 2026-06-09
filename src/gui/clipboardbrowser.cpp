@@ -84,7 +84,7 @@ private:
         imageFile.close();
 
         // Add URI to temporary file to drag'n'drop data.
-        const QUrl url = QUrl::fromLocalFile(m_filePath);
+        const auto url = QUrl::fromLocalFile(m_filePath);
         const QByteArray localUrl = url.toString().toUtf8();
         mimeData->setData( mimeUriList, localUrl );
 
@@ -1076,7 +1076,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         for (const auto &index : indexesToRemove)
             selected.append(index);
 
-        QWidget *target = qobject_cast<QWidget*>(drag->target());
+        auto *target = qobject_cast<QWidget*>(drag->target());
 
         QPointer<QObject> self(this);
 

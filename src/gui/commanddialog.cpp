@@ -349,7 +349,7 @@ Command CommandDialog::currentCommand(int row) const
 
     QWidget *w = ui->itemOrderListCommands->widget(row);
     if (w) {
-        const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
+        const auto *commandWidget = qobject_cast<const CommandWidget *>(w);
         Q_ASSERT(commandWidget);
         c = commandWidget->command();
     } else {

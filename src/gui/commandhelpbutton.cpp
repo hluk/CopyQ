@@ -137,7 +137,7 @@ void CommandHelpButton::showHelp()
         QVBoxLayout *layout = createLayout(m_help);
         layout->addWidget(browser);
 
-        QDialogButtonBox *buttonBox = new QDialogButtonBox(
+        auto *buttonBox = new QDialogButtonBox(
                     QDialogButtonBox::Close, Qt::Horizontal, m_help);
         layout->addWidget(buttonBox);
         QObject::connect(buttonBox, &QDialogButtonBox::rejected, m_help, &QWidget::hide);

@@ -43,7 +43,7 @@ QString findImageFormat(const QMimeData &data)
 
 QAction *addMenuItem(const MenuItem &menuItem, QToolBar *toolBar, ItemEditorWidget *parent)
 {
-    QAction *act = new QAction( getIcon(menuItem.iconName, menuItem.iconId), menuItem.text, parent );
+    auto *act = new QAction( getIcon(menuItem.iconName, menuItem.iconId), menuItem.text, parent );
     act->setShortcuts(menuItem.shortcuts);
     toolBar->addAction(act);
     return act;

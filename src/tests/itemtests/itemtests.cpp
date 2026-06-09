@@ -468,7 +468,7 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
         const QString expectedWidgetName = arguments.value(1).toString();
         const QString keys = arguments.value(2).toString();
         const int delay = arguments.value(3).toInt();
-        const QRegularExpression re = QRegularExpression(
+        const auto re = QRegularExpression(
             QString(expectedWidgetName)
             .replace(QLatin1String("<"), QLatin1String(".*<.*"))
         );

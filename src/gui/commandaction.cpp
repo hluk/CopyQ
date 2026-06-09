@@ -37,7 +37,7 @@ const Command &CommandAction::command() const
 bool CommandAction::event(QEvent *event)
 {
     if (event->type() == QEvent::Shortcut) {
-        QShortcutEvent *shortcutEvent = static_cast<QShortcutEvent*>(event);
+        auto *shortcutEvent = static_cast<QShortcutEvent*>(event);
         m_triggeredShortcut = portableShortcutText(shortcutEvent->key());
     }
 
