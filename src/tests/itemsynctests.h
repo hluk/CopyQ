@@ -54,7 +54,6 @@ private slots:
     void avoidDuplicateItemsAddedFromClipboard();
 
     void saveLargeItem();
-
     void sortItemsSimple();
     void sortItems();
 
