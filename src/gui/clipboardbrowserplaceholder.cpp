@@ -388,7 +388,7 @@ void ClipboardBrowserPlaceholder::restartPasswordExpiry()
         return;
     }
 
-    m_timerPasswordExpire.start(static_cast<int>(remainingMs));
+    m_timerPasswordExpire.start(remainingMs);
 }
 
 bool ClipboardBrowserPlaceholder::isEditorOpen() const

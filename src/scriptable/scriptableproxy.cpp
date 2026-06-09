@@ -727,9 +727,9 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         auto &value = arguments[i];
         const int argumentTypeId = metaMethod.parameterType(i);
         if (argumentTypeId == QMetaType::QVariant) {
-            args[i] = QGenericArgument( "QVariant", static_cast<void*>(value.data()) );
+            args[i] = QGenericArgument( "QVariant", value.data() );
         } else if ( value.userType() == argumentTypeId ) {
-            args[i] = QGenericArgument( value.typeName(), static_cast<void*>(value.data()) );
+            args[i] = QGenericArgument( value.typeName(), value.data() );
         } else {
             log( QString("Bad argument type (at index %1) for scriptable proxy slot: %2")
                  .arg(i)
@@ -751,8 +751,8 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         Q_ASSERT(metaType.hasRegisteredDataStreamOperators());
         returnValue = QVariant(metaType, nullptr);
         const auto genericReturnValue = returnValue.isValid()
-                ? QGenericReturnArgument( returnValue.typeName(), static_cast<void*>(returnValue.data()) )
-                : QGenericReturnArgument( "QVariant", static_cast<void*>(returnValue.data()) );
+                ? QGenericReturnArgument( returnValue.typeName(), returnValue.data() )
+                : QGenericReturnArgument( "QVariant", returnValue.data() );
 
         called = metaMethod.invoke(
                 this, genericReturnValue,
