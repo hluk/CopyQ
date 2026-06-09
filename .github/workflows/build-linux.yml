@@ -69,6 +69,7 @@ env:
 jobs:
   build:
     permissions:
+      id-token: write
       contents: read
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -386,9 +387,9 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.coverage
-        uses: codecov/codecov-action@e79a6962e0d4c0c17b229090214935d2e33f8354 # v5
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7
         with:
           files: ${{github.workspace}}/build/copyq/${{ matrix.cmake_preset }}/coverage.info
           fail_ci_if_error: true
           verbose: true
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
