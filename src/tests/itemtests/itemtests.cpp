@@ -85,9 +85,10 @@ bool matchesProperties(QObject *object, const QStringList &properties)
     for (auto it = properties.cbegin(); it != properties.cend(); ++it) {
         const QString key = it->section('=', 0, 0);
         const QString value = it->section('=', 1, 1);
-        if ( value.isEmpty() ) {
-            if ( object->objectName() != key && object->metaObject()->className() != key )
-                return false;
+        if ( value.isEmpty()
+             && object->objectName() != key
+             && object->metaObject()->className() != key ) {
+            return false;
         }
 
         const QVariant propValue = object->property(key.toUtf8());

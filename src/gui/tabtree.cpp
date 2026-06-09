@@ -647,9 +647,9 @@ void TabTree::dropEvent(QDropEvent *event)
 
 bool TabTree::eventFilter(QObject *obj, QEvent *event)
 {
-    if ( obj == verticalScrollBar() ) {
-        if ( event->type() == QEvent::Show || event->type() == QEvent::Hide )
-            updateSize();
+    if ( obj == verticalScrollBar()
+         && (event->type() == QEvent::Show || event->type() == QEvent::Hide) ) {
+        updateSize();
     }
 
     return QTreeWidget::eventFilter(obj, event);

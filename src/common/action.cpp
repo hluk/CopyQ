@@ -75,12 +75,10 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     for (int i = 0; i < cmd.size(); ++i) {
         const QChar &c = cmd[i];
 
-        if (percent) {
-            if (c == '1' || (c >= '2' && c <= '9' && capturedTexts.size() > 1)) {
-                arg.resize( arg.size() - 1 );
-                arg.append( capturedTexts.value(c.digitValue() - 1) );
-                continue;
-            }
+        if (percent && (c == '1' || (c >= '2' && c <= '9' && capturedTexts.size() > 1))) {
+            arg.resize( arg.size() - 1 );
+            arg.append( capturedTexts.value(c.digitValue() - 1) );
+            continue;
         }
         percent = !escape && c == '%';
 

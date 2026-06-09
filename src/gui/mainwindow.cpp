@@ -3412,10 +3412,8 @@ void MainWindow::tabChanged(int current, int)
         if (c) {
             c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 
-            if ( current >= 0 ) {
-                if( !c->currentIndex().isValid() && isVisible() ) {
-                    c->setCurrent(0);
-                }
+            if ( current >= 0 && !c->currentIndex().isValid() && isVisible() ) {
+                c->setCurrent(0);
             }
 
             setTabOrder(ui->searchBar, c);
