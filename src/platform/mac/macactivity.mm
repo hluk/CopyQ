@@ -9,9 +9,9 @@
 #include <Cocoa/Cocoa.h>
 
 MacActivity::MacActivity(const QString &reason)
-    : m_activity(0)
+    : m_activity(nullptr)
 {
-    const NSActivityOptions options = NSActivityBackground;;
+    const NSActivityOptions options = NSActivityBackground;
     id act = [[NSProcessInfo processInfo]
         beginActivityWithOptions:options
         reason:reason.toNSString()];

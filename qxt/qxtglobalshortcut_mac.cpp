@@ -381,7 +381,7 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
     keyID.signature = 'cute';
     keyID.id = ++hotKeySerial;
 
-    EventHotKeyRef ref = 0;
+    EventHotKeyRef ref = nullptr;
     bool rv = !RegisterEventHotKey(nativeKey, nativeMods, keyID, GetApplicationEventTarget(), 0, &ref);
     if (rv)
     {
