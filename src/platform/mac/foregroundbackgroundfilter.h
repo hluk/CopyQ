@@ -23,6 +23,6 @@ public:
     static void installFilter(QObject *parent);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *ev);
-    ForegroundBackgroundFilter(QObject *parent);
+    bool eventFilter(QObject *obj, QEvent *ev) override;
+    explicit ForegroundBackgroundFilter(QObject *parent);
 };
