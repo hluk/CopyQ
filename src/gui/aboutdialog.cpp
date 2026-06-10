@@ -43,7 +43,7 @@ QString helpLib(const char *name, const QString &copyright, const char *url)
 
 QString helpLibColumns(int columns, const QStringList &libs)
 {
-    const QString width = QString::number(100 / columns) + QLatin1Char('%');
+    const auto width = QString::number(100 / columns) + QLatin1Char('%');
     QString html = QStringLiteral("<p><table width='100%'>");
     for (int i = 0; i < libs.size(); i += columns) {
         html += QLatin1String("<tr>");

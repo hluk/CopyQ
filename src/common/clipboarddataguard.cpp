@@ -45,7 +45,7 @@ QRegularExpression anchoredMimePattern(const QString &pattern)
 
 qint64 parseByteSize(const QString &str, bool *ok)
 {
-    const QStringView s = QStringView(str).trimmed();
+    const auto s = QStringView(str).trimmed();
     if (s.isEmpty()) {
         // Empty size (e.g. "text/plain:") means no limit.
         *ok = true;

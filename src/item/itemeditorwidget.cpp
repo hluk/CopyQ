@@ -43,7 +43,7 @@ QString findImageFormat(const QMimeData &data)
 
 QAction *addMenuItem(const MenuItem &menuItem, QToolBar *toolBar, ItemEditorWidget *parent)
 {
-    QAction *act = new QAction( getIcon(menuItem.iconName, menuItem.iconId), menuItem.text, parent );
+    auto *act = new QAction( getIcon(menuItem.iconName, menuItem.iconId), menuItem.text, parent );
     act->setShortcuts(menuItem.shortcuts);
     toolBar->addAction(act);
     return act;
@@ -118,15 +118,14 @@ void ItemEditorWidget::findPrevious()
 
 void ItemEditorWidget::keyPressEvent(QKeyEvent *event)
 {
-    QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
-    int k = keyevent->key();
+    int k = event->key();
 
     if (k == Qt::Key_Return || k == Qt::Key_Enter) {
-        Qt::KeyboardModifiers mods = keyevent->modifiers();
+        Qt::KeyboardModifiers mods = event->modifiers();
         if ( (mods & (Qt::ShiftModifier | Qt::AltModifier | Qt::MetaModifier)) == 0 ) {
             bool controlPressed = mods.testFlag(Qt::ControlModifier);
             if (m_saveOnReturnKey && controlPressed ) {
-                keyevent->setModifiers(mods & ~Qt::ControlModifier);
+                event->setModifiers(mods & ~Qt::ControlModifier);
             } else if ( m_saveOnReturnKey || controlPressed ) {
                 saveAndExit();
                 return;

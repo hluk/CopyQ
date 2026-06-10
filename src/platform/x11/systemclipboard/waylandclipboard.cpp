@@ -392,7 +392,7 @@ QVariant DataControlOffer::retrieveData(const QString &mimeType, QMetaType type)
             close(pipeFds[0]);
 
             if (mimeType == applicationQtXImageLiteral()) {
-                QImage img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
+                auto img = QImage::fromData(data, mime.mid(mime.indexOf(QLatin1Char('/')) + 1).toLatin1().toUpper().data());
                 if (!img.isNull()) {
                     m_data.insert(mimeType, img);
                     return img;

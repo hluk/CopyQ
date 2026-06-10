@@ -654,7 +654,7 @@ void ItemEncryptedLoader::loadSettings(const QSettings &settings)
 QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemEncryptedSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
 
     ui->plainTextEditEncryptTabs->setPlainText(

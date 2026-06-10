@@ -147,7 +147,7 @@ bool simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 bool simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
 {
     XKeyEvent event;
-    XEvent *xev = reinterpret_cast<XEvent *>(&event);
+    auto *xev = reinterpret_cast<XEvent *>(&event);
     event.display     = display;
     event.window      = window;
     event.root        = DefaultRootWindow(display);

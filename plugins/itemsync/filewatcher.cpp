@@ -1334,7 +1334,7 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
                         ? value.toByteArray().size()
                         : value.value<SyncDataFile>().size();
                     if (m_itemDataThreshold >= 0 && size > m_itemDataThreshold) {
-                        const QVariant syncDataFile = QVariant::fromValue(SyncDataFile(path, it.key()));
+                        const auto syncDataFile = QVariant::fromValue(SyncDataFile(path, it.key()));
                         dataMap->insert(it.key(), syncDataFile);
                     } else {
                         dataMap->insert(it.key(), value);
@@ -1348,7 +1348,7 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
         {
             mimeToExtension->insert(mimeNoFormat + ext.extension, ext.extension);
         } else if ( m_itemDataThreshold >= 0 && f.size() > m_itemDataThreshold ) {
-            const QVariant value = QVariant::fromValue(SyncDataFile(path));
+            const auto value = QVariant::fromValue(SyncDataFile(path));
             dataMap->insert(ext.format, value);
             mimeToExtension->insert(ext.format, ext.extension);
         } else {

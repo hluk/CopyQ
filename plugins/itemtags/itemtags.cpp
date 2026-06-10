@@ -201,12 +201,12 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
     layout->setSpacing(x * 2);
 
     if (tag.icon.size() > 1) {
-        QLabel *iconLabel = new QLabel(tagWidget);
+        auto *iconLabel = new QLabel(tagWidget);
         const QPixmap icon(tag.icon);
         iconLabel->setPixmap(icon);
         layout->addWidget(iconLabel);
     } else if (tag.icon.size() == 1) {
-        QLabel *iconLabel = new QLabel(tagWidget);
+        auto *iconLabel = new QLabel(tagWidget);
         iconLabel->setFont(iconFont());
         iconLabel->setText(tag.icon);
         layout->addWidget(iconLabel);
@@ -241,7 +241,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
         if ( tag.name.isEmpty() && tag.icon.isEmpty() )
             continue;
 
-        QWidget *tagWidget = new QWidget(layout->parentWidget());
+        auto *tagWidget = new QWidget(layout->parentWidget());
         initTagWidget(tagWidget, tag, font);
         layout->addWidget(tagWidget);
     }
@@ -648,7 +648,7 @@ void ItemTagsLoader::loadSettings(const QSettings &settings)
 QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemTagsSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
 
     // Init tag table.
@@ -758,7 +758,7 @@ QStringList ItemTagsLoader::userTags() const
 
 void ItemTagsLoader::onColorButtonClicked()
 {
-    QPushButton *button = qobject_cast<QPushButton*>(sender());
+    auto *button = qobject_cast<QPushButton*>(sender());
     Q_ASSERT(button);
 
     const QColor color = button->property(propertyColor).value<QColor>();
@@ -782,7 +782,7 @@ void ItemTagsLoader::onTableWidgetItemChanged(QTableWidgetItem *item)
 
     const int row = item->row();
     QTableWidgetItem *tagItem = ui->tableWidget->item(row, tagsTableColumns::name);
-    const QVariant value = QVariant::fromValue(tagFromTable(row));
+    const auto value = QVariant::fromValue(tagFromTable(row));
     tagItem->setData(TagTableWidgetItem::TagRole, value);
 
     m_blockDataChange = false;

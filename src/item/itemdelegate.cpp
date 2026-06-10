@@ -234,7 +234,7 @@ void ItemDelegate::updateItemSize(const QModelIndex &index, QSize itemWidgetSize
         rowNumberSize.height()
     );
 
-    QSize newSize = QSize(width, height);
+    auto newSize = QSize(width, height);
     const QSize oldSize = m_items[row].size;
     if (oldSize == newSize)
         return;
@@ -638,7 +638,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     // Render number.
     if ( m_sharedData->theme.showRowNumber() ) {
         const int rowNumber = index.row() + static_cast<int>(m_sharedData->rowIndexFromOne);
-        const QString num = QString::number(rowNumber);
+        const auto num = QString::number(rowNumber);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
         painter->setFont( m_sharedData->theme.rowNumberFont() );

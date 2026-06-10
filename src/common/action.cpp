@@ -75,12 +75,10 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     for (int i = 0; i < cmd.size(); ++i) {
         const QChar &c = cmd[i];
 
-        if (percent) {
-            if (c == '1' || (c >= '2' && c <= '9' && capturedTexts.size() > 1)) {
-                arg.resize( arg.size() - 1 );
-                arg.append( capturedTexts.value(c.digitValue() - 1) );
-                continue;
-            }
+        if (percent && (c == '1' || (c >= '2' && c <= '9' && capturedTexts.size() > 1))) {
+            arg.resize( arg.size() - 1 );
+            arg.append( capturedTexts.value(c.digitValue() - 1) );
+            continue;
         }
         percent = !escape && c == '%';
 
@@ -357,7 +355,7 @@ void Action::appendErrorOutput(const QByteArray &errorOutput)
 
 void Action::onSubProcessError(int error)
 {
-    QProcess *p = qobject_cast<QProcess*>(sender());
+    auto *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
     // Ignore write-to-process error, process can ignore the input.
@@ -396,7 +394,7 @@ void Action::onSubProcessOutput()
 
 void Action::onSubProcessErrorOutput()
 {
-    QProcess *p = qobject_cast<QProcess*>(sender());
+    auto *p = qobject_cast<QProcess*>(sender());
     Q_ASSERT(p);
 
     if ( p->isReadable() )

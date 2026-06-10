@@ -458,7 +458,7 @@ void TabWidget::updateToolBar()
     m_toolBarTree->setVisible(!forceHide && !m_hideTabBar && m_toolBarCurrent == m_toolBarTree);
 
     if (m_tabBar) {
-        QMainWindow *mainWindow = qobject_cast<QMainWindow*>(m_toolBar->window());
+        auto *mainWindow = qobject_cast<QMainWindow*>(m_toolBar->window());
         if (mainWindow) {
             Qt::ToolBarArea area = mainWindow->toolBarArea(m_toolBar);
             if (area == Qt::LeftToolBarArea)

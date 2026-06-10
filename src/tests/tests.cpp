@@ -836,8 +836,8 @@ private:
     Q_SLOT void cleanup() {
         invokeMethod(currentGroup(), "cleanup");
         if (QTest::currentTestFailed()) {
-            const QString tag = QString::fromUtf8(QTest::currentDataTag());
-            const QString fn = QString::fromUtf8(QTest::currentTestFunction());
+            const auto tag = QString::fromUtf8(QTest::currentDataTag());
+            const auto fn = QString::fromUtf8(QTest::currentTestFunction());
             m_failed.append(QStringLiteral("%1:%2").arg(fn, tag));
         }
     }

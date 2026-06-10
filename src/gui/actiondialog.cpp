@@ -23,7 +23,7 @@ Q_LOGGING_CATEGORY(logCategory, "copyq.actiondialog")
 
 void initFormatComboBox(QComboBox *combo, const QStringList &additionalFormats = QStringList())
 {
-    QStringList formats = QStringList() << QString() << QString(mimeText) << additionalFormats;
+    auto formats = QStringList() << QString() << QString(mimeText) << additionalFormats;
     formats.removeDuplicates();
     combo->clear();
     combo->addItems(formats);

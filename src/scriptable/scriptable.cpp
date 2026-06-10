@@ -1938,7 +1938,7 @@ QJSValue Scriptable::settings()
 QJSValue Scriptable::dateString()
 {
     m_skipArguments = 1;
-    const QDateTime dateTime = QDateTime::currentDateTime();
+    const auto dateTime = QDateTime::currentDateTime();
     return dateTime.toString(arg(0));
 }
 
@@ -2997,7 +2997,7 @@ QJSValue Scriptable::eval(const QString &script, const QString &label)
 
     // If script is just an identifier or a simple function call, look up the
     // global function and call it to avoid much slower eval.
-    QStringView trimmed = QStringView(script).trimmed();
+    auto trimmed = QStringView(script).trimmed();
 
     const bool needCall = trimmed.endsWith(QLatin1String("()"));
     if (needCall)

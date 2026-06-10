@@ -84,7 +84,7 @@ private:
         imageFile.close();
 
         // Add URI to temporary file to drag'n'drop data.
-        const QUrl url = QUrl::fromLocalFile(m_filePath);
+        const auto url = QUrl::fromLocalFile(m_filePath);
         const QByteArray localUrl = url.toString().toUtf8();
         mimeData->setData( mimeUriList, localUrl );
 
@@ -699,9 +699,8 @@ void ClipboardBrowser::removeIndexes(const QModelIndexList &indexes, QString *er
 {
     Q_ASSERT(m_itemSaver);
 
-    if ( indexes.isEmpty() ) {
-        if (error)
-            *error = "No valid rows specified";
+    if ( indexes.isEmpty() && error ) {
+        *error = "No valid rows specified";
     }
 
     if ( !canRemoveItems(indexes, error) )
@@ -1077,7 +1076,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         for (const auto &index : indexesToRemove)
             selected.append(index);
 
-        QWidget *target = qobject_cast<QWidget*>(drag->target());
+        auto *target = qobject_cast<QWidget*>(drag->target());
 
         QPointer<QObject> self(this);
 

@@ -130,7 +130,7 @@ void ItemImage::setCurrent(bool current)
     if (current) {
         if ( !m_animationData.isEmpty() ) {
             if (!m_animation) {
-                QBuffer *stream = new QBuffer(&m_animationData, this);
+                auto *stream = new QBuffer(&m_animationData, this);
                 m_animation = new QMovie(stream, m_animationFormat, this);
                 m_animation->setScaledSize( m_pixmap.size() );
             }
@@ -246,7 +246,7 @@ void ItemImageLoader::loadSettings(const QSettings &settings)
 QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
 {
     ui.reset(new Ui::ItemImageSettings);
-    QWidget *w = new QWidget(parent);
+    auto *w = new QWidget(parent);
     ui->setupUi(w);
     ui->spinBoxImageWidth->setValue(m_maxImageWidth);
     ui->spinBoxImageHeight->setValue(m_maxImageHeight);

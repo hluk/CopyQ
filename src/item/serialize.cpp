@@ -263,15 +263,15 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data, const Encryption::En
                     qCCritical(serializeCategory) << "Failed to deserialize encrypted DataFile";
                     return false;
                 }
-                const QVariant value = QVariant::fromValue(dataFile);
+                const auto value = QVariant::fromValue(dataFile);
                 Q_ASSERT(value.canConvert<QByteArray>());
                 data->insert(mime, value);
             } else {
                 if ( !readOrError(out, &tmpBytes, "Failed to read item data (v2)") )
                     return false;
 
-                const QString path = QString::fromUtf8(tmpBytes);
-                const QVariant value = QVariant::fromValue(DataFile(path));
+                const auto path = QString::fromUtf8(tmpBytes);
+                const auto value = QVariant::fromValue(DataFile(path));
                 Q_ASSERT(value.canConvert<QByteArray>());
                 Q_ASSERT(value.value<DataFile>().path() == path);
                 data->insert(mime, value);
@@ -355,7 +355,7 @@ QString dataFilePath(const QByteArray &bytes, bool create = false)
     QCryptographicHash hash(QCryptographicHash::Sha256);
     hash.addData(QByteArrayLiteral("copyq_salt"));
     hash.addData(bytes);
-    const QString sha = QString::fromUtf8( hash.result().toHex() );
+    const auto sha = QString::fromUtf8( hash.result().toHex() );
     const QString subpath = QStringLiteral("%1/%2/%3").arg(
             sha.mid(0, 16),
             sha.mid(16, 16),
@@ -763,7 +763,7 @@ bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::Encryp
                 return false;
 
             if (hasDataFile) {
-                const QString path = QString::fromUtf8(tmpBytes);
+                const auto path = QString::fromUtf8(tmpBytes);
                 files->append(path);
             }
         }

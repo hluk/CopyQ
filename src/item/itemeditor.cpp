@@ -132,7 +132,7 @@ void ItemEditor::close()
         if (exitCode != 0)
             qCWarning(editorCategory) << "Editor command exit code:" << exitCode;
 
-        const QString errorOutput = QString::fromUtf8(m_editor->errorOutput());
+        const auto errorOutput = QString::fromUtf8(m_editor->errorOutput());
         if ( !errorOutput.isEmpty() )
             qCWarning(editorCategory) << "Editor command stderr:" << errorOutput;
 

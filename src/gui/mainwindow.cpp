@@ -2845,7 +2845,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *ev)
     if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
         return false;
 
-    QKeyEvent *event = static_cast<QKeyEvent *>(ev);
+    auto *event = static_cast<QKeyEvent *>(ev);
     const int key = event->key();
     const Qt::KeyboardModifiers modifiers = event->modifiers();
 
@@ -3412,10 +3412,8 @@ void MainWindow::tabChanged(int current, int)
         if (c) {
             c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 
-            if ( current >= 0 ) {
-                if( !c->currentIndex().isValid() && isVisible() ) {
-                    c->setCurrent(0);
-                }
+            if ( current >= 0 && !c->currentIndex().isValid() && isVisible() ) {
+                c->setCurrent(0);
             }
 
             setTabOrder(ui->searchBar, c);

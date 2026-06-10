@@ -144,7 +144,7 @@ QAbstractButton *FancyLineEdit::button(FancyLineEdit::Side side) const
 
 void FancyLineEdit::iconClicked()
 {
-    IconButton *button = qobject_cast<IconButton *>(sender());
+    auto *button = qobject_cast<IconButton *>(sender());
     int index = -1;
     for (int i = 0; i < 2; ++i)
         if (d->m_iconbutton[i] == button)
@@ -169,8 +169,8 @@ void FancyLineEdit::updateMargins()
     Side realRight = (leftToRight ? Right : Left);
 
     const auto buttonExtent = height();
-    auto leftMargin = static_cast<int>( buttonExtent + 8 );
-    auto rightMargin = static_cast<int>( buttonExtent + 8 );
+    auto leftMargin = buttonExtent + 8;
+    auto rightMargin = buttonExtent + 8;
     // Note KDE does not reserve space for the highlight color
     if (style()->inherits("OxygenStyle")) {
         leftMargin = qMax(24, leftMargin);

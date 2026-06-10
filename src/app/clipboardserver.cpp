@@ -717,8 +717,8 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
         // Close menu on Escape key and give focus back to search edit or browser.
         if (type == QEvent::KeyPress) {
-            QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
-            QMenu *menu = qobject_cast<QMenu*>(object);
+            auto *keyevent = static_cast<QKeyEvent *>(ev);
+            auto *menu = qobject_cast<QMenu*>(object);
             if (menu && keyevent->key() == Qt::Key_Escape) {
                 menu->close();
                 if (m_wnd->browseMode())
@@ -733,7 +733,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                         .value<Qt::TextInteractionFlags>()
                         .testFlag(Qt::TextSelectableByKeyboard)) )
         {
-            QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
+            auto *keyevent = static_cast<QKeyEvent *>(ev);
             if ( keyevent->key() == Qt::Key_Left
                  || keyevent->key() == Qt::Key_Right
                  || keyevent->key() == Qt::Key_Up
@@ -746,7 +746,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
     } else if (type == QEvent::Paint) {
         setActivePaintDevice(object);
     } else if (type == QEvent::FontChange) {
-        QTextEdit *editor = qobject_cast<QTextEdit*>(object);
+        auto *editor = qobject_cast<QTextEdit*>(object);
         if (editor)
             setTabWidth(editor, m_textTabSize);
     } else if ( type == QEvent::ApplicationStateChange && m_saveOnDeactivate ) {

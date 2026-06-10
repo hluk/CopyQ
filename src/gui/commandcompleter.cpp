@@ -228,7 +228,7 @@ bool CommandCompleter::eventFilter(QObject *, QEvent *event)
     if (event->type() != QEvent::KeyPress)
         return false;
 
-    QKeyEvent *e = static_cast<QKeyEvent*>(event);
+    auto *e = static_cast<QKeyEvent*>(event);
     QAbstractItemView *popup = m_completer->popup();
 
     switch (e->key()) {

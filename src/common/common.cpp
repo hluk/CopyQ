@@ -95,7 +95,7 @@ bool setImageData(
     if ( animatedImage.frameCount() > 1 )
         return false;
 
-    const QImage image = QImage::fromData(bytes, imageFormat);
+    const auto image = QImage::fromData(bytes, imageFormat);
     if ( image.isNull() )
         return false;
 

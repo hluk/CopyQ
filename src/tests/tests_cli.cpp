@@ -49,7 +49,7 @@ void CoreTests::readLog()
         m_test->setEnv("COPYQ_LOG_DIR", tmpDir.path());
         QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
         QVERIFY2( testStderr(stderrActual), stderrActual );
-        const QString actualPattern = QString::fromUtf8(stdoutActual)
+        const auto actualPattern = QString::fromUtf8(stdoutActual)
             .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
         const QString expectedPattern = QStringLiteral("%1/copyq*").arg(tmpDir.path());
         QCOMPARE( actualPattern, expectedPattern );
@@ -60,7 +60,7 @@ void CoreTests::readLog()
         m_test->setEnv("COPYQ_LOG_DIR", "");
         QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
         QVERIFY2( testStderr(stderrActual), stderrActual );
-        const QString actualPattern = QString::fromUtf8(stdoutActual)
+        const auto actualPattern = QString::fromUtf8(stdoutActual)
             .replace(QRegularExpression(R"(-\d*-\d*\.log\n$)"), "*");
         const QString expectedPattern = QStringLiteral("%1/copyq*")
             .arg(getDefaultLogFilePath());
@@ -74,7 +74,7 @@ void CoreTests::rotateLog()
     QByteArray stderrActual;
     QCOMPARE( run(Args("info") << "log", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
-    const QString logDirPath = QString::fromUtf8(stdoutActual).section("/", 0, -2);
+    const auto logDirPath = QString::fromUtf8(stdoutActual).section("/", 0, -2);
     QVERIFY( !logDirPath.isEmpty() );
 
     const QByteArray logData(logFileSize, '-');
@@ -124,7 +124,7 @@ void CoreTests::commandHelp()
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY(!stdoutActual.isEmpty());
 
-    const QStringList commands = QStringList()
+    const auto commands = QStringList()
             << "show"
             << "hide"
             << "toggle"
@@ -143,7 +143,7 @@ void CoreTests::commandHelp()
         QCOMPARE( run(Args("help") << command, &stdoutActual, &stderrActual), 0 );
         QVERIFY2( testStderr(stderrActual), stderrActual );
         QVERIFY( !stdoutActual.isEmpty() );
-        const QString help = QString::fromUtf8(stdoutActual);
+        const auto help = QString::fromUtf8(stdoutActual);
         QVERIFY( help.contains(QRegularExpression("\\b" + QRegularExpression::escape(command) + "\\b")) );
     }
 
@@ -160,7 +160,7 @@ void CoreTests::commandVersion()
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !stdoutActual.isEmpty() );
 
-    const QString version = QString::fromUtf8(stdoutActual);
+    const auto version = QString::fromUtf8(stdoutActual);
     // Version contains application name and version.
     QVERIFY( version.contains(QRegularExpression("\\bCopyQ\\b.*" + QRegularExpression::escape(versionString))) );
     // Version contains Qt version.
