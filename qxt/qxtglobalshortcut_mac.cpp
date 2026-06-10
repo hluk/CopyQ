@@ -206,35 +206,35 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifie
     if (currentKeyboard == nullptr)
         return 0;
 
-    currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+    currentLayoutData = reinterpret_cast<CFDataRef>(TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData));
     CFRelease(currentKeyboard);
     if (currentLayoutData == nullptr){//Japanese or Chinese always return null
         currentKeyboard = TISCopyCurrentKeyboardLayoutInputSource();
-        currentLayoutData = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+        currentLayoutData = reinterpret_cast<CFDataRef>(TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData));
         if(!currentLayoutData)
             return 0;
     }
 
-    UCKeyboardLayout* header = (UCKeyboardLayout*)CFDataGetBytePtr(currentLayoutData);
-    UCKeyboardTypeHeader* table = header->keyboardTypeList;
+    const auto* data = CFDataGetBytePtr(currentLayoutData);
+    const auto* header = reinterpret_cast<const UCKeyboardLayout*>(data);
+    const UCKeyboardTypeHeader* table = header->keyboardTypeList;
 
-    uint8_t *data = (uint8_t*)header;
     // God, would a little documentation for this shit kill you...
     for (quint32 i=0; i < header->keyboardTypeCount; i++)
     {
-        UCKeyStateRecordsIndex* stateRec = 0;
+        const UCKeyStateRecordsIndex* stateRec = nullptr;
         if (table[i].keyStateRecordsIndexOffset != 0)
         {
-            stateRec = reinterpret_cast<UCKeyStateRecordsIndex*>(data + table[i].keyStateRecordsIndexOffset);
-            if (stateRec->keyStateRecordsIndexFormat != kUCKeyStateRecordsIndexFormat) stateRec = 0;
+            stateRec = reinterpret_cast<const UCKeyStateRecordsIndex*>(data + table[i].keyStateRecordsIndexOffset);
+            if (stateRec->keyStateRecordsIndexFormat != kUCKeyStateRecordsIndexFormat) stateRec = nullptr;
         }
 
-        UCKeyToCharTableIndex* charTable = reinterpret_cast<UCKeyToCharTableIndex*>(data + table[i].keyToCharTableIndexOffset);
+        const UCKeyToCharTableIndex* charTable = reinterpret_cast<const UCKeyToCharTableIndex*>(data + table[i].keyToCharTableIndexOffset);
         if (charTable->keyToCharTableIndexFormat != kUCKeyToCharTableIndexFormat) continue;
 
         for (quint32 j=0; j < charTable->keyToCharTableCount; j++)
         {
-            UCKeyOutput* keyToChar = reinterpret_cast<UCKeyOutput*>(data + charTable->keyToCharTableOffsets[j]);
+            const UCKeyOutput* keyToChar = reinterpret_cast<const UCKeyOutput*>(data + charTable->keyToCharTableOffsets[j]);
             for (quint32 k=0; k < charTable->keyToCharTableSize; k++)
             {
                 if (keyToChar[k] & kUCKeyOutputTestForIndexMask)
@@ -242,7 +242,7 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifie
                     long idx = keyToChar[k] & kUCKeyOutputGetIndexMask;
                     if (stateRec && idx < stateRec->keyStateRecordCount)
                     {
-                        UCKeyStateRecord* rec = reinterpret_cast<UCKeyStateRecord*>(data + stateRec->keyStateRecordOffsets[idx]);
+                        const UCKeyStateRecord* rec = reinterpret_cast<const UCKeyStateRecord*>(data + stateRec->keyStateRecordOffsets[idx]);
                         if (rec->stateZeroCharData == ch) return k;
                     }
                 }
