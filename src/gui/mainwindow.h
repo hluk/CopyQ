@@ -254,7 +254,7 @@ public:
 
     /// Used by config() command.
     QVariant config(const QVariantList &nameValue);
-    QString configDescription();
+    QString configDescription() const;
 
     QVariantMap actionData(int id) const;
     void setActionData(int id, const QVariantMap &data);

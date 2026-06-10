@@ -426,7 +426,7 @@ QModelIndex ClipboardBrowser::indexNear(int offset) const
     return ::indexNear(this, offset);
 }
 
-int ClipboardBrowser::getDropRow(QPoint position)
+int ClipboardBrowser::getDropRow(QPoint position) const
 {
     const QModelIndex index = indexNear( position.y() );
     return index.isValid() ? index.row() : length();
