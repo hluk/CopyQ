@@ -3564,7 +3564,7 @@ QVariant MainWindow::config(const QVariantList &nameValue)
     return result;
 }
 
-QString MainWindow::configDescription()
+QString MainWindow::configDescription() const
 {
     ConfigurationManager configurationManager;
     QStringList options = configurationManager.options();

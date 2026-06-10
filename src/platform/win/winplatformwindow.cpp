@@ -85,7 +85,7 @@ bool raiseWindow(HWND window)
 
     // WORKAROUND: Set foreground window if even this process is not in foreground.
     const auto thisThreadId = GetCurrentThreadId();
-    const auto foregroundThreadId = GetWindowThreadProcessId(GetForegroundWindow(), NULL);
+    const auto foregroundThreadId = GetWindowThreadProcessId(GetForegroundWindow(), nullptr);
     if (thisThreadId != foregroundThreadId) {
         if ( AttachThreadInput(thisThreadId, foregroundThreadId, true) ) {
             logWindowDebug("Attached foreground thread", window);

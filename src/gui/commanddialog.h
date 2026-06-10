@@ -67,12 +67,12 @@ private:
 
     void addCommandsWithoutSave(const Commands &commands, int targetRow);
     Commands selectedCommands() const;
-    QString serializeSelectedCommands();
+    QString serializeSelectedCommands() const;
     bool hasUnsavedChanges() const;
 
     void updateIcon(int row);
 
-    QString commandsToPaste();
+    QString commandsToPaste() const;
 
     Ui::CommandDialog *ui;
     Commands m_savedCommands;

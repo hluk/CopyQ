@@ -59,7 +59,7 @@ namespace {
             if (url) {
                 for (id item in(__bridge NSArray *) items.get()) {
                     LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
-                    if (LSSharedFileListItemResolve(itemRef, 0, &url, NULL) == noErr) {
+                    if (LSSharedFileListItemResolve(itemRef, 0, &url, nullptr) == noErr) {
                         if ([[(__bridge NSURL *) url path] hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
                             flag = true;
                             break;
@@ -73,7 +73,7 @@ namespace {
 
     void addToLoginItems()
     {
-        CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+        CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, nullptr);
         if (list) {
             if (!isApplicationInItemList(list)) {
                 CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
@@ -82,7 +82,7 @@ namespace {
                     NSDictionary *properties = [NSDictionary
                         dictionaryWithObject: [NSNumber numberWithBool:NO]
                         forKey: @"com.apple.loginitem.HideOnLaunch"];
-                    CFRef<LSSharedFileListItemRef> item = LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, url, (__bridge CFDictionaryRef)properties, NULL);
+                    CFRef<LSSharedFileListItemRef> item = LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, nullptr, nullptr, url, (__bridge CFDictionaryRef)properties, nullptr);
                     (void)item;  // released automatically
                 } else {
                     ::log("Unable to find url for bundle, can't auto-load app", LogWarning);
@@ -95,7 +95,7 @@ namespace {
 
     void removeFromLoginItems()
     {
-        CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+        CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, nullptr);
         if (list) {
             if (isApplicationInItemList(list)) {
                 CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
@@ -105,7 +105,7 @@ namespace {
                     if (items) {
                         for (id item in(__bridge NSArray *) items.get()) {
                             LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
-                            if (LSSharedFileListItemResolve(itemRef, 0, &url, NULL) == noErr)
+                            if (LSSharedFileListItemResolve(itemRef, 0, &url, nullptr) == noErr)
                                 if ([[(__bridge NSURL *) url path] hasPrefix:[[NSBundle mainBundle] bundlePath]])
                                     LSSharedFileListItemRemove(list, itemRef);
                         }
@@ -262,7 +262,7 @@ bool MacPlatform::isAutostartEnabled()
     // the App Store.
     // http://rhult.github.io/articles/sandboxed-launch-on-login/
     bool isInList = false;
-    CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+    CFRef<LSSharedFileListRef> list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, nullptr);
     if (list) {
         isInList = isApplicationInItemList(list);
     }

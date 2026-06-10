@@ -37,7 +37,7 @@ namespace {
     }
 
     CFStringRef mimeToUTI(CFStringRef mime) {
-        return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mime, NULL);
+        return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mime, nullptr);
     }
 
     CFStringRef utiToMime(CFStringRef uti) {
