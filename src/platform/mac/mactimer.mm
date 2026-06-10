@@ -66,7 +66,7 @@ void MacTimer::start() {
     double intervalSeconds = (double)m_interval / 1000.0;
 
     // Create a timer which kicks into a block
-    CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(NULL,
+    CFRunLoopTimerRef timer = CFRunLoopTimerCreateWithHandler(nullptr,
         CFAbsoluteTimeGetCurrent() + intervalSeconds,
         m_singleShot ? 0 : intervalSeconds,
         0, 0, // These are both ignored

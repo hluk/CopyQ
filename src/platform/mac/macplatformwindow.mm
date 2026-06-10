@@ -196,7 +196,7 @@ namespace {
         }
 
         const void *windowid = reinterpret_cast<const void *>(static_cast<uintptr_t>(wid));
-        CFRef<CFArrayRef> windowArray = CFArrayCreate( NULL, &windowid, 1, NULL );
+        CFRef<CFArrayRef> windowArray = CFArrayCreate( nullptr, &windowid, 1, nullptr );
         CFRef<CFArrayRef> descArray = CGWindowListCreateDescriptionFromArray(windowArray);
 
         // Should only be one
