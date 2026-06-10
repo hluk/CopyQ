@@ -520,6 +520,14 @@ public:
         return new AppIconEngine(*this);
     }
 
+    // Return the theme icon name so that platform integrations (e.g. KDE
+    // Plasma) can identify the icon directly instead of falling back to
+    // glob-based lookups that produce spurious QString::arg warnings.
+    QString iconName() override
+    {
+        return QStringLiteral(COPYQ_ICON_NAME);
+    }
+
     QPixmap doCreatePixmap(QSize size, QIcon::Mode, QIcon::State, QPainter *) override
     {
         // If copyq-normal icon exist in theme, omit changing color.
