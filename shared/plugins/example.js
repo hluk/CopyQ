@@ -3,7 +3,7 @@
 // (usually ~/.config/copyq/plugins/).
 
 // Override popup()
-popup = function(title, message, time)
+global.popup = function(title, message, time)
 {
     if (!time)
         time = 1000

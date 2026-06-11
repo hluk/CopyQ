@@ -70,5 +70,5 @@ Q_SIGNALS:
 
 private:
     friend class QxtGlobalShortcutPrivate;
-    QxtGlobalShortcutPrivate *d_ptr;
+    QxtGlobalShortcutPrivate *m_private;
 };
