@@ -215,9 +215,7 @@ void ItemText::onSelectionChanged()
     m_elidedFragment = QTextDocumentFragment();
 }
 
-ItemTextLoader::ItemTextLoader()
-{
-}
+ItemTextLoader::ItemTextLoader() = default;
 
 ItemTextLoader::~ItemTextLoader() = default;
 

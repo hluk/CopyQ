@@ -185,9 +185,7 @@ void ItemImage::stopAnimation()
         movie()->stop();
 }
 
-ItemImageLoader::ItemImageLoader()
-{
-}
+ItemImageLoader::ItemImageLoader() = default;
 
 ItemImageLoader::~ItemImageLoader() = default;
 

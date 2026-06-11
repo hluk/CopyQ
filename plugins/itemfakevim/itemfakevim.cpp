@@ -737,9 +737,7 @@ bool installEditor(QObject *obj, const QString &sourceFileName, ItemFakeVimLoade
 
 } // namespace
 
-ItemFakeVimLoader::ItemFakeVimLoader()
-{
-}
+ItemFakeVimLoader::ItemFakeVimLoader() = default;
 
 ItemFakeVimLoader::~ItemFakeVimLoader() = default;
 

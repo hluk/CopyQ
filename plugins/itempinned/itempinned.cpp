@@ -290,9 +290,7 @@ void ItemPinnedSaver::updateLastPinned(int from, int to)
     }
 }
 
-ItemPinnedLoader::ItemPinnedLoader()
-{
-}
+ItemPinnedLoader::ItemPinnedLoader() = default;
 
 ItemPinnedLoader::~ItemPinnedLoader() = default;
 

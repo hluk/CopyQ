@@ -37,7 +37,7 @@ Q_LOGGING_CATEGORY(serializeCategory, "copyq.serialize")
 
 class DataFile {
 public:
-    DataFile() {}
+    DataFile() = default;
 
     explicit DataFile(const QString &path, const Encryption::EncryptionKey &encryptionKey = {})
         : m_path(path)

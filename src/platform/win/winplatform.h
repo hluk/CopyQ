@@ -8,7 +8,7 @@
 class WinPlatform final : public PlatformNativeInterface
 {
 public:
-    WinPlatform() {}
+    WinPlatform() = default;
 
     PlatformWindowPtr getWindow(WId winId) override;
 
