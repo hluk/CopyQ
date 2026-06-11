@@ -158,7 +158,7 @@ void QxtGlobalShortcutPrivate::activateShortcut(quint32 nativeKey, quint32 nativ
  */
 QxtGlobalShortcut::QxtGlobalShortcut(QObject* parent)
     : QObject(parent)
-    , d_ptr(new QxtGlobalShortcutPrivate(this))
+    , m_private(new QxtGlobalShortcutPrivate(this))
 {
 }
 
@@ -178,7 +178,7 @@ QxtGlobalShortcut::QxtGlobalShortcut(
  */
 QxtGlobalShortcut::~QxtGlobalShortcut()
 {
-    delete d_ptr;
+    delete m_private;
 }
 
 /*!
@@ -199,7 +199,7 @@ QxtGlobalShortcut::~QxtGlobalShortcut()
  */
 QKeySequence QxtGlobalShortcut::shortcut() const
 {
-    return QKeySequence( QKeyCombination(d_ptr->mods, d_ptr->key) );
+    return QKeySequence( QKeyCombination(m_private->mods, m_private->key) );
 }
 
 /*!
@@ -210,17 +210,17 @@ QKeySequence QxtGlobalShortcut::shortcut() const
  */
 bool QxtGlobalShortcut::setShortcut(const QKeySequence& shortcut)
 {
-    return d_ptr->setShortcut(shortcut);
+    return m_private->setShortcut(shortcut);
 }
 
 QString QxtGlobalShortcut::name() const
 {
-    return d_ptr->name;
+    return m_private->name;
 }
 
 void QxtGlobalShortcut::setName(const QString& name)
 {
-    d_ptr->name = name;
+    m_private->name = name;
 }
 
 /*!
@@ -235,7 +235,7 @@ void QxtGlobalShortcut::setName(const QString& name)
  */
 bool QxtGlobalShortcut::isEnabled() const
 {
-    return d_ptr->enabled;
+    return m_private->enabled;
 }
 
 /*!
@@ -244,7 +244,7 @@ bool QxtGlobalShortcut::isEnabled() const
  */
 bool QxtGlobalShortcut::isValid() const
 {
-    return d_ptr->registered;
+    return m_private->registered;
 }
 
 /*!
@@ -254,7 +254,7 @@ bool QxtGlobalShortcut::isValid() const
  */
 void QxtGlobalShortcut::activate()
 {
-    if (d_ptr->enabled)
+    if (m_private->enabled)
         emit activated(this);
 }
 
@@ -294,7 +294,7 @@ void QxtGlobalShortcut::notifyRestartNeeded()
  */
 void QxtGlobalShortcut::setEnabled(bool enabled)
 {
-    d_ptr->enabled = enabled;
+    m_private->enabled = enabled;
 }
 
 /*!
@@ -304,5 +304,5 @@ void QxtGlobalShortcut::setEnabled(bool enabled)
  */
 void QxtGlobalShortcut::setDisabled(bool disabled)
 {
-    d_ptr->enabled = !disabled;
+    m_private->enabled = !disabled;
 }
