@@ -81,6 +81,13 @@ struct MenuItem {
     QString settingsKey;
     QKeySequence defaultShortcut;
     QList<QKeySequence> shortcuts;
+
+    MenuItem() = default;
+    ~MenuItem() = default;
+    MenuItem(const MenuItem &) = default;
+    MenuItem &operator=(const MenuItem &) = default;
+    MenuItem(MenuItem &&) noexcept = default;
+    MenuItem &operator=(MenuItem &&) noexcept = default;
 };
 
 using MenuItems = std::array<MenuItem, Actions::Count>;
