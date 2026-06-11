@@ -21,7 +21,7 @@ public:
 
     bool isAutostartEnabled() override { return false; }
 
-    void setAutostartEnabled(bool) override {}
+    void setAutostartEnabled(bool) override { /* Dummy platform: autostart not supported */ }
 
     bool setPreventScreenCapture(WId, bool) override { return false; }
     bool canPreventScreenCapture() override { return false; }

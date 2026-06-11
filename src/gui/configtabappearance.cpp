@@ -62,7 +62,7 @@ public:
         edit->update();
     }
 
-    void search(QTextEdit *, bool) const override {}
+    void search(QTextEdit *, bool) const override { /* Simple filter: uses highlight only, no incremental search */ }
 
 private:
     QString m_text;

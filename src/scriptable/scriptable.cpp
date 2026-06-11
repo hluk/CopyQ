@@ -2240,6 +2240,7 @@ void Scriptable::onHiddenClipboardChanged()
 
 void Scriptable::onClipboardUnchanged()
 {
+    /* No action needed when clipboard content hasn't changed */
 }
 
 void Scriptable::onSecretClipboardChanged()

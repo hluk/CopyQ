@@ -815,7 +815,7 @@ private:
         group->metaObject()->method(methodIndex).invoke(group, Qt::DirectConnection);
     }
 
-    Q_SLOT void initTestCase() {}
+    Q_SLOT void initTestCase() { /* No per-test-case setup needed */ }
 
     Q_SLOT void cleanupTestCase()
     {

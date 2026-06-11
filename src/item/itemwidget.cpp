@@ -197,6 +197,7 @@ bool ItemSaverInterface::canMoveItems(const QList<QModelIndex> &)
 
 void ItemSaverInterface::itemsRemovedByUser(const QList<QPersistentModelIndex> &)
 {
+    /* No-op default: subclasses override to handle user-initiated removal */
 }
 
 QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
@@ -206,6 +207,7 @@ QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVari
 
 void ItemSaverInterface::setFocus(bool)
 {
+    /* No-op default: subclasses override to handle focus changes */
 }
 
 ItemWidget *ItemLoaderInterface::create(const QVariantMap &, QWidget *, bool) const

@@ -222,7 +222,7 @@ public:
     QString description() const override { return {}; }
     QVariant icon() const override { return {}; }
 
-    void setEnabled(bool) override {}
+    void setEnabled(bool) override { /* Dummy loader: always active, ignores enable/disable */ }
     void loadSettings(const QSettings &) override
     {
         m_itemDataThreshold = AppConfig().option<Config::item_data_threshold>();

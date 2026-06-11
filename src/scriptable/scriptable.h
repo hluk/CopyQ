@@ -358,8 +358,8 @@ public slots:
     void onClipboardUnchanged();
     void onSecretClipboardChanged();
 
-    void onStart() {}
-    void onExit() {}
+    void onStart() { /* Default no-op: overridden by user scripts */ }
+    void onExit() { /* Default no-op: overridden by user scripts */ }
 
     void synchronizeToSelection();
     void synchronizeFromSelection();
@@ -390,11 +390,11 @@ public slots:
 
     QJSValue stats();
 
-    void onItemsAdded() {}
-    void onItemsRemoved() {}
-    void onItemsChanged() {}
-    void onTabSelected() {}
-    void onItemsLoaded() {}
+    void onItemsAdded() { /* Default no-op: overridden by user scripts */ }
+    void onItemsRemoved() { /* Default no-op: overridden by user scripts */ }
+    void onItemsChanged() { /* Default no-op: overridden by user scripts */ }
+    void onTabSelected() { /* Default no-op: overridden by user scripts */ }
+    void onItemsLoaded() { /* Default no-op: overridden by user scripts */ }
     void collectScriptOverrides();
 
     QByteArray serializeScriptValue(const QJSValue &value);

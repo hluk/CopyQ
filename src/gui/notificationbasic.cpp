@@ -137,8 +137,8 @@ public:
         m_widget.setButtons(buttons);
     }
 
-    void setUrgency(Urgency) override {}
-    void setPersistency(Persistency) override {}
+    void setUrgency(Urgency) override { /* Basic notification: urgency levels not supported */ }
+    void setPersistency(Persistency) override { /* Basic notification: persistency not supported */ }
 
     void adjust() override {
         m_widget.updateIcon();

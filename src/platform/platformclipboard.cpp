@@ -85,6 +85,7 @@ void PlatformClipboard::setMonitoringState()
 
 void PlatformClipboard::updateMonitoringSubscription(const QStringList &, ClipboardModeMask)
 {
+    /* No-op default: platform subclasses override to manage monitoring */
 }
 
 void PlatformClipboard::emitConnectionChanged(ClipboardMode mode)

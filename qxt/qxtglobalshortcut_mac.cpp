@@ -57,10 +57,12 @@ OSStatus qxt_mac_handle_hot_key(EventHandlerCallRef nextHandler, EventRef event,
 
 void QxtGlobalShortcutPrivate::init()
 {
+    /* No initialization needed on macOS */
 }
 
 void QxtGlobalShortcutPrivate::destroy()
 {
+    /* No cleanup needed on macOS */
 }
 
 bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
