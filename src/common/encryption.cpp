@@ -402,7 +402,7 @@ QByteArray hmacKeyFor(const QCA::SymmetricKey &key)
 {
     // Derive a separate HMAC key from the encryption key using HKDF-SHA256.
     static const QByteArray info = QByteArrayLiteral("copyq-hmac-v1");
-    const Encryption::Cleared<QByteArray> ikm = key.toByteArray();
+    const Encryption::Cleared<QByteArray> ikm(key.toByteArray());
     const QByteArray prk = QMessageAuthenticationCode::hash(
         ikm.value(),
         QByteArray(hkdfSha256HashLength, '\0'),
@@ -468,7 +468,7 @@ QByteArray hkdfSha256(const QByteArray &ikm,
 QCA::SymmetricKey derivePerMessageKey(const QCA::SymmetricKey &key, const QByteArray &salt)
 {
     // Derive a 256-bit per-message key using HKDF-SHA256.
-    const Encryption::Cleared<QByteArray> ikm = key.toByteArray();
+    const Encryption::Cleared<QByteArray> ikm(key.toByteArray());
     const QByteArray info = QByteArrayLiteral("copyq-msg-key-v1");
     const int derivedKeyLength = aes256KeySize;
 

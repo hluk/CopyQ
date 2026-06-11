@@ -29,7 +29,7 @@ using Salt = QByteArray;
 template <typename T>
 class Cleared {
 public:
-    Cleared(T &&ba): m_value(std::move(ba)) {}
+    explicit Cleared(T &&ba): m_value(std::move(ba)) {}
     ~Cleared() { m_value.fill('\0'); }
     bool isEmpty() const { return m_value.isEmpty(); }
     qsizetype size() const { return m_value.size(); }

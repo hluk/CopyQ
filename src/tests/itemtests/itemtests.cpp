@@ -142,7 +142,7 @@ public:
         Failed
     };
 
-    KeyClicker(QObject *parent)
+    explicit KeyClicker(QObject *parent)
         : QObject(parent)
     {
         for (const auto w : qApp->topLevelWidgets()) {

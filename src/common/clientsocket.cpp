@@ -183,7 +183,7 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
         out.setVersion(dataStreamVersion);
         out << static_cast<qint32>(messageCode);
         out.writeRawData( message.constData(), message.length() );
-        if ( writeMessage(m_socket, msg) ) {
+        if ( writeMessage(m_socket.get(), msg) ) {
             m_socket->flush();
             SOCKET_LOG("Message sent to client.");
         } else {

@@ -210,7 +210,7 @@ private:
 class DummyLoader final : public ItemLoaderInterface
 {
 public:
-    DummyLoader(const ClipboardBrowserSharedPtr &sharedData)
+    explicit DummyLoader(const ClipboardBrowserSharedPtr &sharedData)
         : m_sharedData(sharedData)
     {}
 

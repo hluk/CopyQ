@@ -48,7 +48,7 @@ QString keychainPasswordKey()
 bool savePasswordToKeychain(const Encryption::SecureArray &password)
 {
     qCInfo(logCategory) << "Saving password from system keychain";
-    const Encryption::Cleared<QByteArray> ba = password.toByteArray();
+    const Encryption::Cleared<QByteArray> ba(password.toByteArray());
     const bool result = KeychainAccess::writePassword(
         keychainServiceName(), keychainPasswordKey(), ba.value());
 
@@ -97,7 +97,7 @@ Encryption::EncryptionKey setUpPassword(const Encryption::SecureArray &password,
 Encryption::SecureArray getStoredPassword(PasswordSource prompt)
 {
     if (prompt == PasswordSource::UseEnvAndKeychain || prompt == PasswordSource::UseEnvOnly) {
-        const Encryption::Cleared<QByteArray> ba = qgetenv("COPYQ_PASSWORD");
+        const Encryption::Cleared<QByteArray> ba(qgetenv("COPYQ_PASSWORD"));
         if ( !ba.isEmpty() ) {
             qCInfo(logCategory) << "Encryption password loaded from env variable COPYQ_PASSWORD";
             return Encryption::SecureArray(ba.value());
@@ -105,7 +105,7 @@ Encryption::SecureArray getStoredPassword(PasswordSource prompt)
     }
 
     if (prompt == PasswordSource::UseEnvAndKeychain) {
-        const Encryption::Cleared<QByteArray> ba = loadPasswordFromKeychain();
+        const Encryption::Cleared<QByteArray> ba(loadPasswordFromKeychain());
         if ( !ba.isEmpty() ) {
             qCInfo(logCategory) << "Encryption password loaded from system keychain";
             return Encryption::SecureArray(ba.value());
@@ -118,8 +118,8 @@ Encryption::SecureArray getStoredPassword(PasswordSource prompt)
 Encryption::SecureArray getPassword(
     QWidget *parent, const QString &title, const QString &label, bool *ok = nullptr)
 {
-    const Encryption::Cleared<QString> str = QInputDialog::getText(
-        parent, title, label, QLineEdit::Password, QString(), ok);
+    const Encryption::Cleared<QString> str(QInputDialog::getText(
+        parent, title, label, QLineEdit::Password, QString(), ok));
     const Encryption::Cleared<QByteArray> ba(str.value().toUtf8());
     return Encryption::SecureArray(ba.value());
 }
