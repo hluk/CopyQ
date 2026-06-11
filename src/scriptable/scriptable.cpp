@@ -86,6 +86,11 @@ public:
         else
             log(ms, LogTrace);
     }
+    PerformanceLogger(const PerformanceLogger &) = delete;
+    PerformanceLogger &operator=(const PerformanceLogger &) = delete;
+    PerformanceLogger(PerformanceLogger &&) = delete;
+    PerformanceLogger &operator=(PerformanceLogger &&) = delete;
+
 
 private:
     void log(qint64 ms, LogLevel level) const

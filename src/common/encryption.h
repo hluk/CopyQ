@@ -31,6 +31,10 @@ class Cleared {
 public:
     explicit Cleared(T &&ba): m_value(std::move(ba)) {}
     ~Cleared() { m_value.fill('\0'); }
+    Cleared(const Cleared &) = delete;
+    Cleared &operator=(const Cleared &) = delete;
+    Cleared(Cleared &&) = delete;
+    Cleared &operator=(Cleared &&) = delete;
     bool isEmpty() const { return m_value.isEmpty(); }
     qsizetype size() const { return m_value.size(); }
     const T &value() const { return m_value; }
