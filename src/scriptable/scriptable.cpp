@@ -1798,12 +1798,12 @@ QJSValue Scriptable::execute()
     action.setReadOutput(true);
 
     connect( &action, &Action::actionOutput,
-             this, [&](const QByteArray &output) {
+             this, [&executeStdoutData](const QByteArray &output) {
                  executeStdoutData.append(output);
              });
     if ( executeStdoutCallback.isCallable() ) {
         connect( &action, &Action::actionOutput,
-                 this, [&](const QByteArray &output) {
+                 this, [this, &executeStdoutLastLine, &executeStdoutCallback](const QByteArray &output) {
                      executeStdoutLastLine.append( getTextData(output) );
                      auto lines = executeStdoutLastLine.split('\n');
                      executeStdoutLastLine = lines.takeLast();
@@ -1866,7 +1866,7 @@ QJSValue Scriptable::dialog()
     QEventLoop loop;
     connect(this, &Scriptable::finished, &loop, &QEventLoop::quit);
     connect( m_proxy, &ScriptableProxy::inputDialogFinished,
-             &loop, [&](int finishedDialogId, const NamedValueList &result) {
+             &loop, [&dialogId, &values, &loop](int finishedDialogId, const NamedValueList &result) {
                  if (finishedDialogId != dialogId)
                      return;
                  values = result;
@@ -2349,7 +2349,7 @@ void Scriptable::runDisplayCommands()
     m_modifySelectionData = false;
 
     QEventLoop loop;
-    connect(this, &Scriptable::finished, &loop, [&]() {
+    connect(this, &Scriptable::finished, &loop, [this, &loop]() {
         if (m_abort == Abort::AllEvaluations)
             loop.exit();
     });
@@ -2357,12 +2357,12 @@ void Scriptable::runDisplayCommands()
     QTimer timer;
     timer.setSingleShot(true);
     timer.setInterval(0);
-    connect(this, &Scriptable::dataReceived, &loop, [&]() {
+    connect(this, &Scriptable::dataReceived, &loop, [&timer]() {
         timer.start();
     });
 
     bool running = false;
-    connect(&timer, &QTimer::timeout, &loop, [&]() {
+    connect(&timer, &QTimer::timeout, &loop, [this, &running]() {
         if (running)
             return;
         running = true;
@@ -2389,7 +2389,7 @@ void Scriptable::runDisplayCommands()
 void Scriptable::runMenuCommandFilters()
 {
     QEventLoop loop;
-    connect(this, &Scriptable::finished, &loop, [&]() {
+    connect(this, &Scriptable::finished, &loop, [this, &loop]() {
         if (m_abort == Abort::AllEvaluations)
             loop.exit();
     });
@@ -2399,7 +2399,7 @@ void Scriptable::runMenuCommandFilters()
     timer.setSingleShot(true);
     timer.setInterval(0);
 
-    connect(this, &Scriptable::dataReceived, &loop, [&](const QByteArray &receivedBytes) {
+    connect(this, &Scriptable::dataReceived, &loop, [&bytes, &timer](const QByteArray &receivedBytes) {
         bytes = receivedBytes;
         if ( !bytes.isEmpty() )
             timer.start();
@@ -2413,7 +2413,7 @@ void Scriptable::runMenuCommandFilters()
     const QString enabledProperty = QStringLiteral("enabled");
     bool running = false;
     bool restart = false;
-    connect(&timer, &QTimer::timeout, &loop, [&]() {
+    connect(&timer, &QTimer::timeout, &loop, [this, &bytes, &running, &restart, &actionId, &menuItemProperty, &enabledProperty]() {
         if ( bytes.isEmpty() )
             return;
 

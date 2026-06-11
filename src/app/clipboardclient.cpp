@@ -59,7 +59,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, const QStringList &argu
     App::installTranslator();
 
     // Start script after QCoreApplication::exec().
-    QTimer::singleShot(0, this, [&]() { start(sessionName, arguments); });
+    QTimer::singleShot(0, this, [this, &sessionName, &arguments]() { start(sessionName, arguments); });
 }
 
 void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
@@ -138,12 +138,12 @@ void ClipboardClient::start(const QString &sessionName, const QStringList &argum
     connect( this, &ClipboardClient::inputDialogFinished,
              &scriptableProxy, &ScriptableProxy::setInputDialogResult );
     connect( this, &ClipboardClient::stop,
-             &scriptable, [&](){scriptable.abortEvaluation();} );
+             &scriptable, [&scriptable](){scriptable.abortEvaluation();} );
 
     connect( this, &ClipboardClient::dataReceived,
              &scriptable, &Scriptable::dataReceived, Qt::QueuedConnection );
     connect( &scriptable, &Scriptable::receiveData,
-             &socket, [&]() {
+             &socket, [&socket]() {
                 socket.sendMessage(QByteArray(), CommandReceiveData);
              });
 

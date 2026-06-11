@@ -1985,7 +1985,7 @@ void MainWindow::updateToolBar()
         } else if ( !action->icon().isNull() ) {
             act = m_toolBar->addAction(QString());
 
-            const auto update = [=]() {
+            const auto update = [action, act]() {
                 const QIcon icon = action->icon();
                 act->setIcon(icon);
 

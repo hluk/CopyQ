@@ -648,7 +648,7 @@ void ScriptableProxy::callFunction(const QByteArray &serializedFunctionCall)
     ++m_functionCallStack;
     auto t = new QTimer(this);
     t->setSingleShot(true);
-    QObject::connect( t, &QTimer::timeout, this, [=]() {
+    QObject::connect( t, &QTimer::timeout, this, [this, serializedFunctionCall, t]() {
         const auto result = callFunctionHelper(serializedFunctionCall);
         emit sendMessage(result, CommandFunctionCallReturnValue);
         t->deleteLater();
@@ -1199,7 +1199,7 @@ int ScriptableProxy::menuItems(const VariantMapList &items)
     menu.setObjectName("CustomMenu");
     menu.setRowIndexFromOne( AppConfig().option<Config::row_index_from_one>() );
 
-    const auto addMenuItems = [&](const QString &searchText) {
+    const auto addMenuItems = [&menu, &items](const QString &searchText) {
         menu.clearClipboardItems();
         for (const QVariantMap &data : items.items) {
             const QString text = getTextData(data);
@@ -1649,7 +1649,7 @@ void ScriptableProxy::selectionDeselectSelection(int id, int toDeselectId)
 
     selectionRemoveIf(
         &selection.indexes,
-        [&](const QPersistentModelIndex &index){
+        [&deselection](const QPersistentModelIndex &index){
             return !index.isValid() || deselection.indexes.contains(index);
         });
     m_selections[id] = selection;
@@ -2632,7 +2632,7 @@ QVariant ScriptableProxy::waitForFunctionCallFinished(int functionCallId)
 
     QEventLoop loop;
     connect(this, &ScriptableProxy::functionCallFinished, &loop,
-            [&](int receivedFunctionCallId, const QVariant &returnValue) {
+            [&functionCallId, &result, &loop](int receivedFunctionCallId, const QVariant &returnValue) {
                 if (receivedFunctionCallId != functionCallId)
                     return;
                 result = returnValue;
