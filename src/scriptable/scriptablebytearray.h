@@ -23,8 +23,6 @@ public:
 
     Q_INVOKABLE ScriptableByteArray(const ScriptableByteArray &other);
     ~ScriptableByteArray() override = default;
-    ScriptableByteArray(ScriptableByteArray &&) = delete;
-    ScriptableByteArray &operator=(ScriptableByteArray &&) = delete;
 
     const QByteArray *data() { return &self(); }
 
