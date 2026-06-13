@@ -8,6 +8,7 @@ file(GLOB copyq_plugin_itemfakevim_external_SOURCES
 set(copyq_plugin_itemfakevim_DEFINITIONS
     QT_NO_CAST_TO_ASCII
     QT_RESTRICTED_CAST_FROM_ASCII
+    FAKEVIM_STANDALONE
     DEBUG_KEY=0
     DEBUG_UNDO=0
     )

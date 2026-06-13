@@ -654,41 +654,41 @@ private:
 void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
     handler->commandBufferChanged
-            .connect([proxy](const QString &contents, int cursorPos, int anchorPos, int messageLevel) {
+            .set([proxy](const QString &contents, int cursorPos, int anchorPos, int messageLevel) {
             proxy->changeStatusMessage(contents, cursorPos, anchorPos, messageLevel);
         }
     );
-    handler->extraInformationChanged.connect(
+    handler->extraInformationChanged.set(
         [proxy](const QString &msg) {
             proxy->changeExtraInformation(msg);
         }
     );
-    handler->statusDataChanged.connect(
+    handler->statusDataChanged.set(
         [proxy](const QString &msg) {
             proxy->changeStatusData(msg);
         }
     );
-    handler->highlightMatches.connect(
+    handler->highlightMatches.set(
         [proxy](const QString &needle) {
             proxy->highlightMatches(needle);
         }
     );
-    handler->handleExCommandRequested.connect(
+    handler->handleExCommandRequested.set(
         [proxy](bool *handled, const ExCommand &cmd) {
             proxy->handleExCommand(handled, cmd);
         }
     );
-    handler->requestSetBlockSelection.connect(
+    handler->requestSetBlockSelection.set(
         [proxy](const QTextCursor &cursor) {
             proxy->requestSetBlockSelection(cursor);
         }
     );
-    handler->requestDisableBlockSelection.connect(
+    handler->requestDisableBlockSelection.set(
         [proxy]() {
             proxy->requestDisableBlockSelection();
         }
     );
-    handler->requestBlockSelection.connect(
+    handler->requestBlockSelection.set(
         [proxy](QTextCursor *cursor) {
             proxy->requestBlockSelection(cursor);
         }
