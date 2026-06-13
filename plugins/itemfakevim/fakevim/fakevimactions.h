@@ -1,14 +1,19 @@
 // Copyright (C) 2016 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0+ OR GPL-3.0 WITH Qt-GPL-exception-1.0
+// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0
 
 #pragma once
 
-#define FAKEVIM_STANDALONE
-
 #ifdef FAKEVIM_STANDALONE
-#   include "private/fakevim_export.h"
+
+#include "utils/storekey.h"
+#include "private/fakevim_export.h"
+
+namespace Utils { class FilePath {}; }
+
 #else
-#   include <utils/savedaction.h>
+
+#include <utils/savedaction.h>
+
 #endif
 
 #include <QCoreApplication>
@@ -17,50 +22,64 @@
 #include <QString>
 #include <QVariant>
 
-namespace FakeVim {
-namespace Internal {
+namespace FakeVim::Internal {
 
 #ifdef FAKEVIM_STANDALONE
+
 class FAKEVIM_EXPORT FvBaseAspect
 {
 public:
-    FvBaseAspect();
-    virtual ~FvBaseAspect() {}
+    FvBaseAspect() = default;
+    virtual ~FvBaseAspect() = default;
 
-    void setValue(const QVariant &value);
-    QVariant value() const;
-    void setDefaultValue(const QVariant &value);
-    QVariant defaultValue() const;
-    void setSettingsKey(const QString &group, const QString &key);
-    QString settingsKey() const;
+    virtual void setVariantValue(const QVariant &) {}
+    virtual void setDefaultVariantValue(const QVariant &) {}
+    virtual QVariant variantValue() const { return {}; }
+    virtual QVariant defaultVariantValue() const { return {}; }
+    void setSettingsKey(const Utils::Key &group, const Utils::Key &key);
+    Utils::Key settingsKey() const;
     void setCheckable(bool) {}
     void setDisplayName(const QString &) {}
     void setToolTip(const QString &) {}
 
 private:
-    QVariant m_value;
-    QVariant m_defaultValue;
-    QString m_settingsGroup;
-    QString m_settingsKey;
+    Utils::Key m_settingsGroup;
+    Utils::Key m_settingsKey;
 };
 
-class FvBoolAspect : public FvBaseAspect
+template <class ValueType>
+class FvTypedAspect : public FvBaseAspect
 {
 public:
-    bool value() const { return FvBaseAspect::value().toBool(); }
+    void setVariantValue(const QVariant &value) override
+    {
+        m_value = value.value<ValueType>();
+    }
+    void setDefaultVariantValue(const QVariant &value) override
+    {
+        m_defaultValue = value.value<ValueType>();
+        m_value = m_defaultValue;
+    }
+    QVariant variantValue() const override
+    {
+        return QVariant::fromValue<ValueType>(m_value);
+    }
+    QVariant defaultVariantValue() const override
+    {
+        return QVariant::fromValue<ValueType>(m_defaultValue);
+    }
+
+    ValueType value() const { return m_value; }
+    ValueType operator()() const { return m_value; }
+
+    ValueType m_value;
+    ValueType m_defaultValue;
 };
 
-class FvIntegerAspect : public FvBaseAspect
-{
-public:
-    qint64 value() const { return FvBaseAspect::value().toLongLong(); }
-};
-
-class FvStringAspect : public FvBaseAspect
-{
-public:
-    QString value() const { return FvBaseAspect::value().toString(); }
-};
+using FvBoolAspect = FvTypedAspect<bool>;
+using FvIntegerAspect = FvTypedAspect<qint64>;
+using FvStringAspect = FvTypedAspect<QString>;
+using FvFilePathAspect = FvTypedAspect<Utils::FilePath>;
 
 class FvAspectContainer : public FvBaseAspect
 {
@@ -74,23 +93,22 @@ using FvBaseAspect = Utils::BaseAspect;
 using FvBoolAspect = Utils::BoolAspect;
 using FvIntegerAspect = Utils::IntegerAspect;
 using FvStringAspect = Utils::StringAspect;
+using FvFilePathAspect = Utils::FilePathAspect;
 
 #endif
 
 class FAKEVIM_EXPORT FakeVimSettings final : public FvAspectContainer
 {
-    Q_DECLARE_TR_FUNCTIONS(FakeVim)
-
 public:
     FakeVimSettings();
     ~FakeVimSettings();
 
-    FvBaseAspect *item(const QString &name);
+    FvBaseAspect *item(const Utils::Key &name);
     QString trySetValue(const QString &name, const QString &value);
 
     FvBoolAspect useFakeVim;
     FvBoolAspect readVimRc;
-    FvStringAspect vimRcPath;
+    FvFilePathAspect vimRcPath;
 
     FvBoolAspect startOfLine;
     FvIntegerAspect tabStop;
@@ -137,18 +155,18 @@ public:
     FvBoolAspect emulateSurround;
 
     FvBoolAspect blinkingCursor;
+    FvBoolAspect systemEncoding;
 
 private:
     void setup(FvBaseAspect *aspect, const QVariant &value,
-                      const QString &settingsKey,
-                      const QString &shortName,
-                      const QString &label);
+               const Utils::Key &settingsKey,
+               const Utils::Key &shortName,
+               const QString &label);
 
-    QHash<QString, FvBaseAspect *> m_nameToAspect;
-    QHash<FvBaseAspect *, QString> m_aspectToName;
+    QHash<Utils::Key, FvBaseAspect *> m_nameToAspect;
+    QHash<FvBaseAspect *, Utils::Key> m_aspectToName;
 };
 
-FAKEVIM_EXPORT FakeVimSettings *fakeVimSettings();
+FAKEVIM_EXPORT FakeVimSettings &settings();
 
-} // namespace Internal
-} // namespace FakeVim
+} // FakeVim::Internal
