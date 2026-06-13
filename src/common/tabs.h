@@ -26,6 +26,8 @@ public:
 
     Tabs(const Tabs &other);
     Tabs &operator=(const Tabs &other);
+    Tabs(Tabs &&) noexcept = default;
+    Tabs &operator=(Tabs &&) noexcept = default;
 
     TabProperties tabProperties(const QString &name) const;
     void setTabProperties(const TabProperties &tabProperties);

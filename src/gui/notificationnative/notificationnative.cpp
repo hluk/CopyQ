@@ -64,11 +64,11 @@ public:
     void setIcon(const QString &icon) override;
     void setIcon(ushort icon) override;
     void setInterval(int msec) override;
-    void setOpacity(qreal) override {}
+    void setOpacity(qreal) override { /* Native notification: opacity managed by the OS */ }
     void setButtons(const NotificationButtons &buttons) override;
     void setUrgency(Urgency urgency) override;
     void setPersistency(Persistency persistency) override;
-    void adjust() override {}
+    void adjust() override { /* Native notification: layout managed by the OS */ }
     QWidget *widget() override { return nullptr; }
     void show() override;
     void close() override;

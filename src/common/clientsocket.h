@@ -17,8 +17,8 @@ public:
 
     QLocalSocket *get() const { return m_socket; }
     QLocalSocket *operator->() const { return m_socket; }
-    operator QLocalSocket*() const { return m_socket; }
-    operator bool() const { return !m_socket.isNull(); }
+    explicit operator QLocalSocket*() const { return m_socket; }
+    explicit operator bool() const { return !m_socket.isNull(); }
 
     LocalSocketGuard(const LocalSocketGuard &) = delete;
     LocalSocketGuard &operator=(const LocalSocketGuard &) = delete;

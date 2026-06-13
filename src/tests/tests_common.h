@@ -15,6 +15,10 @@ class TemporaryFile {
 public:
     TemporaryFile();
     ~TemporaryFile();
+    TemporaryFile(const TemporaryFile &) = delete;
+    TemporaryFile &operator=(const TemporaryFile &) = delete;
+    TemporaryFile(TemporaryFile &&) = delete;
+    TemporaryFile &operator=(TemporaryFile &&) = delete;
     QString fileName() const { return m_fileName; }
 
 private:

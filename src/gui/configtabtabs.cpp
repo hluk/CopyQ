@@ -41,17 +41,17 @@ private:
         widget->setEncryptedExpireSeconds(m_tabProperties.encryptedExpireSeconds);
 
         QObject::connect( widget, &TabPropertiesWidget::iconNameChanged,
-                          [&](const QString &icon) { m_tabProperties.iconName = icon; } );
+                          [this](const QString &icon) { m_tabProperties.iconName = icon; } );
         QObject::connect( widget, &TabPropertiesWidget::maxItemCountChanged,
-                          [&](int count) { m_tabProperties.maxItemCount = count; } );
+                          [this](int count) { m_tabProperties.maxItemCount = count; } );
         QObject::connect( widget, &TabPropertiesWidget::storeItemsChanged,
-                          [&](bool store) { m_tabProperties.storeItems = store; } );
+                          [this](bool store) { m_tabProperties.storeItems = store; } );
         QObject::connect( widget, &TabPropertiesWidget::encryptedExpireSecondsChanged,
-                          [&](int seconds) { m_tabProperties.encryptedExpireSeconds = seconds; } );
+                          [this](int seconds) { m_tabProperties.encryptedExpireSeconds = seconds; } );
 
         QObject::connect(
             widget, &TabPropertiesWidget::iconNameChanged,
-            m_parentList, [&] (const QString &iconName) {
+            m_parentList, [this] (const QString &iconName) {
                 const auto row = m_parentList->currentRow();
                 const auto icon = iconName.isEmpty() ? QIcon() : iconFromFile(iconName);
                 m_parentList->setItemIcon(row, icon);

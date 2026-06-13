@@ -100,7 +100,7 @@ void cleanUpLogFilesTimer()
     timer->setInterval(cleanUpIntervalMs);
     timer->start();
 
-    auto callback = [=](){ dropLogsToFileCountAndSize(maxFiles, maxLogSize); };
+    auto callback = [maxFiles, maxLogSize](){ dropLogsToFileCountAndSize(maxFiles, maxLogSize); };
     QTimer::singleShot(startIntervalMs, qApp, callback);
     QObject::connect(timer, &QTimer::timeout, qApp, callback);
 }
@@ -209,7 +209,7 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     m_ignoreKeysTimer.setInterval(100);
     m_ignoreKeysTimer.setSingleShot(true);
 
-    initSingleShotTimer(&m_timerClearUnsentActionData, 2000, this, [&]() {
+    initSingleShotTimer(&m_timerClearUnsentActionData, 2000, this, [this]() {
         m_actionDataToSend.clear();
     });
 
@@ -425,7 +425,7 @@ bool ClipboardServer::askToQuit()
         QTimer timerCheckRunningCommands;
         timerCheckRunningCommands.setInterval(1000);
         connect( &timerCheckRunningCommands, &QTimer::timeout,
-                 exitButton, [&]() {
+                 exitButton, [this, exitButton]() {
                     if ( !hasRunningCommands() )
                         exitButton->click();
                  });

@@ -88,6 +88,11 @@ public:
         if (m_locked)
             m_fileWatcher->unlock();
     }
+    FileWatcherLock(const FileWatcherLock &) = delete;
+    FileWatcherLock &operator=(const FileWatcherLock &) = delete;
+    FileWatcherLock(FileWatcherLock &&) = delete;
+    FileWatcherLock &operator=(FileWatcherLock &&) = delete;
+
 
     bool lock() {
         m_locked = m_locked || m_fileWatcher->lock();

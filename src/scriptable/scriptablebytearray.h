@@ -15,13 +15,14 @@ class ScriptableByteArray final : public QObject
     Q_PROPERTY(QJSValue length READ length WRITE setLength)
 
 public:
-    Q_INVOKABLE ScriptableByteArray() {}
+    Q_INVOKABLE ScriptableByteArray() = default;
     Q_INVOKABLE explicit ScriptableByteArray(const QByteArray &bytes);
     Q_INVOKABLE explicit ScriptableByteArray(const QString &text);
     Q_INVOKABLE explicit ScriptableByteArray(const QVariant &value);
     Q_INVOKABLE explicit ScriptableByteArray(int size);
 
     Q_INVOKABLE ScriptableByteArray(const ScriptableByteArray &other);
+    ~ScriptableByteArray() override = default;
 
     const QByteArray *data() { return &self(); }
 

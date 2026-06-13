@@ -512,6 +512,11 @@ public:
     {
         XSetErrorHandler(m_previousErrorHandler);
     }
+    QxtX11ErrorHandler(const QxtX11ErrorHandler &) = delete;
+    QxtX11ErrorHandler &operator=(const QxtX11ErrorHandler &) = delete;
+    QxtX11ErrorHandler(QxtX11ErrorHandler &&) = delete;
+    QxtX11ErrorHandler &operator=(QxtX11ErrorHandler &&) = delete;
+
 
 private:
     X11ErrorHandler m_previousErrorHandler;

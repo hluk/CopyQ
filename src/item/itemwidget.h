@@ -60,7 +60,7 @@ public:
      *
      * Used to hide unimportant data when notes or tags are present.
      */
-    virtual void setTagged(bool) {}
+    virtual void setTagged(bool) { /* No-op default: subclasses override to handle tag visibility */ }
 
     ItemWidget(const ItemWidget &) = delete;
     ItemWidget &operator=(const ItemWidget &) = delete;
@@ -105,7 +105,7 @@ public:
     void setScriptable(QObject *scriptable) { m_scriptable = scriptable; }
 
     /** Called before script starts (and scriptable is valid). */
-    virtual void start() {}
+    virtual void start() { /* No-op default: subclasses override for post-bind initialization */ }
 
 protected:
     /**
@@ -288,7 +288,7 @@ public:
     /**
      * Save and return configuration values to save from current settings widget.
      */
-    virtual void applySettings(QSettings &) {}
+    virtual void applySettings(QSettings &) { /* No-op default: subclasses override to persist plugin settings */ }
 
     virtual void setEnabled(bool enabled) { m_enabled = enabled; }
     bool isEnabled() const { return m_enabled; }
@@ -296,7 +296,7 @@ public:
     /**
      * Load stored configuration values.
      */
-    virtual void loadSettings(const QSettings &) {}
+    virtual void loadSettings(const QSettings &) { /* No-op default: subclasses override to load plugin settings */ }
 
     /**
      * Create settings widget.

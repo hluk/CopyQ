@@ -17,6 +17,10 @@ public:
         const long int *clipboardSequenceNumber = nullptr);
 
     ~ClipboardDataGuard();
+    ClipboardDataGuard(const ClipboardDataGuard &) = delete;
+    ClipboardDataGuard &operator=(const ClipboardDataGuard &) = delete;
+    ClipboardDataGuard(ClipboardDataGuard &&) = delete;
+    ClipboardDataGuard &operator=(ClipboardDataGuard &&) = delete;
 
     QStringList formats();
     bool hasFormat(const QString &mime);

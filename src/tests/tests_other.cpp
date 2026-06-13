@@ -370,6 +370,10 @@ void CoreTests::importExportTab()
     struct CurrentDirectoryGuard {
         CurrentDirectoryGuard() : oldDir(QDir::currentPath()) {}
         ~CurrentDirectoryGuard() { QDir::setCurrent(oldDir); }
+        CurrentDirectoryGuard(const CurrentDirectoryGuard &) = delete;
+        CurrentDirectoryGuard &operator=(const CurrentDirectoryGuard &) = delete;
+        CurrentDirectoryGuard(CurrentDirectoryGuard &&) = delete;
+        CurrentDirectoryGuard &operator=(CurrentDirectoryGuard &&) = delete;
         const QString oldDir;
     } currentDirectoryGuard;
 

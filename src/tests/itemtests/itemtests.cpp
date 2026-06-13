@@ -142,7 +142,7 @@ public:
         Failed
     };
 
-    KeyClicker(QObject *parent)
+    explicit KeyClicker(QObject *parent)
         : QObject(parent)
     {
         for (const auto w : qApp->topLevelWidgets()) {
@@ -259,7 +259,7 @@ public:
                 return;
             }
             // Don't block while processing the events.
-            runAfterInterval(delay, [=](){
+            runAfterInterval(delay, [source, keys, widgetName, action](){
                 if (!checkEventTarget(source, keys, widgetName, "mouse"))
                     return;
 
@@ -315,7 +315,7 @@ public:
             const auto key = static_cast<uint>(shortcut[0].toCombined());
             const QPointer<QWidget> target = widget;
             // Avoid blocking on modal dialogs
-            runAfterInterval(0, [=](){
+            runAfterInterval(0, [target, widgetName, key](){
                 if (!target || !target->isVisible()) {
                     qCCritical(plugin) << "Target no longer valid:" << widgetName;
                     return;
@@ -337,7 +337,7 @@ public:
         m_expectedWidgetName = expectedWidgetName;
 
         // Don't stop when modal window is open.
-        runAfterInterval(delay, [=](){ keyClicks(keys, delay, retry); });
+        runAfterInterval(delay, [this, keys, delay, retry](){ keyClicks(keys, delay, retry); });
     }
 
     int status(bool forceRetrieve) {

@@ -24,7 +24,7 @@ public:
 
     bool isHidden(const QMimeData &data) const override;
 
-    void setClipboardOwner(const QString &) override {}
+    void setClipboardOwner(const QString &) override { /* Dummy platform: no clipboard ownership tracking */ }
 
 protected:
     void startMonitoringBackend(const QStringList &, ClipboardModeMask) override;

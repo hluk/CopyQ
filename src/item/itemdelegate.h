@@ -120,7 +120,7 @@ class ItemDelegate final : public QItemDelegate
         struct Item {
             ItemWidget *operator->() const noexcept { return item.get(); }
             ItemWidget *get() const noexcept { return item.get(); }
-            operator bool() const noexcept { return static_cast<bool>(item); }
+            explicit operator bool() const noexcept { return static_cast<bool>(item); }
 
             std::shared_ptr<ItemWidget> item;
             int appliedFilterId = 0;

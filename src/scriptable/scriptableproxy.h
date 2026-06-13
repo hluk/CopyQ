@@ -26,7 +26,7 @@ class QPersistentModelIndex;
 class QPixmap;
 
 struct NamedValue {
-    NamedValue() {}
+    NamedValue() = default;
     NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
     QString name;
     QVariant value;

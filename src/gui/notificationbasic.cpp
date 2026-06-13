@@ -60,7 +60,7 @@ class NotificationBasicWidget final : public QWidget
     Q_OBJECT
 
 public:
-    NotificationBasicWidget(NotificationBasic *parent);
+    explicit NotificationBasicWidget(NotificationBasic *parent);
 
     void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::AutoText);
@@ -105,7 +105,7 @@ class NotificationBasic final : public Notification
     friend class NotificationBasicWidget;
 
 public:
-    NotificationBasic(QObject *parent)
+    explicit NotificationBasic(QObject *parent)
         : Notification(parent)
         , m_widget(this)
     {
@@ -137,8 +137,8 @@ public:
         m_widget.setButtons(buttons);
     }
 
-    void setUrgency(Urgency) override {}
-    void setPersistency(Persistency) override {}
+    void setUrgency(Urgency) override { /* Basic notification: urgency levels not supported */ }
+    void setPersistency(Persistency) override { /* Basic notification: persistency not supported */ }
 
     void adjust() override {
         m_widget.updateIcon();
