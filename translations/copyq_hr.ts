@@ -324,17 +324,17 @@ Naredbu je moguće postaviti u postavkama.</translation>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1577"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1576"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Nije moguće dodati nove elemente u karticu „%1”. Oslobodi mjesta ručnim uklanjanjem elemenata.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1903"/>
         <source>Discard Changes?</source>
         <translation>Odbaciti promjene?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1905"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Zaista želiš &lt;strong&gt;odabaciti promjene&lt;/strong&gt;?</translation>
     </message>
@@ -1790,7 +1790,7 @@ Postavi 0 za deaktiviranje prikaza.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="646"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="795"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Neuspjelo stvaranje mape za sinkronizaciju „%1”!</translation>
     </message>
@@ -2296,12 +2296,12 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <translation>Za uklanjanje elemenata najprije ih otkvači.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="327"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="325"/>
         <source>Pin</source>
         <translation>Prikvači</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="335"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Unpin</source>
         <translation>Otkvači</translation>
     </message>
@@ -2325,12 +2325,12 @@ Postavi 0 za deaktiviranje prikaza.</translation>
         <translation>Pregledaj …</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="724"/>
         <source>Open Directory for Synchronization</source>
         <translation>Otvori mapu za sinkronizaciju</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="737"/>
         <source>Failed to create synchronization directory</source>
         <translation>Neuspjelo stvaranje mape za sinkronizaciju</translation>
     </message>
@@ -2714,47 +2714,47 @@ Bit će moguće šifrirati i dešifrirati podatke kartica.</translation>
         <translation>CopyQ greška</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4402"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4400"/>
         <source>Options for Export</source>
         <translation>Opcije za izvoz</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4433"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4431"/>
         <source>Export Error</source>
         <translation>Greška izvoza</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4434"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4432"/>
         <source>Failed to export file %1!</source>
         <translation>Neuspio izvoz datoteke „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4542"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4540"/>
         <source>Import Error</source>
         <translation>Greška uvoza</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4543"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4541"/>
         <source>Failed to import file %1!</source>
         <translation>Neuspio uvoz datoteke „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4721"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4719"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Ukloniti sve kartice iz grupe?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4722"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4720"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Želiš li ukloniti &lt;strong&gt;sve kartice&lt;/strong&gt; u grupi &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4769"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4767"/>
         <source>Remove Tab?</source>
         <translation>Ukloniti karticu?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4770"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4768"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Želiš li ukloniti karticu &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3673,7 +3673,7 @@ Standardno se koristi prva kartica.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>COMMAND</source>
         <translation>NAREDBA</translation>
     </message>
@@ -3779,54 +3779,54 @@ Standardno se koristi prva kartica.</translation>
         <translation>Pokreni poslužitelja u pozadini prije pokretanja naredbe.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>Usage: copyq [%1]</source>
         <translation>Upotreba: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="108"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
         <source>Starts server if no command is specified.</source>
         <translation>Pokreće poslužitelja, ako nijedna naredba nije određena.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="109"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>  COMMANDs:</source>
         <translation>  NAREDBE:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>NOTES:</source>
         <translation>NAPOMENE:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Koristi argument (-) za čitanje podataka iz standardnog unosa.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Koristi argument s dvije crtice (--) za čitanje sljedećih argumenata, bez
     širenja izlaznog niza (kao što su \n, \t i ostali).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Koristi upitnik (?) za MIME za ispis dostupnih MIME vrsta (standardno je „text/plain”).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
         <source>Invalid number of arguments!</source>
         <translation>Neispravan broj argumenata!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="517"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
         <source>Failed to export file &quot;%1&quot;</source>
         <translation>Izvoz datoteke „%1” nije uspio</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="527"/>
         <source>Failed to import file &quot;%1&quot;</source>
         <translation>Uvoz datoteke „%1” nije uspio</translation>
     </message>
@@ -3839,40 +3839,40 @@ Standardno se koristi prva kartica.</translation>
         <translation type="vanished">Nije moguće uvesti datoteku „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="662"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="678"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="667"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="683"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ upravljač međuspremnika</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="690"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="695"/>
         <source>Command not found!</source>
         <translation>Naredba nije pronađena!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="794"/>
         <source>Terminating server.
 </source>
         <translation>Poslužitelj se prekida.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1393"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1398"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Neispravna opcija „%1”!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2765"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2771"/>
         <source>Exception</source>
         <translation>Iznimka</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2766"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2772"/>
         <source>Exception in %1</source>
         <translation>Iznimka u %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2881"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2887"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Neuspjelo kopiranje u međuspremnik!</translation>
     </message>

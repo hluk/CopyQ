@@ -326,17 +326,17 @@
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1577"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1576"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Ní féidir míreanna nua a chur leis an gcluaisín %1. Bain míreanna de láimh le do thoil chun spás a dhéanamh.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1903"/>
         <source>Discard Changes?</source>
         <translation>Cuir athruithe i leataobh?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1905"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>An bhfuil fonn ort &lt;strong&gt;athruithe a chaitheamh i leataobh&lt;/strong&gt; i ndáiríre?</translation>
     </message>
@@ -1746,7 +1746,7 @@ Socraigh go 0 le díchumasú.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="646"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="795"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Theip ar chomhadlann sioncrónaithe &quot;%1&quot; a chruthú!</translation>
     </message>
@@ -2167,12 +2167,12 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Díphionnaigh míreanna ar dtús chun iad a bhaint.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="327"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="325"/>
         <source>Pin</source>
         <translation>Bioráin</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="335"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Unpin</source>
         <translation>Díphionnaigh</translation>
     </message>
@@ -2196,12 +2196,12 @@ Socraigh go 0 le díchumasú.</translation>
         <translation>Brabhsáil...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="724"/>
         <source>Open Directory for Synchronization</source>
         <translation>Oscail Comhadlann le haghaidh Sioncrónaithe</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="737"/>
         <source>Failed to create synchronization directory</source>
         <translation>Theip ar chomhadlann sioncrónaithe a chruthú</translation>
     </message>
@@ -2539,47 +2539,47 @@ Beidh sé indéanta sonraí cluaisíní a chriptiú agus a dhíchriptiú.</trans
         <translation>Earráid CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4402"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4400"/>
         <source>Options for Export</source>
         <translation>Roghanna le haghaidh Easpórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4433"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4431"/>
         <source>Export Error</source>
         <translation>Earráid Easpórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4434"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4432"/>
         <source>Failed to export file %1!</source>
         <translation>Theip ar easpórtáil an chomhaid %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4542"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4540"/>
         <source>Import Error</source>
         <translation>Earráid Iompórtála</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4543"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4541"/>
         <source>Failed to import file %1!</source>
         <translation>Theip ar iompórtáil an chomhaid %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4721"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4719"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Bain gach cluaisín sa ghrúpa?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4722"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4720"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Ar mhaith leat &lt;strong&gt;gach cluaisín&lt;/strong&gt; sa ghrúpa &lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4769"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4767"/>
         <source>Remove Tab?</source>
         <translation>Bain Cluaisín?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4770"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4768"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Ar mhaith leat an cluaisín &lt;strong&gt;%1&lt;/strong&gt; a bhaint?</translation>
     </message>
@@ -3567,7 +3567,7 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>COMMAND</source>
         <translation>ORDÚ</translation>
     </message>
@@ -3673,54 +3673,54 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <translation>Tosaigh an freastalaí sa chúlra sula ritheann tú ordú.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>Usage: copyq [%1]</source>
         <translation>Úsáid: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="108"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
         <source>Starts server if no command is specified.</source>
         <translation>Tosaíonn an freastalaí mura bhfuil aon ordú sonraithe.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="109"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>  COMMANDs:</source>
         <translation>  ORDUITHE:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>NOTES:</source>
         <translation>NÓTAÍ:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Bain úsáid as argóint fleasc (-) chun sonraí a léamh ó ionchur caighdeánach.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Úsáid argóint fleasc dúbailte (--) chun gach argóint seo a leanas a léamh gan
     seichimh éalaithe a leathnú (i.e. \n, \t agus eile).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Bain úsáid as? chun MIME chun cineálacha MIME atá ar fáil a phriontáil (is é &quot;text/plain&quot; an réamhshocrú).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
         <source>Invalid number of arguments!</source>
         <translation>Líon neamhbhailí argóintí!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="517"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
         <source>Failed to export file &quot;%1&quot;</source>
         <translation>Theip ar easpórtáil an chomhaid &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="527"/>
         <source>Failed to import file &quot;%1&quot;</source>
         <translation>Theip ar an gcomhad &quot;%1&quot; a iompórtáil</translation>
     </message>
@@ -3733,40 +3733,40 @@ Is é an réamhshocrú an chéad chluaisín.</translation>
         <translation type="vanished">Ní féidir comhad &quot;%1&quot; a iompórtáil!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="662"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="678"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="667"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="683"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>Bainisteoir Gearrthaisce CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="690"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="695"/>
         <source>Command not found!</source>
         <translation>Níor aimsíodh an t-ordú!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="794"/>
         <source>Terminating server.
 </source>
         <translation>Ag críochnú an fhreastalaí.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1393"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1398"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Rogha neamhbhailí &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2765"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2771"/>
         <source>Exception</source>
         <translation>Eisceacht</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2766"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2772"/>
         <source>Exception in %1</source>
         <translation>Eisceacht i %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2881"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2887"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Theip ar chóipeáil chuig an ghearrthaisce!</translation>
     </message>

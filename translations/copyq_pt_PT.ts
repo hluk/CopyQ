@@ -332,17 +332,17 @@ Pode configurar o comando nas preferências.</translation>
         <translation type="vanished">Separador cheio. Falha ao remover itens.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1577"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1576"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>Impossível adicional itens a %1. Por favor, remova itens manualmente para arranjar espaço.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1903"/>
         <source>Discard Changes?</source>
         <translation>Descartar alterações?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1905"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Tem a certeza de que deseja &lt;strong&gt;descartar as alterações&lt;/strong&gt;?</translation>
     </message>
@@ -1833,7 +1833,7 @@ Definir como 0 para desactivar.</translation>
 <context>
     <name>FileWatcher</name>
     <message>
-        <location filename="../plugins/itemsync/filewatcher.cpp" line="646"/>
+        <location filename="../plugins/itemsync/filewatcher.cpp" line="795"/>
         <source>Failed to create synchronization directory &quot;%1&quot;!</source>
         <translation>Falha ao criar pasta de sincronização &quot;%1&quot;!</translation>
     </message>
@@ -2339,12 +2339,12 @@ Definir como 0 para desactivar.</translation>
         <translation>Liberte primeiro os itens para os remover.</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="327"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="325"/>
         <source>Pin</source>
         <translation>Fixar</translation>
     </message>
     <message>
-        <location filename="../plugins/itempinned/itempinned.cpp" line="335"/>
+        <location filename="../plugins/itempinned/itempinned.cpp" line="333"/>
         <source>Unpin</source>
         <translation>Libertar</translation>
     </message>
@@ -2368,12 +2368,12 @@ Definir como 0 para desactivar.</translation>
         <translation>Explorar...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="726"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="724"/>
         <source>Open Directory for Synchronization</source>
         <translation>Abrir pasta para sincronização</translation>
     </message>
     <message>
-        <location filename="../plugins/itemsync/itemsync.cpp" line="739"/>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="737"/>
         <source>Failed to create synchronization directory</source>
         <translation>Falha ao criar a pasta de sincronização</translation>
     </message>
@@ -2726,17 +2726,17 @@ Definir como 0 para desactivar.</translation>
         <translation>Mo&amp;strar/Ocultar</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4402"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4400"/>
         <source>Options for Export</source>
         <translation>Opções para exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4433"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4431"/>
         <source>Export Error</source>
         <translation>Erro de exportação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4434"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4432"/>
         <source>Failed to export file %1!</source>
         <translation>Falha ao exportar %1!</translation>
     </message>
@@ -2786,32 +2786,32 @@ Será possível encriptar e desencriptar dados de separadores.</translation>
         <translation>Insira a senha para exportar (vazia não encripta):</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4542"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4540"/>
         <source>Import Error</source>
         <translation>Erro de importação</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4543"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4541"/>
         <source>Failed to import file %1!</source>
         <translation>Falha ao importar %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4721"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4719"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Remover todos os separadores no grupo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4722"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4720"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover &lt;strong&gt;todos os separadores&lt;/strong&gt; no grupo &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4769"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4767"/>
         <source>Remove Tab?</source>
         <translation>Remover separador?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4770"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4768"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Deseja remover o separador &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -3757,7 +3757,7 @@ A predefinição é o primeiro.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="145"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="184"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>COMMAND</source>
         <translation>COMANDO</translation>
     </message>
@@ -3889,70 +3889,70 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation type="vanished">Executar testes da aplicação (usar --help para mais informação).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="107"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
         <source>Usage: copyq [%1]</source>
         <translation>Utilização: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="108"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
         <source>Starts server if no command is specified.</source>
         <translation>Inicia o servidor se não for especificado um comando.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="109"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
         <source>  COMMANDs:</source>
         <translation>  COMANDOs:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
         <source>NOTES:</source>
         <translation>NOTAS:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="115"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
         <source>  - Use dash argument (-) to read data from standard input.</source>
         <translation>  - Utilizar argumento travessão (-) para ler dados da entrada padrão.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Utilizar argumento travessão duplo (--) para ler todos os argumentos seguintes
      sem expandir sequências de escape (i.e. \n, \t e outras).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Utilizar ? para MIME para imprimir todos os tipos MIME disponíveis (predefinição é &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
         <source>Invalid number of arguments!</source>
         <translation>Número de argumentos inválido!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="517"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
         <source>Failed to export file &quot;%1&quot;</source>
         <translation>Falha ao exportar o ficheiro &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="522"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="527"/>
         <source>Failed to import file &quot;%1&quot;</source>
         <translation>Falha ao importar o ficheiro &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="662"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="678"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="667"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="683"/>
         <source>CopyQ Clipboard Manager</source>
         <translation>CopyQ Gestor da prancheta</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="690"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="695"/>
         <source>Command not found!</source>
         <translation>Comando não encontrado!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="794"/>
         <source>Terminating server.
 </source>
         <translation>A terminar o servidor.
@@ -3967,22 +3967,22 @@ Imprimir versão do programa e bibliotecas.</translation>
         <translation type="vanished">Impossível importar &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1393"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1398"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Opção &quot;%1&quot; inválida!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2765"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2771"/>
         <source>Exception</source>
         <translation>Excepção</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2766"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2772"/>
         <source>Exception in %1</source>
         <translation>Excepção em %1</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="2881"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="2887"/>
         <source>Failed to copy to clipboard!</source>
         <translation>Impossível copiar para a prancheta!</translation>
     </message>
