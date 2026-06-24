@@ -14,6 +14,8 @@ using namespace FakeVim::Internal;
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QKeyEvent>
+#include <QInputMethodEvent>
+#include <QProcess>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QRegularExpression>
@@ -136,6 +138,7 @@ public:
 
         setLineWrappingEnabled(true);
 
+        editor->installEventFilter(this);
         editor->viewport()->installEventFilter(this);
 
         auto completer = editor->findChild<QObject*>("CommandCompleter");
@@ -163,8 +166,33 @@ public:
         m_handler->enterCommandMode();
     }
 
+    void setInsertMode(bool insertMode)
+    {
+        m_insertMode = insertMode;
+        m_textEditWidget->setAttribute(Qt::WA_InputMethodEnabled, insertMode);
+    }
+
     bool eventFilter(QObject *obj, QEvent *ev) override
     {
+        // Block all input method events in command mode.
+        // On Wayland compositors with press-and-hold for alternative
+        // characters (KDE Plasma 6.7+), key events are intercepted at the
+        // compositor level. Preedit events trigger an alternatives popup,
+        // and commit events insert text — both bypass FakeVim's QKeyEvent
+        // filter. Block the entire IM interaction in command mode and
+        // route any committed text through FakeVim's input handler.
+        if (obj == m_textEditWidget && !m_insertMode) {
+            if (ev->type() == QEvent::InputMethod) {
+                auto *imEvent = static_cast<QInputMethodEvent *>(ev);
+                const QString text = imEvent->commitString();
+                if (!text.isEmpty())
+                    m_handler->handleInput(text);
+                return true;
+            }
+            if (ev->type() == QEvent::InputMethodQuery)
+                return true;
+        }
+
         // Handle completion popup.
         if (obj == m_completerPopup) {
             if ( ev->type() == QEvent::KeyPress ) {
@@ -199,7 +227,7 @@ public:
             return false;
         }
 
-        if ( ev->type() != QEvent::Paint )
+        if ( ev->type() != QEvent::Paint || obj != editor()->viewport() )
             return false;
 
         QWidget *viewport = editor()->viewport();
@@ -411,7 +439,9 @@ private:
     QObject *m_completerPopup = nullptr;
     QRect m_cursorRect;
 
-    bool m_hasBlockSelection;
+    bool m_hasBlockSelection = false;
+
+    bool m_insertMode = false;
 
     using Selection = QAbstractTextDocumentLayout::Selection;
     using SelectionList = QVector<Selection>;
@@ -651,7 +681,7 @@ private:
     QLabel *m_statusBarIcon;
 };
 
-void connectSignals(FakeVimHandler *handler, Proxy *proxy)
+void connectSignals(FakeVimHandler *handler, Proxy *proxy, TextEditWrapper *wrapper)
 {
     handler->commandBufferChanged
             .set([proxy](const QString &contents, int cursorPos, int anchorPos, int messageLevel) {
@@ -693,6 +723,31 @@ void connectSignals(FakeVimHandler *handler, Proxy *proxy)
             proxy->requestBlockSelection(cursor);
         }
     );
+    handler->tabPressedInInsertMode.set(
+        []() {
+            return true;
+        }
+    );
+    handler->processOutput.set(
+        [](const QString &command, const QString &input, QString *output) {
+            QProcess proc;
+            const QStringList arguments = QProcess::splitCommand(command);
+            if (arguments.isEmpty())
+                return;
+            const QString executable = arguments.first();
+            proc.start(executable, arguments.mid(1));
+            proc.waitForStarted();
+            proc.write(input.toLocal8Bit());
+            proc.closeWriteChannel();
+            proc.waitForFinished();
+            *output = QString::fromLocal8Bit(proc.readAllStandardOutput());
+        }
+    );
+    handler->modeChanged.set(
+        [wrapper](bool insertMode) {
+            wrapper->setInsertMode(insertMode);
+        }
+    );
 }
 
 bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName, ItemFakeVimLoader *loader)
@@ -712,7 +767,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
 
     // Connect slots to FakeVimHandler signals.
     auto proxy = new Proxy(wrapper, statusBar, wrapper);
-    connectSignals( &wrapper->fakeVimHandler(), proxy );
+    connectSignals( &wrapper->fakeVimHandler(), proxy, wrapper );
 
     wrapper->install();
 
