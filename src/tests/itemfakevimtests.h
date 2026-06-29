@@ -29,6 +29,8 @@ private slots:
 
     void incDecNumbers();
 
+    void undoGroupsInsertSession();
+
 private:
     TestInterfacePtr m_test;
 };

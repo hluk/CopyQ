@@ -14,7 +14,6 @@ using namespace FakeVim::Internal;
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QKeyEvent>
-#include <QInputMethodEvent>
 #include <QProcess>
 #include <QPaintEvent>
 #include <QPainter>
@@ -164,33 +163,26 @@ public:
         m_handler->installEventFilter();
         m_handler->setupWidget();
         m_handler->enterCommandMode();
-    }
-
-    void setInsertMode(bool insertMode)
-    {
-        m_insertMode = insertMode;
-        m_textEditWidget->setAttribute(Qt::WA_InputMethodEnabled, insertMode);
+        // Disable input method so the platform IM framework (ibus, fcitx,
+        // Wayland text-input) does not intercept key presses.  With IM
+        // enabled, presses arrive as QInputMethodEvents instead of
+        // QKeyEvents, which bypasses FakeVim's key handler and breaks
+        // undo grouping (each character becomes a separate undo step)
+        // and visual-block insert replay.
+        m_textEditWidget->setAttribute(Qt::WA_InputMethodEnabled, false);
     }
 
     bool eventFilter(QObject *obj, QEvent *ev) override
     {
-        // Block all input method events in command mode.
-        // On Wayland compositors with press-and-hold for alternative
-        // characters (KDE Plasma 6.7+), key events are intercepted at the
-        // compositor level. Preedit events trigger an alternatives popup,
-        // and commit events insert text — both bypass FakeVim's QKeyEvent
-        // filter. Block the entire IM interaction in command mode and
-        // route any committed text through FakeVim's input handler.
-        if (obj == m_textEditWidget && !m_insertMode) {
-            if (ev->type() == QEvent::InputMethod) {
-                auto *imEvent = static_cast<QInputMethodEvent *>(ev);
-                const QString text = imEvent->commitString();
-                if (!text.isEmpty())
-                    m_handler->handleInput(text);
-                return true;
-            }
-            if (ev->type() == QEvent::InputMethodQuery)
-                return true;
+        // Block input method events unconditionally.  Disabling
+        // WA_InputMethodEnabled is not sufficient on Wayland where the
+        // compositor can still deliver IM events via the text-input
+        // protocol.  Letting them through would bypass FakeVim's
+        // QKeyEvent handler and insert raw text into the document.
+        if (ev->type() == QEvent::InputMethod
+            || ev->type() == QEvent::InputMethodQuery)
+        {
+            return true;
         }
 
         // Handle completion popup.
@@ -441,7 +433,6 @@ private:
 
     bool m_hasBlockSelection = false;
 
-    bool m_insertMode = false;
 
     using Selection = QAbstractTextDocumentLayout::Selection;
     using SelectionList = QVector<Selection>;
@@ -681,7 +672,7 @@ private:
     QLabel *m_statusBarIcon;
 };
 
-void connectSignals(FakeVimHandler *handler, Proxy *proxy, TextEditWrapper *wrapper)
+void connectSignals(FakeVimHandler *handler, Proxy *proxy)
 {
     handler->commandBufferChanged
             .set([proxy](const QString &contents, int cursorPos, int anchorPos, int messageLevel) {
@@ -743,11 +734,6 @@ void connectSignals(FakeVimHandler *handler, Proxy *proxy, TextEditWrapper *wrap
             *output = QString::fromLocal8Bit(proc.readAllStandardOutput());
         }
     );
-    handler->modeChanged.set(
-        [wrapper](bool insertMode) {
-            wrapper->setInsertMode(insertMode);
-        }
-    );
 }
 
 bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName, ItemFakeVimLoader *loader)
@@ -767,7 +753,7 @@ bool installEditor(QAbstractScrollArea *textEdit, const QString &sourceFileName,
 
     // Connect slots to FakeVimHandler signals.
     auto proxy = new Proxy(wrapper, statusBar, wrapper);
-    connectSignals( &wrapper->fakeVimHandler(), proxy, wrapper );
+    connectSignals( &wrapper->fakeVimHandler(), proxy );
 
     wrapper->install();
 

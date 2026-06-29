@@ -83,6 +83,12 @@ void ItemFakeVimTests::blockSelection()
     RUN(args << "edit" << "0", "");
     KEYS(":ggl" << FAKEVIM_CTRL "+V" << ":jjs_" << "ESC" << "::wq" << "ENTER");
     RUN(args << "read" << "0", "A_C\nD_F\nG_I");
+
+    // Test block insert with 'I' command.
+    // Start from "A_C\nD_F\nG_I" (result of previous 's' test).
+    RUN(args << "edit" << "0", "");
+    KEYS(":ggl" << FAKEVIM_CTRL "+V" << ":jjI_" << "ESC" << "::wq" << "ENTER");
+    RUN(args << "read" << "0", "A__C\nD__F\nG__I");
 }
 
 void ItemFakeVimTests::search()
@@ -133,4 +139,16 @@ void ItemFakeVimTests::incDecNumbers()
     RUN(args << "edit" << "0", "");
     KEYS("l" << "2" << FAKEVIM_CTRL "+x" << "l" << "3" << FAKEVIM_CTRL "+x" << "F2");
     RUN(args << "read" << "0", "1 -1 -2");
+}
+
+void ItemFakeVimTests::undoGroupsInsertSession()
+{
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "tab" << tab1;
+
+    // Type "Hello" in insert mode, then undo in the same session.
+    // Undo should remove the entire insert session, not just one character.
+    RUN(args << "edit", "");
+    KEYS(":iHello" << "ESC" << ":u:wq" << "ENTER");
+    RUN(args << "read" << "0", "");
 }
