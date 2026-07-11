@@ -1411,7 +1411,7 @@ Utilize &quot;Antever&quot; para mostrar os itens completos.</translation>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="282"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Depois de activar o item (duplo clique ou &quot;Enter&quot;), copiá-lo para a prancheta e...</translation>
+        <translation>Após activar o item (duplo clique ou &quot;Enter&quot;), copiá-lo para a prancheta e...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="288"/>
