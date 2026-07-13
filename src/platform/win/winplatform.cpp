@@ -298,6 +298,9 @@ bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
     // Remote desktop clients are screen capture systems — applying
     // WDA_EXCLUDEFROMCAPTURE makes windows invisible to the remote viewer.
     if (prevent && GetSystemMetrics(SM_REMOTESESSION)) {
+        if (!SetWindowDisplayAffinity(window, WDA_NONE))
+            log("Failed to clear display affinity in remote session", LogWarning);
+
         static bool logged = false;
         if (!logged) {
             logged = true;
@@ -317,7 +320,6 @@ bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
             }
         }
 
-        SetWindowDisplayAffinity(window, WDA_NONE);
         return false;
     }
 
