@@ -3459,12 +3459,12 @@ Per i dettagli consulta i registri.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevenzione acquisizione schermo non disponibile</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;opzione per nascondere il contenuto della finestra dagli screenshot è abilitata, ma non ha effetto durante una sessione di desktop remoto. Il contenuto della finestra potrebbe essere visibile durante l&apos;acquisizione dello schermo.</translation>
     </message>
 </context>
 <context>
