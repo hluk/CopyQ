@@ -3462,12 +3462,12 @@ Please check the logs for details.</source>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>不存在螢幕截圖之防止</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>防止螢幕截圖的選項已啟用，但是因為遠端桌面的工作組態令它無法起作用。視窗內容可因螢幕截圖而被看光。</translation>
     </message>
 </context>
 <context>
