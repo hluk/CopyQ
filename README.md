@@ -139,7 +139,7 @@ flatpak run com.github.hluk.copyq
 
 ## Using the App
 
-To start CopyQ, double-click the program icon or run `copyq`.
+To start CopyQ, double-click the program icon or run `copyq` (on Windows, run `CopyQ.exe`, or launch it from the Start menu; no desktop icon is created by default).
 
 The list with the clipboard history is accessible by clicking on the system tray icon
 or by running `copyq toggle`.
