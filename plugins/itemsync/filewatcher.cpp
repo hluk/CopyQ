@@ -1050,6 +1050,11 @@ void FileWatcher::updateItems()
         for (const auto &file : files)
             m_observedFiles.insert(file);
         m_fileList = listFiles(files, m_formatSettings, m_maxItems, m_dir);
+        m_fileIndexes.clear();
+        m_fileIndexes.reserve(m_fileList.size());
+        for (int i = 0; i < m_fileList.size(); ++i)
+            m_fileIndexes.insert(m_fileList[i].baseName, i);
+
         m_batchIndexData.reserve(m_model->rowCount());
         for (int row = 0; row < m_model->rowCount(); ++row) {
             const QModelIndex index = m_model->index(row, 0);
@@ -1070,20 +1075,16 @@ void FileWatcher::updateItems()
         if ( baseName.isEmpty() )
             continue;
 
-        const auto it = std::find_if(
-            std::begin(m_fileList), std::end(m_fileList),
-            [&](const BaseNameExtensions &baseNameExtensions) {
-                return baseNameExtensions.baseName == baseName;
-            });
-
         QVariantMap dataMap;
         QVariantMap mimeToExtension;
         const QVariantMap currentItemData = index.data(contentType::data).toMap();
 
-        const bool foundInFileList = it != m_fileList.cend();
+        const auto fileIndex = m_fileIndexes.find(baseName);
+        const bool foundInFileList = fileIndex != m_fileIndexes.end();
         if ( foundInFileList ) {
-            updateDataAndWatchFile(m_dir, *it, &dataMap, &mimeToExtension);
-            m_fileList.erase(it);
+            updateDataAndWatchFile(
+                m_dir, m_fileList[fileIndex.value()], &dataMap, &mimeToExtension);
+            m_fileIndexes.erase(fileIndex);
         }
 
         if ( mimeToExtension.isEmpty() ) {
@@ -1129,12 +1130,19 @@ void FileWatcher::updateItems()
 
     t.restart();
 
-    insertItemsFromFiles(m_dir, m_fileList);
+    BaseNameExtensionsList newFiles;
+    newFiles.reserve(m_fileIndexes.size());
+    for (const auto &file : m_fileList) {
+        if (m_fileIndexes.contains(file.baseName))
+            newFiles.append(file);
+    }
+    insertItemsFromFiles(m_dir, newFiles);
 
     if ( t.elapsed() > 100 )
         qCInfo(fileWatcher) << "Items created in" << t.elapsed() << "ms";
 
     m_fileList.clear();
+    m_fileIndexes.clear();
     m_observedFiles.clear();
     m_batchIndexData.clear();
 
@@ -1145,8 +1153,11 @@ void FileWatcher::updateItems()
 void FileWatcher::setUpdatesEnabled(bool enabled)
 {
     m_updatesEnabled = enabled;
-    if (enabled)
-        updateItems();
+    if (enabled) {
+        // Focus changes must remain cheap. Reconcile after the current UI
+        // event returns so showing or switching to a large tab can paint first.
+        m_updateTimer.start(0);
+    }
     else if ( m_batchIndexData.isEmpty() )
         m_updateTimer.stop();
 }

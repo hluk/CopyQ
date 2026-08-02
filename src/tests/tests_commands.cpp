@@ -265,6 +265,28 @@ void CoreTests::automaticCommandRemove()
     RUN("separator" << "," << "read" << "0" << "1" << "2", "OK,OK,");
 }
 
+void CoreTests::automaticCommandRemoveWhitespace()
+{
+    RUN("add" << "KEPT", "");
+
+    const auto script = R"(
+        setCommands([{
+            automatic: true,
+            remove: true,
+            re: '^\\r?\\n\\x00?$',
+            cmd: 'copyq settings test.crlf_filter_ran true'
+        }])
+        )";
+    RUN(script, "");
+    WAIT_ON_OUTPUT("commands().length", "1\n");
+
+    TEST( m_test->setClipboard("\r\n") );
+    WAIT_ON_OUTPUT("settings" << "test.crlf_filter_ran", "true\n");
+
+    RUN("size", "1\n");
+    RUN("read" << "0", "KEPT");
+}
+
 void CoreTests::automaticCommandInput()
 {
     const auto script = R"(

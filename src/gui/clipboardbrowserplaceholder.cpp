@@ -218,10 +218,7 @@ void ClipboardBrowserPlaceholder::showEvent(QShowEvent *event)
 {
     qCDebug(logCategory) << "Showing tab:" << m_tabName;
     QWidget::showEvent(event);
-    QTimer::singleShot(0, this, [this](){
-        if ( isVisible() )
-            createBrowser();
-    });
+    scheduleBrowserCreation();
 }
 
 void ClipboardBrowserPlaceholder::hideEvent(QHideEvent *event)
@@ -235,8 +232,7 @@ void ClipboardBrowserPlaceholder::hideEvent(QHideEvent *event)
 bool ClipboardBrowserPlaceholder::event(QEvent *event)
 {
     if (event->type() == QEvent::WindowActivate && isVisible()) {
-        if (!m_browser && !m_loadButton)
-            createBrowser();
+        scheduleBrowserCreation();
     } else if (event->type() == QEvent::WindowDeactivate && isVisible()) {
         restartPasswordExpiry();
     }
@@ -256,6 +252,22 @@ bool ClipboardBrowserPlaceholder::expire()
 
     restartExpiring();
     return false;
+}
+
+void ClipboardBrowserPlaceholder::scheduleBrowserCreation()
+{
+    if (m_browser || m_loadButton || m_browserCreationScheduled)
+        return;
+
+    // Loading a large tab can involve substantial deserialization and plugin
+    // setup. Queue one coalesced load so the window/tab activation event can
+    // finish and the placeholder can be painted before that work starts.
+    m_browserCreationScheduled = true;
+    QTimer::singleShot(0, this, [this](){
+        m_browserCreationScheduled = false;
+        if (isVisible() && !m_browser && !m_loadButton)
+            createBrowser();
+    });
 }
 
 void ClipboardBrowserPlaceholder::setActiveWidget(QWidget *widget)

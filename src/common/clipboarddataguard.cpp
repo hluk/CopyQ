@@ -174,6 +174,7 @@ ClipboardDataGuard::ClipboardDataGuard(const QMimeData *data, const long int *cl
     // - https://bugzilla.redhat.com/show_bug.cgi?id=2326881
     m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
         m_data = nullptr;
+        m_failed = true;
         log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
     });
     m_timerExpire.start();
@@ -201,19 +202,31 @@ QByteArray ClipboardDataGuard::data(const QString &mime)
     ElapsedGuard _(QStringLiteral("data"), mime);
 
     const qint64 maxBytes = maxBytesForMime(mime);
-    if (maxBytes == 0)
+    if (maxBytes == 0) {
+        if (mime.startsWith(QLatin1String("image/"))
+            || mime == QLatin1String("application/x-qt-image"))
+        {
+            m_imageWasOmitted = true;
+        }
         return {};
+    }
 
     const QMimeData *md = mimeData();
     QByteArray bytes;
     try {
         bytes = md->data(mime);
     } catch (const std::bad_alloc &) {
+        m_failed = true;
         log(QStringLiteral("Out of memory reading clipboard data for %1").arg(mime), LogError);
         return {};
     }
 
     if (maxBytes > 0 && bytes.size() > maxBytes) {
+        if (mime.startsWith(QLatin1String("image/"))
+            || mime == QLatin1String("application/x-qt-image"))
+        {
+            m_imageWasOmitted = true;
+        }
         log( QStringLiteral("Skipping oversized clipboard data for %1: %2 bytes (limit: %3)")
             .arg(mime).arg(bytes.size()).arg(maxBytes), LogNote );
         return {};
@@ -232,6 +245,7 @@ QList<QUrl> ClipboardDataGuard::urls()
     try {
         return md->urls();
     } catch (const std::bad_alloc &) {
+        m_failed = true;
         log(QStringLiteral("Out of memory reading clipboard URLs"), LogError);
         return {};
     }
@@ -247,6 +261,7 @@ QString ClipboardDataGuard::text()
     try {
         return md->text();
     } catch (const std::bad_alloc &) {
+        m_failed = true;
         log(QStringLiteral("Out of memory reading clipboard text"), LogError);
         return {};
     }
@@ -265,8 +280,10 @@ QImage ClipboardDataGuard::getImageData()
     // Use "image/" as probe: matches broad rules like image/.*:0
     // but not format-specific ones like image/png:0.
     const qint64 maxBytes = maxBytesForMime(QStringLiteral("image/"));
-    if (maxBytes == 0)
+    if (maxBytes == 0) {
+        m_imageWasOmitted = true;
         return {};
+    }
 
     const QMimeData *md = mimeData();
     QImage image;
@@ -276,6 +293,7 @@ QImage ClipboardDataGuard::getImageData()
         //       calling QMimeData::hasImage() on X11 clipboard.
         image = md->imageData().value<QImage>();
     } catch (const std::bad_alloc &) {
+        m_failed = true;
         log(QStringLiteral("Out of memory reading clipboard image data"), LogError);
         return {};
     }
@@ -290,6 +308,7 @@ QImage ClipboardDataGuard::getImageData()
     }
 
     if (maxBytes > 0 && !image.isNull() && image.sizeInBytes() > maxBytes) {
+        m_imageWasOmitted = true;
         log( QStringLiteral("Skipping oversized image data: %1 bytes (limit: %2)")
             .arg(image.sizeInBytes()).arg(maxBytes), LogNote );
         return {};
@@ -326,6 +345,7 @@ QByteArray ClipboardDataGuard::getUtf8Data(const QString &format)
             bytes = data(format);
         }
     } catch (const std::bad_alloc &) {
+        m_failed = true;
         log(QStringLiteral("Out of memory reading clipboard data for %1").arg(format), LogError);
         return {};
     }
@@ -340,23 +360,28 @@ QByteArray ClipboardDataGuard::getUtf8Data(const QString &format)
 }
 
 bool ClipboardDataGuard::isExpired() {
-    if (!m_data)
+    if (!m_data) {
+        m_failed = true;
         return true;
+    }
 
     if (qApp && qApp->property("CopyQ_quitting").toBool()) {
         m_data = nullptr;
+        m_failed = true;
         log( QByteArrayLiteral("Aborting clipboard cloning: Application quitting"), LogWarning );
         return true;
     }
 
     if (m_clipboardSequenceNumber && *m_clipboardSequenceNumber != m_clipboardSequenceNumberOriginal) {
         m_data = nullptr;
+        m_failed = true;
         log( QByteArrayLiteral("Aborting clipboard cloning: Clipboard changed again"), LogWarning );
         return true;
     }
 
     if (m_timerExpire.elapsed() > clipboardCopyTimeoutMs()) {
         m_data = nullptr;
+        m_failed = true;
         log( QByteArrayLiteral("Aborting clipboard cloning: Data access took too long"), LogWarning );
         return true;
     }

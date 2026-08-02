@@ -41,6 +41,24 @@
 - Save synchronized item files through atomic replacement so a failed or
   partial write retains the previous complete file.
 
+- Run automatic commands for whitespace-only clipboard data before treating
+  it as empty, allowing commands to ignore CRLF-only clipboard changes (#3654).
+
+- Keep large tabs responsive by deferring initial construction until after UI
+  activation, using incremental list layout, and limiting item-widget resizing,
+  positioning and lookup work to materialized rows.
+
+- Defer synchronized-tab reconciliation until after focus changes and match
+  model rows to backing files in linear rather than quadratic time.
+
+- Keep the last valid clipboard snapshot when Windows temporarily locks the
+  clipboard or advertises an image that cannot yet be materialized, and retry
+  the read without publishing a false `<EMPTY>` state (#3613).
+
+- Keep animated WebP data intact when activating an item while also exposing
+  its first frame as a generic image fallback for applications without WebP
+  clipboard support (#3661).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.

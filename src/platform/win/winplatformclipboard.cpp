@@ -12,7 +12,55 @@ bool contains(const QStringList &formats, const QMimeData &data, const QString &
     return formats.contains(format) && data.data(format) == value;
 }
 
+enum class NativeClipboardState {
+    Unavailable,
+    Empty,
+    HasFormats,
+    Unknown,
+};
+
+NativeClipboardState nativeClipboardState()
+{
+    if (!OpenClipboard(nullptr))
+        return NativeClipboardState::Unavailable;
+
+    SetLastError(ERROR_SUCCESS);
+    const int formatCount = CountClipboardFormats();
+    const DWORD countError = GetLastError();
+    const bool closed = CloseClipboard();
+    if (!closed || (formatCount == 0 && countError != ERROR_SUCCESS))
+        return NativeClipboardState::Unknown;
+
+    return formatCount > 0 ? NativeClipboardState::HasFormats
+                           : NativeClipboardState::Empty;
+}
+
 } // namespace
+
+ClipboardReadResult WinPlatformClipboard::readData(
+        ClipboardMode mode, const QStringList &formats) const
+{
+    const NativeClipboardState state = nativeClipboardState();
+    if (state == NativeClipboardState::Unavailable
+        || state == NativeClipboardState::Unknown)
+    {
+        return {};
+    }
+
+    ClipboardReadResult result = DummyClipboard::readData(mode, formats);
+
+    // QWindowsClipboardRetrievalMimeData can successfully enumerate formats,
+    // then fail to reacquire the IDataObject while materializing the data.  A
+    // native object with formats and no Qt formats is the same transient read
+    // failure at an earlier point in that sequence, not an empty clipboard.
+    if (state == NativeClipboardState::HasFormats
+        && result.availableFormats.isEmpty())
+    {
+        result.isComplete = false;
+    }
+
+    return result;
+}
 
 void WinPlatformClipboard::startMonitoringBackend(const QStringList &formats, ClipboardModeMask modes)
 {

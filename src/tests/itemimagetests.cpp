@@ -101,3 +101,28 @@ void ItemImageTests::saveWebp()
     TEST( m_test->setClipboard(data, "image/webp") );
     WAIT_ON_OUTPUT("read('image/png', 0).length > 0", "true\n");
 }
+
+void ItemImageTests::activateAnimatedWebp()
+{
+    SKIP_ON_ENV("COPYQ_TESTS_SKIP_WEBP");
+    QVERIFY(QImageReader::supportedImageFormats().contains("webp"));
+
+    // Two-frame animated WebP. The encoded animation must remain available,
+    // while activation also provides a static image fallback for applications
+    // that do not accept image/webp directly.
+    const auto data = QByteArray::fromBase64(
+        "UklGRoQAAABXRUJQVlA4WAoAAAACAAAAAwAAAwAAQU5JTQYAAAAAAAAAAABBTk1GKAAAAAAAAAAAAAMAAAMAAGQAAAJWUDhMDwAAAC8DwAAABxD9j/4HIqL/AQBBTk1GKAAAAAAAAAAAAAMAAAMAAGQAAABWUDhMDwAAAC8DwAAAB9D/iP4HIqL/AQA=");
+
+    TEST( m_test->setClipboard(data, "image/webp") );
+    RUN_WITH_INPUT("eval" << "read('image/webp', 0) == input()", data, "true\n");
+    WAIT_ON_OUTPUT("read('image/png', 0).length > 0", "true\n");
+
+    RUN_WITH_INPUT("write" << "image/webp" << "-", data, "");
+    WAIT_ON_OUTPUT("read('image/webp', 0).length > 0", "true\n");
+
+    RUN("show", "");
+    KEYS(clipboardBrowserId << "ENTER");
+
+    WAIT_FOR_CLIPBOARD2(data, "image/webp");
+    WAIT_ON_OUTPUT("clipboard('image/png').length > 0", "true\n");
+}

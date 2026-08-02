@@ -6,6 +6,7 @@
 #include <QCheckBox>
 #include <QDrag>
 #include <QItemSelectionModel>
+#include <QListView>
 #include <QLoggingCategory>
 #include <QRegularExpression>
 #include <QTest>
@@ -478,6 +479,24 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
 
     if (cmd == "sendKeysStatus")
         return keyClicker()->status(arguments.value(1).toBool());
+
+    if (cmd == "clipboardBrowserLayout") {
+        for (QWidget *window : qApp->topLevelWidgets()) {
+            if (window->objectName() != QLatin1String("MainWindow"))
+                continue;
+
+            const auto browser = window->findChild<QListView*>(
+                QStringLiteral("ClipboardBrowser"));
+            if (!browser)
+                return QStringLiteral("Missing");
+
+            const auto mode = browser->layoutMode() == QListView::Batched
+                ? QStringLiteral("Batched")
+                : QStringLiteral("SinglePass");
+            return QStringLiteral("%1:%2").arg(mode).arg(browser->batchSize());
+        }
+        return QStringLiteral("Missing");
+    }
 
     return QStringLiteral("Unexpected command: %1").arg(cmd);
 }

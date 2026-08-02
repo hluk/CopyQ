@@ -21,6 +21,7 @@ private slots:
     void saveBmp();
     void saveGif();
     void saveWebp();
+    void activateAnimatedWebp();
 
 private:
     TestInterfacePtr m_test;

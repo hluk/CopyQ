@@ -9,6 +9,8 @@
 class WinPlatformClipboard final : public DummyClipboard
 {
 public:
+    ClipboardReadResult readData(
+            ClipboardMode mode, const QStringList &formats) const override;
     bool isHidden(const QMimeData &data) const override;
 
 protected:

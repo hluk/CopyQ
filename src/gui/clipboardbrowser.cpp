@@ -211,13 +211,15 @@ ClipboardBrowser::ClipboardBrowser(
 {
     setObjectName("ClipboardBrowser");
 
+    // Item size hints can be expensive and tabs can contain tens of thousands
+    // of rows. Keep the Qt layout cooperative instead of blocking the GUI
+    // thread until every row has been positioned.
     setLayoutMode(QListView::Batched);
     setBatchSize(1);
     setFrameShape(QFrame::NoFrame);
     setTabKeyNavigation(false);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setWrapping(false);
-    setLayoutMode(QListView::SinglePass);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setAlternatingRowColors(true);
 
@@ -1768,7 +1770,10 @@ bool ClipboardBrowser::loadItems(const QByteArray &itemData)
         deserializeData(&m, &stream);
     }
 
-    d.rowsInserted(QModelIndex(), 0, m.rowCount());
+    // Model signals are blocked while loading, so synchronize the delegate
+    // once with the exact inclusive range of rows that now exists.
+    if (m.rowCount() > 0)
+        d.rowsInserted(QModelIndex(), 0, m.rowCount() - 1);
     if ( hasFocus() )
         setCurrent(0);
     onItemCountChanged();

@@ -6,7 +6,9 @@
 #include "gui/clipboardbrowsershared.h"
 #include "item/persistentdisplayitem.h"
 
+#include <QHash>
 #include <QItemDelegate>
+#include <QPersistentModelIndex>
 #include <QTimer>
 
 #include <memory>
@@ -156,4 +158,7 @@ class ItemDelegate final : public QItemDelegate
         QTimer m_timerInvalidateHidden;
 
         std::vector<Item> m_items;
+        // Materialized item widgets are sparse; persistent indexes keep this
+        // lookup valid across model insertions and moves.
+        QHash<const QObject *, QPersistentModelIndex> m_widgetIndexes;
 };

@@ -938,7 +938,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 bool MainWindow::focusNextPrevChild(bool next)
 {
-    auto c = browser();
+    auto c = browserOrNull();
     if (!c)
         return false;
 
@@ -2074,7 +2074,7 @@ bool MainWindow::isWindowVisible() const
 void MainWindow::onEscape()
 {
     if ( browseMode() ) {
-        auto c = browser();
+        auto c = browserOrNull();
         if (c && !c->hasFocus()) {
             enterBrowseMode();
             return;
@@ -2883,7 +2883,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *ev)
     const auto translate = (m_options.navigationStyle == NavigationStyle::Vi)
         ? translateToVi : translateToEmacs;
 
-    if (object == this || object == browser()) {
+    if (object == this || object == browserOrNull()) {
         const KeyMods keyMods = translate({key, modifiers});
         if ( hadleKeyOverride(object, ev, keyMods) )
             return true;
@@ -2930,7 +2930,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    auto c = browser();
+    auto c = browserOrNull();
     if (c && c->isInternalEditorOpen())
         return;
 
@@ -3265,11 +3265,16 @@ void MainWindow::showWindow()
 
     ensureWindowOnScreen(this);
 
-    auto c = browser();
+    // Do not force-load an expired or not-yet-created large tab while the
+    // window-show event is still on the stack. The visible placeholder queues
+    // creation and onBrowserLoaded() completes focus and tab setup.
+    auto c = browserOrNull();
     if (c) {
         if ( !c->isInternalEditorOpen() )
             c->scrollTo( c->currentIndex() );
         c->setFocus();
+    } else if (auto placeholder = getPlaceholder()) {
+        placeholder->setFocus();
     }
 
     raiseWindow(this);
@@ -3287,7 +3292,7 @@ void MainWindow::hideWindow()
     // is closed.
     if ( !browseMode() ) {
         enterBrowseMode();
-        auto c = browser();
+        auto c = browserOrNull();
         if (c)
             c->setCurrent(0);
     }
@@ -3426,8 +3431,10 @@ void MainWindow::tabChanged(int current, int)
     emit tabGroupSelected(currentIsTabGroup);
 
     if (!currentIsTabGroup) {
-        // update item menu (necessary for keyboard shortcuts to work)
-        auto c = browser();
+        // Do not construct an unloaded tab inside the currentChanged signal.
+        // The placeholder queues loading and onBrowserLoaded() re-enters this
+        // method once the browser is ready.
+        auto c = browserOrNull();
         if (c) {
             c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 

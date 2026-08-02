@@ -6,6 +6,7 @@
 #include "common/mimetypes.h"
 
 #include <QDir>
+#include <QHash>
 #include <QLockFile>
 #include <QObject>
 #include <QPersistentModelIndex>
@@ -156,6 +157,9 @@ private:
 
     QList<QPersistentModelIndex> m_batchIndexData;
     BaseNameExtensionsList m_fileList;
+    // Stable indexes into m_fileList make reconciliation linear while the
+    // ordered list remains available for inserting newly discovered items.
+    QHash<QString, int> m_fileIndexes;
     QSet<QString> m_observedFiles;
     int m_lastBatchIndex = -1;
     int m_itemDataThreshold = -1;
