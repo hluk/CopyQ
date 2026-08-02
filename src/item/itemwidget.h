@@ -203,9 +203,17 @@ public:
     virtual void itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList);
 
     /**
-     * Return copy of items data.
+     * Create a self-contained copy of item data.
+     *
+     * Implementations with lazy or externally owned values must materialize
+     * them before reporting success. On failure, @a copiedItemData is left
+     * unchanged and callers must leave the source item unchanged.
      */
-    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+    virtual bool copyItem(
+        const QAbstractItemModel &model,
+        const QVariantMap &itemData,
+        QVariantMap *copiedItemData,
+        QString *error);
 
     virtual void setFocus(bool focus);
 

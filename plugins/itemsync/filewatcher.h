@@ -64,6 +64,15 @@ public:
      */
     static bool isOwnBaseName(const QString &baseName);
 
+    /**
+     * Replace lazy file-backed values with detached byte arrays.
+     *
+     * Returns false without modifying @a data if any source file cannot be
+     * read. This must happen before copied item data can outlive files owned
+     * by the synchronized source tab.
+     */
+    static bool materializeItemDataForCopy(QVariantMap *data, QString *error);
+
     static void removeFilesForRemovedIndexes(
         const QString &tabPath, const QList<QPersistentModelIndex> &indexes,
         bool ownOnly = false);
@@ -98,8 +107,6 @@ public:
      */
     void updateItems();
 
-    void updateItemsIfNeeded();
-
     void setUpdatesEnabled(bool enabled);
 
 private:
@@ -107,13 +114,13 @@ private:
 
     void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
-    void onRowsRemoved(const QModelIndex &, int first, int last);
+    void onRowsAboutToBeRemoved(const QModelIndex &, int first, int last);
 
     void onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int destinationRow);
 
     QString oldBaseName(const QModelIndex &index) const;
 
-    void createItems(const QVector<QVariantMap> &dataMaps, int targetRow);
+    bool createItems(const QVector<QVariantMap> &dataMaps, int targetRow);
 
     void updateIndexData(const QModelIndex &index, QVariantMap *itemData);
 
@@ -136,16 +143,20 @@ private:
     QTimer m_updateTimer;
     QTimer m_moveTimer;
     int m_moveEnd = -1;
+    // Disabled only while watcher reconciliation removes stale model rows.
+    // User/model-owned removals still delete files through
+    // onRowsAboutToBeRemoved().
+    bool m_removeFilesForRemovedRows = true;
     int m_interval = 0;
     const QList<FileFormat> &m_formatSettings;
     QDir m_dir;
     bool m_valid;
     int m_maxItems;
     bool m_updatesEnabled = false;
-    qint64 m_lastUpdateTimeMs = 0;
 
     QList<QPersistentModelIndex> m_batchIndexData;
     BaseNameExtensionsList m_fileList;
+    QSet<QString> m_observedFiles;
     int m_lastBatchIndex = -1;
     int m_itemDataThreshold = -1;
 

@@ -783,6 +783,31 @@ void ItemSyncTests::addItemsWhenFullOmitDeletingNotOwned()
     QVERIFY(f1->exists());
 }
 
+void ItemSyncTests::prioritizeNewFilesWhenItemLimitIsReached()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "separator" << "," << "tab" << tab1;
+    RUN("config" << "maxitems" << "2", "2\n");
+    RUN("show" << tab1, "");
+
+    TEST(createFile(dir1, "b.txt", "B"));
+    TEST(createFile(dir1, "c.txt", "C"));
+    WAIT_ON_OUTPUT(args << "read(0,1)", "B,C");
+
+    // The complete directory listing now contains three files, while the
+    // synchronized model may contain only the first two. The existing c.txt
+    // row must be retired from the model without deleting the file, allowing
+    // the newly higher-priority a.txt item to enter.
+    TEST(createFile(dir1, "a.txt", "A"));
+    WAIT_ON_OUTPUT(args << "read(0,1)", "A,B");
+    QCOMPARE(dir1.files().join(sep), QString("a.txt") + sep + "b.txt" + sep + "c.txt");
+
+    // Once a higher-priority file disappears, the retained file re-enters.
+    QVERIFY(dir1.remove("a.txt"));
+    WAIT_ON_OUTPUT(args << "read(0,1)", "B,C");
+}
+
 void ItemSyncTests::moveOwnItemsSortsBaseNames()
 {
     TestDir dir1(1);
@@ -866,6 +891,65 @@ void ItemSyncTests::moveOwnItemsKeepsLargeTextData()
 
     RUN(args << "read(0).length + ',' + read(1).length", "4096,3072\n");
     RUN(args << "getItem(0)[mimeText].length + ',' + getItem(1)[mimeText].length", "4096,3072\n");
+}
+
+void ItemSyncTests::moveLargeItemsToNonSyncTabKeepsData()
+{
+    TestDir dir1(1);
+    TestDir dir2(2);
+    const QString tab1 = testTab(1);
+    const QString tab2 = testTab(2);
+    const QString localTab = QString(clipboardTabName);
+    const Args args1 = Args() << "separator" << "," << "tab" << tab1;
+    const Args args2 = Args() << "separator" << "," << "tab" << tab2;
+    const Args localArgs = Args() << "separator" << "," << "tab" << localTab;
+
+    RUN("show" << tab1, "");
+    RUN(args1 << R"(
+        add('A'.repeat(4096), 'B'.repeat(3072));
+        read(0).length + ',' + read(1).length;
+    )", "3072,4096\n");
+    QCOMPARE(dir1.files().size(), 2);
+
+    // Reload so the synchronized tab holds lazy SyncDataFile values.
+    RUN("unload" << tab1, "");
+    RUN(args1 << "read(0).length + ',' + read(1).length", "3072,4096\n");
+
+    const QString moveCommand = QString(R"(
+        setCommands([{
+            name: 'Move synchronized items to local tab',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            tab: '%1',
+            remove: true
+        }])
+        )").arg(localTab);
+    RUN(moveCommand, "");
+    RUN(args1 << "selectItems" << "0" << "1", "true\n");
+    KEYS("CTRL+F1");
+
+    WAIT_ON_OUTPUT(args1 << "size", "0\n");
+    RUN(localArgs << "read(0).length + ',' + read(1).length", "3072,4096\n");
+    QCOMPARE(dir1.files().size(), 0);
+
+    // The destination must remain valid after the source files are gone and
+    // after its model has been unloaded and restored.
+    RUN("unload" << localTab, "");
+    RUN(localArgs << "read(0).length + ',' + read(1).length", "3072,4096\n");
+
+    // Copy the detached local items into another synchronized tab. The stale
+    // source routing metadata must fall back to the owned payload rather than
+    // creating blank entries when the original files no longer exist.
+    RUN("setCurrentTab" << localTab, "");
+    RUN(localArgs << "selectItems" << "0" << "1", "true\n");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Copy));
+    RUN("setCurrentTab" << tab2, "");
+    KEYS(clipboardBrowserId << keyNameFor(QKeySequence::Paste));
+
+    RUN(args2 << "read(0).length + ',' + read(1).length", "3072,4096\n");
+    QCOMPARE(dir2.files().size(), 2);
+    RUN("unload" << tab2, "");
+    RUN(args2 << "read(0).length + ',' + read(1).length", "3072,4096\n");
 }
 
 void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
@@ -1055,6 +1139,35 @@ void ItemSyncTests::copyFiles()
     RUN("tab" << tab3 << "size", "2\n");
     RUN("tab" << tab3 << getFirstItemFormats, "text/plain\n");
     QCOMPARE(dir3.files().join(" "), "test-0001.txt test.txt");
+}
+
+void ItemSyncTests::copyFilesFromUriListIsAllOrNothing()
+{
+    TestDir syncDir(1);
+    TestDir sourceDir(9);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "tab" << tab1;
+    RUN("show" << tab1, "");
+
+    TEST(createFile(sourceDir, "valid.txt", "VALID"));
+    const QString validUrl = QUrl::fromLocalFile(sourceDir.filePath("valid.txt")).toString();
+    const QString missingUrl = QUrl::fromLocalFile(sourceDir.filePath("missing.txt")).toString();
+    const QString uriData = validUrl + "\\n" + missingUrl;
+
+    RUN(args << "add({[mimeUriList]: '" + uriData + "'})", "");
+    WAIT_ON_OUTPUT(args << "size", "1\n");
+
+    // A partial import must not remove the original URI item or leave a copy
+    // of only the successful subset in the synchronized directory.
+    const QString inspect = QString(
+        "const uris = str(read(mimeUriList, 0)); "
+        "uris.includes('%1') && uris.includes('%2')")
+        .arg(validUrl, missingUrl);
+    RUN(args << inspect, "true\n");
+    QVERIFY(sourceDir.file("valid.txt")->exists());
+    const QStringList synchronizedFiles = syncDir.files();
+    QVERIFY(!synchronizedFiles.contains("valid.txt"));
+    QVERIFY(!synchronizedFiles.isEmpty());
 }
 
 void ItemSyncTests::encryptionShouldNotAffectFiles()

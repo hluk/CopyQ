@@ -19,8 +19,27 @@
 - Fixed null characters in concatenated selected items breaking paste in
   other applications.
 
+- Remove temporary image files after drag-and-drop completes.
+
 - Handle possible file operation errors and locks when synchronizing items to
   files on disk and shared storage (#3368, #3579).
+
+- Preserve synchronized item data when copying or moving large items out of a
+  synchronized tab, and leave the source untouched when backing files cannot
+  be read (#3622).
+
+- Prevent filesystem reconciliation from turning transient missing-file
+  observations into deletion of synchronized backing files.
+
+- Keep the highest-priority synchronized files visible when a directory has
+  more items than the tab limit, without deleting files that fall outside the
+  visible set.
+
+- Keep URI-list imports into synchronized tabs all-or-nothing so a failed file
+  copy cannot discard the original item or silently import only a subset.
+
+- Save synchronized item files through atomic replacement so a failed or
+  partial write retains the previous complete file.
 
 - Avoids potential crash on fetching very large data in clipboard.
 
