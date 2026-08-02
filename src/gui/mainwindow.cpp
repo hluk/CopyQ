@@ -2518,7 +2518,14 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         tabs.append(oldTabName);
     }
 
-    const ImportSelection importSelection = getImportSelection(data, options, this);
+    // V3 stores complete tab maps in the metadata, while newer formats store
+    // only tab names there and stream the tab payloads separately. Normalize
+    // the metadata before opening the shared selection dialog so it receives
+    // the actual names instead of trying to convert QVariantMap values to
+    // strings.
+    QVariantMap selectionData = data;
+    selectionData[QStringLiteral("tabs")] = tabs;
+    const ImportSelection importSelection = getImportSelection(selectionData, options, this);
     if (!canImport(importSelection))
         return false;
 
@@ -2526,7 +2533,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
         const auto oldTabName = tabMap["name"].toString();
-        if ( !tabs.contains(oldTabName) )
+        if ( !importSelection.tabs.contains(oldTabName) )
             continue;
 
         if ( !importTabData(oldTabName, tabMap, tabProps, {}) )

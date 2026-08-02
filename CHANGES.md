@@ -74,6 +74,9 @@
 - Keep item tags within the attainable item width so right-aligned tags remain
   visible when the main window is wider than the maximum item width (#3013).
 
+- Display the actual tab names and respect the selected-tab list when importing
+  legacy v3 archives instead of importing every tab contained in the backup.
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.

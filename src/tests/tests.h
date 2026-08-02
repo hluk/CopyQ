@@ -373,6 +373,7 @@ private slots:
     void exportImportPasswordTab();
     void exportImportPasswordSettingsOnly();
     void exportImportPasswordCommandsOnly();
+    void importV3SelectedTabs();
     void exportImportErrors();
 
 private:

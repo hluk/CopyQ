@@ -6,6 +6,7 @@
 #include <QCheckBox>
 #include <QDrag>
 #include <QItemSelectionModel>
+#include <QListWidget>
 #include <QListView>
 #include <QLoggingCategory>
 #include <QRegularExpression>
@@ -511,6 +512,28 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
                 .arg(geometry.height());
         }
         return QStringLiteral("Missing");
+    }
+
+    if (cmd == "selectImportTab") {
+        const QString tabName = arguments.value(1).toString();
+        for (QWidget *window : qApp->topLevelWidgets()) {
+            if (window->objectName() != QLatin1String("ImportExportDialog"))
+                continue;
+
+            auto list = window->findChild<QListWidget*>(QStringLiteral("listTabs"));
+            if (!list)
+                return QStringLiteral("Missing tab list");
+
+            list->clearSelection();
+            const auto items = list->findItems(tabName, Qt::MatchExactly);
+            if (items.size() != 1)
+                return QStringLiteral("Missing tab: %1").arg(tabName);
+
+            items.first()->setSelected(true);
+            list->setCurrentItem(items.first());
+            return {};
+        }
+        return QStringLiteral("Missing import dialog");
     }
 
     return QStringLiteral("Unexpected command: %1").arg(cmd);
