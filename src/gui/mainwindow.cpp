@@ -1337,13 +1337,23 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
     if ( !command.cmd.isEmpty() ) {
         if (command.transform) {
             for (const auto &index : selected) {
-                auto actionData = selectionData(*c, index, {index});
+                QString errorString;
+                auto actionData = selectionData(*c, index, {index}, &errorString);
+                if ( !errorString.isEmpty() ) {
+                    showError(errorString);
+                    return;
+                }
                 if ( !triggeredShortcut.isEmpty() )
                     actionData.insert(mimeShortcut, triggeredShortcut);
                 action(actionData, command, index);
             }
         } else {
-            auto actionData = selectionData(*c);
+            QString errorString;
+            auto actionData = selectionData(*c, &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
             if ( !triggeredShortcut.isEmpty() )
                 actionData.insert(mimeShortcut, triggeredShortcut);
             action(actionData, command, QModelIndex());
@@ -1380,8 +1390,21 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
         }
     }
 
-    if ( command.remove && (command.tab.isEmpty() || command.tab != c->tabName()) )
+    if ( command.remove && (command.tab.isEmpty() || command.tab != c->tabName()) ) {
+        // A remove-only command has no action or destination path that would
+        // otherwise materialize lazy synchronized data. Verify ownership
+        // before deleting so an unreadable backing file cannot be discarded as
+        // though it had been copied successfully.
+        if (command.cmd.isEmpty() && command.tab.isEmpty()) {
+            QString errorString;
+            c->copyIndexes(selected, &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
+        }
         c->removeIndexes(selected);
+    }
 
     if (command.hideWindow)
         hideWindow();

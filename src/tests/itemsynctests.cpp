@@ -952,6 +952,59 @@ void ItemSyncTests::moveLargeItemsToNonSyncTabKeepsData()
     RUN(args2 << "read(0).length + ',' + read(1).length", "3072,4096\n");
 }
 
+void ItemSyncTests::removeCommandLeavesUnreadableItem()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "tab" << tab1;
+
+    // Keep reconciliation out of the failure window so the command itself is
+    // responsible for deciding whether an unreadable lazy item can be removed.
+    m_test->setEnv("COPYQ_SYNC_UPDATE_INTERVAL_MS", "10000");
+    RUN("show" << tab1, "");
+    RUN(args << "add('A'.repeat(4096))", "");
+    QCOMPARE(dir1.files().size(), 1);
+
+    RUN("unload" << tab1, "");
+    RUN(args << "size", "1\n");
+    m_test->setEnv("COPYQ_SYNC_UPDATE_INTERVAL_MS", "100");
+    RUN("settings('test.itemsync_unreadable_command_ran', false)", "");
+
+    RUN(R"(
+        setCommands([{
+            name: 'Process and remove synchronized item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            cmd: 'copyq settings test.itemsync_unreadable_command_ran true',
+            remove: true
+        }])
+        )", "");
+    RUN(args << "selectItems" << "0", "true\n");
+
+    QVERIFY(dir1.remove(dir1.files().constFirst()));
+    KEYS("CTRL+F1");
+
+    // A failed materialization cancels the command instead of deleting the
+    // only remaining model record of the item.
+    RUN(args << "size", "1\n");
+    RUN("settings('test.itemsync_unreadable_command_ran')", "false\n");
+
+    // Remove-only commands do not build action data, but must enforce the same
+    // ownership precondition before deleting the source row.
+    RUN(R"(
+        setCommands([{
+            name: 'Remove synchronized item',
+            inMenu: true,
+            shortcuts: ['Ctrl+F1'],
+            remove: true
+        }])
+        )", "");
+    KEYS("CTRL+F1");
+    RUN(args << "size", "1\n");
+
+    RUN("unload" << tab1, "");
+}
+
 void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
 {
     TestDir dir1(1);

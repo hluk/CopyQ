@@ -52,6 +52,7 @@ private slots:
     void moveOwnItemsSortsBaseNames();
     void moveOwnItemsKeepsLargeTextData();
     void moveLargeItemsToNonSyncTabKeepsData();
+    void removeCommandLeavesUnreadableItem();
 
     void avoidDuplicateItemsAddedFromClipboard();
 

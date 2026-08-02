@@ -25,8 +25,8 @@
   files on disk and shared storage (#3368, #3579).
 
 - Preserve synchronized item data when copying or moving large items out of a
-  synchronized tab, and leave the source untouched when backing files cannot
-  be read (#3622).
+  synchronized tab, and cancel activation, transfer, or removal commands when
+  backing files cannot be read so the source remains untouched (#3622).
 
 - Prevent filesystem reconciliation from turning transient missing-file
   observations into deletion of synchronized backing files.
