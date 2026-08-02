@@ -661,6 +661,15 @@ void ItemDelegate::setItemFilter(const ItemFilterPtr &filter)
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
+    const int row = index.row();
+    if (row >= 0 && static_cast<size_t>(row) < m_items.size() && !m_items[row]) {
+        // Preloading uses provisional row heights and can miss rows that only
+        // become visible after batched layout refines the geometry. Painting
+        // is the final authority on visibility, so never leave a painted row
+        // without its item widget.
+        const_cast<ItemDelegate *>(this)->createItemWidget(index);
+    }
+
     const bool isSelected = option.state & QStyle::State_Selected;
 
     // Draw the list widget background clipped to the item rect so that
