@@ -13,4 +13,5 @@ public:
 private slots:
     void incompleteReadRetriesBeforePublishing();
     void newerChangeCancelsOlderRetry();
+    void ownerMetadataChangeDoesNotRepublishContent();
 };

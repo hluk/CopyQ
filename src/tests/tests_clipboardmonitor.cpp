@@ -61,11 +61,16 @@ ClipboardReadResult failedRead()
     return {};
 }
 
-ClipboardReadResult textRead(const QByteArray &text)
+ClipboardReadResult textRead(
+        const QByteArray &text, const QByteArray &owner = QByteArray())
 {
     ClipboardReadResult result;
     result.data.insert(mimeText, text);
     result.availableFormats.append(mimeText);
+    if (!owner.isEmpty()) {
+        result.data.insert(mimeOwner, owner);
+        result.availableFormats.append(mimeOwner);
+    }
     result.isComplete = true;
     return result;
 }
@@ -113,4 +118,28 @@ void ClipboardMonitorTests::newerChangeCancelsOlderRetry()
     QCOMPARE(changed.count(), 1);
     QCOMPARE(clipboard->readCount(), 2);
     QCOMPARE(changed.first().first().toMap().value(mimeText).toByteArray(), QByteArray("newer"));
+}
+
+void ClipboardMonitorTests::ownerMetadataChangeDoesNotRepublishContent()
+{
+    auto clipboard = std::make_shared<FakeClipboard>();
+    clipboard->appendResult(textRead("activated item", "COPYQ OWNER"));
+    clipboard->appendResult(textRead("activated item"));
+
+    ClipboardMonitor monitor({mimeText}, clipboard);
+    QSignalSpy ownChanged(&monitor, &ClipboardMonitor::ownClipboardChanged);
+    QSignalSpy externalChanged(&monitor, &ClipboardMonitor::clipboardChanged);
+    QSignalSpy unchanged(&monitor, &ClipboardMonitor::clipboardUnchanged);
+    monitor.startMonitoring();
+
+    clipboard->notifyChanged();
+    QCOMPARE(ownChanged.count(), 1);
+    QCOMPARE(externalChanged.count(), 0);
+
+    // Simulate a paste target republishing the same bytes without CopyQ's
+    // private owner MIME. This must not become a new external copy event.
+    clipboard->notifyChanged();
+    QCOMPARE(ownChanged.count(), 1);
+    QCOMPARE(externalChanged.count(), 0);
+    QCOMPARE(unchanged.count(), 1);
 }

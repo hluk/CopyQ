@@ -59,6 +59,10 @@
   its first frame as a generic image fallback for applications without WebP
   clipboard support (#3661).
 
+- Do not treat removal of CopyQ's private clipboard-owner marker as new
+  clipboard content, preventing pasted items from moving to the top when the
+  corresponding history option is disabled (#3646).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.

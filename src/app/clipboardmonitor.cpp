@@ -30,12 +30,20 @@ bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 {
     for (auto it = lastData.constBegin(); it != lastData.constEnd(); ++it) {
         const auto &format = it.key();
+        // Ownership identifies who is currently providing the bytes, not the
+        // clipboard content itself. Some applications republish pasted data
+        // without CopyQ's owner marker; treating that metadata loss as new
+        // content stores the same item again and can move it to the top.
+        if (format == mimeOwner)
+            continue;
         if ( !data.contains(format) )
             return false;
     }
 
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &format = it.key();
+        if (format == mimeOwner)
+            continue;
         if ( !data[format].toByteArray().isEmpty()
              && data[format] != lastData.value(format) )
         {
