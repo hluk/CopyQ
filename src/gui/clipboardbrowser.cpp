@@ -927,8 +927,11 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
-    preloadCurrentPage();
     QListView::showEvent(event);
+    // The viewport is not visible until the base show event is handled.
+    // Queue preloading so all rows on the first page are materialized without
+    // requiring an initial scroll or selection change.
+    m_timerPreload.start();
 }
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
