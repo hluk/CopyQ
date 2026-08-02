@@ -4,12 +4,14 @@
 
 #include <QAbstractItemView>
 #include <QCheckBox>
+#include <QDialog>
 #include <QDrag>
 #include <QItemSelectionModel>
 #include <QListWidget>
 #include <QListView>
 #include <QLoggingCategory>
 #include <QRegularExpression>
+#include <QScreen>
 #include <QTest>
 #include <QTimer>
 
@@ -512,6 +514,50 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
                 .arg(geometry.height());
         }
         return QStringLiteral("Missing");
+    }
+
+    if (cmd == "activeDialogSizing") {
+        const QString mode = arguments.value(1).toString();
+        const int requestedPoints = arguments.value(2).toInt();
+
+        QDialog *dialog = nullptr;
+        for (QWidget *window : qApp->topLevelWidgets()) {
+            auto candidate = qobject_cast<QDialog*>(window);
+            if (candidate && candidate->isVisible()) {
+                dialog = candidate;
+                break;
+            }
+        }
+
+        if (!dialog)
+            return QStringLiteral("Missing active dialog");
+
+        const QSize actual = dialog->size();
+        const QSize hint = dialog->sizeHint();
+        bool valid = actual.width() >= hint.width()
+            && actual.height() >= hint.height();
+
+        if (mode == QLatin1String("width")) {
+            const auto screen = dialog->screen();
+            if (!screen)
+                return QStringLiteral("Missing dialog screen");
+            const int expectedWidth = static_cast<int>(
+                requestedPoints * screen->physicalDotsPerInchX() / 72.0);
+            valid = actual.width() == expectedWidth
+                && actual.height() >= hint.height();
+        } else if (mode != QLatin1String("auto")) {
+            return QStringLiteral("Unexpected sizing mode: %1").arg(mode);
+        }
+
+        if (valid)
+            return {};
+
+        return QStringLiteral("Actual %1x%2, hint %3x%4, mode %5")
+            .arg(actual.width())
+            .arg(actual.height())
+            .arg(hint.width())
+            .arg(hint.height())
+            .arg(mode);
     }
 
     if (cmd == "selectImportTab") {

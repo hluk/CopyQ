@@ -457,6 +457,45 @@ void CoreTests::commandDialog()
         [&]{ KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
 
+    // The automatic size must be computed from all controls, not from the
+    // provisional QDialog geometry or the title width.
+    KEYS(clipboardBrowserId);
+    const QByteArray autoSizeScript = R"(
+        dialog(
+            '.title', 'x',
+            '.label', 'This label is deliberately wide enough to determine the dialog width.',
+            'text', 'DEFAULT',
+        )
+    )";
+    RUN_MULTIPLE(
+        [&]{ RUN(autoSizeScript, "DEFAULT\n"); },
+        [&]{
+            RUN("callPlugin('itemtests', 'activeDialogSizing', 'auto')", "");
+            KEYS("focus::QLineEdit<dialog_x:QDialog" << "ENTER");
+        }
+    );
+
+    // Supplying one dimension must preserve it while the other dimension is
+    // still derived from the completed layout.
+    KEYS(clipboardBrowserId);
+    const QByteArray partialSizeScript = R"(
+        dialog(
+            '.title', 'partial',
+            '.width', 400,
+            '.x', 10,
+            '.y', 10,
+            '.label', 'Automatic height still includes the input and button box.',
+            'text', 'DEFAULT',
+        )
+    )";
+    RUN_MULTIPLE(
+        [&]{ RUN(partialSizeScript, "DEFAULT\n"); },
+        [&]{
+            RUN("callPlugin('itemtests', 'activeDialogSizing', 'width', 400)", "");
+            KEYS("focus::QLineEdit<dialog_partial:QDialog" << "ENTER");
+        }
+    );
+
     KEYS(clipboardBrowserId);
     RUN_MULTIPLE(
         [&]{ RUN("dialog('.title', 'Remove Items', '.label', 'Remove all items?') === true", "true\n"); },
