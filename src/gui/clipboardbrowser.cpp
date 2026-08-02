@@ -215,7 +215,9 @@ ClipboardBrowser::ClipboardBrowser(
     // of rows. Keep the Qt layout cooperative instead of blocking the GUI
     // thread until every row has been positioned.
     setLayoutMode(QListView::Batched);
-    setBatchSize(1);
+    // Laying out a single row per batch repeatedly resizes the viewport and
+    // scrollbar, causing visible flicker while a large tab is materialized.
+    setBatchSize(100);
     setFrameShape(QFrame::NoFrame);
     setTabKeyNavigation(false);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
