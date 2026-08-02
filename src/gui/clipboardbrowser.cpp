@@ -561,7 +561,15 @@ void ClipboardBrowser::preloadCurrentPage()
 
     const QRect rect = viewport()->contentsRect();
     const int top = rect.top();
-    const auto firstVisibleIndex = indexNear(top);
+    auto firstVisibleIndex = indexNear(top);
+    if (!firstVisibleIndex.isValid()) {
+        // Batched layout may not have populated indexAt() geometry on the
+        // first presentation yet. Materialize the first visible model page
+        // directly; subsequent layout passes will position those widgets.
+        const int firstVisibleRow = findNextVisibleRow(0);
+        if (firstVisibleRow != -1)
+            firstVisibleIndex = index(firstVisibleRow);
+    }
     preload(rect.height(), 1, firstVisibleIndex);
 }
 
