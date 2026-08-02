@@ -498,6 +498,21 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
         return QStringLiteral("Missing");
     }
 
+    if (cmd == "mainWindowFrameGeometry") {
+        for (QWidget *window : qApp->topLevelWidgets()) {
+            if (window->objectName() != QLatin1String("MainWindow"))
+                continue;
+
+            const QRect geometry = window->frameGeometry();
+            return QStringLiteral("%1,%2,%3,%4")
+                .arg(geometry.x())
+                .arg(geometry.y())
+                .arg(geometry.width())
+                .arg(geometry.height());
+        }
+        return QStringLiteral("Missing");
+    }
+
     return QStringLiteral("Unexpected command: %1").arg(cmd);
 }
 

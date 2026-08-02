@@ -8,6 +8,7 @@
 #include "common/commandstatus.h"
 
 #include <QElapsedTimer>
+#include <QGuiApplication>
 #include <QRegularExpression>
 #include <QTemporaryFile>
 #include <algorithm>
@@ -207,15 +208,29 @@ void CoreTests::commandShowHide()
 void CoreTests::commandShowHideRapid()
 {
     // Verify the main window can be hidden and reshown reliably in
-    // rapid succession.  Regression test for #3445: deferred platform
-    // raise in raiseWindow() could prevent the window from appearing.
+    // rapid succession. Regression tests for #3445 (deferred platform raise)
+    // and #3643 (normal X11 windows being placed again on each show).
+    RUN("visible", "true\n");
+
+    QByteArray initialGeometry;
+    const bool verifyX11Geometry = QGuiApplication::platformName() == QLatin1String("xcb");
+    if (verifyX11Geometry) {
+        TEST(m_test->getClientOutput(
+            Args("callPlugin('itemtests', 'mainWindowFrameGeometry')"),
+            &initialGeometry));
+        QVERIFY(!initialGeometry.isEmpty());
+    }
+
     for (int i = 0; i < 3; ++i) {
-        RUN("visible", "true\n");
         RUN("hide", "");
         WAIT_ON_OUTPUT("visible", "false\n");
 
         RUN("show", "");
         WAIT_ON_OUTPUT("visible", "true\n");
+
+        if (verifyX11Geometry) {
+            RUN("callPlugin('itemtests', 'mainWindowFrameGeometry')", initialGeometry);
+        }
     }
 }
 void CoreTests::commandShowAt()

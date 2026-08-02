@@ -67,6 +67,10 @@
   AppImage builds retain shortcuts even when matching Qt translation catalogs
   are unavailable (#3649).
 
+- Avoid reapplying the normal window state whenever the main window is shown,
+  preventing some X11 window managers from cascading its position on each
+  toggle (#3643).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.

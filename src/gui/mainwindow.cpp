@@ -3258,10 +3258,18 @@ void MainWindow::showWindow()
 
     moveToCurrentWorkspace(this);
 
-    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) )
+    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) ) {
         showMaximized();
-    else
+    } else if (isMinimized()) {
+        // Restoring a minimized window requires clearing the minimized state.
         showNormal();
+    } else {
+        // Showing a hidden or inactive normal window is only a visibility
+        // transition. Calling showNormal() here also rewrites the native window
+        // state, which can make X11 window managers place the window again on
+        // every toggle (issue #3643).
+        show();
+    }
 
     ensureWindowOnScreen(this);
 
