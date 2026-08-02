@@ -98,9 +98,11 @@ void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
 {
     for (int row = start; row <= end; ++row) {
         if (m_items[row]) {
-            const auto index = m_view->index(row);
-            m_items[row]->widget()->removeEventFilter(this);
-            setIndexWidget(index, nullptr);
+            QWidget *widget = m_items[row]->widget();
+            widget->removeEventFilter(this);
+            m_widgetIndexes.remove(widget);
+            m_items[row].item.reset();
+            m_items[row].appliedFilterId = 0;
         }
     }
 
