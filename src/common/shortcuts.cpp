@@ -3,7 +3,6 @@
 #include "shortcuts.h"
 
 #include <QKeySequence>
-#include <QObject>
 #include <QString>
 
 namespace {
@@ -28,10 +27,11 @@ int indexOfKeyHint(const QString &name)
 
 QString shortcutToRemove()
 {
+    // This is serialized/parsing syntax, not a user-facing label.
 #ifdef Q_OS_MAC
-    return QObject::tr("Backspace", "Key to remove item or MIME on OS X");
+    return QStringLiteral("Backspace");
 #else
-    return QObject::tr("Delete", "Key to remove item or MIME");
+    return QStringLiteral("Delete");
 #endif
 }
 

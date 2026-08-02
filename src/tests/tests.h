@@ -245,6 +245,8 @@ private slots:
 
     void selectedItems();
 
+    void applicationShortcutDefaultsIgnoreUiTranslations();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();

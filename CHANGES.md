@@ -63,6 +63,10 @@
   clipboard content, preventing pasted items from moving to the top when the
   corresponding history option is disabled (#3646).
 
+- Keep application shortcut defaults independent of translated key names so
+  AppImage builds retain shortcuts even when matching Qt translation catalogs
+  are unavailable (#3649).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.
