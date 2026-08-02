@@ -71,6 +71,9 @@
   preventing some X11 window managers from cascading its position on each
   toggle (#3643).
 
+- Keep item tags within the attainable item width so right-aligned tags remain
+  visible when the main window is wider than the maximum item width (#3013).
+
 - Avoids potential crash on fetching very large data in clipboard.
 
 - Wayland: Fixed portal shortcuts handling in non-default app sessions.

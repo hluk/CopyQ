@@ -359,8 +359,13 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
 void ItemTags::updateSize(QSize maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
-    m_tagWidget->setFixedWidth(idealWidth);
-    ItemWidgetWrapper::updateSize(maximumSize, idealWidth);
+
+    // The viewport can be wider than the configured maximum item width. Keep
+    // the right-aligned tag strip and the wrapped item on the same attainable
+    // width; otherwise the tags are laid out beyond this widget and clipped.
+    const int width = qMin(maximumSize.width(), idealWidth);
+    m_tagWidget->setFixedWidth(width);
+    ItemWidgetWrapper::updateSize(maximumSize, width);
     adjustSize();
 }
 
