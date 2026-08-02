@@ -65,7 +65,6 @@ protected:
     bool event(QEvent *event) override;
 
 private:
-    void scheduleBrowserCreation();
     void setActiveWidget(QWidget *widget);
 
     bool canExpire() const;
@@ -81,7 +80,6 @@ private:
     void onFilterProgressChanged(int percent);
 
     ClipboardBrowser *m_browser = nullptr;
-    bool m_browserCreationScheduled = false;
     QPushButton *m_loadButton = nullptr;
     QProgressBar *m_filterProgressBar = nullptr;
 

@@ -211,17 +211,11 @@ ClipboardBrowser::ClipboardBrowser(
 {
     setObjectName("ClipboardBrowser");
 
-    // Item size hints can be expensive and tabs can contain tens of thousands
-    // of rows. Keep the Qt layout cooperative instead of blocking the GUI
-    // thread until every row has been positioned.
-    setLayoutMode(QListView::Batched);
-    // Laying out a single row per batch repeatedly resizes the viewport and
-    // scrollbar, causing visible flicker while a large tab is materialized.
-    setBatchSize(100);
     setFrameShape(QFrame::NoFrame);
     setTabKeyNavigation(false);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setWrapping(false);
+    setLayoutMode(QListView::SinglePass);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setAlternatingRowColors(true);
 
@@ -561,15 +555,7 @@ void ClipboardBrowser::preloadCurrentPage()
 
     const QRect rect = viewport()->contentsRect();
     const int top = rect.top();
-    auto firstVisibleIndex = indexNear(top);
-    if (!firstVisibleIndex.isValid()) {
-        // Batched layout may not have populated indexAt() geometry on the
-        // first presentation yet. Materialize the first visible model page
-        // directly; subsequent layout passes will position those widgets.
-        const int firstVisibleRow = findNextVisibleRow(0);
-        if (firstVisibleRow != -1)
-            firstVisibleIndex = index(firstVisibleRow);
-    }
+    const auto firstVisibleIndex = indexNear(top);
     preload(rect.height(), 1, firstVisibleIndex);
 }
 
@@ -935,11 +921,8 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
+    preloadCurrentPage();
     QListView::showEvent(event);
-    // The viewport is not visible until the base show event is handled.
-    // Queue preloading so all rows on the first page are materialized without
-    // requiring an initial scroll or selection change.
-    m_timerPreload.start();
 }
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)

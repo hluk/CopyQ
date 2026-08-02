@@ -67,9 +67,6 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
     if ( event->type() == QEvent::Resize ) {
         const int row = findWidgetRow(obj);
         Q_ASSERT(row != -1);
-        if (row == -1)
-            return QItemDelegate::eventFilter(obj, event);
-
         const auto index = m_view->index(row);
         updateLater();
         const auto ev = static_cast<QResizeEvent*>(event);
@@ -81,15 +78,8 @@ bool ItemDelegate::eventFilter(QObject *obj, QEvent *event)
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    const int last = qMin<int>(b.row(), static_cast<int>(m_items.size()) - 1);
-    for (int row = qMax(0, a.row()); row <= last; ++row) {
-        if (!m_items[row])
-            continue;
-
-        const auto index = m_view->index(row);
-        m_items[row]->widget()->removeEventFilter(this);
-        setIndexWidget(index, nullptr);
-    }
+    for ( int row = a.row(); row <= b.row(); ++row )
+        m_items[row].item.reset();
 
     updateLater();
 }
@@ -97,12 +87,13 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
 {
     for (int row = start; row <= end; ++row) {
+        if ( m_view->isRowHidden(row) )
+            continue;
+
         if (m_items[row]) {
-            QWidget *widget = m_items[row]->widget();
-            widget->removeEventFilter(this);
-            m_widgetIndexes.remove(widget);
-            m_items[row].item.reset();
-            m_items[row].appliedFilterId = 0;
+            const auto index = m_view->index(row);
+            m_items[row]->widget()->removeEventFilter(this);
+            setIndexWidget(index, nullptr);
         }
     }
 
@@ -159,9 +150,6 @@ QWidget *ItemDelegate::createPreviewNoEmit(const QVariantMap &data, QWidget *par
 
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
-    if (end < start)
-        return;
-
     const auto count = static_cast<size_t>(end - start + 1);
     const auto oldSize = m_items.size();
     m_items.resize(oldSize + count);
@@ -219,10 +207,8 @@ void ItemDelegate::setItemSizes(int maxWidth, int idealWidth)
     m_idealWidth = idealWidth - margin;
     m_fontHeight = m_view->viewport()->fontMetrics().height();
 
-    const auto indexes = m_widgetIndexes.values();
-    for (const auto &index : indexes) {
-        const int row = index.row();
-        if (index.isValid() && row >= 0 && static_cast<size_t>(row) < m_items.size())
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        if (m_items[row])
             updateItemWidgetSize(row);
     }
 }
@@ -359,51 +345,35 @@ void ItemDelegate::updateAllRows()
 {
     const auto margins = m_sharedData->theme.margins();
     const int s = m_view->spacing();
+    const int space = 2 * s;
+    int y = -m_view->verticalOffset() + s + margins.height();
 
-    // Only widgets near the viewport are materialized. Walking the complete
-    // model here made every resize, tab activation and filter update scale with
-    // the total history size rather than the number of visible widgets.
-    const auto indexes = m_widgetIndexes.values();
-    for (const auto &persistentIndex : indexes) {
-        if (!persistentIndex.isValid())
-            continue;
-
-        const QModelIndex index = persistentIndex;
-        const int row = index.row();
-        if (row < 0 || static_cast<size_t>(row) >= m_items.size())
-            continue;
-
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
         const bool hide = m_view->isRowHidden(row);
         auto &item = m_items[row];
-        if (!item)
-            continue;
-
-        QWidget *ww = item->widget();
-        if (hide) {
-            ww->removeEventFilter(this);
-            ww->hide();
-            continue;
+        if (item) {
+            QWidget *ww = item->widget();
+            if (hide) {
+                ww->removeEventFilter(this);
+                ww->hide();
+            } else {
+                if (item.appliedFilterId != m_filterId) {
+                    highlightMatches(item.get());
+                    item.appliedFilterId = m_filterId;
+                }
+                ww->move( QPoint(ww->x(), y) );
+                if ( ww->isHidden() ) {
+                    ww->show();
+                    updateItemWidgetSize(row);
+                    ww->installEventFilter(this);
+                    const auto index = m_view->index(row);
+                    updateItemSize(index, ww->size());
+                }
+            }
         }
 
-        if (item.appliedFilterId != m_filterId) {
-            highlightMatches(item.get());
-            item.appliedFilterId = m_filterId;
-        }
-
-        const QRect itemRect = m_view->visualRect(index);
-        if (itemRect.isValid()) {
-            const int rowNumberWidth = m_sharedData->theme.rowNumberSize(row).width();
-            ww->move(QPoint(
-                s + margins.width() + rowNumberWidth,
-                itemRect.top() + margins.height()));
-        }
-
-        if ( ww->isHidden() ) {
-            ww->show();
-            updateItemWidgetSize(row);
-            ww->installEventFilter(this);
-            updateItemSize(index, ww->size());
-        }
+        if (!hide)
+            y += m_items[row].size.height() + space;
     }
 }
 
@@ -458,24 +428,14 @@ void ItemDelegate::setItemWidgetSelected(const QModelIndex &index, bool isSelect
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
     const int row = index.row();
-    Q_ASSERT(0 <= row && static_cast<size_t>(row) < m_items.size());
-    if (row < 0 || static_cast<size_t>(row) >= m_items.size()) {
-        delete w;
-        return;
-    }
-
     const QPoint pos = w ? findPositionForWidget(index) : QPoint();
     const bool show = w && !m_view->isIndexHidden(index);
 
     auto &item = m_items[row];
-    if (item)
-        m_widgetIndexes.remove(item->widget());
-
     item.item.reset(w);
     item.appliedFilterId = 0;
     if (w) {
         QWidget *ww = w->widget();
-        m_widgetIndexes.insert(ww, QPersistentModelIndex(index));
 
         // Make background transparent.
         ww->setAttribute(Qt::WA_NoSystemBackground);
@@ -509,13 +469,6 @@ QPoint ItemDelegate::findPositionForWidget(const QModelIndex &index) const
     const QSize margins = m_sharedData->theme.margins();
     const QSize rowNumberSize = m_sharedData->theme.rowNumberSize(index.row());
     const int s = m_view->spacing();
-
-    const QRect itemRect = m_view->visualRect(index);
-    if (itemRect.isValid()) {
-        return QPoint(
-            s + margins.width() + rowNumberSize.width(),
-            itemRect.top() + margins.height());
-    }
 
     int y = 0;
     int skipped = 0;
@@ -566,12 +519,13 @@ void ItemDelegate::setWidgetSelected(QWidget *ww, bool selected)
 
 int ItemDelegate::findWidgetRow(const QObject *obj) const
 {
-    // Persistent indexes follow insertions and moves, avoiding a linear scan
-    // through every row for each item-widget resize event.
-    const auto it = m_widgetIndexes.constFind(obj);
-    return it == m_widgetIndexes.cend() || !it.value().isValid()
-        ? -1
-        : it.value().row();
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        auto w = m_items[row].get();
+        if (w && w->widget() == obj)
+            return row;
+    }
+
+    return -1;
 }
 
 ItemWidget *ItemDelegate::updateWidget(const QModelIndex &index, const QVariantMap &data)
@@ -628,17 +582,9 @@ void ItemDelegate::invalidateAllHiddenNow()
         return minY < g.bottom() && g.top() < maxY;
     };
 
-    const auto indexes = m_widgetIndexes.values();
-    for (const auto &persistentIndex : indexes) {
-        if (!persistentIndex.isValid())
+    for (int row = 0; static_cast<size_t>(row) < m_items.size(); ++row) {
+        if (!m_items[row] || row == currentRow)
             continue;
-
-        const int row = persistentIndex.row();
-        if (row < 0 || static_cast<size_t>(row) >= m_items.size()
-            || row == currentRow || !m_items[row])
-        {
-            continue;
-        }
 
         if ( isRowAlmostVisible(row) )
             continue;
@@ -646,7 +592,7 @@ void ItemDelegate::invalidateAllHiddenNow()
         if ( isRowAlmostVisible(row + 1) || isRowAlmostVisible(row - 1) )
             continue;
 
-        const QModelIndex index = persistentIndex;
+        const auto index = m_view->index(row);
         m_items[row]->widget()->removeEventFilter(this);
         setIndexWidget(index, nullptr);
     }
@@ -661,15 +607,6 @@ void ItemDelegate::setItemFilter(const ItemFilterPtr &filter)
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    const int row = index.row();
-    if (row >= 0 && static_cast<size_t>(row) < m_items.size() && !m_items[row]) {
-        // Preloading uses provisional row heights and can miss rows that only
-        // become visible after batched layout refines the geometry. Painting
-        // is the final authority on visibility, so never leave a painted row
-        // without its item widget.
-        const_cast<ItemDelegate *>(this)->createItemWidget(index);
-    }
-
     const bool isSelected = option.state & QStyle::State_Selected;
 
     // Draw the list widget background clipped to the item rect so that

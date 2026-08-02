@@ -178,7 +178,6 @@ private slots:
     void searchItemsAndCopy();
     void searchRowNumber();
     void searchAccented();
-    void largeTabUsesBatchedLayout();
     void searchManyItems();
     void copyItems();
     void selectAndCopyOrder();

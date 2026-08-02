@@ -44,10 +44,6 @@
 - Run automatic commands for whitespace-only clipboard data before treating
   it as empty, allowing commands to ignore CRLF-only clipboard changes (#3654).
 
-- Keep large tabs responsive by deferring initial construction until after UI
-  activation, using incremental list layout, and limiting item-widget resizing,
-  positioning and lookup work to materialized rows.
-
 - Defer synchronized-tab reconciliation until after focus changes and match
   model rows to backing files in linear rather than quadratic time.
 

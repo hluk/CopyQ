@@ -207,11 +207,6 @@ void CoreTests::searchAccented()
     WAIT_ON_OUTPUT("testSelected", QByteArray(clipboardTabName) + " 1 1\n");
 }
 
-void CoreTests::largeTabUsesBatchedLayout()
-{
-    RUN("callPlugin('itemtests', 'clipboardBrowserLayout')", "Batched:1");
-}
-
 void CoreTests::searchManyItems()
 {
     RUN("config"
