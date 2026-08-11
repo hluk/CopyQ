@@ -225,12 +225,29 @@ private:
             return a.first < b.first;
         });
 
-        if (shortcuts.isEmpty() || shortcuts == m_boundShortcuts)
+        if (shortcuts.isEmpty())
             return;
+
+        // Bind the shortcuts even if ListShortcuts() already reports the same
+        // set. That call is a read-only query returning "the shortcuts that
+        // were successfully bound in a previous session by this application" -
+        // it does not re-establish the key grab. The grab is released together
+        // with the portal session of the previous app instance, while the
+        // approval is persisted by the backend, so the shortcuts have to be
+        // bound again on each start.
+        //
+        // Rebinding an unchanged, already approved set is silent in
+        // xdg-desktop-portal-kde since "Improve the global shortcuts workflow"
+        // (merge request !368). This was verified only with that backend; a
+        // backend asking for confirmation on each start would still be better
+        // than not binding at all, which leaves the shortcuts listed as
+        // registered but inactive.
 
         // Shortcuts can be bound only once per session.
         // Notify user to restart the app.
         if (m_bound) {
+            if (shortcuts == m_boundShortcuts)
+                return;
             qCDebug(qxtCategory) << "Can bind portal global shortcuts only once per session";
             if (m_notifyRestart) {
                 m_notifyRestart = false;
