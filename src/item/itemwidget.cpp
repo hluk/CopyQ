@@ -200,9 +200,13 @@ void ItemSaverInterface::itemsRemovedByUser(const QList<QPersistentModelIndex> &
     /* No-op default: subclasses override to handle user-initiated removal */
 }
 
-QVariantMap ItemSaverInterface::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
+bool ItemSaverInterface::copyItem(
+    const QAbstractItemModel &, const QVariantMap &itemData,
+    QVariantMap *copiedItemData, QString *)
 {
-    return itemData;
+    Q_ASSERT(copiedItemData);
+    *copiedItemData = itemData;
+    return true;
 }
 
 void ItemSaverInterface::setFocus(bool)
