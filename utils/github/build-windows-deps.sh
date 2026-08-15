@@ -90,7 +90,8 @@ BUILD_DEP_URL_PATH="$QTKEYCHAIN_VERSION" BUILD_DEP_SUFFIX=tar.gz \
     build_dep qtkeychain "$QTKEYCHAIN_VERSION" \
         "https://github.com/frankosterfeld/qtkeychain/archive/refs/tags" \
         -DBUILD_TRANSLATIONS=OFF \
-        -DBUILD_TEST_APPLICATION=OFF &
+        -DBUILD_TEST_APPLICATION=OFF \
+        -DUSE_COMPAT_NAMING_SCHEME=ON &
 qtkeychain_pid=$!
 
 BUILD_DEP_SUFFIX=zip \
