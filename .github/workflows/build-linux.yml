@@ -57,7 +57,7 @@ env:
     libwayland-server0
 
   QCA_VERSION: '2.3.10'
-  QTKEYCHAIN_VERSION: '0.15.0'
+  QTKEYCHAIN_VERSION: '0.17.0'
 
   LINUXDEPLOY_URL: 'https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage'
   LINUXDEPLOY_SHA256: '4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a'
@@ -84,7 +84,7 @@ jobs:
             buildname: Qt 6
             compiler: g++
             compiler_package: g++
-            custom_qt: '6.10.2'
+            custom_qt: '6.11.1'
             with_native_notifications: false
             with_kf6_wayland_clipboard: false
             has_webp: false
@@ -210,7 +210,6 @@ jobs:
           cmake -G Ninja -S /tmp/qtkeychain -B /tmp/qtkeychain-build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
-            -DBUILD_WITH_QT6=ON \
             -DBUILD_TRANSLATIONS=OFF
           cmake --build /tmp/qtkeychain-build --parallel
           sudo cmake --install /tmp/qtkeychain-build
