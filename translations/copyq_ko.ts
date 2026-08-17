@@ -1750,7 +1750,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="521"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>이 작업을 수행하면 모든 탭의 모든 기본 설정이 기본값으로 재설정됩니다.&lt;br /&gt;&lt;br /&gt;모든 기본 설정을 &lt;strong&gt; 재설정하시겠습니까&lt;/strong&gt;?</translation>
+        <translation>이 작업을 수행하면 모든 탭의 모든 기본 설정이 기본값으로 재설정됩니다.&lt;br /&gt;&lt;br /&gt;&lt;strong&gt; 모든 기본 설정을 재설정&lt;/strong&gt;하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="625"/>
@@ -3326,12 +3326,12 @@ Please check the logs for details.</source>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 캡처 방지 사용 불가</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>스크린샷에서 숨기기 옵션은 활성화되어 있지만 원격 데스크톱 세션에서는 적용되지 않습니다. 창 내용이 화면 캡처에 보일 수 있습니다.</translation>
     </message>
 </context>
 <context>
@@ -3865,8 +3865,8 @@ Default is the first tab.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+T&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>탭 이름은 비어있지 않아야 하며 고유해야 합니다.&lt;br /&gt;
-&lt;b&gt;아니요&amp;amp;tes&lt;/b&gt; 탭은 &lt;b&gt;Alt+T&lt;/b&gt;를 사용하여 열 수 있습니다.&lt;br/&gt;
+        <translation>&lt;br/&gt;탭 이름은 비어있지 않아야 하며 고유해야 합니다.&lt;br /&gt;
+&lt;b&gt;아니요&amp;amp;tes&lt;/b&gt; 탭은 &lt;b&gt;Alt+T&lt;/b&gt;를 사용하여 열 수 있습니다.&lt;br /&gt;
 트리 보기 탭 레이아웃에서 경로 구분 기호로 &lt;b&gt;/&lt;/b&gt;를 사용합니다.</translation>
     </message>
     <message>
