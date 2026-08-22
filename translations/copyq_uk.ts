@@ -76,7 +76,7 @@
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Регулярний вираз для розділення вихідних даних на декілька елементів.&lt;\p&gt;
-&lt;p&gt;Використовуйте &lt;b&gt;\n&lt;/ b&gt; щоб зберегти кожен рядок, як окремий елемент.&lt;/p&gt;</translation>
+&lt;p&gt;Використовуйте &lt;b&gt;\n&lt;/b&gt; щоб зберегти кожен рядок, як окремий елемент.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>

@@ -688,7 +688,7 @@ Leave empty to disable this.</source>
         <location filename="../src/ui/commandwidget.ui" line="108"/>
         <source>Script</source>
         <extracomment>Type of command; allows to extend scripting capabilities</extracomment>
-        <translation>СЦЕНАРИЙ</translation>
+        <translation>Сценарий</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="121"/>
