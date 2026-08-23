@@ -16,6 +16,7 @@
 #include <QPersistentModelIndex>
 #include <QPointer>
 #include <QTimer>
+#include <QElapsedTimer>
 #include <QtContainerFwd>
 
 enum class PasswordSource;
@@ -719,6 +720,8 @@ private:
     QTimer m_timerSaveTabPositions;
     QTimer m_timerHideWindowIfNotActive;
     QTimer m_timerRaiseLastWindowAfterMenuClosed;
+
+    QElapsedTimer m_showWindowTime;
 
     bool m_trayMenuDirty = true;
 
