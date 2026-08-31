@@ -33,3 +33,5 @@ bool moveItems(
         );
 
 void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey *encryptionKey = nullptr);
+
+void migrateDataFiles();

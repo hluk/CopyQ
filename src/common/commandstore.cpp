@@ -172,13 +172,13 @@ Commands importCommands(QSettings *settings)
 
 Commands loadAllCommands()
 {
-    const QString commandConfigPath = getConfigurationFilePath("-commands.ini");
+    const QString commandConfigPath = configurationFilePath("-commands.ini");
     return importCommandsFromFile(commandConfigPath);
 }
 
 void saveCommands(const Commands &commands)
 {
-    Settings settings(getConfigurationFilePath("-commands.ini"));
+    Settings settings(configurationFilePath("-commands.ini"));
     saveCommands(commands, &settings);
 }
 

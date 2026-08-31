@@ -126,7 +126,7 @@ public:
 
             const bool needsSecring = version.major == 2 && version.minor == 0;
 
-            const QString path = getConfigurationFilePath("");
+            const QString path = configurationFilePath("");
             m_pubring = path + ".pub";
             m_pubringNative = QDir::toNativeSeparators(m_pubring);
             if (needsSecring) {

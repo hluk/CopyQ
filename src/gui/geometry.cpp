@@ -82,7 +82,7 @@ QString geometryOptionName(const QWidget &widget, bool openOnCurrentScreen)
 
 QString getGeometryConfigurationFilePath()
 {
-    return getConfigurationFilePath("_geometry.ini");
+    return stateFilePath("_geometry.ini");
 }
 
 QString resolutionTagForScreen(int i)
@@ -202,6 +202,7 @@ void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen)
 
     const QString optionName = geometryOptionName(*w, openOnCurrentScreen);
     const QString tag = resolutionTag(*w, openOnCurrentScreen);
+    ensureStateDirectoryExists();
     QSettings geometrySettings( getGeometryConfigurationFilePath(), QSettings::IniFormat );
     const auto geometry = w->saveGeometry();
     geometrySettings.setValue(optionName + tag, geometry);
@@ -219,6 +220,7 @@ QByteArray mainWindowState(const QString &mainWindowObjectName)
 
 void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
 {
+    ensureStateDirectoryExists();
     const QString optionName = QStringLiteral("Options/%1_state").arg(mainWindowObjectName);
     setGeometryOptionValue(optionName, state);
 }

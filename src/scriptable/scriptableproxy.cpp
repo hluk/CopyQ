@@ -2661,18 +2661,14 @@ bool ScriptableProxy::getSelectionData()
 void setClipboardMonitorRunning(bool running)
 {
     QSettings settings(
-          QSettings::IniFormat,
-          QSettings::UserScope,
-          QCoreApplication::organizationName(),
-          QCoreApplication::applicationName() + "-monitor");
+          stateFilePath("-monitor.ini"),
+          QSettings::IniFormat);
     settings.setValue(QStringLiteral("running"), running);
 }
 bool isClipboardMonitorRunning()
 {
     const QSettings settings(
-          QSettings::IniFormat,
-          QSettings::UserScope,
-          QCoreApplication::organizationName(),
-          QCoreApplication::applicationName() + "-monitor");
+          stateFilePath("-monitor.ini"),
+          QSettings::IniFormat);
     return settings.value(QStringLiteral("running")).toBool();
 }

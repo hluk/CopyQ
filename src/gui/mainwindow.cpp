@@ -547,7 +547,7 @@ QVariantMap exportSettings(const QStringList &tabs, bool exportConfiguration, bo
     QVariantList commandsList;
     if (exportCommands) {
         log("Exporting commands");
-        Settings settings(getConfigurationFilePath("-commands.ini"));
+        Settings settings(configurationFilePath("-commands.ini"));
         const int commandCount = settings.beginReadArray(QLatin1String("Commands"));
         commandsList.reserve(commandCount);
         for (int i = 0; i < commandCount; ++i) {
@@ -2414,7 +2414,7 @@ void MainWindow::importSelected(const ImportSelection &sel)
             m_commandDialog = nullptr;
         }
 
-        Settings settings(getConfigurationFilePath("-commands.ini"));
+        Settings settings(configurationFilePath("-commands.ini"));
 
         const QString commandGroup = QStringLiteral("Command");
         const QString commandsGroup = QStringLiteral("Commands");

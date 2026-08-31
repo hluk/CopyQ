@@ -6,6 +6,7 @@ Always use the following environment variables for all `build/copyq` and
     export COPYQ_SESSION_NAME="test"
     export COPYQ_SETTINGS_PATH="build/copyq-test-conf"
     export COPYQ_ITEM_DATA_PATH="build/copyq-test-data"
+    export COPYQ_STATE_PATH="build/copyq-test-conf"
     export COPYQ_PLUGINS=""
     export COPYQ_DEFAULT_ICON="1"
     export COPYQ_SESSION_COLOR="#f90"
