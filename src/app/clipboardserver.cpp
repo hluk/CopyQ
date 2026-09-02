@@ -154,6 +154,8 @@ ClipboardServer::ClipboardServer(QApplication *app, const QString &sessionName)
     QApplication::setQuitOnLastWindowClosed(false);
 
     ensureSettingsDirectoryExists();
+    ensureStateDirectoryExists();
+    migrateDataFiles();
 
     m_sharedData->itemFactory = new ItemFactory(m_sharedData, this);
     m_sharedData->notifications = new NotificationDaemon(this);

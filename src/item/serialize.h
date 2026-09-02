@@ -28,7 +28,6 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream, const Encry
 bool serializeData(const QAbstractItemModel &model, QIODevice *file, int itemDataThreshold = -1, const Encryption::EncryptionKey *encryptionKey = nullptr);
 bool deserializeData(QAbstractItemModel *model, QIODevice *file, const Encryption::EncryptionKey *encryptionKey = nullptr);
 
-QString itemDataPath();
 bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::EncryptionKey *encryptionKey = nullptr);
 
 qint64 estimateDataSize(const QVariantMap &data);

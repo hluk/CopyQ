@@ -184,6 +184,7 @@ void initApplication(QCoreApplication *app)
         if ( qEnvironmentVariableIsEmpty("COPYQ_LOG_DIR") )
             qputenv("COPYQ_LOG_DIR", folder.toLocal8Bit() + "/logs");
         app->setProperty("CopyQ_item_data_path", configFolder + QLatin1String("/items"));
+        app->setProperty("CopyQ_state_path", configFolder);
     }
 }
 

@@ -415,15 +415,20 @@ Here is the correct command to use for some editors::
 Where to find saved items and configuration?
 --------------------------------------------
 
-You can find configuration and saved items in:
+Configuration is stored in:
 
 a. Windows folder ``%APPDATA%\copyq`` for installed version of CopyQ.
 b. Windows sub-folder ``config`` in unzipped portable version of CopyQ.
 c. Linux directory ``~/.config/copyq``.
-d. In a directory specific to a given CopyQ instance - see :ref:`sessions`.
+d. In a directory specific to a given CopyQ instance — see :ref:`sessions`.
 
-Run ``copyq info config`` to get absolute path to the configuration file
-(parent directory contains saved items).
+Run ``copyq info config`` to get absolute path to the configuration file.
+
+.. versionchanged:: 17.0.0
+   Tab data files and item data are in the data directory, and UI state
+   files and logs are in the state directory. Use ``copyq info data``,
+   ``copyq info state`` and ``copyq info log`` to find the exact paths.
+   See :ref:`sessions` for details.
 
 Why are items and configuration not saved?
 ------------------------------------------

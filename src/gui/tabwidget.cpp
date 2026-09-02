@@ -18,9 +18,9 @@
 
 namespace {
 
-QString getTabWidgetConfigurationFilePath()
+QString tabWidgetConfigurationFilePath()
 {
-    return getConfigurationFilePath("_tabs.ini");
+    return stateFilePath("_tabs.ini");
 }
 
 template <typename Receiver, typename Slot>
@@ -183,7 +183,7 @@ void TabWidget::addToolBars(QMainWindow *mainWindow)
 
 void TabWidget::saveTabInfo()
 {
-    QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
+    QSettings settings(tabWidgetConfigurationFilePath(), QSettings::IniFormat);
 
     m_tabs->updateCollapsedTabs(&m_collapsedTabs);
     settings.setValue("TabWidget/collapsed_tabs", m_collapsedTabs);
@@ -199,7 +199,7 @@ void TabWidget::saveTabInfo()
 
 void TabWidget::loadTabInfo()
 {
-    QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
+    QSettings settings(tabWidgetConfigurationFilePath(), QSettings::IniFormat);
 
     m_collapsedTabs = settings.value("TabWidget/collapsed_tabs").toStringList();
 

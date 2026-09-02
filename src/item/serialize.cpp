@@ -2,6 +2,7 @@
 
 #include "serialize.h"
 
+#include "common/config.h"
 #include "common/contenttype.h"
 #include "common/encryption.h"
 #include "common/mimetypes.h"
@@ -770,11 +771,6 @@ bool itemDataFiles(QIODevice *file, QStringList *files, const Encryption::Encryp
     }
 
     return out.status() == QDataStream::Ok;
-}
-
-QString itemDataPath()
-{
-    return qApp->property("CopyQ_item_data_path").toString();
 }
 
 qint64 estimateDataSize(const QVariantMap &data)

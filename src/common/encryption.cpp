@@ -41,8 +41,8 @@ constexpr int hkdfSha256HashLength = 32;
 constexpr int hkdfSha256MaxLength = 255 * hkdfSha256HashLength;
 constexpr int pbkdf2IterationCount = 100'000;
 
-QString dekFilePath() { return getConfigurationFilePath("wrapped_dek.dat"); }
-QString saltFilePath() { return getConfigurationFilePath("kek_salt.dat"); }
+QString dekFilePath() { return configurationFilePath("wrapped_dek.dat"); }
+QString saltFilePath() { return configurationFilePath("kek_salt.dat"); }
 
 void logFeatures()
 {
