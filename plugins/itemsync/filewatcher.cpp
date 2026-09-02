@@ -527,7 +527,7 @@ bool moveFormatFiles(const QString &oldPath, const QString &newPath,
     // since the item is already complete under the new name.
     for (const QString &ext : copiedExts) {
         QFile original(oldPath + ext);
-        if ( !retryFileOp([&original]{ return original.remove(); }, "remove", original)
+        if ( !retryFileOp([&original]{ return original.remove() || !original.exists(); }, "remove", original)
              && original.exists() )
         {
             qCWarning(fileWatcher)
@@ -566,7 +566,7 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
 {
     for (const auto &extValue : mimeToExtension) {
         QFile f(path + extValue.toString());
-        if ( !retryFileOp([&f]{ return f.remove(); }, "remove", f)
+        if ( !retryFileOp([&f]{ return f.remove() || !f.exists(); }, "remove", f)
              && f.exists() )
         {
             qCWarning(fileWatcher)
@@ -678,7 +678,7 @@ void removeFiles(
         const QString filePath = tabPath + '/' + entry.baseName;
         if (entry.mimeToExtension.isEmpty()) {
             QFile f(filePath);
-            if (!retryFileOp([&f]{ return f.remove(); }, "remove", f)
+            if (!retryFileOp([&f]{ return f.remove() || !f.exists(); }, "remove", f)
                 && f.exists())
             {
                 qCWarning(fileWatcher)
