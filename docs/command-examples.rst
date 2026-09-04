@@ -45,6 +45,49 @@ on global shortcut Win+Alt+T.
     Icon=\xf017
     Name=Paste Current Time
 
+Paste Clipboard Items in Order
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following commands create a simple paste queue. The first command
+automatically stores each new clipboard item in the ``Paste Queue`` tab.
+The second command pastes the oldest queued item and removes it from the
+queue on global shortcut Win+Alt+V.
+
+.. code-block:: ini
+
+    [Command]
+    Name=Add Clipboard to Paste Queue
+    Command="
+        copyq:
+        tab('Paste Queue')
+        write(0, unpack(input()))"
+    Automatic=true
+    Icon=\xf03a
+    Input=application/x-copyq-item
+
+    [Command]
+    Name=Paste Next Queued Item
+    Command="
+        copyq:
+        tab('Paste Queue')
+        var row = size() - 1
+        if (row < 0) {
+            popup('Paste Queue', 'No queued items')
+            abort()
+        }
+
+        var item = getItem(row)
+        copy(item)
+        try {
+            paste()
+        } catch (e) {
+            popup('Pasting Failed', e)
+            abort()
+        }
+        remove(row)"
+    GlobalShortcut=meta+alt+v
+    Icon=\xf0ea
+
 Play Sound when Copying to Clipboard
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
