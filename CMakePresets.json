@@ -37,7 +37,7 @@
             "cacheVariables": {
                 "WITH_TESTS": "TRUE",
                 "CMAKE_PREFIX_PATH": "$penv{CMAKE_PREFIX_PATH}",
-                "CMAKE_OSX_DEPLOYMENT_TARGET": "10.15",
+                "CMAKE_OSX_DEPLOYMENT_TARGET": "12",
                 "CMAKE_C_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_COMPILER_LAUNCHER": "ccache",
                 "CMAKE_CXX_FLAGS": "-Wno-deprecated-declarations"

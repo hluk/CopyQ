@@ -25,9 +25,7 @@ runs:
         curl -sSLo src/miniaudio.h --fail-with-body --retry 3 \
           "https://raw.githubusercontent.com/mackron/miniaudio/$MINIAUDIO_COMMIT/miniaudio.h"
 
-        if command -v sha256sum >/dev/null 2>&1; then
-          sha256cmd='sha256sum -c'
-        elif command -v shasum >/dev/null 2>&1; then
+        if command -v shasum >/dev/null 2>&1; then
           sha256cmd='shasum -a 256 -c'
         else
           echo '::error::No SHA-256 utility found'; exit 1

@@ -64,6 +64,7 @@ build_dep() {
         -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH" \
         -DCMAKE_INSTALL_PREFIX="$INSTALL_PREFIX" \
         -DBUILD_TESTING=OFF \
+		-DBUILD_WITH_QT6=ON \
         "${extra_cmake_args[@]}"
 
     cmake --build "$BUILD_DIR/$name" --parallel
