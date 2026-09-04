@@ -14,11 +14,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  KF_VERSION: '6.23'
+  KF_VERSION: '6.29'
   KF_PATCH: '0'
   KF_BRANCH: stable
   QCA_VERSION: '2.3.10'
-  QTKEYCHAIN_VERSION: '0.15.0'
+  QTKEYCHAIN_VERSION: '0.17.0'
 
 jobs:
   build:

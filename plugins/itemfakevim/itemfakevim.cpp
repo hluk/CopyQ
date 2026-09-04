@@ -14,6 +14,7 @@ using namespace FakeVim::Internal;
 #include <QMessageBox>
 #include <QMetaMethod>
 #include <QKeyEvent>
+#include <QInputMethodEvent>
 #include <QProcess>
 #include <QPaintEvent>
 #include <QPainter>
@@ -163,28 +164,10 @@ public:
         m_handler->installEventFilter();
         m_handler->setupWidget();
         m_handler->enterCommandMode();
-        // Disable input method so the platform IM framework (ibus, fcitx,
-        // Wayland text-input) does not intercept key presses.  With IM
-        // enabled, presses arrive as QInputMethodEvents instead of
-        // QKeyEvents, which bypasses FakeVim's key handler and breaks
-        // undo grouping (each character becomes a separate undo step)
-        // and visual-block insert replay.
-        m_textEditWidget->setAttribute(Qt::WA_InputMethodEnabled, false);
     }
 
     bool eventFilter(QObject *obj, QEvent *ev) override
     {
-        // Block input method events unconditionally.  Disabling
-        // WA_InputMethodEnabled is not sufficient on Wayland where the
-        // compositor can still deliver IM events via the text-input
-        // protocol.  Letting them through would bypass FakeVim's
-        // QKeyEvent handler and insert raw text into the document.
-        if (ev->type() == QEvent::InputMethod
-            || ev->type() == QEvent::InputMethodQuery)
-        {
-            return true;
-        }
-
         // Handle completion popup.
         if (obj == m_completerPopup) {
             if ( ev->type() == QEvent::KeyPress ) {
@@ -217,6 +200,19 @@ public:
                 }
             }
             return false;
+        }
+
+        // Handle input method events for the editor widget: convert
+        // committed text to FakeVim key input so it goes through proper
+        // undo grouping.  Preedit-only updates (empty commit) are consumed
+        // since FakeVim has no preedit rendering.  IM queries are left
+        // unblocked so the platform can show the virtual keyboard.
+        if (ev->type() == QEvent::InputMethod) {
+            auto *ime = static_cast<QInputMethodEvent *>(ev);
+            const QString commit = ime->commitString();
+            if (!commit.isEmpty())
+                m_handler->handleInput(commit);
+            return true;
         }
 
         if ( ev->type() != QEvent::Paint || obj != editor()->viewport() )

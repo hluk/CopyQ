@@ -85,11 +85,6 @@ public:
         return &portal;
     }
 
-    bool isValid() const
-    {
-        return !m_objPathCreateSession.path().isEmpty();
-    }
-
     void addShortcut(QxtGlobalShortcut *shortcut)
     {
         m_shortcuts.removeAll(nullptr);
@@ -186,6 +181,14 @@ private:
         if (!m_objPathGlobalShortcuts.path().isEmpty()) {
             QDBusConnection::sessionBus().disconnect(
                 QStringLiteral("org.freedesktop.portal.Desktop"),
+                m_objPathGlobalShortcuts.path(),
+                QStringLiteral("org.freedesktop.portal.Session"),
+                QStringLiteral("Closed"),
+                this,
+                SLOT(onPortalSessionClosed(QVariantMap))
+            );
+            QDBusConnection::sessionBus().disconnect(
+                QStringLiteral("org.freedesktop.portal.Desktop"),
                 QStringLiteral("/org/freedesktop/portal/desktop"),
                 QStringLiteral("org.freedesktop.portal.GlobalShortcuts"),
                 QStringLiteral("Activated"),
@@ -193,6 +196,17 @@ private:
                 SLOT(onPortalGlobalShortcutActivated(QDBusObjectPath,QString,qulonglong,QVariantMap))
             );
         }
+    }
+
+    void resetSession()
+    {
+        disconnectPortal();
+        m_bound = false;
+        m_notifyRestart = true;
+        m_boundShortcuts.clear();
+        m_objPathCreateSession = QDBusObjectPath();
+        m_objPathListShortcuts = QDBusObjectPath();
+        m_objPathGlobalShortcuts = QDBusObjectPath();
     }
 
     void bindPortalGlobalShortcuts()
@@ -225,12 +239,28 @@ private:
             return a.first < b.first;
         });
 
-        if (shortcuts.isEmpty() || shortcuts == m_boundShortcuts)
+        if (shortcuts.isEmpty())
             return;
 
+        // Bind the shortcuts even if ListShortcuts() already reports the same
+        // set. That call is a read-only query returning "the shortcuts that
+        // were successfully bound in a previous session by this application" -
+        // it does not re-establish the key grab. The grab is released together
+        // with the portal session of the previous app instance, while the
+        // approval is persisted by the backend, so the shortcuts have to be
+        // bound again on each start.
+        //
+        // Rebinding an unchanged, already approved set is silent in
+        // xdg-desktop-portal-kde since "Improve the global shortcuts workflow"
+        // (merge request !368). This was verified only with that backend; a
+        // backend asking for confirmation on each start would still be better
+        // than not binding at all, which leaves the shortcuts listed as
+        // registered but inactive.
+
         // Shortcuts can be bound only once per session.
-        // Notify user to restart the app.
         if (m_bound) {
+            if (shortcuts == m_boundShortcuts)
+                return;
             qCDebug(qxtCategory) << "Can bind portal global shortcuts only once per session";
             if (m_notifyRestart) {
                 m_notifyRestart = false;
@@ -292,13 +322,18 @@ private:
         m_timerBind.setInterval(0);
         connectPortal();
 
+        m_serviceWatcher.setConnection(QDBusConnection::sessionBus());
+        m_serviceWatcher.addWatchedService(
+            QStringLiteral("org.freedesktop.portal.Desktop"));
+        m_serviceWatcher.setWatchMode(
+            QDBusServiceWatcher::WatchForRegistration
+            | QDBusServiceWatcher::WatchForUnregistration);
+        connect(&m_serviceWatcher, &QDBusServiceWatcher::serviceRegistered,
+                this, &GlobalShortcutsPortal::onPortalServiceRegistered);
+        connect(&m_serviceWatcher, &QDBusServiceWatcher::serviceUnregistered,
+                this, &GlobalShortcutsPortal::onPortalServiceUnregistered);
+
         if (!m_globalShortcutInterface->isValid()) {
-            m_serviceWatcher.setConnection(QDBusConnection::sessionBus());
-            m_serviceWatcher.addWatchedService(
-                QStringLiteral("org.freedesktop.portal.Desktop"));
-            m_serviceWatcher.setWatchMode(QDBusServiceWatcher::WatchForRegistration);
-            connect(&m_serviceWatcher, &QDBusServiceWatcher::serviceRegistered,
-                    this, &GlobalShortcutsPortal::onPortalServiceRegistered);
             qCDebug(qxtCategory) << "Portal service not available, watching for registration";
         }
     }
@@ -358,7 +393,8 @@ private slots:
 
         connect(
             &m_timerBind, &QTimer::timeout,
-            this, &GlobalShortcutsPortal::bindPortalGlobalShortcuts);
+            this, &GlobalShortcutsPortal::bindPortalGlobalShortcuts,
+            Qt::UniqueConnection);
 
         QDBusConnection::sessionBus().connect(
             QStringLiteral("org.freedesktop.portal.Desktop"),
@@ -393,6 +429,15 @@ private slots:
         disconnectPortal();
 
         listShortcuts();
+
+        QDBusConnection::sessionBus().connect(
+            QStringLiteral("org.freedesktop.portal.Desktop"),
+            m_objPathGlobalShortcuts.path(),
+            QStringLiteral("org.freedesktop.portal.Session"),
+            QStringLiteral("Closed"),
+            this,
+            SLOT(onPortalSessionClosed(QVariantMap))
+        );
     }
 
     void onPortalGlobalShortcutActivated(
@@ -420,11 +465,21 @@ private slots:
             QStringLiteral("/org/freedesktop/portal/desktop"),
             QStringLiteral("org.freedesktop.portal.GlobalShortcuts")
         );
+        resetSession();
         connectPortal();
-        if (isValid()) {
-            m_serviceWatcher.removeWatchedService(
-                QStringLiteral("org.freedesktop.portal.Desktop"));
-        }
+    }
+
+    void onPortalServiceUnregistered()
+    {
+        qCDebug(qxtCategory) << "Portal service unregistered, clearing session";
+        resetSession();
+    }
+
+    void onPortalSessionClosed(const QVariantMap &)
+    {
+        qCWarning(qxtCategory) << "Portal global shortcuts session closed, reconnecting";
+        resetSession();
+        connectPortal();
     }
 
 private:

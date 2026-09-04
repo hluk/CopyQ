@@ -5,9 +5,11 @@
 
 #include <miniaudio.h>
 
+#include <QCoreApplication>
 #include <QFileInfo>
 #include <QLoggingCategory>
 #include <QThread>
+#include <QTimer>
 
 #include <algorithm>
 #include <atomic>
@@ -71,8 +73,10 @@ private:
 } // namespace
 
 struct AudioPlayer::Private {
+    enum class State { Uninitialized, Initialized, Error };
+
     std::shared_ptr<ma_engine> engine;
-    bool initialized = false;
+    State state = State::Uninitialized;
     std::vector<SoundEntry> entries;
 
     /// Remove sounds that have finished playing.
@@ -82,6 +86,70 @@ struct AudioPlayer::Private {
             std::remove_if(entries.begin(), entries.end(),
                 [](const SoundEntry &e) { return e.atEnd(); }),
             entries.end());
+    }
+
+    /// Release the engine if all sounds have finished.
+    /// Called on the main thread via the end callback.
+    void releaseIfIdle()
+    {
+        collectFinished();
+        if (entries.empty() && state == State::Initialized) {
+            qCDebug(logCategory) << "All sounds finished, releasing miniaudio engine";
+            engine.reset();
+            state = State::Uninitialized;
+        }
+    }
+
+    /// Lazily initialize the miniaudio engine on first use.
+    /// Opens the PulseAudio/PipeWire connection, so we defer this
+    /// to avoid a background thread spinning on the audio socket
+    /// when no sound is ever played.
+    void ensureInitialized()
+    {
+        if (state != State::Uninitialized)
+            return;
+
+        qCDebug(logCategory) << "Initializing miniaudio engine";
+
+        // Run ma_engine_init on a helper thread so we can bail out if the
+        // PulseAudio (or other) backend deadlocks during device enumeration.
+        auto initResult = std::make_shared<std::atomic<ma_result>>(MA_ERROR);
+
+        engine = std::shared_ptr<ma_engine>(new ma_engine{}, [initResult](ma_engine *e) {
+            if (initResult->load(std::memory_order_acquire) == MA_SUCCESS)
+                ma_engine_uninit(e);
+            delete e;
+        });
+
+        auto *worker = QThread::create([initResult, eng = engine]() mutable {
+            initResult->store(ma_engine_init(nullptr, eng.get()), std::memory_order_release);
+            eng.reset();
+        });
+        worker->start();
+
+        const bool finished = worker->wait(initTimeoutMs());
+
+        if (!finished) {
+            qCWarning(logCategory)
+                << "miniaudio engine init timed out after"
+                << initTimeoutMs() / 1000 << "seconds — audio disabled";
+            // The worker thread still holds a shared_ptr to the engine;
+            // permanently disable audio so we don't race with it.
+            state = State::Error;
+            QObject::connect(worker, &QThread::finished, worker, &QObject::deleteLater);
+            return;
+        }
+
+        worker->deleteLater();
+
+        const ma_result result = initResult->load(std::memory_order_acquire);
+        if (result == MA_SUCCESS) {
+            qCDebug(logCategory) << "Initialized miniaudio engine successfully";
+            state = State::Initialized;
+        } else {
+            qCWarning(logCategory) << "Failed to initialize miniaudio, result code:" << result;
+            engine.reset();
+        }
     }
 };
 
@@ -102,65 +170,15 @@ AudioPlayer &AudioPlayer::instance()
 AudioPlayer::AudioPlayer()
     : d(std::make_unique<Private>())
 {
-    qCDebug(logCategory) << "Initializing miniaudio engine";
-
-    // Run ma_engine_init on a helper thread so we can bail out if the
-    // PulseAudio (or other) backend deadlocks during device enumeration.
-    // We use QThread::wait() instead of QEventLoop to avoid reentrancy:
-    // a nested event loop would process pending events (e.g. clipboard
-    // change timers) that could call playSound() and deadlock on the
-    // static-local initialization guard of instance().
-    auto initResult = std::make_shared<std::atomic<ma_result>>(MA_ERROR);
-
-    // The engine is shared between AudioPlayer and the init worker thread.
-    // If init times out the worker keeps the engine alive until it finishes.
-    d->engine = std::shared_ptr<ma_engine>(new ma_engine{}, [initResult](ma_engine *e) {
-        if (initResult->load(std::memory_order_acquire) == MA_SUCCESS)
-            ma_engine_uninit(e);
-        delete e;
-    });
-
-    auto *worker = QThread::create([initResult, engine = d->engine]() mutable {
-        initResult->store(ma_engine_init(nullptr, engine.get()), std::memory_order_release);
-        engine.reset(); // release this thread's reference to the engine
-    });
-    worker->start();
-
-    const bool finished = worker->wait(initTimeoutMs());
-
-    if (!finished) {
-        qCWarning(logCategory)
-            << "miniaudio engine init timed out after"
-            << initTimeoutMs() / 1000 << "seconds \u2014 audio disabled";
-        // The worker thread holds a shared_ptr to the engine, so the engine
-        // outlives the thread even if AudioPlayer is destroyed first.
-        QObject::connect(worker, &QThread::finished, worker, &QObject::deleteLater);
-        return;
-    }
-
-    worker->deleteLater();
-
-    const ma_result result = initResult->load(std::memory_order_acquire);
-    if (result == MA_SUCCESS) {
-        qCDebug(logCategory) << "Initialized miniaudio engine successfully";
-        d->initialized = true;
-    } else {
-        qCWarning(logCategory) << "Failed to initialize miniaudio, result code:" << result;
-        d->initialized = false;
-    }
 }
 
-AudioPlayer::~AudioPlayer()
-{
-    if (d && d->initialized) {
-        d->entries.clear();
-        d->engine.reset();
-    }
-}
+AudioPlayer::~AudioPlayer() = default;
 
 QString AudioPlayer::play(const QString &filePath, float volume)
 {
-    if (!d->initialized)
+    d->ensureInitialized();
+
+    if (d->state != Private::State::Initialized)
         return QStringLiteral("Audio engine not initialized");
 
     if (!QFileInfo::exists(filePath))
@@ -183,6 +201,17 @@ QString AudioPlayer::play(const QString &filePath, float volume)
     result = ma_sound_start(entry.get());
     if (result != MA_SUCCESS)
         return QStringLiteral("Failed to start sound (error %1)").arg(result);
+
+    // The end callback fires from the audio thread; bounce to the main
+    // thread with a delay to let the audio backend drain its buffers
+    // before tearing down the engine.
+    ma_sound_set_end_callback(entry.get(),
+        [](void *ud, ma_sound *) {
+            auto *priv = static_cast<AudioPlayer::Private *>(ud);
+            QTimer::singleShot(1000, QCoreApplication::instance(), [priv]() {
+                priv->releaseIfIdle();
+            });
+        }, d.get());
 
     d->entries.push_back(std::move(entry));
     return {};

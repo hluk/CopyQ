@@ -3460,12 +3460,12 @@ Bitte für weitere Informationen die Logs überprüfen.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Verhindern von Bildschirmfotos ist nicht möglich</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Option, Bildschirmfotos zu verhindern, ist aktiviert, aber wirkungslos bei einer Sitzung via Fernzugriff. Es kann daher passieren, dass der Fensterinhalt aufgenommen wird.</translation>
     </message>
 </context>
 <context>
