@@ -218,7 +218,8 @@ CommandCompleter::CommandCompleter(QPlainTextEdit *editor)
     connect( m_editor, &QPlainTextEdit::cursorPositionChanged,
              m_completer->popup(), &QWidget::hide );
 
-    auto shortcut = new QShortcut(tr("Ctrl+Space", "Shortcut to show completion menu"), editor);
+    auto shortcut = new QShortcut(
+        QKeySequence(QStringLiteral("Ctrl+Space"), QKeySequence::PortableText), editor);
     connect( shortcut, &QShortcut::activated,
              this, &CommandCompleter::showCompletion );
 }

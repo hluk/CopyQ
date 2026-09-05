@@ -244,6 +244,8 @@ private slots:
 
     void selectedItems();
 
+    void applicationShortcutDefaultsIgnoreUiTranslations();
+
     void shortcutCommand();
     void shortcutCommandOverrideEnter();
     void shortcutCommandMatchInput();
@@ -258,6 +260,7 @@ private slots:
 
     void automaticCommandIgnore();
     void automaticCommandRemove();
+    void automaticCommandRemoveWhitespace();
     void automaticCommandInput();
     void automaticCommandRegExp();
     void automaticCommandSetData();
@@ -369,6 +372,7 @@ private slots:
     void exportImportPasswordTab();
     void exportImportPasswordSettingsOnly();
     void exportImportPasswordCommandsOnly();
+    void importV3SelectedTabs();
     void exportImportErrors();
 
 private:

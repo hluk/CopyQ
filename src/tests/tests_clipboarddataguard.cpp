@@ -2,7 +2,10 @@
 #include "tests_clipboarddataguard.h"
 
 #include "common/clipboarddataguard.h"
+#include "common/mimetypes.h"
+#include "platform/dummy/dummyclipboard.h"
 
+#include <QImage>
 #include <QMimeData>
 #include <QSet>
 #include <QTest>
@@ -29,6 +32,17 @@ private:
     QSet<QString> m_throwMimes;
 };
 
+class TestClipboard final : public DummyClipboard {
+public:
+    void setMimeData(const QMimeData *data) { m_data = data; }
+
+protected:
+    const QMimeData *rawMimeData(ClipboardMode) const override { return m_data; }
+
+private:
+    const QMimeData *m_data = nullptr;
+};
+
 void ClipboardDataGuardTests::badAllocData()
 {
     qputenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT", ".*:-1");
@@ -37,6 +51,7 @@ void ClipboardDataGuardTests::badAllocData()
     md.setThrowFor("text/plain");
     ClipboardDataGuard guard(&md);
     QVERIFY(guard.data("text/plain").isEmpty());
+    QVERIFY(guard.hasFailed());
     qunsetenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
 }
 
@@ -91,10 +106,110 @@ void ClipboardDataGuardTests::normalDataStillWorks()
     qunsetenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
 }
 
+void ClipboardDataGuardTests::failedImageReadIsIncomplete()
+{
+    QMimeData md;
+    md.setData(QStringLiteral("application/x-qt-image"), QByteArrayLiteral("not-an-image"));
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(
+        ClipboardMode::Clipboard, {QStringLiteral("image/png")});
+
+    QVERIFY(result.availableFormats.contains(QStringLiteral("application/x-qt-image")));
+    QVERIFY(!result.isComplete);
+    QVERIFY(result.data.isEmpty());
+}
+
+void ClipboardDataGuardTests::validImageReadIsComplete()
+{
+    QMimeData md;
+    QImage image(2, 2, QImage::Format_ARGB32);
+    image.fill(Qt::black);
+    md.setImageData(image);
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(
+        ClipboardMode::Clipboard, {QStringLiteral("image/png")});
+
+    QVERIFY(result.isComplete);
+    QVERIFY(!result.data.value(QStringLiteral("image/png")).toByteArray().isEmpty());
+}
+
+void ClipboardDataGuardTests::emptyTextDoesNotHideImage()
+{
+    QMimeData md;
+    md.setData(mimeText, {});
+    QImage image(2, 2, QImage::Format_ARGB32);
+    image.fill(Qt::black);
+    md.setImageData(image);
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(
+        ClipboardMode::Clipboard, {mimeText, QStringLiteral("image/png")});
+
+    QVERIFY(result.isComplete);
+    QVERIFY(!result.data.value(QStringLiteral("image/png")).toByteArray().isEmpty());
+}
+
+void ClipboardDataGuardTests::textSuppressesImageRead()
+{
+    ThrowingMimeData md;
+    md.setData(mimeText, QByteArrayLiteral("text wins"));
+    md.setData(QStringLiteral("application/x-qt-image"), QByteArrayLiteral("image"));
+    md.setThrowFor(QStringLiteral("application/x-qt-image"));
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(
+        ClipboardMode::Clipboard, {mimeText, QStringLiteral("image/png")});
+
+    QVERIFY(result.isComplete);
+    QCOMPARE(result.data.value(mimeText).toByteArray(), QByteArray("text wins"));
+}
+
+void ClipboardDataGuardTests::emptyTextReadIsComplete()
+{
+    QMimeData md;
+    md.setData(mimeText, {});
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(ClipboardMode::Clipboard, {mimeText});
+
+    QVERIFY(result.isComplete);
+    QVERIFY(result.availableFormats.contains(mimeText));
+    QVERIFY(result.data.isEmpty());
+}
+
 static void bumpConfigGeneration()
 {
     const int gen = qApp->property("CopyQ_config_generation").toInt();
     qApp->setProperty("CopyQ_config_generation", gen + 1);
+}
+
+void ClipboardDataGuardTests::omittedImageReadIsComplete()
+{
+    qputenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT", "image/.*:0;.*:100M");
+    bumpConfigGeneration();
+
+    QMimeData md;
+    QImage image(2, 2, QImage::Format_ARGB32);
+    image.fill(Qt::black);
+    md.setImageData(image);
+
+    TestClipboard clipboard;
+    clipboard.setMimeData(&md);
+    const auto result = clipboard.readData(
+        ClipboardMode::Clipboard, {QStringLiteral("image/png")});
+
+    QVERIFY(result.isComplete);
+    QVERIFY(result.data.isEmpty());
+
+    qunsetenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
+    bumpConfigGeneration();
 }
 
 void ClipboardDataGuardTests::overflowTreatedAsNoLimit()

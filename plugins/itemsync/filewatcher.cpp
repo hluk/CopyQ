@@ -8,15 +8,16 @@
 #include <QAbstractItemModel>
 #include <QCryptographicHash>
 #include <QDataStream>
-#include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QLoggingCategory>
 #include <QMimeData>
 #include <QRegularExpression>
-#include <QUrl>
+#include <QSaveFile>
+#include <QScopedValueRollback>
 #include <QThread>
+#include <QUrl>
 
 #include <array>
 #include <vector>
@@ -144,27 +145,57 @@ public:
         return QStringLiteral("%1\n%2").arg(m_path, m_format);
     }
 
+    bool tryReadAll(QByteArray *bytes, int retryCount) const
+    {
+        Q_ASSERT(bytes);
+
+        const int attempts = 1 + retryCount;
+        QString lastError;
+        for (int attempt = 0; attempt < attempts; ++attempt) {
+            QFile f(m_path);
+            if ( !f.open(QIODevice::ReadOnly) ) {
+                lastError = f.errorString();
+            } else if ( m_format.isEmpty() ) {
+                const QByteArray result = f.readAll();
+                if (f.error() == QFileDevice::NoError) {
+                    *bytes = result;
+                    return true;
+                }
+                lastError = f.errorString();
+            } else {
+                QDataStream stream(&f);
+                QVariantMap dataMap;
+                if ( deserializeData(&stream, &dataMap) && dataMap.contains(m_format) ) {
+                    *bytes = dataMap.value(m_format).toByteArray();
+                    return true;
+                }
+                lastError = QStringLiteral("incomplete or invalid synchronized item data");
+            }
+
+            if (attempt + 1 < attempts) {
+                qCDebug(fileWatcher)
+                    << "Retrying read of" << m_path
+                    << "(attempt" << (attempt + 2) << "of" << attempts << ")"
+                    << lastError;
+                QThread::msleep(fileOpRetryDelayMs);
+            }
+        }
+
+        if ( QFileInfo::exists(m_path) ) {
+            qCWarning(fileWatcher)
+                << "Failed to read synchronized item data" << m_path
+                << "-" << lastError;
+        } else {
+            qCDebug(fileWatcher) << "Sync file no longer exists" << m_path;
+        }
+        return false;
+    }
+
     QByteArray readAll() const
     {
-        QFile f(m_path);
-        const bool opened = retryFileOp([&f]{ return f.open(QIODevice::ReadOnly); }, "open for reading", f, /*retryCount=*/0);
-        if (!opened) {
-            logFailedToOpenForReading(m_path, f.errorString());
-            return QByteArray();
-        }
-
-        if ( m_format.isEmpty() )
-            return f.readAll();
-
-        QDataStream stream(&f);
-        QVariantMap dataMap;
-        if ( !deserializeData(&stream, &dataMap) ) {
-            qCCritical(fileWatcher)
-                << "Failed to read file" << m_path << f.errorString();
-            return QByteArray();
-        }
-
-        return dataMap.value(m_format).toByteArray();
+        QByteArray bytes;
+        tryReadAll(&bytes, maxFileOpRetries);
+        return bytes;
     }
 
     bool operator==(const SyncDataFile &other) const {
@@ -199,6 +230,59 @@ void registerSyncDataFileConverter()
     QMetaType::registerConverter(&SyncDataFile::toString);
     qRegisterMetaType<SyncDataFile>("SyncDataFile");
 }
+
+bool FileWatcher::materializeItemDataForCopy(QVariantMap *data, QString *error)
+{
+    Q_ASSERT(data);
+
+    QVariantMap detached = *data;
+    const int syncDataFileType = qMetaTypeId<SyncDataFile>();
+    for (auto it = detached.begin(); it != detached.end(); ++it) {
+        if (it.value().typeId() != syncDataFileType)
+            continue;
+
+        const SyncDataFile source = it.value().value<SyncDataFile>();
+        QByteArray bytes;
+        if ( !source.tryReadAll(&bytes, maxFileOpRetries) ) {
+            if (error) {
+                *error = QStringLiteral("Failed to read synchronized item data from %1")
+                    .arg(source.path());
+            }
+            return false;
+        }
+
+        it.value() = bytes;
+    }
+
+    *data = detached;
+    return true;
+}
+
+namespace {
+
+bool hasDetachedPayload(const QVariantMap &data)
+{
+    const int syncDataFileType = qMetaTypeId<SyncDataFile>();
+    const QVariantMap noSaveData = data.value(mimeNoSave).toMap();
+    bool hasPayload = false;
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        const QString &format = it.key();
+        if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC)
+             || format.startsWith(COPYQ_MIME_PRIVATE_PREFIX)
+             || noSaveData.contains(format) )
+        {
+            continue;
+        }
+
+        hasPayload = true;
+        if (it.value().typeId() == syncDataFileType)
+            return false;
+    }
+
+    return hasPayload;
+}
+
+} // namespace
 
 struct Ext {
     Ext() : extension(), format() {}
@@ -350,17 +434,40 @@ Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSett
 bool saveItemFile(const QString &filePath, const QByteArray &bytes,
                   QStringList *existingFiles, bool hashChanged = true)
 {
-    if ( !existingFiles->removeOne(filePath) || hashChanged ) {
-        QFile f(filePath);
-        const bool opened = retryFileOp([&f]{ return f.open(QIODevice::WriteOnly); }, "open for writing", f);
-        if ( !opened || f.write(bytes) == -1 ) {
-            qCCritical(fileWatcher)
-                << "Failed to save item file:" << f.errorString();
-            return false;
+    const bool alreadyExists = existingFiles->removeOne(filePath);
+    if (alreadyExists && !hashChanged)
+        return true;
+
+    QString lastError;
+    const int attempts = 1 + maxFileOpRetries;
+    for (int attempt = 0; attempt < attempts; ++attempt) {
+        QSaveFile file(filePath);
+        file.setDirectWriteFallback(false);
+
+        if ( !file.open(QIODevice::WriteOnly) ) {
+            lastError = file.errorString();
+        } else if ( file.write(bytes) != bytes.size() ) {
+            lastError = file.errorString();
+            file.cancelWriting();
+        } else if ( file.commit() ) {
+            return true;
+        } else {
+            lastError = file.errorString();
+        }
+
+        if (attempt + 1 < attempts) {
+            qCDebug(fileWatcher)
+                << "Retrying atomic save" << filePath
+                << "(attempt" << (attempt + 2) << "of" << attempts << ")"
+                << lastError;
+            QThread::msleep(fileOpRetryDelayMs);
         }
     }
 
-    return true;
+    qCCritical(fileWatcher)
+        << "Failed to atomically save item file" << filePath
+        << "-" << lastError;
+    return false;
 }
 
 bool canUseFile(const QFileInfo &info)
@@ -442,8 +549,7 @@ QStringList listFiles(const QDir &dir)
     while (!dirs.isEmpty()) {
         const QDir subDir = dirs.takeFirst();
         const QFileInfoList infos = subDir.entryInfoList(
-            QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot
-            | QDir::Readable | QDir::Writable);
+            QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
         for (const QFileInfo &info : infos) {
             if ( !canUseFile(info) )
                 continue;
@@ -690,6 +796,41 @@ void removeFiles(
     }
 }
 
+template <typename Predicate>
+bool anyBackingFileMatches(
+    const QDir &dir, const QString &baseName, const QVariantMap &itemData,
+    Predicate predicate)
+{
+    const QString basePath = dir.absoluteFilePath(baseName);
+    const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+    if (mimeToExtension.isEmpty())
+        return predicate(basePath);
+
+    for (const auto &extension : mimeToExtension) {
+        if ( predicate(basePath + extension.toString()) )
+            return true;
+    }
+
+    return false;
+}
+
+bool anyBackingFileExists(
+    const QDir &dir, const QString &baseName, const QVariantMap &itemData)
+{
+    return anyBackingFileMatches(
+        dir, baseName, itemData,
+        [](const QString &path) { return QFileInfo::exists(path); });
+}
+
+bool anyBackingFileWasListed(
+    const QDir &dir, const QString &baseName, const QVariantMap &itemData,
+    const QSet<QString> &observedFiles)
+{
+    return anyBackingFileMatches(
+        dir, baseName, itemData,
+        [&observedFiles](const QString &path) { return observedFiles.contains(path); });
+}
+
 } // namespace
 
 QString FileWatcher::getBaseName(const QModelIndex &index)
@@ -770,7 +911,7 @@ FileWatcher::FileWatcher(
     connect( m_model, &QAbstractItemModel::rowsInserted,
              this, &FileWatcher::onRowsInserted );
     connect( m_model, &QAbstractItemModel::rowsAboutToBeRemoved,
-             this, &FileWatcher::onRowsRemoved );
+             this, &FileWatcher::onRowsAboutToBeRemoved );
     connect( model, &QAbstractItemModel::rowsMoved,
              this, &FileWatcher::onRowsMoved );
     connect( m_model, &QAbstractItemModel::dataChanged,
@@ -883,7 +1024,7 @@ void FileWatcher::insertItemsFromFiles(const QDir &dir, const BaseNameExtensions
 
         items.erase(items.begin(), items.begin() + i);
         if ( space < items.size() )
-            items.erase(items.begin(), items.begin() + space);
+            items.erase(items.begin() + space, items.end());
         createItems( items, m_model->rowCount() );
     }
 
@@ -902,11 +1043,18 @@ void FileWatcher::updateItems()
     QElapsedTimer t;
     t.start();
 
-    m_lastUpdateTimeMs = QDateTime::currentMSecsSinceEpoch();
-
     if ( m_batchIndexData.isEmpty() ) {
         const QStringList files = listFiles(m_dir);
+        m_observedFiles.clear();
+        m_observedFiles.reserve(files.size());
+        for (const auto &file : files)
+            m_observedFiles.insert(file);
         m_fileList = listFiles(files, m_formatSettings, m_maxItems, m_dir);
+        m_fileIndexes.clear();
+        m_fileIndexes.reserve(m_fileList.size());
+        for (int i = 0; i < m_fileList.size(); ++i)
+            m_fileIndexes.insert(m_fileList[i].baseName, i);
+
         m_batchIndexData.reserve(m_model->rowCount());
         for (int row = 0; row < m_model->rowCount(); ++row) {
             const QModelIndex index = m_model->index(row, 0);
@@ -927,19 +1075,16 @@ void FileWatcher::updateItems()
         if ( baseName.isEmpty() )
             continue;
 
-        const auto it = std::find_if(
-            std::begin(m_fileList), std::end(m_fileList),
-            [&](const BaseNameExtensions &baseNameExtensions) {
-                return baseNameExtensions.baseName == baseName;
-            });
-
         QVariantMap dataMap;
         QVariantMap mimeToExtension;
+        const QVariantMap currentItemData = index.data(contentType::data).toMap();
 
-        const bool foundInFileList = it != m_fileList.cend();
+        const auto fileIndex = m_fileIndexes.find(baseName);
+        const bool foundInFileList = fileIndex != m_fileIndexes.end();
         if ( foundInFileList ) {
-            updateDataAndWatchFile(m_dir, *it, &dataMap, &mimeToExtension);
-            m_fileList.erase(it);
+            updateDataAndWatchFile(
+                m_dir, m_fileList[fileIndex.value()], &dataMap, &mimeToExtension);
+            m_fileIndexes.erase(fileIndex);
         }
 
         if ( mimeToExtension.isEmpty() ) {
@@ -949,7 +1094,25 @@ void FileWatcher::updateItems()
                 qCInfo(fileWatcher)
                     << "Skipping update for" << baseName
                     << "- files exist but could not be read";
+            } else if (
+                !anyBackingFileWasListed(
+                    m_dir, baseName, currentItemData, m_observedFiles)
+                && anyBackingFileExists(m_dir, baseName, currentItemData) )
+            {
+                // Network/cloud directory listings can be temporarily
+                // incomplete even while direct access to the expected files
+                // still succeeds. A file that was present in the complete
+                // listing but omitted from the capped item list is different:
+                // remove only its model row so higher-priority files can enter.
+                qCInfo(fileWatcher)
+                    << "Skipping removal of" << baseName
+                    << "- expected files still exist but were not listed";
             } else {
+                // Reconciliation reflects external filesystem state. It is
+                // not a user-owned delete operation and must never cascade
+                // into deleting backing files that a transient listing may
+                // simply have failed to report.
+                QScopedValueRollback<bool> guard(m_removeFilesForRemovedRows, false);
                 m_model->removeRow(index.row());
             }
         } else {
@@ -967,32 +1130,34 @@ void FileWatcher::updateItems()
 
     t.restart();
 
-    insertItemsFromFiles(m_dir, m_fileList);
+    BaseNameExtensionsList newFiles;
+    newFiles.reserve(m_fileIndexes.size());
+    for (const auto &file : m_fileList) {
+        if (m_fileIndexes.contains(file.baseName))
+            newFiles.append(file);
+    }
+    insertItemsFromFiles(m_dir, newFiles);
 
     if ( t.elapsed() > 100 )
         qCInfo(fileWatcher) << "Items created in" << t.elapsed() << "ms";
 
     m_fileList.clear();
+    m_fileIndexes.clear();
+    m_observedFiles.clear();
     m_batchIndexData.clear();
 
     if (m_updatesEnabled)
         m_updateTimer.start(m_interval);
 }
 
-void FileWatcher::updateItemsIfNeeded()
-{
-    const auto time = QDateTime::currentMSecsSinceEpoch();
-    if (time < m_lastUpdateTimeMs + m_interval)
-        return;
-
-    updateItems();
-}
-
 void FileWatcher::setUpdatesEnabled(bool enabled)
 {
     m_updatesEnabled = enabled;
-    if (enabled)
-        updateItems();
+    if (enabled) {
+        // Focus changes must remain cheap. Reconcile after the current UI
+        // event returns so showing or switching to a large tab can paint first.
+        m_updateTimer.start(0);
+    }
     else if ( m_batchIndexData.isEmpty() )
         m_updateTimer.stop();
 }
@@ -1010,14 +1175,15 @@ void FileWatcher::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     saveItems(a.row(), b.row(), UpdateType::Changed);
 }
 
-void FileWatcher::onRowsRemoved(const QModelIndex &, int first, int last)
+void FileWatcher::onRowsAboutToBeRemoved(const QModelIndex &, int first, int last)
 {
     if (first < m_moveEnd)
         m_moveEnd -= std::min(m_moveEnd, last) - first + 1;
 
-    const bool wasFull = m_maxItems >= m_model->rowCount();
+    const bool wasFull = m_model->rowCount() >= m_maxItems;
 
-    removeFilesForRemovedIndexes(path(), indexList(first, last), /*ownOnly=*/true);
+    if (m_removeFilesForRemovedRows)
+        removeFilesForRemovedIndexes(path(), indexList(first, last), /*ownOnly=*/true);
 
     // If the tab is no longer full, try to add new files.
     if (wasFull)
@@ -1092,14 +1258,14 @@ QString FileWatcher::oldBaseName(const QModelIndex &index) const
     return index.data(contentType::data).toMap().value(mimeOldBaseName).toString();
 }
 
-void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
+bool FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
 {
     if ( items.isEmpty() )
-        return;
+        return false;
 
     const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
     if ( !m_model->insertRows(row, items.size()) )
-        return;
+        return false;
 
     // Find index if it was moved after inserted.
     const int rows = m_model->rowCount();
@@ -1115,6 +1281,8 @@ void FileWatcher::createItems(const QVector<QVariantMap> &items, int targetRow)
                 break;
         }
     }
+
+    return it == std::end(items);
 }
 
 void FileWatcher::updateIndexData(const QModelIndex &index, QVariantMap *itemData)
@@ -1281,9 +1449,24 @@ bool FileWatcher::renameMoveCopy(
             if ( !syncPath.isEmpty() ) {
                 oldBasePath = syncPath + '/' + oldBaseName;
                 if ( !copyFormatFiles(oldBasePath, newBasePath, mimeToExtension) ) {
+                    if ( !hasDetachedPayload(itemData) ) {
+                        qCWarning(fileWatcher)
+                            << "Aborting cross-tab copy of" << oldBaseName
+                            << "to" << baseName
+                            << "- source files are unavailable and no detached data exist";
+                        return false;
+                    }
+
+                    // The caller supplied an owned snapshot of the item. Save
+                    // that snapshot under the new base name instead of keeping
+                    // references to unavailable files in the source tab.
                     qCWarning(fileWatcher)
-                        << "Skipping cross-tab copy of" << oldBaseName
-                        << "to" << baseName;
+                        << "Source files unavailable while copying" << oldBaseName
+                        << "to" << baseName
+                        << "- saving detached item data";
+                    itemData.remove(mimeSyncPath);
+                    itemData.insert(mimeBaseName, baseName);
+                    updateIndexData(index, &itemData);
                     continue;
                 }
             } else if ( !olderBaseName.isEmpty() ) {
@@ -1363,42 +1546,101 @@ void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensio
     }
 }
 
-bool FileWatcher::copyFilesFromUriList(const QByteArray &uriData, int targetRow, const QSet<QString> &baseNames)
+bool FileWatcher::copyFilesFromUriList(
+    const QByteArray &uriData, int targetRow, const QSet<QString> &baseNames)
 {
     QMimeData tmpData;
     tmpData.setData(mimeUriList, uriData);
 
+    const QList<QUrl> urls = tmpData.urls();
+    if ( urls.isEmpty() || urls.size() > m_maxItems ) {
+        qCWarning(fileWatcher)
+            << "Cannot import URI list into synchronized tab: invalid item count"
+            << urls.size();
+        return false;
+    }
+
     QVector<QVariantMap> items;
+    items.reserve(urls.size());
+    QStringList copiedFiles;
 
-    for ( const auto &url : tmpData.urls() ) {
-        if ( !url.isLocalFile() )
-            continue;
+    const auto rollbackCopiedFiles = [&copiedFiles]() {
+        for (const auto &path : copiedFiles) {
+            QFile target(path);
+            if ( !retryFileOp([&target]{ return target.remove(); }, "remove", target)
+                 && target.exists() )
+            {
+                qCWarning(fileWatcher)
+                    << "Failed to roll back copied URI file" << path;
+            }
+        }
+    };
 
-        QFile f(url.toLocalFile());
+    for (const auto &url : urls) {
+        if ( !url.isLocalFile() ) {
+            qCWarning(fileWatcher)
+                << "Cannot import non-local URI into synchronized tab" << url;
+            rollbackCopiedFiles();
+            return false;
+        }
 
-        if ( !f.exists() )
-            continue;
+        QFile source(url.toLocalFile());
+        if ( !source.exists() ) {
+            qCWarning(fileWatcher)
+                << "Cannot import missing file into synchronized tab"
+                << source.fileName();
+            rollbackCopiedFiles();
+            return false;
+        }
 
         QString extName;
         QString baseName;
-        getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &extName,
-                                 m_formatSettings );
+        getBaseNameAndExtension(
+            QFileInfo(source).fileName(), &baseName, &extName, m_formatSettings);
 
-        if ( !renameToUnique(m_dir, baseNames, &baseName, m_formatSettings) )
-            continue;
+        if ( !renameToUnique(m_dir, baseNames, &baseName, m_formatSettings) ) {
+            rollbackCopiedFiles();
+            return false;
+        }
 
         const QString targetFilePath = m_dir.absoluteFilePath(baseName + extName);
-        f.copy(targetFilePath);
-        Ext ext;
-        if ( getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext, m_dir) ) {
-            BaseNameExtensions baseNameExts(baseName, {ext});
-            const QVariantMap item = itemDataFromFiles(m_dir, baseNameExts);
-            items.append(item);
-            if (items.size() >= m_maxItems)
-                break;
+        if ( !retryFileOp(
+                 [&source, &targetFilePath]{ return source.copy(targetFilePath); },
+                 "copy", source) )
+        {
+            qCWarning(fileWatcher)
+                << "Failed to copy URI file" << source.fileName()
+                << "to" << targetFilePath << "-" << source.errorString();
+            QFile::remove(targetFilePath);
+            rollbackCopiedFiles();
+            return false;
         }
+        copiedFiles.append(targetFilePath);
+
+        Ext ext;
+        if ( !getBaseNameExtension(
+                 targetFilePath, m_formatSettings, &baseName, &ext, m_dir) )
+        {
+            qCWarning(fileWatcher)
+                << "Copied URI file has no supported synchronized format"
+                << targetFilePath;
+            rollbackCopiedFiles();
+            return false;
+        }
+
+        BaseNameExtensions baseNameExts(baseName, {ext});
+        const QVariantMap item = itemDataFromFiles(m_dir, baseNameExts);
+        if ( item.isEmpty() ) {
+            qCWarning(fileWatcher)
+                << "Failed to read copied URI file" << targetFilePath;
+            rollbackCopiedFiles();
+            return false;
+        }
+        items.append(item);
     }
 
-    createItems(items, targetRow);
-    return !items.isEmpty();
+    // If model insertion fails, keep both the original URI item and the copied
+    // files. The watcher can recover the files later; deleting either side
+    // would turn an insertion failure into data loss.
+    return createItems(items, targetRow);
 }

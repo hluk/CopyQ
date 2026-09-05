@@ -938,7 +938,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 bool MainWindow::focusNextPrevChild(bool next)
 {
-    auto c = browser();
+    auto c = browserOrNull();
     if (!c)
         return false;
 
@@ -1337,13 +1337,23 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
     if ( !command.cmd.isEmpty() ) {
         if (command.transform) {
             for (const auto &index : selected) {
-                auto actionData = selectionData(*c, index, {index});
+                QString errorString;
+                auto actionData = selectionData(*c, index, {index}, &errorString);
+                if ( !errorString.isEmpty() ) {
+                    showError(errorString);
+                    return;
+                }
                 if ( !triggeredShortcut.isEmpty() )
                     actionData.insert(mimeShortcut, triggeredShortcut);
                 action(actionData, command, index);
             }
         } else {
-            auto actionData = selectionData(*c);
+            QString errorString;
+            auto actionData = selectionData(*c, &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
             if ( !triggeredShortcut.isEmpty() )
                 actionData.insert(mimeShortcut, triggeredShortcut);
             action(actionData, command, QModelIndex());
@@ -1352,17 +1362,49 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
 
     if ( !command.tab.isEmpty() && command.tab != c->tabName() ) {
         auto c2 = tab(command.tab);
-        if (c2) {
-            for (int i = selected.size() - 1; i >= 0; --i) {
-                const auto data = c->copyIndex(selected[i]);
-                if ( !data.isEmpty() )
-                    c2->addUnique(data, ClipboardMode::Clipboard);
+        if (!c2) {
+            showError( tr("Target tab %1 is not available.").arg(quoteString(command.tab)) );
+            return;
+        }
+
+        QVector<QVariantMap> copiedItems;
+        copiedItems.reserve(selected.size());
+        for (int i = selected.size() - 1; i >= 0; --i) {
+            QString errorString;
+            const auto data = c->copyIndex(selected[i], &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
+            copiedItems.append(data);
+        }
+
+        for (const auto &data : copiedItems) {
+            if ( !c2->addUnique(data, ClipboardMode::Clipboard) ) {
+                showError(
+                    tr("Failed to add copied items to tab %1. "
+                       "The source items were left unchanged.")
+                    .arg(quoteString(command.tab)) );
+                return;
             }
         }
     }
 
-    if ( command.remove && (command.tab.isEmpty() || command.tab != c->tabName()) )
+    if ( command.remove && (command.tab.isEmpty() || command.tab != c->tabName()) ) {
+        // A remove-only command has no action or destination path that would
+        // otherwise materialize lazy synchronized data. Verify ownership
+        // before deleting so an unreadable backing file cannot be discarded as
+        // though it had been copied successfully.
+        if (command.cmd.isEmpty() && command.tab.isEmpty()) {
+            QString errorString;
+            c->copyIndexes(selected, &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
+        }
         c->removeIndexes(selected);
+    }
 
     if (command.hideWindow)
         hideWindow();
@@ -2055,7 +2097,7 @@ bool MainWindow::isWindowVisible() const
 void MainWindow::onEscape()
 {
     if ( browseMode() ) {
-        auto c = browser();
+        auto c = browserOrNull();
         if (c && !c->hasFocus()) {
             enterBrowseMode();
             return;
@@ -2499,7 +2541,14 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
         tabs.append(oldTabName);
     }
 
-    const ImportSelection importSelection = getImportSelection(data, options, this);
+    // V3 stores complete tab maps in the metadata, while newer formats store
+    // only tab names there and stream the tab payloads separately. Normalize
+    // the metadata before opening the shared selection dialog so it receives
+    // the actual names instead of trying to convert QVariantMap values to
+    // strings.
+    QVariantMap selectionData = data;
+    selectionData[QStringLiteral("tabs")] = tabs;
+    const ImportSelection importSelection = getImportSelection(selectionData, options, this);
     if (!canImport(importSelection))
         return false;
 
@@ -2507,7 +2556,7 @@ bool MainWindow::importDataV3(QDataStream *in, ImportOptions options)
     for (const auto &tabMapValue : tabsList) {
         const auto tabMap = tabMapValue.toMap();
         const auto oldTabName = tabMap["name"].toString();
-        if ( !tabs.contains(oldTabName) )
+        if ( !importSelection.tabs.contains(oldTabName) )
             continue;
 
         if ( !importTabData(oldTabName, tabMap, tabProps, {}) )
@@ -2864,7 +2913,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *ev)
     const auto translate = (m_options.navigationStyle == NavigationStyle::Vi)
         ? translateToVi : translateToEmacs;
 
-    if (object == this || object == browser()) {
+    if (object == this || object == browserOrNull()) {
         const KeyMods keyMods = translate({key, modifiers});
         if ( hadleKeyOverride(object, ev, keyMods) )
             return true;
@@ -2911,7 +2960,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    auto c = browser();
+    auto c = browserOrNull();
     if (c && c->isInternalEditorOpen())
         return;
 
@@ -3239,18 +3288,31 @@ void MainWindow::showWindow()
 
     moveToCurrentWorkspace(this);
 
-    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) )
+    if ( !isGeometryGuardBlockedUntilHidden(this) && (m_wasMaximized || isMaximized()) ) {
         showMaximized();
-    else
+    } else if (isMinimized()) {
+        // Restoring a minimized window requires clearing the minimized state.
         showNormal();
+    } else {
+        // Showing a hidden or inactive normal window is only a visibility
+        // transition. Calling showNormal() here also rewrites the native window
+        // state, which can make X11 window managers place the window again on
+        // every toggle (issue #3643).
+        show();
+    }
 
     ensureWindowOnScreen(this);
 
-    auto c = browser();
+    // Do not force-load an expired or not-yet-created large tab while the
+    // window-show event is still on the stack. The visible placeholder queues
+    // creation and onBrowserLoaded() completes focus and tab setup.
+    auto c = browserOrNull();
     if (c) {
         if ( !c->isInternalEditorOpen() )
             c->scrollTo( c->currentIndex() );
         c->setFocus();
+    } else if (auto placeholder = getPlaceholder()) {
+        placeholder->setFocus();
     }
 
     raiseWindow(this);
@@ -3268,7 +3330,7 @@ void MainWindow::hideWindow()
     // is closed.
     if ( !browseMode() ) {
         enterBrowseMode();
-        auto c = browser();
+        auto c = browserOrNull();
         if (c)
             c->setCurrent(0);
     }
@@ -3407,8 +3469,10 @@ void MainWindow::tabChanged(int current, int)
     emit tabGroupSelected(currentIsTabGroup);
 
     if (!currentIsTabGroup) {
-        // update item menu (necessary for keyboard shortcuts to work)
-        auto c = browser();
+        // Do not construct an unloaded tab inside the currentChanged signal.
+        // The placeholder queues loading and onBrowserLoaded() re-enters this
+        // method once the browser is ready.
+        auto c = browserOrNull();
         if (c) {
             c->filterItems( browseMode() ? nullptr : ui->searchBar->filter() );
 
@@ -4351,7 +4415,13 @@ void MainWindow::copyItems()
     if ( indexes.isEmpty() )
         return;
 
-    const auto data = c->copyIndexes(indexes);
+    QString errorString;
+    const auto data = c->copyIndexes(indexes, &errorString);
+    if ( !errorString.isEmpty() ) {
+        showError(errorString);
+        return;
+    }
+
     setClipboard(data);
 }
 

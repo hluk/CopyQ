@@ -32,9 +32,11 @@ void ItemSaverWrapper::itemsRemovedByUser(const QList<QPersistentModelIndex> &in
     return m_saver->itemsRemovedByUser(indexList);
 }
 
-QVariantMap ItemSaverWrapper::copyItem(const QAbstractItemModel &model, const QVariantMap &itemData)
+bool ItemSaverWrapper::copyItem(
+    const QAbstractItemModel &model, const QVariantMap &itemData,
+    QVariantMap *copiedItemData, QString *error)
 {
-    return m_saver->copyItem(model, itemData);
+    return m_saver->copyItem(model, itemData, copiedItemData, error);
 }
 
 void ItemSaverWrapper::setFocus(bool focus)

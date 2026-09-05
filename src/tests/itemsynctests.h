@@ -47,9 +47,12 @@ private slots:
     void addItemsWhenFull();
 
     void addItemsWhenFullOmitDeletingNotOwned();
+    void prioritizeNewFilesWhenItemLimitIsReached();
 
     void moveOwnItemsSortsBaseNames();
     void moveOwnItemsKeepsLargeTextData();
+    void moveLargeItemsToNonSyncTabKeepsData();
+    void removeCommandLeavesUnreadableItem();
 
     void avoidDuplicateItemsAddedFromClipboard();
 
@@ -58,6 +61,7 @@ private slots:
     void sortItems();
 
     void copyFiles();
+    void copyFilesFromUriListIsAllOrNothing();
 
     void encryptionShouldNotAffectFiles();
 

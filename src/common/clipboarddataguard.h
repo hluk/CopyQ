@@ -33,6 +33,8 @@ public:
     QImage getImageData();
     QByteArray getUtf8Data(const QString &format);
     bool isExpired();
+    bool hasFailed() const { return m_failed; }
+    bool imageWasOmitted() const { return m_imageWasOmitted; }
     const QMimeData *mimeData();
 
 private:
@@ -41,4 +43,6 @@ private:
     const long int *m_clipboardSequenceNumber;
     long int m_clipboardSequenceNumberOriginal;
     QMetaObject::Connection m_connection;
+    bool m_failed = false;
+    bool m_imageWasOmitted = false;
 };

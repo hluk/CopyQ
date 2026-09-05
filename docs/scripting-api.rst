@@ -1565,13 +1565,13 @@ unlike in GUI, where row numbers start from 1 by default.
 
    .. code-block:: js
 
-       if (!hasData()) {
-           updateClipboardData();
-       } else if (runAutomaticCommands()) {
-           saveData();
-           updateClipboardData();
-       } else {
+       if (!runAutomaticCommands()) {
            clearClipboardData();
+       } else {
+           if (hasData()) {
+               saveData();
+           }
+           updateClipboardData();
        }
 
 .. js:function:: onOwnClipboardChanged()

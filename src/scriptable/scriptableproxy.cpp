@@ -1875,7 +1875,8 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
     widgets.reserve(values.items.size());
 
     QString styleSheet;
-    QRect geometry(-1, -1, 0, 0);
+    QPoint position(-1, -1);
+    QSize requestedSize;
 
     auto area = new QScrollArea(&dialog);
     area->setFocusPolicy(Qt::NoFocus);
@@ -1896,13 +1897,13 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
         else if (value.name == ".style")
             styleSheet = value.value.toString();
         else if (value.name == ".height")
-            geometry.setHeight( pointsToPixels(value.value.toInt()) );
+            requestedSize.setHeight( pointsToPixels(value.value.toInt()) );
         else if (value.name == ".width")
-            geometry.setWidth( pointsToPixels(value.value.toInt()) );
+            requestedSize.setWidth( pointsToPixels(value.value.toInt()) );
         else if (value.name == ".x")
-            geometry.setX(value.value.toInt());
+            position.setX(value.value.toInt());
         else if (value.name == ".y")
-            geometry.setY(value.value.toInt());
+            position.setY(value.value.toInt());
         else if (value.name == ".label")
             createAndSetWidget<QLabel>("text", value.value, parent);
         else if (value.name == ".defaultChoice")
@@ -1921,31 +1922,34 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
         WindowGeometryGuard::create(&dialog);
     }
 
-    // WORKAROUND for broken initial focus in Qt 6.6 (QTBUG-121514)
-    if (!widgets.isEmpty())
-        widgets.first()->setFocus();
-
-    if (geometry.height() == 0)
-        geometry.setHeight(dialog.height());
-    if (geometry.width() == 0)
-        geometry.setWidth(dialog.width());
-
-    if (geometry.isValid())
-        dialog.resize(geometry.size());
-    else
-        dialog.adjustSize();
-
-    if (geometry.x() >= 0 && geometry.y() >= 0)
-        dialog.move(geometry.topLeft());
-
-    if ( !styleSheet.isEmpty() )
-        dialog.setStyleSheet(styleSheet);
-
     auto buttons = new QDialogButtonBox(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     QObject::connect( buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
     QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
     dialog.layout()->addWidget(buttons);
+
+    if ( !styleSheet.isEmpty() )
+        dialog.setStyleSheet(styleSheet);
+
+    // Size the complete, styled dialog. Previously, missing dimensions were
+    // replaced with dialog.width()/height() before the button box was added and
+    // before the layout had computed the contents' size. This made the default
+    // size depend on the widget's provisional geometry instead of its controls.
+    dialog.adjustSize();
+    QSize dialogSize = dialog.size();
+    if (requestedSize.width() > 0)
+        dialogSize.setWidth(requestedSize.width());
+    if (requestedSize.height() > 0)
+        dialogSize.setHeight(requestedSize.height());
+    if (dialogSize != dialog.size())
+        dialog.resize(dialogSize);
+
+    if (position.x() >= 0 && position.y() >= 0)
+        dialog.move(position);
+
+    // WORKAROUND for broken initial focus in Qt 6.6 (QTBUG-121514)
+    if (!widgets.isEmpty())
+        widgets.first()->setFocus();
 
     installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Enter).toCombined());
     installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Return).toCombined());

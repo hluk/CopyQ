@@ -19,8 +19,59 @@
 - Fixed null characters in concatenated selected items breaking paste in
   other applications.
 
+- Remove temporary image files after drag-and-drop completes.
+
 - Handle possible file operation errors and locks when synchronizing items to
   files on disk and shared storage (#3368, #3579).
+
+- Preserve synchronized item data when copying or moving large items out of a
+  synchronized tab, and cancel activation, transfer, or removal commands when
+  backing files cannot be read so the source remains untouched (#3622).
+
+- Prevent filesystem reconciliation from turning transient missing-file
+  observations into deletion of synchronized backing files.
+
+- Keep the highest-priority synchronized files visible when a directory has
+  more items than the tab limit, without deleting files that fall outside the
+  visible set.
+
+- Keep URI-list imports into synchronized tabs all-or-nothing so a failed file
+  copy cannot discard the original item or silently import only a subset.
+
+- Save synchronized item files through atomic replacement so a failed or
+  partial write retains the previous complete file.
+
+- Run automatic commands for whitespace-only clipboard data before treating
+  it as empty, allowing commands to ignore CRLF-only clipboard changes (#3654).
+
+- Defer synchronized-tab reconciliation until after focus changes and match
+  model rows to backing files in linear rather than quadratic time.
+
+- Keep the last valid clipboard snapshot when Windows temporarily locks the
+  clipboard or advertises an image that cannot yet be materialized, and retry
+  the read without publishing a false `<EMPTY>` state (#3613).
+
+- Keep animated WebP data intact when activating an item while also exposing
+  its first frame as a generic image fallback for applications without WebP
+  clipboard support (#3661).
+
+- Do not treat removal of CopyQ's private clipboard-owner marker as new
+  clipboard content, preventing pasted items from moving to the top when the
+  corresponding history option is disabled (#3646).
+
+- Keep application shortcut defaults independent of translated key names so
+  AppImage builds retain shortcuts even when matching Qt translation catalogs
+  are unavailable (#3649).
+
+- Avoid reapplying the normal window state whenever the main window is shown,
+  preventing some X11 window managers from cascading its position on each
+  toggle (#3643).
+
+- Keep item tags within the attainable item width so right-aligned tags remain
+  visible when the main window is wider than the maximum item width (#3013).
+
+- Display the actual tab names and respect the selected-tab list when importing
+  legacy v3 archives instead of importing every tab contained in the backup.
 
 - Avoids potential crash on fetching very large data in clipboard.
 

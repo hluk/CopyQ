@@ -26,9 +26,12 @@ void addSelectionData(
 QVariantMap selectionData(
         const ClipboardBrowser &c,
         const QModelIndex &currentIndex,
-        const QModelIndexList &selectedIndexes)
+        const QModelIndexList &selectedIndexes,
+        QString *error)
 {
-    auto result = c.copyIndexes(selectedIndexes);
+    auto result = c.copyIndexes(selectedIndexes, error);
+    if (error && !error->isEmpty())
+        return {};
 
     result.insert(mimeCurrentTab, c.tabName());
 
@@ -44,9 +47,9 @@ QVariantMap selectionData(
     return result;
 }
 
-QVariantMap selectionData(const ClipboardBrowser &c)
+QVariantMap selectionData(const ClipboardBrowser &c, QString *error)
 {
     const QModelIndexList selectedIndexes = c.selectionModel()->selectedIndexes();
     const auto current = c.selectionModel()->currentIndex();
-    return selectionData(c, current, selectedIndexes);
+    return selectionData(c, current, selectedIndexes, error);
 }

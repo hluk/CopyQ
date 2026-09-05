@@ -92,9 +92,9 @@ class ClipboardBrowser final : public QListView
          */
         void keyboardSearch(const QString &text) override;
 
-        QVariantMap copyIndex(const QModelIndex &index) const;
+        QVariantMap copyIndex(const QModelIndex &index, QString *error = nullptr) const;
 
-        QVariantMap copyIndexes(const QModelIndexList &indexes) const;
+        QVariantMap copyIndexes(const QModelIndexList &indexes, QString *error = nullptr) const;
 
         void removeIndexes(const QModelIndexList &indexes, QString *error = nullptr);
 
@@ -128,7 +128,7 @@ class ClipboardBrowser final : public QListView
         /**
          * Add item and remove duplicates.
          */
-        void addUnique(const QVariantMap &data, ClipboardMode mode);
+        bool addUnique(const QVariantMap &data, ClipboardMode mode);
 
         void setItemsData(const QMap<QPersistentModelIndex, QVariantMap> &itemsData);
 
