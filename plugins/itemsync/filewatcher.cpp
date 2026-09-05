@@ -144,27 +144,51 @@ public:
         return QStringLiteral("%1\n%2").arg(m_path, m_format);
     }
 
+    bool tryReadAll(QByteArray *bytes, int retryCount) const
+    {
+        Q_ASSERT(bytes);
+
+        const int attempts = 1 + retryCount;
+        QString lastError;
+        for (int attempt = 0; attempt < attempts; ++attempt) {
+            QFile f(m_path);
+            if ( !f.open(QIODevice::ReadOnly) ) {
+                lastError = f.errorString();
+            } else if ( m_format.isEmpty() ) {
+                const QByteArray result = f.readAll();
+                if (f.error() == QFileDevice::NoError) {
+                    *bytes = result;
+                    return true;
+                }
+                lastError = f.errorString();
+            } else {
+                QDataStream stream(&f);
+                QVariantMap dataMap;
+                if ( deserializeData(&stream, &dataMap) && dataMap.contains(m_format) ) {
+                    *bytes = dataMap.value(m_format).toByteArray();
+                    return true;
+                }
+                lastError = QStringLiteral("incomplete or invalid synchronized item data");
+            }
+
+            if (attempt + 1 < attempts) {
+                qCDebug(fileWatcher)
+                    << "Retrying read of" << m_path
+                    << "(attempt" << (attempt + 2) << "of" << attempts << ")"
+                    << lastError;
+                QThread::msleep(fileOpRetryDelayMs);
+            }
+        }
+
+        logFailedToOpenForReading(m_path, lastError);
+        return false;
+    }
+
     QByteArray readAll() const
     {
-        QFile f(m_path);
-        const bool opened = retryFileOp([&f]{ return f.open(QIODevice::ReadOnly); }, "open for reading", f, /*retryCount=*/0);
-        if (!opened) {
-            logFailedToOpenForReading(m_path, f.errorString());
-            return QByteArray();
-        }
-
-        if ( m_format.isEmpty() )
-            return f.readAll();
-
-        QDataStream stream(&f);
-        QVariantMap dataMap;
-        if ( !deserializeData(&stream, &dataMap) ) {
-            qCCritical(fileWatcher)
-                << "Failed to read file" << m_path << f.errorString();
-            return QByteArray();
-        }
-
-        return dataMap.value(m_format).toByteArray();
+        QByteArray bytes;
+        tryReadAll(&bytes, /*retryCount=*/0);
+        return bytes;
     }
 
     bool operator==(const SyncDataFile &other) const {
@@ -198,6 +222,33 @@ void registerSyncDataFileConverter()
     QMetaType::registerConverter(&SyncDataFile::readAll);
     QMetaType::registerConverter(&SyncDataFile::toString);
     qRegisterMetaType<SyncDataFile>("SyncDataFile");
+}
+
+bool FileWatcher::materializeItemDataForCopy(QVariantMap *data, QString *error)
+{
+    Q_ASSERT(data);
+
+    QVariantMap detached = *data;
+    const int syncDataFileType = qMetaTypeId<SyncDataFile>();
+    for (auto it = detached.begin(); it != detached.end(); ++it) {
+        if (it.value().typeId() != syncDataFileType)
+            continue;
+
+        const SyncDataFile source = it.value().value<SyncDataFile>();
+        QByteArray bytes;
+        if ( !source.tryReadAll(&bytes, maxFileOpRetries) ) {
+            if (error) {
+                *error = QStringLiteral("Failed to read synchronized item data from %1")
+                    .arg(source.path());
+            }
+            return false;
+        }
+
+        it.value() = bytes;
+    }
+
+    *data = detached;
+    return true;
 }
 
 struct Ext {

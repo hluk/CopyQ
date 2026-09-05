@@ -868,6 +868,72 @@ void ItemSyncTests::moveOwnItemsKeepsLargeTextData()
     RUN(args << "getItem(0)[mimeText].length + ',' + getItem(1)[mimeText].length", "4096,3072\n");
 }
 
+void ItemSyncTests::moveLargeItemsWithCommandKeepsData()
+{
+    TestDir syncDir(1);
+    const QString syncTab = testTab(1);
+    const QString localTab = QString(clipboardTabName);
+    const Args syncArgs = Args() << "tab" << syncTab;
+    const Args localArgs = Args() << "tab" << localTab;
+
+    RUN("config" << "tab_tree" << "true", "true\n");
+    RUN("config" << "show_simple_items" << "true", "true\n");
+    RUN("show" << syncTab, "");
+    RUN(syncArgs << "add('A'.repeat(4096), 'B'.repeat(3072));"
+                    "read(0).length + ',' + read(1).length", "3072,4096\n");
+    QCOMPARE(syncDir.files().size(), 2);
+
+    // Force both payloads through the lazy SyncDataFile representation.
+    RUN("unload" << syncTab, "");
+    RUN(syncArgs << "read(0).length + ',' + read(1).length", "3072,4096\n");
+    RUN(syncArgs << "selectItems" << "0" << "1", "true\n");
+    RUN("setCurrentTab" << syncTab, "");
+
+    // Exercise the cross-tab command path. The source is removed only after
+    // the ordinary destination accepts a self-contained payload.
+    RUN(QStringLiteral(
+        "setCommands([{name:'Move lazy items',inMenu:true,"
+        "shortcuts:['Ctrl+F1'],tab:'%1',remove:true}])").arg(localTab), "");
+    KEYS("CTRL+F1");
+
+    WAIT_ON_OUTPUT(syncArgs << "size", "0\n");
+    QCOMPARE(syncDir.files().size(), 0);
+    RUN(localArgs << "read(0) == 'B'.repeat(3072) && read(1) == 'A'.repeat(4096)", "true\n");
+
+    // Reload after source destruction to prove the destination owns bytes
+    // rather than dangling references into the synchronized directory.
+    RUN("unload" << localTab, localTab + "\n");
+    RUN(localArgs << "read(0) == 'B'.repeat(3072) && read(1) == 'A'.repeat(4096)", "true\n");
+}
+
+void ItemSyncTests::moveCommandKeepsSourceOnCopyFailure()
+{
+    const QString sourceTab = QStringLiteral("COPY_FAILURE");
+    const QString localTab = QString(clipboardTabName);
+    const Args sourceArgs = Args() << "tab" << sourceTab;
+    const Args localArgs = Args() << "tab" << localTab;
+
+    RUN("show" << sourceTab, "");
+    RUN(sourceArgs << "add" << "SOURCE", "");
+    RUN(sourceArgs << "read(0)", "SOURCE");
+    RUN("show" << localTab, "");
+    RUN("unload" << sourceTab, sourceTab + "\n");
+    RUN(QStringLiteral(
+        "callPlugin('itemtests', 'failNextItemCopy'); show('%1')").arg(sourceTab), "");
+    RUN(sourceArgs << "selectItems" << "0", "true\n");
+    RUN("setCurrentTab" << sourceTab, "");
+    RUN(QStringLiteral(
+        "setCommands([{name:'Move failed item',inMenu:true,"
+        "shortcuts:['Ctrl+F1'],tab:'%1',remove:true}])").arg(localTab), "");
+    KEYS("CTRL+F1");
+
+    WAIT_ON_OUTPUT(sourceArgs << "size", "1\n");
+    RUN("show" << localTab, "");
+    RUN("unload" << sourceTab, sourceTab + "\n");
+    RUN(sourceArgs << "read(0)", "SOURCE");
+    RUN(localArgs << "size", "0\n");
+}
+
 void ItemSyncTests::avoidDuplicateItemsAddedFromClipboard()
 {
     TestDir dir1(1);

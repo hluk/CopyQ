@@ -52,7 +52,11 @@ public:
 
     void itemsRemovedByUser(const QList<QPersistentModelIndex> &indexList) override;
 
-    QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData) override;
+    bool copyItem(
+        const QAbstractItemModel &model,
+        const QVariantMap &itemData,
+        QVariantMap *copiedItemData,
+        QString *error) override;
 
     void setFocus(bool focus) override;
 

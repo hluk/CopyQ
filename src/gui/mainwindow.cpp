@@ -1352,11 +1352,30 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
 
     if ( !command.tab.isEmpty() && command.tab != c->tabName() ) {
         auto c2 = tab(command.tab);
-        if (c2) {
-            for (int i = selected.size() - 1; i >= 0; --i) {
-                const auto data = c->copyIndex(selected[i]);
-                if ( !data.isEmpty() )
-                    c2->addUnique(data, ClipboardMode::Clipboard);
+        if (!c2) {
+            showError( tr("Target tab %1 is not available.").arg(quoteString(command.tab)) );
+            return;
+        }
+
+        QVector<QVariantMap> copiedItems;
+        copiedItems.reserve(selected.size());
+        for (int i = selected.size() - 1; i >= 0; --i) {
+            QString errorString;
+            const auto data = c->copyIndex(selected[i], &errorString);
+            if ( !errorString.isEmpty() ) {
+                showError(errorString);
+                return;
+            }
+            copiedItems.append(data);
+        }
+
+        for (const auto &data : copiedItems) {
+            if ( !c2->addUnique(data, ClipboardMode::Clipboard) ) {
+                showError(
+                    tr("Failed to add copied items to tab %1. "
+                       "The source items were left unchanged.")
+                    .arg(quoteString(command.tab)) );
+                return;
             }
         }
     }
@@ -4351,7 +4370,13 @@ void MainWindow::copyItems()
     if ( indexes.isEmpty() )
         return;
 
-    const auto data = c->copyIndexes(indexes);
+    QString errorString;
+    const auto data = c->copyIndexes(indexes, &errorString);
+    if ( !errorString.isEmpty() ) {
+        showError(errorString);
+        return;
+    }
+
     setClipboard(data);
 }
 
