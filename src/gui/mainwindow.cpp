@@ -95,6 +95,7 @@ Q_LOGGING_CATEGORY(logCategory, "copyq.wnd")
 
 const int contextMenuUpdateIntervalMsec = 100;
 const int itemPreviewUpdateIntervalMsec = 100;
+const int showWindowGracePeriodMsec = 1000;
 
 constexpr auto dataStreamImportVersionDefault = QDataStream::Qt_4_7;
 constexpr auto dataStreamImportVersionForV5 = QDataStream::Qt_5_15;
@@ -2722,10 +2723,19 @@ void MainWindow::enableHideWindowOnUnfocus()
 
 void MainWindow::hideWindowIfNotActive()
 {
-    if ( isVisible() && !hasDialogOpen(this) && !isAnyApplicationWindowActive() ) {
-        COPYQ_LOG("Auto-hiding unfocused main window");
-        hideWindow();
+    if ( !isVisible() || hasDialogOpen(this) || isAnyApplicationWindowActive() )
+        return;
+
+    if ( m_showWindowTime.isValid() && m_showWindowTime.elapsed() <= showWindowGracePeriodMsec ) {
+        // Window lost focus during the show grace period. Recheck after it expires
+        // so the window doesn't stay open and unfocused indefinitely.
+        const int remaining = showWindowGracePeriodMsec - m_showWindowTime.elapsed() + 100;
+        m_timerHideWindowIfNotActive.start(remaining);
+        return;
     }
+
+    COPYQ_LOG("Auto-hiding unfocused main window");
+    hideWindow();
 }
 
 void MainWindow::hideWindowOnUnfocus(int intervalMsec)
@@ -3232,6 +3242,13 @@ void MainWindow::showWindow()
     if ( isWindowVisible() )
         return;
 
+    // Record show time so hideWindowIfNotActive() can apply a grace period.
+    // Transient WindowDeactivate events during the show/raise process
+    // (e.g. another app holds focus) must not trigger close-on-unfocus.
+    m_showWindowTime.start();
+
+    COPYQ_LOG("Showing main window");
+
     m_trayMenu->close();
     m_menu->close();
 
@@ -3295,8 +3312,11 @@ bool MainWindow::toggleVisible()
 
 void MainWindow::toggleVisibleFromTray()
 {
-    if (!isMinimized() && isVisible()) {
+    if (!isMinimized() && isVisible() && (m_isActiveWindow || !m_options.closeOnUnfocus)) {
         hideWindow();
+    } else if (!isMinimized() && isVisible()) {
+        COPYQ_LOG("Tray toggle: reactivating deactivated window");
+        showWindow();
     } else {
         showWindow();
     }
