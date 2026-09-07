@@ -6,11 +6,21 @@ class QString;
 
 bool ensureSettingsDirectoryExists();
 
-const QString &getConfigurationFilePath();
+const QString &configurationFilePath();
 
-QString getConfigurationFilePath(const char *suffix);
+QString configurationFilePath(const char *suffix);
 
 const QString &settingsDirectoryPath();
+
+QString itemDataPath();
+
+QString tabDataFileBasePath();
+
+QString statePath();
+
+QString stateFilePath(const char *suffix);
+
+bool ensureStateDirectoryExists();
 
 /**
  * Returns the path to launch CopyQ from outside the current process.

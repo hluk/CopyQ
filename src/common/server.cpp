@@ -25,7 +25,7 @@ bool serverIsRunning(const QString &serverName)
 
 QString lockFilePath()
 {
-    const QString lockFilePath = getConfigurationFilePath(".lock");
+    const QString lockFilePath = configurationFilePath(".lock");
 
     // Ensure parent dir exists.
     const QString path = QDir::cleanPath( lockFilePath + QLatin1String("/..") );

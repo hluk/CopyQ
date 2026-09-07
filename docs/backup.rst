@@ -18,40 +18,76 @@ To install the command see `the description in the repository
 Back Up Manually
 ----------------
 
-To back up all the data, **exit the application** first and **copy
-the configuration directory** and **the data directory**.
+To back up all the data, **exit the application** first and copy
+the configuration, data and state directories.
 
-Path to the configuration is usually:
+.. versionchanged:: 17.0.0
+   Tab data and state files were previously stored in the configuration
+   directory. They are migrated automatically on first startup.
 
--  Windows: ``%APPDATA%\copyq``
--  Portable version for Windows: ``config`` sub-folder in unzipped
-   application directory
--  Linux: ``~/.config/copyq``
+Default paths since version 17.0.0:
 
-Path to the data is usually:
+.. list-table::
+   :header-rows: 1
 
--  Windows: ``%APPDATA%\copyq\items``
--  Portable version for Windows: ``items`` sub-folder in unzipped
-   application directory
--  Linux: ``~/.local/share/copyq/copyq/items``
+   * - Platform
+     - Configuration
+     - Data
+     - State
+   * - Linux
+     - ``~/.config/copyq``
+     - ``~/.local/share/copyq``
+     - ``~/.local/state/copyq``
+   * - macOS
+     - ``~/Library/Preferences/copyq``
+     - ``~/Library/Application Support/copyq``
+     - ``~/Library/Application Support/copyq``
+   * - Windows
+     - ``%APPDATA%\copyq``
+     - ``%LOCALAPPDATA%\copyq``
+     - ``%LOCALAPPDATA%\copyq``
+   * - Windows (portable)
+     - ``config``
+     - ``config``
+     - ``config``
 
-To copy the configuration path to clipboard from CopyQ:
+Default paths before version 17.0.0:
 
-1. Open Action dialog (``F5`` shortcut).
-2. Enter the command:
+.. list-table::
+   :header-rows: 1
+
+   * - Platform
+     - Configuration, tab data, state
+     - Item data
+     - Logs
+   * - Linux
+     - ``~/.config/copyq``
+     - ``~/.local/share/copyq/items``
+     - ``~/.local/share/copyq``
+   * - macOS
+     - ``~/Library/Preferences/copyq``
+     - ``~/Library/Application Support/copyq/items``
+     - ``~/Library/Application Support/copyq``
+   * - Windows
+     - ``%APPDATA%\copyq``
+     - ``%APPDATA%\copyq\items``
+     - ``%APPDATA%\copyq``
+   * - Windows (portable)
+     - ``config``
+     - ``config\items``
+     - ``logs``
+
+To copy a directory path to clipboard:
 
 .. code-block:: js
 
     copyq:
-    dir = Dir(info('config') + '/..')
-    copy(dir.absolutePath())
+    copy(Dir(info('config') + '/..').absolutePath())
 
-3. Click OK dialog button.
-
-To copy the data path, change ``'config'`` to ``'data'``.
+Replace ``'config'`` with ``'data'`` or ``'state'`` for the other directories.
 
 To restore the backup, exit the application and replace the
-configuration directory.
+directories.
 
 .. warning::
 

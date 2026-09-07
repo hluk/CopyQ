@@ -143,7 +143,7 @@ void CoreTests::dragNDropTreeTabPartialRenameFailure()
     // Plant a blocker file at the destination path for 'b/a/y'.
     // QFile::copy() will refuse to overwrite the existing file, making
     // moveItems() fail for that one tab while 'a/x' -> 'b/a/x' succeeds.
-    const QString blockerPath = getConfigurationFilePath("_tab_")
+    const QString blockerPath = tabDataFileBasePath()
         + QString::fromUtf8(QByteArray("b/a/y").toBase64()).replace('/', '-')
         + QStringLiteral(".dat");
     QVERIFY(QFile(blockerPath).open(QIODevice::WriteOnly));
@@ -187,7 +187,7 @@ void CoreTests::dragNDropTreeTabKeepsCollapsedState()
     WAIT_ON_OUTPUT("tab", "a/b\na/c\nx\nCLIPBOARD\n");
 
     // Stop the server, inject collapsed state for group 'a', and restart.
-    const QString tabsIniPath = getConfigurationFilePath("_tabs.ini");
+    const QString tabsIniPath = stateFilePath("_tabs.ini");
     TEST( m_test->stopServer() );
     {
         QSettings settings(tabsIniPath, QSettings::IniFormat);

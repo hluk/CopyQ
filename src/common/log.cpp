@@ -2,6 +2,8 @@
 
 #include "log.h"
 
+#include "common/config.h"
+
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDir>
@@ -9,8 +11,6 @@
 #include <QString>
 #include <QtGlobal>
 #include <QVariant>
-
-#include <QStandardPaths>
 
 namespace {
 
@@ -131,10 +131,10 @@ QFileInfoList logFileNames()
 QString getDefaultLogFilePath()
 {
     const QString dir = qEnvironmentVariable("COPYQ_LOG_DIR");
-    if (!dir.isEmpty()) {
+    if (!dir.isEmpty())
         return dir;
-    }
-    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+
+    return statePath() + QLatin1String("/logs");
 }
 
 const QString &logFileName()

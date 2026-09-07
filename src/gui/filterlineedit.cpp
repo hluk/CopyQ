@@ -311,7 +311,7 @@ private:
 class FilterHistory final {
 public:
     FilterHistory()
-        : m_settings( getConfigurationFilePath("-filter.ini"), QSettings::IniFormat )
+        : m_settings( stateFilePath("-filter.ini"), QSettings::IniFormat )
     {
     }
 
