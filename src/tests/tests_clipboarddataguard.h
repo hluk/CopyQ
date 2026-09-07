@@ -16,6 +16,12 @@ private slots:
     void badAllocImageData();
     void badAllocGetUtf8Data();
     void normalDataStillWorks();
+    void failedImageReadIsIncomplete();
+    void validImageReadIsComplete();
+    void emptyTextDoesNotHideImage();
+    void textSuppressesImageRead();
+    void omittedImageReadIsComplete();
+    void emptyTextReadIsComplete();
     void overflowTreatedAsNoLimit();
     void emptyRulesIgnored();
     void negativeValueMeansNoLimit();

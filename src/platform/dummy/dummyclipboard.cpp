@@ -2,6 +2,7 @@
 
 #include "dummyclipboard.h"
 
+#include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -9,6 +10,8 @@
 #include <QGuiApplication>
 #include <QMimeData>
 #include <QStringList>
+
+#include <algorithm>
 
 QClipboard::Mode modeToQClipboardMode(ClipboardMode mode)
 {
@@ -35,18 +38,67 @@ void DummyClipboard::stopMonitoringBackend()
                this, &DummyClipboard::onClipboardChanged);
 }
 
-QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats) const
+namespace {
+
+bool isImageFormat(const QString &format)
 {
-    const QMimeData *data = mimeData(mode);
-    if (data == nullptr)
-        return {};
+    return format == QLatin1String("application/x-qt-image")
+        || format.startsWith(QLatin1String("image/"));
+}
 
-    const bool isDataSecret = isHidden(*data);
-    QVariantMap dataMap = cloneData(data, formats, clipboardSequenceNumber(mode));
+bool containsNonEmptyFormat(const QVariantMap &data, bool (*predicate)(const QString &))
+{
+    for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
+        if (predicate(it.key()) && !it.value().toByteArray().isEmpty())
+            return true;
+    }
+    return false;
+}
+
+bool hasMaterializedText(const QVariantMap &data)
+{
+    return !data.value(mimeText).toByteArray().isEmpty()
+        || !data.value(mimeTextUtf8).toByteArray().isEmpty()
+        || !data.value(mimeHtml).toByteArray().isEmpty();
+}
+
+bool imageReadIsComplete(
+        const QStringList &requestedFormats,
+        const QStringList &availableFormats,
+        const QVariantMap &data)
+{
+    const bool imageRequested = std::any_of(
+        requestedFormats.cbegin(), requestedFormats.cend(), isImageFormat);
+    const bool imageAdvertised = std::any_of(
+        availableFormats.cbegin(), availableFormats.cend(), isImageFormat);
+
+    // cloneData() intentionally skips binary images when useful text is
+    // present, so that case is complete even if image formats are advertised.
+    return !imageRequested || !imageAdvertised || hasMaterializedText(data)
+        || containsNonEmptyFormat(data, isImageFormat);
+}
+
+} // namespace
+
+ClipboardReadResult DummyClipboard::readData(
+        ClipboardMode mode, const QStringList &formats) const
+{
+    ClipboardReadResult result;
+    const QMimeData *mime = mimeData(mode);
+    if (mime == nullptr)
+        return result;
+
+    const bool isDataSecret = isHidden(*mime);
+    ClipboardDataGuard guard(mime, clipboardSequenceNumber(mode));
+    result.availableFormats = guard.formats();
+    result.data = cloneData(guard, formats);
+    result.isComplete = !guard.hasFailed()
+        && (guard.imageWasOmitted()
+            || imageReadIsComplete(formats, result.availableFormats, result.data));
     if (isDataSecret)
-        dataMap[mimeSecret] = QByteArrayLiteral("1");
+        result.data[mimeSecret] = QByteArrayLiteral("1");
 
-    return dataMap;
+    return result;
 }
 
 void DummyClipboard::setData(ClipboardMode mode, const QVariantMap &dataMap)

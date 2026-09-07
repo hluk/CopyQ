@@ -582,21 +582,28 @@ void X11PlatformClipboard::stopMonitoringBackend()
     DummyClipboard::stopMonitoringBackend();
 }
 
-QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &formats) const
+ClipboardReadResult X11PlatformClipboard::readData(
+        ClipboardMode mode, const QStringList &formats) const
 {
     if (!m_monitoring) {
         if (isGnomeExtensionAvailable()) {
-            return m_gnomeClipboardExtensionClient->fetchClipboardData(mode, formats);
+            ClipboardReadResult result;
+            result.data = m_gnomeClipboardExtensionClient->fetchClipboardData(mode, formats);
+            result.isComplete = true;
+            return result;
         }
-        return DummyClipboard::data(mode, formats);
+        return DummyClipboard::readData(mode, formats);
     }
 
     const auto &clipboardData = mode == ClipboardMode::Clipboard ? m_clipboardData : m_selectionData;
 
-    auto data = clipboardData.data;
-    if ( !data.contains(mimeOwner) )
-        data[mimeWindowTitle] = clipboardData.owner.toUtf8();
-    return data;
+    ClipboardReadResult result;
+    result.data = clipboardData.data;
+    result.availableFormats = clipboardData.formats;
+    result.isComplete = true;
+    if ( !result.data.contains(mimeOwner) )
+        result.data[mimeWindowTitle] = clipboardData.owner.toUtf8();
+    return result;
 }
 
 const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const

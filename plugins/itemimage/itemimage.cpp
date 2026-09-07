@@ -221,7 +221,8 @@ QStringList ItemImageLoader::formatsToSave() const
     return {
         QLatin1String("image/svg+xml"),
         QLatin1String("image/png"),
-        QLatin1String("image/gif")
+        QLatin1String("image/gif"),
+        QLatin1String("image/webp")
     };
 }
 

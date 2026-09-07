@@ -2223,13 +2223,12 @@ QJSValue Scriptable::loadTheme()
 
 void Scriptable::onClipboardChanged()
 {
-    if (!call(QStringLiteral("hasData")).toBool()) {
-        call(QStringLiteral("updateClipboardData"));
-    } else if (call(QStringLiteral("runAutomaticCommands")).toBool()) {
-        call(QStringLiteral("saveData"));
-        call(QStringLiteral("updateClipboardData"));
-    } else {
+    if (!call(QStringLiteral("runAutomaticCommands")).toBool()) {
         call(QStringLiteral("clearClipboardData"));
+    } else {
+        if (call(QStringLiteral("hasData")).toBool())
+            call(QStringLiteral("saveData"));
+        call(QStringLiteral("updateClipboardData"));
     }
 }
 

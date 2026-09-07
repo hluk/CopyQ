@@ -19,7 +19,8 @@ public:
     X11PlatformClipboard();
     ~X11PlatformClipboard() override;
 
-    QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
+    ClipboardReadResult readData(
+            ClipboardMode mode, const QStringList &formats) const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
     void setRawData(ClipboardMode mode, QMimeData *mimeData) override;

@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QAction>
 #include <QEvent>
+#include <QKeySequence>
 #include <QLineEdit>
 #include <QMoveEvent>
 
@@ -169,7 +170,8 @@ FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
     QWidget *window = lineEdit->window();
     if (window) {
         auto act = new QAction(this);
-        act->setShortcut(tr("Alt+Down", "Filter completion shortcut"));
+        act->setShortcut(
+            QKeySequence(QStringLiteral("Alt+Down"), QKeySequence::PortableText));
         connect(act, &QAction::triggered, this, &FilterCompleter::onComplete);
         window->addAction(act);
     }

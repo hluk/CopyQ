@@ -12,19 +12,38 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QTimer>
+
+#include <array>
+#include <utility>
 
 namespace {
+
+constexpr std::array<int, 4> clipboardReadRetryDelayMs{50, 100, 200, 400};
+
+int modeIndex(ClipboardMode mode)
+{
+    return mode == ClipboardMode::Clipboard ? 0 : 1;
+}
 
 bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 {
     for (auto it = lastData.constBegin(); it != lastData.constEnd(); ++it) {
         const auto &format = it.key();
+        // Ownership identifies who is currently providing the bytes, not the
+        // clipboard content itself. Some applications republish pasted data
+        // without CopyQ's owner marker; treating that metadata loss as new
+        // content stores the same item again and can move it to the top.
+        if (format == mimeOwner)
+            continue;
         if ( !data.contains(format) )
             return false;
     }
 
     for (auto it = data.constBegin(); it != data.constEnd(); ++it) {
         const auto &format = it.key();
+        if (format == mimeOwner)
+            continue;
         if ( !data[format].toByteArray().isEmpty()
              && data[format] != lastData.value(format) )
         {
@@ -47,8 +66,9 @@ bool isClipboardDataSecret(const QVariantMap &data)
 
 } // namespace
 
-ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
-    : m_clipboard(platformNativeInterface()->clipboard())
+ClipboardMonitor::ClipboardMonitor(
+        const QStringList &formats, PlatformClipboardPtr clipboard)
+    : m_clipboard(clipboard ? std::move(clipboard) : platformNativeInterface()->clipboard())
     , m_formats(formats)
     , m_ownerMonitor(this)
 {
@@ -109,9 +129,39 @@ void ClipboardMonitor::setClipboardOwner(const QString &owner)
 
 void ClipboardMonitor::onClipboardChanged(ClipboardMode mode)
 {
+    const int index = modeIndex(mode);
+    const quint64 generation = ++m_readGenerations[index];
+    processClipboardChanged(mode, generation, 0);
+}
+
+void ClipboardMonitor::processClipboardChanged(
+        ClipboardMode mode, quint64 generation, int retryAttempt)
+{
     m_ownerMonitor.update();
 
-    QVariantMap data = m_clipboard->data(mode, m_formats);
+    const ClipboardReadResult readResult = m_clipboard->readData(mode, m_formats);
+    if (!readResult.isComplete) {
+        const int index = modeIndex(mode);
+        if (generation != m_readGenerations[index])
+            return;
+
+        if (retryAttempt >= static_cast<int>(clipboardReadRetryDelayMs.size())) {
+            log(QStringLiteral("Clipboard data remained unavailable after %1 retries; keeping the last valid snapshot")
+                .arg(retryAttempt), LogWarning);
+            return;
+        }
+
+        const int delay = clipboardReadRetryDelayMs[retryAttempt];
+        COPYQ_LOG(QStringLiteral("Clipboard data unavailable; retrying in %1 ms")
+                  .arg(delay));
+        QTimer::singleShot(delay, this, [this, mode, generation, retryAttempt, index]() {
+            if (generation == m_readGenerations[index])
+                processClipboardChanged(mode, generation, retryAttempt + 1);
+        });
+        return;
+    }
+
+    QVariantMap data = readResult.data;
     auto clipboardData = mode == ClipboardMode::Clipboard
             ? &m_clipboardData : &m_selectionData;
 

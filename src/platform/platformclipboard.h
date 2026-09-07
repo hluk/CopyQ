@@ -7,6 +7,7 @@
 
 #include <QList>
 #include <QObject>
+#include <QStringList>
 #include <QVariantMap>
 #include <memory>
 
@@ -45,6 +46,12 @@ private:
 
 using ClipboardConnectionPtr = std::unique_ptr<ClipboardConnection>;
 
+struct ClipboardReadResult {
+    QVariantMap data;
+    QStringList availableFormats;
+    bool isComplete = false;
+};
+
 /**
  * Interface for clipboard.
  */
@@ -57,9 +64,20 @@ public:
     ClipboardConnectionPtr createConnection(const QStringList &formats, ClipboardModeMask modes);
 
     /**
-     * Return clipboard data containing specified @a formats if available.
+     * Read clipboard data containing specified @a formats if available.
+     *
+     * A read can fail even when the clipboard advertises data (for example,
+     * while another Windows process temporarily locks the clipboard).  Keep
+     * that state separate from a successfully read, genuinely empty
+     * clipboard so callers do not erase their last valid snapshot.
      */
-    virtual QVariantMap data(ClipboardMode mode, const QStringList &formats) const = 0;
+    virtual ClipboardReadResult readData(
+            ClipboardMode mode, const QStringList &formats) const = 0;
+
+    QVariantMap data(ClipboardMode mode, const QStringList &formats) const
+    {
+        return readData(mode, formats).data;
+    }
 
     /**
      * Set data to clipboard.

@@ -18,7 +18,6 @@
 #include <QImageWriter>
 #include <QKeyEvent>
 #include <QMimeData>
-#include <QMovie>
 #include <QObject>
 #include <QProcess>
 #include <QRegularExpression>
@@ -89,12 +88,10 @@ bool canCloneImageData(const QImage &image)
 bool setImageData(
     QByteArray &bytes, const char *imageFormat, const std::unique_ptr<QMimeData> &mimeData)
 {
-    // Omit converting animated images to static ones.
-    QBuffer buffer(&bytes);
-    const QMovie animatedImage(&buffer, imageFormat);
-    if ( animatedImage.frameCount() > 1 )
-        return false;
-
+    // Keep the original encoded bytes below and additionally publish the first
+    // frame as generic image data. Applications that understand the original
+    // animated format can still request it, while other paste targets receive
+    // a standard static image instead of seeing an unusable clipboard entry.
     const auto image = QImage::fromData(bytes, imageFormat);
     if ( image.isNull() )
         return false;
@@ -154,6 +151,15 @@ bool isBinaryImageFormat(const QString &format)
            && !format.contains(QStringLiteral("svg"));
 }
 
+bool preserveEncodedImageFormat(const QString &format)
+{
+    // These formats can contain animation. Re-encoding through QImage would
+    // retain only one frame, so keep the original bytes and create a separate
+    // generic fallback instead.
+    return format == QLatin1String("image/gif")
+        || format == QLatin1String("image/webp");
+}
+
 } // namespace
 
 QVariantMap cloneData(ClipboardDataGuard &data, const QStringList &formats)
@@ -169,13 +175,26 @@ QVariantMap cloneData(ClipboardDataGuard &data, const QStringList &formats)
      Images in SVG and other XML formats are expected to be relatively small
      so these doesn't have to be ignored.
      */
-    const bool skipBinaryImageFormats = formats.contains(mimeText) && data.hasText();
-
     QStringList imageFormats;
+    QByteArray encodedImageFallback;
+    QByteArray encodedImageFallbackFormat;
     for (const auto &mime : formats) {
         if (isBinaryImageFormat(mime)) {
-            if (!skipBinaryImageFormats)
-                imageFormats.append(mime);
+            if ( preserveEncodedImageFormat(mime) ) {
+                if ( !data.hasFormat(mime) )
+                    continue;
+
+                const QByteArray bytes = data.data(mime);
+                if ( !bytes.isEmpty() ) {
+                    newdata.insert(mime, bytes);
+                    if (encodedImageFallback.isEmpty()) {
+                        encodedImageFallback = bytes;
+                        encodedImageFallbackFormat = getImageFormatFromMime(mime).toUtf8();
+                    }
+                    continue;
+                }
+            }
+            imageFormats.append(mime);
         } else {
             const QByteArray bytes = data.getUtf8Data(mime);
             if ( bytes.isEmpty() )
@@ -185,13 +204,27 @@ QVariantMap cloneData(ClipboardDataGuard &data, const QStringList &formats)
         }
     }
 
+    // Some applications advertise expensive image renderings alongside text
+    // (for example when copying a spreadsheet).  Read inexpensive text first
+    // and only suppress those images when actual text bytes were obtained.
+    // Merely advertising an empty text format must not hide a valid image.
+    if (!newdata.value(mimeText).toByteArray().isEmpty()
+        || !newdata.value(mimeTextUtf8).toByteArray().isEmpty()
+        || !newdata.value(mimeHtml).toByteArray().isEmpty())
+    {
+        imageFormats.clear();
+    }
+
     // Retrieve images last since this can take a while.
     if ( !imageFormats.isEmpty() ) {
-        const QImage image = data.getImageData();
+        QImage image = data.getImageData();
+        if ( image.isNull() && !encodedImageFallback.isEmpty() ) {
+            image.loadFromData(encodedImageFallback, encodedImageFallbackFormat.constData());
+        }
         if ( canCloneImageData(image) ) {
             for (const auto &mime : imageFormats) {
                 const QString format = getImageFormatFromMime(mime);
-                if ( !format.isEmpty() )
+                if ( !format.isEmpty() && !newdata.contains(mime) )
                     cloneImageData(image, format, mime, &newdata);
             }
         }

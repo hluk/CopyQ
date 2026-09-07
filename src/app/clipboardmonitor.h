@@ -11,12 +11,16 @@
 
 #include <QVariantMap>
 
+#include <array>
+
 class ClipboardMonitor final : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ClipboardMonitor(const QStringList &formats);
+    explicit ClipboardMonitor(
+        const QStringList &formats,
+        PlatformClipboardPtr clipboard = {});
     void startMonitoring();
     QString currentClipboardOwner();
     void setClipboardOwner(const QString &owner);
@@ -33,6 +37,8 @@ signals:
 
 private:
     void onClipboardChanged(ClipboardMode mode);
+    void processClipboardChanged(
+            ClipboardMode mode, quint64 generation, int retryAttempt);
 
     QVariantMap m_clipboardData;
     QVariantMap m_selectionData;
@@ -55,4 +61,5 @@ private:
 #endif
 
     QString m_clipboardOwner;
+    std::array<quint64, 2> m_readGenerations{};
 };

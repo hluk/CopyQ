@@ -4,7 +4,11 @@
 #include "tests.h"
 
 #include "common/temporaryfile.h"
+#include "common/mimetypes.h"
+#include "item/serialize.h"
 
+#include <QDataStream>
+#include <QFile>
 #include <QRegularExpression>
 
 namespace {
@@ -119,6 +123,52 @@ void CoreTests::exportImportNoPasswordCommandsOnly() { exportImport(ExportComman
 void CoreTests::exportImportPasswordTab() { exportImport(ExportWithPassword | ExportTab); }
 void CoreTests::exportImportPasswordSettingsOnly() { exportImport(ExportWithPassword | ExportSettings); }
 void CoreTests::exportImportPasswordCommandsOnly() { exportImport(ExportWithPassword | ExportCommands); }
+
+void CoreTests::importV3SelectedTabs()
+{
+    const QString selectedTab = QStringLiteral("V3 Selected");
+    const QString omittedTab = QStringLiteral("V3 Omitted");
+    const QString fileName = exportFilePath(QStringLiteral("v3-selection"));
+
+    const auto serializedTab = [](const QByteArray &text) {
+        QByteArray bytes;
+        QDataStream out(&bytes, QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_4_7);
+        out << qint32(1);
+        serializeData(&out, {{mimeText, text}});
+        return bytes;
+    };
+
+    QVariantList tabs;
+    tabs.append(QVariantMap{
+        {QStringLiteral("name"), selectedTab},
+        {QStringLiteral("data"), serializedTab("selected")},
+    });
+    tabs.append(QVariantMap{
+        {QStringLiteral("name"), omittedTab},
+        {QStringLiteral("data"), serializedTab("omitted")},
+    });
+
+    QFile file(fileName);
+    QVERIFY2(file.open(QIODevice::WriteOnly | QIODevice::Truncate),
+             file.errorString().toUtf8());
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_7);
+    out << QByteArray("CopyQ v3") << QVariantMap{{QStringLiteral("tabs"), tabs}};
+    QCOMPARE(out.status(), QDataStream::Ok);
+    file.close();
+
+    KEYS("Ctrl+Shift+I" << fileNameEditId << ":" + fileName);
+    KEYS("ENTER");
+    KEYS(importDialogId);
+    RUN("callPlugin('itemtests', 'selectImportTab', '" + selectedTab + "')", "");
+    KEYS("ENTER");
+    KEYS(clipboardBrowserId);
+
+    QVERIFY(hasTab(selectedTab));
+    QVERIFY(!hasTab(omittedTab));
+    RUN(Args("tab") << selectedTab << "read" << "0", "selected\n");
+}
 
 void CoreTests::exportImportErrors()
 {

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <QModelIndexList>
+#include <QString>
 #include <QVariantMap>
 #include <QtContainerFwd>
 
@@ -19,6 +20,7 @@ void addSelectionData(
 QVariantMap selectionData(
         const ClipboardBrowser &c,
         const QModelIndex &currentIndex,
-        const QModelIndexList &selectedIndexes);
+        const QModelIndexList &selectedIndexes,
+        QString *error = nullptr);
 
-QVariantMap selectionData(const ClipboardBrowser &c);
+QVariantMap selectionData(const ClipboardBrowser &c, QString *error = nullptr);
