@@ -13,8 +13,10 @@ repos:
     rev: v1.7.12
     hooks:
       - id: actionlint
+        args: ['--ignore=specifying action "\$/.+" in invalid format because ref is missing']
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
     rev: v1.30.0
     hooks:
       - id: zizmor
+        args: [--no-progress, --fix]

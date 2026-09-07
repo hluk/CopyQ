@@ -217,7 +217,7 @@ jobs:
           echo "LD_LIBRARY_PATH=/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
 
       - name: Download miniaudio
-        uses: ./.github/actions/download-miniaudio
+        uses: $/.github/actions/download-miniaudio
 
       - name: Build with CMake
         run: |
@@ -257,7 +257,7 @@ jobs:
       - name: Get version string
         if: matrix.appimage
         id: version
-        uses: ./.github/actions/get-version
+        uses: $/.github/actions/get-version
         with:
           build_dir: ${{ github.workspace }}/build/copyq/${{ matrix.cmake_preset }}
 
