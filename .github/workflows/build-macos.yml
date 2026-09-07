@@ -109,7 +109,7 @@ jobs:
             }}-${{ hashFiles('utils/patches/**') }}
 
       - name: Download miniaudio
-        uses: ./.github/actions/download-miniaudio
+        uses: $/.github/actions/download-miniaudio
 
       - name: Build with CMake
         run: |
@@ -121,7 +121,7 @@ jobs:
 
       - name: Get version string
         id: version
-        uses: ./.github/actions/get-version
+        uses: $/.github/actions/get-version
         with:
           build_dir: ${{ github.workspace }}/build/copyq/${{ matrix.cmake_preset }}
 
