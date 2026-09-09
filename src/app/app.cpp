@@ -106,7 +106,7 @@ void initSession(QCoreApplication *app, const QString &sessionName)
         if ( !app->property("CopyQ_item_data_path").isValid() ) {
             app->setProperty(
                 "CopyQ_item_data_path",
-                QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)
+                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
                 + QLatin1String("/items"));
         }
     } else {
@@ -114,6 +114,25 @@ void initSession(QCoreApplication *app, const QString &sessionName)
             "CopyQ_item_data_path",
             qEnvironmentVariable("COPYQ_ITEM_DATA_PATH")
         );
+    }
+
+    if ( qEnvironmentVariableIsEmpty("COPYQ_STATE_PATH") ) {
+        if ( !app->property("CopyQ_state_path").isValid() ) {
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+            const QString stateHome = qEnvironmentVariable("XDG_STATE_HOME");
+            const QString base = (!stateHome.isEmpty() && stateHome.startsWith(QLatin1Char('/')))
+                ? stateHome
+                : QDir::homePath() + QLatin1String("/.local/state");
+            app->setProperty("CopyQ_state_path",
+                base + QLatin1Char('/') + QCoreApplication::organizationName());
+#else
+            app->setProperty("CopyQ_state_path",
+                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+#endif
+        }
+    } else {
+        app->setProperty("CopyQ_state_path",
+            qEnvironmentVariable("COPYQ_STATE_PATH"));
     }
 }
 

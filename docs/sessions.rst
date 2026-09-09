@@ -74,36 +74,50 @@ outside the application.
 Item Data Path
 --------------
 
-Item data path can be overridden with ``COPYQ_ITEM_DATA_PATH``
-environment variable.
+.. versionchanged:: 17.0.0
+   Tab data files (``copyq_tab_*.dat``) moved from the configuration
+   directory to the data directory. Existing files are migrated
+   automatically on first startup.
+
+Tab data files and item data are stored in the data directory.
+The path can be overridden with ``COPYQ_ITEM_DATA_PATH``.
 
 ::
 
     $ copyq info data
-    /home/user/.local/share/copyq/copyq
+    /home/user/.local/share/copyq/items
 
-    $ COPYQ_ITEM_DATA_PATH=$HOME/copyq-data copyq info data
-    /home/user/copyq-data/copyq/copyq.conf
+Item data that exceeds a size threshold is stored in separate files
+(in a directory structure based on data checksum) and only referenced
+from the tab data files. The default threshold can be overridden with
+``item_data_threshold`` option. Setting it to a negative value disables
+the separate storage and keeps everything in the tab data files.
 
-The directory contains data for items that exceeds 4096 bytes. The default
-threshold can be overridden with ``item_data_threshold`` option.
+State Path
+----------
+
+.. versionchanged:: 17.0.0
+   State files were previously stored in the configuration directory.
+   They are migrated automatically on first startup.
+
+UI state files (window geometry, collapsed tabs, filter history, action
+dialog history) and logs are stored in the state directory. On Linux this
+follows ``$XDG_STATE_HOME`` (default ``~/.local/state/copyq``). On Windows
+and macOS state files are stored alongside data.
+
+The path can be overridden with ``COPYQ_STATE_PATH``.
+The log directory can be overridden separately with ``COPYQ_LOG_DIR``.
 
 ::
 
-    $ copyq config item_data_threshold
-    4096
+    $ copyq info state
+    /home/user/.local/state/copyq
 
-To disable using the data directory and store everything into tab data files,
-set the threshold to a negative value. The tab data file will be updated only
-after the items in the tab change.
+    $ copyq info log
+    /home/user/.local/state/copyq/logs/copyq-20250101-12345.log
 
-::
-
-    $ copyq config item_data_threshold -1
-    -1
-
-Note: Using data directory ensure that the application is fast even if there
-are a lot of large items in tabs.
+Existing state files and logs are migrated automatically from the
+previous locations on first startup of version 17.0.0 or later.
 
 Icon Color
 ----------

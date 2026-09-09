@@ -81,6 +81,7 @@ QMap<QString, QString> pathMap()
     return {
         {"config", QSettings().fileName()},
         {"data", itemDataPath()},
+        {"state", statePath()},
 #ifdef COPYQ_DESKTOP_FILE
         {"desktop", QStringLiteral(COPYQ_DESKTOP_FILE)},
 #endif

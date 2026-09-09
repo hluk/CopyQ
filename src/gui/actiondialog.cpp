@@ -129,7 +129,7 @@ void ActionDialog::restoreHistory()
 
 const QString ActionDialog::dataFilename() const
 {
-    return getConfigurationFilePath("_cmds.dat");
+    return stateFilePath("_cmds.dat");
 }
 
 void ActionDialog::saveHistory()

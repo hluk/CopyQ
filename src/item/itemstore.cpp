@@ -9,8 +9,11 @@
 #include "item/serialize.h"
 
 #include <QAbstractItemModel>
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
+#include <QStandardPaths>
 #include <QSaveFile>
 #include <QSet>
 
@@ -21,7 +24,7 @@ QString itemFileName(const QString &id)
 {
     QString part( id.toUtf8().toBase64() );
     part.replace( QChar('/'), QChar('-') );
-    return getConfigurationFilePath("_tab_") + part + QLatin1String(".dat");
+    return tabDataFileBasePath() + part + QLatin1String(".dat");
 }
 
 void printItemFileError(
@@ -88,6 +91,53 @@ void cleanDataDir(QDir *dir)
         QDir().rmdir( dir->absolutePath() );
 }
 
+bool migrateFiles(const QString &oldDir, const QString &newDir, const QStringList &patterns,
+                  LogLevel successLogLevel = LogNote)
+{
+    if (oldDir == newDir)
+        return true;
+
+    QDir src(oldDir);
+    QDir dst(newDir);
+
+    QStringList files;
+    for (const auto &pattern : patterns)
+        files.append(src.entryList({pattern}, QDir::Files));
+    if (files.isEmpty())
+        return true;
+
+    bool ok = true;
+    for (const QString &fileName : files) {
+        const QString oldPath = src.absoluteFilePath(fileName);
+        const QString newPath = dst.absoluteFilePath(fileName);
+
+        if (QFile::exists(newPath)) {
+            log(QStringLiteral("Migration: Skipping %1 — destination already exists: %2")
+                .arg(oldPath, newPath), LogWarning);
+            continue;
+        }
+
+        QFile file(oldPath);
+        if (file.rename(newPath)) {
+            log(QStringLiteral("Migration: Moved %1 to %2")
+                .arg(oldPath, newPath), successLogLevel);
+        } else {
+            const QString renameError = file.errorString();
+            // Cross-device fallback
+            if (file.copy(newPath)) {
+                QFile::remove(oldPath);
+                log(QStringLiteral("Migration: Copied %1 to %2 (cross-device)")
+                    .arg(oldPath, newPath), successLogLevel);
+            } else {
+                log(QStringLiteral("Migration: Failed to move %1 to %2: rename: %3, copy: %4")
+                    .arg(oldPath, newPath, renameError, file.errorString()), LogWarning);
+                ok = false;
+            }
+        }
+    }
+    return ok;
+}
+
 } // namespace
 
 ItemSaverPtr loadItems(const QString &tabName, QAbstractItemModel &model, ItemFactory *itemFactory, int maxItems)
@@ -113,7 +163,7 @@ bool saveItems(const QString &tabName, const QAbstractItemModel &model, const It
 {
     const QString tabFileName = itemFileName(tabName);
 
-    if ( !ensureSettingsDirectoryExists() )
+    if ( !QFileInfo(itemDataPath()).dir().mkpath(QStringLiteral(".")) )
         return false;
 
     // Save tab data to a new temporary file.
@@ -216,5 +266,68 @@ void cleanDataFiles(const QStringList &tabNames, const Encryption::EncryptionKey
             cleanDataDir(&d2);
         }
         cleanDataDir(&d1);
+    }
+}
+
+void migrateDataFiles()
+{
+    const QString oldDir = settingsDirectoryPath();
+    const QString sentinelPath = statePath() + QLatin1String("/copyq_migrated");
+    if (QFile::exists(sentinelPath))
+        return;
+
+    const QString dataDir = QFileInfo(itemDataPath()).path();
+    QDir(dataDir).mkpath(QStringLiteral("."));
+    if ( !ensureStateDirectoryExists() )
+        return;
+
+    const QString appName = QCoreApplication::applicationName();
+
+    bool ok = true;
+
+    // Tab data -> data directory
+    if ( !migrateFiles(oldDir, dataDir, {
+             appName + QLatin1String("_tab_*.dat"),
+             appName + QLatin1String("_tab_*.dat.tmp")}) )
+    {
+        ok = false;
+    }
+
+    // State files -> state directory
+    if ( !migrateFiles(oldDir, statePath(), {
+             appName + QLatin1String("_geometry.ini"),
+             appName + QLatin1String("_tabs.ini"),
+             appName + QLatin1String("-filter.ini"),
+             appName + QLatin1String("-monitor.ini"),
+             appName + QLatin1String("_cmds.dat")}) )
+    {
+        ok = false;
+    }
+
+    // Log files -> logs subdirectory (previously in data directory)
+    const QString logDir = statePath() + QLatin1String("/logs");
+    QDir(logDir).mkpath(QStringLiteral("."));
+    if ( !migrateFiles(
+             QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation),
+             logDir, {
+                 QStringLiteral("copyq-*.log"),
+                 QStringLiteral("copyq-*.log.*")},
+             LogDebug) )
+    {
+        ok = false;
+    }
+
+    if (!ok) {
+        log(QStringLiteral("Migration: Some files failed to migrate; will retry on next startup"),
+            LogWarning);
+        return;
+    }
+
+    QFile sentinel(sentinelPath);
+    if (sentinel.open(QIODevice::WriteOnly)) {
+        sentinel.close();
+    } else {
+        log(QStringLiteral("Migration: Failed to create sentinel file %1: %2")
+            .arg(sentinelPath, sentinel.errorString()), LogWarning);
     }
 }

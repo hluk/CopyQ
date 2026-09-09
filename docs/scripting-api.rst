@@ -750,6 +750,9 @@ unlike in GUI, where row numbers start from 1 by default.
    When called without arguments, non-path entries are listed first,
    followed by paths at the end.
 
+   .. versionchanged:: 17.0.0
+      Added ``state`` path identifier.
+
    :returns: Path for given identifier.
    :rtype: string
 

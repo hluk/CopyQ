@@ -8,6 +8,8 @@
 #include "common/textdata.h"
 #include "gui/iconfactory.h"
 
+#include <QFileInfo>
+
 #include <QComboBox>
 #include <QDir>
 #include <QHash>
@@ -28,11 +30,11 @@ QList<QString> savedTabs()
 {
     QList<QString> tabs = AppConfig().option<Config::tabs>();
 
-    const QString configPath = settingsDirectoryPath();
-
-    QDir configDir(configPath);
-    QList<QString> files = configDir.entryList({QStringLiteral("*_tab_*.dat")});
-    files.append(configDir.entryList({QStringLiteral("*_tab_*.dat.tmp")}));
+    const QFileInfo baseInfo(tabDataFileBasePath());
+    QDir dir = baseInfo.dir();
+    const QString prefix = baseInfo.fileName();
+    QList<QString> files = dir.entryList({prefix + QLatin1String("*.dat")});
+    files.append(dir.entryList({prefix + QLatin1String("*.dat.tmp")}));
 
     QRegularExpression re("_tab_([^.]*)");
 
