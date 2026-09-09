@@ -6,6 +6,7 @@
 
 #include "common/mimetypes.h"
 #include "common/commandstatus.h"
+#include "common/display.h"
 
 #include <QElapsedTimer>
 #include <QRegularExpression>
@@ -460,6 +461,53 @@ void CoreTests::commandDialog()
         [&]{ RUN(script2, "DEFAULT\n"); },
         [&]{ KEYS("focus::QLineEdit<:QDialog" << "ENTER"); }
     );
+}
+
+void CoreTests::commandDialogFitsContents()
+{
+    KEYS(clipboardBrowserId);
+    RUN_MULTIPLE(
+        [&]{ RUN("dialog('.title', 'size hint', '.label', "
+                 "'This label should fit in the initial dialog width.', 'text', 'DEFAULT')",
+                 "DEFAULT\n"); },
+        [&]{
+            KEYS("focus::QLineEdit<dialog_size hint:QDialog");
+            const auto errors = m_test->runClient(
+                Args() << "print(callPlugin('itemtests', 'dialogGeometry', 'dialog_size hint').horizontalScrollMaximum)",
+                "0");
+            KEYS("focus::QLineEdit<dialog_size hint:QDialog" << "ENTER");
+            TEST(errors);
+        }
+    );
+}
+
+void CoreTests::commandDialogRestoreGeometry()
+{
+    auto expectedSize = QByteArray::number(pointsToPixels(360)) + 'x'
+        + QByteArray::number(pointsToPixels(180));
+    const auto sizeScript =
+        "var g = callPlugin('itemtests', 'dialogGeometry', 'dialog_saved size');"
+        "print(g.width + 'x' + g.height);";
+
+    for (const auto script : {
+             "dialog('.title', 'saved size', '.width', 360, '.height', 180, 'text', 'DEFAULT')",
+             "dialog('.title', 'saved size', 'text', 'DEFAULT')"}) {
+        KEYS(clipboardBrowserId);
+        RUN_MULTIPLE(
+            [&]{ RUN(script, "DEFAULT\n"); },
+            [&]{
+                KEYS("focus::QLineEdit<dialog_saved size:QDialog");
+                const auto errors = m_test->runClient(Args() << sizeScript, expectedSize);
+                // Let the geometry guard unlock before simulating a user resize.
+                RUN("sleep(350)", "");
+                RUN("callPlugin('itemtests', 'resizeDialog', 'dialog_saved size', 420, 240)", "");
+                RUN("sleep(350)", "");
+                KEYS("focus::QLineEdit<dialog_saved size:QDialog" << "ENTER");
+                TEST(errors);
+            }
+        );
+        expectedSize = "420x240";
+    }
 }
 
 void CoreTests::commandDialogCloseOnDisconnect()
