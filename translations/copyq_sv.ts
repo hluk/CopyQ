@@ -3416,7 +3416,7 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation>Lösenordet har bytts.</translation>
+        <translation>Lösenordsbytet lyckades.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
