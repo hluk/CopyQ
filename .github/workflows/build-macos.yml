@@ -46,7 +46,7 @@ jobs:
           - os: macos-14
             buildname: macOS arm64
             bundle_suffix: '-macos-arm64'
-            cmake_preset: macOS-12-m1
+            cmake_preset: macOS-13-m1
 
     steps:
       - name: Checkout source code
