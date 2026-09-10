@@ -13,6 +13,8 @@
 
 namespace {
 
+bool failNextItemCopyRequested = false;
+
 Q_DECLARE_LOGGING_CATEGORY(plugin)
 Q_LOGGING_CATEGORY(plugin, "copyq.keys")
 
@@ -131,6 +133,35 @@ bool checkEventTarget(
         << (target ? "Target widget is no longer visible" : "Target widget no longer exists");
     return false;
 }
+
+class CopyFailureItemSaver final : public ItemSaverInterface
+{
+public:
+    explicit CopyFailureItemSaver(const ItemSaverPtr &saver)
+        : m_saver(saver)
+    {
+    }
+
+    bool saveItems(
+        const QString &tabName,
+        const QAbstractItemModel &model,
+        QIODevice *file) override
+    {
+        return m_saver->saveItems(tabName, model, file);
+    }
+
+    bool copyItem(
+        const QAbstractItemModel &, const QVariantMap &,
+        QVariantMap *, QString *error) override
+    {
+        if (error)
+            *error = QStringLiteral("Injected item copy failure");
+        return false;
+    }
+
+private:
+    ItemSaverPtr m_saver;
+};
 
 } // namespace
 
@@ -455,6 +486,17 @@ void ItemTestsScriptable::keys()
     }
 }
 
+ItemSaverPtr ItemTestsLoader::transformSaver(
+    const ItemSaverPtr &saver,
+    QAbstractItemModel *)
+{
+    if (!failNextItemCopyRequested)
+        return saver;
+
+    failNextItemCopyRequested = false;
+    return std::make_shared<CopyFailureItemSaver>(saver);
+}
+
 ItemScriptable *ItemTestsLoader::scriptableObject()
 {
     return new ItemTestsScriptable();
@@ -478,6 +520,11 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
 
     if (cmd == "sendKeysStatus")
         return keyClicker()->status(arguments.value(1).toBool());
+
+    if (cmd == "failNextItemCopy") {
+        failNextItemCopyRequested = true;
+        return {};
+    }
 
     return QStringLiteral("Unexpected command: %1").arg(cmd);
 }

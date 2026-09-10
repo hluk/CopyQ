@@ -50,6 +50,8 @@ private slots:
 
     void moveOwnItemsSortsBaseNames();
     void moveOwnItemsKeepsLargeTextData();
+    void moveLargeItemsWithCommandKeepsData();
+    void moveCommandKeepsSourceOnCopyFailure();
 
     void avoidDuplicateItemsAddedFromClipboard();
 

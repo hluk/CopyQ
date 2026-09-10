@@ -28,6 +28,9 @@ public:
     QString author() const override { return {}; }
     QString description() const override { return {}; }
     QVariant icon() const override { return {}; }
+    ItemSaverPtr transformSaver(
+        const ItemSaverPtr &saver,
+        QAbstractItemModel *model) override;
     ItemScriptable *scriptableObject() override;
     QVariant scriptCallback(const QVariantList &arguments) override;
 

@@ -64,6 +64,15 @@ public:
      */
     static bool isOwnBaseName(const QString &baseName);
 
+    /**
+     * Replace lazy file-backed values with detached byte arrays.
+     *
+     * Returns false without modifying @a data if any source file cannot be
+     * read. This must happen before copied item data can outlive files owned
+     * by the synchronized source tab.
+     */
+    static bool materializeItemDataForCopy(QVariantMap *data, QString *error);
+
     static void removeFilesForRemovedIndexes(
         const QString &tabPath, const QList<QPersistentModelIndex> &indexes,
         bool ownOnly = false);

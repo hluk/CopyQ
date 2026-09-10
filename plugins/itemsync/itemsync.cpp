@@ -472,22 +472,33 @@ void ItemSyncSaver::itemsRemovedByUser(const QList<QPersistentModelIndex> &index
     FileWatcher::removeFilesForRemovedIndexes(m_tabPath, indexList);
 }
 
-QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
+bool ItemSyncSaver::copyItem(
+    const QAbstractItemModel &, const QVariantMap &itemData,
+    QVariantMap *copiedItemData, QString *error)
 {
-    if (m_watcher)
-        m_watcher->updateItemsIfNeeded();
+    Q_ASSERT(copiedItemData);
 
-    QVariantMap copiedItemData;
-    for (auto it = itemData.begin(); it != itemData.constEnd(); ++it) {
+    QVariantMap detachedItemData;
+    for (auto it = itemData.constBegin(); it != itemData.constEnd(); ++it) {
         const auto &format = it.key();
         if ( !format.startsWith(mimePrivateSyncPrefix) )
-            copiedItemData[format] = it.value();
+            detachedItemData.insert(format, it.value());
     }
 
-    copiedItemData.insert(mimeSyncPath, m_tabPath);
+    QString materializeError;
+    if ( !FileWatcher::materializeItemDataForCopy(&detachedItemData, &materializeError) ) {
+        qCWarning(plugin) << materializeError;
+        if (error) {
+            *error = tr("Failed to read synchronized item data. "
+                        "The source item was left unchanged.");
+        }
+        return false;
+    }
+
+    detachedItemData.insert(mimeSyncPath, m_tabPath);
 
     // Add text/uri-list if no data are present.
-    if ( hasOnlyInternalData(copiedItemData) ) {
+    if ( hasOnlyInternalData(detachedItemData) ) {
         QByteArray uriData;
 
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
@@ -503,11 +514,12 @@ QVariantMap ItemSyncSaver::copyItem(const QAbstractItemModel &, const QVariantMa
 
         QVariantMap noSaveData;
         noSaveData.insert(mimeUriList, FileWatcher::calculateHash(uriData));
-        copiedItemData.insert(mimeUriList, uriData);
-        copiedItemData.insert(mimeNoSave, noSaveData);
+        detachedItemData.insert(mimeUriList, uriData);
+        detachedItemData.insert(mimeNoSave, noSaveData);
     }
 
-    return copiedItemData;
+    *copiedItemData = detachedItemData;
+    return true;
 }
 
 void ItemSyncSaver::setFocus(bool focus)
