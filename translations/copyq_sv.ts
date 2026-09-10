@@ -702,7 +702,16 @@ Examples:
 - Match PDF filenames: \.pdf$
 - Match single character: ^.$
 - Match remote multimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoppar över kommandot om indatatexten inte matchar detta reguljära uttryck (lämna tomt för att matcha allt).
+
+%2 till %9 (eller argument[1] och uppåt i skriptet) i Kommando och filter ersätts med de fångade texterna.
+
+Exempel:
+
+- Matcha URL: ^(https?|ftp)://
+- Matcha PDF-filnamn: \.pdf$
+- Matcha enskilt tecken: ^.$
+- Matcha fjärrmultimedia: ^http://.*\.(ogv|vlc|mp4|mp3)$</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="435"/>
@@ -1135,7 +1144,7 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Use an available external key store for the encryption password (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</source>
-        <translation type="unfinished"></translation>
+        <translation>Använd en tillgänglig extern nyckelring för krypteringslösenordet (Windows Credential Store, macOS-nyckelring, GNOME-nyckelring, KWallet)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
@@ -1155,12 +1164,12 @@ F2 för att redigera.</translation>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
         <source>Navigation style / Keymap:</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigeringsstil/tangentmappning:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="244"/>
         <source>Support for Vi navigation (keys H, J, K, L, / and more) and Emacs navigation (Ctrl+N, P, V and more)</source>
-        <translation type="unfinished"></translation>
+        <translation>Stöd för Vi-navigering (tangenterna H, J, K, L, / med flera) och Emacs-navigering (Ctrl+N, P, V med flera)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="248"/>
@@ -1288,7 +1297,9 @@ Ställ in till 0 för att inte glömma flikar.</translation>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsgräns i sekunder innan krypterade flikar kräver lösenord på nytt.
+
+Ange 0 för att inaktivera globalt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -2713,34 +2724,36 @@ Ställ in till 0 för att inaktivera.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="528"/>
         <source>Encryption Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kryptering är inte tillgänglig</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="529"/>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kryptering är inte tillgänglig (se loggarna för detaljer).
+
+Det går inte att kryptera eller dekryptera flikdata.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="591"/>
         <source>Import Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Importlösenord</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="592"/>
         <source>Enter password for import:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange lösenord för import:</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="615"/>
         <source>Export Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportlösenord</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="616"/>
         <source>Enter password for export (empty for no encryption):</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange lösenord för export (lämna tomt för ingen kryptering):</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="4540"/>
@@ -3147,7 +3160,7 @@ It will be possible to encrypt and decrypt tab data.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
@@ -3307,38 +3320,38 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="155"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="265"/>
         <source>New Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringslösenord för ny flik</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="266"/>
         <source>Enter new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange nytt lösenord:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösenorden stämde inte överens. Försök igen (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Byt lösenord</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="338"/>
         <source>New password cannot be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det nya lösenordet får inte vara tomt.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="177"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att ställa in lösenordet</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3346,84 +3359,84 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Högsta antal lösenordsförsök har överskridits.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Bekräfta krypteringslösenord</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange lösenordet igen för att bekräfta:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringslösenord för aktuell flik</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ange aktuellt lösenord för att kryptera flikdata:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogiltigt lösenord. Försök igen (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösenordsverifieringen misslyckades</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringsfilerna är skadade</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringsfilerna saknas eller är skadade. Strikt läge kan inte återställa krypterade flikar automatiskt.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
         <source>Change Password Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att byta lösenord</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att byta lösenord. Ditt gamla lösenord är fortfarande aktivt. Se loggarna för detaljer.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösenordsbytet lyckades.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösenordet har bytts.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypterar om flikar…</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Avbryt</translation>
+        <translation>Avbryt</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypterar om flik %1 av %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3432,22 +3445,26 @@ vilket kan vara bokstäver, siffror, ”-” eller ”_”!</translation>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att kryptera följande flikar:
+
+%1
+
+Se loggarna för detaljer.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Krypteringen misslyckades</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Förhindrande av skärmbildstagning är inte tillgängligt</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alternativet att dölja innehåll i skärmbilder är aktiverat men kan inte få effekt i en fjärrskrivbordssession. Fönsterinnehåll kan synas vid skärmbildstagning.</translation>
     </message>
 </context>
 <context>
@@ -3886,12 +3903,12 @@ Skriv ut version på program och bibliotek.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="522"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att exportera filen ”%1”</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="527"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Det gick inte att importera filen ”%1”</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="667"/>
@@ -4092,19 +4109,21 @@ Använd &lt;b&gt;/&lt;/b&gt; som sökvägsavskiljare i trädvyns fliklayout.</tr
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kräv lösenord efter en tidsperiod:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidsgräns per flik i sekunder innan krypteringslösenordet krävs på nytt.
+
+Ange 0 för att använda den globala inställningen.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>globalt</translation>
     </message>
     <message>
         <source>&amp;Store Items</source>
