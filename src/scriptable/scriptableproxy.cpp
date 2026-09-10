@@ -1915,6 +1915,18 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
             widgets.append( createWidget(value.name, value.value, &inputDialog) );
     }
 
+    if ( !styleSheet.isEmpty() )
+        dialog.setStyleSheet(styleSheet);
+
+    auto buttons = new QDialogButtonBox(
+                QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
+    QObject::connect( buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
+    QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
+    dialog.layout()->addWidget(buttons);
+
+    // Use the contents as the default size before restoring or overriding geometry.
+    dialog.adjustSize();
+
     if ( !dialogTitle.isNull() ) {
         dialog.setWindowTitle(dialogTitle);
         dialog.setObjectName(QStringLiteral("dialog_") + dialogTitle);
@@ -1937,15 +1949,6 @@ int ScriptableProxy::inputDialog(const NamedValueList &values)
 
     if (geometry.x() >= 0 && geometry.y() >= 0)
         dialog.move(geometry.topLeft());
-
-    if ( !styleSheet.isEmpty() )
-        dialog.setStyleSheet(styleSheet);
-
-    auto buttons = new QDialogButtonBox(
-                QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    QObject::connect( buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept );
-    QObject::connect( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
-    dialog.layout()->addWidget(buttons);
 
     installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Enter).toCombined());
     installShortcutToCloseDialog(&dialog, &dialog, QKeyCombination(Qt::ControlModifier, Qt::Key_Return).toCombined());

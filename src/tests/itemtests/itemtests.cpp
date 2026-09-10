@@ -8,6 +8,8 @@
 #include <QItemSelectionModel>
 #include <QLoggingCategory>
 #include <QRegularExpression>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QTest>
 #include <QTimer>
 
@@ -478,6 +480,27 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
 
     if (cmd == "sendKeysStatus")
         return keyClicker()->status(arguments.value(1).toBool());
+
+    if (cmd == "dialogGeometry" || cmd == "resizeDialog") {
+        for (auto window : QApplication::topLevelWidgets()) {
+            if (window->isVisible() && window->objectName() == arguments.value(1).toString()) {
+                if (cmd == "resizeDialog") {
+                    window->resize(arguments.value(2).toInt(), arguments.value(3).toInt());
+                    return {};
+                }
+                const auto area = window->findChild<QScrollArea*>();
+                if (area) {
+                    return QVariantMap{
+                        {"width", window->width()},
+                        {"height", window->height()},
+                        {"horizontalScrollMaximum", area->horizontalScrollBar()->maximum()},
+                        {"verticalScrollMaximum", area->verticalScrollBar()->maximum()},
+                    };
+                }
+            }
+        }
+        return {};
+    }
 
     return QStringLiteral("Unexpected command: %1").arg(cmd);
 }

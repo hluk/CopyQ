@@ -71,6 +71,8 @@ private slots:
     void commandToggleConfig();
 
     void commandDialog();
+    void commandDialogFitsContents();
+    void commandDialogRestoreGeometry();
     void commandDialogCloseOnDisconnect();
 
     void commandMenuItems();
