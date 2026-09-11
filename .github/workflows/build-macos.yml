@@ -14,6 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  QT_VERSION: '6.11.1'
   KF_VERSION: '6.29'
   KF_PATCH: '0'
   KF_BRANCH: stable
@@ -37,6 +38,8 @@ jobs:
             buildname: macOS old
             bundle_suffix: '-macos-x86_64_macOS12'
             cmake_preset: macOS-10
+            qt_macos12: '6.8.3'
+            deployment_target: '12.0'
 
           - os: macos-15-intel
             buildname: macOS x86_64
@@ -69,25 +72,13 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
 
-      - name: Download qtbase bottle
-        if: matrix.buildname == 'macOS old'
-        uses: dsaltares/fetch-gh-release-asset@master
+      - name: Install Qt
+        uses: jurplel/install-qt-action@48d3ad6db93f3627c8ee7a0454bc6f3744f7e730 # v4
         with:
-          repo: ${{ github.repository_owner }}/brew_qt_macos12
-          version: tags/nightly
-          regex: true
-          file: "qtbase--.*\\.bottle\\.tar\\.gz"
-          target: "./"
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install dependencies
-        env:
-          BUILDNAME: ${{ matrix.buildname }}
-          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
-          HOMEBREW_NO_AUTO_UPDATE: 1
-          HOMEBREW_NO_INSTALL_CLEANUP: 1
-        run: '${{github.workspace}}/utils/github/install-qt.sh'
-
+          version: ${{ matrix.qt_macos12 || env.QT_VERSION }}
+          modules: qtimageformats qt5compat
+          cache: true
+          set-env: true
 
       - name: Set up dependency paths
         run: |
@@ -105,13 +96,15 @@ jobs:
             macos-deps-kf${{ env.KF_VERSION }}.${{ env.KF_PATCH
             }}-qca${{ env.QCA_VERSION
             }}-qtkeychain${{ env.QTKEYCHAIN_VERSION
+            }}-qt${{ matrix.qt_macos12 || env.QT_VERSION
+            }}-macos${{ matrix.deployment_target || 'default'
             }}-${{ runner.arch
             }}-${{ hashFiles('utils/patches/**') }}
 
       - name: Build dependencies
         if: steps.cache-deps.outputs.cache-hit != 'true'
         env:
-          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.buildname == 'macOS old' && '12.0' || '' }}
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.deployment_target || '' }}
         run: '${{ github.workspace }}/utils/github/build-macos-deps.sh'
 
       - name: Save dependency cache
@@ -123,6 +116,8 @@ jobs:
             macos-deps-kf${{ env.KF_VERSION }}.${{ env.KF_PATCH
             }}-qca${{ env.QCA_VERSION
             }}-qtkeychain${{ env.QTKEYCHAIN_VERSION
+            }}-qt${{ matrix.qt_macos12 || env.QT_VERSION
+            }}-macos${{ matrix.deployment_target || 'default'
             }}-${{ runner.arch
             }}-${{ hashFiles('utils/patches/**') }}
 
