@@ -26,6 +26,7 @@
 #include <objidl.h>
 #include <shlguid.h>
 
+#include <dwmapi.h>
 #include <psapi.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -237,6 +238,7 @@ HWND getLastVisibleActivePopUpOfWindow(HWND window)
 
 bool isWindowCloaked(HWND window)
 {
+    // Resolved at runtime to avoid linking dwmapi.
     using DwmGetWindowAttributePtr = HRESULT (WINAPI *)(HWND, DWORD, PVOID, DWORD);
     static const auto dwmGetWindowAttribute = []() -> DwmGetWindowAttributePtr {
         const HMODULE dwmapi = LoadLibraryW(L"dwmapi.dll");
@@ -249,10 +251,9 @@ bool isWindowCloaked(HWND window)
     if (!dwmGetWindowAttribute)
         return false;
 
-    constexpr DWORD dwmwaCloaked = 14;
     DWORD cloaked = 0;
     const HRESULT result =
-        dwmGetWindowAttribute(window, dwmwaCloaked, &cloaked, sizeof(cloaked));
+        dwmGetWindowAttribute(window, DWMWA_CLOAKED, &cloaked, sizeof(cloaked));
     return SUCCEEDED(result) && cloaked != 0;
 }
 
