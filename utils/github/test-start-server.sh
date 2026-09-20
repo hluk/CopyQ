@@ -12,12 +12,12 @@ copyq="${COPYQ_TESTS_EXECUTABLE:-./copyq}"
 copyq_pid=$!
 
 # Wait for server to start
-retries=3
-for i in {1..$retries}; do
+tries=3
+for ((i = 1; i <= tries; i++ )); do
     echo "Trying to start CopyQ server ($i)"
     if "$copyq" 'serverLog("Server started")'; then
         break
-    elif [[ $i == $retries ]]; then
+    elif [[ $i == $tries ]]; then
         echo "❌ FAILED: Could not start CopyQ server"
         exit 1
     fi

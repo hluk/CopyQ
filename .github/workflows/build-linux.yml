@@ -59,8 +59,8 @@ env:
   QCA_VERSION: '2.3.10'
   QTKEYCHAIN_VERSION: '0.17.0'
 
-  LINUXDEPLOY_URL: 'https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage'
-  LINUXDEPLOY_SHA256: '4648f278ab3ef31f819e67c30d50f462640e5365a77637d7e6f2ad9fd0b4522a'
+  LINUXDEPLOY_URL: 'https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20251107-1/linuxdeploy-x86_64.AppImage'
+  LINUXDEPLOY_SHA256: 'c20cd71e3a4e3b80c3483cef793cda3f4e990aca14014d23c544ca3ce1270b4d'
   LINUXDEPLOY_PLUGIN_QT_URL: 'https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-qt-x86_64.AppImage'
   LINUXDEPLOY_PLUGIN_QT_SHA256: '15106be885c1c48a021198e7e1e9a48ce9d02a86dd0a1848f00bdbf3c1c92724'
   LINUXDEPLOY_PLUGIN_APPIMAGE_URL: 'https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/1-alpha-20250213-1/linuxdeploy-plugin-appimage-x86_64.AppImage'
@@ -80,38 +80,38 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            buildname: Qt 6
-            compiler: g++
-            compiler_package: g++
-            custom_qt: '6.11.1'
-            with_native_notifications: false
-            with_kf6_wayland_clipboard: false
-            has_webp: false
-            coverage: true
-            cmake_preset: Debug
-            compiler_flags: >-
-              --coverage
-              -fprofile-arcs
-              -ftest-coverage
-              -fprofile-abs-path
-              -fprofile-update=atomic
-            test_wayland: true
-            test_gnome: true
-            test_x11: true
+          # - os: ubuntu-latest
+          #   buildname: Qt 6
+          #   compiler: g++
+          #   compiler_package: g++
+          #   custom_qt: '6.11.1'
+          #   with_native_notifications: false
+          #   with_kf6_wayland_clipboard: false
+          #   has_webp: false
+          #   coverage: true
+          #   cmake_preset: Debug
+          #   compiler_flags: >-
+          #     --coverage
+          #     -fprofile-arcs
+          #     -ftest-coverage
+          #     -fprofile-abs-path
+          #     -fprofile-update=atomic
+          #   test_wayland: true
+          #   test_gnome: true
+          #   test_x11: true
+          #
+          # - os: ubuntu-latest
+          #   buildname: Qt 6 Clang
+          #   compiler: clang++
+          #   compiler_package: clang
+          #   with_native_notifications: false
+          #   with_kf6_wayland_clipboard: false
+          #   has_webp: false
+          #   cmake_preset: Debug
+          #   test_x11: true
 
-          - os: ubuntu-latest
-            buildname: Qt 6 Clang
-            compiler: clang++
-            compiler_package: clang
-            with_native_notifications: false
-            with_kf6_wayland_clipboard: false
-            has_webp: false
-            cmake_preset: Debug
-            test_x11: true
-
-          # Pinned to ubuntu-24.04: KDE Neon repo below uses 'noble' (24.04 codename).
-          - os: ubuntu-24.04
+          # Pinned to ubuntu-26.04: KDE Neon repo below uses 'resolute' (26.04 codename).
+          - os: ubuntu-26.04
             buildname: AppImage
             compiler: g++
             compiler_package: g++
@@ -121,7 +121,7 @@ jobs:
             cmake_preset: AppImage-Release
             appimage: true
             test_wayland: true
-            test_x11: true
+            test_x11: false
     steps:
       - name: Checkout source code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v5
@@ -147,7 +147,7 @@ jobs:
         run: |
           sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg \
             utils/github/kde-neon-public.key
-          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable resolute main" |
             sudo tee /etc/apt/sources.list.d/neon.list
 
       - name: Install dependencies

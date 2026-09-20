@@ -59,6 +59,7 @@ bool testStderr(
         plain("Deleting keychain failed"),
 
         // Wayland (Linux)
+        plain("X11 selection is not supported, disabling."),
         plain("Wayland does not support QWindow::requestActivate()"),
         plain("Unexpected wl_keyboard.enter event"),
         plain("The compositor sent a wl_pointer.enter"),

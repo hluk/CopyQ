@@ -93,7 +93,7 @@ check_gnome_running() {
 
 export WAYLAND_DISPLAY=copyq-wayland
 socket=$XDG_RUNTIME_DIR/$WAYLAND_DISPLAY
-for _ in {1..20}; do
+for ((i = 1; i < 20; i++ )); do
     check_gnome_running
     if [[ -S "$socket" ]]; then
         break
