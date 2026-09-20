@@ -330,12 +330,7 @@ int startApplication(int argc, char **argv)
     case AppType::Server:
         // Set before QApplication construction so portal registration and
         // taskbar icon matching use the correct app ID.
-        if (args.sessionName.isEmpty()) {
-            QGuiApplication::setDesktopFileName(QStringLiteral("com.github.hluk.copyq"));
-        } else {
-            QGuiApplication::setDesktopFileName(
-                QStringLiteral("com.github.hluk.copyq-%1").arg(args.sessionName));
-        }
+        QGuiApplication::setDesktopFileName(QStringLiteral("com.github.hluk.copyq"));
         return startServer(argc, argv, args.sessionName);
 
     // If argument was specified and server is running
