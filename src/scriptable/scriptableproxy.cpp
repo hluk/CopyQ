@@ -81,6 +81,7 @@ const quint32 serializedFunctionCallMagicNumber = 0x58746908;
 const quint32 serializedFunctionCallVersion = 2;
 constexpr bool hasPriority = false;
 constexpr auto dataStreamVersion = QDataStream::Qt_6_2;
+constexpr int maxArgumentCount = 9;
 
 void registerMetaTypes() {
     static bool registered = false;
@@ -712,6 +713,12 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
         }
     }
 
+    if (arguments.size() > maxArgumentCount) {
+        log( QStringLiteral("Invalid argument count (%1): %2")
+                .arg(arguments.size()).arg(slotName), LogError );
+        return QByteArray();
+    }
+
     const auto slotIndex = metaObject()->indexOfSlot(slotName);
     if (slotIndex == -1) {
         log("Failed to find scriptable proxy slot: " + slotName, LogError);
@@ -722,7 +729,7 @@ QByteArray ScriptableProxy::callFunctionHelper(const QByteArray &serializedFunct
     const auto metaMethod = metaObject()->method(slotIndex);
     const auto typeId = metaMethod.returnType();
 
-    QGenericArgument args[9];
+    QGenericArgument args[maxArgumentCount];
     for (int i = 0; i < arguments.size(); ++i) {
         auto &value = arguments[i];
         const int argumentTypeId = metaMethod.parameterType(i);
