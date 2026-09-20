@@ -65,6 +65,11 @@ bool usePortal()
     return usePortalFromEnv || !X11Info::isPlatformX11();
 }
 
+QString sessionName()
+{
+    return qApp->property("CopyQ_session_name").toString();
+}
+
 } // namespace
 
 class GlobalShortcutsPortal : public QObject
@@ -211,24 +216,20 @@ private:
 
     void bindPortalGlobalShortcuts()
     {
-        const QString descriptionPrefix = QCoreApplication::applicationName()
-            .replace(QStringLiteral("copyq"), QStringLiteral("CopyQ"));
         PortalShortcuts shortcuts;
         m_shortcuts.removeAll(nullptr);
+        const QString session = sessionName();
         for (const auto &shortcut : m_shortcuts) {
             if (!shortcut->isEnabled())
                 continue;
             const QString name = shortcut->name();
-            const QString description = QStringLiteral("%1 - %2")
-                .arg(descriptionPrefix, name);
+            const QString description = m_descriptionPrefix + name;
             const QString preferredTrigger = shortcut->shortcut()
                 .toString(QKeySequence::PortableText)
                 .toUpper()
                 .replace("SUPER", "LOGO")
                 .replace("META", "LOGO");
-            // WORKAROUND: Include the shortcut in ID so it can be overridden.
-            // Works at least in KDE.
-            const QString shortcutId = QStringLiteral("%1||%2").arg(preferredTrigger, name);
+            const QString shortcutId = QStringLiteral("||%2||%3").arg(name, session);
             shortcuts.append({shortcutId, {
                 {QStringLiteral("description"), description},
                 {QStringLiteral("preferred_trigger"), preferredTrigger},
@@ -269,22 +270,6 @@ private:
             return;
         }
 
-        // WORKAROUND: Reset old shortcuts if they are not available anymore.
-        // There is no API to unbind old shortcuts.
-        // This works in KDE: Changing ID to some unused value and keeping the
-        // description allows to override the old shortcut.
-        for (const auto &oldShortcut : m_boundShortcuts) {
-            auto it = std::find_if(shortcuts.begin(), shortcuts.end(),
-                [&oldShortcut](const auto &s) { return s.first == oldShortcut.first; });
-            if (it == shortcuts.cend()) {
-                const QString shortcutId = QStringLiteral("OBSOLETE||%1").arg(oldShortcut.first);
-                shortcuts.append({shortcutId, {
-                    {QStringLiteral("description"), oldShortcut.second.value(QStringLiteral("description"))},
-                    {QStringLiteral("preferred_trigger"), QString()},
-                }});
-            }
-        }
-
         qCDebug(qxtCategory) << "Binding portal global shortcuts:" << shortcuts;
 
         const QDBusMessage message = m_globalShortcutInterface->call(
@@ -317,7 +302,13 @@ private:
             QCoreApplication::applicationName().replace(
                 QRegularExpression(QStringLiteral("[^A-Za-z0-9_]+")), QStringLiteral("_"))
         )
+        , m_descriptionPrefix(
+            QCoreApplication::applicationName().replace(
+                QStringLiteral("copyq"), QStringLiteral("CopyQ"))
+            + QStringLiteral(" - ")
+        )
     {
+
         m_timerBind.setSingleShot(true);
         m_timerBind.setInterval(0);
         connectPortal();
@@ -378,9 +369,10 @@ private slots:
         const auto arg = results.value(QStringLiteral("shortcuts")).value<QDBusArgument>();
         arg >> m_boundShortcuts;
         const auto it = std::remove_if(m_boundShortcuts.begin(), m_boundShortcuts.end(),
-            [](const auto &shortcut) {
-                return shortcut.second.value(QStringLiteral("trigger_description")).toString().isEmpty();
+            [this](const auto &shortcut) {
+                return !shortcut.second.value(QStringLiteral("description")).toString().startsWith(m_descriptionPrefix);
             });
+        qWarning() << "PORTAL SHORTCUTS" << m_boundShortcuts;
         m_boundShortcuts.erase(it, m_boundShortcuts.end());
         for (auto &shortcut : m_boundShortcuts) {
             const auto trigger = shortcut.second.take(QStringLiteral("trigger_description")).toString();
@@ -446,6 +438,10 @@ private slots:
         qulonglong ,
         const QVariantMap &)
     {
+        const QString session = shortcutId.section("||", 2, 2);
+        if (session != sessionName())
+            return;
+
         const QString shortcutName = shortcutId.section("||", 1, 1);
         for (const auto &shortcut : m_shortcuts) {
             if (shortcut && shortcut->name() == shortcutName) {
@@ -488,6 +484,7 @@ private:
     bool m_notifyRestart = true;
     std::unique_ptr<QDBusInterface> m_globalShortcutInterface;
     QString m_portalToken;
+    QString m_descriptionPrefix;
     QDBusObjectPath m_objPathCreateSession;
     QDBusObjectPath m_objPathListShortcuts;
     QDBusObjectPath m_objPathGlobalShortcuts;
