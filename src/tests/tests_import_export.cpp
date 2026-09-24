@@ -37,6 +37,8 @@ void CoreTests::exportImport(int flags)
         QVERIFY( hasTab(tab) );
         RUN(args << "size", "3\n");
         RUN(args << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
+        RUN("tabIcon" << tab << "x", "");
+        RUN("tabIcon" << tab, "x\n");
     }
 
     RUN("setCommands([{name: 'test', cmd: 'copyq help'}])", "");
@@ -93,6 +95,7 @@ void CoreTests::exportImport(int flags)
         const auto args1 = Args("tab") << tabCopy;
         RUN(args1 << "size", "3\n");
         RUN(args1 << "read" << "0" << "1" << "2" << "3", "1\n2\n3\n");
+        RUN("tabIcon" << tabCopy, "x\n");
     }
 
     if (flags & ExportSettings)
