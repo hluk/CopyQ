@@ -93,13 +93,39 @@ QIcon getIconForTabName(const QString &tabName)
     return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
 }
 
+QHash<QString, QString> tabIconNames()
+{
+    QHash<QString, QString> iconNames;
+
+    Settings settings;
+    const int size = settings.beginReadArray(tabsGroup);
+    iconNames.reserve(size);
+    for (int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        const QString tabName = settings.value("name").toString();
+        // Keep the first entry for a tab name, same as getIconNameForTabName().
+        if ( !iconNames.contains(tabName) )
+            iconNames.insert( tabName, settings.value("icon").toString() );
+    }
+    settings.endArray();
+
+    return iconNames;
+}
+
+QIcon getIconForTabName(const QString &tabName, const QHash<QString, QString> &iconNames)
+{
+    const QString fileName = iconNames.value(tabName);
+    return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
+}
+
 void initTabComboBox(QComboBox *comboBox)
 {
     setComboBoxItems(comboBox, AppConfig().option<Config::tabs>());
 
+    const QHash<QString, QString> iconNames = tabIconNames();
     for (int i = 1; i < comboBox->count(); ++i) {
         const QString tabName = comboBox->itemText(i);
-        const QIcon icon = getIconForTabName(tabName);
+        const QIcon icon = getIconForTabName(tabName, iconNames);
         comboBox->setItemIcon(i, icon);
     }
 }

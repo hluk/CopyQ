@@ -9,6 +9,7 @@
 #include "gui/tabicons.h"
 #include "gui/tabpropertieswidget.h"
 
+#include <QHash>
 #include <QSettings>
 #include <QVBoxLayout>
 
@@ -78,8 +79,9 @@ ConfigTabTabs::ConfigTabTabs(QWidget *parent)
     layout->addWidget(m_list);
 
     const Tabs tabs;
+    const QHash<QString, QString> iconNames = tabIconNames();
     for (const auto &name : AppConfig().option<Config::tabs>()) {
-        const auto icon = getIconForTabName(name);
+        const auto icon = getIconForTabName(name, iconNames);
         ItemOrderList::ItemPtr item(new TabItem(tabs.tabProperties(name), m_list));
         m_list->appendItem(name, icon, item);
     }

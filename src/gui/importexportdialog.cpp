@@ -5,6 +5,7 @@
 
 #include "gui/tabicons.h"
 
+#include <QHash>
 #include <QPushButton>
 
 ImportExportDialog::ImportExportDialog(QWidget *parent)
@@ -35,8 +36,9 @@ void ImportExportDialog::setTabs(const QStringList &tabs)
     ui->listTabs->addItems(tabs);
     ui->listTabs->selectAll();
     const auto items = ui->listTabs->selectedItems();
+    const QHash<QString, QString> iconNames = tabIconNames();
     for (const auto item : items)
-        item->setIcon( getIconForTabName(item->text()) );
+        item->setIcon( getIconForTabName(item->text(), iconNames) );
 
     const bool showTabs = ui->listTabs->count() > 0;
     ui->listTabs->setVisible(showTabs);
