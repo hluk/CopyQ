@@ -65,7 +65,8 @@ void Tabs::setTabProperties(const TabProperties &tabProperties)
 
 void Tabs::save(QSettings *settings, const QStringList &tabs)
 {
-    settings->beginWriteArray(settingsGroupTabs, m_data->tabs.size());
+    settings->remove(settingsGroupTabs);
+    settings->beginWriteArray(settingsGroupTabs);
 
     int row = 0;
     for (auto it = m_data->tabs.constBegin(); it != m_data->tabs.constEnd(); ++it) {

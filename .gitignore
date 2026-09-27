@@ -14,6 +14,7 @@ cmake_install.cmake
 *.suo
 *.*sdf
 *.vc?proj*
+.vs
 
 # Generated Makefiles
 /plugins/Makefile
