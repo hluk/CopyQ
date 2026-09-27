@@ -2288,9 +2288,10 @@ bool MainWindow::exportDataV4(QDataStream *out, const QStringList &tabs, bool ex
     const QVariantMap data = exportSettings(tabs, exportConfiguration, exportCommands);
     (*out) << data;
 
+    const Tabs tabProps;
     for (const auto &tab : tabs) {
         bool ok;
-        QVariantMap tabMap = exportTabData(tab, &ok);
+        QVariantMap tabMap = exportTabData(tab, tabProps, &ok);
         if (!ok)
             return false;
         if (!tabMap.isEmpty())
@@ -2315,9 +2316,10 @@ bool MainWindow::exportDataV5(QDataStream *out, const QStringList &tabs, bool ex
 
     serializeData(out, dataMap, -1, &encryptionKey);
 
+    const Tabs tabProps;
     for (const auto &tab : tabs) {
         bool ok;
-        QVariantMap tabMap = exportTabData(tab, &ok);
+        QVariantMap tabMap = exportTabData(tab, tabProps, &ok);
         if (!ok)
             return false;
         if (!tabMap.isEmpty()) {
@@ -2329,7 +2331,7 @@ bool MainWindow::exportDataV5(QDataStream *out, const QStringList &tabs, bool ex
     return out->status() == QDataStream::Ok;
 }
 
-QVariantMap MainWindow::exportTabData(const QString &tab, bool *ok)
+QVariantMap MainWindow::exportTabData(const QString &tab, const Tabs &tabProps, bool *ok)
 {
     *ok = true;
     const auto i = findTabIndex(tab);
@@ -2364,7 +2366,7 @@ QVariantMap MainWindow::exportTabData(const QString &tab, bool *ok)
         return {};
     }
 
-    const auto iconName = getIconNameForTabName(tabName);
+    const auto iconName = tabProps.tabProperties(tabName).iconName;
 
     QVariantMap tabMap;
     tabMap[QStringLiteral("name")] = tabName;

@@ -5,6 +5,7 @@
 #include "common/appconfig.h"
 #include "common/config.h"
 #include "common/settings.h"
+#include "common/tabs.h"
 #include "common/textdata.h"
 #include "gui/iconfactory.h"
 
@@ -93,13 +94,20 @@ QIcon getIconForTabName(const QString &tabName)
     return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
 }
 
+QIcon getIconForTabName(const QString &tabName, const Tabs &tabs)
+{
+    const QString fileName = tabs.tabProperties(tabName).iconName;
+    return fileName.isEmpty() ? QIcon() : iconFromFile(fileName);
+}
+
 void initTabComboBox(QComboBox *comboBox)
 {
     setComboBoxItems(comboBox, AppConfig().option<Config::tabs>());
 
+    const Tabs tabs;
     for (int i = 1; i < comboBox->count(); ++i) {
         const QString tabName = comboBox->itemText(i);
-        const QIcon icon = getIconForTabName(tabName);
+        const QIcon icon = getIconForTabName(tabName, tabs);
         comboBox->setItemIcon(i, icon);
     }
 }

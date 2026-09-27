@@ -3,6 +3,7 @@
 #include "gui/importexportdialog.h"
 #include "ui_importexportdialog.h"
 
+#include "common/tabs.h"
 #include "gui/tabicons.h"
 
 #include <QPushButton>
@@ -35,8 +36,9 @@ void ImportExportDialog::setTabs(const QStringList &tabs)
     ui->listTabs->addItems(tabs);
     ui->listTabs->selectAll();
     const auto items = ui->listTabs->selectedItems();
+    const Tabs tabProps;
     for (const auto item : items)
-        item->setIcon( getIconForTabName(item->text()) );
+        item->setIcon( getIconForTabName(item->text(), tabProps) );
 
     const bool showTabs = ui->listTabs->count() > 0;
     ui->listTabs->setVisible(showTabs);

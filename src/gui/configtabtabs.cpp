@@ -79,7 +79,7 @@ ConfigTabTabs::ConfigTabTabs(QWidget *parent)
 
     const Tabs tabs;
     for (const auto &name : AppConfig().option<Config::tabs>()) {
-        const auto icon = getIconForTabName(name);
+        const auto icon = getIconForTabName(name, tabs);
         ItemOrderList::ItemPtr item(new TabItem(tabs.tabProperties(name), m_list));
         m_list->appendItem(name, icon, item);
     }
