@@ -211,3 +211,26 @@ void CoreTests::trayMenuToggleRapid()
     RUN("menu", "");
     ACTIVATE_MENU_ITEM(trayMenuId, clipboardBrowserId, "Z");
 }
+
+void CoreTests::trayMenuFitsScreen()
+{
+#ifndef Q_OS_WIN
+    SKIP("Windows tray menu placement regression.");
+#endif
+
+    for (const int itemCount : {0, 1, 10}) {
+        RUN(QStringLiteral("while (size()) remove(0);"
+                           "for (var i = 0; i < %1; ++i) add('item' + i);").arg(itemCount), "");
+
+        for (int i = 0; i < 2; ++i) {
+            KEYS(clipboardBrowserId);
+            RUN("callPlugin('itemtests', 'popupMenuAtScreenEdge', 'TrayMenu')", "");
+            KEYS(trayMenuId);
+            RUN("print(callPlugin('itemtests', 'menuFitsScreen', 'TrayMenu'))", "true");
+
+            if (itemCount > 0)
+                KEYS(trayMenuId << ":item0");
+            KEYS(trayMenuId << "ESCAPE");
+        }
+    }
+}

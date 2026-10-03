@@ -7,7 +7,9 @@
 #include <QDrag>
 #include <QItemSelectionModel>
 #include <QLoggingCategory>
+#include <QMenu>
 #include <QRegularExpression>
+#include <QScreen>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTest>
@@ -480,6 +482,21 @@ QVariant ItemTestsLoader::scriptCallback(const QVariantList &arguments)
 
     if (cmd == "sendKeysStatus")
         return keyClicker()->status(arguments.value(1).toBool());
+
+    if (cmd == "popupMenuAtScreenEdge" || cmd == "menuFitsScreen") {
+        for (auto window : QApplication::topLevelWidgets()) {
+            auto menu = qobject_cast<QMenu*>(window);
+            if (menu && menu->objectName() == arguments.value(1).toString()) {
+                const auto screen = menu->screen()->geometry();
+                if (cmd == "popupMenuAtScreenEdge") {
+                    menu->popup(screen.bottomRight() - QPoint(8, 8));
+                    return {};
+                }
+                return menu->isVisible() && screen.contains(menu->geometry());
+            }
+        }
+        return {};
+    }
 
     if (cmd == "dialogGeometry" || cmd == "resizeDialog") {
         for (auto window : QApplication::topLevelWidgets()) {
