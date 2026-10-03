@@ -1,3 +1,49 @@
+# 17.0.0
+
+## Added
+
+- Adds support for GNOME 50 (#3677).
+
+## Changed
+
+- Tab data and state files are moved to XDG-compliant directories,
+  `%LOCALAPPDATA%` on Windows and `~/Library/Application Support` on macOS
+  (#3692, #3693). State path can be changed using `COPYQ_STATE_PATH`
+  environment variable.
+
+  **Important**: This is backwards incompatible. The data and state files are
+  moved when the new app version starts. Older versions of the app will not see
+  these files and basically lose all items.
+
+- FakeVim is updated from upstream repository.
+
+## Fixed
+
+- Fixes audio engine always using a small amount of CPU and indicating (on KDE)
+  that it plays audio (#3684). The engine is initialized only when needed and
+  released after it stops playing all audio.
+
+- Fixes initial script dialog size (#3700). Thanks to @wyf-777.
+
+- Fixes slow tab icon lookups when the app contains many item tabs (#3721).
+  Thanks to @jkindrix (Justin Kindrix).
+
+- Fixes keeping old tabs in configuration (#3722). Thanks to @sakashimaa.
+
+- Windows: Prevents app from attempting (unsuccessfully) to paste to windows
+  the user cannot switch back to (#2556). Thanks to @ntzb.
+
+- Wayland: Fixes global shortcuts failing when portal service starts later or
+  restarts (#3616, #3680).
+
+- Wayland: Fixes global shortcuts in non-default sessions (#3713).
+
+- Wayland: Fixes rebinding global shortcuts on start (#3678).
+  Thanks to @Memoraike (Meow).
+
+- Synchronize plugin: Fixes GUI freeze when removing items and on startup and
+  retrying to remove absent files (#3629, #3697).
+
 # 16.0.0
 
 ## Added
