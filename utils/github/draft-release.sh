@@ -11,10 +11,9 @@
 #   3. Creates a source tarball
 #   4. Waits for CI workflow runs to complete
 #   5. Downloads workflow artifacts locally
-#   6. Verifies all expected files are present
-#   7. Generates checksums and cosign signature
-#   8. Creates (or updates) the draft release
-#   9. Uploads ALL assets in one shot
+#   6. Generates checksums and cosign signature
+#   7. Creates (or updates) the draft release
+#   8. Uploads ALL assets in one shot
 #
 # Idempotency: reuse the same WORKDIR to resume an interrupted run.
 # Each step skips work that is already done.
@@ -102,90 +101,49 @@ fi
 # Wait for CI builds and download artifacts
 # ---------------------------------------------------------------------------
 
-expected_assets=(
-    "CopyQ-${version}-x86_64.AppImage"
-    "CopyQ-${version}-macos-12-m1.dmg"
-    "CopyQ-${version}-macos-13.dmg"
-    "copyq-${version}-setup.exe"
-    "copyq-${version}.zip"
-)
-
 # Resolve the workflow run ID for a given workflow file.
 get_run_id() {
     local workflow="$1"
     local tag_sha="$2"
-    gh run list --workflow "$workflow" --commit "$tag_sha" \
+    gh run list --workflow "$workflow" --branch "$tag" \
         --limit 1 --json databaseId --jq '.[0].databaseId // empty'
 }
 
-# Download all artifacts from a workflow run, flattening into $workdir.
-# gh run download creates subdirectories named after each artifact;
-# we move files up one level into $workdir.
-download_run_artifacts() {
-    local run_id="$1"
-    local tmpdir="$workdir/.dl-$$"
-    mkdir -p "$tmpdir"
+linux_run_id="$(get_run_id "build-linux.yml" "$tag")"
+macos_run_id="$(get_run_id "build-macos.yml" "$tag")"
+windows_run_id="$(get_run_id "build-windows.yml" "$tag")"
 
-    gh run download "$run_id" --dir "$tmpdir" 2>/dev/null || true
+log "Watching workflows..."
+gh run watch "$linux_run_id" --exit-status --interval 30
+gh run watch "$macos_run_id" --exit-status --interval 30
+gh run watch "$windows_run_id" --exit-status --interval 30
 
-    # Flatten: move files from subdirectories into $workdir
-    find "$tmpdir" -mindepth 2 -type f | while IFS= read -r f; do
-        local base
-        base="$(basename "$f")"
-        if [[ ! -f "$workdir/$base" ]]; then
-            mv "$f" "$workdir/$base"
-            log "  Downloaded: $base"
+expected_assets=(
+    "CopyQ-${version}-x86_64.AppImage:$linux_run_id"
+    "CopyQ-${version}-macos-13.dmg:$macos_run_id"
+    "CopyQ-${version}-macos-13-m1.dmg:$macos_run_id"
+    "copyq-${version}-setup.exe:$windows_run_id"
+    "copyq-${version}.zip:$windows_run_id"
+)
+
+for asset_mapping in "${expected_assets[@]}"; do
+    asset_name=$(cut -f1 -d: <<<"$asset_mapping")
+    run_id=$(cut -f2 -d: <<<"$asset_mapping")
+    if [[ ! -f "$workdir/$asset_name" ]]; then
+        log "Fetching $asset_name from run ID $run_id..."
+        asset_id=$(gh api repos/:owner/:repo/actions/runs/$run_id/artifacts \
+            --jq '.artifacts[]|select(.name=="'"$asset_name"'")|.id')
+
+        target=$workdir/$asset_name
+        gh api /repos/:owner/:repo/actions/artifacts/"$asset_id"/zip > "$target"
+
+        if [[ $(stat -c%s "$target") -lt 100000 ]]; then
+            die "Failed to fetch artifact"
         fi
-    done
-
-    rm -rf "$tmpdir"
-}
-
-wait_and_download() {
-    local tag_sha
-    tag_sha="$(git rev-list -n 1 "$tag")"
-    [[ -n "$tag_sha" ]] || die "Could not resolve commit SHA for tag $tag"
-
-    local workflows=("build-linux.yml" "build-macos.yml" "build-windows.yml")
-    local run_ids=()
-
-    for wf in "${workflows[@]}"; do
-        log "Getting run for $wf (commit $tag_sha) ..."
-        local run_id
-        run_id="$(get_run_id "$wf" "$tag_sha")"
-        [[ -n "$run_id" ]] || die "Could not find run for $wf at commit $tag_sha"
-        run_ids+=("$run_id")
-    done
-
-    for i in "${!workflows[@]}"; do
-        log "Watching ${workflows[$i]} (run ${run_ids[$i]}) ..."
-        gh run watch "${run_ids[$i]}" --exit-status --interval 30 \
-            || die "${workflows[$i]} failed"
-        log "Downloading artifacts from ${workflows[$i]} ..."
-        download_run_artifacts "${run_ids[$i]}"
-    done
-
-    log "All builds completed and artifacts downloaded"
-}
-
-# Check if all expected assets exist locally.
-has_all_local() {
-    for name in "${expected_assets[@]}"; do
-        [[ -f "$workdir/$name" ]] || return 1
-    done
-    return 0
-}
-
-if has_all_local; then
-    log "All expected build artifacts already in $workdir"
-else
-    wait_and_download
-    if ! has_all_local; then
-        log "Files in $workdir:"
-        ls -1 "$workdir" >&2
-        die "CI artifacts downloaded but not all expected files are present"
     fi
-fi
+done
+
+log "All builds completed and artifacts downloaded"
 
 # ---------------------------------------------------------------------------
 # Checksums and cosign signature (skip if cosign.bundle exists)
@@ -193,7 +151,7 @@ fi
 
 all_assets=(
     "CopyQ-${version}.tar.gz"
-    "${expected_assets[@]}"
+    "${expected_assets[@]/:*}"
 )
 
 checksums_file="$workdir/checksums-sha512.txt"
@@ -236,7 +194,7 @@ fi
 # ---------------------------------------------------------------------------
 
 upload_files=("$source_tarball")
-for name in "${expected_assets[@]}"; do
+for name in "${expected_assets[@]/:*}"; do
     upload_files+=("$workdir/$name")
 done
 upload_files+=("$checksums_file" "$cosign_bundle")
