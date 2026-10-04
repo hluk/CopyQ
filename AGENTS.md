@@ -1,70 +1,38 @@
 ## Commands
 
-Always use the following environment variables for all `build/copyq` and
-`build/copyq-tests` commands:
+Always use the environment variables from `utils/env.sh` for all `build/copyq`
+and `build/copyq-tests` commands:
 
-    export COPYQ_SESSION_NAME="test"
-    export COPYQ_SETTINGS_PATH="build/copyq-test-conf"
-    export COPYQ_ITEM_DATA_PATH="build/copyq-test-data"
-    export COPYQ_STATE_PATH="build/copyq-test-conf"
-    export COPYQ_PLUGINS=""
-    export COPYQ_DEFAULT_ICON="1"
-    export COPYQ_SESSION_COLOR="#f90"
-    export COPYQ_THEME_PREFIX="$PWD/shared/themes"
-    export COPYQ_PASSWORD="TEST123"
-    export COPYQ_LOG_LEVEL="DEBUG"
-    export QT_LOGGING_RULES="*.debug=true;qt.*.debug=false"
-    export QT_QPA_PLATFORM="xcb"
+    source utils/env.sh
 
 Run CMake to configure build:
 
-    cmake -B build -G Ninja \
-      -DCMAKE_BUILD_TYPE=Debug \
-      -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-      -DCMAKE_INSTALL_PREFIX=$PWD/build/install \
-      -DCMAKE_CXX_FLAGS="-ggdb -fdiagnostics-color" \
-      -DWITH_TESTS=ON \
-      -DPEDANTIC=ON .
+    cmake -B build -DWITH_TESTS=ON -DPEDANTIC=ON .
 
 Build: `cmake -B build --build`
 
 Install: `cmake -B build --target install`
 
-Tests and the app require a running X11 or Wayland session with a window
-manager. **You MUST start Xvfb and openbox (or a Wayland compositor) before
-running any `build/copyq` or `build/copyq-tests` command**, otherwise the
-process will crash (exit code 134 or SIGSEGV). X11 setup (once per session):
+**Start Xvfb and openbox (or a Wayland compositor) before running any
+`build/copyq` or `build/copyq-tests` command**, otherwise the process will
+crash (exit code 134 or SIGSEGV):
 
-    Xvfb :99 -screen 0 1280x1024x24 &
-    sleep 1
-    export DISPLAY=:99
-    openbox &
-    sleep 1
+- X11 setup: `source utils/xvfb.sh`
+- Wayland setup: `USE_KWIN=1 source utils/wayland.sh`
 
-Then export `DISPLAY=:99` alongside the other environment variables for every
-command. For Wayland, start a compositor and set `QT_QPA_PLATFORM=wayland`
-instead of `xcb`.
+Avoid running all tests, always specify a list of test functions to run
+(`group:tag`):
 
-Avoid running all tests, always specify a list of test functions to run.
+    build/copyq-tests testCore:configPath testCore:badCommand
 
-Run tests after build: `build/copyq-tests $TEST_FUNCTIONS`
+List test groups and tags: `build/copyq-tests -datatags`
 
-Run a specific test by group and tag: `build/copyq-tests "testCore:configPath"`
-
-Run all tests for a plugin group: `build/copyq-tests testItemSync`
-
-List test group names: `build/copyq-tests -functions`
-
-List all individual test methods: `build/copyq-tests -datatags`
-
-Filter tests by name substring: `COPYQ_TESTS_FILTER=clipboard build/copyq-tests`
+Run tests matching a substring: `COPYQ_TESTS_FILTER=clipboard build/copyq-tests`
 
 Start the server process: `build/copyq`
 
 In case any process exits with exit code 11 (SIGSEGV) use `coredumpctl` utility
 to find the root cause.
-
-Stop the server process: `build/copyq exit`
 
 List server and client logs (server process does not need to run): `build/copyq logs`
 
@@ -78,13 +46,14 @@ Run a script - requires server to be running:
 Scripting API documentation is in @docs/scripting-api.rst. After changing it,
 run @utils/script_docs_to_cpp.py to update the completion popup in the GUI.
 
-Useful scripts (omit the `tab(...)` call to use the default tab):
+Useful scripts:
 
 - `tab('TAB1'); add('ITEM')` - prepend ITEM text item to the TAB1 tab
-- `tab('TAB1'); size()` - item count in the TAB1 tab
-- `tab('TAB1'); read(0,1,2)` - read items at indexes 0, 1 and 2 in the TAB1 tab
-- `config()` - list configuration options with current value and description
+- `tab('TAB1'); size()` - TAB1 item count
+- `read(0,1,2)` - read items at indexes 0, 1 and 2 (default tab)
+- `config` - list configuration options with current value and description
 - `config('check_clipboard', 'false')` - set an option
+- `stats` - list QObjects, plugins, disk and memory usage etc
 
 ## Project structure
 
