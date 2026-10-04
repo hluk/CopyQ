@@ -372,7 +372,6 @@ private slots:
             [this](const auto &shortcut) {
                 return !shortcut.second.value(QStringLiteral("description")).toString().startsWith(m_descriptionPrefix);
             });
-        qWarning() << "PORTAL SHORTCUTS" << m_boundShortcuts;
         m_boundShortcuts.erase(it, m_boundShortcuts.end());
         for (auto &shortcut : m_boundShortcuts) {
             const auto trigger = shortcut.second.take(QStringLiteral("trigger_description")).toString();
