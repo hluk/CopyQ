@@ -6,19 +6,13 @@
     border:none
 }
 
+/* Keep menu items consistently spaced. */
 #TrayMenu::item,
 #MainWindow>QMenu::item,
 #menu_bar>QMenu::item
 {
-    ;padding: 0.2em 1em 0.2em 1em
-    ;padding-left: ${scale=2}${icon_size}${scale=1}px
-}
-
-#TrayMenu::icon,
-#MainWindow>QMenu::icon,
-#menu_bar>QMenu::icon
-{
-    ;padding-left: ${scale=0.5}${icon_size}${scale=1}px
+    ;padding-top: 4px
+    ;padding-bottom: 4px
 }
 
 /* Keep default item highlighted (removing icon border resets the style). */
