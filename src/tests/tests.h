@@ -230,6 +230,7 @@ private slots:
     void trayPaste();
     void trayShowHideAction();
     void trayMenuToggleRapid();
+    void trayMenuFitsScreen();
 
     void pasteNext();
 
