@@ -289,6 +289,7 @@ void ConfigurationManager::initOptions()
     bind<Config::transparency_focused>(m_tabLayout->spinBoxTransparencyFocused);
     bind<Config::transparency>(m_tabLayout->spinBoxTransparencyUnfocused);
     bind<Config::hide_tabs>(m_tabLayout->checkBoxHideTabs);
+    bind<Config::hide_menu_bar>(m_tabLayout->checkBoxHideMenuBar);
     bind<Config::hide_toolbar>(m_tabLayout->checkBoxHideToolbar);
     bind<Config::hide_toolbar_labels>(m_tabLayout->checkBoxHideToolbarLabels);
     bind<Config::frameless_window>(m_tabLayout->checkBoxFramelessWindow);

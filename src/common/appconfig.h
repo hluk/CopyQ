@@ -219,6 +219,10 @@ struct hide_tabs : Config<bool> {
     static QString name() { return QStringLiteral("hide_tabs"); }
 };
 
+struct hide_menu_bar : Config<bool> {
+    static QString name() { return QStringLiteral("hide_menu_bar"); }
+};
+
 struct hide_toolbar : Config<bool> {
     static QString name() { return QStringLiteral("hide_toolbar"); }
 };

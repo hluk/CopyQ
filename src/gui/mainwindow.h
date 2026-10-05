@@ -90,6 +90,7 @@ struct MainWindowOptions {
     int transparencyFocused = 0;
 
     bool hideTabs = false;
+    bool hideMenuBar = false;
 
     bool hideMainWindow = false;
     bool closeOnUnfocus = false;
@@ -319,6 +320,14 @@ public:
     /** Open preferences dialog. */
     void openPreferences();
 
+    /**
+     * Show the menu bar and give it focus.
+     *
+     * Escape hatch for the "hide menu bar" option: reachable from the item
+     * context menu and from its own shortcut while the menu bar is hidden.
+     */
+    void showMenuBar();
+
     /** Open commands dialog. */
     void openCommands();
 
@@ -517,6 +526,9 @@ private:
     void onTabWidgetDropItems(const QString &tabName, const QMimeData *data, bool *accepted);
 
     void showContextMenuAt(QPoint position);
+
+    /// Append menu bar replacements to the item menu while the menu bar is hidden.
+    void addMenuBarFallbackActions();
 
     void showContextMenu();
 

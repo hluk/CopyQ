@@ -1023,6 +1023,10 @@ void MainWindow::createMenu()
     // - separator
     menu->addSeparator();
 
+    // - show menu bar (not added to the menu bar itself: it is offered in the
+    //   item context menu while the menu bar is hidden, and by its shortcut)
+    createAction( Actions::File_ShowMenuBar, &MainWindow::showMenuBar, nullptr );
+
     // - exit
     createAction( Actions::File_Exit, &MainWindow::exit, menu );
 
@@ -1187,6 +1191,7 @@ void MainWindow::updateContextMenuTimeout()
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(m_toolBar);
         m_toolBar->setFrozen(false);
+        addMenuBarFallbackActions();
         return;
     }
 
@@ -1209,8 +1214,32 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
 
+    addMenuBarFallbackActions();
+
     updateToolBar();
     updateActionShortcuts();
+}
+
+void MainWindow::addMenuBarFallbackActions()
+{
+    if (!m_options.hideMenuBar)
+        return;
+
+    // The actions are owned by the item menu instead of being the shared ones
+    // from the menu bar: clearActions() deletes every action in this menu each
+    // time it is rebuilt.
+    const auto addFallbackAction = [this](Actions::Id id, void (MainWindow::*slot)()) {
+        const MenuItem &item = m_sharedData->menuItems[id];
+        QAction *act = m_menuItem->addAction( getIcon(item.iconName, item.iconId), item.text );
+        connect(act, &QAction::triggered, this, slot);
+    };
+
+    if ( !m_menuItem->isEmpty() )
+        m_menuItem->addSeparator();
+
+    addFallbackAction( Actions::File_ShowMenuBar, &MainWindow::showMenuBar );
+    addFallbackAction( Actions::File_Preferences, &MainWindow::openPreferences );
+    addFallbackAction( Actions::File_Exit, &MainWindow::exit );
 }
 
 void MainWindow::updateItemPreviewAfterMs(int ms)
@@ -3179,6 +3208,9 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     m_options.hideTabs = appConfig->option<Config::hide_tabs>();
     setHideTabs(m_options.hideTabs);
 
+    m_options.hideMenuBar = appConfig->option<Config::hide_menu_bar>();
+    menuBar()->setHidden(m_options.hideMenuBar);
+
     bool hideToolbar = appConfig->option<Config::hide_toolbar>();
     clearActions(m_toolBar);
     m_toolBar->setHidden(hideToolbar);
@@ -4270,6 +4302,23 @@ void MainWindow::showItemContent()
     const QModelIndex current = c->currentIndex();
     if ( current.isValid() )
         openDialog<ClipboardDialog>(current, c->model(), this);
+}
+
+void MainWindow::showMenuBar()
+{
+    if (m_options.hideMenuBar) {
+        m_options.hideMenuBar = false;
+        AppConfig().setOption( Config::hide_menu_bar::name(), false );
+        updateContextMenu(0);
+    }
+
+    QMenuBar *menubar = menuBar();
+    menubar->setHidden(false);
+
+    // Focus the menu bar so it can be used from the keyboard straight away.
+    // The menus are not opened here: the action is also triggered by mouse
+    // from the item context menu, where a popping up menu would be surprising.
+    menubar->setFocus(Qt::MenuBarFocusReason);
 }
 
 void MainWindow::openPreferences()
