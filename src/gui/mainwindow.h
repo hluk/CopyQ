@@ -36,6 +36,7 @@ class Theme;
 class TrayMenu;
 class ToolBar;
 class QModelIndex;
+class QSizeGrip;
 struct NotificationButton;
 
 Q_DECLARE_METATYPE(QPersistentModelIndex)
@@ -457,6 +458,9 @@ protected:
     void keyReleaseEvent(QKeyEvent *event) override;
     bool event(QEvent *event) override;
 
+    /** Move frameless window by dragging its empty area. */
+    void mousePressEvent(QMouseEvent *event) override;
+
     /** Hide (minimize to tray) window on close. */
     void closeEvent(QCloseEvent *event) override;
 
@@ -478,6 +482,8 @@ private:
     void saveTabPositions();
     void onSaveTabPositionsTimer();
     void doSaveTabPositions(AppConfig *appConfig);
+    void updateSizeGrip(bool frameless);
+    void placeSizeGrip();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
     void tabBarMenuRequested(QPoint pos, int tab);
     void tabTreeMenuRequested(QPoint pos, const QString &groupPath);
@@ -695,6 +701,8 @@ private:
     SystemTrayIcon *m_tray;
 
     ToolBar *m_toolBar;
+
+    QSizeGrip *m_sizeGrip = nullptr;
 
     MainWindowOptions m_options;
 

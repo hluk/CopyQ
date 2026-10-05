@@ -245,6 +245,9 @@ private slots:
 
     void configTabs();
 
+    void framelessWindowOffByDefault();
+    void framelessWindowShowsSizeGrip();
+
     void selectedItems();
 
     void shortcutCommand();
