@@ -102,7 +102,7 @@
             <item>
              <widget class="QCheckBox" name="checkBoxHideMenuBar">
               <property name="toolTip">
-               <string>Hide menu bar (the item context menu can show it again)</string>
+               <string>Hide menu bar (Alt or the context menu shows it temporarily)</string>
               </property>
               <property name="text">
                <string>Hide m&amp;enu bar</string>

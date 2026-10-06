@@ -751,6 +751,68 @@ private:
     QTimer m_timerUnfreeze;
 };
 
+/**
+ * With the "hide menu bar" option: shows the menu bar when Alt is pressed and
+ * released on its own, and leaves it on a click elsewhere in the window.
+ */
+class HiddenMenuBarFilter final : public QObject {
+public:
+    explicit HiddenMenuBarFilter(MainWindow *window)
+        : QObject(window)
+        , m_window(window)
+    {
+    }
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event) override
+    {
+        switch ( event->type() ) {
+        case QEvent::KeyPress: {
+            const auto keyEvent = static_cast<QKeyEvent*>(event);
+            if ( !keyEvent->isAutoRepeat() ) {
+                m_altPressed = keyEvent->key() == Qt::Key_Alt
+                    && (keyEvent->modifiers() & ~Qt::AltModifier) == Qt::NoModifier;
+            }
+            break;
+        }
+        case QEvent::KeyRelease: {
+            const auto keyEvent = static_cast<QKeyEvent*>(event);
+            if ( m_altPressed && keyEvent->key() == Qt::Key_Alt && !keyEvent->isAutoRepeat() ) {
+                m_altPressed = false;
+                if ( QApplication::activeWindow() == m_window && m_window->menuBar()->isHidden() )
+                    QTimer::singleShot(0, m_window, &MainWindow::showMenuBar);
+            }
+            break;
+        }
+        case QEvent::MouseButtonPress: {
+            m_altPressed = false;
+            // A click on an area that does not take focus (for example with
+            // a tab group selected) would leave the focus in the menu bar.
+            QMenuBar *menubar = m_window->menuBar();
+            const auto widget = qobject_cast<QWidget*>(object);
+            if ( widget && menubar->hasFocus() && widget->window() == m_window
+                 && widget != menubar && !menubar->isAncestorOf(widget) )
+            {
+                m_window->leaveMenuBar();
+            }
+            break;
+        }
+        case QEvent::Wheel:
+        case QEvent::WindowDeactivate:
+            m_altPressed = false;
+            break;
+        default:
+            break;
+        }
+
+        return false;
+    }
+
+private:
+    MainWindow *m_window;
+    bool m_altPressed = false;
+};
+
 MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *parent)
     : QMainWindow(parent)
     , cm(nullptr)
@@ -775,6 +837,11 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
 
     menuBar()->setObjectName("menu_bar");
     createMenu();
+    m_hiddenMenuBarFilter = new HiddenMenuBarFilter(this);
+    menuBar()->installEventFilter(this);
+    centralWidget()->installEventFilter(this);
+    connect( qApp, &QApplication::focusChanged,
+             this, &MainWindow::hideMenuBarLaterIfUnused );
 
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, m_toolBar);
@@ -1023,10 +1090,6 @@ void MainWindow::createMenu()
     // - separator
     menu->addSeparator();
 
-    // - show menu bar (not added to the menu bar itself: it is offered in the
-    //   item context menu while the menu bar is hidden, and by its shortcut)
-    createAction( Actions::File_ShowMenuBar, &MainWindow::showMenuBar, nullptr );
-
     // - exit
     createAction( Actions::File_Exit, &MainWindow::exit, menu );
 
@@ -1092,11 +1155,16 @@ void MainWindow::createMenu()
     // Open Item Menu
     createAction( Actions::ItemMenu, &MainWindow::showContextMenu, nullptr );
 
+    // Show Menu Bar (not in the menu bar: for when the menu bar is hidden)
+    createAction( Actions::Misc_ShowMenuBar, &MainWindow::showMenuBar, nullptr );
+
     for (auto subMenu : menuBar()->findChildren<QMenu*>()) {
         connect( subMenu, &QMenu::aboutToShow,
                  this, &MainWindow::disableHideWindowOnUnfocus );
         connect( subMenu, &QMenu::aboutToHide,
                  this, &MainWindow::enableHideWindowOnUnfocus );
+        connect( subMenu, &QMenu::aboutToHide,
+                 this, &MainWindow::hideMenuBarLaterIfUnused );
     }
 }
 
@@ -1191,7 +1259,6 @@ void MainWindow::updateContextMenuTimeout()
     if ( ui->tabWidget->isTabGroupSelected() || !c || c->isInternalEditorOpen()) {
         clearActions(m_toolBar);
         m_toolBar->setFrozen(false);
-        addMenuBarFallbackActions();
         return;
     }
 
@@ -1214,30 +1281,31 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
 
-    addMenuBarFallbackActions();
+    if ( menuBar()->isHidden() )
+        addMenuBarFallbackActions(m_menuItem);
 
     updateToolBar();
     updateActionShortcuts();
 }
 
-void MainWindow::addMenuBarFallbackActions()
+void MainWindow::addMenuBarFallbackActions(QMenu *menu)
 {
     if (!m_options.hideMenuBar)
         return;
 
-    // The actions are owned by the item menu instead of being the shared ones
-    // from the menu bar: clearActions() deletes every action in this menu each
+    // The actions are owned by the menu instead of being the shared ones from
+    // the menu bar: clearActions() deletes every action in the item menu each
     // time it is rebuilt.
-    const auto addFallbackAction = [this](Actions::Id id, void (MainWindow::*slot)()) {
+    const auto addFallbackAction = [this, menu](Actions::Id id, void (MainWindow::*slot)()) {
         const MenuItem &item = m_sharedData->menuItems[id];
-        QAction *act = m_menuItem->addAction( getIcon(item.iconName, item.iconId), item.text );
+        QAction *act = menu->addAction( getIcon(item.iconName, item.iconId), item.text );
         connect(act, &QAction::triggered, this, slot);
     };
 
-    if ( !m_menuItem->isEmpty() )
-        m_menuItem->addSeparator();
+    if ( !menu->isEmpty() )
+        menu->addSeparator();
 
-    addFallbackAction( Actions::File_ShowMenuBar, &MainWindow::showMenuBar );
+    addFallbackAction( Actions::Misc_ShowMenuBar, &MainWindow::showMenuBar );
     addFallbackAction( Actions::File_Preferences, &MainWindow::openPreferences );
     addFallbackAction( Actions::File_Exit, &MainWindow::exit );
 }
@@ -1446,12 +1514,12 @@ void MainWindow::showContextMenuAt(QPoint position)
 void MainWindow::showContextMenu()
 {
     auto c = browser();
-    if (!c)
+    const auto index = c ? c->currentIndex() : QModelIndex();
+    if ( !index.isValid() ) {
+        const QRect rect = centralWidget()->rect();
+        showMenuBarFallbackMenu( centralWidget()->mapToGlobal(rect.center()) );
         return;
-
-    const auto index = c->currentIndex();
-    if ( !index.isValid() )
-        return;
+    }
 
     const auto itemRect = c->visualRect(index);
     const auto viewportPosition = itemRect.center();
@@ -2876,12 +2944,33 @@ void MainWindow::addCommands(const QVector<Command> &commands)
 bool MainWindow::eventFilter(QObject *object, QEvent *ev)
 {
     const QEvent::Type type = ev->type();
+
+    // Context menu outside the items (no item, nothing selected, tab group
+    // selected) while the menu bar is hidden. The main window itself
+    // prevents context menus, so this is caught on the central widget.
+    if ( type == QEvent::ContextMenu && object == centralWidget()
+         && m_options.hideMenuBar && menuBar()->isHidden() )
+    {
+        showMenuBarFallbackMenu( static_cast<QContextMenuEvent*>(ev)->globalPos() );
+        ev->accept();
+        return true;
+    }
+
     if (type != QEvent::KeyPress && type != QEvent::ShortcutOverride)
         return false;
 
     auto *event = static_cast<QKeyEvent *>(ev);
     const int key = event->key();
     const Qt::KeyboardModifiers modifiers = event->modifiers();
+
+    // The menu bar focused by showMenuBar() is not in keyboard navigation
+    // mode, so it would keep the focus on Escape.
+    if ( object == menuBar() && key == Qt::Key_Escape && type == QEvent::KeyPress
+         && !QApplication::activePopupWidget() )
+    {
+        leaveMenuBar();
+        return true;
+    }
 
     // Navigation styles can override shortcuts with Ctrl, because of some
     // conflict with default shortcuts.
@@ -3210,6 +3299,10 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
 
     m_options.hideMenuBar = appConfig->option<Config::hide_menu_bar>();
     menuBar()->setHidden(m_options.hideMenuBar);
+    if (m_options.hideMenuBar)
+        qApp->installEventFilter(m_hiddenMenuBarFilter);
+    else
+        qApp->removeEventFilter(m_hiddenMenuBarFilter);
 
     bool hideToolbar = appConfig->option<Config::hide_toolbar>();
     clearActions(m_toolBar);
@@ -4306,19 +4399,64 @@ void MainWindow::showItemContent()
 
 void MainWindow::showMenuBar()
 {
-    if (m_options.hideMenuBar) {
-        m_options.hideMenuBar = false;
-        AppConfig().setOption( Config::hide_menu_bar::name(), false );
+    QMenuBar *menubar = menuBar();
+    if ( !menubar->hasFocus() )
+        m_focusBeforeMenuBar = QApplication::focusWidget();
+
+    if ( menubar->isHidden() ) {
+        menubar->show();
+        // Drop the fallback actions from the item menu while the menu bar is
+        // shown.
         updateContextMenu(0);
     }
-
-    QMenuBar *menubar = menuBar();
-    menubar->setHidden(false);
 
     // Focus the menu bar so it can be used from the keyboard straight away.
     // The menus are not opened here: the action is also triggered by mouse
     // from the item context menu, where a popping up menu would be surprising.
     menubar->setFocus(Qt::MenuBarFocusReason);
+}
+
+void MainWindow::leaveMenuBar()
+{
+    if ( m_focusBeforeMenuBar && m_focusBeforeMenuBar->isVisible() )
+        m_focusBeforeMenuBar->setFocus();
+    else if ( auto c = browserOrNull() )
+        c->setFocus();
+    else
+        menuBar()->clearFocus();
+}
+
+void MainWindow::showMenuBarFallbackMenu(QPoint position)
+{
+    if (!m_options.hideMenuBar || !menuBar()->isHidden())
+        return;
+
+    QMenu menu(this);
+    addMenuBarFallbackActions(&menu);
+    menu.exec(position);
+}
+
+void MainWindow::hideMenuBarLaterIfUnused()
+{
+    if (!m_options.hideMenuBar)
+        return;
+
+    // Wait for the focus to settle: a menu closes before its action is
+    // triggered and before the focus returns to the menu bar.
+    QTimer::singleShot(0, this, &MainWindow::hideMenuBarIfUnused);
+}
+
+void MainWindow::hideMenuBarIfUnused()
+{
+    QMenuBar *menubar = menuBar();
+    if ( !m_options.hideMenuBar || menubar->isHidden() )
+        return;
+
+    if ( menubar->hasFocus() || menubar->activeAction() || QApplication::activePopupWidget() )
+        return;
+
+    menubar->hide();
+    updateContextMenu(0);
 }
 
 void MainWindow::openPreferences()

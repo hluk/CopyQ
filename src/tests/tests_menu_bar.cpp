@@ -23,9 +23,9 @@ void CoreTests::menuBarShortcutShowsHiddenMenuBar()
     // while the menu bar is hidden.
     KEYS(clipboardBrowserId << "CTRL+M" << menuBarId);
 
-    // Showing the menu bar clears the option, so the window cannot be left
-    // with every way to the preferences hidden.
-    RUN("config" << "hide_menu_bar", "false\n");
+    // The menu bar is shown only until it loses focus; the option stays.
+    KEYS(menuBarId << "ESCAPE" << clipboardBrowserId);
+    RUN("config" << "hide_menu_bar", "true\n");
 }
 
 void CoreTests::menuBarContextMenuShowsMenuBar()
@@ -41,5 +41,21 @@ void CoreTests::menuBarContextMenuShowsMenuBar()
     KEYS(menuId << "UP" << "UP" << "UP" << "ENTER");
     KEYS(menuBarId);
 
-    RUN("config" << "hide_menu_bar", "false\n");
+    RUN("config" << "hide_menu_bar", "true\n");
+}
+
+void CoreTests::menuBarContextMenuWithoutItems()
+{
+    RUN("config" << "hide_menu_bar" << "true", "true\n");
+    RUN("show", "");
+
+    // Without an item there is no item menu, so the context menu has only
+    // the replacements for the menu bar.
+    KEYS(clipboardBrowserId << "SHIFT+F10");
+    KEYS(menuId << "UP" << "UP" << "ENTER");
+    KEYS(configurationDialogId << "ESCAPE" << clipboardBrowserId);
+
+    KEYS(clipboardBrowserId << "SHIFT+F10");
+    KEYS(menuId << "UP" << "UP" << "UP" << "ENTER");
+    KEYS(menuBarId);
 }

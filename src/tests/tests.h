@@ -249,6 +249,7 @@ private slots:
     void menuBarVisibleByDefault();
     void menuBarShortcutShowsHiddenMenuBar();
     void menuBarContextMenuShowsMenuBar();
+    void menuBarContextMenuWithoutItems();
 
     void selectedItems();
 

@@ -867,8 +867,14 @@ void ClipboardBrowser::onEditorNeedsChangeClipboard(const QByteArray &bytes, con
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( isInternalEditorOpen() || selectedIndexes().isEmpty() )
+    if ( isInternalEditorOpen() )
         return;
+
+    // Let the main window offer its own menu when there is no item menu.
+    if ( selectedIndexes().isEmpty() ) {
+        event->ignore();
+        return;
+    }
 
     QPoint pos = event->globalPos();
     emit showContextMenu(pos);
