@@ -130,7 +130,6 @@ jobs:
             -DWITH_KEYCHAIN=TRUE
           cmake --build --preset Windows
 
-
       - name: Get version string
         id: version
         uses: $/.github/actions/get-version
@@ -154,25 +153,6 @@ jobs:
           APP_VERSION: ${{ steps.version.outputs.version }}
           BUILD_DIR: ${{ github.workspace }}/build/copyq/Windows
 
-      - name: Set up GPG for tests
-        shell: pwsh
-        run: |
-          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
-          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
-          gpg --version
-
-      - name: Test
-        working-directory: ${{ github.workspace }}/copyq-${{ steps.version.outputs.version }}
-        run: |
-          PATH="$(pwd):/c/Program Files/Git/usr/bin"
-          export PATH
-          ./copyq-tests.exe
-        env:
-          QT_FORCE_STDERR_LOGGING: 1
-          COPYQ_LOG_LEVEL: DEBUG
-          COPYQ_TESTS_RERUN_FAILED: 1
-          COPYQ_PLUGINS: ${{ github.workspace }}\copyq-${{ steps.version.outputs.version }}\itemtests.dll
-
       - name: Separate test files from portable app
         run: |
           APP="copyq-${APP_VERSION}"
@@ -180,6 +160,7 @@ jobs:
           mv "${APP}/copyq-tests.exe" "${APP}-tests/"
           mv "${APP}/itemtests.dll" "${APP}-tests/"
           mv "${APP}/Qt6Test.dll" "${APP}-tests/"
+          echo "APP=$PWD/${APP}" >> "$GITHUB_ENV"
         env:
           APP_VERSION: ${{ steps.version.outputs.version }}
 
@@ -222,3 +203,22 @@ jobs:
           name: copyq-${{ steps.version.outputs.version }}-tests.zip
           path: copyq-${{ steps.version.outputs.version }}-tests
           archive: true
+
+      - name: Set up GPG for tests
+        shell: pwsh
+        run: |
+          $env:PATH = "C:\Program Files\Git\usr\bin;$env:PATH"
+          New-Item -ItemType Directory -Force "$HOME\.gnupg" | Out-Null
+          gpg --version
+
+      - name: Test
+        run: |
+          export PATH="$PWD:/c/Program Files/Git/usr/bin"
+          mv -v "${APP}-tests/"* "${APP}/"
+          cd "${APP}"
+          export COPYQ_PLUGINS="$PWD/itemtests.dll"
+          ./copyq-tests.exe
+        env:
+          QT_FORCE_STDERR_LOGGING: 1
+          COPYQ_LOG_LEVEL: DEBUG
+          COPYQ_TESTS_RERUN_FAILED: 1
