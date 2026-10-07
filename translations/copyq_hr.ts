@@ -3431,12 +3431,12 @@ Provjeri zapisnike za detalje.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="311"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprečavanje snimanja ekrana nije dostupno</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="312"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Opcija skrivanja od snimaka ekrana je aktivirana, ali ne može stupiti na snagu u udaljenoj desktop sesiji. Sadržaj prozora može biti vidljiv za snimanje ekrana.</translation>
     </message>
 </context>
 <context>
