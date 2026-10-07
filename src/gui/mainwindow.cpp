@@ -2921,7 +2921,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 void MainWindow::updateSizeGrip(bool frameless)
 {
     if (!frameless) {
-        delete m_sizeGrip;
+        if (m_sizeGrip)
+            m_sizeGrip->deleteLater();
         m_sizeGrip = nullptr;
         return;
     }
