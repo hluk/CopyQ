@@ -35,7 +35,7 @@ class Tabs;
 class Theme;
 class TrayMenu;
 class ToolBar;
-class HiddenMenuBarFilter;
+class HiddenMenuBar;
 class QModelIndex;
 class QSizeGrip;
 struct NotificationButton;
@@ -321,17 +321,8 @@ public:
     /** Open preferences dialog. */
     void openPreferences();
 
-    /**
-     * Show the menu bar and give it focus.
-     *
-     * With the "hide menu bar" option, the menu bar is shown only until it
-     * loses focus. Reachable with Alt, its own shortcut and the context menu
-     * while the menu bar is hidden.
-     */
+    /** Show the menu bar (also when hidden by the option) and activate its first menu. */
     void showMenuBar();
-
-    /// Return the focus from the menu bar to where it was before.
-    void leaveMenuBar();
 
     /** Open commands dialog. */
     void openCommands();
@@ -532,15 +523,6 @@ private:
 
     void showContextMenuAt(QPoint position);
 
-    /// Append menu bar replacements to a menu while the menu bar is hidden.
-    void addMenuBarFallbackActions(QMenu *menu);
-
-    /// Menu with only the menu bar replacements, where there is no item menu.
-    void showMenuBarFallbackMenu(QPoint position);
-
-    void hideMenuBarLaterIfUnused();
-    void hideMenuBarIfUnused();
-
     void showContextMenu();
 
     void moveUp();
@@ -726,8 +708,7 @@ private:
     ToolBar *m_toolBar;
 
     QSizeGrip *m_sizeGrip = nullptr;
-    HiddenMenuBarFilter *m_hiddenMenuBarFilter = nullptr;
-    QPointer<QWidget> m_focusBeforeMenuBar;
+    HiddenMenuBar *m_hiddenMenuBar = nullptr;
 
     MainWindowOptions m_options;
 

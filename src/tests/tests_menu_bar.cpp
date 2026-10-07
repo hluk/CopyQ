@@ -20,11 +20,24 @@ void CoreTests::menuBarShortcutShowsHiddenMenuBar()
     RUN("show", "");
 
     // The action is owned by the main window, so its shortcut keeps working
-    // while the menu bar is hidden.
-    KEYS(clipboardBrowserId << "CTRL+M" << menuBarId);
+    // while the menu bar is hidden. It opens the first menu.
+    KEYS(clipboardBrowserId << "CTRL+M" << menuId);
 
-    // The menu bar is shown only until it loses focus; the option stays.
-    KEYS(menuBarId << "ESCAPE" << clipboardBrowserId);
+    // The menu bar is shown only until the menu closes; the option stays.
+    KEYS(menuId << "ESCAPE" << clipboardBrowserId);
+    RUN("config" << "hide_menu_bar", "true\n");
+}
+
+void CoreTests::menuBarMnemonicOpensMenuOfHiddenMenuBar()
+{
+    RUN("config" << "hide_menu_bar" << "true", "true\n");
+    RUN("show", "");
+
+    // Alt+F opens the File menu straight away, and the arrow keys move to
+    // the next menu, as with a visible menu bar.
+    KEYS(clipboardBrowserId << "ALT+F" << menuId);
+    KEYS(menuId << "RIGHT" << menuId);
+    KEYS(menuId << "ESCAPE" << clipboardBrowserId);
     RUN("config" << "hide_menu_bar", "true\n");
 }
 
@@ -39,7 +52,7 @@ void CoreTests::menuBarContextMenuShowsMenuBar()
     // While the menu bar is hidden, the item context menu ends with the
     // replacements for it: Show Menu Bar, Preferences and Exit.
     KEYS(menuId << "UP" << "UP" << "UP" << "ENTER");
-    KEYS(menuBarId);
+    KEYS(menuId << "ESCAPE" << clipboardBrowserId);
 
     RUN("config" << "hide_menu_bar", "true\n");
 }
@@ -57,5 +70,5 @@ void CoreTests::menuBarContextMenuWithoutItems()
 
     KEYS(clipboardBrowserId << "SHIFT+F10");
     KEYS(menuId << "UP" << "UP" << "UP" << "ENTER");
-    KEYS(menuBarId);
+    KEYS(menuId << "ESCAPE" << clipboardBrowserId);
 }
