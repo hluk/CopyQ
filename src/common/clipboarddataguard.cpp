@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QUrl>
 #include <QCoreApplication>
+#include <QGuiApplication>
 
 #include <QRegularExpression>
 
@@ -368,6 +369,14 @@ const QMimeData *ClipboardDataGuard::mimeData()
 {
     if (isExpired())
         return dummyMimeData();
+
+#ifdef HAS_KGUIADDONS
+    // KSystemClipboard keeps Wayland MIME data locked only until the next
+    // event loop iteration. Processing events here releases that lock and
+    // lets the clipboard thread delete the data while we are still reading it.
+    if (QGuiApplication::platformName().startsWith(QLatin1String("wayland")))
+        return m_data;
+#endif
 
     if (m_timerExpire.elapsed() > 100) {
         QCoreApplication::processEvents();

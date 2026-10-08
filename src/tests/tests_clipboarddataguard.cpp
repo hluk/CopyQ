@@ -3,11 +3,14 @@
 
 #include "common/clipboarddataguard.h"
 
+#include <QGuiApplication>
 #include <QMimeData>
 #include <QSet>
 #include <QTest>
+#include <QTimer>
 #include <QUrl>
 
+#include <memory>
 #include <new>
 
 ClipboardDataGuardTests::ClipboardDataGuardTests(const TestInterfacePtr &, QObject *parent)
@@ -89,6 +92,46 @@ void ClipboardDataGuardTests::normalDataStillWorks()
     ClipboardDataGuard guard(&md);
     QCOMPARE(guard.data("application/octet-stream"), QByteArray("binary"));
     qunsetenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
+}
+
+void ClipboardDataGuardTests::slowReadRespectsMimeDataLifetime()
+{
+    auto md = std::make_unique<QMimeData>();
+    md->setData("text/plain", "plain");
+    md->setData("text/html", "<b>plain</b>");
+
+    // This models data whose lifetime ends when events are processed, as with
+    // KGuiAddons on Wayland. It does not rely on racing a background thread.
+    // Destroying the context cancels the callback if an assertion fails early.
+    QObject callbackContext;
+    QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
+    ClipboardDataGuard guard(md.get());
+
+    // Cross the guard's event-processing threshold without processing events.
+    QTest::qSleep(150);
+
+#ifdef HAS_KGUIADDONS
+    const bool deferEvents = QGuiApplication::platformName().startsWith(QLatin1String("wayland"));
+#else
+    const bool deferEvents = false;
+#endif
+    if (deferEvents) {
+        QCOMPARE(guard.data("text/plain"), QByteArray("plain"));
+        QCOMPARE(guard.data("text/html"), QByteArray("<b>plain</b>"));
+        QVERIFY(md);
+        QVERIFY(!guard.isExpired());
+    } else {
+        // Other backends still process events and safely notice deleted data.
+        QVERIFY(guard.data("text/plain").isEmpty());
+        QVERIFY(guard.data("text/html").isEmpty());
+        QVERIFY(!md);
+        QVERIFY(guard.isExpired());
+    }
+
+    QCoreApplication::processEvents();
+    QVERIFY(!md);
+    QVERIFY(guard.isExpired());
+    QVERIFY(guard.data("text/plain").isEmpty());
 }
 
 static void bumpConfigGeneration()
