@@ -143,3 +143,48 @@ void CoreTests::expireEncryptionPasswordOnConfigChange()
     SKIP("Encryption support not built-in");
 #endif
 }
+
+void CoreTests::pasteItemsAfterEncryptionPasswordExpires()
+{
+#ifdef WITH_QCA_ENCRYPTION
+#ifdef Q_OS_MAC
+    SKIP("Native macOS menus do not support the Edit menu mnemonic");
+#else
+    const QString group = testTab(1);
+    const QString tab = group + "/Encrypted";
+    const Args args{"tab", tab};
+    const QByteArray text("Clipboard text after unlocking");
+
+    RUN("disable", "");
+    RUN("config" << "tab_tree" << "true", "true\n");
+    RUN(args << "add" << "Existing item", "");
+    RUN("show" << tab, "");
+    KEYS(clipboardBrowserId);
+    RUN("config" << "encrypt_tabs" << "true", "true\n");
+    RUN("config" << "expire_encrypted_tab_seconds" << "2", "2\n");
+    TEST( m_test->setClipboard(text) );
+
+    // A pure group hides the current tab without changing its stacked index.
+    // Keep the Edit menu focused while the hidden tab locks and unloads.
+    KEYS("F3" << filterEditId);
+    KEYS(QStringLiteral("mouse|CLICK|tab_tree_item|text=%1").arg(group));
+    KEYS("mouse|CLICK|Utils::FilterLineEdit" << filterEditId);
+    KEYS("ALT+E" << "focus::QMenu");
+    QTest::qWait(2500);
+    KEYS("focus::QMenu" << "P" << passwordEntryCurrentId);
+
+    // Tests use a 2000 ms clipboard copy timeout. Time spent unlocking the tab
+    // must not count towards that timeout, even though it runs an event loop.
+    QTest::qWait(2500);
+    KEYS(passwordEntryCurrentId << ":TEST123" << "ENTER");
+
+    RUN("show" << tab, "");
+    KEYS(filterEditId << "ESC" << clipboardBrowserId);
+    RUN(args << "size", "2\n");
+    RUN(args << "read" << "0", text);
+    RUN(args << "read" << "1", "Existing item");
+#endif
+#else
+    SKIP("Encryption support not built-in");
+#endif
+}

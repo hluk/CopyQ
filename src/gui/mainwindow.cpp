@@ -4331,10 +4331,6 @@ void MainWindow::editNewItem()
 
 void MainWindow::pasteItems()
 {
-    auto data = getClipboardData(ClipboardMode::Clipboard);
-    if (data.isExpired())
-        return;
-
     auto c = browser();
     if (!c)
         return;
@@ -4342,6 +4338,12 @@ void MainWindow::pasteItems()
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
+
+    // Loading the tab can run an event loop while asking for its password.
+    auto data = getClipboardData(ClipboardMode::Clipboard);
+    if (data.isExpired())
+        return;
+
     c->addAndSelect( cloneData(data), row );
 }
 
