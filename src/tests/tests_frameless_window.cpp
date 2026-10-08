@@ -5,14 +5,15 @@
 
 #define SIZE_GRIP "size_grip"
 
-void CoreTests::framelessWindowOffByDefault()
-{
-    RUN("config" << "frameless_window", "false\n");
-}
-
 void CoreTests::framelessWindowShowsSizeGrip()
 {
+    RUN("config" << "frameless_window", "false\n");
     RUN("config" << "frameless_window" << "true", "true\n");
+
+#ifdef Q_OS_MAC
+    SKIP("Mouse events on the size grip don't reach the window on OS X");
+#endif
+
     RUN("add" << "ITEM", "");
     RUN("show", "");
 
