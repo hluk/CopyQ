@@ -775,9 +775,6 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     setWindowRole(QStringLiteral("main"));
 
     menuBar()->setObjectName("menu_bar");
-    m_hiddenMenuBar = new HiddenMenuBar(this);
-    connect( m_hiddenMenuBar, &HiddenMenuBar::collapsedChanged,
-             this, [this]() { updateContextMenu(0); } );
     createMenu();
 
     ui->tabWidget->addToolBars(this);
@@ -1094,15 +1091,13 @@ void MainWindow::createMenu()
 
     // Show Menu Bar (not in the menu bar: for when the menu bar is hidden)
     QAction *showMenuBarAction = createAction( Actions::Misc_ShowMenuBar, &MainWindow::showMenuBar, nullptr );
-    m_hiddenMenuBar->setFallbackActions({showMenuBarAction, preferencesAction, exitAction});
+    m_menuBarStandIns = {showMenuBarAction, preferencesAction, exitAction};
 
     for (auto subMenu : menuBar()->findChildren<QMenu*>()) {
         connect( subMenu, &QMenu::aboutToShow,
                  this, &MainWindow::disableHideWindowOnUnfocus );
         connect( subMenu, &QMenu::aboutToHide,
                  this, &MainWindow::enableHideWindowOnUnfocus );
-        connect( subMenu, &QMenu::aboutToHide,
-                 m_hiddenMenuBar, &HiddenMenuBar::collapseLaterIfUnused );
     }
 }
 
@@ -1219,7 +1214,8 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_MoveToTop, this, &MainWindow::moveToTop );
     addItemAction( Actions::Item_MoveToBottom, this, &MainWindow::moveToBottom );
 
-    m_hiddenMenuBar->addFallbackActions(m_menuItem);
+    if (m_hiddenMenuBar)
+        m_hiddenMenuBar->addFallbackActions(m_menuItem);
 
     updateToolBar();
     updateActionShortcuts();
@@ -1432,7 +1428,8 @@ void MainWindow::showContextMenu()
     const auto index = c ? c->currentIndex() : QModelIndex();
     if ( !index.isValid() ) {
         const QRect rect = centralWidget()->rect();
-        m_hiddenMenuBar->showFallbackMenu( centralWidget()->mapToGlobal(rect.center()) );
+        if (m_hiddenMenuBar)
+            m_hiddenMenuBar->showFallbackMenu( centralWidget()->mapToGlobal(rect.center()) );
         return;
     }
 
@@ -3192,7 +3189,14 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     setHideTabs(m_options.hideTabs);
 
     m_options.hideMenuBar = appConfig->option<Config::hide_menu_bar>();
-    m_hiddenMenuBar->setEnabled(m_options.hideMenuBar);
+    if (m_options.hideMenuBar && !m_hiddenMenuBar) {
+        m_hiddenMenuBar = new HiddenMenuBar(this);
+        m_hiddenMenuBar->setFallbackActions(m_menuBarStandIns);
+        connect( m_hiddenMenuBar, &HiddenMenuBar::collapsedChanged,
+                 this, [this]() { updateContextMenu(0); } );
+    }
+    if (m_hiddenMenuBar)
+        m_hiddenMenuBar->setEnabled(m_options.hideMenuBar);
 
     bool hideToolbar = appConfig->option<Config::hide_toolbar>();
     clearActions(m_toolBar);
@@ -4289,7 +4293,8 @@ void MainWindow::showItemContent()
 
 void MainWindow::showMenuBar()
 {
-    m_hiddenMenuBar->show();
+    if (m_hiddenMenuBar)
+        m_hiddenMenuBar->show();
 }
 
 void MainWindow::openPreferences()

@@ -709,6 +709,7 @@ private:
 
     QSizeGrip *m_sizeGrip = nullptr;
     HiddenMenuBar *m_hiddenMenuBar = nullptr;
+    QList<QAction*> m_menuBarStandIns;
 
     MainWindowOptions m_options;
 

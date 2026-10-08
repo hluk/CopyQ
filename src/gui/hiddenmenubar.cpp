@@ -20,6 +20,13 @@ HiddenMenuBar::HiddenMenuBar(QMainWindow *window)
 {
     connect( qApp, &QApplication::focusChanged,
              this, &HiddenMenuBar::collapseLaterIfUnused );
+
+    for ( const QAction *action : m_menuBar->actions() ) {
+        if (action->menu()) {
+            connect( action->menu(), &QMenu::aboutToHide,
+                     this, &HiddenMenuBar::collapseLaterIfUnused );
+        }
+    }
 }
 
 void HiddenMenuBar::setEnabled(bool enabled)
