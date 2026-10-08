@@ -543,6 +543,15 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
     event->accept();
 }
 
+void TabTree::mousePressEvent(QMouseEvent *event)
+{
+    QTreeWidget::mousePressEvent(event);
+
+    // Let the main window handle clicks on the empty area (moves frameless window).
+    if ( !indexAt(event->pos()).isValid() )
+        event->ignore();
+}
+
 void TabTree::dragEnterEvent(QDragEnterEvent *event)
 {
     if ( canDropToTab(*event) ) {

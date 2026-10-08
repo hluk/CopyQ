@@ -90,6 +90,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="checkBoxFramelessWindow">
+              <property name="toolTip">
+               <string>Hide window title and frame (drag empty area to move, drag bottom right corner to resize)</string>
+              </property>
+              <property name="text">
+               <string>&amp;Frameless window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="checkBoxHideWindow">
               <property name="toolTip">
                <string>Hide main window when closed</string>

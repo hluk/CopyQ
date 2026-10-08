@@ -291,6 +291,7 @@ void ConfigurationManager::initOptions()
     bind<Config::hide_tabs>(m_tabLayout->checkBoxHideTabs);
     bind<Config::hide_toolbar>(m_tabLayout->checkBoxHideToolbar);
     bind<Config::hide_toolbar_labels>(m_tabLayout->checkBoxHideToolbarLabels);
+    bind<Config::frameless_window>(m_tabLayout->checkBoxFramelessWindow);
     bind<Config::disable_tray>(m_tabTray->checkBoxDisableTray);
     bind<Config::hide_main_window>(m_tabLayout->checkBoxHideWindow);
     bind<Config::tab_tree>(m_tabLayout->checkBoxTabTree);
@@ -366,8 +367,6 @@ void ConfigurationManager::initOptions()
 
     bind<Config::close_on_unfocus_delay_ms>();
     bind<Config::close_on_unfocus_extra_delay_ms>();
-
-    bind<Config::frameless_window>();
 
     bind<Config::terminate_action_timeout_ms>();
     bind<Config::clipboard_mime_size_limit>();

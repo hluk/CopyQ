@@ -1014,6 +1014,10 @@ void ClipboardBrowser::mousePressEvent(QMouseEvent *event)
     }
 
     QListView::mousePressEvent(event);
+
+    // Let the main window handle clicks on the empty area (moves frameless window).
+    if ( !indexAt(event->pos()).isValid() )
+        event->ignore();
 }
 
 void ClipboardBrowser::mouseReleaseEvent(QMouseEvent *event)
