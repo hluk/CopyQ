@@ -6,6 +6,7 @@
 #include "common/action.h"
 #include "common/actionoutput.h"
 #include "common/appconfig.h"
+#include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/commandstore.h"
@@ -1370,8 +1371,8 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
 
 void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
-    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
-    if (data == nullptr)
+    auto data = getClipboardData(ClipboardMode::Clipboard);
+    if (data.isExpired())
         return;
 
     auto actionData = cloneData(data);
@@ -3769,9 +3770,10 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
         setClipboard(QVariantMap());
 }
 
-const QMimeData *MainWindow::getClipboardData(ClipboardMode mode)
+ClipboardDataGuard MainWindow::getClipboardData(ClipboardMode mode)
 {
-    return m_clipboard->mimeData(mode);
+    return ClipboardDataGuard(
+            m_clipboard->mimeData(mode), nullptr, m_clipboard->canProcessEventsWhileReading());
 }
 
 void MainWindow::activateCurrentItem()
@@ -4329,8 +4331,8 @@ void MainWindow::editNewItem()
 
 void MainWindow::pasteItems()
 {
-    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
-    if (data == nullptr)
+    auto data = getClipboardData(ClipboardMode::Clipboard);
+    if (data.isExpired())
         return;
 
     auto c = browser();

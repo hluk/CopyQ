@@ -5,6 +5,7 @@
 #include "common/action.h"
 #include "common/audioplayer.h"
 #include "common/appconfig.h"
+#include "common/clipboarddataguard.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/commandstore.h"
@@ -2361,12 +2362,12 @@ QByteArray ScriptableProxy::getClipboardData(const QString &mime, ClipboardMode 
 {
     INVOKE(getClipboardData, (mime, mode));
 
-    const QMimeData *data = m_wnd->getClipboardData(mode);
-    if (!data)
+    auto data = m_wnd->getClipboardData(mode);
+    if (data.isExpired())
         return QByteArray();
 
     if (mime == "?")
-        return data->formats().join("\n").toUtf8() + '\n';
+        return data.formats().join("\n").toUtf8() + '\n';
 
     if (mime.isEmpty()) {
         const auto dataMap = cloneData(data, {mimeTextUtf8, mimeText, mimeUriList});
@@ -2380,8 +2381,8 @@ bool ScriptableProxy::hasClipboardFormat(const QString &mime, ClipboardMode mode
 {
     INVOKE(hasClipboardFormat, (mime, mode));
 
-    const QMimeData *data = m_wnd->getClipboardData(mode);
-    return data && data->hasFormat(mime);
+    auto data = m_wnd->getClipboardData(mode);
+    return !data.isExpired() && data.hasFormat(mime);
 }
 
 QStringList ScriptableProxy::styles()

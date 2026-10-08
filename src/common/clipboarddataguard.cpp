@@ -12,7 +12,6 @@
 #include <QObject>
 #include <QUrl>
 #include <QCoreApplication>
-#include <QGuiApplication>
 
 #include <QRegularExpression>
 
@@ -164,19 +163,23 @@ private:
 
 } //namespace
 
-ClipboardDataGuard::ClipboardDataGuard(const QMimeData *data, const long int *clipboardSequenceNumber)
+ClipboardDataGuard::ClipboardDataGuard(
+        const QMimeData *data, const long int *clipboardSequenceNumber, bool processEvents)
     : m_data(data)
     , m_clipboardSequenceNumber(clipboardSequenceNumber)
     , m_clipboardSequenceNumberOriginal(clipboardSequenceNumber ? *clipboardSequenceNumber : 0)
+    , m_processEvents(processEvents)
 {
     // This uses simple connection to ensure pointer is not destroyed
     // instead of QPointer to work around a possible Qt bug:
     // - https://bugzilla.redhat.com/show_bug.cgi?id=2320093
     // - https://bugzilla.redhat.com/show_bug.cgi?id=2326881
-    m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
-        m_data = nullptr;
-        log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
-    });
+    if (m_data) {
+        m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
+            m_data = nullptr;
+            log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
+        });
+    }
     m_timerExpire.start();
 }
 
@@ -370,15 +373,7 @@ const QMimeData *ClipboardDataGuard::mimeData()
     if (isExpired())
         return dummyMimeData();
 
-#ifdef HAS_KGUIADDONS
-    // KSystemClipboard keeps Wayland MIME data locked only until the next
-    // event loop iteration. Processing events here releases that lock and
-    // lets the clipboard thread delete the data while we are still reading it.
-    if (QGuiApplication::platformName().startsWith(QLatin1String("wayland")))
-        return m_data;
-#endif
-
-    if (m_timerExpire.elapsed() > 100) {
+    if (m_processEvents && m_timerExpire.elapsed() > 100) {
         QCoreApplication::processEvents();
         if (isExpired())
             return dummyMimeData();

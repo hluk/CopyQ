@@ -14,7 +14,8 @@ class ClipboardDataGuard final {
 public:
     explicit ClipboardDataGuard(
         const QMimeData *data,
-        const long int *clipboardSequenceNumber = nullptr);
+        const long int *clipboardSequenceNumber = nullptr,
+        bool processEvents = true);
 
     ~ClipboardDataGuard();
     ClipboardDataGuard(const ClipboardDataGuard &) = delete;
@@ -40,5 +41,6 @@ private:
     QElapsedTimer m_timerExpire;
     const long int *m_clipboardSequenceNumber;
     long int m_clipboardSequenceNumberOriginal;
+    bool m_processEvents;
     QMetaObject::Connection m_connection;
 };

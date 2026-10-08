@@ -599,6 +599,20 @@ QVariantMap X11PlatformClipboard::data(ClipboardMode mode, const QStringList &fo
     return data;
 }
 
+bool X11PlatformClipboard::canProcessEventsWhileReading() const
+{
+#ifdef HAS_KGUIADDONS
+    // KSystemClipboard releases its Wayland clipboard mutex on the next event
+    // loop iteration, allowing its worker to destroy the borrowed MIME data.
+    // The GNOME extension uses a separate backend and needs to process events
+    // to acknowledge clipboard notifications during slow reads.
+    return !QGuiApplication::platformName().startsWith(QLatin1String("wayland"))
+        || isGnomeExtensionAvailable();
+#else
+    return true;
+#endif
+}
+
 const QMimeData *X11PlatformClipboard::mimeData(ClipboardMode mode) const
 {
     if (isGnomeExtensionAvailable()) {
@@ -738,7 +752,9 @@ void X11PlatformClipboard::updateClipboardData(X11PlatformClipboard::ClipboardDa
         return;
     }
 
-    ClipboardDataGuard data( mimeData(clipboardData->mode), &clipboardData->sequenceNumber );
+    ClipboardDataGuard data(
+            mimeData(clipboardData->mode), &clipboardData->sequenceNumber,
+            canProcessEventsWhileReading());
 
     // Retry to retrieve clipboard data few times.
     if (data.isExpired()) {

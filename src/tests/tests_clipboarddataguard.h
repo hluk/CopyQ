@@ -17,6 +17,8 @@ private slots:
     void badAllocGetUtf8Data();
     void normalDataStillWorks();
     void slowReadRespectsMimeDataLifetime();
+    void slowReadProcessesEventsWhenAllowed();
+    void slowReadProcessesEventsByDefault();
     void overflowTreatedAsNoLimit();
     void emptyRulesIgnored();
     void negativeValueMeansNoLimit();

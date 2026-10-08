@@ -23,6 +23,7 @@ class Action;
 class ActionDialog;
 class AppConfig;
 class ClipboardBrowser;
+class ClipboardDataGuard;
 class ClipboardBrowserPlaceholder;
 class CommandAction;
 class CommandDialog;
@@ -370,7 +371,7 @@ public:
     bool registerClipboardProviderAction(int actionId, ClipboardMode mode);
     void moveToClipboard(ClipboardBrowser *c, int row);
 
-    const QMimeData *getClipboardData(ClipboardMode mode);
+    ClipboardDataGuard getClipboardData(ClipboardMode mode);
 
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();

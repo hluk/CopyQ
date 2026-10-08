@@ -3,7 +3,7 @@
 
 #include "common/clipboarddataguard.h"
 
-#include <QGuiApplication>
+#include <QCoreApplication>
 #include <QMimeData>
 #include <QSet>
 #include <QTest>
@@ -105,33 +105,56 @@ void ClipboardDataGuardTests::slowReadRespectsMimeDataLifetime()
     // Destroying the context cancels the callback if an assertion fails early.
     QObject callbackContext;
     QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
-    ClipboardDataGuard guard(md.get());
+    ClipboardDataGuard guard(md.get(), nullptr, false);
 
     // Cross the guard's event-processing threshold without processing events.
     QTest::qSleep(150);
 
-#ifdef HAS_KGUIADDONS
-    const bool deferEvents = QGuiApplication::platformName().startsWith(QLatin1String("wayland"));
-#else
-    const bool deferEvents = false;
-#endif
-    if (deferEvents) {
-        QCOMPARE(guard.data("text/plain"), QByteArray("plain"));
-        QCOMPARE(guard.data("text/html"), QByteArray("<b>plain</b>"));
-        QVERIFY(md);
-        QVERIFY(!guard.isExpired());
-    } else {
-        // Other backends still process events and safely notice deleted data.
-        QVERIFY(guard.data("text/plain").isEmpty());
-        QVERIFY(guard.data("text/html").isEmpty());
-        QVERIFY(!md);
-        QVERIFY(guard.isExpired());
-    }
+    QCOMPARE(guard.data("text/plain"), QByteArray("plain"));
+    QCOMPARE(guard.data("text/html"), QByteArray("<b>plain</b>"));
+    QVERIFY(md);
+    QVERIFY(!guard.isExpired());
 
     QCoreApplication::processEvents();
     QVERIFY(!md);
     QVERIFY(guard.isExpired());
     QVERIFY(guard.data("text/plain").isEmpty());
+}
+
+void ClipboardDataGuardTests::slowReadProcessesEventsWhenAllowed()
+{
+    auto md = std::make_unique<QMimeData>();
+    md->setData("text/plain", "plain");
+
+    QObject callbackContext;
+    QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
+    ClipboardDataGuard guard(md.get(), nullptr, true);
+
+    QTest::qSleep(150);
+
+    QVERIFY(guard.data("text/plain").isEmpty());
+    QVERIFY(!md);
+    QVERIFY(guard.isExpired());
+}
+
+void ClipboardDataGuardTests::slowReadProcessesEventsByDefault()
+{
+    QMimeData md;
+    md.setData("text/plain", "old clipboard data");
+    long int sequenceNumber = 0;
+
+    // Backends such as the GNOME extension report changes through events even
+    // when their QMimeData object stays alive. Default callers must see them.
+    QObject callbackContext;
+    QTimer::singleShot(0, &callbackContext, [&sequenceNumber] { ++sequenceNumber; });
+    ClipboardDataGuard guard(&md, &sequenceNumber);
+
+    QTest::qSleep(150);
+
+    QVERIFY(guard.data("text/plain").isEmpty());
+    QCOMPARE(sequenceNumber, 1L);
+    QVERIFY(guard.isExpired());
+    QCOMPARE(md.data("text/plain"), QByteArray("old clipboard data"));
 }
 
 static void bumpConfigGeneration()
