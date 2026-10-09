@@ -11,8 +11,6 @@ const clientIface = 'com.github.hluk.CopyQ.GnomeClipboardClient1';
 const clientInfo = Gio.DBusNodeInfo.new_for_xml(`<node><interface name="${clientIface}">
     <method name="ClipboardChanged"><arg type="i" direction="in"/></method>
     </interface></node>`).interfaces[0];
-const loop = new GLib.MainLoop(null, false);
-let exitCode = 0;
 
 function sleep(ms) {
     return new Promise(resolve => GLib.timeout_add(GLib.PRIORITY_DEFAULT, ms, () => {
@@ -29,13 +27,25 @@ function call(connection, method, parameters = null) {
         }));
 }
 
-async function waitFor(predicate, message) {
-    const deadline = GLib.get_monotonic_time() + 3000000;
-    while (!predicate()) {
-        if (GLib.get_monotonic_time() > deadline)
-            throw new Error(message);
-        await sleep(10);
-    }
+function waitFor(predicate, message) {
+    return new Promise((resolve, reject) => {
+        const deadline = GLib.get_monotonic_time() + 3000000;
+        const check = () => {
+            try {
+                if (predicate())
+                    resolve();
+                else if (GLib.get_monotonic_time() > deadline)
+                    reject(new Error(message));
+                else
+                    return GLib.SOURCE_CONTINUE;
+            } catch (error) {
+                reject(error);
+            }
+            return GLib.SOURCE_REMOVE;
+        };
+        if (check() === GLib.SOURCE_CONTINUE)
+            GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, check);
+    });
 }
 
 function publish(text) {
@@ -81,9 +91,11 @@ async function run() {
     }
 }
 
-run().catch(error => {
+let exitCode = 0;
+try {
+    await run();
+} catch (error) {
     logError(error);
     exitCode = 1;
-}).finally(() => loop.quit());
-loop.run();
+}
 System.exit(exitCode);
