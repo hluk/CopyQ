@@ -160,7 +160,7 @@ jobs:
             ${{ matrix.test_wayland && env.test_wayland_packages || '' }}
             ${{ matrix.custom_qt && 'libssl-dev libsecret-1-dev pkg-config' || '' }}
             ${{ matrix.coverage && 'procps' || '' }}
-            ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin' || '' }}
+            ${{ matrix.test_gnome && 'gnome-shell gnome-shell-common glib2.0-bin gjs' || '' }}
             ${{ matrix.with_native_notifications && 'libkf6notifications-dev kf6-kstatusnotifieritem-dev' || '' }}
             ${{ matrix.with_kf6_wayland_clipboard && 'libkf6guiaddons-dev' || '' }}
             ${{ matrix.appimage && 'libfuse2t64' || '' }}

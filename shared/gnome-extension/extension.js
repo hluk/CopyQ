@@ -224,11 +224,12 @@ export default class CopyqClipboardExtension extends Extension {
     }
 
     _notifyClients(clipboardType) {
-        if (!this._clients || this._clients.size === 0)
+        const clients = this._clients;
+        if (!clients || clients.size === 0)
             return;
-        debug(`Notifying clients for clipboardType=${clipboardType}, clients=${this._clients.size}`);
+        debug(`Notifying clients for clipboardType=${clipboardType}, clients=${clients.size}`);
 
-        for (const [sender, clipboardTypes] of this._clients.entries()) {
+        for (const [sender, clipboardTypes] of clients.entries()) {
             if (!supportsClipboardType(clipboardTypes, clipboardType))
                 continue;
             this._dbusConnection.call(
@@ -246,7 +247,13 @@ export default class CopyqClipboardExtension extends Extension {
                         _conn.call_finish(result);
                     } catch (error) {
                         log(`[copyq-clipboard] Broadcast failed for ${sender}: ${error}`);
-                        this._clients.delete(sender);
+                        // A busy client can reply late without disconnecting.
+                        const timedOut = error.matches(Gio.IOErrorEnum, Gio.IOErrorEnum.TIMED_OUT)
+                            || error.matches(Gio.DBusError, Gio.DBusError.NO_REPLY)
+                            || error.matches(Gio.DBusError, Gio.DBusError.TIMEOUT)
+                            || error.matches(Gio.DBusError, Gio.DBusError.TIMED_OUT);
+                        if (!timedOut)
+                            clients.delete(sender);
                     }
                 }
             );

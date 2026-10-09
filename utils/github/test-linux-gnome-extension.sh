@@ -128,6 +128,8 @@ while ! extention_service_health_check; do
 done
 echo "✅ PASSED: GNOME extension service is running"
 
+gjs -m "$(dirname "$0")/test-gnome-extension-clients.js"
+
 export COPYQ_LOG_FILE="$XDG_RUNTIME_DIR/copyq.log"
 touch "$COPYQ_LOG_FILE"
 tail -f "$COPYQ_LOG_FILE" &
