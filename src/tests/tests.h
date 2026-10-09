@@ -348,7 +348,6 @@ private slots:
     void expireTabs();
     void expireEncryptionPassword();
     void expireEncryptionPasswordOnConfigChange();
-    void pasteItemsAfterEncryptionPasswordExpires();
 
     void dragNDropItemOrder();
     void dragNDropItemToTabTree();

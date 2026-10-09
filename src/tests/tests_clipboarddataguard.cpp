@@ -105,9 +105,9 @@ void ClipboardDataGuardTests::slowReadRespectsMimeDataLifetime()
     // Destroying the context cancels the callback if an assertion fails early.
     QObject callbackContext;
     QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
-    ClipboardDataGuard guard(md.get(), nullptr, false);
+    ClipboardDataGuard guard(md.get());
 
-    // Cross the guard's event-processing threshold without processing events.
+    // Cross the former 100 ms event-processing threshold.
     QTest::qSleep(150);
 
     QCOMPARE(guard.data("text/plain"), QByteArray("plain"));
@@ -121,36 +121,25 @@ void ClipboardDataGuardTests::slowReadRespectsMimeDataLifetime()
     QVERIFY(guard.data("text/plain").isEmpty());
 }
 
-void ClipboardDataGuardTests::slowReadProcessesEventsWhenAllowed()
-{
-    auto md = std::make_unique<QMimeData>();
-    md->setData("text/plain", "plain");
-
-    QObject callbackContext;
-    QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
-    ClipboardDataGuard guard(md.get(), nullptr, true);
-
-    QTest::qSleep(150);
-
-    QVERIFY(guard.data("text/plain").isEmpty());
-    QVERIFY(!md);
-    QVERIFY(guard.isExpired());
-}
-
-void ClipboardDataGuardTests::slowReadProcessesEventsByDefault()
+void ClipboardDataGuardTests::slowReadDefersClipboardChanges()
 {
     QMimeData md;
     md.setData("text/plain", "old clipboard data");
     long int sequenceNumber = 0;
 
-    // Backends such as the GNOME extension report changes through events even
-    // when their QMimeData object stays alive. Default callers must see them.
+    // A queued clipboard change must wait until control returns to the event
+    // loop, but must still invalidate the guard when it is delivered.
     QObject callbackContext;
     QTimer::singleShot(0, &callbackContext, [&sequenceNumber] { ++sequenceNumber; });
     ClipboardDataGuard guard(&md, &sequenceNumber);
 
     QTest::qSleep(150);
 
+    QCOMPARE(guard.data("text/plain"), QByteArray("old clipboard data"));
+    QCOMPARE(sequenceNumber, 0L);
+    QVERIFY(!guard.isExpired());
+
+    QCoreApplication::processEvents();
     QVERIFY(guard.data("text/plain").isEmpty());
     QCOMPARE(sequenceNumber, 1L);
     QVERIFY(guard.isExpired());

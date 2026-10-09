@@ -20,7 +20,6 @@ public:
     ~X11PlatformClipboard() override;
 
     QVariantMap data(ClipboardMode mode, const QStringList &formats) const override;
-    bool canProcessEventsWhileReading() const override;
 
     void setData(ClipboardMode mode, const QVariantMap &dataMap) override;
     void setRawData(ClipboardMode mode, QMimeData *mimeData) override;

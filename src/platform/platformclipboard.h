@@ -69,9 +69,6 @@ public:
 
     virtual const QMimeData *mimeData(ClipboardMode mode) const = 0;
 
-    // Some backends invalidate borrowed MIME data on the next event loop iteration.
-    virtual bool canProcessEventsWhileReading() const { return true; }
-
     virtual bool isSelectionSupported() const = 0;
 
     virtual bool isHidden(const QMimeData &data) const = 0;

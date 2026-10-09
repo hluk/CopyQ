@@ -2,7 +2,6 @@
 
 #include "dummyclipboard.h"
 
-#include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -43,8 +42,7 @@ QVariantMap DummyClipboard::data(ClipboardMode mode, const QStringList &formats)
         return {};
 
     const bool isDataSecret = isHidden(*data);
-    ClipboardDataGuard guard(data, clipboardSequenceNumber(mode), canProcessEventsWhileReading());
-    QVariantMap dataMap = cloneData(guard, formats);
+    QVariantMap dataMap = cloneData(data, formats, clipboardSequenceNumber(mode));
     if (isDataSecret)
         dataMap[mimeSecret] = QByteArrayLiteral("1");
 

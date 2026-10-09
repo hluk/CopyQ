@@ -163,23 +163,19 @@ private:
 
 } //namespace
 
-ClipboardDataGuard::ClipboardDataGuard(
-        const QMimeData *data, const long int *clipboardSequenceNumber, bool processEvents)
+ClipboardDataGuard::ClipboardDataGuard(const QMimeData *data, const long int *clipboardSequenceNumber)
     : m_data(data)
     , m_clipboardSequenceNumber(clipboardSequenceNumber)
     , m_clipboardSequenceNumberOriginal(clipboardSequenceNumber ? *clipboardSequenceNumber : 0)
-    , m_processEvents(processEvents)
 {
     // This uses simple connection to ensure pointer is not destroyed
     // instead of QPointer to work around a possible Qt bug:
     // - https://bugzilla.redhat.com/show_bug.cgi?id=2320093
     // - https://bugzilla.redhat.com/show_bug.cgi?id=2326881
-    if (m_data) {
-        m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
-            m_data = nullptr;
-            log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
-        });
-    }
+    m_connection = QObject::connect(m_data, &QObject::destroyed, [this](){
+        m_data = nullptr;
+        log( QByteArrayLiteral("Aborting clipboard cloning: Data deleted"), LogWarning );
+    });
     m_timerExpire.start();
 }
 
@@ -372,12 +368,6 @@ const QMimeData *ClipboardDataGuard::mimeData()
 {
     if (isExpired())
         return dummyMimeData();
-
-    if (m_processEvents && m_timerExpire.elapsed() > 100) {
-        QCoreApplication::processEvents();
-        if (isExpired())
-            return dummyMimeData();
-    }
 
     return m_data;
 }

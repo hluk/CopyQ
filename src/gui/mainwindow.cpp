@@ -6,7 +6,6 @@
 #include "common/action.h"
 #include "common/actionoutput.h"
 #include "common/appconfig.h"
-#include "common/clipboarddataguard.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/commandstore.h"
@@ -1371,8 +1370,8 @@ void MainWindow::onItemCommandActionTriggered(CommandAction *commandAction, cons
 
 void MainWindow::onClipboardCommandActionTriggered(CommandAction *commandAction, const QString &triggeredShortcut)
 {
-    auto data = getClipboardData(ClipboardMode::Clipboard);
-    if (data.isExpired())
+    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
+    if (data == nullptr)
         return;
 
     auto actionData = cloneData(data);
@@ -3770,10 +3769,9 @@ void MainWindow::moveToClipboard(ClipboardBrowser *c, int row)
         setClipboard(QVariantMap());
 }
 
-ClipboardDataGuard MainWindow::getClipboardData(ClipboardMode mode)
+const QMimeData *MainWindow::getClipboardData(ClipboardMode mode)
 {
-    return ClipboardDataGuard(
-            m_clipboard->mimeData(mode), nullptr, m_clipboard->canProcessEventsWhileReading());
+    return m_clipboard->mimeData(mode);
 }
 
 void MainWindow::activateCurrentItem()
@@ -4331,6 +4329,10 @@ void MainWindow::editNewItem()
 
 void MainWindow::pasteItems()
 {
+    const QMimeData *data = m_clipboard->mimeData(ClipboardMode::Clipboard);
+    if (data == nullptr)
+        return;
+
     auto c = browser();
     if (!c)
         return;
@@ -4338,12 +4340,6 @@ void MainWindow::pasteItems()
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     std::sort( list.begin(), list.end() );
     const int row = list.isEmpty() ? 0 : list.first().row();
-
-    // Loading the tab can run an event loop while asking for its password.
-    auto data = getClipboardData(ClipboardMode::Clipboard);
-    if (data.isExpired())
-        return;
-
     c->addAndSelect( cloneData(data), row );
 }
 

@@ -216,11 +216,7 @@ QVariantMap cloneData(const QMimeData *rawData, const QStringList &formats, cons
 QVariantMap cloneData(const QMimeData *rawData)
 {
     ClipboardDataGuard data(rawData);
-    return cloneData(data);
-}
 
-QVariantMap cloneData(ClipboardDataGuard &data)
-{
     static const QSet<QString> ignoredFormats({
         mimeOwner,
         mimeClipboardMode,

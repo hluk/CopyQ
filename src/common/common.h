@@ -21,7 +21,6 @@ QVariantMap cloneData(const QMimeData *data, const QStringList &formats, const l
 
 /** Clone all data as is. */
 QVariantMap cloneData(const QMimeData *data);
-QVariantMap cloneData(ClipboardDataGuard &data);
 
 QString cloneText(const QMimeData &data);
 
