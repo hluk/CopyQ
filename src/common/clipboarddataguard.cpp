@@ -369,11 +369,5 @@ const QMimeData *ClipboardDataGuard::mimeData()
     if (isExpired())
         return dummyMimeData();
 
-    if (m_timerExpire.elapsed() > 100) {
-        QCoreApplication::processEvents();
-        if (isExpired())
-            return dummyMimeData();
-    }
-
     return m_data;
 }

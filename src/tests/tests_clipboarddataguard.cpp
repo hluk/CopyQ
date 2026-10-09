@@ -3,11 +3,14 @@
 
 #include "common/clipboarddataguard.h"
 
+#include <QCoreApplication>
 #include <QMimeData>
 #include <QSet>
 #include <QTest>
+#include <QTimer>
 #include <QUrl>
 
+#include <memory>
 #include <new>
 
 ClipboardDataGuardTests::ClipboardDataGuardTests(const TestInterfacePtr &, QObject *parent)
@@ -89,6 +92,58 @@ void ClipboardDataGuardTests::normalDataStillWorks()
     ClipboardDataGuard guard(&md);
     QCOMPARE(guard.data("application/octet-stream"), QByteArray("binary"));
     qunsetenv("COPYQ_CLIPBOARD_MIME_SIZE_LIMIT");
+}
+
+void ClipboardDataGuardTests::slowReadRespectsMimeDataLifetime()
+{
+    auto md = std::make_unique<QMimeData>();
+    md->setData("text/plain", "plain");
+    md->setData("text/html", "<b>plain</b>");
+
+    // This models data whose lifetime ends when events are processed, as with
+    // KGuiAddons on Wayland. It does not rely on racing a background thread.
+    // Destroying the context cancels the callback if an assertion fails early.
+    QObject callbackContext;
+    QTimer::singleShot(0, &callbackContext, [&md] { md.reset(); });
+    ClipboardDataGuard guard(md.get());
+
+    // Cross the former 100 ms event-processing threshold.
+    QTest::qSleep(150);
+
+    QCOMPARE(guard.data("text/plain"), QByteArray("plain"));
+    QCOMPARE(guard.data("text/html"), QByteArray("<b>plain</b>"));
+    QVERIFY(md);
+    QVERIFY(!guard.isExpired());
+
+    QCoreApplication::processEvents();
+    QVERIFY(!md);
+    QVERIFY(guard.isExpired());
+    QVERIFY(guard.data("text/plain").isEmpty());
+}
+
+void ClipboardDataGuardTests::slowReadDefersClipboardChanges()
+{
+    QMimeData md;
+    md.setData("text/plain", "old clipboard data");
+    long int sequenceNumber = 0;
+
+    // A queued clipboard change must wait until control returns to the event
+    // loop, but must still invalidate the guard when it is delivered.
+    QObject callbackContext;
+    QTimer::singleShot(0, &callbackContext, [&sequenceNumber] { ++sequenceNumber; });
+    ClipboardDataGuard guard(&md, &sequenceNumber);
+
+    QTest::qSleep(150);
+
+    QCOMPARE(guard.data("text/plain"), QByteArray("old clipboard data"));
+    QCOMPARE(sequenceNumber, 0L);
+    QVERIFY(!guard.isExpired());
+
+    QCoreApplication::processEvents();
+    QVERIFY(guard.data("text/plain").isEmpty());
+    QCOMPARE(sequenceNumber, 1L);
+    QVERIFY(guard.isExpired());
+    QCOMPARE(md.data("text/plain"), QByteArray("old clipboard data"));
 }
 
 static void bumpConfigGeneration()
