@@ -81,7 +81,6 @@ async function run() {
         delay = 0;
         await publish('after-timeout');
         await waitFor(() => count === 2, 'Notification timeout removed a live client');
-        print('PASS: a live client still receives notifications after a timeout');
     } finally {
         if (!connection.is_closed()) {
             await call(connection, 'UnregisterClipboardClient');

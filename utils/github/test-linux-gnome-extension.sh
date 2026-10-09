@@ -128,7 +128,11 @@ while ! extention_service_health_check; do
 done
 echo "✅ PASSED: GNOME extension service is running"
 
-gjs -m "$(dirname "$0")/test-gnome-extension-clients.js"
+if ! gjs -m "$(dirname "$0")/test-gnome-extension-clients.js"; then
+    echo "❌ FAILED: GNOME extension client timeout test"
+    exit 1
+fi
+echo "✅ PASSED: GNOME extension client timeout test"
 
 export COPYQ_LOG_FILE="$XDG_RUNTIME_DIR/copyq.log"
 touch "$COPYQ_LOG_FILE"
