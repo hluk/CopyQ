@@ -3192,11 +3192,14 @@ void MainWindow::loadSettings(QSettings &settings, AppConfig *appConfig)
     if (m_options.hideMenuBar && !m_hiddenMenuBar) {
         m_hiddenMenuBar = new HiddenMenuBar(this);
         m_hiddenMenuBar->setFallbackActions(m_menuBarStandIns);
+        m_hiddenMenuBar->setEnabled(true);
         connect( m_hiddenMenuBar, &HiddenMenuBar::collapsedChanged,
                  this, [this]() { updateContextMenu(0); } );
+    } else if (!m_options.hideMenuBar && m_hiddenMenuBar) {
+        m_hiddenMenuBar->setEnabled(false);
+        m_hiddenMenuBar->deleteLater();
+        m_hiddenMenuBar = nullptr;
     }
-    if (m_hiddenMenuBar)
-        m_hiddenMenuBar->setEnabled(m_options.hideMenuBar);
 
     bool hideToolbar = appConfig->option<Config::hide_toolbar>();
     clearActions(m_toolBar);

@@ -9,13 +9,9 @@ constexpr auto menuBarId = "focus:^menu_bar:QMenuBar";
 
 } // namespace
 
-void CoreTests::menuBarVisibleByDefault()
-{
-    RUN("config" << "hide_menu_bar", "false\n");
-}
-
 void CoreTests::menuBarShortcutShowsHiddenMenuBar()
 {
+    RUN("config" << "hide_menu_bar", "false\n");
     RUN("config" << "hide_menu_bar" << "true", "true\n");
     RUN("show", "");
 
