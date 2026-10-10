@@ -150,6 +150,9 @@ MenuItems menuItems()
     addMenuItem( items, Actions::Help_About, QObject::tr("&About"), QStringLiteral("about"), QKeySequence::WhatsThis,
                   QStringLiteral("help-about"), IconCircleInfo );
 
+    addMenuItem( items, Actions::Misc_ShowMenuBar, QObject::tr("Show &Menu Bar"),
+                  QStringLiteral("show_menu_bar"), QObject::tr("Ctrl+M"), QStringLiteral("show-menu"), IconBars );
+
     addMenuItem( items, Actions::ItemMenu, QObject::tr("Open Item Context Menu"), QStringLiteral("item-menu"),
                  QObject::tr("Shift+F10", "Default shortcut to open item context menu"),
                  QStringLiteral(""), IconRectangleList );

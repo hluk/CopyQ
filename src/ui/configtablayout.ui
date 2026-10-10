@@ -100,6 +100,16 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="checkBoxHideMenuBar">
+              <property name="toolTip">
+               <string>Hide menu bar (Alt or the context menu shows it temporarily)</string>
+              </property>
+              <property name="text">
+               <string>Hide m&amp;enu bar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="checkBoxHideWindow">
               <property name="toolTip">
                <string>Hide main window when closed</string>

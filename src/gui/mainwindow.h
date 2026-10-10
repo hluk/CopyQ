@@ -35,6 +35,7 @@ class Tabs;
 class Theme;
 class TrayMenu;
 class ToolBar;
+class HiddenMenuBar;
 class QModelIndex;
 class QSizeGrip;
 struct NotificationButton;
@@ -90,6 +91,7 @@ struct MainWindowOptions {
     int transparencyFocused = 0;
 
     bool hideTabs = false;
+    bool hideMenuBar = false;
 
     bool hideMainWindow = false;
     bool closeOnUnfocus = false;
@@ -318,6 +320,9 @@ public:
 
     /** Open preferences dialog. */
     void openPreferences();
+
+    /** Show the menu bar (also when hidden by the option) and activate its first menu. */
+    void showMenuBar();
 
     /** Open commands dialog. */
     void openCommands();
@@ -703,6 +708,8 @@ private:
     ToolBar *m_toolBar;
 
     QSizeGrip *m_sizeGrip = nullptr;
+    HiddenMenuBar *m_hiddenMenuBar = nullptr;
+    QList<QAction*> m_menuBarStandIns;
 
     MainWindowOptions m_options;
 

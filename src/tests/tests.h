@@ -246,6 +246,10 @@ private slots:
     void configTabs();
 
     void framelessWindowShowsSizeGrip();
+    void menuBarShortcutShowsHiddenMenuBar();
+    void menuBarMnemonicOpensMenuOfHiddenMenuBar();
+    void menuBarContextMenuShowsMenuBar();
+    void menuBarContextMenuWithoutItems();
 
     void selectedItems();
 

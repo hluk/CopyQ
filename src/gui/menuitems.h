@@ -67,6 +67,8 @@ enum Id {
     Help_ShowLog,
     Help_About,
 
+    Misc_ShowMenuBar,
+
     ItemMenu,
 
     Count
