@@ -26,6 +26,10 @@ void CoreTests::menuBarShortcutShowsHiddenMenuBar()
 
 void CoreTests::menuBarMnemonicOpensMenuOfHiddenMenuBar()
 {
+#ifdef Q_OS_MAC
+    SKIP("Alt mnemonics don't open menus on macOS.");
+#endif
+
     RUN("config" << "hide_menu_bar" << "true", "true\n");
     RUN("show", "");
 
@@ -63,6 +67,10 @@ void CoreTests::menuBarContextMenuWithoutItems()
     KEYS(clipboardBrowserId << "SHIFT+F10");
     KEYS(menuId << "UP" << "UP" << "ENTER");
     KEYS(configurationDialogId << "ESCAPE" << clipboardBrowserId);
+
+#ifdef Q_OS_MAC
+    SKIP("Escape doesn't close the menu opened by Show Menu Bar on macOS.");
+#endif
 
     KEYS(clipboardBrowserId << "SHIFT+F10");
     KEYS(menuId << "UP" << "UP" << "UP" << "ENTER");
