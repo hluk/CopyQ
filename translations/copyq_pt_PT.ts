@@ -1489,22 +1489,22 @@ Utilize &quot;Antever&quot; para mostrar os itens completos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Arraste uma área vazia para mover a janela; arraste o canto inferior direito para redimensionar</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar &amp;título e contorno da janela</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar a barra de menus (a tecla Alt ou o menu contextual mostram-na temporariamente)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar barra de m&amp;enus</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -3214,12 +3214,12 @@ que podem ser letras, algarismos, &quot;-&quot; ou &quot;_&quot;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar barra de &amp;menus</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
