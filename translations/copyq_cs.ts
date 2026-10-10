@@ -1480,14 +1480,22 @@ Použij Náhled prvku pro zobrazení celého obsahu.</translation>
         <translation>Skr&amp;yj popisky v panelu</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide window title and frame (drag empty area to move, drag bottom right corner to resize)</source>
-        <translation>Skrýt titulek a rám okna (tažením prázdné oblasti okno přesunete, tažením za pravý dolní roh změníte jeho velikost)</translation>
+        <translation type="vanished">Skrýt titulek a rám okna (tažením prázdné oblasti okno přesunete, tažením za pravý dolní roh změníte jeho velikost)</translation>
+    </message>
+    <message>
+        <source>&amp;Frameless window</source>
+        <translation type="vanished">&amp;Bezrámové okno</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="95"/>
+        <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
-        <source>&amp;Frameless window</source>
-        <translation>&amp;Bezrámové okno</translation>
+        <source>Hide window &amp;title and frame</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
