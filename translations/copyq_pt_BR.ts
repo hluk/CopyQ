@@ -1481,22 +1481,22 @@ Use Prévia do Item para exibir os itens que estiverem completos.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Arraste a área vazia para mover a janela, arraste o canto inferior direito para redimensioná-la</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar o &amp;título e o frame da janela</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar barra de menu (Alt ou o menu de contexto mostra-o temporariamente)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocultar barra de m&amp;enu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -3212,12 +3212,12 @@ que podem ser letras, dígitos, &apos;-&apos; ou &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar barra de &amp;menu</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
@@ -3517,12 +3517,12 @@ Consulte os registros para obter detalhes.</translation>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="368"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Prevenção de captura de tela indisponível</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="369"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>A opção de ocultar capturas de tela está habilitada, mas não pode ter efeito em uma sessão de área de trabalho remota. O conteúdo da janela pode ficar visível na captura de tela.</translation>
     </message>
 </context>
 <context>
