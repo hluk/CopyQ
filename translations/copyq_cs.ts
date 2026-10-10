@@ -1482,12 +1482,12 @@ Použij Náhled prvku pro zobrazení celého obsahu.</translation>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Hide window title and frame (drag empty area to move, drag bottom right corner to resize)</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrýt titulek a rám okna (tažením prázdné oblasti okno přesunete, tažením za pravý dolní roh změníte jeho velikost)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>&amp;Frameless window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bezrámové okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
