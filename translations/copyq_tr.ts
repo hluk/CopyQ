@@ -332,17 +332,17 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
         <translation type="vanished">Sekme dolu. Herhangi bir öğe kaldırılamadı.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1576"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1586"/>
         <source>Cannot add new items to tab %1. Please remove items manually to make space.</source>
         <translation>%1 sekmesine yeni ögeler eklenemiyor. Yer açmak için lütfen ögeleri el ile kaldırın.</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1903"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1913"/>
         <source>Discard Changes?</source>
         <translation>Değişikliklerden Vazgeçilsin Mi?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1904"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1914"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Gerçekten &lt;strong&gt;değişiklerden vazgeçmek&lt;/strong&gt; istiyor musunuz?</translation>
     </message>
@@ -407,22 +407,22 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
         <translation>CopyQ sunucusu zaten çalışıyor.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="417"/>
+        <location filename="../src/app/clipboardserver.cpp" line="419"/>
         <source>Cancel Active Commands</source>
         <translation>Aktif Komutları İptal Et</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="418"/>
+        <location filename="../src/app/clipboardserver.cpp" line="420"/>
         <source>Cancel active commands and exit?</source>
         <translation>Aktif komutları iptal edip çıkmak istiyor musunuz?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="421"/>
+        <location filename="../src/app/clipboardserver.cpp" line="423"/>
         <source>Cancel Exiting</source>
         <translation>Çıkmaktan Vazgeç</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="422"/>
+        <location filename="../src/app/clipboardserver.cpp" line="424"/>
         <source>Exit Anyway</source>
         <translation>Yine de Çık</translation>
     </message>
@@ -1480,36 +1480,56 @@ Tüm ögeleri görüntülemek için Öge Önizleme&apos;yi kullanın.</translati
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
+        <source>Hide window title and frame (drag empty area to move, drag bottom right corner to resize)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="98"/>
+        <source>&amp;Frameless window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="105"/>
+        <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="108"/>
+        <source>Hide m&amp;enu bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtablayout.ui" line="115"/>
         <source>Hide main window when closed</source>
         <translation>Kapatıldığında ana pencereyi gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="98"/>
+        <location filename="../src/ui/configtablayout.ui" line="118"/>
         <source>Hide &amp;main window</source>
         <translation>&amp;Ana pencereyi gizle</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="108"/>
+        <location filename="../src/ui/configtablayout.ui" line="128"/>
         <source>Layout and Transparency</source>
         <translation>Düzen ve Şeffaflık</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="117"/>
+        <location filename="../src/ui/configtablayout.ui" line="137"/>
         <source>Show tree with tabs instead of tab bar</source>
         <translation>Sekme çubuğu yerine sekmeli ağacı göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="120"/>
+        <location filename="../src/ui/configtablayout.ui" line="140"/>
         <source>Tab T&amp;ree</source>
         <translation>&amp;Sekme Ağacı</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="127"/>
+        <location filename="../src/ui/configtablayout.ui" line="147"/>
         <source>&amp;Focused transparency:</source>
         <translation>&amp;Odaklanmış şeffaflık:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="139"/>
+        <location filename="../src/ui/configtablayout.ui" line="159"/>
         <source>Transparency of main window if focused.
 
 Note: This is not supported on all systems.</source>
@@ -1518,12 +1538,12 @@ Note: This is not supported on all systems.</source>
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="169"/>
+        <location filename="../src/ui/configtablayout.ui" line="189"/>
         <source>&amp;Unfocused transparency:</source>
         <translation>&amp;Odaklanmamış şeffaflık:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="181"/>
+        <location filename="../src/ui/configtablayout.ui" line="201"/>
         <source>Transparency of main window if unfocused.
 
 Note: This is not supported on all systems.</source>
@@ -1532,12 +1552,12 @@ Note: This is not supported on all systems.</source>
 Not: Bu, tüm sistemlerde desteklenmemektedir.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="211"/>
+        <location filename="../src/ui/configtablayout.ui" line="231"/>
         <source>Show number of items in tabs</source>
         <translation>Sekmelerdeki öge sayısını göster</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtablayout.ui" line="214"/>
+        <location filename="../src/ui/configtablayout.ui" line="234"/>
         <source>Sho&amp;w Item Count</source>
         <translation>&amp;Öge Sayısını Göster</translation>
     </message>
@@ -2635,67 +2655,67 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation type="vanished">CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="922"/>
+        <location filename="../src/gui/mainwindow.cpp" line="926"/>
         <source>Exit?</source>
         <translation>Çıkış yapmak istiyor musun?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="923"/>
+        <location filename="../src/gui/mainwindow.cpp" line="927"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>CopyQ&apos;dan &lt;strong&gt;çıkmak&lt;/strong&gt; ister misiniz?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="981"/>
+        <location filename="../src/gui/mainwindow.cpp" line="985"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1027"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1031"/>
         <source>&amp;Edit</source>
         <translation>&amp;Düzenle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1051"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1055"/>
         <source>&amp;Item</source>
         <translation>&amp;Öge</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1055"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1059"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Sekmeler</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1080"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1084"/>
         <source>&amp;Help</source>
         <translation>&amp;Yardım</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1105"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1113"/>
         <source>&amp;New Tab</source>
         <translation>&amp;Yeni Sekme</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1107"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1115"/>
         <source>Rename &amp;Group %1</source>
         <translation>%1 &amp;Grubunu Yeniden Adlandır</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1109"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1117"/>
         <source>Re&amp;name Tab %1</source>
         <translation>%1 Sekmesini Yeniden &amp;Adlandır</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1111"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1119"/>
         <source>Re&amp;move Tab %1</source>
         <translation>%1 Sekmesini &amp;Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1113"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1121"/>
         <source>Remove Group %1</source>
         <translation>%1 Grubunu Kaldır</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1115"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1123"/>
         <source>&amp;Change Tab Icon</source>
         <translation>&amp;Sekme Simgesini Değiştir</translation>
     </message>
@@ -2708,54 +2728,54 @@ Devre dışı bırakmak için 0 olarak ayarlayın.</translation>
         <translation type="vanished">&amp;Pano Depolamayı Devre Dışı Bırak</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="508"/>
+        <location filename="../src/gui/mainwindow.cpp" line="512"/>
         <source>Options for Import</source>
         <translation>İçe Aktarma Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2823"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2837"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Hata</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="858"/>
+        <location filename="../src/gui/mainwindow.cpp" line="862"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Göster/Gizle</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4400"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4480"/>
         <source>Options for Export</source>
         <translation>Dışa Aktarma Seçenekleri</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4431"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4511"/>
         <source>Export Error</source>
         <translation>Dışa Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4432"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4512"/>
         <source>Failed to export file %1!</source>
         <translation>%1 dosyası dışa aktarılamadı!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1158"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1166"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Pano: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="301"/>
+        <location filename="../src/gui/mainwindow.cpp" line="305"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Ögeleri (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="528"/>
+        <location filename="../src/gui/mainwindow.cpp" line="532"/>
         <source>Encryption Unavailable</source>
         <translation>Şifreleme Kullanılabilir Değil</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="529"/>
+        <location filename="../src/gui/mainwindow.cpp" line="533"/>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
@@ -2764,52 +2784,52 @@ It will be possible to encrypt and decrypt tab data.</source>
 Sekme verilerini şifrelemek ve şifresini çözmek mümkün olacak.</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="591"/>
+        <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>Import Password</source>
         <translation>İçe Aktarma Parolası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="592"/>
+        <location filename="../src/gui/mainwindow.cpp" line="596"/>
         <source>Enter password for import:</source>
         <translation>İçe aktarma için parolayı girin:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="615"/>
+        <location filename="../src/gui/mainwindow.cpp" line="619"/>
         <source>Export Password</source>
         <translation>Dışa Aktarma Parolası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="616"/>
+        <location filename="../src/gui/mainwindow.cpp" line="620"/>
         <source>Enter password for export (empty for no encryption):</source>
         <translation>Dışa aktarma için parolayı girin (şifreleme olmaması için boş bırakın):</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4540"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4620"/>
         <source>Import Error</source>
         <translation>İçe Aktarma Hatası</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4541"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4621"/>
         <source>Failed to import file %1!</source>
         <translation>%1 dosyası içe aktarılamadı!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4719"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4799"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Gruptaki Tüm Sekmeler Kaldırılsın Mı?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4720"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4800"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; grubundaki &lt;strong&gt;tüm sekmeleri&lt;/strong&gt; kaldırmak istiyor musun?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4767"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4847"/>
         <source>Remove Tab?</source>
         <translation>Sekme Kaldırılsın Mı?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="4768"/>
+        <location filename="../src/gui/mainwindow.cpp" line="4848"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>&lt;strong&gt;%1&lt;/strong&gt; sekmesini kaldırmak istiyor musunuz?</translation>
     </message>
@@ -2817,7 +2837,7 @@ Sekme verilerini şifrelemek ve şifresini çözmek mümkün olacak.</translatio
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="514"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="531"/>
         <source>Information</source>
         <translation>Bilgi</translation>
     </message>
@@ -3170,11 +3190,21 @@ Sekme verilerini şifrelemek ve şifresini çözmek mümkün olacak.</translatio
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
+        <source>Show &amp;Menu Bar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="154"/>
+        <source>Ctrl+M</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/menuitems.cpp" line="156"/>
         <source>Open Item Context Menu</source>
         <translation>Öge İçeriği Menüsünü Aç</translation>
     </message>
     <message>
-        <location filename="../src/gui/menuitems.cpp" line="154"/>
+        <location filename="../src/gui/menuitems.cpp" line="157"/>
         <source>Shift+F10</source>
         <comment>Default shortcut to open item context menu</comment>
         <translation>Shift+F10</translation>
@@ -3322,7 +3352,7 @@ en fazla 16 karakter içermelidir!</translation>
         <translation>%1 sekmesi bozuk veya bazı CopyQ eklentileri eksik!</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2253"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2263"/>
         <source>Text Copied (%n lines)</source>
         <comment>Notification title for multi-line text in clipboard</comment>
         <translation>
@@ -3330,13 +3360,13 @@ en fazla 16 karakter içermelidir!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2256"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2266"/>
         <source>Text Copied</source>
         <comment>Notification title for single-line text in clipboard</comment>
         <translation>Metin Kopyalandı</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2272"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2282"/>
         <source>Data Copied</source>
         <comment>Notification title for a copied data in clipboard</comment>
         <translation>Veriler Kopyalandı</translation>
@@ -3482,12 +3512,12 @@ Ayrıntılar için lütfen günlüklere bakın.</translation>
         <translation>Şifreleme Başarısız</translation>
     </message>
     <message>
-        <location filename="../src/platform/win/winplatform.cpp" line="311"/>
+        <location filename="../src/platform/win/winplatform.cpp" line="368"/>
         <source>Screen Capture Prevention Unavailable</source>
         <translation>Ekran Görüntüsü Engelleme Kullanılabilir Değil</translation>
     </message>
     <message>
-        <location filename="../src/platform/win/winplatform.cpp" line="312"/>
+        <location filename="../src/platform/win/winplatform.cpp" line="369"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
         <translation>Ekran görüntülerinden gizleme seçeneği etkinleştirildi ancak uzak masaüstü oturumunda etkili değildir. Pencere içeriği ekran görüntüsünde görünebilir.</translation>
     </message>
@@ -3985,22 +4015,22 @@ Programın ve kütüphanelerin sürümünü yazdır.</translation>
 <context>
     <name>ScriptableProxy</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="624"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="625"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Verilen adla sekme mevcut değil!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="629"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="630"/>
         <source>Tab name cannot be empty!</source>
         <translation>Sekme adı boş olamaz!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="974"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="981"/>
         <source>Tab with given name already exists!</source>
         <translation>Verilen adla sekme zaten var!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="2191"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="2201"/>
         <source>*Clipboard Storing Disabled*</source>
         <comment>Main window title if clipboard storing is disabled</comment>
         <translation>*Panoya Kaydetme Devre Dışı*</translation>
@@ -4158,17 +4188,17 @@ Genel ayarı kullanmak için 0 olarak ayarlayın.</translation>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="135"/>
+        <location filename="../src/gui/traymenu.cpp" line="144"/>
         <source>Press &apos;/&apos; to search</source>
         <translation>Aramak için &apos;/&apos; tuşuna basın</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="137"/>
+        <location filename="../src/gui/traymenu.cpp" line="146"/>
         <source>Type to search</source>
         <translation>Aramak için yazın</translation>
     </message>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="153"/>
+        <location filename="../src/gui/traymenu.cpp" line="162"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
