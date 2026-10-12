@@ -1462,22 +1462,22 @@ Aperçu de l’élément permet d’afficher des éléments en entiers.</transla
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Faites glisser une zone vide pour déplacer la fenêtre, faites glisser le coin inférieur droit pour la redimensionner</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la fenêtre, le &amp;titre et le cadre</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la barre de menu (la touche Alt ou le menu contextuel permet de l&apos;afficher temporairement)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Masquer la barre de m&amp;enu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -3189,12 +3189,12 @@ qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos; 
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la barre de &amp;menu</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
