@@ -1406,22 +1406,22 @@ Bain úsáid as Réamhamharc Míreanna chun míreanna iomlána a thaispeáint.</
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarraing an limistéar folamh chun an fhuinneog a bhogadh, tarraing an chúinne íochtarach ar dheis chun a méid a athrú</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Folaigh an fhuinneog, an &amp;teideal agus an fráma</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Folaigh an barra roghchláir (taispeánann Alt nó an roghchlár comhthéacs é go sealadach)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Folaigh an barra &amp;roghchláir</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -2994,12 +2994,12 @@ Beidh sé indéanta sonraí cluaisíní a chriptiú agus a dhíchriptiú.</trans
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Taispeáin an &amp;Barra Roghchlár</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
