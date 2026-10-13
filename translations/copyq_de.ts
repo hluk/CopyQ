@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given media type to standard input of command (leave empty to turn off)</source>
-        <translation>Daten dieses MIME-Type an die Standardeingabe weiterleiten (zum Deaktivieren leer lassen)</translation>
+        <translation>Daten dieses Mime-Type an die Standardeingabe weiterleiten (zum Deaktivieren leer lassen)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
@@ -538,7 +538,7 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="64"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation>Das Zeichen %1 kann verwendet werden, um STDOUT an das nächste Programm zu übergeben.</translation>
+        <translation>Das Zeichen %1 kann verwendet werden, um die Standardausgabe an das nächste Programm zu übergeben.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="70"/>
@@ -1460,22 +1460,22 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Im Fenster ziehen, um das Fenster zu bewegen; die untere rechte Ecke ziehen, um die Fenstergröße zu ändern</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenster&amp;titel und Rahmen ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Menüzeile ausblenden (Alt-Taste oder Kontextmenü zeigen sie vorübergehend an)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>M&amp;enüzeile ausblenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -3185,12 +3185,12 @@ erlaubt sind Buchstaben, Zahlen, „-“ oder „_“!</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Menüzeile anzeigen</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
