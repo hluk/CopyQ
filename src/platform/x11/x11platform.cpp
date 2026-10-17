@@ -329,6 +329,25 @@ bool X11Platform::findPluginDir(QDir *pluginsDir)
 
 QString X11Platform::defaultEditorCommand()
 {
+    // gedit is not necessarily installed: use the first available editor
+    // which does not return until the file is closed.
+    static const struct {
+        const char *executable;
+        const char *command;
+    } editors[] = {
+        {"gedit", "gedit --standalone -- %1"},
+        {"gnome-text-editor", "gnome-text-editor --standalone -- %1"},
+        {"kate", "kate --block %1"},
+        {"kwrite", "kwrite --block %1"},
+        {"mousepad", "mousepad --disable-server %1"},
+        {"pluma", "pluma --standalone -- %1"},
+        {"xed", "xed --standalone -- %1"},
+    };
+    for (const auto &editor : editors) {
+        if ( !QStandardPaths::findExecutable(QLatin1String(editor.executable)).isEmpty() )
+            return QLatin1String(editor.command);
+    }
+
     return QLatin1String("gedit --standalone -- %1");
 }
 
