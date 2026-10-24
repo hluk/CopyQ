@@ -279,6 +279,18 @@ void ClipboardServer::startMonitoring()
     if (m_monitor || m_exitting || m_ignoreNewConnections || !m_wnd->isMonitoringEnabled())
         return;
 
+    // A graceful exit was already requested (logout, SIGTERM/SIGINT): never start
+    // a new monitor process. The monitor child is killed together with the server,
+    // and a monitor started at that point aborts in Qt platform initialization
+    // ("This application failed to start because no Qt platform plugin could be
+    // initialized") because the X11/Wayland display connection is already gone.
+    // The request is latched in handleSignal() - before QCoreApplication::exit(),
+    // while m_exitting is only set later, in onAboutToQuit().
+    if (qApp->property("CopyQ_quitting").toBool()) {
+        COPYQ_LOG("Not starting monitor - quit requested");
+        return;
+    }
+
     COPYQ_LOG("Starting monitor");
 
     m_monitor = new Action();
