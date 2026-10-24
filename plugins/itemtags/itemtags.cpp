@@ -48,22 +48,46 @@ enum {
 };
 }
 
+// https://wiki.qt.io/Elided_Label
 class ElidedLabel final : public QLabel
 {
 public:
-    explicit ElidedLabel(const QString &text, QWidget *parent = nullptr)
-        : QLabel(text, parent)
-    {
-    }
+    using QLabel::QLabel;
 
 protected:
-    void paintEvent(QPaintEvent *) override
+    void resizeEvent(QResizeEvent *e)
     {
-        QPainter p(this);
-        QFontMetrics fm = fontMetrics();
-        const QString elidedText = fm.elidedText(text(), Qt::ElideMiddle, rect().width());
-        p.drawText(rect(), Qt::AlignCenter, elidedText);
+        QLabel::resizeEvent(e);
+        m_cachedText.clear();
     }
+
+    void paintEvent(QPaintEvent *e)
+    {
+        updateCachedTexts();
+        QLabel::setText(m_cachedElidedText);
+        QLabel::paintEvent(e);
+        QLabel::setText(m_cachedText);
+    }
+
+    private:
+        void updateCachedTexts()
+        {
+            const auto txt = text();
+            if (m_cachedText == txt)
+                return;
+            m_cachedText = txt;
+            const QFontMetrics fm(fontMetrics());
+            m_cachedElidedText = fm.elidedText(
+                text(), Qt::ElideMiddle, width(), Qt::TextShowMnemonic);
+            if (!m_cachedText.isEmpty()) {
+                const QString showFirstCharacter = m_cachedText.at(0) + QStringLiteral("...");
+                setMinimumWidth(fm.horizontalAdvance(showFirstCharacter) + 1);
+            }
+        }
+
+private:
+    QString m_cachedElidedText;
+    QString m_cachedText;
 };
 
 bool isTagValid(const ItemTags::Tag &tag)
@@ -182,18 +206,17 @@ QString unescapeTagField(const QString &field)
 
 void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &font)
 {
+    tagWidget->setObjectName("tagWidget");
     tagWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    tagWidget->setStyleSheet(
-                "* {"
-                ";background:transparent"
-                ";color:" + serializeColor(tag.color) +
-                ";" + tag.styleSheet +
-                "}"
-                "QLabel {"
-                ";background:transparent"
-                ";border:none"
-                "}"
-            );
+    const QString styleSheet = QStringLiteral(
+        "* {"
+        ";border:none"
+        ";background:transparent"
+        ";color: %1"
+        ";%2"
+        "}"
+    ).arg(serializeColor(tag.color), tag.styleSheet);
+    tagWidget->setStyleSheet(styleSheet);
 
     auto layout = new QHBoxLayout(tagWidget);
     const int x = QFontMetrics(font).height() / 6;
