@@ -100,6 +100,9 @@ bool isTagValid(const ItemTags::Tag &tag)
 
 QString serializeColor(const QColor &color)
 {
+    if (!color.isValid())
+        return {};
+
     if (color.alpha() == 255)
         return color.name();
 
@@ -108,21 +111,6 @@ QString serializeColor(const QColor &color)
             .arg(color.green())
             .arg(color.blue())
             .arg(color.alpha());
-}
-
-QColor deserializeColor(const QString &colorName)
-{
-    if ( colorName.startsWith("rgba(") ) {
-        QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
-        int r = list.value(0).toInt();
-        int g = list.value(1).toInt();
-        int b = list.value(2).toInt();
-        int a = list.value(3).toInt();
-
-        return QColor(r, g, b, a);
-    }
-
-    return QColor(colorName);
 }
 
 void setColorIcon(QPushButton *button, const QColor &color)
@@ -208,6 +196,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
 {
     tagWidget->setObjectName("tagWidget");
     tagWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    const QColor color = tag.color.isValid() ? tag.color : tagWidget->palette().color(QPalette::PlaceholderText);
     const QString styleSheet = QStringLiteral(
         "* {"
         ";border:none"
@@ -215,7 +204,7 @@ void initTagWidget(QWidget *tagWidget, const ItemTags::Tag &tag, const QFont &fo
         ";color: %1"
         ";%2"
         "}"
-    ).arg(serializeColor(tag.color), tag.styleSheet);
+    ).arg(serializeColor(color), tag.styleSheet);
     tagWidget->setStyleSheet(styleSheet);
 
     auto layout = new QHBoxLayout(tagWidget);
@@ -820,7 +809,7 @@ void ItemTagsLoader::onAllTableWidgetItemsChanged()
 QString ItemTagsLoader::serializeTag(const ItemTagsLoader::Tag &tag)
 {
     return escapeTagField(tag.name)
-            + ";;" + escapeTagField(tag.color)
+            + ";;" + escapeTagField(serializeColor(tag.color))
             + ";;" + escapeTagField(tag.icon)
             + ";;" + escapeTagField(tag.styleSheet)
             + ";;" + escapeTagField(tag.match)
@@ -833,7 +822,7 @@ ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
 
     Tag tag;
     tag.name = unescapeTagField(tagFields.value(0));
-    tag.color = unescapeTagField(tagFields.value(1));
+    tag.color = QColor::fromString(unescapeTagField(tagFields.value(1)));
     tag.icon = unescapeTagField(tagFields.value(2));
     tag.styleSheet = unescapeTagField(tagFields.value(3));
     tag.match = unescapeTagField(tagFields.value(4));
@@ -859,10 +848,6 @@ ItemTagsLoader::Tags ItemTagsLoader::toTags(const QStringList &tagList)
             }
         } else {
             tag.name = tagName;
-
-            // Get default tag style from theme.
-            const QSettings settings;
-            tag.color = settings.value("Theme/num_fg").toString();
         }
 
         tags.append(tag);
@@ -891,9 +876,7 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
     t->setItem( row, tagsTableColumns::lock, lock );
 
     auto colorButton = new QPushButton(t);
-    const QColor color = tag.color.isEmpty()
-            ? QColor::fromRgb(50, 50, 50)
-            : deserializeColor(tag.color);
+    const QColor color = tag.color;
     setColorIcon(colorButton, color);
     t->setCellWidget(row, tagsTableColumns::color, colorButton);
     connect(colorButton, &QAbstractButton::clicked, this, &ItemTagsLoader::onColorButtonClicked);
@@ -912,9 +895,7 @@ ItemTagsLoader::Tag ItemTagsLoader::tagFromTable(int row)
 
     Tag tag;
     tag.name = t->item(row, tagsTableColumns::name)->text();
-    const QColor color =
-            cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor).value<QColor>();
-    tag.color = serializeColor(color);
+    tag.color = cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor).value<QColor>();
     tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon").toString();
     tag.styleSheet = t->item(row, tagsTableColumns::styleSheet)->text();
     tag.match = t->item(row, tagsTableColumns::match)->text();
