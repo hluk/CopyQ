@@ -24,7 +24,7 @@ class ItemTags final : public QWidget, public ItemWidgetWrapper
 public:
     struct Tag {
         QString name;
-        QString color;
+        QColor color;
         QString icon;
         QString styleSheet;
         QString match;
