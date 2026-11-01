@@ -506,7 +506,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="56"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation>Η εντοή περιέχει ένα κατάστιχο προγραμμάτων με τα ορίσματα που θα εκτελεστούν. Για παράδειγμα:</translation>
+        <translation>Η εντολή περιέχει ένα κατάστιχο προγραμμάτων με τα ορίσματα που θα εκτελεστούν. Για παράδειγμα:</translation>
     </message>
     <message>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
@@ -1111,42 +1111,42 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="156"/>
         <source>Prevent capturing app windows in screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτροπή καταγραφής των παραθύρων της εφαρμογής σε στιγμιότυπα και εγγραφές οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="159"/>
         <source>&amp;Hide from screenshots and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυ&amp;ψη από στιγμιότυπα και εγγραφές οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="166"/>
         <source>Encrypt tab data on disk (requires password to be set)</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυπτογράφηση των δεδομένων των καρτελών στον δίσκο (απαιτείται ορισμός κωδικού πρόσβασης)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="169"/>
         <source>Encrypt &amp;Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Κρυπτογράφηση &amp;καρτελών</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="176"/>
         <source>Use an available external key store for the encryption password (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση μιας διαθέσιμης εξωτερικής αποθήκης κλειδιών για τον κωδικό πρόσβασης κρυπτογράφησης (Windows Credential Store, macOS Keychain, GNOME Keyring, KWallet)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="179"/>
         <source>&amp;Use external key store</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Χρήση εξωτερικής αποθήκης κλειδιών</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="204"/>
         <source>Change the password used to encrypt tab data</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή του κωδικού πρόσβασης που χρησιμοποιείται για την κρυπτογράφηση των δεδομένων των καρτελών</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="207"/>
         <source>Change Encryption &amp;Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή του κωδικού πρό&amp;σβασης κρυπτογράφησης...</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabgeneral.ui" line="234"/>
@@ -1263,7 +1263,7 @@ press F2 to edit.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="105"/>
         <source>&amp;Unload tab after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Εκφόρτωση της καρτέλας μετά από χρονικό διάστημα:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="117"/>
@@ -1277,14 +1277,16 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="147"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαίτηση κωδικού πρόσβασης μετά από χρονικό διάστημα:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="159"/>
         <source>Timeout in seconds for encrypted tabs to require password again.
 
 Set to 0 to disable globally.</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρονικό όριο σε δευτερόλεπτα, μετά το οποίο οι κρυπτογραφημένες καρτέλες απαιτούν εκ νέου τον κωδικό πρόσβασης.
+
+Ορίστε το σε 0 για καθολική απενεργοποίηση.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabhistory.ui" line="189"/>
@@ -1444,7 +1446,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύρετε μια κενή περιοχή για να μετακινήσετε το παράθυρο ή την κάτω δεξιά γωνία για να αλλάξετε το μέγεθός του</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
@@ -1459,7 +1461,7 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη της γραμμής &amp;μενού</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -2579,34 +2581,36 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="532"/>
         <source>Encryption Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη διαθέσιμη κρυπτογράφηση</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="533"/>
         <source>Encryption is not available (see logs for details).
 
 It will be possible to encrypt and decrypt tab data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η κρυπτογράφηση δεν είναι διαθέσιμη (ανατρέξτε στις καταγραφές για λεπτομέρειες).
+
+Θα είναι δυνατή η κρυπτογράφηση και η αποκρυπτογράφηση των δεδομένων των καρτελών.</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="595"/>
         <source>Import Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικός πρόσβασης εισαγωγής</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="596"/>
         <source>Enter password for import:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε τον κωδικό πρόσβασης για την εισαγωγή:</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="619"/>
         <source>Export Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικός πρόσβασης εξαγωγής</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="620"/>
         <source>Enter password for export (empty for no encryption):</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε τον κωδικό πρόσβασης για την εξαγωγή (αφήστε το κενό για εξαγωγή χωρίς κρυπτογράφηση):</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="862"/>
@@ -2997,7 +3001,7 @@ It will be possible to encrypt and decrypt tab data.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="44"/>
         <source>Ctrl+Shift+I</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+I</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="78"/>
@@ -3079,7 +3083,7 @@ It will be possible to encrypt and decrypt tab data.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="117"/>
         <source>E&amp;dit with Editor</source>
-        <translation>Επεξεργασία με επεξεργαστή κειμένου</translation>
+        <translation>Ε&amp;πεξεργασία με επεξεργαστή κειμένου</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="118"/>
@@ -3221,12 +3225,12 @@ It will be possible to encrypt and decrypt tab data.</source>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Εμφάνιση της γραμμής &amp;μενού</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+M</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
@@ -3289,38 +3293,38 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="155"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="265"/>
         <source>New Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέος κωδικός πρόσβασης κρυπτογράφησης καρτελών</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="157"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="266"/>
         <source>Enter new password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε τον νέο κωδικό πρόσβασης:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="158"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="320"/>
         <source>Passwords did not match. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι κωδικοί πρόσβασης δεν ταιριάζουν. Προσπαθήστε ξανά (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="171"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="337"/>
         <source>Change Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Αλλαγή του κωδικού πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="172"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="338"/>
         <source>New password cannot be empty.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο νέος κωδικός πρόσβασης δεν μπορεί να είναι κενός.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="177"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="206"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="369"/>
         <source>Password Setup Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία ορισμού του κωδικού πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="178"/>
@@ -3328,84 +3332,84 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/encryptionpassword.cpp" line="246"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="370"/>
         <source>Maximum password attempts exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Έγινε υπέρβαση του μέγιστου αριθμού προσπαθειών εισαγωγής του κωδικού πρόσβασης.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="188"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="347"/>
         <source>Confirm Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιβεβαίωση του κωδικού πρόσβασης κρυπτογράφησης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="189"/>
         <location filename="../src/gui/encryptionpassword.cpp" line="348"/>
         <source>Re-enter password to confirm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε ξανά τον κωδικό πρόσβασης για επιβεβαίωση:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="226"/>
         <source>Current Tab Encryption Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Τρέχων κωδικός πρόσβασης κρυπτογράφησης καρτελών</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="228"/>
         <source>Enter current password for encrypting tab data:</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισαγάγετε τον τρέχοντα κωδικό πρόσβασης για την κρυπτογράφηση των δεδομένων των καρτελών:</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="229"/>
         <source>Invalid password. Please try again (%1/%2):</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη έγκυρος κωδικός πρόσβασης. Προσπαθήστε ξανά (%1/%2):</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="245"/>
         <source>Password Verification Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία επαλήθευσης του κωδικού πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="399"/>
         <source>Encryption Files Corrupted</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατεστραμμένα αρχεία κρυπτογράφησης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="400"/>
         <source>Encryption files are missing or corrupted. Strict mode cannot recover encrypted tabs automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα αρχεία κρυπτογράφησης λείπουν ή είναι κατεστραμμένα. Η αυστηρή λειτουργία δεν μπορεί να ανακτήσει αυτόματα τις κρυπτογραφημένες καρτέλες.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="436"/>
         <source>Change Password Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία αλλαγής του κωδικού πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="437"/>
         <source>Failed to change password. Your old password is still active. Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία αλλαγής του κωδικού πρόσβασης. Ο παλιός κωδικός πρόσβασης παραμένει ενεργός. Ανατρέξτε στις καταγραφές για λεπτομέρειες.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="445"/>
         <source>Change Password Successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτυχής αλλαγή του κωδικού πρόσβασης</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="446"/>
         <source>Password has been changed successfully.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο κωδικός πρόσβασης άλλαξε επιτυχώς.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="461"/>
         <source>Re-encrypting tabs...</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκ νέου κρυπτογράφηση των καρτελών...</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="462"/>
         <source>Cancel</source>
-        <translation type="unfinished">Άκυρο</translation>
+        <translation>Άκυρο</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="491"/>
         <source>Re-encrypting tab %1 of %2: %3</source>
-        <translation type="unfinished"></translation>
+        <translation>Εκ νέου κρυπτογράφηση της καρτέλας %1 από %2: %3</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="539"/>
@@ -3414,22 +3418,26 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 %1
 
 Please check the logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία κρυπτογράφησης των ακόλουθων καρτελών:
+
+%1
+
+Ανατρέξτε στις καταγραφές για λεπτομέρειες.</translation>
     </message>
     <message>
         <location filename="../src/gui/encryptionpassword.cpp" line="543"/>
         <source>Encryption Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία κρυπτογράφησης</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="368"/>
         <source>Screen Capture Prevention Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Αδυναμία αποτροπής της καταγραφής οθόνης</translation>
     </message>
     <message>
         <location filename="../src/platform/win/winplatform.cpp" line="369"/>
         <source>The option to hide from screenshots is enabled but cannot take effect in a remote desktop session. Window content may be visible to screen capture.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η επιλογή απόκρυψης από στιγμιότυπα οθόνης είναι ενεργοποιημένη, αλλά δεν μπορεί να εφαρμοστεί σε συνεδρία απομακρυσμένης επιφάνειας εργασίας. Το περιεχόμενο του παραθύρου ενδέχεται να εμφανίζεται σε καταγραφές οθόνης.</translation>
     </message>
 </context>
 <context>
@@ -3816,12 +3824,12 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="522"/>
         <source>Failed to export file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία εξαγωγής του αρχείου «%1»</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="527"/>
         <source>Failed to import file &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτυχία εισαγωγής του αρχείου «%1»</translation>
     </message>
     <message>
         <source>Cannot save to file &quot;%1&quot;!</source>
@@ -4008,19 +4016,21 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="93"/>
         <source>Require password after an interval:</source>
-        <translation type="unfinished"></translation>
+        <translation>Απαίτηση κωδικού πρόσβασης μετά από χρονικό διάστημα:</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="103"/>
         <source>Per-tab timeout in seconds for requiring encryption password again.
 
 Set to 0 to use global setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρονικό όριο ανά καρτέλα, σε δευτερόλεπτα, για την εκ νέου απαίτηση του κωδικού πρόσβασης κρυπτογράφησης.
+
+Ορίστε το σε 0 για χρήση της καθολικής ρύθμισης.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabpropertieswidget.ui" line="108"/>
         <source>global</source>
-        <translation type="unfinished"></translation>
+        <translation>καθολική</translation>
     </message>
 </context>
 <context>
