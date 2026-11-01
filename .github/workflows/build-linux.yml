@@ -186,7 +186,7 @@ jobs:
 
       - name: Install Qt
         if: matrix.custom_qt
-        uses: jurplel/install-qt-action@a9c63c7c123f3069cff414e7e482d95dfa9d8125 # v4
+        uses: jurplel/install-qt-action@b344308e4483fc892e0d27b3cd1b173ebdd95f06 # v4
         with:
           version: ${{ matrix.custom_qt }}
           modules: qt5compat
@@ -314,7 +314,7 @@ jobs:
 
       - name: Upload AppImage
         if: matrix.appimage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           path: CopyQ-*.AppImage
           archive: false
