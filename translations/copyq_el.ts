@@ -1449,12 +1449,12 @@ Use Item Preview to display whole items.</source>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη &amp;τίτλου και πλαισίου παραθύρου</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη της γραμμής μενού (εμφανίζεται προσωρινά με το Alt ή μέσω του σχετικού μενού)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
