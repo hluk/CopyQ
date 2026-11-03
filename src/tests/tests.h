@@ -311,6 +311,7 @@ private slots:
     void showHideActionHandlerDialog();
 
     void shortcutDialogAddShortcut();
+    void shortcutDialogAddKeypadShortcut();
     void shortcutDialogAddTwoShortcuts();
     void shortcutDialogChangeShortcut();
     void shortcutDialogSameShortcut();
