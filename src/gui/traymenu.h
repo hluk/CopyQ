@@ -58,6 +58,7 @@ signals:
     void searchRequest(const QString &text);
 
 protected:
+    bool event(QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 

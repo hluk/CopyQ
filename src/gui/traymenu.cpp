@@ -256,6 +256,21 @@ void TrayMenu::setNumberSearchEnabled(bool enabled)
     m_numberSearch = enabled;
 }
 
+bool TrayMenu::event(QEvent *event)
+{
+    // A menu without the Popup flag (see the constructor) is a normal window, so
+    // nothing dismisses it when the user clicks or switches to another window.
+    // An open submenu is a popup of this window and must not close it.
+    if ( event->type() == QEvent::WindowDeactivate
+         && !windowFlags().testFlag(Qt::Popup)
+         && QApplication::activePopupWidget() == nullptr )
+    {
+        close();
+    }
+
+    return QMenu::event(event);
+}
+
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     const int key = event->key();
