@@ -900,7 +900,13 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
             m_shortcutActions.constFind(shortcut);
     if ( it != m_shortcutActions.constEnd() ) {
         const QString shortcutText = portableShortcutText(shortcut->shortcut());
-        const Command &command = it.value();
+        const Command command = it.value();
+        const bool isPlainTextPaste = command.internalId == QStringLiteral("copyq_global_paste_clipboard_plain");
+        // Share the active action across all shortcuts assigned to this command.
+        // Repeating a paste while it is still copying/waiting must not start
+        // another client that replaces the same clipboard provider.
+        if (isPlainTextPaste && m_plainTextPasteAction && m_plainTextPasteAction->isRunning())
+            return;
 
         // If global shortcut for a menu command is triggered when the main window
         // is active, the command will be executed as if it has been trigger from
@@ -910,7 +916,9 @@ void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
         } else {
             QVariantMap data;
             data.insert(mimeShortcut, shortcutText.toUtf8());
-            m_wnd->action(data, command, QModelIndex());
+            auto action = m_wnd->action(data, command, QModelIndex());
+            if (isPlainTextPaste)
+                m_plainTextPasteAction = action;
         }
     }
 #endif
