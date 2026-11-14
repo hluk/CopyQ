@@ -54,6 +54,15 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
     if (event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         auto keyEvent = static_cast<QKeyEvent*>(event);
         const int key = keyEvent->key();
+#ifndef Q_OS_MAC
+        // QKeySequenceEdit drops the keypad modifier from digit keys.
+        if (event->type() == QEvent::KeyPress
+                && keyEvent->modifiers().testFlag(Qt::KeypadModifier)
+                && key >= Qt::Key_0 && key <= Qt::Key_9) {
+            ui->lineEditShortcut->setKeySequence(QKeySequence(keyEvent->keyCombination()));
+            return true;
+        }
+#endif
         return key == Qt::Key_Meta
             || key == Qt::Key_Super_L
             || key == Qt::Key_Super_R

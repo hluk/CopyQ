@@ -99,6 +99,24 @@ void CoreTests::shortcutDialogAddShortcut()
     RUN("commands()[0].shortcuts", "ctrl+f1\n");
 }
 
+void CoreTests::shortcutDialogAddKeypadShortcut()
+{
+#ifdef Q_OS_MAC
+    SKIP("Mnemonic for focusing shortcut button doesn't work on OS X");
+#endif
+
+    RUN("setCommands([{name: 'test', inMenu: true, cmd: 'copyq add OK'}])", "");
+
+    KEYS(clipboardBrowserId << "F6" << commandDialogId);
+    KEYS(commandDialogId << "ALT+S" << shortcutButtonId);
+    KEYS(shortcutButtonId << "Space" << shortcutDialogId);
+    KEYS(shortcutDialogId << "CTRL+NUM+1" << shortcutButtonId);
+
+    KEYS(commandDialogId << "ESCAPE" << commandDialogSaveButtonId);
+    KEYS(commandDialogSaveButtonId << "Enter" << clipboardBrowserId);
+    RUN("commands()[0].shortcuts", "ctrl+num+1\n");
+}
+
 void CoreTests::shortcutDialogAddTwoShortcuts()
 {
 #ifdef Q_OS_MAC

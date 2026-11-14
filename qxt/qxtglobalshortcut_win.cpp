@@ -84,8 +84,11 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
     return native;
 }
 
-quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifiers)
+quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key, Qt::KeyboardModifiers mods)
 {
+    if (mods.testFlag(Qt::KeypadModifier) && key >= Qt::Key_0 && key <= Qt::Key_9)
+        return VK_NUMPAD0 + (key - Qt::Key_0);
+
     // Here is list of keys that presumably work on most keyboard layouts.
     // Default branch is for keys that can change with keyboard layout.
     switch (key)
