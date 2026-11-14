@@ -1942,10 +1942,10 @@ bool MainWindow::abortAction(int &actionId, int waitMs, int terminateAfterMs, in
     // Send CommandStop for clean exit.
     emit stopAction(oldActionId);
 
-    if (Action *action = m_sharedData->actions->findAction(oldActionId)) {
+    if (QPointer<Action> action = m_sharedData->actions->findAction(oldActionId)) {
         if (waitMs > 0)
             action->waitForFinished(waitMs);
-        if (action->isRunning()) {
+        if (action && action->isRunning()) {
             if (terminateAfterMs >= 0)
                 QTimer::singleShot(terminateAfterMs, action, &Action::requestTerminate);
             if (killAfterMs >= 0)
