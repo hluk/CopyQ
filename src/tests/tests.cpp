@@ -704,6 +704,28 @@ bool CoreTests::hasTab(const QString &tabName)
     Q_SLOT void test##Name##_data() { populateTestRows(m_group##Name, "test" #Name); } \
     Q_SLOT void test##Name() { dispatchCurrentTest(); }
 
+namespace {
+
+int findMethod(const QMetaObject *meta, const char *name)
+{
+    for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
+        if (meta->method(i).name() == name)
+            return i;
+    }
+    return -1;
+}
+
+void invokeMethod(QObject *obj, const char *name)
+{
+    if (!obj)
+        return;
+    const int idx = findMethod(obj->metaObject(), name);
+    if (idx >= 0)
+        obj->metaObject()->method(idx).invoke(obj, Qt::DirectConnection);
+}
+
+} // namespace
+
 class Tests : public QObject {
     Q_OBJECT
 public:
@@ -729,24 +751,6 @@ private:
         QObject *group = new TestClass(m_test, this);
         m_groups.insert(groupName, group);
         return group;
-    }
-
-    static int findMethod(const QMetaObject *meta, const char *name)
-    {
-        for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
-            if (meta->method(i).name() == name)
-                return i;
-        }
-        return -1;
-    }
-
-    static void invokeMethod(QObject *obj, const char *name)
-    {
-        if (!obj)
-            return;
-        const int idx = findMethod(obj->metaObject(), name);
-        if (idx >= 0)
-            obj->metaObject()->method(idx).invoke(obj, Qt::DirectConnection);
     }
 
     static bool isLifecycleSlot(const QByteArray &name)
@@ -859,7 +863,7 @@ int main(int argc, char **argv)
     if (argc == 2 && qstrcmp(argv[1], "--action-wait-helper") == 0) {
         QCoreApplication app(argc, argv);
         QTimer::singleShot(30000, &app, &QCoreApplication::quit);
-        return app.exec();
+        return QCoreApplication::exec();
     }
 
     // Avoid verbose logs on stderr if tests are not failing

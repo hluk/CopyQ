@@ -8,6 +8,8 @@
 #include <QTest>
 #include <QTimer>
 
+#include <memory>
+
 namespace {
 
 void startWaitingAction(Action *action)
@@ -29,7 +31,7 @@ ActionTests::ActionTests(const TestInterfacePtr &, QObject *parent)
     setProperty("CopyQ_test_id", QStringLiteral("action"));
 }
 
-void ActionTests::reentrantWaitDoesNotProcessEvents()
+void ActionTests::reentrantWaitDoesNotProcessEvents() const
 {
     Action action;
     startWaitingAction(&action);
@@ -40,9 +42,10 @@ void ActionTests::reentrantWaitDoesNotProcessEvents()
     bool nestedResult = true;
     bool processedEvent = false;
     bool nestedWaitProcessedEvents = false;
-    QTimer::singleShot(0, &callbackContext, [&] {
+    QTimer::singleShot(0, &callbackContext, [&action, &callbackContext, &entered,
+            &nestedResult, &processedEvent, &nestedWaitProcessedEvents] {
         entered = true;
-        QTimer::singleShot(0, &callbackContext, [&] { processedEvent = true; });
+        QTimer::singleShot(0, &callbackContext, [&processedEvent] { processedEvent = true; });
         nestedResult = action.waitForFinished(100);
         nestedWaitProcessedEvents = processedEvent;
         action.requestKill();
@@ -55,7 +58,7 @@ void ActionTests::reentrantWaitDoesNotProcessEvents()
     QVERIFY(finished);
 }
 
-void ActionTests::timeoutAllowsAnotherWait()
+void ActionTests::timeoutAllowsAnotherWait() const
 {
     Action action;
     startWaitingAction(&action);
@@ -67,7 +70,7 @@ void ActionTests::timeoutAllowsAnotherWait()
     QVERIFY(action.waitForFinished(0));
 }
 
-void ActionTests::differentActionsCanWait()
+void ActionTests::differentActionsCanWait() const
 {
     Action first;
     Action second;
@@ -78,7 +81,7 @@ void ActionTests::differentActionsCanWait()
 
     QObject callbackContext;
     bool nestedResult = false;
-    QTimer::singleShot(0, &callbackContext, [&] {
+    QTimer::singleShot(0, &callbackContext, [&first, &second, &nestedResult] {
         QTimer::singleShot(0, &second, &Action::requestKill);
         nestedResult = second.waitForFinished(5000);
         first.requestKill();
@@ -88,15 +91,16 @@ void ActionTests::differentActionsCanWait()
     QVERIFY(nestedResult);
 }
 
-void ActionTests::deletedWhileWaiting()
+void ActionTests::deletedWhileWaiting() const
 {
     QObject callbackContext;
-    QPointer<Action> action = new Action(&callbackContext);
-    startWaitingAction(action);
+    auto action = std::make_unique<Action>();
+    const QPointer<Action> observer = action.get();
+    startWaitingAction(action.get());
     QVERIFY(action->isRunning());
 
-    QTimer::singleShot(0, &callbackContext, [&] { delete action.data(); });
+    QTimer::singleShot(0, &callbackContext, [&action] { action.reset(); });
     const bool finished = action->waitForFinished(100);
-    QVERIFY(action.isNull());
+    QVERIFY(observer.isNull());
     QVERIFY(finished);
 }

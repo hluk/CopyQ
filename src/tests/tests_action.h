@@ -11,8 +11,8 @@ public:
     explicit ActionTests(const TestInterfacePtr &test = {}, QObject *parent = nullptr);
 
 private slots:
-    void reentrantWaitDoesNotProcessEvents();
-    void timeoutAllowsAnotherWait();
-    void differentActionsCanWait();
-    void deletedWhileWaiting();
+    void reentrantWaitDoesNotProcessEvents() const;
+    void timeoutAllowsAnotherWait() const;
+    void differentActionsCanWait() const;
+    void deletedWhileWaiting() const;
 };
