@@ -40,11 +40,13 @@ Dir(tempDir).entryList([prefix + '*.png']).forEach(function(name) {
     if (now - created > maxAgeMs)
         new File(tempDir + '/' + name).remove()
 })
-var path = tempDir + '/' + prefix + now + '.png'
-var f = new File(path)
-if (!f.openWriteOnly() || f.write(input()) == -1)
+var f = new TemporaryFile()
+f.setFileTemplate(tempDir + '/' + prefix + now + '-XXXXXX.png')
+f.setAutoRemove(false)
+if (!f.open() || f.write(input()) == -1)
     throw 'Failed to save the image: ' + f.errorString()
 f.close()
+var path = f.fileName()
 )");
 }
 

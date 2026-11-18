@@ -902,18 +902,19 @@ void CoreTests::commandPasteImageAsFilePath()
 {
     constexpr qint64 now = 1700000000000;
     constexpr qint64 hourMs = 60 * 60 * 1000;
-    const QString dir = QDir::tempPath();
-    const auto tempFile = [&](qint64 timestamp) {
-        return QStringLiteral("%1/copyq-image-%2.png").arg(dir).arg(timestamp);
+    const QDir dir(QDir::tempPath());
+    const auto tempFileName = [](qint64 timestamp, const QString &suffix) {
+        return QStringLiteral("copyq-image-%1-%2.png").arg(timestamp).arg(suffix);
+    };
+    const auto removeTestFiles = [&]() {
+        for ( const auto &name : dir.entryList({"copyq-image-17*.png"}) )
+            QFile::remove( dir.filePath(name) );
     };
 
-    const QString oldFile = tempFile(now - 25 * hourMs);
-    const QString recentFile = tempFile(now - 23 * hourMs);
-    const QString newFile = tempFile(now);
-    const QStringList files{oldFile, recentFile, newFile};
+    const QString oldFile = dir.filePath(tempFileName(now - 25 * hourMs, "AAAAAA"));
+    const QString recentFile = dir.filePath(tempFileName(now - 23 * hourMs, "BBBBBB"));
 
-    for (const auto &path : files)
-        QFile::remove(path);
+    removeTestFiles();
     for (const auto &path : {oldFile, recentFile}) {
         QFile f(path);
         QVERIFY( f.open(QIODevice::WriteOnly) );
@@ -923,17 +924,23 @@ void CoreTests::commandPasteImageAsFilePath()
     const QByteArray image = QByteArray::fromHex("89504e470d0a1a0a0001ff");
     const QString script =
         QStringLiteral("Date.now = function() { return %1 }\n").arg(now)
-        + pasteImageAsFilePathScript() + "print(path)";
-    TEST( m_test->runClient(Args("eval") << script, newFile.toUtf8(), image) );
+        + pasteImageAsFilePathScript();
+    TEST( m_test->runClient(Args("eval") << script, QByteArray(), image) );
 
-    QFile f(newFile);
+    const QStringList newFiles = dir.entryList({tempFileName(now, "??????")});
+    QCOMPARE( newFiles.size(), 1 );
+    QFile f( dir.filePath(newFiles.first()) );
     QVERIFY( f.open(QIODevice::ReadOnly) );
     QCOMPARE( f.readAll(), image );
+#ifndef Q_OS_WIN
+    QCOMPARE( f.permissions() & (QFile::ReadGroup | QFile::WriteGroup | QFile::ReadOther | QFile::WriteOther), QFileDevice::Permissions() );
+#endif
+    f.close();
+
     QVERIFY( !QFile::exists(oldFile) );
     QVERIFY( QFile::exists(recentFile) );
 
-    for (const auto &path : files)
-        QFile::remove(path);
+    removeTestFiles();
 }
 
 void CoreTests::commandSelectItems()
