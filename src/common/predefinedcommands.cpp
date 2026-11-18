@@ -43,9 +43,13 @@ Dir(tempDir).entryList([prefix + '*.png']).forEach(function(name) {
 var f = new TemporaryFile()
 f.setFileTemplate(tempDir + '/' + prefix + now + '-XXXXXX.png')
 f.setAutoRemove(false)
-if (!f.open() || f.write(input()) == -1)
-    throw 'Failed to save the image: ' + f.errorString()
+var saved = f.open() && f.write(input()) != -1
+var error = saved ? '' : f.errorString()
 f.close()
+if (!saved) {
+    f.remove()
+    throw 'Failed to save the image: ' + error
+}
 var path = f.fileName()
 )");
 }
