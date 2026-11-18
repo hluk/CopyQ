@@ -10,6 +10,7 @@
 #include "itempinnedtests.h"
 #include "itemsynctests.h"
 #include "itemtagstests.h"
+#include "tests_action.h"
 #include "tests_clipboarddataguard.h"
 
 #include "app/app.h"
@@ -703,6 +704,28 @@ bool CoreTests::hasTab(const QString &tabName)
     Q_SLOT void test##Name##_data() { populateTestRows(m_group##Name, "test" #Name); } \
     Q_SLOT void test##Name() { dispatchCurrentTest(); }
 
+namespace {
+
+int findMethod(const QMetaObject *meta, const char *name)
+{
+    for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
+        if (meta->method(i).name() == name)
+            return i;
+    }
+    return -1;
+}
+
+void invokeMethod(QObject *obj, const char *name)
+{
+    if (!obj)
+        return;
+    const int idx = findMethod(obj->metaObject(), name);
+    if (idx >= 0)
+        obj->metaObject()->method(idx).invoke(obj, Qt::DirectConnection);
+}
+
+} // namespace
+
 class Tests : public QObject {
     Q_OBJECT
 public:
@@ -728,24 +751,6 @@ private:
         QObject *group = new TestClass(m_test, this);
         m_groups.insert(groupName, group);
         return group;
-    }
-
-    static int findMethod(const QMetaObject *meta, const char *name)
-    {
-        for (int i = meta->methodOffset(); i < meta->methodCount(); ++i) {
-            if (meta->method(i).name() == name)
-                return i;
-        }
-        return -1;
-    }
-
-    static void invokeMethod(QObject *obj, const char *name)
-    {
-        if (!obj)
-            return;
-        const int idx = findMethod(obj->metaObject(), name);
-        if (idx >= 0)
-            obj->metaObject()->method(idx).invoke(obj, Qt::DirectConnection);
     }
 
     static bool isLifecycleSlot(const QByteArray &name)
@@ -843,6 +848,7 @@ private:
     }
 
     IMPL_TEST_GROUP(Core)
+    IMPL_TEST_GROUP(Action)
     IMPL_TEST_GROUP(ClipboardDataGuard)
     IMPL_TEST_GROUP(ItemEncrypted)
     IMPL_TEST_GROUP(ItemFakeVim)
@@ -854,6 +860,12 @@ private:
 
 int main(int argc, char **argv)
 {
+    if (argc == 2 && qstrcmp(argv[1], "--action-wait-helper") == 0) {
+        QCoreApplication app(argc, argv);
+        QTimer::singleShot(30000, &app, &QCoreApplication::quit);
+        return QCoreApplication::exec();
+    }
+
     // Avoid verbose logs on stderr if tests are not failing
     qunsetenv("COPYQ_LOG_LEVEL");
 
