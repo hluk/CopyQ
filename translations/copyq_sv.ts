@@ -253,6 +253,11 @@ Du kan konfigurera kommandot i inställningar.</translation>
         <translation>Klistra in som vanlig text</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Klistra in bild som filsökväg</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Spela upp videoklipp automatiskt</translation>

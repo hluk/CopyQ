@@ -253,6 +253,11 @@ U kunt de opdracht instellen in het voorkeurenvenster.</translation>
         <translation>Plakken als platte tekst</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Afbeelding plakken als bestandspad</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Video&apos;s automatisch afspelen</translation>

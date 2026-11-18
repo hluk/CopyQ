@@ -253,6 +253,11 @@ Puoi impostare il comando nelle preferenze.</translation>
         <translation>Incolla come testo semplice</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Incolla immagine come percorso del file</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Riproduzione automatica video</translation>

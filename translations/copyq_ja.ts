@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>プレーンテキストとして貼り付け</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>画像をファイルパスとして貼り付け</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>動画を自動再生</translation>

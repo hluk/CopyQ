@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>Επικόλληση ως απλό κείμενο</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Επικόλληση εικόνας ως διαδρομής αρχείου</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Αυτόματη αναπαραγωγή των βίντεο</translation>

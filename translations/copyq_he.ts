@@ -243,6 +243,11 @@
         <translation>הדבקה כמלל רגיל</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>הדבקת תמונה כנתיב קובץ</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>הפעלת סרטונים אוטומטית</translation>

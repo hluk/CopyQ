@@ -243,6 +243,11 @@
         <translation>Dán dưới dạng Văn bản thuần túy</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Dán hình ảnh dưới dạng đường dẫn tệp</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Tự động phát video</translation>

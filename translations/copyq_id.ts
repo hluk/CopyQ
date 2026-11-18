@@ -243,6 +243,11 @@
         <translation>Salin sebagai Teks Biasa</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Salin Gambar sebagai Jalur File</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Video otomatis</translation>

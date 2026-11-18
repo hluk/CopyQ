@@ -253,6 +253,11 @@ Você pode configurar o comando nas preferências.</translation>
         <translation>Colar como texto sem formatação</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Colar imagem como caminho de arquivo</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Reproduzir vídeos automaticamente</translation>

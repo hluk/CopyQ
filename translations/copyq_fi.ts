@@ -243,6 +243,11 @@
         <translation>Liitä pelkkänä tekstinä</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Liitä kuva tiedostopolkuna</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Toista videot automaattisesti</translation>

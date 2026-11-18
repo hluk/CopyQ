@@ -28,6 +28,26 @@ class AddCommandDialog final
 
 } // namespace
 
+QString pasteImageAsFilePathScript()
+{
+    return QStringLiteral(R"(
+var tempDir = Dir().tempPath()
+var prefix = 'copyq-image-'
+var now = Date.now()
+var maxAgeMs = 24 * 60 * 60 * 1000
+Dir(tempDir).entryList([prefix + '*.png']).forEach(function(name) {
+    var created = parseInt(name.slice(prefix.length))
+    if (now - created > maxAgeMs)
+        new File(tempDir + '/' + name).remove()
+})
+var path = tempDir + '/' + prefix + now + '.png'
+var f = new File(path)
+if (!f.openWriteOnly() || f.write(input()) == -1)
+    throw 'Failed to save the image: ' + f.errorString()
+f.close()
+)");
+}
+
 QVector<Command> predefinedCommands()
 {
     const QRegularExpression reURL("^(https?|ftps?|file)://");
@@ -86,6 +106,14 @@ overrideFunction('provideSelection');
     c->input = mimeText;
     c->icon = fromIconId(IconPaste);
     c->cmd  = QStringLiteral("copyq:") + pasteAsPlainTextScript("input()");
+    c->hideWindow = true;
+    c->inMenu = true;
+
+    c = newCommand(&commands);
+    c->name = AddCommandDialog::tr("Paste Image as File Path");
+    c->input = QStringLiteral("image/png");
+    c->icon = fromIconId(IconImage);
+    c->cmd  = QStringLiteral("copyq:") + pasteImageAsFilePathScript() + pasteAsPlainTextScript("path");
     c->hideWindow = true;
     c->inMenu = true;
 

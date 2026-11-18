@@ -253,6 +253,11 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>Vlož jako prostý text</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Vlož obrázek jako cestu k souboru</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Automaticky přehrát</translation>

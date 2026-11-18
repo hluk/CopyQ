@@ -7,8 +7,11 @@
 #include "common/mimetypes.h"
 #include "common/commandstatus.h"
 #include "common/display.h"
+#include "common/predefinedcommands.h"
 
+#include <QDir>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QRegularExpression>
 #include <QTemporaryFile>
 #include <algorithm>
@@ -893,6 +896,44 @@ void CoreTests::commandGetSetCurrentPath()
     TEST( m_test->runClient(
               Args("eval") << "currentPath(input()); print(Dir().absolutePath())",
               newPath, newPath) );
+}
+
+void CoreTests::commandPasteImageAsFilePath()
+{
+    constexpr qint64 now = 1700000000000;
+    constexpr qint64 hourMs = 60 * 60 * 1000;
+    const QString dir = QDir::tempPath();
+    const auto tempFile = [&](qint64 timestamp) {
+        return QStringLiteral("%1/copyq-image-%2.png").arg(dir).arg(timestamp);
+    };
+
+    const QString oldFile = tempFile(now - 25 * hourMs);
+    const QString recentFile = tempFile(now - 23 * hourMs);
+    const QString newFile = tempFile(now);
+    const QStringList files{oldFile, recentFile, newFile};
+
+    for (const auto &path : files)
+        QFile::remove(path);
+    for (const auto &path : {oldFile, recentFile}) {
+        QFile f(path);
+        QVERIFY( f.open(QIODevice::WriteOnly) );
+        f.write("stale");
+    }
+
+    const QByteArray image = QByteArray::fromHex("89504e470d0a1a0a0001ff");
+    const QString script =
+        QStringLiteral("Date.now = function() { return %1 }\n").arg(now)
+        + pasteImageAsFilePathScript() + "print(path)";
+    TEST( m_test->runClient(Args("eval") << script, newFile.toUtf8(), image) );
+
+    QFile f(newFile);
+    QVERIFY( f.open(QIODevice::ReadOnly) );
+    QCOMPARE( f.readAll(), image );
+    QVERIFY( !QFile::exists(oldFile) );
+    QVERIFY( QFile::exists(recentFile) );
+
+    for (const auto &path : files)
+        QFile::remove(path);
 }
 
 void CoreTests::commandSelectItems()

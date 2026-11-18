@@ -253,6 +253,11 @@ Sie könnnen den Befehl in den Einstellungen ändern.</translation>
         <translation>Als reinen Text einfügen</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Bild als Dateipfad einfügen</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Videos automatisch abspielen</translation>

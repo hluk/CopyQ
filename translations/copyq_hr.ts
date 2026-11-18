@@ -253,6 +253,11 @@ Naredbu je moguće postaviti u postavkama.</translation>
         <translation>Umetni kao običan tekst</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Umetni sliku kao putanju datoteke</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Automatski pokreni videosnimke</translation>

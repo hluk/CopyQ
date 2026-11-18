@@ -106,6 +106,8 @@ private slots:
 
     void commandGetSetCurrentPath();
 
+    void commandPasteImageAsFilePath();
+
     void commandSelectItems();
 
     void commandsExportImport();

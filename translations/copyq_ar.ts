@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>الصق كنص عادي</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>الصق الصورة كمسار ملف</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>شغل الفيديو تلقائيا</translation>

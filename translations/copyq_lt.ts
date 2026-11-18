@@ -242,6 +242,11 @@
         <translation>Įdėti kaip paprastą tekstą</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Įdėti paveikslėlį kaip failo kelią</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Automatiškai paleisti vaizdo įrašus</translation>
