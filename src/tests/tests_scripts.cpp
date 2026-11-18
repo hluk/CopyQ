@@ -906,13 +906,15 @@ void CoreTests::commandPasteImageAsFilePath()
     const auto tempFileName = [](qint64 timestamp, const QString &suffix) {
         return QStringLiteral("copyq-image-%1-%2.png").arg(timestamp).arg(suffix);
     };
-    const auto removeTestFiles = [&]() {
-        for ( const auto &name : dir.entryList({"copyq-image-17*.png"}) )
-            QFile::remove( dir.filePath(name) );
-    };
-
     const QString oldFile = dir.filePath(tempFileName(now - 25 * hourMs, "AAAAAA"));
     const QString recentFile = dir.filePath(tempFileName(now - 23 * hourMs, "BBBBBB"));
+    const QString newFilePattern = tempFileName(now, "??????");
+    const auto removeTestFiles = [&]() {
+        QFile::remove(oldFile);
+        QFile::remove(recentFile);
+        for ( const auto &name : dir.entryList({newFilePattern}) )
+            QFile::remove( dir.filePath(name) );
+    };
 
     removeTestFiles();
     for (const auto &path : {oldFile, recentFile}) {
@@ -927,13 +929,15 @@ void CoreTests::commandPasteImageAsFilePath()
         + pasteImageAsFilePathScript();
     TEST( m_test->runClient(Args("eval") << script, QByteArray(), image) );
 
-    const QStringList newFiles = dir.entryList({tempFileName(now, "??????")});
+    const QStringList newFiles = dir.entryList({newFilePattern});
     QCOMPARE( newFiles.size(), 1 );
     QFile f( dir.filePath(newFiles.first()) );
     QVERIFY( f.open(QIODevice::ReadOnly) );
     QCOMPARE( f.readAll(), image );
 #ifndef Q_OS_WIN
-    QCOMPARE( f.permissions() & (QFile::ReadGroup | QFile::WriteGroup | QFile::ReadOther | QFile::WriteOther), QFileDevice::Permissions() );
+    const auto othersAccess =
+        QFile::ReadGroup | QFile::WriteGroup | QFile::ReadOther | QFile::WriteOther;
+    QCOMPARE( f.permissions() & othersAccess, QFileDevice::Permissions() );
 #endif
     f.close();
 
