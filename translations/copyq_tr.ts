@@ -253,6 +253,11 @@ Komutu tercihlerde ayarlayabilirsiniz.</translation>
         <translation>Düz Metin Olarak Yapıştır</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Resmi Dosya Yolu Olarak Yapıştır</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Videoları otomatik oynat</translation>

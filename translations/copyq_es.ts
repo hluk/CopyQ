@@ -253,6 +253,11 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation>Pegar como texto plano</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Pegar imagen como ruta de archivo</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Reproducir vídeos automáticamente</translation>

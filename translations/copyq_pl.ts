@@ -253,6 +253,11 @@ Możesz je skonfigurować w Preferencjach.</translation>
         <translation>Wstaw jako Zwykły Tekst</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Wstaw obraz jako ścieżkę pliku</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Automatyczne odtwarzanie wideo</translation>

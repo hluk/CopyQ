@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>粘贴为纯文本</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>将图像粘贴为文件路径</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>自动播放视频</translation>

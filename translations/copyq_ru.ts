@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>Вставить как обычный текст</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Вставить изображение как путь к файлу</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Автовоспроизведение видео</translation>

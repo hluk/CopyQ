@@ -254,6 +254,11 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <translation>Coller en tant que texte brut</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Coller l’image en tant que chemin de fichier</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Lecture automatique des vidéos</translation>

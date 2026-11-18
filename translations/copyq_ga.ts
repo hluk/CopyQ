@@ -243,6 +243,11 @@
         <translation>Greamaigh mar Ghnáth-Théacs</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Greamaigh Íomhá mar Chonair Comhaid</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Físeáin a sheinm go huathoibríoch</translation>

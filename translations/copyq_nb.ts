@@ -253,6 +253,11 @@ Du kan sette opp kommandoen i innstillinger.</translation>
         <translation>Lim inn som Ren Tekst</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Lim inn bilde som filbane</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Autoavspilling av videoer</translation>

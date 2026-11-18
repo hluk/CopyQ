@@ -7,8 +7,11 @@
 #include "common/mimetypes.h"
 #include "common/commandstatus.h"
 #include "common/display.h"
+#include "common/predefinedcommands.h"
 
+#include <QDir>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QRegularExpression>
 #include <QTemporaryFile>
 #include <algorithm>
@@ -893,6 +896,55 @@ void CoreTests::commandGetSetCurrentPath()
     TEST( m_test->runClient(
               Args("eval") << "currentPath(input()); print(Dir().absolutePath())",
               newPath, newPath) );
+}
+
+void CoreTests::commandPasteImageAsFilePath()
+{
+    constexpr qint64 now = 1700000000000;
+    constexpr qint64 hourMs = 60 * 60 * 1000;
+    const QDir dir(QDir::tempPath());
+    const auto tempFileName = [](qint64 timestamp, const QString &suffix) {
+        return QStringLiteral("copyq-image-%1-%2.png").arg(timestamp).arg(suffix);
+    };
+    const QString oldFile = dir.filePath(tempFileName(now - 25 * hourMs, "AAAAAA"));
+    const QString recentFile = dir.filePath(tempFileName(now - 23 * hourMs, "BBBBBB"));
+    const QString newFilePattern = tempFileName(now, "??????");
+    const auto removeTestFiles = [&]() {
+        QFile::remove(oldFile);
+        QFile::remove(recentFile);
+        for ( const auto &name : dir.entryList({newFilePattern}) )
+            QFile::remove( dir.filePath(name) );
+    };
+
+    removeTestFiles();
+    for (const auto &path : {oldFile, recentFile}) {
+        QFile f(path);
+        QVERIFY( f.open(QIODevice::WriteOnly) );
+        f.write("stale");
+    }
+
+    const QByteArray image = QByteArray::fromHex("89504e470d0a1a0a0001ff");
+    const QString script =
+        QStringLiteral("Date.now = function() { return %1 }\n").arg(now)
+        + pasteImageAsFilePathScript();
+    TEST( m_test->runClient(Args("eval") << script, QByteArray(), image) );
+
+    const QStringList newFiles = dir.entryList({newFilePattern});
+    QCOMPARE( newFiles.size(), 1 );
+    QFile f( dir.filePath(newFiles.first()) );
+    QVERIFY( f.open(QIODevice::ReadOnly) );
+    QCOMPARE( f.readAll(), image );
+#ifndef Q_OS_WIN
+    const auto othersAccess =
+        QFile::ReadGroup | QFile::WriteGroup | QFile::ReadOther | QFile::WriteOther;
+    QCOMPARE( f.permissions() & othersAccess, QFileDevice::Permissions() );
+#endif
+    f.close();
+
+    QVERIFY( !QFile::exists(oldFile) );
+    QVERIFY( QFile::exists(recentFile) );
+
+    removeTestFiles();
 }
 
 void CoreTests::commandSelectItems()

@@ -253,6 +253,11 @@ You can set up the command in preferences.</source>
         <translation>일반 텍스트로 붙여넣기</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>이미지를 파일 경로로 붙여넣기</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>비디오 자동 재생</translation>

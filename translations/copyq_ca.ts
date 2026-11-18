@@ -242,6 +242,11 @@
         <translation>Enganxa com a text sense format</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Enganxa la imatge com a camí de fitxer</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Reproducció automàtica de vídeos</translation>

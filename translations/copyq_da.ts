@@ -253,6 +253,11 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation>Indsæt som almindelig tekst</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>Indsæt billede som filsti</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>Automatisk afspilning af videoer</translation>

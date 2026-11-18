@@ -248,6 +248,11 @@ You can set up the command in preferences.</source>
         <translation>چسباندن به عنوان متن ساده</translation>
     </message>
     <message>
+        <location filename="../src/common/predefinedcommands.cpp" line="85"/>
+        <source>Paste Image as File Path</source>
+        <translation>چسباندن تصویر به عنوان مسیر فایل</translation>
+    </message>
+    <message>
         <location filename="../src/common/predefinedcommands.cpp" line="93"/>
         <source>Autoplay videos</source>
         <translation>پخش خودکار فیلم ها</translation>
