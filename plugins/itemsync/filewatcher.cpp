@@ -232,6 +232,10 @@ const QLatin1String noteFileSuffix("_note.txt");
 const int defaultUpdateFocusItemsIntervalMs = 10000;
 const int batchItemUpdateIntervalMs = 100;
 
+/// Bounds for the delay before retrying a reorder whose files could not be renamed (ms).
+const int moveRetryMinDelayMs = 100;
+const int moveRetryMaxDelayMs = 5000;
+
 const qint64 sizeLimit = 50'000'000;
 
 FileFormat getFormatSettingsFromFileName(const QString &fileName,
@@ -1077,9 +1081,17 @@ void FileWatcher::updateMovedRows()
         m_model->setData(index, data, contentType::updateData);
     }
 
-    if ( !renameMoveCopy(m_dir, indexList, UpdateType::Changed) )
+    if ( !renameMoveCopy(m_dir, indexList, UpdateType::Changed) ) {
+        // The order changed but the files could not follow, so keep the reorder pending
+        // and try again later. The delay grows so a file that stays locked does not make
+        // the watcher spin.
+        m_moveRetryDelayMs = qMin( qMax(m_moveRetryDelayMs * 2, moveRetryMinDelayMs),
+                                   moveRetryMaxDelayMs );
+        m_moveTimer.start(m_moveRetryDelayMs);
         return;
+    }
 
+    m_moveRetryDelayMs = 0;
     m_moveEnd = batchStart - 1;
     if (0 <= m_moveEnd)
         m_moveTimer.start(batchItemUpdateIntervalMs);
@@ -1245,6 +1257,7 @@ bool FileWatcher::renameMoveCopy(
     if ( indexList.isEmpty() )
         return false;
 
+    bool ok = true;
     QSet<QString> baseNames;
     QString baseName = findLastOwnBaseName(m_model, indexList.first().row() + 1);
 
@@ -1284,6 +1297,7 @@ bool FileWatcher::renameMoveCopy(
                     qCWarning(fileWatcher)
                         << "Skipping cross-tab copy of" << oldBaseName
                         << "to" << baseName;
+                    ok = false;
                     continue;
                 }
             } else if ( !olderBaseName.isEmpty() ) {
@@ -1292,6 +1306,7 @@ bool FileWatcher::renameMoveCopy(
                     qCWarning(fileWatcher)
                         << "Skipping rename of" << olderBaseName
                         << "to" << baseName;
+                    ok = false;
                     continue;
                 }
             }
@@ -1308,7 +1323,7 @@ bool FileWatcher::renameMoveCopy(
         }
     }
 
-    return true;
+    return ok;
 }
 
 void FileWatcher::updateDataAndWatchFile(const QDir &dir, const BaseNameExtensions &baseNameWithExts,
