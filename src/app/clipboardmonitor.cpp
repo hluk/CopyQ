@@ -80,8 +80,19 @@ ClipboardMonitor::ClipboardMonitor(const QStringList &formats)
 #endif
 }
 
-void ClipboardMonitor::startMonitoring()
+void ClipboardMonitor::startMonitoring(bool ignoreCurrentClipboard)
 {
+    if (ignoreCurrentClipboard) {
+        // Whatever is on the clipboard now was copied while storing was disabled. Remember it
+        // without emitting anything, so the first change event compares against it and the item
+        // is never added to the history.
+        m_clipboardData = m_clipboard->data(ClipboardMode::Clipboard, m_formats);
+#ifdef HAS_MOUSE_SELECTIONS
+        if (m_modes.testFlag(ClipboardModeFlag::Selection))
+            m_selectionData = m_clipboard->data(ClipboardMode::Selection, m_formats);
+#endif
+    }
+
     setClipboardOwner(currentClipboardOwner());
     connect(QGuiApplication::clipboard(), &QClipboard::changed,
             this, [this](){ m_ownerMonitor.update(); });

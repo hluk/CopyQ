@@ -17,7 +17,9 @@ class ClipboardMonitor final : public QObject
 
 public:
     explicit ClipboardMonitor(const QStringList &formats);
-    void startMonitoring();
+    /// `ignoreCurrentClipboard` treats what is on the clipboard right now as already seen, so
+    /// resuming after storing was disabled cannot capture text copied while it was off.
+    void startMonitoring(bool ignoreCurrentClipboard = false);
     QString currentClipboardOwner();
     void setClipboardOwner(const QString &owner);
 
