@@ -31,6 +31,7 @@
 #include "gui/windowgeometryguard.h"
 #include "item/serialize.h"
 #include "item/clipboardmodel.h"
+#include "platform/platformcommon.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
@@ -888,7 +889,15 @@ bool ScriptableProxy::pasteToCurrentWindow()
 {
     INVOKE(pasteToCurrentWindow, ());
 
-    PlatformWindowPtr window = platformNativeInterface()->getCurrentWindow();
+    auto platform = platformNativeInterface();
+    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
+    // If one of our own windows is active (e.g. the main window was activated
+    // by the OS from the taskbar/tray icon), the window to paste to is no
+    // longer in the foreground - fall back to the last active window of
+    // another application.
+    const bool currentIsOwnWindow = qApp->activeWindow() != nullptr;
+    PlatformWindowPtr window = resolvePasteTargetWindow(
+        currentWindow, platform->getLastActiveForeignWindow(), currentIsOwnWindow);
     if (!window) {
         log("Failed to get current window for pasting from clipboard", LogWarning);
         return false;
