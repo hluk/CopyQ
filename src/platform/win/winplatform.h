@@ -14,6 +14,8 @@ public:
 
     PlatformWindowPtr getCurrentWindow() override;
 
+    PlatformWindowPtr getLastActiveForeignWindow() override;
+
     bool canGetWindowTitle() override { return true; }
 
     bool canAutostart() override { return true; }

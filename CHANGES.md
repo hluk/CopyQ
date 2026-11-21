@@ -33,6 +33,11 @@
 - Windows: Prevents app from attempting (unsuccessfully) to paste to windows
   the user cannot switch back to (#2556). Thanks to @ntzb.
 
+- Windows: Fixes automatic paste not working when the main window is opened
+  with the mouse (taskbar/tray icon click) instead of a global shortcut - the
+  window to paste to is now remembered even when it's no longer in the
+  foreground (#3000).
+
 - Wayland: Fixes global shortcuts failing when portal service starts later or
   restarts (#3616, #3680).
 

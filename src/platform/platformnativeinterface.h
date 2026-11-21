@@ -42,6 +42,18 @@ public:
     virtual PlatformWindowPtr getCurrentWindow() = 0;
 
     /**
+     * Get the last active window of another application
+     * (nullptr if not supported or no such window is known).
+     *
+     * Useful as a paste target when one of the application's own windows is
+     * currently focused: the window to paste to is the one that was active
+     * before the own window was activated (e.g. the main window can be
+     * activated by the OS when the user clicks its taskbar icon, so the
+     * previously active window is no longer in the foreground).
+     */
+    virtual PlatformWindowPtr getLastActiveForeignWindow() { return PlatformWindowPtr(); }
+
+    /**
      * Return true only if window titles can be retrieved using PlatformWindow::getTitle().
      */
     virtual bool canGetWindowTitle() = 0;

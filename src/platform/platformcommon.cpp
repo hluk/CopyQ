@@ -55,3 +55,14 @@ void waitMs(int msec)
     t.start(msec);
     loop.exec();
 }
+
+std::shared_ptr<PlatformWindow> resolvePasteTargetWindow(
+    const std::shared_ptr<PlatformWindow> &currentWindow,
+    const std::shared_ptr<PlatformWindow> &lastForeignWindow,
+    bool currentWindowIsOwn)
+{
+    if (currentWindow && !currentWindowIsOwn)
+        return currentWindow;
+
+    return lastForeignWindow ? lastForeignWindow : currentWindow;
+}

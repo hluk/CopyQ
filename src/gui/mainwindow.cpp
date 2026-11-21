@@ -55,6 +55,7 @@
 #include "item/itemstore.h"
 #include "item/serialize.h"
 #include "platform/platformclipboard.h"
+#include "platform/platformcommon.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 #include "scriptable/scriptoverrides.h"
@@ -4112,7 +4113,19 @@ void MainWindow::updateFocusWindows()
     }
 
     auto platform = platformNativeInterface();
-    PlatformWindowPtr lastWindow = platform->getCurrentWindow();
+    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
+    const bool currentIsOwnWindow = currentWindow
+        && ( currentWindow->matchesWidget(this)
+             || currentWindow->matchesWidget(m_trayMenu)
+             || currentWindow->matchesWidget(m_menu) );
+
+    // If the current foreground window is one of CopyQ's own windows (e.g. the
+    // main window was activated by the OS when the user clicked its taskbar or
+    // tray icon, so the previously active window is no longer in the
+    // foreground) or no window could be determined, fall back to the last
+    // active window of another application - that's the window to paste to.
+    PlatformWindowPtr lastWindow = resolvePasteTargetWindow(
+        currentWindow, platform->getLastActiveForeignWindow(), currentIsOwnWindow);
     if (!lastWindow)
         return;
 

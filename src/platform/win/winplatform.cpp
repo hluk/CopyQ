@@ -217,6 +217,13 @@ QString windowClass(HWND window)
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
 }
 
+QString windowTitle(HWND window)
+{
+    WCHAR buf[1024];
+    GetWindowTextW(window, buf, 1024);
+    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+}
+
 HWND getLastVisibleActivePopUpOfWindow(HWND window)
 {
     HWND currentWindow = window;
@@ -315,6 +322,62 @@ BOOL CALLBACK getCurrentWindowProc(HWND window, LPARAM)
     return FALSE;
 }
 
+bool isOwnProcessWindow(HWND window)
+{
+    if (!window)
+        return false;
+
+    DWORD processId = 0;
+    GetWindowThreadProcessId(window, &processId);
+    return processId != 0 && processId == GetCurrentProcessId();
+}
+
+// Last foreground window that belongs to another process.
+//
+// The main window can be activated directly by the OS (e.g. by clicking its
+// taskbar or tray icon), so the previously active window is no longer in the
+// foreground when it's needed as the paste target. Track foreground window
+// changes to always know the last active window of another application.
+HWND lastForeignForegroundWindow = nullptr;
+HWINEVENTHOOK foregroundWindowEventHook = nullptr;
+
+void CALLBACK onForegroundWindowEvent(
+    HWINEVENTHOOK /*hook*/, DWORD event, HWND window, LONG idObject, LONG /*idChild*/,
+    DWORD /*eventThread*/, DWORD /*eventTime*/)
+{
+    if (event == EVENT_SYSTEM_FOREGROUND && idObject == OBJID_WINDOW && window)
+        lastForeignForegroundWindow = window;
+}
+
+struct ForegroundWindowEventHookCleanup {
+    ~ForegroundWindowEventHookCleanup() {
+        if (foregroundWindowEventHook) {
+            UnhookWinEvent(foregroundWindowEventHook);
+            foregroundWindowEventHook = nullptr;
+        }
+    }
+};
+
+void installForegroundWindowEventHook()
+{
+    // Unhook on process exit.
+    static ForegroundWindowEventHookCleanup cleanup;
+
+    if (foregroundWindowEventHook)
+        return;
+
+    // WINEVENT_SKIPOWNPROCESS: only report windows of other processes, so the
+    // recorded window always belongs to another application.
+    // WINEVENT_OUTOFCONTEXT: the callback is called from this process' message
+    // loop (no DLL is injected into other processes).
+    foregroundWindowEventHook = SetWinEventHook(
+        EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
+        nullptr, onForegroundWindowEvent, 0, 0,
+        WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
+    if (!foregroundWindowEventHook)
+        log("Failed to set hook for tracking the foreground window", LogWarning);
+}
+
 } // namespace
 
 PlatformNativeInterface *platformNativeInterface()
@@ -331,6 +394,8 @@ PlatformWindowPtr WinPlatform::getWindow(WId winId)
 
 PlatformWindowPtr WinPlatform::getCurrentWindow()
 {
+    installForegroundWindowEventHook();
+
     currentWindow = GetForegroundWindow();
     if ( !isAltTabWindow(currentWindow) ) {
         // The callback only assigns a window if it finds a suitable one, so
@@ -343,7 +408,27 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
                          ? windowClass(currentWindow)
                          : QStringLiteral("none") ) );
     }
+    if (currentWindow && !isOwnProcessWindow(currentWindow)) {
+        // Remember the window synchronously - WinEvent hook events are
+        // delivered asynchronously through the message loop and could lag
+        // behind.
+        lastForeignForegroundWindow = currentWindow;
+    }
     return PlatformWindowPtr( currentWindow ? new WinPlatformWindow(currentWindow) : nullptr );
+}
+
+PlatformWindowPtr WinPlatform::getLastActiveForeignWindow()
+{
+    installForegroundWindowEventHook();
+
+    const HWND window = lastForeignForegroundWindow;
+    if (window && IsWindow(window) && !isOwnProcessWindow(window) && isAltTabWindow(window)) {
+        COPYQ_LOG( QStringLiteral("Last active foreign window: %1 \"%2\"")
+                   .arg(windowClass(window), windowTitle(window)) );
+        return PlatformWindowPtr( new WinPlatformWindow(window) );
+    }
+
+    return nullptr;
 }
 
 bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
