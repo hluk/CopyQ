@@ -1446,22 +1446,22 @@ Koristi „Element &gt; Prikaži pregled” za prikaz cijelih elemenata.</transl
     <message>
         <location filename="../src/ui/configtablayout.ui" line="95"/>
         <source>Drag empty area to move the window, drag bottom right corner to resize it</source>
-        <translation type="unfinished"></translation>
+        <translation>Povuci prazno područje za pomicanje prozora, povuci donji desni kut za mijenjanje njegove veličine</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="98"/>
         <source>Hide window &amp;title and frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Sakrij &amp;naslov prozora i okvir</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="105"/>
         <source>Hide menu bar (Alt or the context menu shows it temporarily)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sakrij traku izbornika (tipka Alt ili kontekstni izbornik je privremeno prikazuje)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="108"/>
         <source>Hide m&amp;enu bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Sakrij traku &amp;izbornika</translation>
     </message>
     <message>
         <location filename="../src/ui/configtablayout.ui" line="115"/>
@@ -3252,12 +3252,12 @@ Bit će moguće šifrirati i dešifrirati podatke kartica.</translation>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="153"/>
         <source>Show &amp;Menu Bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži traku iz&amp;bornika</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="154"/>
         <source>Ctrl+M</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+b</translation>
     </message>
     <message>
         <location filename="../src/gui/menuitems.cpp" line="156"/>
