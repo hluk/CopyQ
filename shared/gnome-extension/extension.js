@@ -88,6 +88,7 @@ export default class CopyqClipboardExtension extends Extension {
             [CLIPBOARD_TYPE_CLIPBOARD]: {},
             [CLIPBOARD_TYPE_PRIMARY]: {},
         };
+        this._ownSources = new Set();
 
         this._setupListener();
 
@@ -127,6 +128,8 @@ export default class CopyqClipboardExtension extends Extension {
         this._clients?.clear();
         this._clients = null;
         this._providedDataByType = null;
+        this._ownSources?.clear();
+        this._ownSources = null;
         this.selection = null;
         this._dbusConnection = null;
         this._dbusNodeInfo = null;
@@ -150,8 +153,8 @@ export default class CopyqClipboardExtension extends Extension {
     _setupSelectionTracking(selection) {
         this.selection = selection;
         this._selectionOwnerChangedId = selection.connect('owner-changed',
-            (_selection, selectionType, _selectionSource) => {
-                this._onSelectionChange(selectionType);
+            (_selection, selectionType, selectionSource) => {
+                this._onSelectionChange(selectionType, selectionSource);
             });
     }
 
@@ -168,9 +171,31 @@ export default class CopyqClipboardExtension extends Extension {
         return CLIPBOARD_TYPE_CLIPBOARD;
     }
 
-    _onSelectionChange(selectionType) {
+    _onSelectionChange(selectionType, selectionSource) {
         const clipboardType = this._clipboardTypeFromSelectionType(selectionType);
         debug(`Selection owner changed: selectionType=${selectionType}, clipboardType=${clipboardType}`);
+
+        // Data retained from SetClipboardData only describes the clipboard while
+        // the extension owns the selection. Once another application takes over,
+        // keeping it would make every new clipboard look like it was set by CopyQ
+        // (it advertises formats such as application/x-copyq-owner that the
+        // actual owner never provided).
+        if (!this._ownSources?.has(selectionSource)) {
+            const provided = this._providedDataByType?.[clipboardType];
+            if (provided && Object.keys(provided).length > 0) {
+                debug(`Clearing stale provided data for clipboardType=${clipboardType}`);
+                this._providedDataByType[clipboardType] = {};
+            }
+        }
+
+        // Only the source that won the selection can still be the owner; drop the
+        // rest so the set does not grow with every multi-format clipboard write.
+        if (this._ownSources) {
+            this._ownSources.clear();
+            if (selectionSource)
+                this._ownSources.add(selectionSource);
+        }
+
         this._notifyClients(clipboardType);
     }
 
@@ -269,8 +294,12 @@ export default class CopyqClipboardExtension extends Extension {
 
         const selectionType = metaSelectionTypeFromClipboardType(clipboardType);
         const advertisedFormats = this.selection.get_mimetypes(selectionType) ?? [];
+        // Only request formats the current owner actually advertises. GNOME returns
+        // the clipboard text for any requested format, so asking for a format the
+        // owner never offered (e.g. application/x-copyq-owner) would fabricate data
+        // that makes foreign clipboard content look like it came from CopyQ.
         const formats = requestedFormats && requestedFormats.size > 0
-            ? [...requestedFormats]
+            ? [...requestedFormats].filter(format => advertisedFormats.includes(format))
             : advertisedFormats;
 
         if (formats.length === 0) {
@@ -342,6 +371,7 @@ export default class CopyqClipboardExtension extends Extension {
 
         try {
             const source = Meta.SelectionSourceMemory.new(format, GLib.Bytes.new(bytes));
+            this._ownSources?.add(source);
             this.selection.set_owner(metaSelectionTypeFromClipboardType(clipboardType), source);
             debug(`Set clipboard content using Meta selection source for clipboardType=${clipboardType} format=${format}`);
         } catch (error) {
