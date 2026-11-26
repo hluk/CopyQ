@@ -136,6 +136,7 @@ private:
     QTimer m_updateTimer;
     QTimer m_moveTimer;
     int m_moveEnd = -1;
+    int m_moveRetryDelayMs = 0;
     int m_interval = 0;
     const QList<FileFormat> &m_formatSettings;
     QDir m_dir;
