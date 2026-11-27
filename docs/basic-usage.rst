@@ -42,6 +42,25 @@ the new item.
 You can move important or special items to new tabs (see
 :ref:`tabs` for more info).
 
+Paste
+-----
+
+Double-click an item or press ``Enter`` to put it back on the clipboard.
+By default CopyQ also returns to the window you came from and pastes the item
+there, so it lands where you were typing. This is the "Paste to current
+window" option in Preferences (``Ctrl+P``), "History" tab -- turn it off if
+you would rather switch back yourself and press ``Ctrl+V`` (``Cmd+V`` on
+macOS).
+
+Items selected from the tray menu are only copied to the clipboard, so they
+need to be pasted normally.
+
+.. seealso::
+
+        :ref:`faq-paste-from-window`
+
+        :ref:`faq-paste-text`
+
 Search
 ------
 
