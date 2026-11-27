@@ -110,8 +110,8 @@ jobs:
             cmake_preset: Debug
             test_x11: true
 
-          # Pinned to ubuntu-26.04: KDE Neon repo below uses 'resolute' (26.04 codename).
-          - os: ubuntu-26.04
+          # Keep the AppImage and bundled dependencies on the glibc 2.39 baseline.
+          - os: ubuntu-24.04
             buildname: AppImage
             compiler: g++
             compiler_package: g++
@@ -147,7 +147,7 @@ jobs:
         run: |
           sudo gpg --dearmor -o /usr/share/keyrings/neon-archive-keyring.gpg \
             utils/github/kde-neon-public.key
-          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable resolute main" |
+          echo "deb [signed-by=/usr/share/keyrings/neon-archive-keyring.gpg] https://archive.neon.kde.org/stable noble main" |
             sudo tee /etc/apt/sources.list.d/neon.list
 
       - name: Install dependencies
@@ -312,18 +312,22 @@ jobs:
             --plugin qt \
             --output appimage
 
-      - name: Upload AppImage
+      - name: Check AppImage glibc requirements
         if: matrix.appimage
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          path: CopyQ-*.AppImage
-          archive: false
+        run: python3 utils/github/check-appimage-glibc.py AppDir 2.39
 
       - name: Smoke-test AppImage
         if: matrix.appimage
         run: '"$APPIMAGE" --version'
         env:
           APPIMAGE: ${{github.workspace}}/CopyQ-${{ steps.version.outputs.version }}-x86_64.AppImage
+
+      - name: Upload AppImage
+        if: matrix.appimage
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          path: CopyQ-*.AppImage
+          archive: false
 
       - name: Set up AppImage for tests
         if: matrix.appimage
