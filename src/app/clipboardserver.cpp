@@ -117,10 +117,8 @@ void setPreventScreenCapture(QWindow *window, bool prevent)
 
     const bool ok =
         platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
-    if (prevent)
-        window->setProperty(screenCapturePreventedProperty, ok);
-    else if (ok)
-        window->setProperty(screenCapturePreventedProperty, false);
+    if (prevent || ok)
+        window->setProperty(screenCapturePreventedProperty, prevent && ok);
 }
 
 } // namespace
@@ -570,11 +568,11 @@ void ClipboardServer::setPreventScreenCapture(bool prevent)
         return;
 
     m_preventScreenCapture = prevent;
-    for (QWindow *window : qApp->allWindows()) {
+    for (QWindow *window : QGuiApplication::topLevelWindows()) {
         // Calling SetWindowDisplayAffinity() on a hidden top-level HWND causes
         // Windows 11 DWM (especially in RDP) to render a blank ghost window.
         // Hidden windows are updated when shown in eventFilter(QEvent::Show).
-        if (window->isTopLevel() && window->isVisible())
+        if (window->isVisible())
             ::setPreventScreenCapture(window, m_preventScreenCapture);
     }
 }
