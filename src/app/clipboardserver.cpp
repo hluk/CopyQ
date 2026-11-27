@@ -105,9 +105,20 @@ void cleanUpLogFilesTimer()
     QObject::connect(timer, &QTimer::timeout, qApp, callback);
 }
 
+constexpr char screenCapturePreventedProperty[] = "_copyq_screen_capture_prevented";
+
 void setPreventScreenCapture(QWindow *window, bool prevent)
 {
-    platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
+    if (!window)
+        return;
+
+    if (!prevent && !window->property(screenCapturePreventedProperty).toBool())
+        return;
+
+    const bool ok =
+        platformNativeInterface()->setPreventScreenCapture(window->winId(), prevent);
+    if (prevent || ok)
+        window->setProperty(screenCapturePreventedProperty, prevent && ok);
 }
 
 } // namespace
@@ -557,8 +568,12 @@ void ClipboardServer::setPreventScreenCapture(bool prevent)
         return;
 
     m_preventScreenCapture = prevent;
-    for (QWindow *window : qApp->allWindows()) {
-        ::setPreventScreenCapture(window, m_preventScreenCapture);
+    for (QWindow *window : QGuiApplication::topLevelWindows()) {
+        // Calling SetWindowDisplayAffinity() on a hidden top-level HWND causes
+        // Windows 11 DWM (especially in RDP) to render a blank ghost window.
+        // Hidden windows are updated when shown in eventFilter(QEvent::Show).
+        if (window->isVisible())
+            ::setPreventScreenCapture(window, m_preventScreenCapture);
     }
 }
 
@@ -776,10 +791,14 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
             COPYQ_LOG("Got theme change event");
         QPixmapCache::clear();
         m_updateThemeTimer.start();
-    } else if (m_preventScreenCapture && type == QEvent::Show) {
+    } else if (type == QEvent::Show && platformNativeInterface()->canPreventScreenCapture()) {
         auto widget = qobject_cast<QWidget*>(object);
-        if (widget && widget->windowHandle())
+        if (widget && widget->isWindow()
+            && !widget->testAttribute(Qt::WA_DontShowOnScreen)
+            && widget->windowHandle())
+        {
             ::setPreventScreenCapture(widget->windowHandle(), m_preventScreenCapture);
+        }
     }
 
     return false;

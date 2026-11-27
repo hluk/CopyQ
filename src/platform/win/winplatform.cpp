@@ -32,6 +32,8 @@
 #include <fcntl.h>
 #include <io.h>
 
+#include <memory>
+
 namespace {
 
 void setBinaryFor(int fd)
@@ -315,6 +317,43 @@ BOOL CALLBACK getCurrentWindowProc(HWND window, LPARAM)
     return FALSE;
 }
 
+void warnScreenCaptureUnavailableInRemoteSession()
+{
+    static bool logged = false;
+    if (logged)
+        return;
+
+    logged = true;
+    log("Skipping screen capture prevention in remote desktop session", LogWarning);
+
+    const QLatin1String optionKey("Options/screen_capture_warning_acknowledged");
+    Settings settings;
+    if (settings.value(optionKey, false).toBool())
+        return;
+
+    settings.setValue(optionKey, true);
+    auto *app = QCoreApplication::instance();
+    if (!app)
+        return;
+
+    // Defer the warning dialog to the event loop and keep it non-modal so we
+    // never nest an event loop inside loadSettings() or QEvent::Show.
+    QMetaObject::invokeMethod(app, [app]() {
+        auto box = std::make_unique<QMessageBox>(
+            QMessageBox::Warning,
+            QObject::tr("Screen Capture Prevention Unavailable"),
+            QObject::tr(
+                "The option to hide from screenshots is enabled but cannot"
+                " take effect in a remote desktop session. Window content"
+                " may be visible to screen capture."),
+            QMessageBox::Ok);
+        box->setAttribute(Qt::WA_DeleteOnClose);
+        box->setWindowModality(Qt::NonModal);
+        QObject::connect(app, &QCoreApplication::aboutToQuit, box.get(), &QObject::deleteLater);
+        box.release()->show();
+    }, Qt::QueuedConnection);
+}
+
 } // namespace
 
 PlatformNativeInterface *platformNativeInterface()
@@ -354,32 +393,27 @@ bool WinPlatform::setPreventScreenCapture(WId winId, bool prevent)
 
     // Remote desktop clients are screen capture systems — applying
     // WDA_EXCLUDEFROMCAPTURE makes windows invisible to the remote viewer.
+    bool skippedRemote = false;
     if (prevent && GetSystemMetrics(SM_REMOTESESSION)) {
-        static bool logged = false;
-        if (!logged) {
-            logged = true;
-            log("Skipping screen capture prevention in remote desktop session", LogWarning);
-
-            const QLatin1String optionKey("Options/screen_capture_warning_acknowledged");
-            Settings settings;
-            if (!settings.value(optionKey, false).toBool()) {
-                QMessageBox::warning(
-                    nullptr,
-                    QObject::tr("Screen Capture Prevention Unavailable"),
-                    QObject::tr(
-                        "The option to hide from screenshots is enabled but cannot"
-                        " take effect in a remote desktop session. Window content"
-                        " may be visible to screen capture."));
-                settings.setValue(optionKey, true);
-            }
-        }
-
-        SetWindowDisplayAffinity(window, WDA_NONE);
-        return false;
+        warnScreenCaptureUnavailableInRemoteSession();
+        prevent = false;
+        skippedRemote = true;
     }
 
-    return SetWindowDisplayAffinity(
-        window, prevent ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE);
+    const DWORD targetAffinity = prevent ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE;
+    // GetWindowDisplayAffinity() reports WDA_NONE while a window is hidden even
+    // if WDA_EXCLUDEFROMCAPTURE is still latched and will be restored on show,
+    // so only skip the update when the window is currently visible.
+    if (DWORD currentAffinity = WDA_NONE;
+        IsWindowVisible(window)
+        && GetWindowDisplayAffinity(window, &currentAffinity)
+        && currentAffinity == targetAffinity)
+    {
+        return !skippedRemote;
+    }
+
+    const bool ok = SetWindowDisplayAffinity(window, targetAffinity);
+    return !skippedRemote && ok;
 }
 
 QCoreApplication *WinPlatform::createConsoleApplication(int &argc, char **argv)
