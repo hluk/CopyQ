@@ -772,7 +772,9 @@ MainWindow::MainWindow(const ClipboardBrowserSharedPtr &sharedData, QWidget *par
     m_sharedData->passwordPrompt = new PasswordPrompt(this);
     m_sharedData->menuItems = menuItems();
 
-    setWindowRole(QStringLiteral("main"));
+    // Window role is only useful on X11 (https://doc.qt.io/qt-6/qwidget.html#setWindowRole)
+    if ( QGuiApplication::platformName() == QLatin1String("xcb") )
+        setWindowRole(QStringLiteral("main"));
 
     menuBar()->setObjectName("menu_bar");
     createMenu();
