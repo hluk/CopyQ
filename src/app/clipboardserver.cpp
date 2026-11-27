@@ -274,7 +274,7 @@ void ClipboardServer::stopMonitoring()
         client->sendMessage(QByteArray(), CommandStop);
 }
 
-void ClipboardServer::startMonitoring()
+void ClipboardServer::startMonitoring(bool ignoreCurrentClipboard)
 {
     if (m_monitor || m_exitting || m_ignoreNewConnections || !m_wnd->isMonitoringEnabled())
         return;
@@ -294,7 +294,9 @@ void ClipboardServer::startMonitoring()
     COPYQ_LOG("Starting monitor");
 
     m_monitor = new Action();
-    m_monitor->setCommand(QStringLiteral("copyq --clipboard-access monitorClipboard"));
+    m_monitor->setCommand(ignoreCurrentClipboard
+        ? QStringLiteral("copyq --clipboard-access monitorClipboard(true)")
+        : QStringLiteral("copyq --clipboard-access monitorClipboard"));
     connect( m_monitor.data(), &QObject::destroyed,
              this, &ClipboardServer::onMonitorFinished );
     m_sharedData->actions->internalAction(m_monitor);
@@ -412,8 +414,9 @@ void ClipboardServer::onSaveState(QSessionManager &sessionManager)
 void ClipboardServer::onDisableClipboardStoringRequest(bool disabled)
 {
     stopMonitoring();
+    // Re-enabling must not capture what was copied while storing was disabled.
     if (!disabled)
-        startMonitoring();
+        startMonitoring(true);
 }
 
 void ClipboardServer::maybeQuit()

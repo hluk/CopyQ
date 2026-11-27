@@ -380,6 +380,7 @@ public slots:
     void runMenuCommandFilters();
 
     void monitorClipboard();
+    void monitorClipboard(bool ignoreCurrentClipboard);
     void provideClipboard();
     void provideSelection();
     QJSValue isClipboardMonitorRunning();

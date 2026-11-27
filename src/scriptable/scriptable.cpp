@@ -2461,6 +2461,11 @@ void Scriptable::runMenuCommandFilters()
 
 void Scriptable::monitorClipboard()
 {
+    monitorClipboard(false);
+}
+
+void Scriptable::monitorClipboard(bool ignoreCurrentClipboard)
+{
     if (!verifyClipboardAccess())
         return;
 
@@ -2488,7 +2493,7 @@ void Scriptable::monitorClipboard()
     connect( &monitor, &ClipboardMonitor::saveData,
              this, &Scriptable::onSaveData);
 
-    monitor.startMonitoring();
+    monitor.startMonitoring(ignoreCurrentClipboard);
     setClipboardMonitorRunning(true);
     loop.exec();
     setClipboardMonitorRunning(false);

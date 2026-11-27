@@ -107,6 +107,10 @@ void CoreTests::toggleClipboardMonitoring()
     RUN("monitoring", "true\n");
     WAIT_ON_OUTPUT("isClipboardMonitorRunning", "true\n");
 
+    // Enabling storing again must not capture what was copied while it was disabled (data2);
+    // the most recent item is still the one from before.
+    WAIT_ON_OUTPUT("read" << "0", data1);
+
     const QByteArray data3 = generateData();
     TEST( m_test->setClipboard(data3) );
     RUN("clipboard", data3);

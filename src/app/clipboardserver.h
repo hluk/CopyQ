@@ -50,7 +50,7 @@ public:
     void stopMonitoring();
 
     /** Start monitor application. */
-    void startMonitoring();
+    void startMonitoring(bool ignoreCurrentClipboard = false);
 
     /**
      * Create global shortcut for command.
