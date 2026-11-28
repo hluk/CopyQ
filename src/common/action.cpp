@@ -296,6 +296,13 @@ bool Action::waitForFinished(int msecs)
     if ( !isRunning() )
         return true;
 
+    // Processing events below can re-enter a caller that is stopping this
+    // action (for example, another clipboard provider replacing it). Do not
+    // nest another event loop waiting for the very same process to finish.
+    if (m_waitingForFinished)
+        return false;
+    m_waitingForFinished = true;
+
     QPointer<QObject> self(this);
     QEventLoop loop;
     QTimer t;
@@ -311,7 +318,13 @@ bool Action::waitForFinished(int msecs)
     while ( self && isRunning() && (msecs < 0 || t.isActive()) )
         QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents, 10);
 
-    return !self || !isRunning();
+    if (!self)
+        return true;
+
+    // The action can be deleted while processing events, so a scoped rollback
+    // referring to the member would not be safe here.
+    m_waitingForFinished = false;
+    return !isRunning();
 }
 
 bool Action::isRunning() const

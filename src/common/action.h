@@ -119,6 +119,7 @@ private:
     QByteArray m_errorOutput;
     bool m_failed;
     bool m_readOutput = false;
+    bool m_waitingForFinished = false;
     int m_currentLine;
     QString m_name;
     QVariantMap m_data;
